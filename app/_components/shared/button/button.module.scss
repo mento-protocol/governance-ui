@@ -1,0 +1,77 @@
+@import "@/app/_brand";
+
+@mixin branded-button($shadow-color, $background-color, $foreground-color) {
+  background-color: $shadow-color;
+
+  button {
+    color: $foreground-color;
+    background-color: $background-color;
+    margin-top: -3px;
+  }
+
+  &:hover {
+    button {
+      margin-top: -7px;
+    }
+  }
+
+  &:active {
+    button {
+      margin-top: -1px;
+    }
+  }
+}
+
+.wrapper {
+
+  min-width: 200px;
+  min-height: 56px;
+  border-radius: $border-radius;
+  background-color: transparent;
+
+  .button {
+    padding: 18px, 32px, 18px, 32px;
+    min-width: 200px;
+    min-height: 56px;
+    border-radius: $border-radius;
+    border: 1px solid $c-black;
+
+    transition: margin-top 0.2s ease-out;
+
+    &:hover {
+      transition: margin-top 0.2s cubic-bezier(.19, .69, .74, 1.56);
+    }
+  }
+
+  &.primary {
+    @include branded-button($c-primary-dark, $c-primary, $c-white);
+  }
+  &.secondary {
+    @include branded-button($c-secondary-dark, $c-secondary, $c-black);
+  }
+  &.success {
+    @include branded-button($c-success-dark, $c-success, $c-black);
+  }
+  &.danger {
+    @include branded-button($c-error-dark, $c-error, $c-white);
+  }
+  &.info {
+    @include branded-button($c-info-dark, $c-info, $c-black);
+  }
+  &.tertiary {
+    @include branded-button($c-grey, $c-white, $c-black);
+  }
+  &.clear {
+    .button {
+      transition: background-color 0.2s ease-out;
+      &:hover {
+        transition: background-color 0.2s ease-out;
+        background-color: #cccfde;
+      }
+
+      &:active {
+        background-color: #bdc3e1;
+      }
+    }
+  }
+}

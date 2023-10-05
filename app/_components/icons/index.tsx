@@ -1,0 +1,1 @@
+export { MentoLogoIcon } from './mento-logo/mento-logo.icon';

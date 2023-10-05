@@ -1,0 +1,77 @@
+@import "@/app/_brand";
+
+.header {
+
+  &__inner {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  &__nav {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 32px;
+
+    .item {
+      p {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        gap: 5px;
+        cursor: pointer;
+      }
+
+      &.dropdown {
+
+        .dropdown__indicator {
+          transition: all 0.3s cubic-bezier(.19, .69, .64, 1.46);
+        }
+
+        ul {
+          background-color: $c-white;
+          border: 1px solid $c-black;
+          border-radius: $border-radius;
+          padding: 0px;
+          position: absolute;
+          top: 70px;
+          padding-top: 10px;
+          padding-bottom: 10px;
+          opacity: 0;
+          pointer-events: none;
+          transition: opacity 0.3s, transform 0.3s 0.1s;
+          min-width: 200px;
+          transform: translateY(-25px) translateX(-25%);
+
+          li {
+            color: $c-black;
+            justify-content: flex-start;
+            margin: 0px 20px;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            font-size: 12px;
+            font-weight: 400;
+          }
+        }
+
+        &.opened {
+          ul {
+            opacity: 1;
+            pointer-events: auto;
+            transition: opacity 0.3s, transform 0.3s cubic-bezier(.19, .69, .64, 1.46);
+            transform: translateY(0px) translateX(-25%);
+          }
+
+          .dropdown__indicator {
+            transform: rotate(180deg);
+          }
+        }
+      }
+
+    }
+  }
+}

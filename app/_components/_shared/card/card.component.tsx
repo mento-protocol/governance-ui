@@ -4,10 +4,9 @@ import classNames from "classnames";
 
 interface CardPartialProps {
     children: React.ReactNode;
-
+    className?: string;
 }
 interface CardProps extends CardPartialProps{
-    className?: string;
     block?: boolean;
 }
 

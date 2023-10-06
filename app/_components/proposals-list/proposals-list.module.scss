@@ -1,0 +1,10 @@
+
+.proposals_list {
+  display: grid;
+    grid-template-columns: 2fr 100px 200px 200px 1fr;
+
+    &__header_element {
+      font-weight: 600;
+
+    }
+}

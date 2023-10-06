@@ -1,11 +1,11 @@
 "use client";
 import styles from './header.module.scss';
 import classNames from "classnames";
-import {ChevronIcon, MentoLogoIcon} from "@components/icons";
-import {Button} from "@components/shared";
+import {ChevronIcon, MentoLogoIcon} from "../../_icons";
 import Link from "next/link";
 import {useRef, useState} from "react";
 import useOutsideAlerter from "@/app/_hooks/useOutsideAlerter";
+import {Button} from "@components/_shared";
 
 export const Header = () => {
 
@@ -69,7 +69,7 @@ export const Header = () => {
                     </Link>
                 </li>
             </ul>
-            <Button type={'secondary'}>Connect wallet</Button>
+            <Button type={'secondary'} onClick={() => {}}>Connect wallet</Button>
         </div>
     </header>
 }

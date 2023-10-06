@@ -1,7 +1,7 @@
 "use client";
 import '../_globals.css';
 import {Inter} from 'next/font/google';
-import {Header} from "@components/shared";
+import {Header} from "@components/_shared";
 
 const inter = Inter({subsets: ['latin']})
 interface RootLayoutProps {

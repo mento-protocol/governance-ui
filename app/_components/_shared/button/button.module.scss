@@ -55,6 +55,9 @@
   &.danger {
     @include branded-button($c-error-dark, $c-error, $c-white);
   }
+  &.warning {
+    @include branded-button($c-warning-dark, $c-warning, $c-black);
+  }
   &.info {
     @include branded-button($c-info-dark, $c-info, $c-black);
   }
@@ -71,6 +74,24 @@
 
       &:active {
         background-color: #bdc3e1;
+      }
+    }
+  }
+
+  &.link {
+    .button {
+      transition: color 0.2s ease-out;
+      border: none;
+      color: $c-black;
+      text-decoration: underline;
+      &:hover {
+        transition: color 0.2s ease-out;
+        color: $c-primary;
+      }
+
+      &:active,
+      &:visited {
+        color: $c-primary-dark;
       }
     }
   }

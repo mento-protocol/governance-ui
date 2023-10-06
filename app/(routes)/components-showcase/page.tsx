@@ -1,6 +1,5 @@
 "use client";
-import {Button} from "@components/_shared";
-import {Badge} from "@components/_shared/badge/badge.component";
+import {Button, Badge} from "@components/_shared";
 
 export default function Page() {
 

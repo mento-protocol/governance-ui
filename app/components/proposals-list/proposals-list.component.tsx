@@ -1,4 +1,4 @@
-import {Card} from "@components/_shared";
+import {Card, ProgressBar} from "@components/_shared";
 import styles from "./proposals-list.module.scss";
 import classNames from "classnames";
 import Proposal, {ProposalStatus} from "@interfaces/proposal";
@@ -6,6 +6,7 @@ import {MentoIcon} from "@components/_icons/mento.icon";
 import BaseComponentProps from "@interfaces/base-component-props.interface";
 import {Badge} from "@components/_shared/badge/badge.component";
 import {BadgeType} from "@/app/types";
+import NumbersService from "@/app/helpers/numbers.service";
 
 interface ProposalsListProps extends BaseComponentProps{
 }
@@ -62,7 +63,7 @@ export const ProposalsListComponent = ({className, style}: ProposalsListProps) =
     }
 
     return (<div className={classNames(styles.wrapper, className)} style={style}>
-            <h2 className="text-xl font-semibold mt-10 mb-6">Proposals</h2>
+            <h2 className="text-xl text-center font-semibold mt-10 mb-6">Proposals</h2>
             <Card block>
                 <div className={classNames(styles.proposals_row, styles.header)}>
                     <div className={classNames(styles.proposals_row__element, styles.first)}>
@@ -96,13 +97,16 @@ export const ProposalsListComponent = ({className, style}: ProposalsListProps) =
                     <div className={classNames(styles.proposals_row__element)}>
                         <Badge className="capitalize" type={getStatusColor(proposal.status)}>{proposal.status.toString()}</Badge>
                     </div>
-                    <div className={classNames(styles.proposals_row__element)}>{proposal.votesYes}</div>
-                    <div className={classNames(styles.proposals_row__element)}>{proposal.votesNo}</div>
-                    <div className={classNames(styles.proposals_row__element, styles.last)}>{proposal.votesTotal}</div>
+                    <div className={classNames(styles.proposals_row__element)}>
+                        <ProgressBar type="success" className={styles.progress_bar} current={proposal.votesYes} max={proposal.votesTotal} valueFormat="alphabetic"/>
+                    </div>
+                    <div className={classNames(styles.proposals_row__element)}>
+                        <ProgressBar type="danger" className={styles.progress_bar} current={proposal.votesNo} max={proposal.votesTotal} valueFormat="alphabetic"/>
+                    </div>
+                    <div className={classNames(styles.proposals_row__element, styles.last, 'mb-3')}>{NumbersService.parseNumericValue(proposal.votesTotal)}</div>
                 </div>)}
             </Card>
         </div>
-
     );
 
 }

@@ -2,8 +2,10 @@
 import '../globals.css';
 import {Inter} from 'next/font/google';
 import {Header} from "@components/_shared";
+import {WalletProvider} from "@/app/providers/wallet.provider";
 
 const inter = Inter({subsets: ['latin']})
+
 interface RootLayoutProps {
     children: React.ReactNode;
 }
@@ -12,10 +14,12 @@ export default function RootLayout({children,}: RootLayoutProps) {
     return (
         <html lang="en">
         <body className={inter.className}>
-        <div className="main-container min-h-screen px-6">
-            <Header className="py-6"/>
-            {children}
-        </div>
+        <WalletProvider>
+            <div className="main-container min-h-screen px-6">
+                <Header className="py-6"/>
+                {children}
+            </div>
+        </WalletProvider>
         </body>
         </html>
     )

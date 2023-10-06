@@ -5,7 +5,7 @@
 
   .proposals_row {
     display: grid;
-    grid-template-columns: 2fr 100px 200px 200px 200px;
+    grid-template-columns: 2fr 100px 150px 150px 150px;
     gap: $default-gap;
     padding-bottom: $default-gap;
     margin-bottom: 10px;
@@ -29,7 +29,8 @@
 
       &.first {
         text-align: left;
-        max-width: 500px;
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
 
       &.last {
@@ -40,10 +41,13 @@
 
       }
 
+      .progress_bar {
+        max-width: 110px;
+        margin: 0 auto;
+      }
+
       .description {
         white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
       }
     }
   }

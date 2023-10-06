@@ -1,9 +1,8 @@
 "use client";
 import {MentoIcon} from "@components/_icons/mento.icon";
 import {MentoTextLogoIcon} from "@components/_icons";
-import {Button, Card} from "@components/_shared";
+import {Badge, Button, Card} from "@components/_shared";
 import {ProposalsListComponent} from "@components/proposals-list/proposals-list.component";
-import {Badge} from "@components/_shared/badge/badge.component";
 
 export default function Home() {
     return (

@@ -1,5 +1,29 @@
 @import "@/app/brand";
 
+@keyframes addonsFadeIn {
+  0% {
+    flex-grow: 0;
+    flex-shrink: 2;
+    gap: 0;
+  }
+  100% {
+    flex-shrink: 0;
+    flex-grow: 1;
+    gap: $default-gap;
+  }
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0px);
+  }
+}
+
 .header {
 
   &__inner {
@@ -7,6 +31,11 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
+    gap: $default-gap;
+  }
+
+  &__side {
+    width: 200px;
   }
 
   &__nav {
@@ -29,7 +58,7 @@
       &.dropdown {
 
         .dropdown__indicator {
-          transition: all 0.3s cubic-bezier(.19, .69, .64, 1.46);
+          transition: all 0.3s $default-cubic-bezier;
         }
 
         ul {
@@ -62,7 +91,7 @@
           ul {
             opacity: 1;
             pointer-events: auto;
-            transition: opacity 0.3s, transform 0.3s cubic-bezier(.19, .69, .64, 1.46);
+            transition: opacity 0.3s, transform 0.3s $default-cubic-bezier;
             transform: translateY(0px) translateX(-25%);
           }
 
@@ -72,6 +101,42 @@
         }
       }
 
+    }
+  }
+
+  .wallet_addons {
+    flex-grow: 0;
+    flex-shrink: 2;
+    display: flex;
+    flex-direction: row;
+    gap: 0;
+    justify-content: flex-end;
+    animation: addonsFadeIn .8s ease forwards;
+
+    .inner {
+      opacity: 0;
+      animation: fadeIn 0.3s $default-cubic-bezier .8s forwards;
+      display: flex;
+      gap: $default-gap;
+
+      .addon {
+        display: flex;
+        flex-direction: row;
+        border-radius: $border-radius;
+        border: 1px solid $c-black;
+
+        font-size: 16px;
+        line-height: 1em;
+
+        &__value {
+          padding: 5px;
+          border-right: 1px solid $c-black;
+        }
+        &__title {
+          padding: 5px;
+          font-weight: 600;
+        }
+      }
     }
   }
 }

@@ -15,5 +15,7 @@ $c-warning-dark: #878751;
 $c-info: #D5F0F6;
 $c-info-dark: #5c6c74;
 
-$border-radius: 8px;
+$theme-unit: 8px;
+$border-radius: $theme-unit;
 $default-gap: 18px;
+$default-cubic-bezier: cubic-bezier(.19, .69, .64, 1.46);

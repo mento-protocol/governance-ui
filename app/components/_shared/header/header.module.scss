@@ -111,7 +111,7 @@
     flex-direction: row;
     gap: 0;
     justify-content: flex-end;
-    animation: addonsFadeIn .8s ease forwards;
+    animation: addonsFadeIn .8s cubic-bezier(0.25, 1, 0.5, 1) forwards;
 
     .inner {
       opacity: 0;

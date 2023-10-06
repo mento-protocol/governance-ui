@@ -1,4 +1,4 @@
-@import "@/app/_brand";
+@import "@/app/brand";
 
 @mixin branded-button($shadow-color, $background-color, $foreground-color) {
   background-color: $shadow-color;

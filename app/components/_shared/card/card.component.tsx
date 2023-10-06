@@ -1,10 +1,10 @@
 import styles from './card.module.scss';
 import classNames from "classnames";
+import BaseComponentProps from "@interfaces/base-component-props.interface";
 
 
-interface CardPartialProps {
+interface CardPartialProps extends BaseComponentProps {
     children: React.ReactNode;
-    className?: string;
 }
 interface CardProps extends CardPartialProps{
     block?: boolean;
@@ -19,8 +19,8 @@ const CardFooter = ({children}: CardPartialProps) => {
 }
 
 
-export const Card = ({children, className, block} : CardProps) => {
-    return <div className={classNames(styles.card, block && styles.block, className)}>
+export const Card = ({children, className, block, style} : CardProps) => {
+    return <div className={classNames(styles.card, block && styles.block, className)} style={style}>
         {children}
     </div>
 }

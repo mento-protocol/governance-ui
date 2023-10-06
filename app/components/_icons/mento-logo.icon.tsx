@@ -1,5 +1,4 @@
-import {BaseIconProps} from "@interfaces/base-icon-props.interface";
-
+import BaseIconProps from "@interfaces/base-icon-props.interface";
 export const MentoLogoIcon = ({width = 100, height = 25, color = '#02010A'}: BaseIconProps) => {
     return <svg width={width} height={height} viewBox="0 0 109 25" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path

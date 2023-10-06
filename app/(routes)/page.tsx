@@ -17,21 +17,25 @@ export default function Home() {
             <Card className="mt-8" block>
                 <Card.Header>
                     <div className="flex flex-row justify-between">
-                        <div className="flex flex-row justify-start place-items-center gap-2 text-3xl font-bold">
+                        <div className="flex flex-row justify-start place-items-center gap-default text-3xl font-bold">
                             <MentoIcon/>
                             Mento
                         </div>
-                        <Button type="clear" onClick={() => {
-                        }}>
-                            Create new proposal
-                        </Button>
+                        <div className="flex gap-default">
+                            <Button type="clear">
+                                Create new proposal
+                            </Button>
+                            <Button type="clear">
+                                My voting power
+                            </Button>
+                        </div>
                     </div>
                 </Card.Header>
                 <p>Transparent Digital Asset Solutions</p>
-                <div className="flex flex-row gap-4 my-4">
-                    <Badge type="tertiary">CELO</Badge>
-                    <Badge type="secondary">ERC20</Badge>
-                    <Badge type="secondary">{(9999999998).toLocaleString()} Supply</Badge>
+                <div className="flex flex-row gap-default my-4">
+                    <Badge rounded type="tertiary">CELO</Badge>
+                    <Badge rounded type="secondary">ERC20</Badge>
+                    <Badge rounded type="secondary">{(9999999998).toLocaleString()} Supply</Badge>
                 </div>
             </Card>
 

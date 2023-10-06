@@ -1,5 +1,4 @@
-import {BaseIconProps} from "@interfaces/base-icon-props.interface";
-
+import BaseIconProps from "@interfaces/base-icon-props.interface";
 interface ChevronIconProps extends BaseIconProps {
     direction?: 'up' | 'down' | 'left' | 'right';
 }

@@ -1,5 +1,5 @@
 "use client";
-import '../_globals.css';
+import '../globals.css';
 import {Inter} from 'next/font/google';
 import {Header} from "@components/_shared";
 
@@ -13,7 +13,7 @@ export default function RootLayout({children,}: RootLayoutProps) {
         <html lang="en">
         <body className={inter.className}>
         <div className="main-container min-h-screen px-6">
-            <Header/>
+            <Header className="py-6"/>
             {children}
         </div>
         </body>

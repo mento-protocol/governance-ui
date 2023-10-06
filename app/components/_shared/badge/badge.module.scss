@@ -1,4 +1,4 @@
-@import "@/app/_brand";
+@import "@/app/brand";
 
 @mixin branded-badge($border-color, $background-color, $foreground-color) {
   border: 1px solid $border-color;
@@ -7,9 +7,10 @@
 }
 
 .badge {
-  border-radius: $border-radius * 3;
-  padding: 8px 10px;
+  border-radius: $border-radius;
+  padding: 6px 10px;
   font-size: 16px;
+  line-height: 1em;
   min-width: 70px;
   text-align: center;
 
@@ -44,6 +45,15 @@
   &.tertiary {
     @include branded-badge($c-white, $c-white, $c-black);
     border: 1px solid $c-black;
+  }
+
+  &.rounded {
+    padding: 8px 10px;
+    border-radius: $border-radius * 3;
+  }
+
+  &.block {
+    width: 100%;
   }
 
 }

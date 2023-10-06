@@ -1,4 +1,4 @@
-export interface BaseIconProps {
+export default interface BaseIconProps {
     width?: number;
     height?: number;
     color?: string;

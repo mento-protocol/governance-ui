@@ -1,0 +1,50 @@
+@import "@/app/brand";
+
+.wrapper {
+  width: 100%;
+
+  .proposals_row {
+    display: grid;
+    grid-template-columns: 2fr 100px 200px 200px 200px;
+    gap: $default-gap;
+    padding-bottom: $default-gap;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #b3b3b3;
+    align-items: center;
+
+    &.header {
+      border: none;
+    }
+
+    &:last-of-type {
+      border-bottom: none;
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    &__element {
+      font-weight: 500;
+      text-align: center;
+      overflow: hidden;
+
+      &.first {
+        text-align: left;
+        max-width: 500px;
+      }
+
+      &.last {
+        text-align: right;
+      }
+
+      .title {
+
+      }
+
+      .description {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+    }
+  }
+}

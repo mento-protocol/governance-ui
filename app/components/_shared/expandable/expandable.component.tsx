@@ -1,32 +1,31 @@
+"use client";
 import BaseComponentProps from "@interfaces/base-component-props.interface";
 import styles from './expandable.module.scss';
 import classNames from "classnames";
+import {ChevronIcon} from "@components/_icons";
+import {useState} from "react";
 
 interface ExpandableProps extends BaseComponentProps {
-
+    header: React.ReactNode | string;
 }
 
-const ExpandableHeader = ({children}: BaseComponentProps) => {
-    return <header className={styles.expandable__header}>
-        <div>
-            {children}
-        </div>
-        <div>
+export const Expandable = ({children, className, style, header}: ExpandableProps) => {
 
-        </div>
-    </header>;
-}
-const ExpandableBody = ({children}: BaseComponentProps) => {
-    return <div className={styles.expandable__content}>{children}</div>;
-}
+    const [opened, setOpened] = useState(false)
 
-export const Expandable = ({children, className, style}: ExpandableProps) => {
     return (
         <div className={classNames(styles.expandable, className)} style={style}>
-            {children}
+            <header className={styles.expandable__header}>
+                <div>
+                    {header}
+                </div>
+                <div className={classNames(styles.toggle, opened && styles.opened)} onClick={() => setOpened(!opened)}>
+                    <ChevronIcon direction="down" width={25} height={20} />
+                </div>
+            </header>
+            <div className={classNames(styles.expandable__body, opened && styles.opened)}>
+                {children}
+            </div>
         </div>
     );
 }
-
-Expandable.Header = ExpandableHeader;
-Expandable.Body = ExpandableBody;

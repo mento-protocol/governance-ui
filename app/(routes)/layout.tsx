@@ -1,7 +1,7 @@
 "use client";
 import '../globals.css';
 import {Inter} from 'next/font/google';
-import {Header} from "@components/_shared";
+import {Footer, Header} from "@components/_shared";
 import {WalletProvider} from "@/app/providers/wallet.provider";
 
 const inter = Inter({subsets: ['latin']})
@@ -17,7 +17,10 @@ export default function RootLayout({children,}: RootLayoutProps) {
         <WalletProvider>
             <div className="main-container min-h-screen px-6">
                 <Header className="py-6"/>
-                {children}
+                <div className="py-6">
+                    {children}
+                </div>
+                <Footer className="py-6"/>
             </div>
         </WalletProvider>
         </body>

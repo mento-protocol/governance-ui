@@ -1,5 +1,6 @@
 import BaseIconProps from "@interfaces/base-icon-props.interface";
-export const MentoLogoIcon = ({width = 100, height = 25, color = '#02010A'}: BaseIconProps) => {
+import exports from '@styles/exports.module.scss';
+export const MentoLogoIcon = ({width = 100, height = 25, color = exports.black}: BaseIconProps) => {
     return <svg width={width} height={height} viewBox="0 0 109 25" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path
             d="M88.73 9.61508V4.43742H81.888V0.478027H76.7414V4.43742H73.1085V9.61508H76.7414V17.1684C76.7414 21.4323 79.9504 24.478 84.1888 24.478H87.519V19.3004H85.3998C83.2806 19.3004 81.888 18.0821 81.888 15.9501V9.61508H88.73ZM103.625 19.3004V24.478H96.1169C91.8785 24.478 88.73 21.4323 88.73 17.1684V9.61508H93.8766V15.9501C93.8766 18.0821 95.2086 19.3004 97.3278 19.3004H103.625ZM93.8766 9.61508V4.43742H101.385C105.623 4.43742 108.771 7.4831 108.771 11.7471V19.3004H103.625V12.9653C103.625 10.8334 102.293 9.61508 100.174 9.61508H93.8766Z"

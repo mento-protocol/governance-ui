@@ -1,9 +1,11 @@
 import BaseIconProps from "@interfaces/base-icon-props.interface";
+import exports from '@styles/exports.module.scss';
+
 interface ChevronIconProps extends BaseIconProps {
     direction?: 'up' | 'down' | 'left' | 'right';
 }
 
-export const ChevronIcon = ({width = 5, height = 10, color = '#02010A', direction}: ChevronIconProps) => {
+export const ChevronIcon = ({width = 5, height = 10, color = exports.black, direction}: ChevronIconProps) => {
 
     let transform = 'rotate(0deg)';
 

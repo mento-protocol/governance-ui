@@ -2,15 +2,30 @@
 
 .expandable {
 
-  &_header {
+  &__header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0 1rem;
-
+    padding-bottom: 1rem;
 
     .toggle {
+      transition: transform 0.3s $default-cubic-bezier;
+      cursor: pointer;
 
+      &.opened {
+        transform: rotate(180deg);
+      }
+    }
+  }
+
+  &__body {
+    overflow: hidden;
+    max-height: 0;
+    height: 100%;
+    transition: max-height 0.3s ease-out;
+
+    &.opened {
+      max-height: 200px;
     }
   }
 }

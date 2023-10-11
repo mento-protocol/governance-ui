@@ -6,7 +6,7 @@ import {ProposalsListComponent} from "@components/proposals-list/proposals-list.
 
 export default function Home() {
     return (
-        <main className="flex flex-col place-items-center p-6">
+        <main className="flex flex-col place-items-center">
             <h1>
                 <MentoTextLogoIcon/>
             </h1>
@@ -37,20 +37,10 @@ export default function Home() {
                     <Badge rounded type="secondary">{(9999999998).toLocaleString()} Supply</Badge>
                 </div>
                 <Divider/>
-                <Expandable>
-                    <Expandable.Header>
-                        Contract parameters
-                    </Expandable.Header>
-                    <Expandable.Body>
-                        Super content <br/>
-                        Super content <br/>
-                        Super content <br/>
-                        Super content <br/>
-                        Super content <br/>
-                        Super content <br/>
-                        Super content <br/>
-                        Super content <br/>
-                    </Expandable.Body>
+                <Expandable header={'Contract parameters'}>
+                        <div>
+                            TEST
+                        </div>
                 </Expandable>
             </Card>
 

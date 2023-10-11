@@ -18,6 +18,9 @@
 
 body {
     color: var(--foreground-color);
+    /*background-image: url("/images/bg.png"), url("/images/bg.png");*/
+    /*background-position: right -50px top 45%, left -50px top 75%;*/
+
 }
 
 .main-container {

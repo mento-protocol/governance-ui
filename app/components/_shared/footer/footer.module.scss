@@ -1,0 +1,19 @@
+@import "@/app/brand";
+
+.footer {
+  border-top: 1px solid $c-black;
+  padding: 3rem 0;
+  margin-top: 3rem;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  font-weight: 400;
+  font-size: 16px;
+  color: #636768;
+
+  &__element {
+    display: flex;
+    flex-direction: column;
+    gap: $theme-unit;
+  }
+}

@@ -1,7 +1,7 @@
 import BaseComponentProps from "@interfaces/base-component-props.interface";
 import styles from './footer.module.scss';
 import classNames from "classnames";
-import {MentoLogoIcon, TwitterIcon} from "@components/_icons";
+import {DiscordIcon, GithubIcon, MentoLogoIcon, TwitterIcon} from "@components/_icons";
 import Link from "next/link";
 
 
@@ -55,10 +55,10 @@ export const Footer = ({className, children, style}: FooterProps) => {
                         <TwitterIcon />
                     </Link>
                     <Link href="#">
-                        <TwitterIcon />
+                        <DiscordIcon />
                     </Link>
                     <Link href="#">
-                        <TwitterIcon />
+                        <GithubIcon />
                     </Link>
                 </div>
             </div>

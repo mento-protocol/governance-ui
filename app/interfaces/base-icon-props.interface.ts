@@ -3,4 +3,5 @@ export default interface BaseIconProps {
     height?: number;
     color?: string;
     backgroundColor?: string;
+    useThemeColor?: boolean;
 }

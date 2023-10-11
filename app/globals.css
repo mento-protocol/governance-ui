@@ -4,23 +4,19 @@
 
 :root {
     --foreground-color: #02010A;
-    --background-start-rgb: 214, 219, 220;
-    --background-end-rgb: 255, 255, 255;
+    --background-color: #FFFFFF;
 }
 
-/*@media (prefers-color-scheme: dark) {*/
-/*  :root {*/
-/*    --foreground-rgb: 255, 255, 255;*/
-/*    --background-start-rgb: 0, 0, 0;*/
-/*    --background-end-rgb: 0, 0, 0;*/
-/*  }*/
-/*}*/
+@media (prefers-color-scheme: dark) {
+  :root {
+      --foreground-color: #FFFFFF;
+      --background-color: #02010A;
+  }
+}
 
 body {
     color: var(--foreground-color);
-    /*background-image: url("/images/bg.png"), url("/images/bg.png");*/
-    /*background-position: right -50px top 45%, left -50px top 75%;*/
-
+    background-color: var(--background-color);
 }
 
 .main-container {
@@ -30,4 +26,8 @@ body {
 
 .gap-default {
     gap: 18px;
+}
+
+svg.branded-icon path {
+    fill: var(--foreground-color) !important;
 }

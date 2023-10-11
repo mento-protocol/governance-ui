@@ -28,7 +28,7 @@ export const Header = ({className, style}: HeaderProps) => {
     return <header className={classNames(styles.header, className)} style={style}>
         <div className={classNames(styles.header__inner)}>
             <div className={classNames(!wallet?.length && styles.header__side)}>
-                <MentoLogoIcon/>
+                <MentoLogoIcon useThemeColor/>
             </div>
             <ul className={styles.header__nav}>
                 <li ref={menuRef}

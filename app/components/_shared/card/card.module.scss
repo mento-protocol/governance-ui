@@ -1,10 +1,19 @@
 @import "@/app/brand";
 
 .card {
+
+  $card-bg: $c-white;
+  $card-border-color: $c-lightGrey;
+
+  @media (prefers-color-scheme: dark) {
+    $card-bg: #1D1D20;
+    $card-border-color: 1px solid #333336;
+  }
+
   padding: 20px;
   border-radius: $border-radius;
-  background-color: $c-white;
-  border: 1px solid $c-lightGrey;
+  background-color: $card-bg;
+  border: 1px solid $card-border-color;
 
   &__header {
     margin-bottom: 20px;
@@ -16,5 +25,9 @@
 
   &.block {
     width: 100%;
+  }
+
+  &.transparent {
+    background-color: transparent;
   }
 }

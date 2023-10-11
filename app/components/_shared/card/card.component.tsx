@@ -6,8 +6,10 @@ import BaseComponentProps from "@interfaces/base-component-props.interface";
 interface CardPartialProps extends BaseComponentProps {
     children: React.ReactNode;
 }
-interface CardProps extends CardPartialProps{
+
+interface CardProps extends CardPartialProps {
     block?: boolean;
+    transparent?: boolean;
 }
 
 const CardHeader = ({children}: CardPartialProps) => {
@@ -19,8 +21,10 @@ const CardFooter = ({children}: CardPartialProps) => {
 }
 
 
-export const Card = ({children, className, block, style} : CardProps) => {
-    return <div className={classNames(styles.card, block && styles.block, className)} style={style}>
+export const Card = ({children, className, block, style, transparent}: CardProps) => {
+    return <div
+        className={classNames(styles.card, 'bg-white', block && styles.block, transparent && styles.transparent, className)}
+        style={style}>
         {children}
     </div>
 }

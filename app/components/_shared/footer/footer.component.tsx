@@ -52,13 +52,13 @@ export const Footer = ({className, children, style}: FooterProps) => {
             <div className={classNames(styles.footer__element, 'justify-between')}>
                 <div className="flex gap-default place-items-center">
                     <Link href="#">
-                        <TwitterIcon />
+                        <TwitterIcon useThemeColor/>
                     </Link>
                     <Link href="#">
-                        <DiscordIcon />
+                        <DiscordIcon useThemeColor/>
                     </Link>
                     <Link href="#">
-                        <GithubIcon />
+                        <GithubIcon useThemeColor/>
                     </Link>
                 </div>
             </div>

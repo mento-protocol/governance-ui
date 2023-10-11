@@ -1,7 +1,7 @@
 "use client";
 import {MentoIcon} from "@components/_icons/mento.icon";
 import {MentoTextLogoIcon} from "@components/_icons";
-import {Badge, Button, Card} from "@components/_shared";
+import {Badge, Button, Card, Divider, Expandable} from "@components/_shared";
 import {ProposalsListComponent} from "@components/proposals-list/proposals-list.component";
 
 export default function Home() {
@@ -36,6 +36,22 @@ export default function Home() {
                     <Badge rounded type="secondary">ERC20</Badge>
                     <Badge rounded type="secondary">{(9999999998).toLocaleString()} Supply</Badge>
                 </div>
+                <Divider/>
+                <Expandable>
+                    <Expandable.Header>
+                        Contract parameters
+                    </Expandable.Header>
+                    <Expandable.Body>
+                        Super content <br/>
+                        Super content <br/>
+                        Super content <br/>
+                        Super content <br/>
+                        Super content <br/>
+                        Super content <br/>
+                        Super content <br/>
+                        Super content <br/>
+                    </Expandable.Body>
+                </Expandable>
             </Card>
 
             <ProposalsListComponent/>

@@ -26,6 +26,15 @@
 
 .header {
 
+  position: sticky;
+  top: 0;
+
+  background: $c-white;
+
+  @media (prefers-color-scheme: dark) {
+    background: $c-black;
+  }
+
   &__inner {
     display: flex;
     flex-direction: row;
@@ -68,22 +77,44 @@
           padding: 0px;
           position: absolute;
           top: 70px;
-          padding-top: 10px;
-          padding-bottom: 10px;
           opacity: 0;
           pointer-events: none;
           transition: opacity 0.3s, transform 0.3s 0.1s;
           min-width: 200px;
           transform: translateY(-25px) translateX(-25%);
 
+          @media (prefers-color-scheme: dark) {
+            border: 1px solid $c-white;
+          }
+
+          @media (prefers-color-scheme: dark) {
+            background-color: $c-black;
+          }
+
           li {
             color: $c-black;
             justify-content: flex-start;
-            margin: 0px 20px;
-            padding-top: 10px;
-            padding-bottom: 10px;
             font-size: 12px;
             font-weight: 400;
+            border-bottom: 1px solid transparent;
+            transition: background-color .1s;
+
+            a {
+              padding: 15px;
+            }
+
+            @media (prefers-color-scheme: dark) {
+              border-bottom: 1px solid $c-white;
+              color: $c-white;
+            }
+
+            &:hover {
+              background-color: $c-grey;
+            }
+
+            &:last-child {
+              border: none;
+            }
           }
         }
 

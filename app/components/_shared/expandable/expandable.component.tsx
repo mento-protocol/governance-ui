@@ -20,7 +20,7 @@ export const Expandable = ({children, className, style, header}: ExpandableProps
                     {header}
                 </div>
                 <div className={classNames(styles.toggle, opened && styles.opened)} onClick={() => setOpened(!opened)}>
-                    <ChevronIcon direction="down" width={25} height={20} />
+                    <ChevronIcon direction="down" width={25} height={20} useThemeColor/>
                 </div>
             </header>
             <div className={classNames(styles.expandable__body, opened && styles.opened)}>

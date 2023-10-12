@@ -1,8 +1,7 @@
 "use client";
 import {Button, Badge} from "@components/_shared";
 
-export default function Page() {
-
+const Page = () => {
     return (
         <div className="flex flex-col justify-center place-items-center">
             <div>
@@ -35,3 +34,5 @@ export default function Page() {
         </div>
     )
 }
+
+export default Page;

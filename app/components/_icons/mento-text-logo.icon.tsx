@@ -1,8 +1,8 @@
 import BaseIconProps from "@interfaces/base-icon-props.interface";
 import exports from '@styles/exports.module.scss';
 
-export const MentoTextLogoIcon = ({width = 554, height = 38, color = exports.black}: BaseIconProps) => {
-    return <svg width={width} height={height} viewBox="0 0 554 38" fill="none" xmlns="http://www.w3.org/2000/svg">
+export const MentoTextLogoIcon = ({width = 554, height = 38, color = exports.black, useThemeColor}: BaseIconProps) => {
+    return <svg className={useThemeColor ? 'branded-icon' : ''} width={width} height={height} viewBox="0 0 554 38" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path
             d="M21.8064 36.478H15.8144L7.19035 8.70203H6.96635V36.478H0.470351V1.19802H11.5024L19.2304 26.846H19.3984L26.7344 1.19802H37.5424V36.478H30.4864V8.70203H30.2624L21.8064 36.478ZM70.1042 30.654V36.478H43.7282V1.19802H69.6002V7.02203H50.6162V15.59H65.5122V21.358H50.6162V30.654H70.1042ZM81.9534 1.19802L98.6414 24.718V1.19802H105.137V36.478H99.5374L81.5054 11.614V36.478H75.0094V1.19802H81.9534ZM129.018 36.478H122.018V7.02203H109.53V1.19802H141.674V7.02203H129.018V36.478ZM177.966 18.838C177.966 29.702 170.35 37.15 160.102 37.15C149.798 37.15 142.182 29.702 142.182 18.838C142.182 7.97403 149.798 0.526026 160.102 0.526026C170.35 0.526026 177.966 7.97403 177.966 18.838ZM170.742 18.838C170.742 11.446 166.598 6.68603 160.102 6.68603C153.606 6.68603 149.462 11.446 149.462 18.838C149.462 26.23 153.606 30.99 160.102 30.99C166.598 30.99 170.742 26.23 170.742 18.838Z"
             fill={color}/>

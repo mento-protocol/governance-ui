@@ -36,6 +36,11 @@
     border-radius: $border-radius;
     border: 1px solid $c-black;
 
+    @media (prefers-color-scheme: dark) {
+      border: 1px solid $c-grey;
+
+    }
+
     transition: margin-top 0.2s ease-out;
 
     &:hover {
@@ -64,6 +69,7 @@
   &.tertiary {
     @include branded-button($c-grey, $c-white, $c-black);
   }
+
   &.clear {
     .button {
       transition: background-color 0.2s ease-out;

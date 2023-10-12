@@ -4,7 +4,7 @@ import {MentoTextLogoIcon} from "@components/_icons";
 import {Badge, Button, Card, Divider, Expandable} from "@components/_shared";
 import {ProposalsListComponent} from "@components/proposals-list/proposals-list.component";
 
-export default function Home() {
+const Page = () => {
     return (
         <main className="flex flex-col place-items-center">
             <h1>
@@ -24,7 +24,7 @@ export default function Home() {
                             <Button type="clear">
                                 Create new proposal
                             </Button>
-                            <Button type="clear">
+                            <Button type="clear" href="/my-voting-power">
                                 My voting power
                             </Button>
                         </div>
@@ -48,3 +48,6 @@ export default function Home() {
         </main>
     )
 }
+
+
+export default Page;

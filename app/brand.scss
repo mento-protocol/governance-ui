@@ -1,1 +1,49 @@
 @import "styles/variables.module";
+
+$brandColors: (
+        'black': $c-black,
+        'white': $c-white,
+        'lightGrey': $c-lightGrey,
+        'grey': $c-grey,
+        'primary': $c-primary,
+        'secondary': $c-secondary,
+        'success': $c-success,
+        'error': $c-error,
+        'warning': $c-warning,
+        'info': $c-info
+);
+
+@each $color, $value in $brandColors {
+  .bg-#{$color} {
+    background-color: $value
+  }
+  .color-#{$color} {
+    color: $value;
+  }
+}
+
+@mixin media-sm {
+  @media (min-width: $breakpoint-sm) {
+    @content;
+  }
+}
+@mixin media-md {
+  @media (min-width: $breakpoint-md) {
+    @content;
+  }
+}
+@mixin media-lg {
+  @media (min-width: $breakpoint-lg) {
+    @content;
+  }
+}
+@mixin media-xl {
+  @media (min-width: $breakpoint-xl) {
+    @content;
+  }
+}
+@mixin media-2xl {
+  @media (min-width: $breakpoint-2xl) {
+    @content;
+  }
+}

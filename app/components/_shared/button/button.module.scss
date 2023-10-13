@@ -25,20 +25,31 @@
 .wrapper {
 
   min-width: 200px;
-  min-height: 56px;
+  height: 60px;
+  width: min-content;
   border-radius: $border-radius;
   background-color: transparent;
 
   .button {
-    padding: 18px, 32px, 18px, 32px;
     min-width: 200px;
-    min-height: 56px;
+    height: 60px;
     border-radius: $border-radius;
     border: 1px solid $c-black;
 
     @media (prefers-color-scheme: dark) {
       border: 1px solid $c-grey;
+    }
 
+    .inner {
+      padding: 18px 32px 18px 32px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 1ch;
+      white-space: nowrap;
+      * {
+        white-space: nowrap;
+      }
     }
 
     transition: margin-top 0.2s ease-out;
@@ -51,21 +62,27 @@
   &.primary {
     @include branded-button($c-primary-dark, $c-primary, $c-white);
   }
+
   &.secondary {
     @include branded-button($c-secondary-dark, $c-secondary, $c-black);
   }
+
   &.success {
     @include branded-button($c-success-dark, $c-success, $c-black);
   }
+
   &.danger {
     @include branded-button($c-error-dark, $c-error, $c-white);
   }
+
   &.warning {
     @include branded-button($c-warning-dark, $c-warning, $c-black);
   }
+
   &.info {
     @include branded-button($c-info-dark, $c-info, $c-black);
   }
+
   &.tertiary {
     @include branded-button($c-grey, $c-white, $c-black);
   }
@@ -73,6 +90,7 @@
   &.clear {
     .button {
       transition: background-color 0.2s ease-out;
+
       &:hover {
         transition: background-color 0.2s ease-out;
         background-color: #cccfde;
@@ -90,6 +108,7 @@
       border: none;
       color: $c-black;
       text-decoration: underline;
+
       &:hover {
         transition: color 0.2s ease-out;
         color: $c-primary;

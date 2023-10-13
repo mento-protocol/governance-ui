@@ -3,12 +3,14 @@ import {MentoIcon} from "@components/_icons/mento.icon";
 import {MentoTextLogoIcon} from "@components/_icons";
 import {Badge, Button, Card, Divider, Expandable} from "@components/_shared";
 import {ProposalsListComponent} from "@components/proposals-list/proposals-list.component";
+import NumbersService from "@/app/helpers/numbers.service";
+import {ContractParams} from "@components/contract-params/contract-params.component";
 
 const Page = () => {
     return (
         <main className="flex flex-col place-items-center">
             <h1>
-                <MentoTextLogoIcon/>
+                <MentoTextLogoIcon useThemeColor/>
             </h1>
             <h2 className="text-xl font-semibold mt-8 mb-4">Claim your part and participate in <br/> shaping the future
                 of digital assets</h2>
@@ -38,10 +40,29 @@ const Page = () => {
                 </div>
                 <Divider/>
                 <Expandable header={'Contract parameters'}>
-                        <div>
-                            TEST
-                        </div>
+                    <ContractParams/>
                 </Expandable>
+            </Card>
+
+            <Card className="mt-8" block>
+                <div className="grid grid-cols-2 md:grid-cols-4">
+                    <div className="flex flex-col justify-center place-items-center">
+                        <div className="text-2xl font-semibold">11</div>
+                        <div className="text-sm font-light">Total proposals</div>
+                    </div>
+                    <div className="flex flex-col justify-center place-items-center">
+                        <div className="text-2xl font-semibold">3</div>
+                        <div className="text-sm font-light">Active proposals</div>
+                    </div>
+                    <div className="flex flex-col justify-center place-items-center">
+                        <div className="text-2xl font-semibold">{NumbersService.parseNumericValue(2097, 3)}</div>
+                        <div className="text-sm font-light">Voters</div>
+                    </div>
+                    <div className="flex flex-col justify-center place-items-center">
+                        <div className="text-2xl font-semibold">{NumbersService.parseNumericValue(120340, 3)}</div>
+                        <div className="text-sm font-light">Total veMento<br/>Voting Power</div>
+                    </div>
+                </div>
             </Card>
 
             <ProposalsListComponent/>

@@ -17,3 +17,19 @@
     gap: $theme-unit;
   }
 }
+
+.learn_more {
+  margin-left: -1.5rem;
+  margin-right: -1.5rem;
+  background-color: $c-black;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 3 * $theme-unit;
+  padding: 6 * $theme-unit;
+
+  .description {
+    color: $c-white;
+    max-width: 500px;
+  }
+}

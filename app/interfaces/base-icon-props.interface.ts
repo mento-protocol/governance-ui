@@ -4,4 +4,6 @@ export default interface BaseIconProps {
     color?: string;
     backgroundColor?: string;
     useThemeColor?: boolean;
+    className?: string;
+    style?: React.CSSProperties;
 }

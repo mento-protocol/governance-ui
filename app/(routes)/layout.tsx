@@ -4,11 +4,12 @@ import '@/app/brand.scss';
 import {Inter} from 'next/font/google';
 import {Footer, Header} from "@components/_shared";
 import {WalletProvider} from "@/app/providers/wallet.provider";
+import {ReactNode} from "react";
 
 const inter = Inter({subsets: ['latin']})
 
 interface RootLayoutProps {
-    children: React.ReactNode;
+    children: ReactNode;
 }
 
 export default function RootLayout({children,}: RootLayoutProps) {

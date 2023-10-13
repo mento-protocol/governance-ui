@@ -1,10 +1,10 @@
 import styles from './card.module.scss';
 import classNames from "classnames";
 import BaseComponentProps from "@interfaces/base-component-props.interface";
-
+import {ReactNode} from "react";
 
 interface CardPartialProps extends BaseComponentProps {
-    children: React.ReactNode;
+    children: ReactNode;
 }
 
 interface CardProps extends CardPartialProps {

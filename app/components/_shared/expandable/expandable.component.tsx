@@ -4,9 +4,10 @@ import styles from './expandable.module.scss';
 import classNames from "classnames";
 import {ChevronIcon} from "@components/_icons";
 import {useState} from "react";
+import {ReactNode} from "react";
 
 interface ExpandableProps extends BaseComponentProps {
-    header: React.ReactNode | string;
+    header: ReactNode | string;
 }
 
 export const Expandable = ({children, className, style, header}: ExpandableProps) => {

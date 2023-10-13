@@ -2,11 +2,12 @@ import styles from './button.module.scss';
 import classNames from "classnames";
 import BaseComponentProps from "@interfaces/base-component-props.interface";
 import Link from "next/link";
+import {ReactNode} from "react";
 
 type ButtonType = 'primary' | 'secondary' | 'tertiary' | 'danger' | 'warning' | 'success' | 'info' | 'link' | 'clear';
 
 interface ButtonProps extends BaseComponentProps {
-    children: React.ReactNode;
+    children: ReactNode;
     type?: ButtonType;
     onClick?: (...args: unknown[]) => unknown;
     href?: string;
@@ -15,7 +16,7 @@ interface ButtonProps extends BaseComponentProps {
 
 export const Button = ({children, type = 'primary', onClick, className, style, href, target = '_self'}: ButtonProps) => {
 
-    const Wrapper = ({children}: { children: React.ReactNode }) => {
+    const Wrapper = ({children}: { children: ReactNode }) => {
         return href ? <Link href={href} target={target}>
             {children}
         </Link> : <>{children}</>

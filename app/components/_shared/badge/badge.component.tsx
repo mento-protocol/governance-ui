@@ -2,9 +2,9 @@ import classNames from "classnames";
 import styles from './badge.module.scss';
 import BaseComponentProps from "@interfaces/base-component-props.interface";
 import {BadgeType} from "@/app/types";
-
+import {ReactNode} from "react";
 interface BadgeProps extends BaseComponentProps {
-    children: React.ReactNode;
+    children: ReactNode;
     type: BadgeType;
     rounded?: boolean;
     block?: boolean;

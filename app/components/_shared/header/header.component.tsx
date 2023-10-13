@@ -21,21 +21,21 @@ export const Header = ({className, style}: HeaderProps) => {
     const [menuOpened, setMenuOpened] = useState('');
     const {wallet, setWallet} = useWalletContext();
 
-    const toggleMenu = (name: string) => {
+    const toggleMenu = (event: any, name: string) => {
+        event.stopPropagation();
         setMenuOpened(name === menuOpened ? '' : name);
     }
 
-    return <header className={classNames(styles.header, className)} style={style}>
+    return <header className={classNames(styles.header, className)} style={style} onClick={() => setMenuOpened('')}>
         <div className={classNames(styles.header__inner)}>
             <div className={classNames(!wallet?.length && styles.header__side)}>
                 <MentoLogoIcon useThemeColor/>
             </div>
-            <ul className={styles.header__nav}>
-                <li ref={menuRef}
-                    className={classNames(styles.item, styles.dropdown, menuOpened === 'developers' && styles.opened)}>
-                    <p onClick={() => toggleMenu('developers')}>
+            <ul ref={menuRef} className={styles.header__nav}>
+                <li className={classNames(styles.item, styles.dropdown, menuOpened === 'developers' && styles.opened)}>
+                    <p onClick={e => toggleMenu(e,'developers')}>
                         <span>Developers</span>
-                        <span className={styles.dropdown__indicator}><ChevronIcon direction={'down'}/></span>
+                        <span className={styles.dropdown__indicator}><ChevronIcon useThemeColor direction={'down'}/></span>
                     </p>
                     <ul>
                         <li className={classNames(styles.item)}>
@@ -50,11 +50,10 @@ export const Header = ({className, style}: HeaderProps) => {
                         </li>
                     </ul>
                 </li>
-                <li ref={menuRef}
-                    className={classNames(styles.item, styles.dropdown, menuOpened === 'community' && styles.opened)}>
-                    <p onClick={() => toggleMenu('community')}>
+                <li className={classNames(styles.item, styles.dropdown, menuOpened === 'community' && styles.opened)}>
+                    <p onClick={e => toggleMenu(e,'community')}>
                         <span>Community</span>
-                        <span className={styles.dropdown__indicator}><ChevronIcon direction={'down'}/></span>
+                        <span className={styles.dropdown__indicator}><ChevronIcon useThemeColor direction={'down'}/></span>
 
                     </p>
                     <ul>

@@ -3,11 +3,9 @@ import classNames from "classnames";
 import BaseComponentProps from "@interfaces/base-component-props.interface";
 import Link from "next/link";
 import {ReactNode} from "react";
-
-type ButtonType = 'primary' | 'secondary' | 'tertiary' | 'danger' | 'warning' | 'success' | 'info' | 'link' | 'clear';
+import {ButtonType} from "@/app/types";
 
 interface ButtonProps extends BaseComponentProps {
-    children: ReactNode;
     type?: ButtonType;
     onClick?: (...args: unknown[]) => unknown;
     href?: string;

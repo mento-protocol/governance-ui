@@ -1,7 +1,7 @@
 "use client";
 import {MentoIcon} from "@components/_icons/mento.icon";
 import {MentoTextLogoIcon} from "@components/_icons";
-import {Badge, Button, Card, Divider, Expandable} from "@components/_shared";
+import {Badge, Button, Card, Divider, DropdownButton, Expandable} from "@components/_shared";
 import {ProposalsListComponent} from "@components/proposals-list/proposals-list.component";
 import NumbersService from "@/app/helpers/numbers.service";
 import {ContractParams} from "@components/contract-params/contract-params.component";
@@ -22,7 +22,7 @@ const Page = () => {
                             <MentoIcon/>
                             Mento
                         </div>
-                        <div className="flex gap-default">
+                        <div className="hidden gap-default md:flex">
                             <Button type="clear">
                                 Create new proposal
                             </Button>
@@ -30,6 +30,16 @@ const Page = () => {
                                 My voting power
                             </Button>
                         </div>
+                        <DropdownButton>
+                            <DropdownButton.Dropdown>
+                                <DropdownButton.Element>
+                                    Create new proposal
+                                </DropdownButton.Element>
+                                <DropdownButton.Element>
+                                    My voting power
+                                </DropdownButton.Element>
+                            </DropdownButton.Dropdown>
+                        </DropdownButton>
                     </div>
                 </Card.Header>
                 <p>Transparent Digital Asset Solutions</p>

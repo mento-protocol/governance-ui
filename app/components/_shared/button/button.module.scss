@@ -1,5 +1,20 @@
 @import "@/app/brand";
 
+@keyframes button-click-animation {
+  0% {
+    margin-top: -3px;
+  }
+  25% {
+    margin-top: -7px;
+  }
+  75% {
+    margin-top: -1px;
+  }
+  100% {
+    margin-top: -3px;
+  }
+}
+
 @mixin branded-button($shadow-color, $background-color, $foreground-color) {
   background-color: $shadow-color;
 
@@ -10,15 +25,24 @@
     margin-top: -3px;
   }
 
-  &:hover {
-    button {
-      margin-top: -7px;
+  @media (hover: hover) {
+    &:hover {
+      button {
+        margin-top: -7px;
+      }
+    }
+
+    &:active {
+      button {
+        margin-top: -1px;
+      }
     }
   }
 
-  &:active {
-    button {
-      margin-top: -1px;
+  @media (hover: none) {
+    button:active,
+    button:focus {
+      animation: button-click-animation 0.45s $default-cubic-bezier;
     }
   }
 }

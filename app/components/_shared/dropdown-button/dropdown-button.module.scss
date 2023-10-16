@@ -1,0 +1,106 @@
+@import "@/app/brand";
+
+@mixin branded-dropdown($border-color, $background-color, $foreground-color) {
+  .dropdown {
+    border-color: $border-color;
+    background-color: $background-color;
+    color: $foreground-color;
+  }
+}
+
+.wrapper {
+
+  position: relative;
+
+  .button {
+    min-width: 60px;
+
+    button {
+      min-width: 60px;
+    }
+  }
+
+  .toggle {
+    transition: transform 0.3s $default-cubic-bezier;
+  }
+
+  .dropdown_wrapper {
+    position: absolute;
+    top: 70px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s, transform 0.3s 0.1s ease-in, z-index 0.1s 1s;
+    transform: translateY(-50px);
+    z-index: -1;
+    overflow: hidden;
+
+    .dropdown {
+      border-radius: $border-radius;
+      width: 100%;
+      padding: $theme-unit * 2;
+    }
+
+    &.left {
+      left: 0;
+    }
+
+    &.right {
+      right: 0;
+    }
+
+    &.primary {
+      @include branded-dropdown($c-primary-dark, $c-primary, $c-white);
+
+      .dropdown_element {
+        button:hover {
+          color: $c-secondary;
+        }
+      }
+    }
+
+    &.secondary {
+      @include branded-dropdown($c-secondary-dark, $c-secondary, $c-black);
+      .dropdown_element {
+        button:hover {
+          color: $c-primary;
+        }
+      }
+    }
+
+    &.success {
+      @include branded-dropdown($c-success-dark, $c-success, $c-black);
+    }
+
+    &.danger {
+      @include branded-dropdown($c-error-dark, $c-error, $c-white);
+    }
+
+    &.warning {
+      @include branded-dropdown($c-warning-dark, $c-warning, $c-black);
+    }
+
+    &.info {
+      @include branded-dropdown($c-info-dark, $c-info, $c-black);
+    }
+
+    &.tertiary,
+    &.clear,
+    &.link {
+      @include branded-dropdown($c-grey, $c-white, $c-black);
+    }
+  }
+
+  &.opened {
+    .toggle {
+      transform: rotate(180deg);
+    }
+
+    .dropdown_wrapper {
+      opacity: 1;
+      z-index: 2;
+      pointer-events: auto;
+      transition: opacity 0.3s, transform 0.3s $default-cubic-bezier;
+      transform: translateY(0px);
+    }
+  }
+}

@@ -6,3 +6,4 @@ export {Badge} from './badge/badge.component';
 export {ProgressBar} from './progress-bar/progress-bar.component';
 export {Expandable} from './expandable/expandable.component';
 export {Divider} from './divider/divider.component';
+export {DropdownButton} from './dropdown-button/dropdown-button.component';

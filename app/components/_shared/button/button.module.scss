@@ -6,6 +6,7 @@
   button {
     color: $foreground-color;
     background-color: $background-color;
+    border-color: $background-color;
     margin-top: -3px;
   }
 
@@ -36,7 +37,7 @@
     border-radius: $border-radius;
     border: 1px solid $c-black;
 
-    @media (prefers-color-scheme: dark) {
+    @include dark-mode {
       border: 1px solid $c-grey;
     }
 
@@ -94,6 +95,10 @@
       &:hover {
         transition: background-color 0.2s ease-out;
         background-color: #cccfde;
+
+        @include dark-mode {
+          background-color: $c-grey;
+        }
       }
 
       &:active {
@@ -108,6 +113,10 @@
       border: none;
       color: $c-black;
       text-decoration: underline;
+
+      @include dark-mode {
+        color: $c-white;
+      }
 
       &:hover {
         transition: color 0.2s ease-out;

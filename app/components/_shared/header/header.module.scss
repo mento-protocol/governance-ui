@@ -31,7 +31,7 @@
 
   background: $c-white;
 
-  @media (prefers-color-scheme: dark) {
+  @include dark-mode {
     background: $c-black;
   }
 
@@ -83,11 +83,8 @@
           min-width: 200px;
           transform: translateY(-25px) translateX(-25%);
 
-          @media (prefers-color-scheme: dark) {
+          @include dark-mode {
             border: 1px solid $c-white;
-          }
-
-          @media (prefers-color-scheme: dark) {
             background-color: $c-black;
           }
 
@@ -103,9 +100,18 @@
               padding: 15px;
             }
 
-            @media (prefers-color-scheme: dark) {
+            @include dark-mode {
               border-bottom: 1px solid $c-white;
               color: $c-white;
+
+              &:first-child {
+                border-top-left-radius: $border-radius;
+                border-top-right-radius: $border-radius;
+              }
+              &:last-child {
+                border-bottom-left-radius: $border-radius;
+                border-bottom-right-radius: $border-radius;
+              }
             }
 
             &:hover {

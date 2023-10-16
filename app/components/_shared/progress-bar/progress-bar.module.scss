@@ -12,6 +12,10 @@
     border: 1px solid $c-black;
     width: 100%;
 
+    @include dark-mode {
+      border: 1px solid $c-grey;
+    }
+
     .value {
       background-color: $c-grey;
       border-radius: $border-radius * 3;

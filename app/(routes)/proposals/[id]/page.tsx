@@ -28,7 +28,7 @@ const Page = () => {
                     <h1 className="text-5xl font-semibold">{proposal.title}</h1>
                 </div>
                 <div className="col-start-5 md:col-span-3">
-                    <div className={classNames(styles.counter)}>
+                    <div>
 
                     </div>
                 </div>

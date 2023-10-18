@@ -21,7 +21,11 @@
   }
 
   .toggle {
-    transition: transform 0.3s $default-cubic-bezier;
+    transition: transform 0.3s $ease-out-back;
+
+    &.opened {
+      transform: rotate(180deg);
+    }
   }
 
   .dropdown_wrapper {
@@ -37,7 +41,6 @@
     .dropdown {
       border-radius: $border-radius;
       width: 100%;
-      padding: $theme-unit * 2;
     }
 
     &.left {
@@ -50,21 +53,10 @@
 
     &.primary {
       @include branded-dropdown($c-primary-dark, $c-primary, $c-white);
-
-      .dropdown_element {
-        button:hover {
-          color: $c-secondary;
-        }
-      }
     }
 
     &.secondary {
       @include branded-dropdown($c-secondary-dark, $c-secondary, $c-black);
-      .dropdown_element {
-        button:hover {
-          color: $c-primary;
-        }
-      }
     }
 
     &.success {
@@ -88,19 +80,51 @@
     &.link {
       @include branded-dropdown($c-grey, $c-white, $c-black);
     }
+
+    .dropdown_element {
+      button {
+        border: none;
+        background-color: transparent;
+        width: 100%;
+        padding: 2 * $theme-unit 4 * $theme-unit;
+        white-space: nowrap;
+
+        &:hover {
+            background-color: #FFFFFF44;
+        }
+      }
+
+      &:first-child {
+        button {
+          border-top-left-radius: $border-radius;
+          border-top-right-radius: $border-radius;
+        }
+
+      }
+
+      &:last-child {
+        button {
+          border-bottom-left-radius: $border-radius;
+          border-bottom-right-radius: $border-radius;
+        }
+      }
+    }
+  }
+}
+
+.opened {
+
+  .dropdown_wrapper {
+    opacity: 1;
+    z-index: 2;
+    pointer-events: auto;
+    transition: opacity 0.3s, transform 0.3s $ease-out-back;
+    transform: translateY(0px);
   }
 
-  &.opened {
-    .toggle {
-      transform: rotate(180deg);
-    }
-
-    .dropdown_wrapper {
-      opacity: 1;
-      z-index: 2;
-      pointer-events: auto;
-      transition: opacity 0.3s, transform 0.3s $default-cubic-bezier;
-      transform: translateY(0px);
+  .button {
+    button {
+      margin-top: -1px !important;
     }
   }
 }

@@ -15,8 +15,8 @@ interface ElementProps extends BaseComponentProps {
 
 export const DropdownElement = ({children, className, style, onClick}: ElementProps) => {
     return <div className={classNames(styles.dropdown_element, className)} style={style}>
-        <Button type="link" onClick={onClick}>
+        <button onClick={onClick}>
             {children}
-        </Button>
+        </button>
     </div>
 }

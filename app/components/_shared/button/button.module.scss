@@ -42,7 +42,7 @@
   @media (hover: none) {
     button:active,
     button:focus {
-      animation: button-click-animation 0.45s $default-cubic-bezier;
+      animation: button-click-animation 0.45s $ease-out-back;
     }
   }
 }
@@ -66,7 +66,7 @@
     }
 
     .inner {
-      padding: 18px 32px 18px 32px;
+      padding: 2 * $theme-unit 4 * $theme-unit;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -152,5 +152,12 @@
         color: $c-primary-dark;
       }
     }
+  }
+}
+
+.block {
+  width: 100%;
+  .button {
+    width: 100%;
   }
 }

@@ -16,6 +16,7 @@ interface DropdownButtonProps extends BaseComponentProps {
 
 export const DropdownButton = ({type = 'primary', className, children, style, title}: DropdownButtonProps) => {
     const [dropdownPosition, setDropdownPosition] = useState('right' as 'left' | 'right');
+    const [dropdownOpened, setDropdownOpened] = useState(false)
 
     const dropdownRef = useRef(null);
     useOutsideAlerter(dropdownRef, () => {
@@ -30,13 +31,12 @@ export const DropdownButton = ({type = 'primary', className, children, style, ti
         }
     }, []);
 
-    const [dropdownOpened, setDropdownOpened] = useState(false)
 
     return (
         <div ref={dropdownRef} className={classNames(styles.wrapper, dropdownOpened && styles.opened, className)} style={style}>
             <Button type={type} className={styles.button} onClick={() => setDropdownOpened(!dropdownOpened)}>
                 {title}
-                <span className={styles.toggle}>
+                <span className={classNames(styles.toggle, dropdownOpened && styles.opened)}>
                     <ChevronIcon width={25} height={20} useThemeColor direction={'down'}/>
                 </span>
             </Button>

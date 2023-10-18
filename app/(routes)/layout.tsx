@@ -18,12 +18,12 @@ export default function RootLayout({children,}: RootLayoutProps) {
         <html lang="en">
         <body className={inter.className}>
         <WalletProvider>
-            <div className="main-container min-h-screen px-6 flex flex-col">
-                <Header className="py-6"/>
-                <div className="py-6 flex-1">
+            <div className="main-container min-h-screen flex flex-col">
+                <Header/>
+                <div className="px-6 flex-1">
                     {children}
                 </div>
-                <Footer className="py-6"/>
+                <Footer className="pt-6"/>
             </div>
         </WalletProvider>
         </body>

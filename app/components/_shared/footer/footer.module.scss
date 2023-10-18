@@ -2,8 +2,6 @@
 
 .footer {
   border-top: 1px solid $c-black;
-  padding: 3rem 0;
-  margin-top: 3rem;
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
@@ -19,8 +17,6 @@
 }
 
 .learn_more {
-  margin-left: -1.5rem;
-  margin-right: -1.5rem;
   background-color: $c-black;
   display: flex;
   justify-content: space-between;

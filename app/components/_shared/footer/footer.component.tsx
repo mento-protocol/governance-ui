@@ -11,12 +11,12 @@ import exports from '@styles/exports.module.scss';
 interface FooterProps extends BaseComponentProps {
 }
 
-export const Footer = ({className, children, style}: FooterProps) => {
+export const Footer = ({className, style}: FooterProps) => {
 
     const year = (new Date()).getFullYear();
 
     return (
-        <footer style={style}>
+        <footer className={className} style={style}>
             <div className={classNames(styles.learn_more)}>
                 <div className={classNames(styles.description)}>
                     <h2 className="text-6xl font-semibold my-2">Learn more</h2>
@@ -31,7 +31,7 @@ export const Footer = ({className, children, style}: FooterProps) => {
                     <Image src={learnMoreImage} alt="Learn more about Mento"/>
                 </div>
             </div>
-            <div className={classNames(styles.footer, className)}>
+            <div className={classNames(styles.footer, 'p-6')}>
                 <div className={classNames(styles.footer__element)}>
                     <MentoLogoIcon className="mb-4" useThemeColor/>
                     <div> Mento © {year}2023.</div>

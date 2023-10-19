@@ -5,9 +5,9 @@ import {ChevronIcon, MentoLogoIcon} from "../../_icons";
 import Link from "next/link";
 import {useContext, useRef, useState} from "react";
 import useOutsideAlerter from "@/app/hooks/useOutsideAlerter";
-import {Button} from "@components/_shared";
+import {Button, DropdownButton} from "@components/_shared";
 import BaseComponentProps from "@interfaces/base-component-props.interface";
-import {useWalletContext} from "@/app/providers/wallet.provider";
+import {ConnectButton, useConnectModal} from "@rainbow-me/rainbowkit";
 
 interface HeaderProps extends BaseComponentProps {
 }
@@ -17,10 +17,10 @@ export const Header = ({className, style}: HeaderProps) => {
     useOutsideAlerter(menuRef, () => {
         setMenuOpened('')
     });
+    const status = useConnectModal();
 
     const [menuOpened, setMenuOpened] = useState('');
     const [drawerOpened, setDrawerOpened] = useState(false);
-    const {wallet, setWallet} = useWalletContext();
 
     const toggleMenu = (event: any, name: string) => {
         event.stopPropagation();
@@ -30,7 +30,7 @@ export const Header = ({className, style}: HeaderProps) => {
     return <header className={classNames(styles.header, 'pa-6', className)} style={style}
                    onClick={() => setMenuOpened('')}>
         <div className={classNames(styles.header__inner, drawerOpened && styles.opened)}>
-            <div className={classNames(!wallet?.length && styles.header__side)}>
+            <div>
                 <MentoLogoIcon className="hidden md:block" useThemeColor/>
             </div>
             <ul ref={menuRef} className={styles.header__nav}>
@@ -84,42 +84,54 @@ export const Header = ({className, style}: HeaderProps) => {
                     </Link>
                 </li>
             </ul>
-            {!!wallet?.length && <div className={styles.wallet_addons}>
-                <div className={styles.inner}>
-                    <div className={styles.addon}>
-                        <div className={styles.addon__value}>
-                            80000
-                        </div>
-                        <div className={styles.addon__title}>
-                            MNTO
-                        </div>
-                    </div>
-                    <div className={styles.addon}>
-                        <div className={styles.addon__value}>
-                            40000
-                        </div>
-                        <div className={styles.addon__title}>
-                            veMNTO
-                        </div>
-                    </div>
-                </div>
-            </div>}
-            <div className={classNames(!wallet?.length && styles.header__side)}>
-                {!wallet?.length ? <Button block type={'secondary'} onClick={() => {
-                    setWallet('0x1234567890');
-                }}>
-                    <div className="flex flex-row justify-center place-items-center gap-2">
-                        <div>Connect wallet</div>
-                        <ChevronIcon direction={'right'}/>
-                    </div>
-                </Button> : <Button block type={'clear'} onClick={() => {
-                    setWallet('')
-                }}>
-                    <div className="flex flex-row justify-center place-items-center gap-2">
-                        <div><code>{wallet.substring(0, 6)}...{wallet.substring(wallet.length - 4)}</code></div>
-                    </div>
-                </Button>}
-            </div>
+            <ConnectButton.Custom>
+                {({
+                      account,
+                      chain,
+                      openAccountModal,
+                      openChainModal,
+                      openConnectModal,
+                      mounted
+                  }) => {
+                    if (!mounted) return <></>;
+                    const connected = !!account && !!chain;
+                    return (
+                        <>
+                            {connected && <div className={styles.wallet_addons}>
+                                <div className={styles.inner}>
+                                    <div className={styles.addon}>
+                                        <div className={styles.addon__value}>
+                                            {account.displayBalance?.split(' ')[0]}
+                                        </div>
+                                        <div className={styles.addon__title}>
+                                            {account.displayBalance?.split(' ')[1]}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>}
+                            <div className={classNames(connected && styles.header__side)}>
+                                {!connected ? <Button block type={'secondary'} onClick={openConnectModal}>
+                                    <div className="flex flex-row justify-center place-items-center gap-2">
+                                        <div>Connect wallet</div>
+                                        <ChevronIcon direction={'right'}/>
+                                    </div>
+                                </Button> : <DropdownButton type={'clear'}
+                                                            title={`${account.address.substring(0, 6)}...${account.address.substring(account.address.length - 4)}`}>
+                                    <DropdownButton.Dropdown>
+                                        <DropdownButton.Element onClick={openAccountModal}>
+                                            Account settings
+                                        </DropdownButton.Element>
+                                        <DropdownButton.Element onClick={openChainModal}>
+                                            Chain settings
+                                        </DropdownButton.Element>
+                                    </DropdownButton.Dropdown>
+                                </DropdownButton>}
+                            </div>
+                        </>
+                    );
+                }}
+            </ConnectButton.Custom>
+
         </div>
         <div className={classNames(styles.mobile_inner, 'flex p-6 z-50 md:hidden')}>
             <MentoLogoIcon useThemeColor/>

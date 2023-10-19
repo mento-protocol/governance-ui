@@ -34,9 +34,9 @@ export const Button = ({
         <Wrapper>
             <div className={classNames(styles.wrapper, styles[type], className, block && styles.block)} style={style}>
                 <button className={classNames(styles.button)} onClick={onClick}>
-                    <div className={styles.inner}>
+                    <span className={styles.inner}>
                         {children}
-                    </div>
+                    </span>
                 </button>
             </div>
         </Wrapper>

@@ -99,8 +99,8 @@ export const ProposalsListComponent = ({className, style}: ProposalsListProps) =
                         Total votes
                     </div>
                     {proposals.map((proposal, index) => <>
-                        {!!index && <div className={styles.divider}/>}
-                        <div className={classNames(styles.proposals_grid__element, styles.first)}>
+                        {!!index && <div key={`${index}_divider`} className={styles.divider}/>}
+                        <div key={`${index}_c0`} className={classNames(styles.proposals_grid__element, styles.first)}>
                             <div className="flex gap-default place-items-center">
                                 <div className="flex-1">
                                     {proposal.icon}
@@ -110,16 +110,16 @@ export const ProposalsListComponent = ({className, style}: ProposalsListProps) =
                                 </Link>
                             </div>
                         </div>
-                        <div className={classNames(styles.proposals_grid__element)}>
+                        <div key={`${index}_c1`}  className={classNames(styles.proposals_grid__element)}>
                             <Badge className="capitalize" type={getStatusColor(proposal.status)}>{proposal.status.toString()}</Badge>
                         </div>
-                        <div className={classNames(styles.proposals_grid__element)}>
+                        <div key={`${index}_c2`}  className={classNames(styles.proposals_grid__element)}>
                             <ProgressBar type="success" className={styles.progress_bar} current={proposal.votesYes} max={proposal.votesTotal} valueFormat="alphabetic"/>
                         </div>
-                        <div className={classNames(styles.proposals_grid__element)}>
+                        <div key={`${index}_c3`}  className={classNames(styles.proposals_grid__element)}>
                             <ProgressBar type="danger" className={styles.progress_bar} current={proposal.votesNo} max={proposal.votesTotal} valueFormat="alphabetic"/>
                         </div>
-                        <div className={classNames(styles.proposals_grid__element, styles.last, 'mb-3')}>{NumbersService.parseNumericValue(proposal.votesTotal)}</div>
+                        <div key={`${index}_c4`}  className={classNames(styles.proposals_grid__element, styles.last, 'mb-3')}>{NumbersService.parseNumericValue(proposal.votesTotal)}</div>
                     </>)}
                 </div>
 

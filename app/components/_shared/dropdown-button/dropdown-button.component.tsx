@@ -12,13 +12,16 @@ import {Dropdown, DropdownElement} from "@components/_shared/dropdown-button/dro
 interface DropdownButtonProps extends BaseComponentProps {
     type?: ButtonType;
     title?: string;
+    block?: boolean;
 }
 
-export const DropdownButton = ({type = 'primary', className, children, style, title}: DropdownButtonProps) => {
-    const [dropdownPosition, setDropdownPosition] = useState('right' as 'left' | 'right');
+export const DropdownButton = ({type = 'primary', className, children, style, title, block}: DropdownButtonProps) => {
+    const [dropdownPositionHorizontal, setDropdownPositionHorizontal] = useState('right' as 'left' | 'right');
+    const [dropdownPositionTopOffset, setDropdownPositionTopOffset] = useState(0);
     const [dropdownOpened, setDropdownOpened] = useState(false)
 
     const dropdownRef = useRef(null);
+    const dropdownContentRef = useRef(null);
     useOutsideAlerter(dropdownRef, () => {
         setDropdownOpened(false)
     });
@@ -27,20 +30,35 @@ export const DropdownButton = ({type = 'primary', className, children, style, ti
         const elementRect = (dropdownRef?.current as any).getBoundingClientRect();
         const elementWidth = (dropdownRef?.current as any).getBoundingClientRect().width;
         if (elementRect.left - elementWidth < 0) {
-            setDropdownPosition('left');
+            setDropdownPositionHorizontal('left');
         }
     }, []);
 
+    useEffect(() => {
+        const elementRect = (dropdownRef?.current as any).getBoundingClientRect();
+        console.log(elementRect);
+        if (elementRect.bottom < 250) {
+
+            const contentRect = (dropdownContentRef?.current as any).getBoundingClientRect();
+
+            setDropdownPositionTopOffset(contentRect.height + 10);
+        } else {
+            setDropdownPositionTopOffset(0);
+        }
+
+    }, []);
 
     return (
-        <div ref={dropdownRef} className={classNames(styles.wrapper, dropdownOpened && styles.opened, className)} style={style}>
-            <Button type={type} className={styles.button} onClick={() => setDropdownOpened(!dropdownOpened)}>
+        <div ref={dropdownRef} className={classNames(styles.wrapper, block && styles.block, dropdownOpened && styles.opened, className)} style={style}>
+            <Button block={block} type={type} className={styles.button} onClick={() => setDropdownOpened(!dropdownOpened)}>
                 {title}
                 <span className={classNames(styles.toggle, dropdownOpened && styles.opened)}>
-                    <ChevronIcon width={25} height={20} useThemeColor direction={'down'}/>
+                    <ChevronIcon width={15} height={10} useThemeColor direction={'down'}/>
                 </span>
             </Button>
-            <div className={classNames(styles.dropdown_wrapper, styles[type], styles[dropdownPosition])}>
+            <div ref={dropdownContentRef}
+                 style={{top: !!dropdownPositionTopOffset ? `-${dropdownPositionTopOffset}px` : ''}}
+                 className={classNames(styles.dropdown_wrapper, styles[type], styles[dropdownPositionHorizontal])}>
                 {children}
             </div>
         </div>

@@ -9,9 +9,9 @@ import {ContractParams} from "@components/contract-params/contract-params.compon
 const Page = () => {
     return (
         <main className="flex flex-col place-items-center">
-            <h1 className="max-w-full">
+            <div className="max-w-full">
                 <MentoTextLogoIcon className="max-w-full" useThemeColor/>
-            </h1>
+            </div>
             <h2 className="text-xl font-semibold mt-8 mb-4">Claim your part and participate in <br/> shaping the future
                 of digital assets</h2>
 

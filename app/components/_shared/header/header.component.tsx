@@ -97,18 +97,6 @@ export const Header = ({className, style}: HeaderProps) => {
                     const connected = !!account && !!chain;
                     return (
                         <>
-                            {connected && <div className={styles.wallet_addons}>
-                                <div className={styles.inner}>
-                                    <div className={styles.addon}>
-                                        <div className={styles.addon__value}>
-                                            {account.displayBalance?.split(' ')[0]}
-                                        </div>
-                                        <div className={styles.addon__title}>
-                                            {account.displayBalance?.split(' ')[1]}
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>}
                             <div className={classNames(connected && styles.header__side)}>
                                 {!connected ? <Button block type={'secondary'} onClick={openConnectModal}>
                                     <div className="flex flex-row justify-center place-items-center gap-2">
@@ -116,8 +104,19 @@ export const Header = ({className, style}: HeaderProps) => {
                                         <ChevronIcon direction={'right'}/>
                                     </div>
                                 </Button> : <DropdownButton type={'clear'}
+                                                            block
                                                             title={`${account.address.substring(0, 6)}...${account.address.substring(account.address.length - 4)}`}>
                                     <DropdownButton.Dropdown>
+                                        <div className={styles.wallet_addons}>
+                                            <div className={styles.addon}>
+                                                <div className={styles.addon__title}>
+                                                    {account.displayBalance?.split(' ')[1]}
+                                                </div>
+                                                <div className={styles.addon__value}>
+                                                    {account.displayBalance?.split(' ')[0]}
+                                                </div>
+                                            </div>
+                                        </div>
                                         <DropdownButton.Element onClick={openAccountModal}>
                                             Account settings
                                         </DropdownButton.Element>

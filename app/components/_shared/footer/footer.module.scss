@@ -8,6 +8,11 @@
   font-weight: 400;
   font-size: 16px;
   color: #636768;
+  background-color: $c-white;
+
+  @include dark-mode {
+    background-color: $c-black;
+  }
 
   &__element {
     display: flex;
@@ -17,7 +22,7 @@
 }
 
 .learn_more {
-  background-color: $c-black;
+  background-color: #121316;
   display: flex;
   justify-content: space-between;
   align-items: center;

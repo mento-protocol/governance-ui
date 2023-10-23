@@ -13,6 +13,7 @@
   line-height: 1em;
   min-width: 70px;
   text-align: center;
+  width: min-content;
 
   &.primary {
     @include branded-badge($c-primary, $c-primary, $c-white);

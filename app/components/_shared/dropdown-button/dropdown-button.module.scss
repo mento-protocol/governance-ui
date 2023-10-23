@@ -2,9 +2,15 @@
 
 @mixin branded-dropdown($border-color, $background-color, $foreground-color) {
   .dropdown {
-    border-color: $border-color;
+    border: 1px solid $border-color;
     background-color: $background-color;
     color: $foreground-color;
+
+    .dropdown_element {
+      &:not(:last-child):not(:last-child) {
+        border-bottom: 1px solid $border-color;
+      }
+    }
   }
 }
 
@@ -62,7 +68,6 @@
           border-top-left-radius: $border-radius;
           border-top-right-radius: $border-radius;
         }
-
       }
 
       &:last-child {
@@ -109,7 +114,6 @@
     &.clear,
     &.link {
       @include branded-dropdown($c-grey, $c-white, $c-black);
-
     }
   }
 
@@ -128,9 +132,23 @@
     transform: translateY(0px);
   }
 
-  .button {
-    button {
-      margin-top: -1px !important;
+  &:not(.clear):not(.link) {
+    .button {
+      button {
+        margin-top: -1px !important;
+      }
+    }
+  }
+
+  &.clear {
+    .button {
+      button {
+        background-color: #cccfde;
+
+        @include dark-mode {
+          background-color: $c-grey;
+        }
+      }
     }
   }
 }

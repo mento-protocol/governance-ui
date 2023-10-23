@@ -6,8 +6,8 @@
   border: 1px solid $c-lightGrey;
 
   @include dark-mode {
-    background-color: #1D1D20;
-    border: 1px solid #333336;
+    background-color: #121316;
+    border: 1px solid $c-white;
   }
 
   padding: 2 * $theme-unit;

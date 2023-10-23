@@ -35,21 +35,26 @@ export const DropdownButton = ({type = 'primary', className, children, style, ti
     }, []);
 
     useEffect(() => {
-        const elementRect = (dropdownRef?.current as any).getBoundingClientRect();
-        console.log(elementRect);
-        if (elementRect.bottom < 250) {
-
-            const contentRect = (dropdownContentRef?.current as any).getBoundingClientRect();
-
-            setDropdownPositionTopOffset(contentRect.height + 10);
-        } else {
-            setDropdownPositionTopOffset(0);
+        const handleResize = () => {
+            const elementRect = (dropdownRef?.current as any).getBoundingClientRect();
+            if (elementRect.top >= window.screen.height - 350) {
+                const contentRect = (dropdownContentRef?.current as any).getBoundingClientRect();
+                setDropdownPositionTopOffset(contentRect.height + 10);
+            } else {
+                setDropdownPositionTopOffset(0);
+            }
         }
+        handleResize();
 
+        window.addEventListener("resize", handleResize);
+
+        return () => {
+            window.removeEventListener("resize", handleResize);
+        }
     }, []);
 
     return (
-        <div ref={dropdownRef} className={classNames(styles.wrapper, block && styles.block, dropdownOpened && styles.opened, className)} style={style}>
+        <div ref={dropdownRef} className={classNames(styles.wrapper, styles[type], block && styles.block, dropdownOpened && styles.opened, className)} style={style}>
             <Button block={block} type={type} className={styles.button} onClick={() => setDropdownOpened(!dropdownOpened)}>
                 {title}
                 <span className={classNames(styles.toggle, dropdownOpened && styles.opened)}>

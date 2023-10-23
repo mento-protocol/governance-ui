@@ -5,18 +5,31 @@
 :root {
     --foreground-color: #02010A;
     --background-color: #FFFFFF;
+    --color-primary: #4D62F0;
+    --color-secondary: #FCD7FC;
 }
 
 @media (prefers-color-scheme: dark) {
-  :root {
-      --foreground-color: #FFFFFF;
-      --background-color: #02010A;
-  }
+    :root {
+        --foreground-color: #FFFFFF;
+        --background-color: #02010A;
+    }
 }
 
 body {
     color: var(--foreground-color);
+
     background-color: var(--background-color);
+}
+
+@media (min-width: 768px) {
+    body {
+
+        background: url('/images/bg.png'), url('/images/bg.png'), linear-gradient(180deg, var(--background-color) 0%, var(--background-color) 100%);
+        background-size: 1000px 1500px, 1000px 1500px, cover;
+        background-position: 70vw 10vh, -30vw 70vh, center;
+        background-repeat: no-repeat, no-repeat, no-repeat;
+    }
 }
 
 .main-container {
@@ -30,4 +43,10 @@ body {
 
 svg.branded-icon path {
     fill: var(--foreground-color) !important;
+}
+
+a:hover,
+.link:hover {
+    text-decoration: underline;
+    color: var(--color-primary);
 }

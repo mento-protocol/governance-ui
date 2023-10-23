@@ -1,0 +1,60 @@
+@import "@/app/brand";
+
+.countdown {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+  gap: $theme-unit;
+
+  .item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-width: 80px;
+
+    gap: 2 * $theme-unit;
+
+
+    .value {
+      font-size: 32px;
+      line-height: 32px;
+      font-weight: 500;
+      position: relative;
+      width: 100%;
+      text-align: center;
+
+    }
+
+    .label {
+      font-size: 12px;
+      line-height: 12px;
+      font-weight: 400;
+      text-transform: uppercase;
+      width: 100%;
+      text-align: center;
+    }
+
+    &.day {
+      color: $c-primary;
+      margin-right: $theme-unit;
+    }
+
+    &.time {
+      &:not(:last-child) {
+        .value {
+          &:after {
+            content: ":";
+            position: absolute;
+            right: -1 * $theme-unit;
+            top: 0px;
+            font-size: 32px;
+            line-height: 32px;
+            font-weight: 500;
+          }
+        }
+      }
+    }
+  }
+}

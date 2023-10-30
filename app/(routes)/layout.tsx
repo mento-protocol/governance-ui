@@ -46,9 +46,9 @@ export default function RootLayout({children,}: RootLayoutProps) {
         <body className={inter.className}>
         <WagmiConfig config={wagmiConfig}>
             <RainbowKitProvider chains={chains}>
-                <div className="main-container min-h-screen flex flex-col">
+                <div className="min-h-screen flex flex-col">
                     <Header/>
-                    <div className="px-6 flex-1">
+                    <div className="main-container px-6 flex-1">
                         {children}
                     </div>
                     <Footer className="pt-6"/>

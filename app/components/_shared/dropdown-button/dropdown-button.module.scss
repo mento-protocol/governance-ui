@@ -114,6 +114,10 @@
     &.clear,
     &.link {
       @include branded-dropdown($c-grey, $c-white, $c-black);
+
+      @include dark-mode {
+        @include branded-dropdown($c-white, $c-black, $c-white);
+      }
     }
   }
 

@@ -38,7 +38,19 @@ body {
 }
 
 .gap-default {
-    gap: 18px;
+    gap: 16px;
+}
+
+.gap-default-x2 {
+    gap: 32px;
+}
+
+.gap-default-x3 {
+    gap: 48px;
+}
+
+.gap-default-x4 {
+    gap: 64px;
 }
 
 svg.branded-icon path {

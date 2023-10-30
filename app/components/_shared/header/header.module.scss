@@ -34,6 +34,8 @@
     left: 0;
     bottom: 0;
     right: 0;
+    max-width: 1600px;
+    margin: 0 auto;
     background: $c-white;
 
     display: flex;
@@ -221,7 +223,10 @@
               transition: background-color .1s;
 
               a {
+                display: block;
+                height: 100%;
                 padding: 15px;
+                text-decoration: none;
 
                 p {
                   display: block;
@@ -229,9 +234,27 @@
                 }
               }
 
+              &:hover {
+                background-color: #80808022;
+                a {
+                  color: $c-black;
+                }
+              }
+
+              &:last-child {
+                border: none;
+              }
+
               @include dark-mode {
                 border-bottom: 1px solid $c-white;
                 color: $c-white;
+
+                &:hover {
+                  background-color: #80808088;
+                  a {
+                    color: $c-white;
+                  }
+                }
 
                 &:first-child {
                   border-top-left-radius: $border-radius;
@@ -241,14 +264,6 @@
                   border-bottom-left-radius: $border-radius;
                   border-bottom-right-radius: $border-radius;
                 }
-              }
-
-              &:hover {
-                background-color: $c-grey;
-              }
-
-              &:last-child {
-                border: none;
               }
             }
           }

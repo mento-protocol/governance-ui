@@ -1,8 +1,9 @@
+"use client";
 import styles from './input.module.scss';
 import BaseComponentProps from "@interfaces/base-component-props.interface";
 import classNames from "classnames";
 import {ReactNode, useEffect, useState} from "react";
-import {ValidatorFunction} from "@/app/helpers/validators.service";
+import {ValidatorFunction} from "@interfaces/form.interface";
 
 interface InputProps extends BaseComponentProps {
     label?: string;
@@ -37,44 +38,30 @@ export const Input = ({
                           error,
                           errorMessage,
                           className,
+                          validators
                       }: InputProps) => {
     const idInternal = id || Math.floor(Math.random() * 1000).toString();
-    const [internalValue, setInternalValue] = useState(value);
     const [initialValue, setInitialValue] = useState(value);
     const [touched, setTouched] = useState(false);
-    const [dirty, setDirty] = useState(false);
+    const [errors, setErrors] = useState([] as string[]);
 
-
-    useEffect(() => {
-        if (value !== internalValue) {
-            setInternalValue(value);
-            setInitialValue(value);
-            setDirty(false);
-            setTouched(false);
-        }
-    }, [value]);
-
-    useEffect(() => {
-        setTouched(true);
-
-        if (internalValue !== initialValue) {
-            setDirty(true);
-        }
-
-
-
-    }, [internalValue]);
-
+    const validate = (value: string | number) => {
+        const errors = validators?.map(validator => validator(value)).filter(error => !!error) || [];
+        console.log(value, errors, errors?.[0]);
+        setErrors(errors);
+    }
 
     const valueChanged = (e: any) => {
+        setTouched(true);
+        validate(e.target.value);
         onChange(e.target.value);
     }
 
-    return <div className={classNames(styles.wrapper, className)}>
+    return <div className={classNames(styles.wrapper, !!error && styles.error, className)}>
         {!!label && <label htmlFor={idInternal}>
             {label}
         </label>}
-        <div className={classNames(styles.input)}>
+        <div className={classNames(styles.input, touched && (!!error || !!errors.length) && styles.error)}>
             <input id={idInternal}
                    name={name}
                    placeholder={placeholder}
@@ -90,6 +77,9 @@ export const Input = ({
             </div>
             }
         </div>
+
+        {!!error && <div className={styles.errorMessage}>{errorMessage}</div>}
+        {!error && <div className={styles.errorMessage}>{errors?.[0]}</div>}
 
     </div>
 }

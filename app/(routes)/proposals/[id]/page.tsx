@@ -7,7 +7,7 @@ import classNames from "classnames";
 import {Avatar, Badge, Button, Card, Input} from "@components/_shared";
 import {Countdown} from "@components/countdown/countdown.component";
 import {format} from "date-fns";
-import ValidatorsService from "@/app/helpers/validators.service";
+import Validators from "@/app/helpers/validators";
 import {useState} from "react";
 import {singleProposal} from "@/app/helpers/mocks";
 
@@ -66,7 +66,7 @@ const Page = () => {
                                    max={400}
                                    unit="MENT"
                                    placeholder="Voting power"
-                                   validators={[ValidatorsService.required(), ValidatorsService.max(400)]}
+                                   validators={[Validators.required(), Validators.max(400)]}
                                    value={votePowerSelected} onChange={setVotePowerSelected}/>
                             <Button type="success" block onClick={e => {
                             }}>

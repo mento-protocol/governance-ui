@@ -55,7 +55,7 @@ export const DropdownButton = ({type = 'primary', className, children, style, ti
 
     return (
         <div ref={dropdownRef} className={classNames(styles.wrapper, styles[type], block && styles.block, dropdownOpened && styles.opened, className)} style={style}>
-            <Button block={block} type={type} className={styles.button} onClick={() => setDropdownOpened(!dropdownOpened)}>
+            <Button block={block} theme={type} className={styles.button} onClick={() => setDropdownOpened(!dropdownOpened)}>
                 {title}
                 <span className={classNames(styles.toggle, dropdownOpened && styles.opened)}>
                     <ChevronIcon width={15} height={10} useThemeColor direction={'down'}/>

@@ -7,15 +7,15 @@ const Page = () => {
             <div>
                 <h2 className="text-3xl py-3">Buttons</h2>
                 <div className="flex flex-row gap-2 justify-center place-items-center flex-wrap">
-                    <Button type="primary">Primary</Button>
-                    <Button type="secondary">Secondary</Button>
-                    <Button type="tertiary">Tertiary</Button>
-                    <Button type="danger">Danger</Button>
-                    <Button type="warning">Warning</Button>
-                    <Button type="success">Success</Button>
-                    <Button type="info">Info</Button>
-                    <Button type="link">Link</Button>
-                    <Button type="clear">Clear</Button>
+                    <Button theme="primary">Primary</Button>
+                    <Button theme="secondary">Secondary</Button>
+                    <Button theme="tertiary">Tertiary</Button>
+                    <Button theme="danger">Danger</Button>
+                    <Button theme="warning">Warning</Button>
+                    <Button theme="success">Success</Button>
+                    <Button theme="info">Info</Button>
+                    <Button theme="link">Link</Button>
+                    <Button theme="clear">Clear</Button>
                 </div>
             </div>
             

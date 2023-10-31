@@ -6,22 +6,26 @@ import {ReactNode} from "react";
 import {ButtonType} from "@/app/types";
 
 interface ButtonProps extends BaseComponentProps {
-    type?: ButtonType;
-    onClick?: (...args: unknown[]) => unknown;
+    theme?: ButtonType;
+    type?: 'button' | 'submit' | 'reset';
+    onClick?: (...args: any[]) => any;
     href?: string;
     target?: '_blank' | '_self' | '_parent' | '_top' | 'framename';
     block?: boolean;
+    disabled?: boolean;
 }
 
 export const Button = ({
                            children,
-                           type = 'primary',
+                           theme = 'primary',
                            onClick,
                            className,
                            style,
+                           type = 'button',
                            href,
                            target = '_self',
-                           block
+                           block,
+                           disabled
                        }: ButtonProps) => {
 
     const Wrapper = ({children}: { children: ReactNode }) => {
@@ -32,8 +36,10 @@ export const Button = ({
 
     return (
         <Wrapper>
-            <div className={classNames(styles.wrapper, styles[type], className, block && styles.block)} style={style}>
-                <button className={classNames(styles.button)} onClick={onClick}>
+            <div
+                className={classNames(styles.wrapper, styles[theme], className, block && styles.block, disabled && styles.disabled)}
+                style={style}>
+                <button type={type} className={classNames(styles.button)} onClick={onClick}>
                     <span className={styles.inner}>
                         {children}
                     </span>

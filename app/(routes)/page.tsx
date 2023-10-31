@@ -23,10 +23,10 @@ const Page = () => {
                             Mento
                         </div>
                         <div className="hidden gap-default md:flex">
-                            <Button type="clear">
+                            <Button theme="clear">
                                 Create new proposal
                             </Button>
-                            <Button type="clear" href="/my-voting-power">
+                            <Button theme="clear" href="/my-voting-power">
                                 My voting power
                             </Button>
                         </div>

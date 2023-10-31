@@ -98,7 +98,7 @@ export const Header = ({className, style}: HeaderProps) => {
                     return (
                         <>
                             <div className={classNames(connected && styles.header__side)}>
-                                {!connected ? <Button block type={'secondary'} onClick={openConnectModal}>
+                                {!connected ? <Button block theme={'secondary'} onClick={openConnectModal}>
                                     <div className="flex flex-row justify-center place-items-center gap-2">
                                         <div>Connect wallet</div>
                                         <ChevronIcon direction={'right'}/>
@@ -134,7 +134,7 @@ export const Header = ({className, style}: HeaderProps) => {
         </div>
         <div className={classNames(styles.mobile_inner, 'flex p-6 z-50 md:hidden')}>
             <MentoLogoIcon useThemeColor/>
-            <Button type="secondary" onClick={() => setDrawerOpened(!drawerOpened)}>
+            <Button theme="secondary" onClick={() => setDrawerOpened(!drawerOpened)}>
                 menu
             </Button>
         </div>

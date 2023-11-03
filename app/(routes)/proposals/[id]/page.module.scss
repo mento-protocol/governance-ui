@@ -4,3 +4,26 @@
   opacity: 0.5;
   font-size: 16px;
 }
+
+.input {
+  label {
+    opacity: 0.5;
+  }
+}
+
+.vote_label {
+  opacity: 0.5;
+  margin-top: $theme-unit * 2;
+}
+
+.votesList {
+  max-height: 450px;
+  overflow-y: auto;
+}
+
+.proposal_addons {
+  position: sticky;
+  top: 140px;
+  flex: 1;
+  max-width: 400px;
+}

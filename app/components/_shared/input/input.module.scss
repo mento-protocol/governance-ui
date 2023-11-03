@@ -2,6 +2,7 @@
 
 
 .wrapper {
+  margin-top: $theme-unit;
 
   .input {
     width: 100%;
@@ -9,6 +10,10 @@
     border-radius: 8px;
     border: 1px solid $c-lightGrey;
     gap: 8px;
+
+    margin-top: $theme-unit;
+
+    transition: all 0.2s $ease-out-circ;
 
     &:focus-within {
       border: 1px solid $c-primary;
@@ -28,6 +33,15 @@
       font-weight: 400;
       color: $c-black;
       background-color: transparent;
+      caret-color: $c-primary;
+
+      &:placeholder {
+        color: $c-lightGrey;
+      }
+
+      @include dark-mode {
+        color: $c-white;
+      }
     }
   }
 

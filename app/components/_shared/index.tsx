@@ -9,3 +9,5 @@ export {Divider} from './divider/divider.component';
 export {DropdownButton} from './dropdown-button/dropdown-button.component';
 export {Avatar} from './avatar/avatar.component';
 export {Input} from './input/input.component';
+export {Tab} from './tabs/tab.component';
+export {TabList} from './tabs/tab-list.component';

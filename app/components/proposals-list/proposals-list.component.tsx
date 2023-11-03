@@ -8,63 +8,14 @@ import {Badge} from "@components/_shared/badge/badge.component";
 import {BadgeType} from "@/app/types";
 import NumbersService from "@/app/helpers/numbers.service";
 import Link from "next/link";
+import {proposalsMock} from "@/app/helpers/mocks";
 
 interface ProposalsListProps extends BaseComponentProps {
 }
 
 export const ProposalsListComponent = ({className, style}: ProposalsListProps) => {
 
-    const proposals: Proposal[] = [
-        {
-            id: '599ca521-df39-442f-937c-03b20bcafc2d',
-            icon: <MentoIcon/>,
-            title: 'Building  the Building the Future of NFTs: The Rarible Protocol',
-            description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-            status: ProposalStatus.active,
-            votesYes: 2700,
-            votesNo: 1400,
-            votesTotal: 4100,
-            createdAt: new Date(),
-            deadlineAt: new Date(),
-            creator: 'Andrzej'
-        }, {
-            id: '599ca521-df39-442f-937c-03b20bcafc2d',
-            icon: <MentoIcon/>,
-            title: 'Building  the Building the Future of NFTs: The Rarible Protocol',
-            description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-            status: ProposalStatus.active,
-            votesYes: 2700,
-            votesNo: 1400,
-            votesTotal: 4100,
-            createdAt: new Date(),
-            deadlineAt: new Date(),
-            creator: 'Andrzej'
-        }, {
-            id: '599ca521-df39-442f-937c-03b20bcafc2d',
-            icon: <MentoIcon/>,
-            title: 'Building  the Building the Future of NFTs: The Rarible Protocol',
-            description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-            status: ProposalStatus.active,
-            votesYes: 2700,
-            votesNo: 1400,
-            votesTotal: 4100,
-            createdAt: new Date(),
-            deadlineAt: new Date(),
-            creator: 'Andrzej'
-        }, {
-            id: '599ca521-df39-442f-937c-03b20bcafc2d',
-            icon: <MentoIcon/>,
-            title: 'Building  the Building the Future of NFTs: The Rarible Protocol',
-            description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-            status: ProposalStatus.active,
-            votesYes: 2700,
-            votesNo: 1400,
-            votesTotal: 4100,
-            createdAt: new Date(),
-            deadlineAt: new Date(),
-            creator: 'Andrzej'
-        },
-    ];
+    const proposals = proposalsMock;
 
     return (<div className={classNames(styles.wrapper, className)} style={style}>
             <h2 className="text-xl text-center font-semibold mt-10 mb-6">Proposals</h2>

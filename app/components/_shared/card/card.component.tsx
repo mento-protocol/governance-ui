@@ -12,12 +12,12 @@ interface CardProps extends CardPartialProps {
     transparent?: boolean;
 }
 
-const CardHeader = ({children}: CardPartialProps) => {
-    return <header className={styles.card__header}>{children}</header>;
+const CardHeader = ({children, className, style}: CardPartialProps) => {
+    return <header className={classNames(styles.card__header, className)} style={style}>{children}</header>;
 }
 
-const CardFooter = ({children}: CardPartialProps) => {
-    return <footer className={styles.card__footer}>{children}</footer>;
+const CardFooter = ({children, className, style}: CardPartialProps) => {
+    return <footer className={classNames(styles.card__footer, className)} style={style}>{children}</footer>;
 }
 
 

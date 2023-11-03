@@ -7,6 +7,7 @@ import Image from "next/image";
 import learnMoreImage from '@/app/assets/learn_more_image.png';
 import {Button} from "@components/_shared";
 import exports from '@styles/exports.module.scss';
+import {usePathname} from "next/navigation";
 
 interface FooterProps extends BaseComponentProps {
 }
@@ -15,11 +16,12 @@ export const Footer = ({className, style}: FooterProps) => {
 
     const year = (new Date()).getFullYear();
 
-    return (
-        <footer className={className} style={style}>
-            <div className="main-container">
+    const pathname = usePathname();
 
-                <div className={classNames(styles.learn_more)}>
+    return (
+        <footer className={classNames('mt-10', className)} style={style}>
+            <div className="main-container">
+                {pathname === '/' && <div className={classNames(styles.learn_more)}>
                     <div className={classNames(styles.description)}>
                         <h2 className="text-6xl font-semibold my-2">Learn more</h2>
                         <p className="my-8 text-gray-400 font-light">If you&apos;re interested in learning more about
@@ -34,7 +36,7 @@ export const Footer = ({className, style}: FooterProps) => {
                     <div className="hidden md:block">
                         <Image src={learnMoreImage} alt="Learn more about Mento"/>
                     </div>
-                </div>
+                </div>}
                 <div className={classNames(styles.footer, 'p-6')}>
                     <div className={classNames(styles.footer__element)}>
                         <MentoLogoIcon className="mb-4" useThemeColor/>

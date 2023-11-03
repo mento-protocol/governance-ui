@@ -8,6 +8,7 @@ import useOutsideAlerter from "@/app/hooks/useOutsideAlerter";
 import {Button, DropdownButton} from "@components/_shared";
 import BaseComponentProps from "@interfaces/base-component-props.interface";
 import {ConnectButton, useConnectModal} from "@rainbow-me/rainbowkit";
+import WalletHelper from "@/app/helpers/wallet.helper";
 
 interface HeaderProps extends BaseComponentProps {
 }
@@ -105,7 +106,7 @@ export const Header = ({className, style}: HeaderProps) => {
                                     </div>
                                 </Button> : <DropdownButton type={'clear'}
                                                             block
-                                                            title={`${account.address.substring(0, 6)}...${account.address.substring(account.address.length - 4)}`}>
+                                                            title={WalletHelper.getShortAddress(account.address)}>
                                     <DropdownButton.Dropdown>
                                         <div className={styles.wallet_addons}>
                                             <div className={styles.addon}>

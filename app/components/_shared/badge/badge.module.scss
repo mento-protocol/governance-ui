@@ -14,6 +14,7 @@
   min-width: 70px;
   text-align: center;
   width: min-content;
+  white-space: nowrap;
 
   &.primary {
     @include branded-badge($c-primary, $c-primary, $c-white);

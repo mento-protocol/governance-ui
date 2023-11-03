@@ -121,6 +121,7 @@
   }
 
   &.clear {
+    border-bottom: 1px solid transparent;
     .button {
       transition: background-color 0.2s ease-out;
 
@@ -140,6 +141,7 @@
   }
 
   &.link {
+    border-bottom: 1px solid transparent;
     .button {
       transition: color 0.2s ease-out;
       border: none;

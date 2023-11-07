@@ -18,12 +18,16 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    max-width: 300px;
 
-    padding-bottom: $theme-unit * 2;
-    padding-left: $theme-unit;
-    padding-right: $theme-unit;
-    border-bottom: 1px solid $c-lightGrey;
+    @include media-md {
+      max-width: 300px;
+    }
+
+    padding: $theme-unit;
+
+    &:not(:last-child) {
+      border-bottom: 1px solid $c-lightGrey;
+    }
 
     div {
       display: flex;

@@ -48,7 +48,7 @@
 
 .wrapper {
   margin-top: $theme-unit;
-  min-width: 200px;
+  min-width: 160px;
   height: 60px;
   width: min-content;
   border-radius: $border-radius;
@@ -56,7 +56,7 @@
   border-bottom: 1px solid $c-black;
 
   .button {
-    min-width: 200px;
+    min-width: 160px;
     height: 60px;
     border-radius: $border-radius;
     border: 1px solid $c-black;

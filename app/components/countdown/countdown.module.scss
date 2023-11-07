@@ -3,9 +3,13 @@
 .countdown {
   display: flex;
   flex-direction: row;
-  justify-content: flex-end;
+  justify-content: flex-start;
   align-items: center;
   gap: $theme-unit;
+
+  @include media-md {
+    justify-content: flex-end;
+  }
 
   .item {
     display: flex;
@@ -18,12 +22,17 @@
 
 
     .value {
-      font-size: 32px;
-      line-height: 32px;
+      font-size: $theme-unit * 3;
+      line-height: $theme-unit * 3;
       font-weight: 500;
       position: relative;
       width: 100%;
       text-align: center;
+
+      @include media-md {
+        font-size: $theme-unit * 4;
+        line-height: $theme-unit * 4;
+      }
 
     }
 

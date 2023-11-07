@@ -14,6 +14,7 @@
 
   &__header {
     padding: 2 * $theme-unit;
+    position: relative;
     @include media-md {
       padding: 4 * $theme-unit;
       padding-bottom: 2 * $theme-unit;

@@ -48,7 +48,7 @@ export default function RootLayout({children,}: RootLayoutProps) {
             <RainbowKitProvider chains={chains}>
                 <div className="min-h-screen flex flex-col">
                     <Header/>
-                    <div className="main-container px-6 flex-1">
+                    <div className="main-container px-6 mt-32 md:mt-0 flex-1">
                         {children}
                     </div>
                     <Footer className="pt-6"/>

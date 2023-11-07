@@ -16,14 +16,84 @@
   margin-top: $theme-unit * 2;
 }
 
-.votesList {
-  max-height: 450px;
-  overflow-y: auto;
-}
-
 .proposal_addons {
   position: sticky;
-  top: 140px;
+  bottom: 0;
   flex: 1;
-  max-width: 400px;
+  width: 100%;
+
+  .mobile_controls {
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: $theme-unit;
+    gap: $theme-unit;
+    background-color: $c-white;
+    z-index: 1;
+
+    @include media-md {
+      display: none;
+    }
+  }
+
+  @include media-md {
+    top: 140px;
+    bottom: auto;
+    max-width: 400px;
+  }
+
+  .proposal_addon {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100vw;
+    max-height: calc(100vh - 140px);
+    opacity: 0;
+    transform: translateY(100%);
+    transition: all 0.5s $ease-out-quint;
+
+    &.opened {
+      transform: translateX(0);
+      opacity: 1;
+      z-index: 2;
+    }
+
+    &__close {
+      position: absolute;
+      right: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      padding: 10px;
+      background-color: $c-primary;
+      border-radius: $border-radius;
+      width: 40px;
+      height: 40px;
+      color: $c-white;
+      font-size: 15px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    @include media-md {
+      position: static;
+      opacity: 1;
+      transform: none;
+      width: auto;
+      heiaht: auto;
+
+      &__close {
+        display: none;
+      }
+    }
+  }
+}
+
+.votesList {
+  @include media-md {
+    overflow-y: auto;
+    max-height: 450px !important;
+  }
 }

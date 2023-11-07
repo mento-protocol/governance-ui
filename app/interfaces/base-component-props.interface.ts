@@ -1,7 +1,8 @@
-import {CSSProperties, ReactNode} from "react";
+import {CSSProperties, MutableRefObject, ReactNode} from "react";
 
 export default interface BaseComponentProps {
     className?: string;
     style?: CSSProperties;
     children?: ReactNode;
+    ref?: MutableRefObject<any>;
 }

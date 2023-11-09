@@ -21,6 +21,7 @@
   bottom: 0;
   flex: 1;
   width: 100%;
+  z-index: 100;
 
   .mobile_controls {
     display: flex;
@@ -42,6 +43,18 @@
     top: 140px;
     bottom: auto;
     max-width: 400px;
+  }
+
+  .backdrop {
+    @include default-backdrop;
+
+    @include media-md {
+      position: static;
+      backdrop-filter: none;
+      background-color: transparent;
+      z-index: 1;
+      opacity: 1;
+    }
   }
 
   .proposal_addon {

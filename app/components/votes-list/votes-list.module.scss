@@ -19,10 +19,6 @@
     justify-content: space-between;
     align-items: center;
 
-    @include media-md {
-      max-width: 300px;
-    }
-
     padding: $theme-unit;
 
     &:not(:last-child) {

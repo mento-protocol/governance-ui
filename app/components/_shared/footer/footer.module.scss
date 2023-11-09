@@ -9,10 +9,6 @@
   font-size: 16px;
   color: #636768;
 
-  @include dark-mode {
-    background-color: $c-black;
-  }
-
   &__element {
     display: flex;
     flex-direction: column;

@@ -10,7 +10,8 @@ interface InputProps extends BaseComponentProps {
     placeholder?: string;
     error?: string;
     form: any;
-    addon?: ReactNode
+    addon?: ReactNode;
+    compact?: boolean;
 }
 
 export const Input = ({
@@ -21,11 +22,12 @@ export const Input = ({
                           className,
                           form,
                           addon,
-                          error
+                          error,
+                          compact
                       }: InputProps) => {
     const idInternal = id || Math.floor(Math.random() * 1000).toString();
 
-    return <div className={classNames(styles.wrapper, className)}>
+    return <div className={classNames(styles.wrapper, compact && styles.compact, className)}>
         {!!label && <label htmlFor={idInternal}>
             {label}
         </label>}

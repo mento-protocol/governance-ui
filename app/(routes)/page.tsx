@@ -5,8 +5,10 @@ import {Badge, Button, Card, Divider, DropdownButton, Expandable} from "@compone
 import {ProposalsListComponent} from "@components/proposals-list/proposals-list.component";
 import NumbersService from "@/app/helpers/numbers.service";
 import {ContractParams} from "@components/contract-params/contract-params.component";
+import {useRouter} from "next/navigation";
 
 const Page = () => {
+    const router = useRouter();
     return (
         <main className="flex flex-col place-items-center">
             <div className="max-w-full">
@@ -16,7 +18,7 @@ const Page = () => {
                 of digital assets</h2>
 
             <Card className="mt-8" block>
-                <Card.Header>
+                <Card.Header className="!pb-0">
                     <div className="flex flex-row justify-between">
                         <div className="flex flex-row justify-start place-items-center gap-default text-3xl font-bold">
                             <MentoIcon/>
@@ -32,21 +34,23 @@ const Page = () => {
                         </div>
                         <DropdownButton className="md:hidden">
                             <DropdownButton.Dropdown>
-                                <DropdownButton.Element>
+                                <DropdownButton.Element onClick={() => router.push('/')}>
                                     Create new proposal
                                 </DropdownButton.Element>
-                                <DropdownButton.Element>
+                                <DropdownButton.Element onClick={() => router.push('/my-voting-power')}>
                                     My voting power
                                 </DropdownButton.Element>
                             </DropdownButton.Dropdown>
                         </DropdownButton>
                     </div>
                 </Card.Header>
-                <p>Transparent Digital Asset Solutions</p>
-                <div className="flex flex-row gap-default my-4">
-                    <Badge rounded type="tertiary">CELO</Badge>
-                    <Badge rounded type="secondary">ERC20</Badge>
-                    <Badge rounded type="secondary">{(9999999998).toLocaleString()} Supply</Badge>
+                <div className="my-4">
+                    <p className="mb-4">Transparent Digital Asset Solutions</p>
+                    <div className="flex flex-row gap-default">
+                        <Badge rounded type="tertiary">CELO</Badge>
+                        <Badge rounded type="secondary">ERC20</Badge>
+                        <Badge rounded type="secondary">{(9999999998).toLocaleString()} Supply</Badge>
+                    </div>
                 </div>
                 <Divider/>
                 <Expandable header={'Contract parameters'}>

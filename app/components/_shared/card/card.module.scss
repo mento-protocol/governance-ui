@@ -37,6 +37,10 @@
     }
   }
 
+  & > div {
+    border-radius: $border-radius;
+  }
+
   & > div:first-child {
     padding-top: 2 * $theme-unit;
     @include media-md {

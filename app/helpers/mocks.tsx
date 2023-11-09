@@ -1,9 +1,11 @@
-import Proposal, {ProposalStatus} from "@interfaces/proposal";
+import IProposal, {ProposalStatus} from "@interfaces/proposal";
 import {MentoIcon} from "@components/_icons";
 import addDays from "date-fns/addDays";
-import {Vote, VoteType} from "@interfaces/vote";
+import {IVote, IVoteType} from "@interfaces/vote.interface";
+import {ILock} from "@interfaces/lock.interface";
+import {addYears} from "date-fns";
 
-export const singleProposal: Proposal = {
+export const singleProposal: IProposal = {
     id: '599ca521-df39-442f-937c-03b20bcafc2d',
     icon: <MentoIcon/>,
     title: 'Building  the Building the Future of NFTs: The Rarible Protocol',
@@ -175,7 +177,7 @@ export const singleProposal: Proposal = {
     creator: 'Andrzej'
 }
 
-export const proposalsMock: Proposal[] = [
+export const proposalsMock: IProposal[] = [
     {
         id: '599ca521-df39-442f-937c-03b20bcafc2d',
         icon: <MentoIcon/>,
@@ -395,7 +397,7 @@ export const proposalsMock: Proposal[] = [
     },
 ];
 
-export const votesMock: Vote[] = [
+export const votesMock: IVote[] = [
     {
         address: '0xBFA98CF93CDC5E1FCA31F2C6D42DB66A9AB8A80D',
         votes: 250,
@@ -648,5 +650,32 @@ export const votesMock: Vote[] = [
         address: '0xABC98CF93CDC5E1FCA31F2C6D42DB66A9AB8A80D',
         votes: 189,
         type: 'against'
+    },
+]
+
+export const locksMock: ILock[] = [
+    {
+        id: '599ca521-df39-442f-937c-03b20bcafc2d',
+        amountMNTO: 1500,
+        amountsVeMNTO: 100000,
+        expireDate: addYears(new Date(), 2),
+    },
+    {
+        id: '599ca521-df39-442f-937c-03b20bcafc2a',
+        amountMNTO: 500,
+        amountsVeMNTO: 6700,
+        expireDate: addYears(new Date(), 1),
+    },
+    {
+        id: '599ca521-df39-442f-937c-03b20bcafc3d',
+        amountMNTO: 200,
+        amountsVeMNTO: 1500,
+        expireDate: addYears(new Date(), 2),
+    },
+    {
+        id: '599ca521-df39-442f-937c-03b20bcafcfd',
+        amountMNTO: 1000,
+        amountsVeMNTO: 80000,
+        expireDate: addYears(new Date(), 3),
     },
 ]

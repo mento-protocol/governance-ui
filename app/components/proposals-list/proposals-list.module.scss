@@ -4,24 +4,7 @@
   width: 100%;
 
   .proposals_grid {
-
-    background-image: linear-gradient(to right, $c-white, $c-white),
-    linear-gradient(to right, $c-white, $c-white),
-    linear-gradient(to right, rgba(0, 0, 0, .15), rgba(255, 255, 255, 0)),
-    linear-gradient(to left, rgba(0, 0, 0, .15), rgba(255, 255, 255, 0));
-
-    background-position: left center, right center, left center, right;
-    background-repeat: no-repeat;
-    background-size: 20px 100%, 20px 100%, 10px 100%, 10px 100%;
-    background-color: transparent;
-    background-attachment: local, local, scroll, scroll;
-
-    @include dark-mode {
-      background-image: linear-gradient(to right, #121316, #121316),
-      linear-gradient(to right, #121316, #121316),
-      linear-gradient(to right, rgba(156, 156, 156, .25), rgba(0, 0, 0, 0)),
-      linear-gradient(to left, rgba(156, 156, 156, .25), rgba(0, 0, 0, 0));
-    }
+    @include card-table-overflow-shadows;
 
     overflow: auto;
 
@@ -36,10 +19,7 @@
         grid-template-columns: 2fr 100px 150px 150px 150px;
       }
 
-      .divider {
-        grid-column: 1 / -1;
-        border-bottom: 1px solid #b3b3b3;
-      }
+      @include row-divider;
 
       &__element {
         font-weight: 500;

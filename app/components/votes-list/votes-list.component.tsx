@@ -1,13 +1,13 @@
 import styles from './votes-list.module.scss';
 import BaseComponentProps from "@interfaces/base-component-props.interface";
-import {VoteType} from "@interfaces/vote";
+import {IVoteType} from "@interfaces/vote.interface";
 import classNames from "classnames";
 import {votesMock} from "@/app/helpers/mocks";
 import {Avatar} from "@components/_shared";
 import {WalletAddress} from "@components/wallet-address/wallet-address.component";
 
 interface VotesListProps extends BaseComponentProps {
-    voteType: VoteType;
+    voteType: IVoteType;
 }
 
 export const VotesList = ({ voteType, className, style }: VotesListProps) => {

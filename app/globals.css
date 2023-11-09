@@ -34,6 +34,7 @@ body {
 
 .main-container {
     max-width: 1600px;
+    width: 100%;
     margin-left: auto;
     margin-right: auto;
 }
@@ -62,4 +63,8 @@ a:hover,
 .link:hover {
     text-decoration: underline;
     color: var(--color-primary);
+}
+
+.flex-0 {
+    flex: 0;
 }

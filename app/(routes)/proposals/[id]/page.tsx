@@ -1,5 +1,5 @@
 "use client";
-import Proposal, {ProposalStatus, statusToBadgeColorMap} from "@interfaces/proposal";
+import {statusToBadgeColorMap} from "@interfaces/proposal";
 import {Avatar, Badge, Button, Card, Input, Tab, TabList} from "@components/_shared";
 import {Countdown} from "@components/countdown/countdown.component";
 import {format} from "date-fns";
@@ -25,7 +25,7 @@ const Page = () => {
             default: 'Invalid number',
         },
         number: {
-            max: ({ max }) => (`Must not exceed ${max}`),
+            max: ({max}) => (`Must not exceed ${max}`),
         },
     });
 
@@ -86,53 +86,59 @@ const Page = () => {
                         Votes
                     </Button>
                 </div>
-                <Card className={classNames(styles.proposal_addon, votingOpened && styles.opened)}>
-                    <Card.Header className="text-center text-2xl">
-                        <strong>Voting</strong>
-                        <button className={styles.proposal_addon__close} onClick={() => setVotingOpened(false)}>
-                            X
-                        </button>
-                    </Card.Header>
-                    <div className="flex flex-col gap-1">
-                        <Input label="Voting power"
-                               id="voting-power"
-                               type="number"
-                               className={styles.input}
-                               placeholder="Voting power"
-                               form={{...register("votingPower")}}
-                               error={errors.votingPower?.message}
-                               addon={<div className={styles.addon}>
-                                   <div className="flex justify-between">
-                                       <div className="underline">Max available</div>
-                                       <div>400 MENT</div>
-                                   </div>
-                               </div>}/>
-                        <p className={styles.vote_label}>Vote</p>
-                        <Button disabled={!isValid} theme="success" block onClick={handleSubmit(onSubmit)}>
-                            For
-                        </Button>
-                        <Button disabled={!isValid} type="submit" theme="danger" block onClick={handleSubmit(onSubmit)}>
-                            Against
-                        </Button>
-                        <Button disabled={!isValid} type="submit" theme="tertiary" block
-                                onClick={handleSubmit(onSubmit)}>
-                            Abstain
-                        </Button>
-                    </div>
-                </Card>
-                <Card className={classNames(styles.proposal_addon, votesListOpened && styles.opened, styles.votesList, 'mt-5')}>
-                    <Card.Header className="text-center text-2xl">
-                        <strong>Votes</strong>
-                        <button className={styles.proposal_addon__close} onClick={() => setVotesListOpened(false)}>
-                            X
-                        </button>
-                    </Card.Header>
-                    <TabList tabs={['For', 'Against', 'Abstain']}>
-                        <VotesList voteType="for"/>
-                        <VotesList voteType="abstain"/>
-                        <VotesList voteType="abstain"/>
-                    </TabList>
-                </Card>
+                <div className={classNames(styles.backdrop, votingOpened && styles.opened)}>
+                    <Card className={classNames(styles.proposal_addon, votingOpened && styles.opened)}>
+                        <Card.Header className="text-center text-2xl">
+                            <strong>Voting</strong>
+                            <button className={styles.proposal_addon__close} onClick={() => setVotingOpened(false)}>
+                                X
+                            </button>
+                        </Card.Header>
+                        <div className="flex flex-col gap-1">
+                            <Input label="Voting power"
+                                   id="voting-power"
+                                   type="number"
+                                   className={styles.input}
+                                   placeholder="Voting power"
+                                   form={{...register("votingPower")}}
+                                   error={errors.votingPower?.message}
+                                   addon={<div className={styles.addon}>
+                                       <div className="flex justify-between">
+                                           <div className="underline">Max available</div>
+                                           <div>400 MENT</div>
+                                       </div>
+                                   </div>}/>
+                            <p className={styles.vote_label}>Vote</p>
+                            <Button disabled={!isValid} theme="success" block onClick={handleSubmit(onSubmit)}>
+                                For
+                            </Button>
+                            <Button disabled={!isValid} type="submit" theme="danger" block
+                                    onClick={handleSubmit(onSubmit)}>
+                                Against
+                            </Button>
+                            <Button disabled={!isValid} type="submit" theme="tertiary" block
+                                    onClick={handleSubmit(onSubmit)}>
+                                Abstain
+                            </Button>
+                        </div>
+                    </Card>
+                </div>
+                <div className={classNames(styles.backdrop, votesListOpened && styles.opened)}>
+                    <Card
+                        className={classNames(styles.proposal_addon, votesListOpened && styles.opened, styles.votesList, 'mt-5')}>
+                        <Card.Header className="text-center text-2xl">
+                            <strong>Votes</strong>
+                            <button className={styles.proposal_addon__close} onClick={() => setVotesListOpened(false)}>
+                                X
+                            </button>
+                        </Card.Header>
+                        <TabList tabs={['For', 'Against', 'Abstain']}>
+                            <VotesList voteType="for"/>
+                            <VotesList voteType="abstain"/>
+                            <VotesList voteType="abstain"/>
+                        </TabList>
+                    </Card>
+                </div>
             </div>
         </div>
     </main>

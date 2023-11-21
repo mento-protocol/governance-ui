@@ -12,3 +12,4 @@ export {Input} from './input/input.component';
 export {Tab} from './tabs/tab.component';
 export {TabList} from './tabs/tab-list.component';
 export {DatePicker} from './date-picker/date-picker.component';
+export {Slider} from './slider/slider.component';

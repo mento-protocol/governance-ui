@@ -1,15 +1,11 @@
 import styles from './input.module.scss';
 import BaseComponentProps from "@interfaces/base-component-props.interface";
 import classNames from "classnames";
-import {ReactNode} from "react";
+import {ReactNode, useMemo} from "react";
+import BaseInputProps from "@interfaces/base-input-props.interface";
 
-interface InputProps extends BaseComponentProps {
-    label?: string;
-    id: string;
+interface InputProps extends BaseComponentProps, BaseInputProps {
     type: 'text' | 'email' | 'password' | 'number' | 'tel' | 'url';
-    placeholder?: string;
-    error?: string;
-    form: any;
     addon?: ReactNode;
     compact?: boolean;
 }
@@ -25,14 +21,13 @@ export const Input = ({
                           error,
                           compact
                       }: InputProps) => {
-    const idInternal = id || Math.floor(Math.random() * 1000).toString();
 
     return <div className={classNames(styles.wrapper, compact && styles.compact, className)}>
-        {!!label && <label htmlFor={idInternal}>
+        {!!label && <label htmlFor={id}>
             {label}
         </label>}
         <div className={classNames(styles.input, !!error && styles.error)}>
-            <input id={idInternal}
+            <input id={id}
                    placeholder={placeholder}
                    type={type}
                    {...form}/>

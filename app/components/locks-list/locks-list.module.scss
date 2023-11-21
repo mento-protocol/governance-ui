@@ -6,17 +6,21 @@
 
   &__row {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr 250px;
+    grid-template-columns: 1fr 1fr 1fr 100px;
     gap: $default-gap;
     margin-bottom: 10px;
     align-items: center;
 
-    padding: 2 * $theme-unit 0;
+    @include media-md {
+      grid-template-columns: 1fr 1fr 1fr 250px;
+    }
+
+    .item {
+      min-width: 150px;
+    }
+
+    padding: 2 * $theme-unit $theme-unit;
 
     @include row-divider;
-
-    &:not(:last-child):not(:first-child) {
-      border-bottom: 1px solid #b3b3b3;
-    }
   }
 }

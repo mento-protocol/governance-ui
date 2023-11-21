@@ -100,7 +100,7 @@ const Page = () => {
                                    type="number"
                                    className={styles.input}
                                    placeholder="Voting power"
-                                   form={{...register("votingPower")}}
+                                   form={{...register('votingPower')}}
                                    error={errors.votingPower?.message}
                                    addon={<div className={styles.addon}>
                                        <div className="flex justify-between">

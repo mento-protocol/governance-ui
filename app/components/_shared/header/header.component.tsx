@@ -59,7 +59,6 @@ export const Header = ({className, style}: HeaderProps) => {
                         <span>Community</span>
                         <span className={styles.dropdown__indicator}><ChevronIcon useThemeColor
                                                                                   direction={'down'}/></span>
-
                     </p>
                     <ul>
                         <li className={classNames(styles.item)}>
@@ -104,7 +103,7 @@ export const Header = ({className, style}: HeaderProps) => {
                                         <div>Connect wallet</div>
                                         <ChevronIcon direction={'right'}/>
                                     </div>
-                                </Button> : <DropdownButton type={'clear'}
+                                </Button> : <DropdownButton theme={'clear'}
                                                             block
                                                             title={WalletHelper.getShortAddress(account.address)}>
                                     <DropdownButton.Dropdown>

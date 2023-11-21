@@ -33,8 +33,6 @@ export const Slider = ({
                            changeCallback
                        }: SliderProps) => {
     const {onBlur, onChange, ref, name} = form;
-    console.log('max', max);
-
     const [currentValue, setCurrentValue] = useState(min || value);
 
     useEffect(() => {

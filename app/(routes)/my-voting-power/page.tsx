@@ -49,21 +49,21 @@ const Page = () => {
     });
 
     const getWeeks = (weeks: number) => {
-        console.log('getWeeks', weeks, weeks % 4);
+        // console.log('getWeeks', weeks, weeks % 4);
         weeks = weeks % 4;
-        return weeks > 0 && `${weeks} weeks`;
+        return weeks > 0 && `${weeks} ${weeks > 1 ? 'weeks' : 'week'}`;
     }
 
     const getMonths = (weeks: number) => {
-        console.log('getMonths', weeks, Math.floor(weeks / 4), Math.floor(weeks / 4) % 12);
+        // console.log('getMonths', weeks, Math.floor(weeks / 4), Math.floor(weeks / 4) % 12);
         const months = Math.floor(weeks / 4) % 12;
-        return months > 0 && `${months} months`;
+        return months > 0 && `${months} ${months > 1 ? 'months' : 'month'}`;
     }
 
     const getYears = (weeks: number) => {
-        console.log('getYears', weeks, Math.floor(weeks / 52));
-        const years = Math.floor(weeks / 52);
-        return years > 0 && `${years} years`;
+        console.log('getYears', weeks, Math.floor(weeks / 48));
+        const years = Math.floor(weeks / 48);
+        return years > 0 && `${years} ${years > 1 ? 'years' : 'year'}`;
     }
 
     useEffect(() => {
@@ -143,7 +143,7 @@ const Page = () => {
 
                     <Slider id={'expirationWeeks'} min={4}
                             minLabel={`1 month`}
-                            max={209}
+                            max={192}
                             maxLabel={`4 years`}
                             step={4}
                             value={watch('expirationWeeks')}

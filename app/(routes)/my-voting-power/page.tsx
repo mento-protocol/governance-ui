@@ -9,17 +9,27 @@ import {
     addYears,
     setISODay,
     addWeeks,
+    addDays,
     differenceInWeeks,
+    differenceInYears,
+    startOfWeek,
+    endOfWeek,
+    nextWednesday,
+    nextTuesday,
+    differenceInMonths,
+    differenceInCalendarWeeks, differenceInCalendarMonths,
 } from "date-fns";
 
 const validationSchema = object({
     toLock: number().required().typeError('Invalid number').max(400000),
     expiration: date().required().typeError('Invalid Date').min(addYears(new Date(), 1)).max(addYears(new Date(), 4)),
-    expirationWeeks: number().required().typeError('Invalid number').max(4 * 52)
+    expirationMonths: number().required().typeError('Invalid number').max(4 * 52)
 });
 type FormData = InferType<typeof validationSchema>
 
 const Page = () => {
+
+    const diff = differenceInWeeks(nextWednesday(addYears(new Date(), 4)), new Date());
 
     setLocale({
         mixed: {
@@ -46,31 +56,30 @@ const Page = () => {
         mode: 'onChange'
     });
 
-    const getWeeks = (weeks: number) => {
-        weeks = weeks % 4;
-        return weeks > 0 && `${weeks} ${weeks > 1 ? 'weeks' : 'week'}`;
-    }
-
-    const getMonths = (weeks: number) => {
-        const months = Math.floor(weeks / 4) % 12;
+    const getMonths = () => {
+        const years = differenceInYears(getValues('expiration'), setISODay(new Date(), 3));
+        const months = differenceInCalendarMonths(getValues('expiration'), setISODay(addYears(new Date(), years), 3));
         return months > 0 && `${months} ${months > 1 ? 'months' : 'month'}`;
     }
 
-    const getYears = (weeks: number) => {
-        const years = Math.floor(weeks / 48);
-        return years > 0 && `${years} ${years > 1 ? 'years' : 'year'}`;
+    const getYears = () => {
+        const years = differenceInYears(getValues('expiration'), setISODay(new Date(), 3));
+        return years > 0 && `${years} ${years > 1 ? 'years' : 'year'}`
     }
 
     const dateSelected = (date: Date) => {
-        const weeks = Math.floor(differenceInWeeks(date, setISODay(new Date(), 2)));
         setValue('expiration', date);
-        setValue('expirationWeeks', weeks);
+        setValue('expirationMonths', differenceInMonths(date, setISODay(new Date(), 3)));
+        console.log([
+            getYears(),
+            getMonths()
+        ].filter(Boolean).join(' '));
     }
 
-    const weekSelected = (weeks: number | string) => {
-        const newDate = setISODay(addWeeks(new Date(), +(weeks || 0)), 3);
+    const monthSelected = (months: number | string) => {
+        const newDate = nextWednesday(addMonths(new Date(), +months));
         setValue('expiration', newDate);
-        setValue('expirationWeeks', +weeks);
+        setValue('expirationMonths', +months);
     }
 
     return <main className="flex flex-col place-items-center">
@@ -106,8 +115,8 @@ const Page = () => {
                             <DatePicker id="expiration"
                                         compact
                                         disallowedDays={['mon', 'tue', 'thu', 'fri', 'sat', 'sun']}
-                                        minDate={setISODay(addMonths(new Date(), 1), 3)}
-                                        maxDate={addYears(new Date(), 4)}
+                                        minDate={nextWednesday(addMonths(new Date(), 1))}
+                                        maxDate={nextWednesday(addYears(new Date(), 4))}
                                         calendarStartDate={new Date()}
                                         placeholder="Lock expires"
                                         value={watch('expiration')}
@@ -125,24 +134,22 @@ const Page = () => {
                         </div>
                     </div>
 
-                    <Slider id={'expirationWeeks'} min={4}
+                    <Slider id={'expirationMonths'} min={1}
                             minLabel={`1 month`}
-                            max={192}
+                            max={48}
                             maxLabel={`4 years`}
-                            step={4}
-                            value={watch('expirationWeeks')}
+                            step={1}
+                            value={watch('expirationMonths')}
                             bubbleFormatter={(value) => {
-                                if (+value === 4 || +value === 192) return '';
                                 return [
-                                    getYears(value),
-                                    getMonths(value),
-                                    getWeeks(value)
+                                    getYears(),
+                                    getMonths()
                                 ].filter(Boolean).join(' ');
                             }}
-                            changeCallback={(value) => weekSelected(value)}
+                            changeCallback={(value) => monthSelected(value)}
                             form={{
-                                ...register('expirationWeeks', {
-                                    value: 4
+                                ...register('expirationMonths', {
+                                    value: 1
                                 })
                             }}/>
                     <Button block className="!mt-4">

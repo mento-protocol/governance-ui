@@ -5,7 +5,6 @@ import {DayPicker, SelectSingleEventHandler} from "react-day-picker";
 import classNames from "classnames";
 import {ReactNode, useEffect, useMemo, useRef, useState} from "react";
 import useOutsideAlerter from "@/app/hooks/useOutsideAlerter";
-import BaseInputProps from "@interfaces/base-input-props.interface";
 import {format, isAfter, isBefore} from "date-fns";
 import addDays from "date-fns/addDays";
 
@@ -66,11 +65,16 @@ export const DatePicker = ({
     });
 
     const [selectedDate, setSelectedDate] = useState(value);
+    const [calendarMonth, setCalendarMonth] = useState(value || calendarStartDate || minDate);
     const [datePickerOpened, setDatePickerOpened] = useState(false);
 
     useEffect(() => {
         setSelectedDate(value);
     }, [value]);
+
+    useEffect(() => {
+        setCalendarMonth(value || calendarStartDate || minDate);
+    }, [value, calendarStartDate, minDate]);
 
 
     const disabledDays = useMemo(() => {
@@ -98,6 +102,10 @@ export const DatePicker = ({
         onChange && onChange(date!);
     };
 
+    const onMonthChange = (date: Date) => {
+        setCalendarMonth(date);
+    }
+
     return <div className={classNames(styles.datePicker, compact && styles.compact, className)} style={style}>
 
         {!!label && <label htmlFor={id}>
@@ -120,7 +128,7 @@ export const DatePicker = ({
                         fromDate={minDate}
                         selected={selectedDate}
                         toDate={maxDate}
-                        defaultMonth={calendarStartDate || minDate}
+                        month={calendarMonth}
                         numberOfMonths={1}
                         showOutsideDays
                         fixedWeeks
@@ -129,6 +137,7 @@ export const DatePicker = ({
                             selected: styles.selected,
                         }}
                         onSelect={handleDayClick}
+                        onMonthChange={onMonthChange}
                     />
                 </div>
             </div>

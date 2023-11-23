@@ -1,5 +1,5 @@
 "use client";
-import {Card, DatePicker, Input, Slider} from "@components/_shared";
+import {Button, Card, DatePicker, Input, Slider} from "@components/_shared";
 import {LocksList} from "@components/locks-list/locks-list.component";
 import {date, InferType, number, object, setLocale} from "yup";
 import {useForm} from "react-hook-form";
@@ -10,9 +10,7 @@ import {
     setISODay,
     addWeeks,
     differenceInWeeks,
-    nextWednesday,
 } from "date-fns";
-import {useEffect, useMemo} from "react";
 
 const validationSchema = object({
     toLock: number().required().typeError('Invalid number').max(400000),
@@ -49,42 +47,19 @@ const Page = () => {
     });
 
     const getWeeks = (weeks: number) => {
-        // console.log('getWeeks', weeks, weeks % 4);
         weeks = weeks % 4;
         return weeks > 0 && `${weeks} ${weeks > 1 ? 'weeks' : 'week'}`;
     }
 
     const getMonths = (weeks: number) => {
-        // console.log('getMonths', weeks, Math.floor(weeks / 4), Math.floor(weeks / 4) % 12);
         const months = Math.floor(weeks / 4) % 12;
         return months > 0 && `${months} ${months > 1 ? 'months' : 'month'}`;
     }
 
     const getYears = (weeks: number) => {
-        console.log('getYears', weeks, Math.floor(weeks / 48));
         const years = Math.floor(weeks / 48);
         return years > 0 && `${years} ${years > 1 ? 'years' : 'year'}`;
     }
-
-    useEffect(() => {
-        return;
-        // watch((value, {name}) => {
-        //     switch (name) {
-        //         case 'expirationWeeks':
-        //             const newDate = nextWednesday(addWeeks(new Date(), +(value['expirationWeeks'] || 0)));
-        //             if (value['expiration'] !== newDate) {
-        //                 setValue('expiration', newDate);
-        //             }
-        //             break;
-        //         case 'expiration':
-        //             const weeks = Math.floor(differenceInWeeks(value['expiration']!, setISODay(new Date(), 2)));
-        //             if (value['expirationWeeks'] !== weeks) {
-        //                 setValue('expirationWeeks', weeks);
-        //             }
-        //             break;
-        //     }
-        // });
-    }, []);
 
     const dateSelected = (date: Date) => {
         const weeks = Math.floor(differenceInWeeks(date, setISODay(new Date(), 2)));
@@ -99,15 +74,15 @@ const Page = () => {
     }
 
     return <main className="flex flex-col place-items-center">
-        <h2 className="text-xl font-semibold mt-8 mb-4">My Voting Power</h2>
+        <h2 className="text_heading mt-8 mb-4">My Voting Power</h2>
         <Card block>
             <div className="grid grid-cols-1 md:grid-cols-2 min-w-full gap-default-x3">
                 <div>
-                    <div className="flex flex-col lg:flex-row justify-between gap-1 md:gap-5">
-                        <div className="text-2xl flex-0 whitespace-nowrap">
+                    <div className="flex flex-col lg:flex-row justify-between md:place-items-baseline gap-1 md:gap-5">
+                        <div className="text_standard flex-1 whitespace-nowrap">
                             MNTO to lock:
                         </div>
-                        <div className="flex-1 md:basis-56 md:max-w-xs">
+                        <div className="flex-1">
                             <Input id="toLock"
                                    type="number"
                                    compact
@@ -123,21 +98,30 @@ const Page = () => {
                         </div>
                     </div>
 
-                    <div className="flex flex-col lg:flex-row justify-between gap-1 md:gap-5">
-                        <div className="text-2xl flex-0 whitespace-nowrap">
-                            Expiry date:
+                    <div className="flex flex-col lg:flex-row justify-between md:place-items-baseline gap-1 md:gap-5">
+                        <div className="text_standard flex-1 whitespace-nowrap">
+                            Lock expires:
                         </div>
-                        <div className="flex-1 md:basis-56 md:max-w-xs">
+                        <div className="flex-1">
                             <DatePicker id="expiration"
                                         compact
                                         disallowedDays={['mon', 'tue', 'thu', 'fri', 'sat', 'sun']}
                                         minDate={setISODay(addMonths(new Date(), 1), 3)}
                                         maxDate={addYears(new Date(), 4)}
                                         calendarStartDate={new Date()}
-                                        placeholder="Voting power"
+                                        placeholder="Lock expires"
                                         value={watch('expiration')}
                                         onChange={(date) => dateSelected(date)}
                                         error={errors.expiration?.message}/>
+                        </div>
+                    </div>
+
+                    <div className="flex flex-col mt-2 lg:flex-row justify-between md:place-items-baseline gap-1 md:gap-5">
+                        <div className="text_standard flex-1 whitespace-nowrap">
+                            You recieve veMENTO:
+                        </div>
+                        <div className="flex-1">
+                            <strong>{(400000).toLocaleString()}</strong>
                         </div>
                     </div>
 
@@ -148,6 +132,7 @@ const Page = () => {
                             step={4}
                             value={watch('expirationWeeks')}
                             bubbleFormatter={(value) => {
+                                if (+value === 4 || +value === 192) return '';
                                 return [
                                     getYears(value),
                                     getMonths(value),
@@ -160,13 +145,16 @@ const Page = () => {
                                     value: 4
                                 })
                             }}/>
+                    <Button block className="!mt-4">
+                        Lock MNTO
+                    </Button>
                 </div>
                 <div>
                     TODO: Chart
                 </div>
             </div>
         </Card>
-        <h2 className="text-xl font-semibold mt-8 mb-4">My Locks</h2>
+        <h2 className="text_heading mt-8 mb-4">My Locks</h2>
         <Card block>
             <LocksList/>
         </Card>

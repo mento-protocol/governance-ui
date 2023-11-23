@@ -2,7 +2,7 @@
 
 
 .sliderWrapper {
-  margin-top: $theme-unit;
+  margin-top: 2 * $theme-unit;
   width: 100%;
   .slider {
 
@@ -15,7 +15,7 @@
     -webkit-transition: .2s;
     transition: opacity .2s;
     border-radius: $border-radius;
-    box-shadow: 0 0 0 2px $c-black;
+    box-shadow: 0 0 0 1px $c-lightGrey;
 
     &::-webkit-slider-thumb,
     &::-moz-range-thumb {
@@ -55,11 +55,13 @@
     display: flex;
     justify-content: space-between;
     margin-bottom: $theme-unit;
+    font-size: 16px;
+    font-weight: 300;
   }
 
   .bubbleTrack {
     position: relative;
-    height: 35px;
+    height: 20px;
 
     .bubble {
       position: absolute;
@@ -68,6 +70,8 @@
       text-align: center;
       transform: translateX(-66px);
       white-space: nowrap;
+      font-size: 16px;
+      font-weight: 300;
     }
   }
 }

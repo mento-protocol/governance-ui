@@ -14,7 +14,7 @@ const Page = () => {
             <div className="max-w-full">
                 <MentoTextLogoIcon className="max-w-full" useThemeColor/>
             </div>
-            <h2 className="text-xl font-semibold mt-8 mb-4">Claim your part and participate in <br/> shaping the future
+            <h2 className="text_heading mt-8 mb-4">Claim your part and participate in <br/> shaping the future
                 of digital assets</h2>
 
             <Card className="mt-8" block>

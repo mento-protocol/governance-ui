@@ -64,6 +64,12 @@ export const Slider = ({
                 {bubbleFormatter ? bubbleFormatter(currentValue) : currentValue}
             </div>
         </div>
+        <div className={styles.labels}>
+            <div>
+                {minLabel}
+            </div>
+            <div>{maxLabel}</div>
+        </div>
         <input id={id}
                step={step}
                className={classNames(styles.slider)}
@@ -76,12 +82,6 @@ export const Slider = ({
                min={min}
                max={max}
                type={'range'}/>
-        <div className={styles.labels}>
-            <div>
-                {minLabel}
-            </div>
-            <div>{maxLabel}</div>
-        </div>
         {!!error && <div className={styles.errorMessage}>{error}</div>}
     </div>
 }

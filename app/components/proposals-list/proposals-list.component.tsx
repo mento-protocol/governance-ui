@@ -9,6 +9,7 @@ import {BadgeType} from "@/app/types";
 import NumbersService from "@/app/helpers/numbers.service";
 import Link from "next/link";
 import {proposalsMock} from "@/app/helpers/mocks";
+import StringService from "@/app/helpers/string.service";
 
 interface ProposalsListProps extends BaseComponentProps {
 }
@@ -18,9 +19,9 @@ export const ProposalsListComponent = ({className, style}: ProposalsListProps) =
     const proposals = proposalsMock;
 
     return (<div className={classNames(styles.wrapper, className)} style={style}>
-            <h2 className="text-xl text-center font-semibold mt-10 mb-6">Proposals</h2>
+            <h2 className="text_heading text-center mt-10 mb-6">Proposals</h2>
             <Card block>
-                <div className={classNames(styles.proposals_grid)}>
+                <div className={classNames(styles.proposals_grid, 'text_small')}>
                     <div className={classNames(styles.proposals_grid__row)}>
                         <div className={classNames(styles.proposals_grid__row__element, styles.header, styles.first)}>
                             Proposal name
@@ -46,7 +47,7 @@ export const ProposalsListComponent = ({className, style}: ProposalsListProps) =
                                         {proposal.icon}
                                     </div>
                                     <Link style={{maxHeight: '3em'}} href={`/proposals/${proposal.id}`}>
-                                        <div>{proposal.title} - {proposal.description}</div>
+                                        <p>{StringService.limitLength(`${proposal.title} - ${proposal.description}`, 75, true)}</p>
                                     </Link>
                                 </div>
                             </div>

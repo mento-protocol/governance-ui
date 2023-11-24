@@ -25,7 +25,7 @@ const Page = () => {
                             Mento
                         </div>
                         <div className="hidden gap-default md:flex">
-                            <Button theme="clear">
+                            <Button theme="clear" href="/proposals/create">
                                 Create new proposal
                             </Button>
                             <Button theme="clear" href="/my-voting-power">
@@ -34,7 +34,7 @@ const Page = () => {
                         </div>
                         <DropdownButton className="md:hidden">
                             <DropdownButton.Dropdown>
-                                <DropdownButton.Element onClick={() => router.push('/')}>
+                                <DropdownButton.Element onClick={() => router.push('/proposals/create')}>
                                     Create new proposal
                                 </DropdownButton.Element>
                                 <DropdownButton.Element onClick={() => router.push('/my-voting-power')}>

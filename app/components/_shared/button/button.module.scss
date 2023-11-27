@@ -24,6 +24,11 @@
     border-color: $c-black;
     margin-top: -4px;
 
+    svg {
+      path {
+        fill: $foreground-color;
+      }
+    }
 
     @media (hover: hover) {
       &:hover {

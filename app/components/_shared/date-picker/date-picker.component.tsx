@@ -1,3 +1,4 @@
+"use client";
 import 'react-day-picker/dist/style.css';
 import styles from './date-picker.module.scss';
 import BaseComponentProps from "@interfaces/base-component-props.interface";

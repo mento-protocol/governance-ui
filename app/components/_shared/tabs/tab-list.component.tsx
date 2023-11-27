@@ -1,7 +1,7 @@
+"use strict";
 import styles from './tabs.module.scss';
 import BaseComponentProps from "@interfaces/base-component-props.interface";
 import classNames from "classnames";
-import {Tab} from "@components/_shared";
 import {Children, ReactNode, useState} from "react";
 
 export interface TabListProps extends BaseComponentProps {

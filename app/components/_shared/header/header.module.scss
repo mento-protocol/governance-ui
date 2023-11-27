@@ -6,10 +6,6 @@
   top: 0;
   background: $c-white;
 
-  &__side {
-    width: 100%;
-  }
-
   .mobile_inner {
     position: absolute;
     justify-content: space-between;
@@ -112,51 +108,6 @@
             transform: rotate(180deg);
           }
         }
-      }
-    }
-  }
-
-  .wallet_addons {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-
-    border-bottom: 1px solid $c-black;
-
-    @include dark-mode {
-      border-bottom: 1px solid $c-white;
-    }
-
-    gap: $default-gap;
-
-    .addon {
-      width: 100%;
-      display: flex;
-      flex-direction: row;
-
-      padding: 10px 5px;
-
-      div {
-        flex: 1;
-      }
-
-      &__title {
-        border-right: 1px solid $c-grey;
-
-        @include dark-mode {
-          border-right: 1px solid $c-white;
-        }
-      }
-
-      &__value,
-      &__title {
-        padding: 5px;
-        font-weight: 600;
-        display: flex;
-        flex-direction: row;
-        justify-content: center;
-        align-items: center;
       }
     }
   }
@@ -284,23 +235,6 @@
         }
 
       }
-    }
-  }
-}
-
-.wallet_connect {
-  div {
-    padding: 0 !important;
-  }
-
-  .connect_button {
-    button {
-      box-shadow: none !important;
-      width: 100% !important;
-      padding: 16px 32px !important;
-      height: 100% !important;
-      margin-top: 0 !important;
-      transform: none !important;
     }
   }
 }

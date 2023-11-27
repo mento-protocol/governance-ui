@@ -19,7 +19,7 @@ export const ProposalsListComponent = ({className, style}: ProposalsListProps) =
     const proposals = proposalsMock;
 
     return (<div className={classNames(styles.wrapper, className)} style={style}>
-            <h2 className="text_heading text-center mt-10 mb-6">Proposals</h2>
+            <h2 className="text-2xl text-center mt-10 mb-6">Proposals</h2>
             <Card block>
                 <div className={classNames(styles.proposals_grid, 'text_small')}>
                     <div className={classNames(styles.proposals_grid__row)}>

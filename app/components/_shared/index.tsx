@@ -13,3 +13,6 @@ export {Tab} from './tabs/tab.component';
 export {TabList} from './tabs/tab-list.component';
 export {DatePicker} from './date-picker/date-picker.component';
 export {Slider} from './slider/slider.component';
+export {MntoLock} from './mnto-lock/mnto-lock.component';
+export {StepCounter} from './step-counter/step-counter.component';
+export {ConnectButton} from './connect-button/connect-button.component';

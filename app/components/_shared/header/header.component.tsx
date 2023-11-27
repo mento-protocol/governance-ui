@@ -5,9 +5,8 @@ import {ChevronIcon, MentoLogoIcon} from "../../_icons";
 import Link from "next/link";
 import {useContext, useRef, useState} from "react";
 import useOutsideAlerter from "@/app/hooks/useOutsideAlerter";
-import {Button, DropdownButton} from "@components/_shared";
+import {Button, ConnectButton, DropdownButton} from "@components/_shared";
 import BaseComponentProps from "@interfaces/base-component-props.interface";
-import {ConnectButton, useConnectModal} from "@rainbow-me/rainbowkit";
 import WalletHelper from "@/app/helpers/wallet.helper";
 
 interface HeaderProps extends BaseComponentProps {
@@ -18,7 +17,6 @@ export const Header = ({className, style}: HeaderProps) => {
     useOutsideAlerter(menuRef, () => {
         setMenuOpened('')
     });
-    const status = useConnectModal();
 
     const [menuOpened, setMenuOpened] = useState('');
     const [drawerOpened, setDrawerOpened] = useState(false);
@@ -84,52 +82,7 @@ export const Header = ({className, style}: HeaderProps) => {
                     </Link>
                 </li>
             </ul>
-            <ConnectButton.Custom>
-                {({
-                      account,
-                      chain,
-                      openAccountModal,
-                      openChainModal,
-                      openConnectModal,
-                      mounted
-                  }) => {
-                    if (!mounted) return <></>;
-                    const connected = !!account && !!chain;
-                    return (
-                        <>
-                            <div className={classNames(connected && styles.header__side)}>
-                                {!connected ? <Button block theme={'secondary'} onClick={openConnectModal}>
-                                    <div className="flex flex-row justify-center place-items-center gap-2">
-                                        <div>Connect wallet</div>
-                                        <ChevronIcon direction={'right'}/>
-                                    </div>
-                                </Button> : <DropdownButton theme={'clear'}
-                                                            block
-                                                            title={WalletHelper.getShortAddress(account.address)}>
-                                    <DropdownButton.Dropdown>
-                                        <div className={styles.wallet_addons}>
-                                            <div className={styles.addon}>
-                                                <div className={styles.addon__title}>
-                                                    {account.displayBalance?.split(' ')[1]}
-                                                </div>
-                                                <div className={styles.addon__value}>
-                                                    {account.displayBalance?.split(' ')[0]}
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <DropdownButton.Element onClick={openAccountModal}>
-                                            Account settings
-                                        </DropdownButton.Element>
-                                        <DropdownButton.Element onClick={openChainModal}>
-                                            Chain settings
-                                        </DropdownButton.Element>
-                                    </DropdownButton.Dropdown>
-                                </DropdownButton>}
-                            </div>
-                        </>
-                    );
-                }}
-            </ConnectButton.Custom>
+            <ConnectButton block/>
 
         </div>
         <div className={classNames(styles.mobile_inner, 'flex p-6 z-50 md:hidden')}>

@@ -1,3 +1,4 @@
+"use client";
 import styles from './slider.module.scss';
 import exports from '@styles/exports.module.scss';
 import BaseComponentProps from "@interfaces/base-component-props.interface";

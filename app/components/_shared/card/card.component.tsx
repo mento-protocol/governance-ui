@@ -21,9 +21,8 @@ const CardFooter = ({children, className, style}: CardPartialProps) => {
 }
 
 
-export const Card = ({children, className, block, style, transparent, ref}: CardProps) => {
+export const Card = ({children, className, block, style, transparent}: CardProps) => {
     return <div
-        ref={ref}
         className={classNames(styles.card, block && styles.block, transparent && styles.transparent, className, 'rounded-lg')}
         style={style}>
         {children}

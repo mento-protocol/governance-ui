@@ -43,10 +43,10 @@ export const ProposalsListComponent = ({className, style}: ProposalsListProps) =
                             {!!index && <div className={styles.divider}/>}
                             <div className={classNames(styles.proposals_grid__row__element, styles.first)}>
                                 <div className="flex gap-default place-items-center">
-                                    <div className="flex-1">
+                                    <div>
                                         {proposal.icon}
                                     </div>
-                                    <Link style={{maxHeight: '3em'}} href={`/proposals/${proposal.id}`}>
+                                    <Link className="flex-1" style={{maxHeight: '3em'}} href={`/proposals/${proposal.id}`}>
                                         <p>{StringService.limitLength(`${proposal.title} - ${proposal.description}`, 75, true)}</p>
                                     </Link>
                                 </div>

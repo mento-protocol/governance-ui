@@ -71,21 +71,6 @@ a:hover,
     flex: 0;
 }
 
-.text_heading {
-    font-size: 32px;
-    font-weight: 500;
-    line-height: 32px;
-    letter-spacing: 0em;
-}
-
-.text_standard {
-    font-size: 22px;
-    font-weight: 400;
-    line-height: 22px;
-}
-
-.text_small {
-    font-size: 18px;
-    font-weight: 400;
-    line-height: 18px;
+.full-w {
+    width: 100%;
 }

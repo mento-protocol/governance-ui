@@ -14,7 +14,7 @@ import {useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
 
 interface MntoLockProps extends BaseComponentProps {
-
+    onLockCallback?: () => void;
 }
 
 const validationSchema = object({
@@ -25,9 +25,7 @@ const validationSchema = object({
 
 type FormData = InferType<typeof validationSchema>
 
-export const MntoLock = ({className, style}: MntoLockProps ) => {
-
-    const diff = differenceInWeeks(nextWednesday(addYears(new Date(), 4)), new Date());
+export const MntoLock = ({className, style, onLockCallback}: MntoLockProps ) => {
 
     setLocale({
         mixed: {
@@ -56,7 +54,7 @@ export const MntoLock = ({className, style}: MntoLockProps ) => {
 
     const getMonths = () => {
         const years = differenceInYears(getValues('expiration'), setISODay(new Date(), 3));
-        const months = differenceInCalendarMonths(getValues('expiration'), setISODay(addYears(new Date(), years), 3));
+        const months = differenceInMonths(getValues('expiration'), setISODay(addYears(new Date(), years), 3));
         return months > 0 && `${months} ${months > 1 ? 'months' : 'month'}`;
     }
 
@@ -74,6 +72,12 @@ export const MntoLock = ({className, style}: MntoLockProps ) => {
         ].filter(Boolean).join(' '));
     }
 
+    const performLock = () => {
+        if (isValid) {
+            onLockCallback && onLockCallback();
+        }
+    }
+
     const monthSelected = (months: number | string) => {
         const newDate = nextWednesday(addMonths(new Date(), +months));
         setValue('expiration', newDate);
@@ -82,7 +86,7 @@ export const MntoLock = ({className, style}: MntoLockProps ) => {
 
     return <div className={className} style={style}>
         <div className="flex flex-col lg:flex-row justify-between md:place-items-baseline gap-1 md:gap-5">
-            <div className="text_standard flex-1 whitespace-nowrap">
+            <div className="text-lg flex-1 whitespace-nowrap">
                 MNTO to lock:
             </div>
             <div className="flex-1">
@@ -102,7 +106,7 @@ export const MntoLock = ({className, style}: MntoLockProps ) => {
         </div>
 
         <div className="flex flex-col lg:flex-row justify-between md:place-items-baseline gap-1 md:gap-5">
-            <div className="text_standard flex-1 whitespace-nowrap">
+            <div className="text-lg flex-1 whitespace-nowrap">
                 Lock expires:
             </div>
             <div className="flex-1">
@@ -120,7 +124,7 @@ export const MntoLock = ({className, style}: MntoLockProps ) => {
         </div>
 
         <div className="flex flex-col mt-2 lg:flex-row justify-between md:place-items-baseline gap-1 md:gap-5">
-            <div className="text_standard flex-1 whitespace-nowrap">
+            <div className="text-lg flex-1 whitespace-nowrap">
                 You recieve veMENTO:
             </div>
             <div className="flex-1">
@@ -146,7 +150,7 @@ export const MntoLock = ({className, style}: MntoLockProps ) => {
                         value: 1
                     })
                 }}/>
-        <Button block className="!mt-4">
+        <Button block className="!mt-4" onClick={handleSubmit(performLock)}>
             Lock MNTO
         </Button>
     </div>

@@ -4,7 +4,6 @@ import {jsonRpcProvider} from 'wagmi/providers/jsonRpc'
 import {connectorsForWallets, RainbowKitProvider} from "@rainbow-me/rainbowkit";
 import {getWalletConnectors} from "@/app/helpers/wallet";
 import {ReactNode, useEffect, useState} from "react";
-import {WalletProvider} from "@/app/providers/wallet.provider";
 
 const {chains, publicClient} = configureChains(
     [Alfajores, Baklava, Celo],
@@ -32,9 +31,7 @@ export function Providers({children}: { children: ReactNode }) {
     return (
         <WagmiConfig config={wagmiConfig}>
             <RainbowKitProvider chains={chains}>
-                <WalletProvider>
-                    {mounted && children}
-                </WalletProvider>
+                {mounted && children}
             </RainbowKitProvider>
         </WagmiConfig>
     );

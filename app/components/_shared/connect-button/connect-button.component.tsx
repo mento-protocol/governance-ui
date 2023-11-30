@@ -5,9 +5,7 @@ import {ChevronIcon} from "@components/_icons";
 import WalletHelper from "@/app/helpers/wallet.helper";
 import {ConnectButton as RainbowConnectButton, useConnectModal} from "@rainbow-me/rainbowkit";
 import BaseComponentProps from "@interfaces/base-component-props.interface";
-import {ReactNode, useContext} from "react";
 import {ButtonType} from "@/app/types";
-import {WalletContext} from "@/app/providers/wallet.provider";
 
 interface ConnectButtonProps extends BaseComponentProps {
     theme?: ButtonType;
@@ -15,7 +13,6 @@ interface ConnectButtonProps extends BaseComponentProps {
 }
 export const ConnectButton = ({className, style, theme, block}: ConnectButtonProps) => {
 
-    const {setIsAuthenticated, setMentoAmount, isInitialized, setIsInitialized} = useContext(WalletContext)
 
     return <RainbowConnectButton.Custom>
         {({
@@ -28,12 +25,6 @@ export const ConnectButton = ({className, style, theme, block}: ConnectButtonPro
           }) => {
             if (!mounted) return <></>;
             const connected = !!account && !!chain;
-            setIsAuthenticated(connected);
-            if (connected && !isInitialized) {
-                setIsInitialized(true);
-                const balance = Math.floor(Math.random() * 1000);
-                setMentoAmount(balance);
-            }
             return (
                 <>
                     <div className={className} style={style}>

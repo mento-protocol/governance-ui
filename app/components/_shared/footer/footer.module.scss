@@ -1,0 +1,31 @@
+@import "@/app/brand";
+
+.footer {
+  border-top: 1px solid $c-black;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  font-weight: 400;
+  font-size: 16px;
+  color: #636768;
+
+  &__element {
+    display: flex;
+    flex-direction: column;
+    gap: $theme-unit;
+  }
+}
+
+.learn_more {
+  background-color: #121316;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 3 * $theme-unit;
+  padding: 6 * $theme-unit;
+
+  .description {
+    color: $c-white;
+    max-width: 500px;
+  }
+}

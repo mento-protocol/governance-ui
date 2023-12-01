@@ -1,0 +1,26 @@
+@import "@/app/brand";
+
+.locksList {
+  @include card-table-overflow-shadows;
+  overflow: auto;
+
+  &__row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 100px;
+    gap: $default-gap;
+    margin-bottom: 10px;
+    align-items: center;
+
+    @include media-md {
+      grid-template-columns: 1fr 1fr 1fr 250px;
+    }
+
+    .item {
+      min-width: 150px;
+    }
+
+    padding: 2 * $theme-unit $theme-unit;
+
+    @include row-divider;
+  }
+}

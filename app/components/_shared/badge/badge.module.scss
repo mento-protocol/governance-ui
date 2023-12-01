@@ -1,0 +1,61 @@
+@import "@/app/brand";
+
+@mixin branded-badge($border-color, $background-color, $foreground-color) {
+  border: 1px solid $border-color;
+  background-color: $background-color;
+  color: $foreground-color;
+}
+
+.badge {
+  border-radius: $border-radius;
+  padding: 6px 10px;
+  font-size: 16px;
+  line-height: 1em;
+  min-width: 70px;
+  text-align: center;
+  width: min-content;
+  white-space: nowrap;
+
+  &.primary {
+    @include branded-badge($c-primary, $c-primary, $c-white);
+  }
+
+  &.secondary {
+    @include branded-badge($c-secondary, $c-secondary, $c-black);
+  }
+
+  &.success {
+    @include branded-badge($c-success, $c-success, $c-black);
+  }
+
+  &.danger {
+    @include branded-badge($c-error, $c-error, $c-white);
+  }
+
+  &.warning {
+    @include branded-badge($c-warning, $c-warning, $c-black);
+  }
+
+  &.info {
+    @include branded-badge($c-info, $c-info, $c-black);
+  }
+
+  &.light {
+    @include branded-badge($c-lightGrey, $c-lightGrey, $c-black);
+  }
+
+  &.tertiary {
+    @include branded-badge($c-white, $c-white, $c-black);
+    border: 1px solid $c-black;
+  }
+
+  &.rounded {
+    padding: 8px 10px;
+    border-radius: $border-radius * 3;
+  }
+
+  &.block {
+    width: 100%;
+  }
+
+}

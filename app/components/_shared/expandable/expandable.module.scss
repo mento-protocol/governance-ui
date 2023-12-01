@@ -1,0 +1,31 @@
+@import '@/app/brand';
+
+.expandable {
+
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 1rem;
+
+    .toggle {
+      transition: transform 0.3s $ease-out-back;
+      cursor: pointer;
+
+      &.opened {
+        transform: rotate(180deg);
+      }
+    }
+  }
+
+  &__body {
+    overflow: hidden;
+    max-height: 0;
+    height: 100%;
+    transition: max-height 0.3s ease-in-out;
+
+    &.opened {
+      max-height: 1000px;
+    }
+  }
+}

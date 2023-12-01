@@ -1,0 +1,26 @@
+@import "@/app/brand";
+
+
+.wrapper {
+  margin-top: $theme-unit;
+
+  .input {
+    @include default-input-style;
+  }
+
+  &.compact {
+    .input {
+      padding: 12px 16px 12px 16px;
+
+      input {
+        font-size: 18px;
+      }
+    }
+  }
+
+  .errorMessage {
+    @include default-input-error-message;
+  }
+}
+
+

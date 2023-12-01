@@ -1,0 +1,157 @@
+@import "styles/variables.module";
+@import "styles/easing.module";
+
+$brandColors: (
+        'black': $c-black,
+        'white': $c-white,
+        'lightGrey': $c-lightGrey,
+        'grey': $c-grey,
+        'primary': $c-primary,
+        'secondary': $c-secondary,
+        'success': $c-success,
+        'error': $c-error,
+        'warning': $c-warning,
+        'info': $c-info
+);
+
+@each $color, $value in $brandColors {
+  .bg-#{$color} {
+    background-color: $value
+  }
+  .color-#{$color} {
+    color: $value;
+  }
+}
+
+@mixin media-sm {
+  @media (min-width: $breakpoint-sm) {
+    @content;
+  }
+}
+
+@mixin media-md {
+  @media (min-width: $breakpoint-md) {
+    @content;
+  }
+}
+
+@mixin media-lg {
+  @media (min-width: $breakpoint-lg) {
+    @content;
+  }
+}
+
+@mixin media-xl {
+  @media (min-width: $breakpoint-xl) {
+    @content;
+  }
+}
+
+@mixin media-2xl {
+  @media (min-width: $breakpoint-2xl) {
+    @content;
+  }
+}
+
+@mixin dark-mode {
+  @media (prefers-color-scheme: dark) {
+    @content;
+  }
+}
+
+@mixin card-table-overflow-shadows {
+  background-image: linear-gradient(to right, $c-white, $c-white),
+  linear-gradient(to right, $c-white, $c-white),
+  linear-gradient(to right, rgba(0, 0, 0, .15), rgba(255, 255, 255, 0)),
+  linear-gradient(to left, rgba(0, 0, 0, .15), rgba(255, 255, 255, 0));
+
+  background-position: left center, right center, left center, right;
+  background-repeat: no-repeat;
+  background-size: 20px 100%, 20px 100%, 10px 100%, 10px 100%;
+  background-color: transparent;
+  background-attachment: local, local, scroll, scroll;
+
+  @include dark-mode {
+    background-image: linear-gradient(to right, #121316, #121316),
+    linear-gradient(to right, #121316, #121316),
+    linear-gradient(to right, rgba(156, 156, 156, .25), rgba(0, 0, 0, 0)),
+    linear-gradient(to left, rgba(156, 156, 156, .25), rgba(0, 0, 0, 0));
+  }
+}
+
+@mixin row-divider {
+  .divider {
+    grid-column: 1 / -1;
+    border-bottom: 1px solid #b3b3b3;
+  }
+}
+
+@mixin default-input-style {
+  width: 100%;
+  padding: 18px 32px 18px 32px;
+  border-radius: 8px;
+  border: 1px solid $c-lightGrey;
+  gap: 8px;
+
+  margin-top: $theme-unit;
+
+  transition: all 0.2s $ease-out-circ;
+
+  &:focus-within,
+  &.focused {
+    border: 1px solid $c-primary;
+    box-shadow: 0 0 0 2px $c-primary;
+  }
+
+  &.error {
+    border: 1px solid $c-error !important;
+    box-shadow: 0 0 0 2px $c-error !important;
+  }
+
+  input {
+    width: 100%;
+    border: none;
+    outline: none;
+    font-size: 28px;
+    font-weight: 400;
+    color: $c-black;
+    background-color: transparent;
+    caret-color: $c-primary;
+
+    &:placeholder {
+      color: $c-lightGrey;
+    }
+
+    @include dark-mode {
+      color: $c-white;
+    }
+  }
+}
+
+@mixin default-input-error-message {
+  color: $c-error-dark;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 4px;
+}
+
+@mixin default-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  backdrop-filter: blur(2px);
+  background-color: rgba(0, 0, 0, 0.2);
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s $ease-out-circ, z-index 0.1s 0.3s linear;
+
+  &.opened {
+    z-index: 1000;
+    pointer-events: all;
+    opacity: 1;
+    transition: opacity 0.2s $ease-out-circ, z-index 0.01s linear;
+  }
+}

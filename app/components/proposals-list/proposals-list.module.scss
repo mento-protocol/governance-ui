@@ -1,0 +1,52 @@
+@import "@/app/brand";
+
+.wrapper {
+  width: 100%;
+
+  .proposals_grid {
+    @include card-table-overflow-shadows;
+
+    overflow: auto;
+
+    &__row {
+      display: grid;
+      grid-template-columns: 350px 100px 150px 150px 150px;
+      gap: $default-gap;
+      margin-bottom: 10px;
+      align-items: center;
+
+      @include media-md {
+        grid-template-columns: 2fr 100px 150px 150px 150px;
+      }
+
+      @include row-divider;
+
+      &__element {
+        font-weight: 500;
+        text-align: center;
+        overflow: hidden;
+
+        &.header {
+          border: none;
+          opacity: .8;
+        }
+
+        &.first {
+          text-align: left;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+
+        &.last {
+          text-align: right;
+        }
+
+
+        .progress_bar {
+          max-width: 110px;
+          margin: 0 auto;
+        }
+      }
+    }
+  }
+}

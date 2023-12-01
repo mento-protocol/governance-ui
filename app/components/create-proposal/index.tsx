@@ -1,0 +1,2 @@
+export {CreateProposalWalletStep} from './create-proposal-wallet-step/create-proposal-wallet-step.component';
+export {CreateProposalContentStep} from './create-proposal-content-step/create-proposal-content-step.component';

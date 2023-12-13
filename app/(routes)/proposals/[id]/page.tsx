@@ -72,8 +72,8 @@ const Page = () => {
             </div>
         </div>
 
-        <div className="mt-8 flex flex-col md:flex-row place-items-start gap-default">
-            <div className="flex-1">
+        <div className="mt-8 flex flex-col md:flex-row md:justify-between place-items-start gap-default">
+            <div className={classNames(styles.details, "flex-1")}>
                 <h3>Details</h3>
                 <div dangerouslySetInnerHTML={{__html: proposal.description}}/>
             </div>

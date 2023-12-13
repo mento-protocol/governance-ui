@@ -16,6 +16,11 @@
   margin-top: $theme-unit * 2;
 }
 
+.details {
+  max-width: 670px;
+  width: 100%;
+}
+
 .proposal_addons {
   position: sticky;
   bottom: 0;
@@ -42,7 +47,7 @@
   @include media-md {
     top: 140px;
     bottom: auto;
-    max-width: 400px;
+    max-width: 350px;
   }
 
   .backdrop {
@@ -96,7 +101,7 @@
       opacity: 1;
       transform: none;
       width: auto;
-      heiaht: auto;
+      height: auto;
 
       &__close {
         display: none;
@@ -104,6 +109,7 @@
     }
   }
 }
+
 
 .votesList {
   @include media-md {

@@ -22,7 +22,7 @@ export const ProposalsListComponent = ({className, style}: ProposalsListProps) =
             <h2 className="text-2xl text-center mt-10 mb-6">Proposals</h2>
             <Card block>
                 <div className={classNames(styles.proposals_grid, 'text_small')}>
-                    <div className={classNames(styles.proposals_grid__row)}>
+                    <div className={classNames(styles.proposals_grid__row, 'pb-[22px]')}>
                         <div className={classNames(styles.proposals_grid__row__element, styles.header, styles.first)}>
                             Proposal name
                         </div>
@@ -51,7 +51,7 @@ export const ProposalsListComponent = ({className, style}: ProposalsListProps) =
                                     </Link>
                                 </div>
                             </div>
-                            <div className={classNames(styles.proposals_grid__row__element)}>
+                            <div className={classNames(styles.proposals_grid__row__element, 'flex justify-center w-full')}>
                                 <Badge className="capitalize"
                                        type={statusToBadgeColorMap[proposal.status]}>{proposal.status.toString()}</Badge>
                             </div>

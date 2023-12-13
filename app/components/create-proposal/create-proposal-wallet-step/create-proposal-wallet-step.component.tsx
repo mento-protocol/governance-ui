@@ -10,8 +10,8 @@ export const CreateProposalWalletStep = () => {
 
     return <Card block>
         <Card.Header>
-            <div className="flex gap-4 items-center">
-                <StepCounter isCard>1</StepCounter>
+            <div className="flex gap-4 items-center bg-inherit">
+                <StepCounter>1</StepCounter>
                 Connect your wallet & login
             </div>
         </Card.Header>

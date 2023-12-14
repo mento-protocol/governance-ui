@@ -26,7 +26,6 @@ body {
 
 @media (min-width: 768px) {
     body {
-
         background: url('/images/bg.png'), url('/images/bg.png'), linear-gradient(180deg, var(--background-color) 0%, var(--background-color) 100%);
         background-size: 1000px 1500px, 1000px 1500px, cover;
         background-position: 70vw 10vh, -30vw 70vh, center;

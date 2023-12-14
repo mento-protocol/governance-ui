@@ -1,4 +1,4 @@
-import {Card, Input, StepCounter} from "@components/_shared";
+import {Card, Input, MarkdownEditor, StepCounter} from "@components/_shared";
 import {date, InferType, number, object, setLocale, string} from "yup";
 import {useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
@@ -32,18 +32,25 @@ export const CreateProposalContentStep = () => {
 
     return <Card block>
         <Card.Header>
-            <div className="flex gap-4 items-center">
-                <StepCounter isCard>2</StepCounter>
+            <div className="flex gap-4 items-center bg-inherit">
+                <StepCounter>2</StepCounter>
                 Add name and description
             </div>
         </Card.Header>
         <div>
-            <p className="text-lg mb-4 ml-10">Give your proposal a title and a description. They will be public when your proposal goes live.</p>
-            <Input label="Proposal title"
+            <p className="text-lg mb-4 ml-10">Give your proposal a title and a description. They will be public when
+                your proposal goes live.</p>
+            <Input label="Title"
                    type="text"
                    form={{...register('title')}}
                    id="proposal-title"
-                   placeholder="Enter a title for your proposal" />
+                   placeholder="Enter a title for your proposal"/>
+            <MarkdownEditor
+                    className="mt-4"
+                    label="Description"
+                    form={{...register('content')}}
+                    id="proposal-description"
+            />
         </div>
     </Card>
 }

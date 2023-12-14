@@ -91,7 +91,6 @@ export const MntoLock = ({className, style, onLockCallback}: MntoLockProps ) => 
             <div className="flex-1">
                 <Input id="toLock"
                        type="number"
-                       compact
                        placeholder="Voting power"
                        form={{...register('toLock')}}
                        error={errors.toLock?.message}
@@ -110,7 +109,6 @@ export const MntoLock = ({className, style, onLockCallback}: MntoLockProps ) => 
             </div>
             <div className="flex-1">
                 <DatePicker id="expiration"
-                            compact
                             disallowedDays={['mon', 'tue', 'thu', 'fri', 'sat', 'sun']}
                             minDate={nextWednesday(addMonths(new Date(), 1))}
                             maxDate={nextWednesday(addYears(new Date(), 4))}

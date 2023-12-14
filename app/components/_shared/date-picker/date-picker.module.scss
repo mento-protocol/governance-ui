@@ -5,7 +5,7 @@
 
 .datePicker {
   position: relative;
-  margin-top: $theme-unit;
+  margin-top: $theme-unit * 3;
 
   .input {
     @include default-input-style;

@@ -1,18 +1,19 @@
 "use client";
 import styles from './connect-button.module.scss';
-import {Button, DropdownButton} from "@components/_shared";
+import {Avatar, Button, DropdownButton} from "@components/_shared";
 import {ChevronIcon} from "@components/_icons";
 import WalletHelper from "@/app/helpers/wallet.helper";
 import {ConnectButton as RainbowConnectButton, useConnectModal} from "@rainbow-me/rainbowkit";
 import BaseComponentProps from "@interfaces/base-component-props.interface";
 import {ButtonType} from "@/app/types";
+import { singleProposal } from '@/app/helpers/mocks';
 
 interface ConnectButtonProps extends BaseComponentProps {
     theme?: ButtonType;
     block?: boolean;
 }
 export const ConnectButton = ({className, style, theme, block}: ConnectButtonProps) => {
-
+    const proposal = singleProposal;
 
     return <RainbowConnectButton.Custom>
         {({
@@ -35,7 +36,8 @@ export const ConnectButton = ({className, style, theme, block}: ConnectButtonPro
                                 </div>
                             </Button> : <DropdownButton theme={'clear'}
                                                     block={block}
-                                                    title={WalletHelper.getShortAddress(account.address)}>
+                                                    title={WalletHelper.getShortAddress(account.address)}
+                                                    avatar={<Avatar address={proposal.creator || ''}/>}>
                             <DropdownButton.Dropdown>
                                 <div className={styles.wallet_addons}>
                                     <div className={styles.addon}>

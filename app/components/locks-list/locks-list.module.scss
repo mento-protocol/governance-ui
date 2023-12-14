@@ -15,8 +15,14 @@
       grid-template-columns: 1fr 1fr 1fr 250px;
     }
 
+    .title {
+      font-size: 16px;
+    }
+
     .item {
       min-width: 150px;
+      font-weight: 500;
+      font-style: normal;
     }
 
     padding: 2 * $theme-unit $theme-unit;

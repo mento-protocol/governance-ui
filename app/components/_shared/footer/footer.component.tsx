@@ -3,11 +3,10 @@ import styles from './footer.module.scss';
 import classNames from "classnames";
 import {ChevronIcon, DiscordIcon, GithubIcon, MentoLogoIcon, TwitterIcon} from "@components/_icons";
 import Link from "next/link";
-import Image from "next/image";
-import learnMoreImage from '@/app/assets/learn_more_image.png';
 import {Button} from "@components/_shared";
 import exports from '@styles/exports.module.scss';
 import {usePathname} from "next/navigation";
+import { LearnMoreIcon } from "../../_icons/learn-more.icon";
 
 interface FooterProps extends BaseComponentProps {
 }
@@ -34,7 +33,7 @@ export const Footer = ({className, style}: FooterProps) => {
                         </Button>
                     </div>
                     <div className="hidden md:block">
-                        <Image src={learnMoreImage} alt="Learn more about Mento"/>
+                        <LearnMoreIcon />
                     </div>
                 </div>}
                 <div className={classNames(styles.footer, 'p-6')}>

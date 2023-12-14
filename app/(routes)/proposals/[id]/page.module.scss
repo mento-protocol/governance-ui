@@ -13,7 +13,11 @@
 
 .vote_label {
   opacity: 0.5;
-  margin-top: $theme-unit * 2;
+  margin-top: $theme-unit * 6;
+}
+
+.button_wrapper {
+  margin-top: $theme-unit * 3;
 }
 
 .proposal_addons {

@@ -52,7 +52,7 @@ export const ProposalsListComponent = ({className, style}: ProposalsListProps) =
                                 </div>
                             </div>
                             <div className={classNames(styles.proposals_grid__row__element)}>
-                                <Badge className="capitalize"
+                                <Badge className="uppercase font-medium"
                                        type={statusToBadgeColorMap[proposal.status]}>{proposal.status.toString()}</Badge>
                             </div>
                             <div className={classNames(styles.proposals_grid__row__element)}>

@@ -11,6 +11,8 @@ import {yupResolver} from "@hookform/resolvers/yup";
 import {VotesList} from "@components/votes-list/votes-list.component";
 import classNames from "classnames";
 import {useState} from "react";
+import { CopyIcon } from "@/app/components/_icons/copy.icon";
+import { CopyToClipboard } from 'react-copy-to-clipboard';
 
 const validationSchema = object({
     votingPower: number().required().typeError('Invalid number').max(400)
@@ -43,7 +45,7 @@ const Page = () => {
     const proposal = singleProposal;
 
     return <main className="flex flex-col">
-        <Badge className="capitalize mb-3"
+        <Badge className="uppercase mb-3 font-medium"
                type={statusToBadgeColorMap[proposal.status]}>{proposal.status.toString()}</Badge>
         <div className="flex flex-col md:grid md:grid-cols-7 gap-default">
             <div className="md:col-start-1 md:col-span-4">
@@ -61,6 +63,11 @@ const Page = () => {
             <div className="flex place-items-center gap-1">
                 <code>ID</code>
                 <div>{`${proposal.id.substring(0, 6)}...${proposal.id.substring(proposal.id.length - 4)}`}</div>
+                <CopyToClipboard text={proposal.id}>
+                    <div className="cursor-pointer">
+                        <CopyIcon/>
+                    </div>
+                </CopyToClipboard>
             </div>
             <div className="flex place-items-center gap-1">
                 <span>Proposed on:</span>
@@ -94,7 +101,7 @@ const Page = () => {
                                 X
                             </button>
                         </Card.Header>
-                        <div className="flex flex-col gap-1">
+                        <div className="flex flex-col gap-1 ">
                             <Input label="Voting power"
                                    id="voting-power"
                                    type="number"
@@ -109,14 +116,14 @@ const Page = () => {
                                        </div>
                                    </div>}/>
                             <p className={styles.vote_label}>Vote</p>
-                            <Button disabled={!isValid} theme="success" block onClick={handleSubmit(onSubmit)}>
+                            <Button className={styles.button_wrapper} disabled={!isValid} theme="success" block onClick={handleSubmit(onSubmit)}>
                                 For
                             </Button>
-                            <Button disabled={!isValid} type="submit" theme="danger" block
+                            <Button className={styles.button_wrapper} disabled={!isValid} type="submit" theme="danger" block
                                     onClick={handleSubmit(onSubmit)}>
                                 Against
                             </Button>
-                            <Button disabled={!isValid} type="submit" theme="tertiary" block
+                            <Button className={styles.button_wrapper} disabled={!isValid} type="submit" theme="tertiary" block
                                     onClick={handleSubmit(onSubmit)}>
                                 Abstain
                             </Button>

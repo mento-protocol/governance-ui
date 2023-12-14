@@ -5,17 +5,13 @@
   .header {
     position: sticky;
     top: 0;
-    background: $c-white;
+    background: transparent;
     z-index: 1;
     padding: $theme-unit 0;
 
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-
-    @include dark-mode {
-      background: $c-black;
-    }
 
     button {
       border: none;

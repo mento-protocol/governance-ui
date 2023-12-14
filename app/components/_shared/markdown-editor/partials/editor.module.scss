@@ -1,0 +1,11 @@
+@import "@/app/brand";
+
+.editor {
+  min-height: 500px;
+  max-height: 100vh;
+  height: 100%;
+
+  &__contentEditable {
+    min-height: 450px;
+  }
+}

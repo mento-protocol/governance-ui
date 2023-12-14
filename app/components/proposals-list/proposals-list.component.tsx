@@ -1,15 +1,13 @@
-import {Card, ProgressBar} from "@components/_shared";
-import styles from "./proposals-list.module.scss";
-import classNames from "classnames";
-import Proposal, {ProposalStatus, statusToBadgeColorMap} from "@interfaces/proposal";
-import {MentoIcon} from "@components/_icons/mento.icon";
-import BaseComponentProps from "@interfaces/base-component-props.interface";
-import {Badge} from "@components/_shared/badge/badge.component";
-import {BadgeType} from "@/app/types";
+import { proposalsMock } from "@/app/helpers/mocks";
 import NumbersService from "@/app/helpers/numbers.service";
-import Link from "next/link";
-import {proposalsMock} from "@/app/helpers/mocks";
 import StringService from "@/app/helpers/string.service";
+import { Card, ProgressBar } from "@components/_shared";
+import { Badge } from "@components/_shared/badge/badge.component";
+import BaseComponentProps from "@interfaces/base-component-props.interface";
+import { statusToBadgeColorMap } from "@interfaces/proposal";
+import classNames from "classnames";
+import Link from "next/link";
+import styles from "./proposals-list.module.scss";
 
 interface ProposalsListProps extends BaseComponentProps {
 }

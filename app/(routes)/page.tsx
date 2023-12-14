@@ -11,7 +11,7 @@ import { CeloLogoIcon } from "../components/_icons/celo-logo.icon";
 const Page = () => {
     const router = useRouter();
     return (
-        <main className="flex flex-col place-items-center">
+        <main className="flex flex-col place-items-center mt-9">
             <div className="max-w-full">
                 <MentoTextLogoIcon className="max-w-full" useThemeColor/>
             </div>

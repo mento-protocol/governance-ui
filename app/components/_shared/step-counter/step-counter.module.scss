@@ -12,17 +12,7 @@ $box-size: 4px;
   border-top-right-radius: $border-radius * .5;
   border-bottom-left-radius: $border-radius * .5;
   position: relative;
-  background-color: $c-white;
-
-  @include dark-mode {
-    background-color: $c-black;
-  }
-
-  &.isCard {
-    @include dark-mode {
-      background-color: #121316;
-    }
-  }
+  background-color: inherit;
 
   &:before,
   &:after{

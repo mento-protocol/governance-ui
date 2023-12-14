@@ -30,7 +30,7 @@
     left: 0;
     bottom: 0;
     right: 0;
-    max-width: 1600px;
+    max-width: 1120px;
     width: 100%;
     margin: 0 auto;
     background: $c-white;
@@ -40,7 +40,7 @@
     justify-content: flex-start;
     align-items: flex-start;
     gap: $default-gap;
-    padding: $default-gap;
+    padding: 0 $default-gap;
     z-index: 48;
     transition: transform 0.4s $ease-in-cubic;
     transform: translateX(100%);
@@ -188,6 +188,7 @@
 
               &:hover {
                 background-color: #80808022;
+
                 a {
                   color: $c-black;
                 }
@@ -203,6 +204,7 @@
 
                 &:hover {
                   background-color: #80808088;
+
                   a {
                     color: $c-white;
                   }
@@ -212,6 +214,7 @@
                   border-top-left-radius: $border-radius;
                   border-top-right-radius: $border-radius;
                 }
+
                 &:last-child {
                   border-bottom-left-radius: $border-radius;
                   border-bottom-right-radius: $border-radius;

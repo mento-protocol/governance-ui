@@ -32,17 +32,11 @@ interface EditorProps {
 
 const Editor: FC<EditorProps> = ({markdown,setMarkdown, editorRef}) => {
 
-    const change = (markdown: string) => {
-        console.log(markdown);
-        setMarkdown(markdown);
-    }
-
-
     return <MDXEditor ref={editorRef}
                       className={styles.editor}
                       contentEditableClassName={classNames('prose', styles.editor__contentEditable)}
                       markdown={markdown}
-                      onChange={change}
+                      onChange={setMarkdown}
                       plugins={[
         toolbarPlugin({
             toolbarContents: () => <>

@@ -16,6 +16,8 @@
     padding: 2 * $theme-unit;
     position: relative;
     background-color: inherit;
+    border-top-left-radius: $border-radius;
+    border-top-right-radius: $border-radius;
 
     @include media-md {
       padding: 4 * $theme-unit;

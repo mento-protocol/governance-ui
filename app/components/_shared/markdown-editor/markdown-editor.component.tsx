@@ -12,9 +12,8 @@ import html from 'remark-html';
 const EditorComp = dynamic(() => import('./partials/editor.component'), { ssr: false })
 
 interface MarkdownEditorProps extends BaseComponentProps, BaseInputProps {
-
 }
-export const MarkdownEditor = ({className, style}:MarkdownEditorProps) => {
+export const MarkdownEditor = ({className, style, form}:MarkdownEditorProps) => {
 
     const [markdown, setMarkdown] = useState('');
     const [markdownParsed, setMarkdownParsed] = useState(null as string | null);
@@ -23,6 +22,7 @@ export const MarkdownEditor = ({className, style}:MarkdownEditorProps) => {
         remark().use(html).process(markdown).then((file) => {
             setMarkdownParsed(file.toString());
         });
+        form.onChange(markdown);
     }, [markdown]);
 
     const ref = useRef<MDXEditorMethods>(null);
@@ -34,7 +34,7 @@ export const MarkdownEditor = ({className, style}:MarkdownEditorProps) => {
                     <EditorComp markdown={markdown} setMarkdown={setMarkdown} editorRef={ref}/>
                 </Suspense>
             </div>
-            <div className="prose prose-neutral">
+            <div className="prose prose-neutral dark:prose-invert">
                 {
                     markdownParsed && <div dangerouslySetInnerHTML={{ __html: markdownParsed }} />
                 }

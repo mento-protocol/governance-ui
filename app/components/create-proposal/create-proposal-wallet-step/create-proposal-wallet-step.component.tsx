@@ -1,5 +1,6 @@
 import {Card, ConnectButton, MntoLock, StepCounter} from "@components/_shared";
 import {useAccount, useBalance} from "wagmi";
+import {useCreateProposalContext} from "@/app/providers/create-proposal.provider";
 
 export const CreateProposalWalletStep = () => {
 
@@ -7,6 +8,8 @@ export const CreateProposalWalletStep = () => {
     const { data} = useBalance({
         address: address,
     })
+
+    const {form} = useCreateProposalContext();
 
     return <Card block>
         <Card.Header>

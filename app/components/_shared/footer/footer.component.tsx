@@ -8,6 +8,7 @@ import learnMoreImage from '@/app/assets/learn_more_image.png';
 import {Button} from "@components/_shared";
 import exports from '@styles/exports.module.scss';
 import {usePathname} from "next/navigation";
+import { ThemeSwitch } from "../../theme-switch/theme-switch.component";
 
 interface FooterProps extends BaseComponentProps {
 }
@@ -64,7 +65,7 @@ export const Footer = ({className, style}: FooterProps) => {
                             <p>Twiter</p>
                         </Link>
                     </div>
-                    <div className={classNames(styles.footer__element)}>
+                    <div className={styles.footer__element}>
                         <strong>Other</strong>
                         <Link href="#">
                             <p>Team</p>
@@ -84,6 +85,10 @@ export const Footer = ({className, style}: FooterProps) => {
                             <Link href="#">
                                 <GithubIcon useThemeColor/>
                             </Link>
+                        </div>
+                        <div className={classNames("flex", styles.theme)}>
+                            <span className="mr-[16px]">Theme</span>
+                            <ThemeSwitch />
                         </div>
                     </div>
                 </div>

@@ -1,13 +1,12 @@
 "use client";
-import styles from './header.module.scss';
-import classNames from "classnames";
-import {ChevronIcon, MentoLogoIcon} from "../../_icons";
-import Link from "next/link";
-import {useContext, useRef, useState} from "react";
 import useOutsideAlerter from "@/app/hooks/useOutsideAlerter";
-import {Button, ConnectButton, DropdownButton} from "@components/_shared";
+import { ChevronIcon, MentoLogoIcon } from "@components/_icons";
+import { Button, ConnectButton } from "@components/_shared";
 import BaseComponentProps from "@interfaces/base-component-props.interface";
-import WalletHelper from "@/app/helpers/wallet.helper";
+import classNames from "classnames";
+import Link from "next/link";
+import { useRef, useState } from "react";
+import styles from './header.module.scss';
 
 interface HeaderProps extends BaseComponentProps {
 }

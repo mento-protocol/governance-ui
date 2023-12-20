@@ -2,19 +2,34 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
+.light {
     --foreground-color: #02010A;
     --background-color: #FFFFFF;
-    --color-primary: #4D62F0;
-    --color-secondary: #FCD7FC;
+    --secondary-color: #808080;
+    --theme-card-background: #FFFFFF;
+    --theme-card-border: #B3B3B3;
+    --header-hover: #80808022;
+    --button-background: #cccfde;
+    --date-picker-box: rgba(0, 0, 0, 0.25);
+    --progress-border: #02010A;
+    --card-table-gradient: rgba(0, 0, 0, .15);
+    --footer-color: #636768;
+  }
+
+.dark {
+    --foreground-color: #FFFFFF;
+    --background-color: #02010A;
+    --secondary-color: #FFFFFF;
+    --theme-card-background: #121316;
+    --theme-card-border: #FFFFFF;
+    --button-background: #808080;
+    --header-hover: #80808088;
+    --date-picker-box: rgba(255, 255, 255, 0.25);
+    --progress-border: #808080;
+    --card-table-gradient: rgba(156, 156, 156, .25);
+    --footer-color: #8F9394;
 }
 
-@media (prefers-color-scheme: dark) {
-    :root {
-        --foreground-color: #FFFFFF;
-        --background-color: #02010A;
-    }
-}
 
 body {
     color: var(--foreground-color);
@@ -63,7 +78,7 @@ svg.branded-icon path {
 a:hover,
 .link:hover {
     text-decoration: underline;
-    color: var(--color-primary);
+    color: #4D62F0;
 }
 
 .flex-0 {

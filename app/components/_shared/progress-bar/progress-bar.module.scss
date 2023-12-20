@@ -9,12 +9,8 @@
   .progress_bar {
     border-radius: $border-radius * 3;
     height: $theme-unit * 1.5;
-    border: 1px solid $c-black;
+    border: 1px solid var(--progress-border);
     width: 100%;
-
-    @include dark-mode {
-      border: 1px solid $c-grey;
-    }
 
     .value {
       background-color: $c-grey;
@@ -25,12 +21,15 @@
       &.success {
         background-color: $c-success;
       }
+
       &.danger {
         background-color: $c-error;
       }
+
       &.warning {
         background-color: $c-warning;
       }
+
       &.info {
         background-color: $c-info;
       }

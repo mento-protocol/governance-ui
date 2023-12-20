@@ -8,13 +8,21 @@
   flex-wrap: wrap;
   font-weight: 400;
   font-size: 16px;
-  color: #636768;
+  color: var(--foreground-color);
+
+  strong {
+    color: var(--footer-color);
+  }
 
   &__element {
     margin-top: 71px;
     display: flex;
     flex-direction: column;
     gap: 2 * $theme-unit;
+
+    .theme {
+      color: var(--footer-color);
+    }
   }
 }
 

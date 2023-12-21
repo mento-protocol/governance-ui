@@ -68,13 +68,8 @@
     min-width: 204px;
     height: 56px;
     border-radius: $border-radius;
-    border: 1px solid $c-black;
-    color: $c-black;
-
-    @include dark-mode {
-      border: 1px solid $c-white;
-      color: $c-white;
-    }
+    border: 1px solid var(--foreground-color);
+    color: var(--foreground-color);
 
     .inner {
       padding: 2 * $theme-unit 4 * $theme-unit;
@@ -98,11 +93,8 @@
 
     &:hover {
       transition: margin-top 0.2s cubic-bezier(.19, .69, .84, 1.76);
-      color: $c-black;
+      color: var(--foreground-color);
 
-      @include dark-mode {
-        color: $c-white;
-      }
     }
   }
 
@@ -142,11 +134,7 @@
 
       &:hover {
         transition: background-color 0.2s ease-out;
-        background-color: #cccfde;
-
-        @include dark-mode {
-          background-color: $c-grey;
-        }
+        background-color: var(--button-background);
       }
 
       &:active {
@@ -161,12 +149,8 @@
     .button {
       transition: color 0.2s ease-out;
       border: none;
-      color: $c-black;
+      color: var(--foreground-color);
       text-decoration: underline;
-
-      @include dark-mode {
-        color: $c-white;
-      }
 
       &:hover {
         transition: color 0.2s ease-out;

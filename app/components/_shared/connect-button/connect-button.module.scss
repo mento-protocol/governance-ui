@@ -5,13 +5,7 @@
   flex-direction: column;
   align-items: center;
   width: 100%;
-
-  border-bottom: 1px solid $c-black;
-
-  @include dark-mode {
-    border-bottom: 1px solid $c-white;
-  }
-
+  border-bottom: 1px solid var(--foreground-color);
   gap: $default-gap;
 
   .addon {
@@ -26,11 +20,7 @@
     }
 
     &__title {
-      border-right: 1px solid $c-grey;
-
-      @include dark-mode {
-        border-right: 1px solid $c-white;
-      }
+      border-right: 1px solid var(--secondary-color);
     }
 
     &__value,

@@ -1,17 +1,17 @@
 @import "@/app/brand";
 
-
 .sliderWrapper {
   margin-top: 6 * $theme-unit;
   width: 100%;
 
   .slider {
 
+  .slider {
     -webkit-appearance: none;
     appearance: none;
     width: 100%;
     height: 35px;
-    background: $c-white;
+    background: var(--background-color);
     outline: none;
     -webkit-transition: .2s;
     transition: opacity .2s;
@@ -43,8 +43,8 @@
       appearance: none;
       width: 44px;
       height: 44px;
-      background: $c-black;
-      border: 1px solid $c-black;
+      background: var(--foreground-color);
+      border: 1px solid var(--foreground-color);
       cursor: pointer;
       border-radius: 8px;
 
@@ -56,10 +56,21 @@
       }
     }
 
-    @include dark-mode {
-      background: $c-black;
-      border: 1px solid $c-white;
+    &::-moz-range-thumb {
+      position: relative;
+      -webkit-appearance: none;
+      appearance: none;
+      width: 44px;
+      height: 44px;
+      background: var(--foreground-color);
+      border: 1px solid var(--foreground-color);
+      cursor: pointer;
 
+      &:before {
+        content: 'xD';
+        position: absolute;
+
+        top: -10px;
       &::-webkit-slider-thumb {
         background: $c-white;
       }

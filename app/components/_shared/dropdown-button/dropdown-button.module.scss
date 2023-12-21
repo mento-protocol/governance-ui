@@ -113,11 +113,7 @@
     &.tertiary,
     &.clear,
     &.link {
-      @include branded-dropdown($c-grey, $c-white, $c-black);
-
-      @include dark-mode {
-        @include branded-dropdown($c-white, $c-black, $c-white);
-      }
+      @include branded-dropdown(var(--secondary-color), var(--background-color), var(--foreground-color));
     }
   }
 
@@ -147,11 +143,7 @@
   &.clear {
     .button {
       button {
-        background-color: #cccfde;
-
-        @include dark-mode {
-          background-color: $c-grey;
-        }
+        background-color: var(--button-background);
       }
     }
   }

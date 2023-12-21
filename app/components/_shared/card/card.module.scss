@@ -1,23 +1,15 @@
 @import "@/app/brand";
 
 .card {
-
-  background-color: $c-white;
-  border: 1px solid $c-lightGrey;
-
-  @include dark-mode {
-    background-color: #121316;
-    border: 1px solid $c-white;
-  }
-
+  background-color: var(--theme-card-background);
+  border: 1px solid var(--theme-card-border);
   border-radius: $border-radius;
 
   &__header {
     padding: 2 * $theme-unit;
     position: relative;
     background-color: inherit;
-    border-top-left-radius: $border-radius;
-    border-top-right-radius: $border-radius;
+    border-radius: $theme-unit $theme-unit 0 0;
 
     @include media-md {
       padding: 4 * $theme-unit;
@@ -26,7 +18,7 @@
   }
 
   &__footer,
-  & > div {
+  &>div {
     padding: 0 2 * $theme-unit;
 
     &:last-child {
@@ -35,18 +27,20 @@
 
     @include media-md {
       padding: 0 4 * $theme-unit;
+
       &:last-child {
         padding-bottom: 4 * $theme-unit;
       }
     }
   }
 
-  & > div {
+  &>div {
     border-radius: $border-radius;
   }
 
-  & > div:first-child {
+  &>div:first-child {
     padding-top: 2 * $theme-unit;
+
     @include media-md {
       padding-top: 4 * $theme-unit;
     }

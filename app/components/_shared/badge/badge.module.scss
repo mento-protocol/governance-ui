@@ -47,11 +47,8 @@
   }
 
   &.tertiary {
-    @include branded-badge($c-black, transparent, $c-black);
-
-    @include dark-mode {
-      @include branded-badge($c-white, transparent, $c-white);
-    }
+    @include branded-badge(var(--foreground-color), transparent, var(--foreground-color));
+    border: 1px solid $c-black;
   }
 
   &.rounded {

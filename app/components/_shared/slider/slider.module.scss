@@ -54,32 +54,6 @@
       }
     }
 
-    &::-moz-range-thumb {
-      position: relative;
-      -webkit-appearance: none;
-      appearance: none;
-      width: 44px;
-      height: 44px;
-      background: var(--foreground-color);
-      border: 1px solid var(--foreground-color);
-      cursor: pointer;
-
-      &:before {
-        content: 'xD';
-        position: absolute;
-
-        top: -10px;
-
-        &::-webkit-slider-thumb {
-          background: $c-white;
-        }
-
-        &::-moz-range-thumb {
-          background: $c-white;
-        }
-      }
-    }
-
     .errorMessage {
       @include default-input-error-message;
     }

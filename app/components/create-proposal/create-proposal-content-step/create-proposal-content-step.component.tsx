@@ -1,7 +1,11 @@
-import {Card, Input, MarkdownEditor, StepCounter} from "@components/_shared";
-import {date, InferType, number, object, setLocale, string} from "yup";
+"use client";
+import {Input, MarkdownEditor} from "@components/_shared";
+import {InferType, object, setLocale, string} from "yup";
 import {useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
+import Wrapper from "@components/create-proposal/wrapper/wrapper.component";
+import {CreateProposalFormStepEnum} from "@interfaces/create-proposal.interface";
+import {useCreateProposalContext} from "@/app/providers/create-proposal.provider";
 
 const validationSchema = object({
     title: string().required().typeError('Invalid title'),
@@ -10,7 +14,11 @@ const validationSchema = object({
 
 type FormData = InferType<typeof validationSchema>
 
+const formStep = CreateProposalFormStepEnum.content
+
 export const CreateProposalContentStep = () => {
+
+    const {form} = useCreateProposalContext();
 
     const {
         register,
@@ -30,13 +38,7 @@ export const CreateProposalContentStep = () => {
         },
     });
 
-    return <Card block>
-        <Card.Header>
-            <div className="flex gap-4 items-center bg-inherit">
-                <StepCounter>2</StepCounter>
-                Add name and description
-            </div>
-        </Card.Header>
+    return <Wrapper isOpened={form[formStep].isOpened} step={formStep} title="Add name and description">
         <div>
             <p className="text-lg mb-4 ml-10">Give your proposal a title and a description. They will be public when
                 your proposal goes live.</p>
@@ -44,13 +46,13 @@ export const CreateProposalContentStep = () => {
                    type="text"
                    form={{...register('title')}}
                    id="proposal-title"
+                   error={errors.title?.message}
                    placeholder="Enter a title for your proposal"/>
             <MarkdownEditor
                     className="mt-4"
-                    label="Description"
-                    form={{...register('content')}}
-                    id="proposal-description"
+                    value={watch('content')}
+                    markdownChanged={(value) => setValue('content', value)}
             />
         </div>
-    </Card>
+    </Wrapper>
 }

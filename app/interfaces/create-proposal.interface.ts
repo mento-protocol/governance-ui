@@ -5,7 +5,8 @@ export interface CreateProposalForm {
 
 interface CreateProposalFormStep {
     isValid: boolean;
-    isEnable: boolean;
+    isEnabled: boolean;
+    isOpened: boolean;
     value: { [key: string]: string }
 }
 
@@ -17,12 +18,14 @@ export enum CreateProposalFormStepEnum {
 export const initialCreateProposalForm: CreateProposalForm = {
     [CreateProposalFormStepEnum.wallet]: {
         isValid: false,
-        isEnable: true,
+        isOpened: true,
+        isEnabled: true,
         value: {}
     },
     [CreateProposalFormStepEnum.content]: {
         isValid: false,
-        isEnable: false,
+        isEnabled: false,
+        isOpened: false,
         value: {}
     }
 }

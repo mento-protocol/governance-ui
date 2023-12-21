@@ -1,15 +1,13 @@
-import {Card, ProgressBar} from "@components/_shared";
-import styles from "./proposals-list.module.scss";
-import classNames from "classnames";
-import Proposal, {ProposalStatus, statusToBadgeColorMap} from "@interfaces/proposal";
-import {MentoIcon} from "@components/_icons/mento.icon";
-import BaseComponentProps from "@interfaces/base-component-props.interface";
-import {Badge} from "@components/_shared/badge/badge.component";
-import {BadgeType} from "@/app/types";
+import { proposalsMock } from "@/app/helpers/mocks";
 import NumbersService from "@/app/helpers/numbers.service";
-import Link from "next/link";
-import {proposalsMock} from "@/app/helpers/mocks";
 import StringService from "@/app/helpers/string.service";
+import { Card, ProgressBar } from "@components/_shared";
+import { Badge } from "@components/_shared/badge/badge.component";
+import BaseComponentProps from "@interfaces/base-component-props.interface";
+import { statusToBadgeColorMap } from "@interfaces/proposal";
+import classNames from "classnames";
+import Link from "next/link";
+import styles from "./proposals-list.module.scss";
 
 interface ProposalsListProps extends BaseComponentProps {
 }
@@ -22,7 +20,7 @@ export const ProposalsListComponent = ({className, style}: ProposalsListProps) =
             <h2 className="text-2xl text-center mt-10 mb-6">Proposals</h2>
             <Card block>
                 <div className={classNames(styles.proposals_grid, 'text_small')}>
-                    <div className={classNames(styles.proposals_grid__row, 'pb-[22px]')}>
+                    <div className={classNames(styles.proposals_grid__row)}>
                         <div className={classNames(styles.proposals_grid__row__element, styles.header, styles.first)}>
                             Proposal name
                         </div>
@@ -51,8 +49,8 @@ export const ProposalsListComponent = ({className, style}: ProposalsListProps) =
                                     </Link>
                                 </div>
                             </div>
-                            <div className={classNames(styles.proposals_grid__row__element, 'flex justify-center w-full')}>
-                                <Badge className="capitalize"
+                            <div className={classNames(styles.proposals_grid__row__element)}>
+                                <Badge className="uppercase font-medium"
                                        type={statusToBadgeColorMap[proposal.status]}>{proposal.status.toString()}</Badge>
                             </div>
                             <div className={classNames(styles.proposals_grid__row__element)}>

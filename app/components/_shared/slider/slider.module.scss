@@ -1,10 +1,12 @@
 @import "@/app/brand";
 
+
 .sliderWrapper {
   margin-top: 6 * $theme-unit;
   width: 100%;
 
   .slider {
+
     -webkit-appearance: none;
     appearance: none;
     width: 100%;
@@ -22,8 +24,8 @@
       appearance: none;
       width: 44px;
       height: 44px;
-      background: $c-black;
-      border: 1px solid $c-black;
+      background: var(--foreground-color);
+      border: 1px solid var(--foreground-color);
       cursor: pointer;
       border-radius: 8px;
 
@@ -53,33 +55,33 @@
         top: -10px;
       }
     }
+  }
 
-    .errorMessage {
-      @include default-input-error-message;
-    }
+  .errorMessage {
+    @include default-input-error-message;
+  }
 
-    .labels {
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: $theme-unit;
+  .labels {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: $theme-unit;
+    font-size: 16px;
+    font-weight: 300;
+  }
+
+  .bubbleTrack {
+    position: relative;
+    height: 20px;
+
+    .bubble {
+      position: absolute;
+      top: 0px;
+      width: 176px;
+      text-align: center;
+      transform: translateX(-66px);
+      white-space: nowrap;
       font-size: 16px;
       font-weight: 300;
-    }
-
-    .bubbleTrack {
-      position: relative;
-      height: 20px;
-
-      .bubble {
-        position: absolute;
-        top: 0px;
-        width: 176px;
-        text-align: center;
-        transform: translateX(-66px);
-        white-space: nowrap;
-        font-size: 16px;
-        font-weight: 300;
-      }
     }
   }
 }

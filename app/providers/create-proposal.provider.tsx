@@ -5,12 +5,13 @@ import {
     initialCreateProposalForm
 } from "@interfaces/create-proposal.interface";
 
+const noopProposalMethod = (step: CreateProposalFormStepEnum, ...args: any[]) => { };
+
 const CreateProposalContext = createContext({
     form: initialCreateProposalForm as CreateProposalForm,
-    setIsValid: (step: CreateProposalFormStepEnum, value: boolean) => {
-    },
-    setIsEnabled: (step: CreateProposalFormStepEnum, value: boolean) => {
-    }
+    setIsValid: noopProposalMethod,
+    setIsEnabled: noopProposalMethod,
+    toggleStepOpen: noopProposalMethod
 });
 export const CreateProposalProvider = ({children}: { children: ReactNode }) => {
 
@@ -36,10 +37,21 @@ export const CreateProposalProvider = ({children}: { children: ReactNode }) => {
         });
     }
 
+    const toggleStepOpen = (step: CreateProposalFormStepEnum) => {
+        const stepValue = form[step];
+        setForm({
+            ...form, [step]: {
+                ...stepValue,
+                isOpened: !stepValue.isOpened
+            }
+        });
+    }
+
     return <CreateProposalContext.Provider value={{
         form,
         setIsValid,
-        setIsEnabled
+        setIsEnabled,
+        toggleStepOpen
     }}>
         {children}
     </CreateProposalContext.Provider>

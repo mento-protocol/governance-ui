@@ -1,6 +1,11 @@
 import {Card, ConnectButton, MntoLock, StepCounter} from "@components/_shared";
 import {useAccount, useBalance} from "wagmi";
 import {useCreateProposalContext} from "@/app/providers/create-proposal.provider";
+import styles from '../create-proposal.module.scss'
+import classNames from "classnames";
+import {CreateProposalFormStepEnum} from "@interfaces/create-proposal.interface";
+
+const formStep = CreateProposalFormStepEnum.wallet;
 
 export const CreateProposalWalletStep = () => {
 
@@ -18,7 +23,7 @@ export const CreateProposalWalletStep = () => {
                 Connect your wallet & login
             </div>
         </Card.Header>
-        <div className="mt-5 flex flex-col place-items-center full-w">
+        <div className={classNames(styles.form_element, form[formStep].isOpened && styles.opened, 'mt-5 flex flex-col place-items-center full-w')}>
             {!isConnected && <>
                 <p className="text-lg mb-4 ml-10 place-self-start">Connect your wallet to create new proposal.</p>
                 <ConnectButton theme="primary"/></>}

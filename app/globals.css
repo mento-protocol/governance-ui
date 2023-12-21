@@ -31,6 +31,11 @@
 }
 
 
+.force-dark :root {
+    --foreground-color: #FFFFFF !important;
+    --background-color: #02010A !important;
+}
+
 body {
     color: var(--foreground-color);
     font-size: 18px;

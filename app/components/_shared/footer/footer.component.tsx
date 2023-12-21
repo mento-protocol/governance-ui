@@ -1,13 +1,12 @@
 import BaseComponentProps from "@interfaces/base-component-props.interface";
 import styles from './footer.module.scss';
 import classNames from "classnames";
-import {ChevronIcon, DiscordIcon, GithubIcon, MentoLogoIcon, TwitterIcon} from "@components/_icons";
+import {ChevronIcon, DiscordIcon, GithubIcon, MentoLogoIcon, TwitterIcon, LearnMoreIcon} from "@components/_icons";
 import Link from "next/link";
 import {Button} from "@components/_shared";
 import exports from '@styles/exports.module.scss';
 import {usePathname} from "next/navigation";
 import { ThemeSwitch } from "../../theme-switch/theme-switch.component";
-import { LearnMoreIcon } from "../../_icons/learn-more.icon";
 
 interface FooterProps extends BaseComponentProps {
 }

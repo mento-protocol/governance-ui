@@ -22,7 +22,7 @@ export const ThemeSwitch = ({ className, style }: BaseComponentProps) => {
 
     useEffect(() => {
         if (selectedMode) localStorage.setItem('theme', selectedMode);
-        if (defaultMode || selectedMode) document.body.className = selectedMode || defaultMode;
+        if (selectedMode || defaultMode) document.body.className = selectedMode || defaultMode;
     }, [selectedMode, defaultMode]);
 
     const onToggleSwitch = () => {
@@ -31,10 +31,10 @@ export const ThemeSwitch = ({ className, style }: BaseComponentProps) => {
 
     return <button
         onClick={onToggleSwitch}
-        className={classNames(styles.switch, styles[`switch__${selectedMode}`], className)}
+        className={classNames(styles.switch, styles[`switch__${selectedMode || defaultMode}`], className)}
         style={style}>
         <div className={styles.switch__mode}>
-            <div className={classNames(styles.circle, styles[`circle__${selectedMode}`])} />
+            <div className={classNames(styles.circle, styles[`circle__${selectedMode || defaultMode}`])} />
             <div className="flex justify-between w-full">
                 <LightModeIcon />
                 <DarkModeIcon />

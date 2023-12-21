@@ -1,38 +1,86 @@
+import '@mdxeditor/editor/style.css';
 import styles from './markdown-editor.module.scss';
 import BaseComponentProps from "@interfaces/base-component-props.interface";
-import BaseInputProps from "@interfaces/base-input-props.interface";
 import classNames from "classnames";
 import {TabList} from "@components/_shared";
-import dynamic from "next/dynamic";
-import {Suspense, useEffect, useRef, useState} from "react";
-import {MDXEditorMethods} from "@mdxeditor/editor";
+import {MutableRefObject, Suspense, useEffect, useRef, useState} from "react";
+import {
+    BlockTypeSelect,
+    BoldItalicUnderlineToggles, codeBlockPlugin, codeMirrorPlugin,
+    CodeToggle,
+    CreateLink, diffSourcePlugin, headingsPlugin, imagePlugin,
+    InsertCodeBlock,
+    InsertImage,
+    InsertThematicBreak, linkDialogPlugin, linkPlugin,
+    listsPlugin,
+    ListsToggle, markdownShortcutPlugin, MDXEditor,
+    MDXEditorMethods, quotePlugin, thematicBreakPlugin,
+    toolbarPlugin,
+    UndoRedo
+} from "@mdxeditor/editor";
 import { remark } from 'remark';
 import html from 'remark-html';
-
-const EditorComp = dynamic(() => import('./partials/editor.component'), { ssr: false })
-
-interface MarkdownEditorProps extends BaseComponentProps, BaseInputProps {
+interface MarkdownEditorProps extends BaseComponentProps {
+    value: string;
+    markdownChanged: (value: string) => void;
 }
-export const MarkdownEditor = ({className, style, form}:MarkdownEditorProps) => {
+export const MarkdownEditor = ({className, style, value, markdownChanged }:MarkdownEditorProps) => {
 
     const [markdown, setMarkdown] = useState('');
     const [markdownParsed, setMarkdownParsed] = useState(null as string | null);
+
+    const editorRef = useRef<MDXEditorMethods>(null);
 
     useEffect(() => {
         remark().use(html).process(markdown).then((file) => {
             setMarkdownParsed(file.toString());
         });
-        form.onChange(markdown);
     }, [markdown]);
 
-    const ref = useRef<MDXEditorMethods>(null);
+    useEffect(() => {
+        setMarkdown(value);
+    }, [value]);
+
+    const updateValue = (value: string) => {
+        setMarkdown(value);
+        markdownChanged(value);
+    }
 
     return <div className={classNames(className)} style={style}>
         <TabList tabs={['Write', 'Preview']} headerPlacement="left">
-            <div className={styles.editor}>
-                <Suspense fallback={null}>
-                    <EditorComp markdown={markdown} setMarkdown={setMarkdown} editorRef={ref}/>
-                </Suspense>
+            <div>
+                <MDXEditor ref={editorRef}
+                           className={styles.editor}
+                           contentEditableClassName={classNames('prose', styles.editor__contentEditable)}
+                           markdown={markdown}
+                           onChange={updateValue}
+                           plugins={[
+                               toolbarPlugin({
+                                   toolbarContents: () => <>
+                                       <UndoRedo/>
+                                       <BlockTypeSelect/>
+                                       <BoldItalicUnderlineToggles/>
+                                       <CodeToggle/>
+                                       <CreateLink/>
+                                       <InsertCodeBlock/>
+                                       <InsertImage/>
+                                       <ListsToggle/>
+                                       <InsertThematicBreak/>
+                                   </>
+                               }),
+                               listsPlugin(),
+                               quotePlugin(),
+                               headingsPlugin(),
+                               linkPlugin(),
+                               linkDialogPlugin(),
+                               imagePlugin(),
+                               thematicBreakPlugin(),
+                               codeBlockPlugin({defaultCodeBlockLanguage: 'txt'}),
+                               codeMirrorPlugin({codeBlockLanguages: {js: 'JavaScript', css: 'CSS', txt: 'text', tsx: 'TypeScript'}}),
+                               diffSourcePlugin({viewMode: 'rich-text', diffMarkdown: 'boo'}),
+                               markdownShortcutPlugin()
+                           ]}
+                />
             </div>
             <div className="prose prose-neutral dark:prose-invert">
                 {

@@ -3,14 +3,15 @@
 .form_element {
   max-height: 0;
   transition: max-height 0.3s $ease-in-cubic, padding 0s 0.3s linear;
-  overflow: hidden;
   padding-bottom: 0 !important;
+  overflow: hidden;
 
   .inner {
     opacity: 0;
     overflow: hidden;
     transform: translateY(-50px);
     transition: all 0.3s $ease-in-cubic;
+    padding: 0 $theme-unit;
   }
 
   &.opened {

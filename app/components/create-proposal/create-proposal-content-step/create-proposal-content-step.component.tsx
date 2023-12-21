@@ -1,3 +1,4 @@
+"use client";
 import {Input, MarkdownEditor} from "@components/_shared";
 import {InferType, object, setLocale, string} from "yup";
 import {useForm} from "react-hook-form";
@@ -14,7 +15,6 @@ const validationSchema = object({
 type FormData = InferType<typeof validationSchema>
 
 const formStep = CreateProposalFormStepEnum.content
-
 
 export const CreateProposalContentStep = () => {
 
@@ -46,12 +46,12 @@ export const CreateProposalContentStep = () => {
                    type="text"
                    form={{...register('title')}}
                    id="proposal-title"
+                   error={errors.title?.message}
                    placeholder="Enter a title for your proposal"/>
             <MarkdownEditor
                     className="mt-4"
-                    label="Description"
-                    form={{...register('content')}}
-                    id="proposal-description"
+                    value={watch('content')}
+                    markdownChanged={(value) => setValue('content', value)}
             />
         </div>
     </Wrapper>

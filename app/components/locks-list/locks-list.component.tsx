@@ -2,6 +2,7 @@ import styles from './locks-list.module.scss';
 import BaseComponentProps from "@interfaces/base-component-props.interface";
 import {locksMock} from "@/app/helpers/mocks";
 import {Button, DropdownButton} from "@components/_shared";
+import classNames from 'classnames';
 
 
 interface LocksListProps extends BaseComponentProps {
@@ -13,9 +14,9 @@ export const LocksList = ({}: LocksListProps) => {
 
     return <div className={styles.locksList}>
         <div className={styles.locksList__row}>
-            <div className={styles.item}>Amount MNTO</div>
-            <div className={styles.item}>Amount veMNTO</div>
-            <div className={styles.item}>Expires on</div>
+            <div className={classNames(styles.title, styles.item)}>Amount MNTO</div>
+            <div className={classNames(styles.title, styles.item)}>Amount veMNTO</div>
+            <div className={classNames(styles.title, styles.item)}>Expires on</div>
         </div>
         {locks.map((lock, index) => <div className={styles.locksList__row} key={index}>
             <div className={styles.divider}></div>
@@ -30,7 +31,7 @@ export const LocksList = ({}: LocksListProps) => {
                         </DropdownButton.Element>
                     </DropdownButton.Dropdown>
                 </DropdownButton>
-                <Button className="hidden md:static" block theme="clear">Extend lock</Button>
+                <Button className="md:static" block theme="clear">Extend lock</Button>
             </div>
         </div>)}
     </div>

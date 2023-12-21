@@ -6,6 +6,7 @@ import {ProposalsListComponent} from "@components/proposals-list/proposals-list.
 import NumbersService from "@/app/helpers/numbers.service";
 import {ContractParams} from "@components/contract-params/contract-params.component";
 import {useRouter} from "next/navigation";
+import { CeloLogoIcon } from "../components/_icons/celo-logo.icon";
 
 const Page = () => {
     const router = useRouter();
@@ -47,7 +48,8 @@ const Page = () => {
                 <div className="my-4">
                     <p className="mb-4">Transparent Digital Asset Solutions</p>
                     <div className="flex flex-row gap-default">
-                        <Badge rounded type="tertiary">CELO</Badge>
+                        
+                        <Badge rounded type="tertiary"><CeloLogoIcon/>&nbsp;CELO</Badge>
                         <Badge rounded type="secondary">ERC20</Badge>
                         <Badge rounded type="secondary">{(9999999998).toLocaleString()} Supply</Badge>
                     </div>

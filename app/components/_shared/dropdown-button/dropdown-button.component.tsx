@@ -13,9 +13,10 @@ interface DropdownButtonProps extends BaseComponentProps {
     theme?: ButtonType;
     title?: string;
     block?: boolean;
+    avatar?: JSX.Element;
 }
 
-export const DropdownButton = ({theme = 'primary', className, children, style, title, block}: DropdownButtonProps) => {
+export const DropdownButton = ({theme = 'primary', className, children, style, title, block, avatar}: DropdownButtonProps) => {
     const [dropdownPositionHorizontal, setDropdownPositionHorizontal] = useState('right' as 'left' | 'right');
     const [dropdownPositionTopOffset, setDropdownPositionTopOffset] = useState(0);
     const [dropdownOpened, setDropdownOpened] = useState(false)
@@ -56,6 +57,7 @@ export const DropdownButton = ({theme = 'primary', className, children, style, t
     return (
         <div ref={dropdownRef} className={classNames(styles.wrapper, styles[theme], block && styles.block, dropdownOpened && styles.opened, className)} style={style}>
             <Button block={block} theme={theme} className={styles.button} onClick={() => setDropdownOpened(!dropdownOpened)}>
+                {!!avatar && avatar}
                 {title}
                 <span className={classNames(styles.toggle, dropdownOpened && styles.opened)}>
                     <ChevronIcon width={15} height={10} useThemeColor direction={'down'}/>

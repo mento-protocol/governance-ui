@@ -1,4 +1,27 @@
 @import "@/app/brand";
 
 .form_element {
+  max-height: 0;
+  transition: max-height 0.3s $ease-in-cubic, padding 0s 0.3s linear;
+  overflow: hidden;
+  padding-bottom: 0 !important;
+
+  .inner {
+    opacity: 0;
+    overflow: hidden;
+    transform: translateY(-50px);
+    transition: all 0.3s $ease-in-cubic;
+  }
+
+  &.opened {
+    max-height: 100%;
+    padding: initial;
+    padding-bottom: 4 * $theme-unit !important;
+    transition: max-height 0.3s $ease-in-cubic;
+    .inner {
+      opacity: 1;
+      transform: translateY(0);
+      transition: all 0.3s $ease-out-back;
+    }
+  }
 }

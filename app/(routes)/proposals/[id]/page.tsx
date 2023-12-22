@@ -47,7 +47,7 @@ const Page = () => {
     return <main className="flex flex-col">
         <Badge className="uppercase mb-3 font-medium"
                type={statusToBadgeColorMap[proposal.status]}>{proposal.status.toString()}</Badge>
-        <div className="flex flex-col md:grid md:grid-cols-7 gap-x1">
+        <div className="flex flex-col md:grid md:grid-cols-7 gap-x1 ">
             <div className="md:col-start-1 md:col-span-4">
                 <h1 className="text-xl md:text-5xl font-semibold">{proposal.title}</h1>
             </div>
@@ -55,7 +55,7 @@ const Page = () => {
                 <Countdown end={proposal.deadlineAt} countDownMilliseconds={1000}/>
             </div>
         </div>
-        <div className="flex flex-wrap place-items-center justify-start md:justify-between mt-8 gap-x1">
+        <div className="flex flex-wrap place-items-center justify-start md:justify-between mt-8 gap-x1 ">
             <div className="flex place-items-center gap-1">
                 <Avatar address={proposal.creator || ''}/>
                 <div>by {proposal.creator}</div>
@@ -79,7 +79,7 @@ const Page = () => {
             </div>
         </div>
 
-        <div className="mt-8 flex flex-col md:flex-row md:justify-between place-items-start gap-x1">
+        <div className="mt-8 flex flex-col md:flex-row md:justify-between place-items-start gap-x1 ">
             <div className={classNames(styles.details, "flex-1")}>
                 <h3>Details</h3>
                 <div dangerouslySetInnerHTML={{__html: proposal.description}}/>

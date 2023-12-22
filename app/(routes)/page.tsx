@@ -21,11 +21,11 @@ const Page = () => {
             <Card className="mt-8" block>
                 <Card.Header className="!pb-0">
                     <div className="flex flex-row justify-between">
-                        <div className="flex flex-row justify-start place-items-center gap-x1text-3xl font-bold">
+                        <div className="flex flex-row justify-start place-items-center gap-x1 text-3xl font-bold">
                             <MentoIcon/>
                             Mento
                         </div>
-                        <div className="hidden gap-x1md:flex">
+                        <div className="hidden gap-x1 md:flex">
                             <Button theme="clear" href="/proposals/create">
                                 Create new proposal
                             </Button>
@@ -47,7 +47,7 @@ const Page = () => {
                 </Card.Header>
                 <div className="my-4">
                     <p className="mb-4">Transparent Digital Asset Solutions</p>
-                    <div className="flex flex-row gap-x1">
+                    <div className="flex flex-row gap-x1 ">
                         
                         <Badge rounded type="tertiary"><CeloLogoIcon/>&nbsp;CELO</Badge>
                         <Badge rounded type="secondary">ERC20</Badge>

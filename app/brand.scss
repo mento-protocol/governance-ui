@@ -85,6 +85,44 @@ $themes: (
   )
 );
 
+@mixin tailwind-prop($class-name, $properties, $value) {
+  .#{$class-name} {
+    @each $property in $properties {
+      #{$property}: $value;
+    }
+  }
+
+  .\!#{$class-name} {
+    @each $property in $properties {
+      #{$property}: $value !important;
+    }
+  }
+
+  .hover\:#{$class-name}:hover {
+    @each $property in $properties {
+      #{$property}: $value;
+    }
+  }
+
+  .focus\:#{$class-name}:focus {
+    @each $property in $properties {
+      #{$property}: $value;
+    }
+  }
+
+  .active\:#{$class-name}:active {
+    @each $property in $properties {
+      #{$property}: $value;
+    }
+  }
+
+  .disabled\:#{$class-name}:disabled {
+    @each $property in $properties {
+      #{$property}: $value;
+    }
+  }
+}
+
 @mixin media-sm {
   @media (min-width: $breakpoint-sm) {
     @content;

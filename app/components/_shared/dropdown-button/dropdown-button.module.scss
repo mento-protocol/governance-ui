@@ -113,7 +113,7 @@
     &.tertiary,
     &.clear,
     &.link {
-      @include branded-dropdown(var(--secondary-color), var(--background-color), var(--foreground-color));
+      @include branded-dropdown(var(--theme-secondary-color), var(--theme-background-color), var(--theme-foreground-color));
     }
   }
 
@@ -143,7 +143,7 @@
   &.clear {
     .button {
       button {
-        background-color: var(--button-background);
+        background-color: var(--theme-button-background);
       }
     }
   }

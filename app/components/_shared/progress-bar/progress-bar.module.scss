@@ -9,7 +9,7 @@
   .progress_bar {
     border-radius: $border-radius * 3;
     height: $theme-unit * 1.5;
-    border: 1px solid var(--progress-border);
+    border: 1px solid var(--theme-progress-border);
     width: 100%;
 
     .value {

@@ -1,0 +1,91 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@import "brand";
+
+.light {
+    --theme-foreground-color: #02010A;
+    --theme-background-color: #FFFFFF;
+    --theme-secondary-color: #808080;
+    --theme-card-background: #FFFFFF;
+    --theme-card-border: #B3B3B3;
+    --theme-header-hover: #80808022;
+    --theme-button-background: #cccfde;
+    --theme-date-picker-box: rgba(0, 0, 0, 0.25);
+    --theme-progress-border: #02010A;
+    --theme-card-table-gradient: rgba(0, 0, 0, .15);
+    --theme-footer-color: #636768;
+  }
+
+.dark {
+    --theme-foreground-color: #FFFFFF;
+    --theme-background-color: #02010A;
+    --theme-secondary-color: #FFFFFF;
+    --theme-card-background: #121316;
+    --theme-card-border: #FFFFFF;
+    --theme-button-background: #808080;
+    --theme-header-hover: #80808088;
+    --theme-date-picker-box: rgba(255, 255, 255, 0.25);
+    --theme-progress-border: #808080;
+    --theme-card-table-gradient: rgba(156, 156, 156, .25);
+    --theme-footer-color: #8F9394;
+}
+
+body {
+    color: var(--theme-foreground-color);
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 18px;
+    background-color: var(--theme-background-color);
+}
+
+@include media-md{
+    body {
+        background: url('/images/bg.png'), url('/images/bg.png'), linear-gradient(180deg, var(--theme-background-color) 0%, var(--theme-background-color) 100%);
+        background-size: 1000px 1500px, 1000px 1500px, cover;
+        background-position: 70vw 10vh, -30vw 70vh, center;
+        background-repeat: no-repeat, no-repeat, no-repeat;
+    }
+}
+
+.main-container {
+    max-width: 1120px;
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+svg.branded-icon path {
+    fill: var(--theme-foreground-color) !important;
+}
+
+a:hover,
+.link:hover {
+    text-decoration: underline;
+    color: #4D62F0;
+}
+
+.flex-0 {
+    flex: 0;
+}
+
+.full-w {
+    width: 100%;
+}
+
+@each $color, $value in $brandColors {
+  .bg-#{$color} {
+    background-color: $value
+  }
+
+  .color-#{$color} {
+    color: $value;
+  }
+}
+
+@each $size, $value in $brandSizes {
+  .gap-#{$size} {
+    gap: $value;
+  }
+}
+

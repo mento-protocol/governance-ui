@@ -4,7 +4,7 @@
   z-index: 51;
   position: sticky;
   top: 0;
-  background: var(--background-color);
+  background: var(--theme-background-color);
 
   .mobile_inner {
     position: absolute;
@@ -13,7 +13,7 @@
     top: 0;
     left: 0;
     right: 0;
-    background-color: var(--background-color);
+    background-color: var(--theme-background-color);
   }
 
   &__inner {
@@ -25,7 +25,7 @@
     max-width: 1120px;
     width: 100%;
     margin: 0 auto;
-    background: var(--background-color);
+    background: var(--theme-background-color);
 
     display: flex;
     flex-direction: column;
@@ -134,8 +134,8 @@
           padding-bottom: 0px;
 
           ul {
-            background-color: var(--background-color);
-            border: 1px solid var(--foreground-color);
+            background-color: var(--theme-background-color);
+            border: 1px solid var(--theme-foreground-color);
             border-radius: $border-radius;
             padding: 0px;
             position: absolute;
@@ -148,12 +148,12 @@
             transform: translateY(-25px) translateX(-25%);
 
             li {
-              color: var(--foreground-color);
+              color: var(--theme-foreground-color);
               justify-content: flex-start;
               font-size: 12px;
               font-weight: 400;
               margin-left: 0px;
-              border-bottom: 1px solid var(--foreground-color);
+              border-bottom: 1px solid var(--theme-foreground-color);
               transition: background-color .1s;
 
               a {
@@ -169,10 +169,10 @@
               }
 
               &:hover {
-                background-color: var(--header-hover);
+                background-color: var(--theme-header-hover);
 
                 a {
-                  color: var(--foreground-color);
+                  color: var(--theme-foreground-color);
                 }
               }
 

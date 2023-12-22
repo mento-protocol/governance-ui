@@ -40,7 +40,7 @@ export const ProposalsListComponent = ({className, style}: ProposalsListProps) =
                         {proposals.map((proposal, index) => <div key={index} className={classNames(styles.proposals_grid__row)}>
                             {!!index && <div className={styles.divider}/>}
                             <div className={classNames(styles.proposals_grid__row__element, styles.first)}>
-                                <div className="flex gap-default place-items-center">
+                                <div className="flex gap-x1place-items-center">
                                     <div>
                                         {proposal.icon}
                                     </div>

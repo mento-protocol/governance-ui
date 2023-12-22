@@ -54,378 +54,76 @@ a:hover,
 }
 
 @each $color, $value in $brandColors {
-  .bg-#{$color} {
-    background-color: $value
-  }
-
-  .\!bg-#{$color} {
-    background-color: $value !important;
-  }
-
-  .hover\:bg-#{$color}:hover {
-    background-color: $value;
-  }
-
-  .color-#{$color} {
-    color: $value;
-  }
-
-  .\!color-#{$color} {
-    color: $value !important;
-  }
-
-  .hover\:color-#{$color}:hover {
-    color: $value;
-  }
-
-  .border-#{$color} {
-    border-color: $value;
-  }
-
-  .\!border-#{$color} {
-    border-color: $value !important;
-  }
-
-  .hover\:border-#{$color}:hover {
-    border-color: $value;
-  }
-
-  .border-t-#{$color} {
-    border-top-color: $value;
-  }
-
-  .\!border-t-#{$color} {
-    border-top-color: $value !important;
-  }
-
-  .hover\:border-t-#{$color}:hover {
-    border-top-color: $value;
-  }
-
-  .border-b-#{$color} {
-    border-bottom-color: $value;
-  }
-
-  .\!border-b-#{$color} {
-    border-bottom-color: $value !important;
-  }
-
-  .hover\:border-b-#{$color}:hover {
-    border-bottom-color: $value;
-  }
-
-  .border-l-#{$color} {
-    border-left-color: $value;
-  }
-
-  .\!border-l-#{$color} {
-    border-left-color: $value !important;
-  }
-
-  .hover\:border-l-#{$color}:hover {
-    border-left-color: $value;
-  }
-
-  .border-r-#{$color} {
-    border-right-color: $value;
-  }
-
-  .\!border-r-#{$color} {
-    border-right-color: $value !important;
-  }
-
-  .hover\:border-r-#{$color}:hover {
-    border-right-color: $value;
-  }
+  @include theme-class(bg-#{$color}, (background-color), $value);
+  @include theme-class(text-#{$color}, (color), $value);
+  @include theme-class(border-#{$color}, (border-color), $value);
+  @include theme-class(border-t-#{$color}, (border-top-color), $value);
+  @include theme-class(border-b-#{$color}, (border-bottom-color), $value);
+  @include theme-class(border-l-#{$color}, (border-left-color), $value);
+  @include theme-class(border-r-#{$color}, (border-right-color), $value);
+  @include theme-class(border-y-#{$color}, (border-top-color, border-bottom-color), $value);
+  @include theme-class(border-x-#{$color}, (border-left-color, border-right-color), $value);
 }
 
 @each $size, $value in $brandSizes {
-  .gap-#{$size} {
-    gap: $value;
-  }
-
-  .\!gap-#{$size} {
-    gap: $value !important;
-  }
-
-  .gap-column-#{$size} {
-    column-gap: $value;
-  }
-
-  .\!gap-column-#{$size} {
-    column-gap: $value !important;
-  }
-
-  .gap-row-#{$size} {
-    row-gap: $value;
-  }
-
-  .\!gap-row-#{$size} {
-    row-gap: $value !important;
-  }
-
-  .p-#{$size} {
-    padding: $value;
-  }
-
-  .\!p-#{$size} {
-    padding: $value !important;
-  }
-
-  .px-#{$size} {
-    padding-left: $value;
-    padding-right: $value;
-  }
-
-  .\!px-#{$size} {
-    padding-left: $value !important;
-    padding-right: $value !important;
-  }
-
-  .py-#{$size} {
-    padding-top: $value;
-    padding-bottom: $value;
-  }
-
-  .\!py-#{$size} {
-    padding-top: $value !important;
-    padding-bottom: $value !important;
-  }
-
-  .pt-#{$size} {
-    padding-top: $value;
-  }
-
-  .\!pt-#{$size} {
-    padding-top: $value !important;
-  }
-
-  .pb-#{$size} {
-    padding-bottom: $value;
-  }
-
-  .\!pb-#{$size} {
-    padding-bottom: $value !important;
-  }
-
-  .pl-#{$size} {
-    padding-left: $value;
-  }
-
-  .\!pl-#{$size} {
-    padding-left: $value !important;
-  }
-
-  .pr-#{$size} {
-    padding-right: $value;
-  }
-
-  .\!pr-#{$size} {
-    padding-right: $value !important;
-  }
-
-  .m-#{$size} {
-    margin: $value;
-  }
-
-  .\!m-#{$size} {
-    margin: $value !important;
-  }
-
-  .mx-#{$size} {
-    margin-left: $value;
-    margin-right: $value;
-  }
-
-  .\!mx-#{$size} {
-    margin-left: $value !important;
-    margin-right: $value !important;
-  }
-
-  .my-#{$size} {
-    margin-top: $value;
-    margin-bottom: $value;
-  }
-
-  .\!my-#{$size} {
-    margin-top: $value !important;
-    margin-bottom: $value !important;
-  }
-
-  .mt-#{$size} {
-    margin-top: $value;
-  }
-
-  .\!mt-#{$size} {
-    margin-top: $value !important;
-  }
-
-  .mb-#{$size} {
-    margin-bottom: $value;
-  }
-
-  .\!mb-#{$size} {
-    margin-bottom: $value !important;
-  }
-
-  .ml-#{$size} {
-    margin-left: $value;
-  }
-
-  .\!ml-#{$size} {
-    margin-left: $value !important;
-  }
-
-  .mr-#{$size} {
-    margin-right: $value;
-  }
-
-  .\!mr-#{$size} {
-    margin-right: $value !important;
-  }
-
-  .w-#{$size} {
-    width: $value;
-  }
-
-  .\!w-#{$size} {
-    width: $value !important;
-  }
-
-  .h-#{$size} {
-    height: $value;
-  }
-
-  .\!h-#{$size} {
-    height: $value !important;
-  }
-
-  .min-w-#{$size} {
-    min-width: $value;
-  }
-
-  .\!min-w-#{$size} {
-    min-width: $value !important;
-  }
-
-  .min-h-#{$size} {
-    min-height: $value;
-  }
-
-  .\!min-h-#{$size} {
-    min-height: $value !important;
-  }
-
-  .max-w-#{$size} {
-    max-width: $value;
-  }
-
-  .\!max-w-#{$size} {
-    max-width: $value !important;
-  }
-
-  .max-h-#{$size} {
-    max-height: $value;
-  }
-
-  .\!max-h-#{$size} {
-    max-height: $value !important;
-  }
-
-  .text-#{$size} {
-    font-size: $value;
-  }
-
-  .\!text-#{$size} {
-    font-size: $value !important;
-  }
-
-  .line-height-#{$size} {
-    line-height: $value;
-  }
-
-  .\!line-height-#{$size} {
-    line-height: $value !important;
-  }
-
-  .rounded-#{$size} {
-    border-radius: $value;
-  }
-
-  .\!rounded-#{$size} {
-    border-radius: $value !important;
-  }
-
-  .rounded-t-#{$size} {
-    border-top-left-radius: $value;
-    border-top-right-radius: $value;
-  }
-
-  .\!rounded-t-#{$size} {
-    border-top-left-radius: $value !important;
-    border-top-right-radius: $value !important;
-  }
-
-  .rounded-b-#{$size} {
-    border-bottom-left-radius: $value;
-    border-bottom-right-radius: $value;
-  }
-
-  .\!rounded-b-#{$size} {
-    border-bottom-left-radius: $value !important;
-    border-bottom-right-radius: $value !important;
-  }
-
-  .rounded-l-#{$size} {
-    border-top-left-radius: $value;
-    border-bottom-left-radius: $value;
-  }
-
-  .\!rounded-l-#{$size} {
-    border-top-left-radius: $value !important;
-    border-bottom-left-radius: $value !important;
-  }
-
-  .rounded-r-#{$size} {
-    border-top-right-radius: $value;
-    border-bottom-right-radius: $value;
-  }
-
-  .\!rounded-r-#{$size} {
-    border-top-right-radius: $value !important;
-    border-bottom-right-radius: $value !important;
-  }
-
-  .rounded-tl-#{$size} {
-    border-top-left-radius: $value;
-  }
-
-  .\!rounded-tl-#{$size} {
-    border-top-left-radius: $value !important;
-  }
-
-  .rounded-tr-#{$size} {
-    border-top-right-radius: $value;
-  }
-
-  .\!rounded-tr-#{$size} {
-    border-top-right-radius: $value !important;
-  }
-
-  .rounded-bl-#{$size} {
-    border-bottom-left-radius: $value;
-  }
-
-  .\!rounded-bl-#{$size} {
-    border-bottom-left-radius: $value !important;
-  }
-
-  .rounded-br-#{$size} {
-    border-bottom-right-radius: $value;
-  }
-
-  .\!rounded-br-#{$size} {
-    border-bottom-right-radius: $value !important;
-  }
+  @include theme-class(gap-#{$size}, (gap), $value);
+  @include theme-class(gap-column-#{$size}, (column-gap), $value);
+  @include theme-class(gap-row-#{$size}, (row-gap), $value);
+
+  @include theme-class(m-#{$size}, (margin), $value);
+  @include theme-class(mt-#{$size}, (margin-top), $value);
+  @include theme-class(mb-#{$size}, (margin-bottom), $value);
+  @include theme-class(ml-#{$size}, (margin-left), $value);
+  @include theme-class(mr-#{$size}, (margin-right), $value);
+  @include theme-class(my-#{$size}, (margin-top, margin-bottom), $value);
+  @include theme-class(mx-#{$size}, (margin-left, margin-right), $value);
+
+  @include theme-class(p-#{$size}, (padding), $value);
+  @include theme-class(pt-#{$size}, (padding-top), $value);
+  @include theme-class(pb-#{$size}, (padding-bottom), $value);
+  @include theme-class(pl-#{$size}, (padding-left), $value);
+  @include theme-class(pr-#{$size}, (padding-right), $value);
+  @include theme-class(py-#{$size}, (padding-top, padding-bottom), $value);
+  @include theme-class(px-#{$size}, (padding-left, padding-right), $value);
+
+  @include theme-class(w-#{$size}, (width), $value);
+  @include theme-class(h-#{$size}, (height), $value);
+  @include theme-class(min-w-#{$size}, (min-width), $value);
+  @include theme-class(min-h-#{$size}, (min-height), $value);
+  @include theme-class(max-w-#{$size}, (max-width), $value);
+  @include theme-class(max-h-#{$size}, (max-height), $value);
+
+  @include theme-class(font-size-#{$size}, (font-size), $value);
+  @include theme-class(line-height-#{$size}, (line-height), $value);
+
+  @include theme-class(rounded-#{$size}, (border-radius), $value);
+  @include theme-class(rounded-t-#{$size}, (border-top-left-radius, border-top-right-radius), $value);
+  @include theme-class(rounded-b-#{$size}, (border-bottom-left-radius, border-bottom-right-radius), $value);
+  @include theme-class(rounded-l-#{$size}, (border-top-left-radius, border-bottom-left-radius), $value);
+  @include theme-class(rounded-r-#{$size}, (border-top-right-radius, border-bottom-right-radius), $value);
+  @include theme-class(rounded-tl-#{$size}, (border-top-left-radius), $value);
+  @include theme-class(rounded-tr-#{$size}, (border-top-right-radius), $value);
+  @include theme-class(rounded-bl-#{$size}, (border-bottom-left-radius), $value);
+  @include theme-class(rounded-br-#{$size}, (border-bottom-right-radius), $value);
 }
+
+@include theme-class(rounded-full, (border-radius), 50%);
+@include theme-class(rounded-t-full, (border-top-left-radius, border-top-right-radius), 50%);
+@include theme-class(rounded-b-full, (border-bottom-left-radius, border-bottom-right-radius), 50%);
+@include theme-class(rounded-l-full, (border-top-left-radius, border-bottom-left-radius), 50%);
+@include theme-class(rounded-r-full, (border-top-right-radius, border-bottom-right-radius), 50%);
+@include theme-class(rounded-tl-full, (border-top-left-radius), 50%);
+@include theme-class(rounded-tr-full, (border-top-right-radius), 50%);
+@include theme-class(rounded-bl-full, (border-bottom-left-radius), 50%);
+@include theme-class(rounded-br-full, (border-bottom-right-radius), 50%);
+
+@include theme-class(rounded-half, (border-radius), 25%);
+@include theme-class(rounded-t-half, (border-top-left-radius, border-top-right-radius), 25%);
+@include theme-class(rounded-b-half, (border-bottom-left-radius, border-bottom-right-radius), 25%);
+@include theme-class(rounded-l-half, (border-top-left-radius, border-bottom-left-radius), 25%);
+@include theme-class(rounded-r-half, (border-top-right-radius, border-bottom-right-radius), 25%);
+@include theme-class(rounded-tl-half, (border-top-left-radius), 25%);
+@include theme-class(rounded-tr-half, (border-top-right-radius), 25%);
+@include theme-class(rounded-bl-half, (border-bottom-left-radius), 25%);
+@include theme-class(rounded-br-half, (border-bottom-right-radius), 25%);
 

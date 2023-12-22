@@ -11,10 +11,13 @@ $brandColors: (
   'success': $c-success,
   'error': $c-error,
   'warning': $c-warning,
-  'info': $c-info
+  'info': $c-info,
+  'transparent': transparent,
 );
 
 $brandSizes: (
+  '0x': 0,
+  '0-5x': $theme-unit * 0.5,
   'x1': $theme-unit,
   'x1-5': $theme-unit * 1.5,
   'x2': $theme-unit * 2,
@@ -85,7 +88,7 @@ $themes: (
   )
 );
 
-@mixin tailwind-prop($class-name, $properties, $value) {
+@mixin theme-class($class-name, $properties, $value) {
   .#{$class-name} {
     @each $property in $properties {
       #{$property}: $value;

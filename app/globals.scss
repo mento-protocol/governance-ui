@@ -3,32 +3,12 @@
 @tailwind utilities;
 @import "brand";
 
-.light {
-    --theme-foreground-color: #02010A;
-    --theme-background-color: #FFFFFF;
-    --theme-secondary-color: #808080;
-    --theme-card-background: #FFFFFF;
-    --theme-card-border: #B3B3B3;
-    --theme-header-hover: #80808022;
-    --theme-button-background: #cccfde;
-    --theme-date-picker-box: rgba(0, 0, 0, 0.25);
-    --theme-progress-border: #02010A;
-    --theme-card-table-gradient: rgba(0, 0, 0, .15);
-    --theme-footer-color: #636768;
+@each $theme, $value in $themes {
+  .#{$theme} {
+    @each $color, $colorValue in $value {
+      --theme-#{$color}: #{$colorValue};
+    }
   }
-
-.dark {
-    --theme-foreground-color: #FFFFFF;
-    --theme-background-color: #02010A;
-    --theme-secondary-color: #FFFFFF;
-    --theme-card-background: #121316;
-    --theme-card-border: #FFFFFF;
-    --theme-button-background: #808080;
-    --theme-header-hover: #80808088;
-    --theme-date-picker-box: rgba(255, 255, 255, 0.25);
-    --theme-progress-border: #808080;
-    --theme-card-table-gradient: rgba(156, 156, 156, .25);
-    --theme-footer-color: #8F9394;
 }
 
 body {

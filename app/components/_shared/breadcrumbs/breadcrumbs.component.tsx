@@ -13,7 +13,6 @@ type CrumbProps = {
 const Crumb = ({ path, index, last }: CrumbProps) => {
     const pathName = routingMap[path];
     
-    console.log('path', path)
     return (
         <li className={styles.crumb}>
             {index > 0 && pathName && <span className={styles.crumb__separator}>{">"}</span>}

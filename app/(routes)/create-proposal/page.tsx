@@ -6,7 +6,6 @@ import { Breadcrumbs } from "@/app/components/_shared/breadcrumbs/breadcrumbs.co
 
 const Page = () => {
     return <main className="flex flex-col place-items-center">
-        <Breadcrumbs/>
         <CreateProposalProvider>
             <h2 className="text-2xl font-bold mb-5">Create a Proposal</h2>
             <div className={styles.form_wrapper}>

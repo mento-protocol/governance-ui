@@ -46,7 +46,6 @@ const Page = () => {
     const proposal = singleProposal;
 
     return <main className="flex flex-col">
-        <Breadcrumbs/>
         <Badge className="uppercase mt-x6 mb-3 font-medium"
                type={statusToBadgeColorMap[proposal.status]}>{proposal.status.toString()}</Badge>
         <div className="flex flex-col md:grid md:grid-cols-7 gap-x1 ">

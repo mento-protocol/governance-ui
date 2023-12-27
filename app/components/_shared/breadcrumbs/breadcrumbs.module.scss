@@ -1,2 +1,25 @@
 @import '@/app/brand';
 
+.container {
+  width: 100%;
+  
+  ol {
+    display: flex;
+  } 
+
+  .crumb {
+    color: var(--theme-foreground-color);
+    font-size: $theme-unit * 4;
+    font-style: normal;
+    font-weight: 500;
+    line-height: $theme-unit * 4;
+    
+    &__separator {
+      margin: 0 $theme-unit * 2;
+    }
+    
+    &__last {
+      color: $c-primary
+    }
+  }
+}

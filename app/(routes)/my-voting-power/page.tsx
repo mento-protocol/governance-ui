@@ -19,10 +19,12 @@ import {
     differenceInMonths,
     differenceInCalendarWeeks, differenceInCalendarMonths,
 } from "date-fns";
+import { Breadcrumbs } from "@/app/components/_shared/breadcrumbs/breadcrumbs.component";
 
 const Page = () => {
 
     return <main className="flex flex-col place-items-center">
+        <Breadcrumbs/>
         <h2 className="text-2xl mt-8 mb-4">My Voting Power</h2>
         <Card block>
             <div className="flex flex-col md:flex-row min-w-full gap-x3">

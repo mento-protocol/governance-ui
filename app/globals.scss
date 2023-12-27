@@ -29,7 +29,7 @@ body {
 }
 
 .main-container {
-  max-width: 1120px;
+  max-width: $breakpoint-lx;
   width: 100%;
   margin-left: auto;
   margin-right: auto;
@@ -126,4 +126,3 @@ a:hover,
 @include theme-class(rounded-tr-half, (border-top-right-radius), 25%);
 @include theme-class(rounded-bl-half, (border-bottom-left-radius), 25%);
 @include theme-class(rounded-br-half, (border-bottom-right-radius), 25%);
-

@@ -15,7 +15,7 @@ const Page = () => {
             <div className="max-w-full">
                 <MentoTextLogoIcon className="max-w-full" useThemeColor/>
             </div>
-            <h2 className="text-2xl mt-8 mb-4">Claim your part and participate in <br/> shaping the future
+            <h2 className="text-3xl mt-8 mb-4 font-medium">Claim your part and participate in<br /> shaping the future
                 of digital assets</h2>
 
             <Card className="mt-8" block>
@@ -46,7 +46,8 @@ const Page = () => {
                     </div>
                 </Card.Header>
                 <div className="my-4">
-                    <p className="mb-4">Transparent Digital Asset Solutions</p>
+                    
+                    <p className="mb-[30px] text-[22px]">Transparent Digital Asset Solutions</p>
                     <div className="flex flex-row gap-x1 ">
                         
                         <Badge rounded type="tertiary"><CeloLogoIcon/>&nbsp;CELO</Badge>
@@ -61,7 +62,7 @@ const Page = () => {
             </Card>
 
             <Card className="mt-8" block>
-                <div className="grid grid-cols-2 md:grid-cols-4">
+                <div className="flex m-[20px] mr-[30px] ml-[30px] justify-between">
                     <div className="flex flex-col justify-center place-items-center">
                         <div className="text-2xl font-semibold">11</div>
                         <div className="text-sm font-light">Total proposals</div>

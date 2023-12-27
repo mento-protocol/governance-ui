@@ -2,10 +2,10 @@ import { Card } from "@components/_shared";
 import NumbersService from "@/app/helpers/numbers.service";
 
 export const ContractParams = () => {
-    return <div className="grid grid-cols-1 gap-x1 md:grid-cols-7 px-[20px] pt-[20px]">
+    return <div className="grid grid-cols-1 gap-x1 md:grid-cols-7 px-x4 pt-x4">
         <Card className="md:col-span-3">
             <Card.Header>
-                <div className="color-primary text-[22px] font-medium  mb-[30px]">
+                <div className="color-primary text-x4 font-medium  mb-x6">
                     Parameters
                 </div>
             </Card.Header>
@@ -44,7 +44,7 @@ export const ContractParams = () => {
         </Card>
         <Card className="md:col-span-4">
             <Card.Header>
-                <div className="color-primary text-[22px] font-medium mb-[30px]">
+                <div className="color-primary text-x4 font-medium mb-x6">
                     Mento Core
                 </div>
             </Card.Header>
@@ -75,7 +75,7 @@ export const ContractParams = () => {
         </Card>
         <Card className="md:col-span-3">
             <Card.Header>
-                <div className="color-primary text-[22px] font-medium mb-[30px]">
+                <div className="color-primary text-x4 font-medium mb-x6">
                     Parameters
                 </div>
             </Card.Header>
@@ -114,7 +114,7 @@ export const ContractParams = () => {
         </Card>
         <Card className="md:col-span-4">
             <Card.Header>
-                <div className="color-primary text-[22px] font-medium mb-[30px]">
+                <div className="color-primary text-x4 font-medium mb-x6">
                     Mento Core
                 </div>
             </Card.Header>

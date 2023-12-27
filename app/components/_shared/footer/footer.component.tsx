@@ -36,7 +36,7 @@ export const Footer = ({className, style}: FooterProps) => {
                         <LearnMoreIcon />
                     </div>
                 </div>}
-                <div className={classNames(styles.footer, 'px-6 md:px-0')}>
+                <div className={styles.footer}>
                     <div className={classNames(styles.footer__element)}>
                         <MentoLogoIcon className="mb-4" useThemeColor/>
                         <div> Mento © {year}2023.</div>
@@ -85,7 +85,7 @@ export const Footer = ({className, style}: FooterProps) => {
                             </Link>
                         </div>
                         <div className={classNames("flex", styles.theme)}>
-                            <span className="mr-[16px]">Theme</span>
+                            <span className="mr-x3">Theme</span>
                             <ThemeSwitch />
                         </div>
                     </div>

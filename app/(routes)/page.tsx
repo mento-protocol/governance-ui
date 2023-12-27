@@ -47,7 +47,7 @@ const Page = () => {
                 </Card.Header>
                 <div className="my-4">
                     
-                    <p className="mb-[30px] text-[22px]">Transparent Digital Asset Solutions</p>
+                    <p className="mb-x6 text-x4">Transparent Digital Asset Solutions</p>
                     <div className="flex flex-row gap-x1 ">
                         
                         <Badge rounded type="tertiary"><CeloLogoIcon/>&nbsp;CELO</Badge>
@@ -62,7 +62,7 @@ const Page = () => {
             </Card>
 
             <Card className="mt-8" block>
-                <div className="flex m-[20px] mr-[30px] ml-[30px] justify-between">
+                <div className="flex m-x4 mr-x6 ml-x6 justify-between">
                     <div className="flex flex-col justify-center place-items-center">
                         <div className="text-2xl font-semibold">11</div>
                         <div className="text-sm font-light">Total proposals</div>

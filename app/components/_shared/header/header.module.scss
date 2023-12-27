@@ -51,6 +51,13 @@
     flex: 1;
 
     .item {
+      a {
+        &:hover {
+          text-decoration: none;
+          color: inherit;
+        }
+      }
+
       p {
         font-size: 20px;
         display: flex;

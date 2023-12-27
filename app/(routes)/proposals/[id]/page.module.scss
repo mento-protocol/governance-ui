@@ -38,15 +38,24 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    padding: $theme-unit;
+    padding: 4*$theme-unit 0;
     gap: $theme-unit;
-    background-color: $c-white;
+    background-color: var(--theme-background-color);
     z-index: 1;
 
     @include media-md {
       display: none;
     }
+
+    .mobile_button_wrapper {
+      width: 50%;
+    }
+
+    .mobile_button {
+      min-width: fit-content;
+    }
   }
+
 
   @include media-md {
     top: 140px;

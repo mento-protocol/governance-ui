@@ -59,13 +59,14 @@
   margin-top: $theme-unit;
   min-width: 204px;
   height: 56px;
-  width: min-content;
+  width: 100%;
   border-radius: $border-radius;
   background-color: transparent;
   border-bottom: 1px solid $c-black;
 
   .button {
-    min-width: 204px;
+    min-width: inherit;
+    width: 100%;
     height: 56px;
     border-radius: $border-radius;
     border: 1px solid var(--theme-foreground-color);

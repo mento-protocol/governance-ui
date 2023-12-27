@@ -8,10 +8,10 @@
   flex-wrap: wrap;
   font-weight: 400;
   font-size: 16px;
-  color: var(--foreground-color);
+  color: var(--theme-foreground-color);
 
   strong {
-    color: var(--footer-color);
+    color: var(--theme-footer-color);
   }
 
   &__element {
@@ -21,7 +21,7 @@
     gap: 2 * $theme-unit;
 
     .theme {
-      color: var(--footer-color);
+      color: var(--theme-footer-color);
     }
   }
 }

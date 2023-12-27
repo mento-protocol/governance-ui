@@ -1,5 +1,5 @@
 "use client";
-import '../globals.css';
+import '../globals.scss';
 import '@/app/brand.scss';
 import '@rainbow-me/rainbowkit/styles.css';
 import {Inter} from 'next/font/google';

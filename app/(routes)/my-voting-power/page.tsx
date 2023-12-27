@@ -25,7 +25,7 @@ const Page = () => {
     return <main className="flex flex-col place-items-center">
         <h2 className="text-2xl mt-8 mb-4">My Voting Power</h2>
         <Card block>
-            <div className="flex flex-col md:flex-row min-w-full gap-default-x3">
+            <div className="flex flex-col md:flex-row min-w-full gap-x3">
                 <MntoLock className="max-w-[428px]"/>
                 <div>
                     TODO: Chart

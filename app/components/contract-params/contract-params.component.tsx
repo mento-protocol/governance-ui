@@ -1,11 +1,11 @@
-import {Card} from "@components/_shared";
+import { Card } from "@components/_shared";
 import NumbersService from "@/app/helpers/numbers.service";
 
 export const ContractParams = () => {
-    return <div className="grid grid-cols-1 gap-x1 md:grid-cols-7 px-5">
+    return <div className="grid grid-cols-1 gap-x1 md:grid-cols-7 px-x4 pt-x4">
         <Card className="md:col-span-3">
             <Card.Header>
-                <div className="color-primary text-lg">
+                <div className="color-primary text-x4 font-medium  mb-x6">
                     Parameters
                 </div>
             </Card.Header>
@@ -44,7 +44,7 @@ export const ContractParams = () => {
         </Card>
         <Card className="md:col-span-4">
             <Card.Header>
-                <div className="color-primary text-lg">
+                <div className="color-primary text-x4 font-medium mb-x6">
                     Mento Core
                 </div>
             </Card.Header>
@@ -52,7 +52,7 @@ export const ContractParams = () => {
                 <div className="font-semibold">
                     Governor
                 </div>
-                <div className="text-right col-span-2">
+                <div className="text-right col-span-2 break-words">
                     1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa
                 </div>
             </div>
@@ -60,7 +60,7 @@ export const ContractParams = () => {
                 <div className="font-semibold">
                     Token
                 </div>
-                <div className="text-right col-span-2">
+                <div className="text-right col-span-2 break-words">
                     1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa
                 </div>
             </div>
@@ -68,14 +68,14 @@ export const ContractParams = () => {
                 <div className="font-semibold">
                     Timelock
                 </div>
-                <div className="text-right col-span-2">
+                <div className="text-right col-span-2 break-words">
                     1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa
                 </div>
             </div>
         </Card>
         <Card className="md:col-span-3">
             <Card.Header>
-                <div className="color-primary text-lg">
+                <div className="color-primary text-x4 font-medium mb-x6">
                     Parameters
                 </div>
             </Card.Header>
@@ -114,7 +114,7 @@ export const ContractParams = () => {
         </Card>
         <Card className="md:col-span-4">
             <Card.Header>
-                <div className="color-primary text-lg">
+                <div className="color-primary text-x4 font-medium mb-x6">
                     Mento Core
                 </div>
             </Card.Header>

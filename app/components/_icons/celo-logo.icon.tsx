@@ -1,6 +1,5 @@
 import BaseIconProps from "@interfaces/base-icon-props.interface";
 import exports from '@styles/exports.module.scss';
-import classNames from "classnames";
 
 export const CeloLogoIcon = ({
     width = 23,
@@ -16,7 +15,7 @@ export const CeloLogoIcon = ({
         </g>
         <defs>
             <clipPath id="clip0_5629_3299">
-                <rect width="22" height="22" fill="red" transform="translate(0.832031 0.224609)" />
+                <rect width="22" height="22" fill="white" transform="translate(0.832031 0.224609)" />
             </clipPath>
         </defs>
     </svg>

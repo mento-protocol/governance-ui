@@ -120,7 +120,7 @@ export const MntoLock = ({className, style, onLockCallback}: MntoLockProps ) => 
             </div>
         </div>
 
-        <div className="flex flex-col mt-[30px] lg:flex-row justify-between md:place-items-baseline gap-1 md:gap-5">
+        <div className="flex flex-col mt-x6 lg:flex-row justify-between md:place-items-baseline gap-1 md:gap-5">
             <div className="text-lg flex-1 whitespace-nowrap">
                 You recieve veMENTO:
             </div>
@@ -147,7 +147,7 @@ export const MntoLock = ({className, style, onLockCallback}: MntoLockProps ) => 
                         value: 1
                     })
                 }}/>
-        <Button block className="!mt-[30px]" onClick={handleSubmit(performLock)}>
+        <Button block className="!mt-x6" onClick={handleSubmit(performLock)}>
             Lock MNTO
         </Button>
     </div>

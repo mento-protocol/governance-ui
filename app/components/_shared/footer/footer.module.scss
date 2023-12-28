@@ -9,6 +9,11 @@
   font-weight: 400;
   font-size: 16px;
   color: var(--theme-foreground-color);
+  padding: 0 6 * $theme-unit;
+
+  @media (min-width: calc($breakpoint-lx + 40px)) {
+    padding: 0;
+  }
 
   strong {
     color: var(--theme-footer-color);
@@ -22,6 +27,7 @@
 
     .theme {
       color: var(--theme-footer-color);
+      align-items: center;
     }
   }
 }

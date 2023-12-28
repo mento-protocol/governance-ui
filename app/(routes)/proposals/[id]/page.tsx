@@ -13,7 +13,7 @@ import classNames from "classnames";
 import {useState} from "react";
 import { CopyIcon } from "@/app/components/_icons/copy.icon";
 import { CopyToClipboard } from 'react-copy-to-clipboard';
-import { Breadcrumbs } from "@/app/components/_shared/breadcrumbs/breadcrumbs.component";
+import { MarkdownView } from "@/app/components/_shared/markdown-view/markdown-view.component";
 
 const validationSchema = object({
     votingPower: number().required().typeError('Invalid number').max(400)
@@ -83,7 +83,7 @@ const Page = () => {
         <div className="mt-8 flex flex-col md:flex-row md:justify-between place-items-start gap-x1 ">
             <div className={classNames(styles.details, "flex-1")}>
                 <h3>Details</h3>
-                <div dangerouslySetInnerHTML={{__html: proposal.description}}/>
+                <MarkdownView markdown={proposal.description} />
             </div>
             <div className={styles.proposal_addons}>
                 <div className={classNames(styles.mobile_controls)}>

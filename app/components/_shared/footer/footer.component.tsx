@@ -60,7 +60,7 @@ export const Footer = ({className, style}: FooterProps) => {
                             <p>Discord</p>
                         </Link>
                         <Link href="#">
-                            <p>Twiter</p>
+                            <p>Twitter</p>
                         </Link>
                     </div>
                     <div className={styles.footer__element}>

@@ -1,0 +1,66 @@
+@import "@/app/brand";
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #{$c-black}BB;
+  background-filter: blur(10px);
+  padding: 20px;
+  overflow: auto;
+  height: 100vh;
+  width: 100vw;
+
+  &__content {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    &__inner {
+      min-width: 300px;
+
+      &.success {
+        box-shadow: 0 0 0 2px $c-success;
+      }
+
+      &.error {
+        box-shadow: 0 0 0 2px $c-error;
+      }
+
+      &.warning {
+        box-shadow: 0 0 0 2px $c-warning;
+      }
+
+      &.info {
+        box-shadow: 0 0 0 2px $c-info;
+      }
+    }
+  }
+
+  &__close {
+    width: 50px;
+    height: 50px;
+    background-color: $c-primary;
+    color: $c-white;
+    border-radius: 50%;
+    font-size: 25px;
+    line-height: 25px;
+    font-weight: 300;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+
+    * {
+      margin: 0;
+      padding: 0;
+    }
+
+    &:hover {
+      //background-color: var(--color-darkorange);
+    }
+  }
+}

@@ -3,6 +3,8 @@ interface RoutingMap {
     [key: string]: string;
 }
 export const routingMap: RoutingMap = {
-    '': 'proposals list',
-    'my-voting-power': 'My Voting Power'
+    '': 'Proposals',
+    'my-voting-power': 'My Voting Power',
+    'create-proposal': 'Create a proposal',
+    'proposals': "Proposal"
 }

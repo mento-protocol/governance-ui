@@ -2,6 +2,7 @@
 import styles from "./page.module.scss";
 import {CreateProposalContentStep, CreateProposalWalletStep} from "@components/create-proposal";
 import {CreateProposalProvider} from "@/app/providers/create-proposal.provider";
+import { Breadcrumbs } from "@/app/components/_shared/breadcrumbs/breadcrumbs.component";
 
 const Page = () => {
     return <main className="flex flex-col place-items-center">

@@ -13,6 +13,7 @@ import classNames from "classnames";
 import {useState} from "react";
 import { CopyIcon } from "@/app/components/_icons/copy.icon";
 import { CopyToClipboard } from 'react-copy-to-clipboard';
+import { Breadcrumbs } from "@/app/components/_shared/breadcrumbs/breadcrumbs.component";
 
 const validationSchema = object({
     votingPower: number().required().typeError('Invalid number').max(400)
@@ -45,7 +46,7 @@ const Page = () => {
     const proposal = singleProposal;
 
     return <main className="flex flex-col">
-        <Badge className="uppercase mb-3 font-medium"
+        <Badge className="uppercase mt-x6 mb-3 font-medium"
                type={statusToBadgeColorMap[proposal.status]}>{proposal.status.toString()}</Badge>
         <div className="flex flex-col md:grid md:grid-cols-7 gap-x1 ">
             <div className="md:col-start-1 md:col-span-4">

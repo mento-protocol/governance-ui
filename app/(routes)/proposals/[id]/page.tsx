@@ -87,10 +87,10 @@ const Page = () => {
             </div>
             <div className={styles.proposal_addons}>
                 <div className={classNames(styles.mobile_controls)}>
-                    <Button theme="primary" onClick={() => setVotingOpened(true)}>
+                    <Button wrapperClassName={styles.mobile_button_wrapper} className={styles.mobile_button} theme="primary" onClick={() => setVotingOpened(true)}>
                         Vote
                     </Button>
-                    <Button theme="secondary" onClick={() => setVotesListOpened(true)}>
+                    <Button wrapperClassName={styles.mobile_button_wrapper} className={styles.mobile_button} theme="secondary" onClick={() => setVotesListOpened(true)}>
                         Votes
                     </Button>
                 </div>

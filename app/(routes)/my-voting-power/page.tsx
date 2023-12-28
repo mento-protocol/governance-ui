@@ -1,24 +1,6 @@
 "use client";
-import {Button, Card, DatePicker, Input, MntoLock, Slider} from "@components/_shared";
+import {Card, MntoLock} from "@components/_shared";
 import {LocksList} from "@components/locks-list/locks-list.component";
-import {date, InferType, number, object, setLocale} from "yup";
-import {useForm} from "react-hook-form";
-import {yupResolver} from "@hookform/resolvers/yup";
-import {
-    addMonths,
-    addYears,
-    setISODay,
-    addWeeks,
-    addDays,
-    differenceInWeeks,
-    differenceInYears,
-    startOfWeek,
-    endOfWeek,
-    nextWednesday,
-    nextTuesday,
-    differenceInMonths,
-    differenceInCalendarWeeks, differenceInCalendarMonths,
-} from "date-fns";
 
 const Page = () => {
 

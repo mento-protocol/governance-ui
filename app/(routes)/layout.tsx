@@ -3,11 +3,10 @@ import '../globals.scss';
 import '@/app/brand.scss';
 import '@rainbow-me/rainbowkit/styles.css';
 import {Inter} from 'next/font/google';
-import {Footer, Header} from "@components/_shared";
+import {Footer, Header, Breadcrumbs} from "@components/_shared";
 import React, {ReactNode} from "react";
 import {Providers} from "@/app/(routes)/providers";
 import {ModalProvider} from "@/app/providers/modal.provider";
-import {Breadcrumbs} from '../components/_shared/breadcrumbs/breadcrumbs.component';
 import {usePathname} from 'next/navigation';
 
 const inter = Inter({subsets: ['latin']})

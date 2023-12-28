@@ -15,7 +15,6 @@ import { CopyIcon } from "@/app/components/_icons/copy.icon";
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { MarkdownView } from "@/app/components/_shared/markdown-view/markdown-view.component";
 import useModal from "@/app/providers/modal.provider";
-import { Breadcrumbs } from "@/app/components/_shared/breadcrumbs/breadcrumbs.component";
 
 const validationSchema = object({
     votingPower: number().required().typeError('Invalid number').max(400)

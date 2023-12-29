@@ -97,10 +97,6 @@ export const ModalProvider = ({children}: ModalProviderProps) => {
     const renderModal = (value: ReactNode, isQuestion: boolean, options?: Partial<ModalOptions>) => {
         const id = Math.random().toString(36).substring(7);
         return new Promise<boolean>((resolve) => {
-            const close = () => {
-                removeModal();
-                resolve(false);
-            }
 
             const confirm = () => {
                 removeModal();
@@ -113,7 +109,7 @@ export const ModalProvider = ({children}: ModalProviderProps) => {
             }
 
             const modal =
-                    <ModalWrapper close={close}
+                    <ModalWrapper close={cancel}
                                   confirm={confirm}
                                   cancel={cancel}
                                   question={isQuestion}

@@ -14,6 +14,7 @@ import {useState} from "react";
 import { CopyIcon } from "@/app/components/_icons/copy.icon";
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { MarkdownView } from "@/app/components/_shared/markdown-view/markdown-view.component";
+import useModal from "@/app/providers/modal.provider";
 
 const validationSchema = object({
     votingPower: number().required().typeError('Invalid number').max(400)
@@ -22,6 +23,8 @@ type FormData = InferType<typeof validationSchema>
 
 
 const Page = () => {
+
+    const {showQuestion, showModal} = useModal();
 
     setLocale({
         mixed: {
@@ -41,8 +44,24 @@ const Page = () => {
     });
 
     const onSubmit = (data: FormData) => {
-        console.log(data)
+        console.log(data);
+        showQuestion(<div>Confirm the action <Button onClick={showDummyModal}>ASD</Button></div>, {
+            modalType: 'success'
+        }).then((result) => {
+            if (result) {
+                console.log('resolved');
+            } else {
+                console.log('rejected');
+            }
+        });
     };
+
+    const showDummyModal = () => {
+        showModal('Some info').then((result) => {
+            console.log(result, 'dummy');
+        });
+    }
+
     const proposal = singleProposal;
 
     return <main className="flex flex-col">

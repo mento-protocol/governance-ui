@@ -61,16 +61,17 @@ const useModal = () => {
 
 const ModalWrapper = ({children, index, close, question, cancel, confirm, options}: ModalWrapperProps) => {
     return <div key={index} className={modalStyles.modal} style={{zIndex: 1000 + index}}>
-
         <div className={modalStyles.modal__content}>
             <Card className={classNames(modalStyles.modal__content__inner, modalStyles[options?.modalType || ''])}>
-                <Card.Header className="flex justify-between">
-                    <div className="font-semibold">{options?.title}</div>
+                <Card.Header className="relative !pb-x6">
+                    <div className="font-semibold">{options?.title || (!!question ? 'Confirm' : ' ')}</div>
                     <div className={modalStyles.modal__close} onClick={close}>
                         X
                     </div>
                 </Card.Header>
-                {children}
+                <div className="ma-x4">
+                    {children}
+                </div>
                 {question && <Card.Footer className="flex justify-end gap-x2 mt-x4">
                     <Button theme="tertiary" onClick={cancel}>{options?.cancelText || 'Cancel'}</Button>
                     <Button theme={modalTypeToButtonThemeMap(options?.modalType)} onClick={confirm}>{options?.confirmText || 'Confirm'}</Button>

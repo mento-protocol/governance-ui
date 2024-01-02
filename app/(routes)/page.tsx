@@ -1,12 +1,11 @@
 "use client";
-import { MentoIcon } from "@components/_icons/mento.icon";
-import { MentoTextLogoIcon } from "@components/_icons";
-import { Badge, Button, Card, Divider, DropdownButton, Expandable } from "@components/_shared";
-import { ProposalsListComponent } from "@components/proposals-list/proposals-list.component";
+import {MentoIcon} from "@components/_icons/mento.icon";
+import {MentoTextLogoIcon, CeloLogoIcon} from "@components/_icons";
+import {Badge, Button, Card, Divider, DropdownButton, Expandable} from "@components/_shared";
+import {ProposalsListComponent} from "@components/proposals-list/proposals-list.component";
 import NumbersService from "@/app/helpers/numbers.service";
-import { ContractParams } from "@components/contract-params/contract-params.component";
-import { useRouter } from "next/navigation";
-import { CeloLogoIcon } from "../components/_icons/celo-logo.icon";
+import {ContractParams} from "@components/contract-params/contract-params.component";
+import {useRouter} from "next/navigation";
 
 const Page = () => {
     const router = useRouter();

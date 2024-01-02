@@ -53,6 +53,12 @@ a:hover,
   width: 100%;
 }
 
+.prose {
+  * {
+    color: var(--theme-foreground-color);
+  }
+}
+
 @each $color, $value in $brandColors {
   @include theme-class(bg-#{$color}, (background-color), $value);
   @include theme-class(text-#{$color}, (color), $value);

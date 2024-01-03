@@ -7,7 +7,7 @@ interface ProposalListStore {
     fetch: () => Promise<void>;
 }
 
-const useProposalsListStore = create<ProposalListStore>((set) => ({
+export const useProposalsListStore = create<ProposalListStore>((set) => ({
     proposals: [],
     isFetching: false,
     fetch: async () => {
@@ -16,5 +16,3 @@ const useProposalsListStore = create<ProposalListStore>((set) => ({
         set({ proposals: await res.json(), isFetching: false })
     }
 }))
-
-export default useProposalsListStore;

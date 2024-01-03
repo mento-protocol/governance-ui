@@ -60,7 +60,7 @@ const useModal = () => {
 }
 
 const ModalWrapper = ({children, index, close, question, cancel, confirm, options}: ModalWrapperProps) => {
-    return <div key={index} className={modalStyles.modal} style={{zIndex: 1000 + index}}>
+    return <div key={index} className={classNames(modalStyles.modal, modalStyles.opened)} style={{zIndex: 1000 + index}}>
         <div className={modalStyles.modal__content}>
             <Card className={classNames(modalStyles.modal__content__inner, modalStyles[options?.modalType || ''])}>
                 <Card.Header className="relative !pb-x6">

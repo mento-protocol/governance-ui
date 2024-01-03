@@ -6,7 +6,6 @@
   align-items: center;
   width: 100%;
   border-bottom: 1px solid var(--theme-foreground-color);
-  gap: $default-gap;
 
   .addon {
     width: 100%;
@@ -32,5 +31,9 @@
       justify-content: center;
       align-items: center;
     }
+  }
+
+  .addon + .addon {
+    border-top: 1px solid var(--theme-secondary-color);
   }
 }

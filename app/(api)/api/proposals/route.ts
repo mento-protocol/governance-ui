@@ -211,3 +211,8 @@ export const proposalsMock: IProposal[] = [
 export async function GET(req: NextRequest) {
     return Response.json(proposalsMock);
 }
+
+export async function PUT(req: NextRequest) {
+    const body = await req.json();
+    return Response.json(proposalsMock);
+}

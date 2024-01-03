@@ -56,6 +56,7 @@ export const DatePicker = ({
                                disallowedDays,
                                onChange,
                                value,
+                               addon,
                                calendarStartDate
                            }: DatePickerProps) => {
 
@@ -118,6 +119,7 @@ export const DatePicker = ({
                 {!selectedDate && <div className={styles.placeholder}>{placeholder}</div>}
                 {!!selectedDate && <div className={styles.selectedDate}>{selectedDate.toLocaleDateString()}</div>}
             </div>
+            {addon}
         </div>
         {!!error && <div className={styles.errorMessage}>{error}</div>}
 
@@ -125,20 +127,20 @@ export const DatePicker = ({
             <div ref={datePicker} className={classNames(styles.pickerDropdown)}>
                 <div className={styles.inner}>
                     <DayPicker
-                        mode="single"
-                        fromDate={minDate}
-                        selected={selectedDate}
-                        toDate={maxDate}
-                        month={calendarMonth}
-                        numberOfMonths={1}
-                        showOutsideDays
-                        fixedWeeks
-                        disabled={disabledDays}
-                        modifiersClassNames={{
-                            selected: styles.selected,
-                        }}
-                        onSelect={handleDayClick}
-                        onMonthChange={onMonthChange}
+                            mode="single"
+                            fromDate={minDate}
+                            selected={selectedDate}
+                            toDate={maxDate}
+                            month={calendarMonth}
+                            numberOfMonths={1}
+                            showOutsideDays
+                            fixedWeeks
+                            disabled={disabledDays}
+                            modifiersClassNames={{
+                                selected: styles.selected,
+                            }}
+                            onSelect={handleDayClick}
+                            onMonthChange={onMonthChange}
                     />
                 </div>
             </div>

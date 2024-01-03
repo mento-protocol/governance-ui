@@ -12,7 +12,7 @@ interface WrapperProps extends BaseComponentProps {
     isOpened: boolean;
 }
 
-const steps = [CreateProposalFormStepEnum.wallet, CreateProposalFormStepEnum.content];
+const steps = [CreateProposalFormStepEnum.wallet, CreateProposalFormStepEnum.content, CreateProposalFormStepEnum.execution];
 
 const Wrapper = ({children, className, step, title, style, isOpened}: WrapperProps) => {
 

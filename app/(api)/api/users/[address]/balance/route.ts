@@ -1,4 +1,5 @@
 import {NextRequest} from "next/server";
+import {locksMock} from "@/app/(api)/api/users/[address]/locks/route";
 
 interface GetMethodContext {
     params: {
@@ -12,7 +13,7 @@ export async function GET(req: NextRequest, context: GetMethodContext) {
     const data = {
         walletAddress: address,
         balanceMENTO: Math.round(Math.random() * 5000),
-        balanceVeMENTO: Math.round(Math.random() * 500000),
+        balanceVeMENTO: locksMock.reduce((acc, lock) => acc + lock.amountsVeMNTO, 0)
     }
 
     return Response.json(data);

@@ -74,7 +74,7 @@ export const useUserStore = create<UserStore>((set, get) => ({
         })
     },
     lock: async (lock) => {
-        set({isFetching: true})
+        set({isLocksFetching: true})
 
         const walletAddress = get().walletAddress;
         if (!walletAddress) {
@@ -92,10 +92,17 @@ export const useUserStore = create<UserStore>((set, get) => ({
         const lockResponseJson = await lockResponse.json();
 
         set({
-            balanceMENTO: lockResponseJson.balanceMENTO,
-            balanceVeMENTO: lockResponseJson.balanceVeMENTO,
-            isFetching: false
+            locks: [
+                {
+                    ...lockResponseJson,
+                    expireDate: new Date(lockResponseJson.expireDate)
+                },
+                ...get().locks,
+            ],
+            isLocksFetching: false
         })
+
+        await get().getBalance();
     },
     extendLock: async (id, date) => {
         set({isFetching: true})

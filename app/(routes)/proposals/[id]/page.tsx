@@ -12,8 +12,8 @@ import classNames from "classnames";
 import {useEffect, useState} from "react";
 import {MarkdownView} from "@/app/components/_shared/markdown-view/markdown-view.component";
 import useModal from "@/app/providers/modal.provider";
-import useProposalDetailsStore from "@/app/store/proposal-details.store";
 import {IVoteType} from "@interfaces/vote.interface";
+import {useProposalDetailsStore} from "@/app/store";
 import {WalletAddressWithCopy} from "@components/_shared/wallet-address-with-copy/wallet-address-with-copy.component";
 
 const validationSchema = object({

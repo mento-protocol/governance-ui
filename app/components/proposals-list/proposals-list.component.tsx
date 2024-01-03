@@ -9,7 +9,7 @@ import Link from "next/link";
 import styles from "./proposals-list.module.scss";
 import {useEffect} from "react";
 import {MentoIcon} from "@components/_icons";
-import useProposalsListStore from "@/app/store/proposal-list.store";
+import {useProposalsListStore} from "@/app/store";
 
 interface ProposalsListProps extends BaseComponentProps {
 }

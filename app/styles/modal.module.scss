@@ -1,12 +1,11 @@
 @import "@/app/brand";
 
+.backdrop {
+  @include default-backdrop;
+}
+
 .modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: #{$c-black}BB;
+  @include default-backdrop;
   padding: $theme-unit * 4;
   overflow: auto;
   height: 100vh;

@@ -14,9 +14,10 @@ interface ProposalDetailsStore {
     refetchVotes: () => Promise<void>;
     votes: ProposalVotesMap;
     vote: (type: IVoteType, value: number, address: string) => Promise<void>;
+    create: (proposal: IProposal) => Promise<void>;
 }
 
-const useProposalDetailsStore = create<ProposalDetailsStore>((set, get) => ({
+export const useProposalDetailsStore = create<ProposalDetailsStore>((set, get) => ({
     proposal: undefined,
     isFetching: false,
     votes: {
@@ -80,10 +81,17 @@ const useProposalDetailsStore = create<ProposalDetailsStore>((set, get) => ({
                 value,
                 address,
             }),
+            headers: {
+                'Content-Type': 'application/json',
+            },
         });
 
         await get().refetchVotes();
+    },
+    create: async (proposal) => {
+        await fetch(`/api/proposals`, {
+            method: 'PUT',
+            body: JSON.stringify(proposal),
+        });
     }
 }))
-
-export default useProposalDetailsStore;

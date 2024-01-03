@@ -4,7 +4,7 @@ import {IVoteType} from "@interfaces/vote.interface";
 import classNames from "classnames";
 import {Avatar, Loader} from "@components/_shared";
 import {WalletAddress} from "@components/wallet-address/wallet-address.component";
-import useProposalDetailsStore from "@/app/store/proposal-details.store";
+import {useProposalDetailsStore} from "@/app/store";
 
 interface VotesListProps extends BaseComponentProps {
     voteType: IVoteType;

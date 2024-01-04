@@ -6,6 +6,10 @@
   .textarea {
     @include default-input-style;
     min-height: inherit;
+
+    textarea {
+      min-height: inherit;
+    }
   }
 
   &.compact {

@@ -14,6 +14,7 @@ import {yupResolver} from "@hookform/resolvers/yup";
 import {useUserStore} from "@/app/store";
 import {useEffect} from "react";
 import {ILock} from "@interfaces/lock.interface";
+import useModal from "@/app/providers/modal.provider";
 
 interface MntoLockProps extends BaseComponentProps {
 }
@@ -29,6 +30,7 @@ type FormData = InferType<typeof validationSchema>
 export const MntoLock = ({className, style}: MntoLockProps) => {
 
     const {walletAddress, balanceMENTO, lock} = useUserStore();
+    const {showConfirm} = useModal();
 
     const patchValidationSchema = (value: number) => {
         validationSchema = object({
@@ -61,6 +63,7 @@ export const MntoLock = ({className, style}: MntoLockProps) => {
         setValue,
         getValues,
         handleSubmit,
+        reset,
         trigger,
         formState: {errors, isValid}
     } = useForm<FormData>({
@@ -87,15 +90,23 @@ export const MntoLock = ({className, style}: MntoLockProps) => {
 
     const performLock = () => {
         if (isValid) {
-            lock({
-                owner: walletAddress,
-                amountMNTO: getValues('toLock'),
-                amountsVeMNTO: Math.round(getValues('toLock') * 100 * (getValues('expirationMonths') / 12)),
-                expireDate: getValues('expiration')
-            } as ILock).then(() => {
-                setValue('toLock', 0);
-                setValue('expiration', new Date())
-                setValue('expirationMonths', 0);
+            showConfirm(`Do you want to lock ${getValues('toLock')} MENTO for ${[
+                getYears(),
+                getMonths()
+            ].filter(Boolean).join(' and ')}?`, {
+                confirmText: 'Lock',
+                modalType: 'info'
+            }).then((confirmed) => {
+                if (confirmed) {
+                    lock({
+                        owner: walletAddress,
+                        amountMNTO: getValues('toLock'),
+                        amountsVeMNTO: Math.round(getValues('toLock') * 100 * (getValues('expirationMonths') / 12)),
+                        expireDate: getValues('expiration')
+                    } as ILock).then(() => {
+                        reset();
+                    });
+                }
             });
         }
     }

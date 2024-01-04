@@ -1,0 +1,30 @@
+@import "@/app/brand";
+
+.wrapper {
+  width: 100%;
+
+  .textarea {
+    @include default-input-style;
+    min-height: inherit;
+
+    textarea {
+      min-height: inherit;
+    }
+  }
+
+  &.compact {
+    .textarea {
+      padding: 12px 16px 12px 16px;
+
+      textarea {
+        font-size: 14px;
+      }
+    }
+  }
+
+  .errorMessage {
+    @include default-input-error-message;
+  }
+}
+
+

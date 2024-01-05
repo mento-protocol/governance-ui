@@ -22,7 +22,7 @@ export const MarkdownView = ({ markdown }: MarkdownViewProps) => {
         })();
     }, [markdown]);
 
-    return <div className={classNames('prose', styles.container)} >
+    return <div className={classNames('prose', styles.container, 'max-w-none dark:prose-invert')} >
         {
             markdownParsed && <div dangerouslySetInnerHTML={{ __html: markdownParsed }} />
         }

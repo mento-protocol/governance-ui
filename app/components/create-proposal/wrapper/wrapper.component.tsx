@@ -12,7 +12,7 @@ interface WrapperProps extends BaseComponentProps {
     isOpened: boolean;
 }
 
-const steps = [CreateProposalFormStepEnum.wallet, CreateProposalFormStepEnum.content, CreateProposalFormStepEnum.execution];
+const steps = [CreateProposalFormStepEnum.wallet, CreateProposalFormStepEnum.content, CreateProposalFormStepEnum.execution, CreateProposalFormStepEnum.preview];
 
 const Wrapper = ({children, className, step, title, style, isOpened}: WrapperProps) => {
 
@@ -24,7 +24,7 @@ const Wrapper = ({children, className, step, title, style, isOpened}: WrapperPro
 
     return <Card block className={className} style={style}>
         <Card.Header>
-            <div className="flex gap-4 items-center bg-inherit cursor-pointer" onClick={e => toggleStepOpen(step)}>
+            <div className="flex gap-x2 items-center bg-inherit cursor-pointer" onClick={e => toggleStepOpen(step)}>
                 <StepCounter>{stepIndex}</StepCounter>
                 {title}
             </div>

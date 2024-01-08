@@ -25,7 +25,7 @@ export const Header = ({className, style}: HeaderProps) => {
         setMenuOpened(name === menuOpened ? '' : name);
     }
 
-    return <header className={classNames(styles.header, 'pa-6', className)} style={style}
+    return <header className={classNames(styles.header, 'pt-x7 pr-x4 pl-x4', className)} style={style}
                    onClick={() => setMenuOpened('')}>
         <div className={classNames(styles.header__inner, drawerOpened && styles.opened)}>
             <Link href={'/'}>

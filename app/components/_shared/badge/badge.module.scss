@@ -24,6 +24,7 @@
 
   &.secondary {
     @include branded-badge($c-secondary, $c-secondary, $c-black);
+    font-weight: 500;
   }
 
   &.success {

@@ -11,21 +11,21 @@ import { CeloLogoIcon } from "../components/_icons/celo-logo.icon";
 const Page = () => {
     const router = useRouter();
     return (
-        <main className="flex flex-col place-items-center mt-9">
+        <main className="flex flex-col place-items-center mt-x11">
             <div className="max-w-full">
                 <MentoTextLogoIcon className="max-w-full" useThemeColor/>
             </div>
-            <h2 className="text-3xl mt-8 mb-4 font-medium">Claim your part and participate in<br /> shaping the future
+            <h2 className="text-[30px] leading-[30px] mt-x6 font-medium">Claim your part and participate in<br /> shaping the future
                 of digital assets</h2>
 
-            <Card className="mt-8" block>
+            <Card className="mt-x11" block>
                 <Card.Header className="!pb-0">
-                    <div className="flex flex-row justify-between">
+                    <div className="flex flex-row justify-between items-center">
                         <div className="flex flex-row justify-start place-items-center gap-x1 text-3xl font-bold">
                             <MentoIcon/>
                             Mento
                         </div>
-                        <div className="hidden gap-x1 md:flex">
+                        <div className="hidden gap-x3 md:flex">
                             <Button theme="clear" href="/create-proposal">
                                 Create new proposal
                             </Button>
@@ -45,10 +45,10 @@ const Page = () => {
                         </DropdownButton>
                     </div>
                 </Card.Header>
-                <div className="my-4">
+                <div className="my-x6">
                     
                     <p className="mb-x6 text-x4">Transparent Digital Asset Solutions</p>
-                    <div className="flex flex-row gap-x1 ">
+                    <div className="flex flex-wrap flex-row gap-x3">
                         
                         <Badge rounded type="tertiary"><CeloLogoIcon/>&nbsp;CELO</Badge>
                         <Badge rounded type="secondary">ERC20</Badge>
@@ -56,28 +56,28 @@ const Page = () => {
                     </div>
                 </div>
                 <Divider/>
-                <Expandable header={'Contract parameters'}>
+                <Expandable header={'Contract parameters'} className="font-medium text-[20px]">
                     <ContractParams/>
                 </Expandable>
             </Card>
 
             <Card className="mt-8" block>
-                <div className="flex m-x4 mr-x6 ml-x6 justify-between">
-                    <div className="flex flex-col justify-center place-items-center">
-                        <div className="text-2xl font-semibold">11</div>
-                        <div className="text-sm font-light">Total proposals</div>
+                <div className="flex flex-wrap gap-x6 m-x4 mr-x6 ml-x6 justify-between">
+                    <div className="flex flex-col justify-center place-items-center gap-x2">
+                        <div className="text-[30px] leading-[30px] font-medium">11</div>
+                        <div className="text-[15px]">Total proposals</div>
                     </div>
-                    <div className="flex flex-col justify-center place-items-center">
-                        <div className="text-2xl font-semibold">3</div>
-                        <div className="text-sm font-light">Active proposals</div>
+                    <div className="flex flex-col justify-center place-items-center gap-x2">
+                        <div className="text-[30px] leading-[30px] font-medium">3</div>
+                        <div className="text-[15px]">Active proposals</div>
                     </div>
-                    <div className="flex flex-col justify-center place-items-center">
-                        <div className="text-2xl font-semibold">{NumbersService.parseNumericValue(2097, 3)}</div>
-                        <div className="text-sm font-light">Voters</div>
+                    <div className="flex flex-col justify-center place-items-center gap-x2">
+                        <div className="text-[30px] leading-[30px] font-medium">{NumbersService.parseNumericValue(2097, 3)}</div>
+                        <div className="text-[15px]">Voters</div>
                     </div>
-                    <div className="flex flex-col justify-center place-items-center">
-                        <div className="text-2xl font-semibold">{NumbersService.parseNumericValue(120340, 3)}</div>
-                        <div className="text-sm font-light">Total veMento<br/>Voting Power</div>
+                    <div className="flex flex-col justify-center place-items-center gap-x2">
+                        <div className="text-[30px] leading-[30px] font-medium">{NumbersService.parseNumericValue(120340, 3)}</div>
+                        <div className="text-[15px]">Total veMento<br/>Voting Power</div>
                     </div>
                 </div>
             </Card>

@@ -61,6 +61,12 @@
           margin-right: $theme-unit;
         }
 
+        .status {
+          min-width: 95px;
+          display: flex;
+          justify-content: center;
+        }
+
         .progress_bar {
           max-width: 110px;
           margin: 0 auto;

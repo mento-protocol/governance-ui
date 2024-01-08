@@ -21,7 +21,7 @@ const Page = () => {
             <Card className="mt-x11" block>
                 <Card.Header className="!pb-0">
                     <div className="flex flex-row justify-between items-center">
-                        <div className="flex flex-row justify-start place-items-center gap-x1 text-3xl font-bold">
+                        <div className="flex flex-row justify-start place-items-center gap-x3 font-bold text-[30px] sm:text-[55px]">
                             <MentoIcon/>
                             Mento
                         </div>

@@ -49,7 +49,7 @@ export const ProposalsListComponent = ({className, style}: ProposalsListProps) =
                                 </div>
                             </div>
                             <div className={classNames(styles.proposals_grid__row__element, 'flex justify-center')}>
-                                <Badge className="uppercase font-medium"
+                                <Badge className={classNames(styles.status, "uppercase font-medium")}
                                        type={statusToBadgeColorMap[proposal.status]}>{proposal.status.toString()}</Badge>
                             </div>
                             <div className={classNames(styles.proposals_grid__row__element)}>

@@ -10,6 +10,7 @@ interface UserStore {
     getBalance: () => Promise<void>;
     getLocks: () => Promise<void>;
     initWallet: (walletAddress: string) => Promise<void>;
+    disconnectWallet: () => Promise<void>;
     balanceMENTO: number;
     balanceVeMENTO: number;
     lock: (lock: ILock) => Promise<void>;
@@ -24,6 +25,9 @@ export const useUserStore = create<UserStore>((set, get) => ({
     isInitialized: false,
     balanceMENTO: 0,
     balanceVeMENTO: 0,
+    disconnectWallet: async () => {
+      set({walletAddress: undefined, isInitialized: false, isFetching: false, isLocksFetching: false, locks: [], balanceMENTO: 0, balanceVeMENTO: 0});
+    },
     initWallet: async (walletAddress) => {
         set({isInitialized: true})
         set({isFetching: true})

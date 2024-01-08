@@ -6,9 +6,11 @@ import {ProposalsListComponent} from "@components/proposals-list/proposals-list.
 import NumbersService from "@/app/helpers/numbers.service";
 import {ContractParams} from "@components/contract-params/contract-params.component";
 import {useRouter} from "next/navigation";
+import {useUserStore} from "@/app/store";
 
 const Page = () => {
     const router = useRouter();
+    const {walletAddress} = useUserStore();
     return (
         <main className="flex flex-col place-items-center mt-x11">
             <div className="max-w-full">
@@ -25,10 +27,10 @@ const Page = () => {
                             Mento
                         </div>
                         <div className="hidden gap-x3 md:flex">
-                            <Button theme="clear" href="/create-proposal">
+                            <Button theme="clear" href="/create-proposal" disabled={!walletAddress}>
                                 Create new proposal
                             </Button>
-                            <Button theme="clear" href="/my-voting-power">
+                            <Button theme="clear" href="/my-voting-power" disabled={!walletAddress}>
                                 My voting power
                             </Button>
                         </div>

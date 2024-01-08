@@ -14,7 +14,7 @@ interface ConnectButtonProps extends BaseComponentProps {
 }
 export const ConnectButton = ({className, style, theme, block}: ConnectButtonProps) => {
 
-    const {initWallet, isFetching, isInitialized, balanceMENTO} = useUserStore();
+    const {initWallet, disconnectWallet, isFetching, isInitialized, balanceMENTO} = useUserStore();
 
     return <RainbowConnectButton.Custom>
         {({
@@ -29,6 +29,9 @@ export const ConnectButton = ({className, style, theme, block}: ConnectButtonPro
             const connected = !!account && !!chain;
             if (connected && !isInitialized && !isFetching) {
                 initWallet(account.address);
+            }
+            if (!connected && !isFetching && isInitialized) {
+                disconnectWallet();
             }
             return (
                 <>

@@ -13,7 +13,7 @@ import {useEffect, useState} from "react";
 import {MarkdownView} from "@/app/components/_shared/markdown-view/markdown-view.component";
 import useModal from "@/app/providers/modal.provider";
 import {IVoteType} from "@interfaces/vote.interface";
-import {useProposalDetailsStore} from "@/app/store";
+import {useProposalDetailsStore, useUserStore} from "@/app/store";
 import {WalletAddressWithCopy} from "@components/_shared/wallet-address-with-copy/wallet-address-with-copy.component";
 
 const validationSchema = object({
@@ -35,9 +35,10 @@ const voteTypeToModalType = (voteType: IVoteType) => {
 
 const Page = ({params}: { params: { id: string } }) => {
 
-    const {showQuestion, showModal} = useModal();
+    const {showConfirm, showModal} = useModal();
 
     const {proposal, isFetching, fetch, vote} = useProposalDetailsStore();
+    const {walletAddress, balanceVeMENTO} = useUserStore();
 
 
     useEffect(() => {
@@ -63,7 +64,7 @@ const Page = ({params}: { params: { id: string } }) => {
 
     const onSubmit = (data: FormData, voteType: IVoteType) => {
 
-        showQuestion(`Are you sure you want to vote with ${data.votingPower} power?`, {
+        showConfirm(`Are you sure you want to vote with ${data.votingPower} power?`, {
             modalType: voteTypeToModalType(voteType),
         }).then((result) => {
             if (result) {
@@ -113,7 +114,9 @@ const Page = ({params}: { params: { id: string } }) => {
                 </div>
                 <div className={styles.proposal_addons}>
                     <div className={classNames(styles.mobile_controls)}>
-                        <Button wrapperClassName={styles.mobile_button_wrapper} className={styles.mobile_button}
+                        <Button wrapperClassName={styles.mobile_button_wrapper}
+                                disabled={!walletAddress}
+                                className={styles.mobile_button}
                                 theme="primary" onClick={() => setVotingOpened(true)}>
                             Vote
                         </Button>
@@ -123,7 +126,7 @@ const Page = ({params}: { params: { id: string } }) => {
                         </Button>
                     </div>
                     <div className={classNames(styles.backdrop, votingOpened && styles.opened)}>
-                        <Card className={classNames(styles.proposal_addon, votingOpened && styles.opened)}>
+                        <Card className={classNames(styles.proposal_addon, votingOpened && styles.opened, !walletAddress && '!opacity-60')}>
                             <Card.Header className="text-center text-2xl">
                                 <strong>Voting</strong>
                                 <button className={styles.proposal_addon__close} onClick={() => setVotingOpened(false)}>
@@ -136,12 +139,17 @@ const Page = ({params}: { params: { id: string } }) => {
                                        type="number"
                                        className={styles.input}
                                        placeholder="Voting power"
+                                       disabled={!walletAddress}
                                        form={{...register('votingPower')}}
                                        error={errors.votingPower?.message}
                                        addon={<div className={styles.addon}>
                                            <div className="flex justify-between">
-                                               <div className="underline">Max available</div>
-                                               <div>400 MENT</div>
+                                               {
+                                                   !!walletAddress ? <>
+                                                       <div className="underline">Max available</div>
+                                                       <div>{balanceVeMENTO} MENT</div>
+                                                   </> : <div className="underline">Please connect wallet</div>
+                                               }
                                            </div>
                                        </div>}/>
                                 <p className={styles.vote_label}>Vote</p>

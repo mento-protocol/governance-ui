@@ -1,4 +1,4 @@
-import { TabList } from "@components/_shared";
+import { MarkdownView, TabList } from "@components/_shared";
 import BaseComponentProps from "@interfaces/base-component-props.interface";
 import {
     BlockTypeSelect,
@@ -23,7 +23,6 @@ import {
 import '@mdxeditor/editor/style.css';
 import classNames from "classnames";
 import { useEffect, useRef, useState } from "react";
-import { MarkdownView } from '../markdown-view/markdown-view.component';
 import styles from './markdown-editor.module.scss';
 interface MarkdownEditorProps extends BaseComponentProps {
     value: string;

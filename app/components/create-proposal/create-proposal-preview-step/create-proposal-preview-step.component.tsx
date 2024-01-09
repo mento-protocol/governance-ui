@@ -4,10 +4,8 @@ import { useCreateProposalContext } from "@/app/providers/create-proposal.provid
 import Wrapper from "@components/create-proposal/wrapper/wrapper.component";
 import { CreateProposalFormStepEnum } from "@interfaces/create-proposal.interface";
 import { useForm } from "react-hook-form";
-import { MarkdownView } from "../../_shared/markdown-view/markdown-view.component";
 import { format } from "date-fns";
-import { WalletAddressWithCopy } from "../../_shared/wallet-address-with-copy/wallet-address-with-copy.component";
-import { Avatar } from "../../_shared";
+import { Avatar, MarkdownView, WalletAddressWithCopy } from "../../_shared";
 
 const formStep = CreateProposalFormStepEnum.preview
 

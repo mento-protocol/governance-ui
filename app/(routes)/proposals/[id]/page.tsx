@@ -1,9 +1,8 @@
 "use client";
-import { MarkdownView } from "@/app/components/_shared/markdown-view/markdown-view.component";
-import { WalletAddressWithCopy } from "@/app/components/_shared/wallet-address-with-copy/wallet-address-with-copy.component";
+
 import { singleProposal } from "@/app/helpers/mocks";
 import useModal from "@/app/providers/modal.provider";
-import { Avatar, Badge, Button, Card, Input, TabList } from "@components/_shared";
+import { Avatar, Badge, Button, Card, Input, MarkdownView, TabList, WalletAddressWithCopy } from "@components/_shared";
 import { Countdown } from "@components/countdown/countdown.component";
 import { VotesList } from "@components/votes-list/votes-list.component";
 import { yupResolver } from "@hookform/resolvers/yup";

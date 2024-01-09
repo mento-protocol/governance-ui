@@ -17,4 +17,6 @@ export {MntoLock} from './mnto-lock/mnto-lock.component';
 export {StepCounter} from './step-counter/step-counter.component';
 export {ConnectButton} from './connect-button/connect-button.component';
 export {MarkdownEditor} from './markdown-editor/markdown-editor.component';
+export {MarkdownView} from './markdown-view/markdown-view.component';
+export {WalletAddressWithCopy} from './wallet-address-with-copy/wallet-address-with-copy.component';
 export {Breadcrumbs} from './breadcrumbs/breadcrumbs.component';

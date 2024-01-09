@@ -1,6 +1,6 @@
 "use client";
 import styles from "./page.module.scss";
-import { CreateProposalExecutionStep, CreateProposalContentStep, CreateProposalWalletStep } from "@components/create-proposal";
+import { CreateProposalExecutionStep, CreateProposalContentStep, CreateProposalWalletStep, CreateProposalPreviewStep } from "@components/create-proposal";
 import { CreateProposalProvider } from "@/app/providers/create-proposal.provider";
 
 const Page = () => {
@@ -11,6 +11,7 @@ const Page = () => {
                 <CreateProposalWalletStep />
                 <CreateProposalContentStep />
                 <CreateProposalExecutionStep />
+                <CreateProposalPreviewStep />
             </div>
         </CreateProposalProvider>
     </main>

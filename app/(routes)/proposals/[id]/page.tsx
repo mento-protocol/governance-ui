@@ -1,20 +1,19 @@
 "use client";
-import {statusToBadgeColorMap} from "@interfaces/proposal";
-import {Avatar, Badge, Button, Card, Input, Tab, TabList} from "@components/_shared";
-import {Countdown} from "@components/countdown/countdown.component";
-import {format} from "date-fns";
-import {singleProposal} from "@/app/helpers/mocks";
-import {useForm} from "react-hook-form";
-import styles from "./page.module.scss";
-import {InferType, number, object, setLocale} from "yup";
-import {yupResolver} from "@hookform/resolvers/yup";
-import {VotesList} from "@components/votes-list/votes-list.component";
-import classNames from "classnames";
-import {useState} from "react";
-import { CopyIcon } from "@/app/components/_icons/copy.icon";
-import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { MarkdownView } from "@/app/components/_shared/markdown-view/markdown-view.component";
+import { WalletAddressWithCopy } from "@/app/components/_shared/wallet-address-with-copy/wallet-address-with-copy.component";
+import { singleProposal } from "@/app/helpers/mocks";
 import useModal from "@/app/providers/modal.provider";
+import { Avatar, Badge, Button, Card, Input, TabList } from "@components/_shared";
+import { Countdown } from "@components/countdown/countdown.component";
+import { VotesList } from "@components/votes-list/votes-list.component";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { statusToBadgeColorMap } from "@interfaces/proposal";
+import classNames from "classnames";
+import { format } from "date-fns";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { InferType, number, object, setLocale } from "yup";
+import styles from "./page.module.scss";
 
 const validationSchema = object({
     votingPower: number().required().typeError('Invalid number').max(400)
@@ -80,14 +79,9 @@ const Page = () => {
                 <Avatar address={proposal.creator || ''}/>
                 <div>by {proposal.creator}</div>
             </div>
-            <div className="flex place-items-center gap-1">
+            <div className="flex place-items-center gap-x2">
                 <code>ID</code>
-                <div>{`${proposal.id.substring(0, 6)}...${proposal.id.substring(proposal.id.length - 4)}`}</div>
-                <CopyToClipboard text={proposal.id}>
-                    <div className="cursor-pointer">
-                        <CopyIcon/>
-                    </div>
-                </CopyToClipboard>
+                <WalletAddressWithCopy address={proposal.id}/>
             </div>
             <div className="flex place-items-center gap-1">
                 <span>Proposed on:</span>

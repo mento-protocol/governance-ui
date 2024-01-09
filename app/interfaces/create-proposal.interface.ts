@@ -2,6 +2,7 @@ export interface CreateProposalForm {
     [CreateProposalFormStepEnum.wallet]: CreateProposalFormStep;
     [CreateProposalFormStepEnum.content]: CreateProposalFormStep;
     [CreateProposalFormStepEnum.execution]: CreateProposalFormStep;
+    [CreateProposalFormStepEnum.preview]: CreateProposalFormStep;
 }
 
 interface CreateProposalFormStep {
@@ -14,7 +15,8 @@ interface CreateProposalFormStep {
 export enum CreateProposalFormStepEnum {
     wallet = 'wallet',
     content = 'content',
-    execution = 'execution'
+    execution = 'execution',
+    preview = 'preview'
 }
 
 const nextFormStep = {
@@ -32,5 +34,6 @@ export const initialCreateProposalForm: CreateProposalForm = {
         value: {}
     },
     [CreateProposalFormStepEnum.content]: nextFormStep,
-    [CreateProposalFormStepEnum.execution]: nextFormStep
+    [CreateProposalFormStepEnum.execution]: nextFormStep,
+    [CreateProposalFormStepEnum.preview]: nextFormStep
 }

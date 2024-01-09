@@ -27,7 +27,7 @@ const Page = () => {
                             Mento
                         </div>
                         <div className="hidden gap-x3 md:flex">
-                            <Button theme="clear" href="/create-proposal" disabled={!walletAddress}>
+                            <Button theme="clear" href="/create-proposal">
                                 Create new proposal
                             </Button>
                             <Button theme="clear" href="/my-voting-power" disabled={!walletAddress}>

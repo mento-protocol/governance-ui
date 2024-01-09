@@ -11,7 +11,7 @@ interface ProposalDetailsStore {
     proposal?: IProposal;
     isFetching: boolean;
     fetch: (id: string) => Promise<void>;
-    refetchVotes: () => Promise<void>;
+    fetchVotes: () => Promise<void>;
     votes: ProposalVotesMap;
     vote: (type: IVoteType, value: number, address: string) => Promise<void>;
     create: (proposal: IProposal) => Promise<void>;
@@ -29,17 +29,8 @@ export const useProposalDetailsStore = create<ProposalDetailsStore>((set, get) =
         set({isFetching: true})
 
         const proposalResponse = await fetch(`/api/proposals/${id}`);
-        const votesResponse = await fetch(`/api/proposals/${id}/votes`);
 
         const proposalResponseJson = await proposalResponse.json();
-
-        const votesResponseJson = await votesResponse.json();
-
-        const votes: ProposalVotesMap = {
-            for: votesResponseJson.filter((vote: IVote) => vote.type === 'for'),
-            against: votesResponseJson.filter((vote: IVote) => vote.type === 'against'),
-            abstain: votesResponseJson.filter((vote: IVote) => vote.type === 'abstain'),
-        };
 
         const proposal = {
             ...proposalResponseJson,
@@ -47,9 +38,10 @@ export const useProposalDetailsStore = create<ProposalDetailsStore>((set, get) =
             deadlineAt: new Date(proposalResponseJson.deadlineAt),
         } as IProposal
 
-        set({proposal, votes, isFetching: false})
+        set({proposal});
+        await get().fetchVotes();
     },
-    refetchVotes: async () => {
+    fetchVotes: async () => {
         set({isFetching: true})
 
         const id = get().proposal?.id;
@@ -86,7 +78,7 @@ export const useProposalDetailsStore = create<ProposalDetailsStore>((set, get) =
             },
         });
 
-        await get().refetchVotes();
+        await get().fetchVotes();
     },
     create: async (proposal) => {
         await fetch(`/api/proposals`, {

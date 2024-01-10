@@ -1,4 +1,3 @@
-import { TabList } from "@components/_shared";
 import BaseComponentProps from "@interfaces/base-component-props.interface";
 import {
     BlockTypeSelect,
@@ -33,6 +32,8 @@ export const MarkdownEditor = ({className, style, value, markdownChanged }:Markd
     const [markdown, setMarkdown] = useState('');
     const editorRef = useRef<MDXEditorMethods>(null);
 
+    const [selectedView, setSelectedView] = useState('editor' as 'editor' | 'preview');
+
     useEffect(() => {
         setMarkdown(value);
     }, [value]);
@@ -43,42 +44,60 @@ export const MarkdownEditor = ({className, style, value, markdownChanged }:Markd
     }
 
     return <div className={classNames(className)} style={style}>
-        <TabList tabs={['Write', 'Preview']} headerPlacement="left">
-            <div>
+        <div>
+            <button className={classNames(styles.editor_button, selectedView === 'editor' && styles.active)}
+                    onClick={() => setSelectedView('editor')}>
+                Editor
+            </button>
+            <button className={classNames(styles.editor_button, selectedView === 'preview' && styles.active)}
+                    onClick={() => setSelectedView('preview')}>
+                Preview
+            </button>
+            { selectedView === 'editor' && <div>
                 <MDXEditor ref={editorRef}
-                    className={styles.editor}
-                    contentEditableClassName={classNames('prose', styles.editor__contentEditable)}
-                    markdown={markdown}
-                    onChange={updateValue}
-                    plugins={[
-                        toolbarPlugin({
-                            toolbarContents: () => <>
-                                <UndoRedo/>
-                                <BlockTypeSelect/>
-                                <BoldItalicUnderlineToggles/>
-                                <CodeToggle/>
-                                <CreateLink/>
-                                <InsertCodeBlock/>
-                                <InsertImage/>
-                                <ListsToggle/>
-                                <InsertThematicBreak/>
-                            </>
-                        }),
-                        listsPlugin(),
-                        quotePlugin(),
-                        headingsPlugin(),
-                        linkPlugin(),
-                        linkDialogPlugin(),
-                        imagePlugin(),
-                        thematicBreakPlugin(),
-                        codeBlockPlugin({defaultCodeBlockLanguage: 'txt'}),
-                        codeMirrorPlugin({codeBlockLanguages: {js: 'JavaScript', css: 'CSS', txt: 'text', tsx: 'TypeScript'}}),
-                        diffSourcePlugin({viewMode: 'rich-text', diffMarkdown: 'boo'}),
-                        markdownShortcutPlugin()
-                    ]}
+                           className={styles.editor}
+                           contentEditableClassName={classNames('prose prose-editor', styles.editor__contentEditable)}
+                           markdown={markdown}
+                           onChange={updateValue}
+                           plugins={[
+                               toolbarPlugin({
+                                   toolbarContents: () => <>
+                                       <UndoRedo/>
+                                       <BlockTypeSelect/>
+                                       <BoldItalicUnderlineToggles/>
+                                       <CodeToggle/>
+                                       <CreateLink/>
+                                       <InsertCodeBlock/>
+                                       <InsertImage/>
+                                       <ListsToggle/>
+                                       <InsertThematicBreak/>
+                                   </>
+                               }),
+                               listsPlugin(),
+                               quotePlugin(),
+                               headingsPlugin(),
+                               linkPlugin(),
+                               linkDialogPlugin(),
+                               imagePlugin(),
+                               thematicBreakPlugin(),
+                               codeBlockPlugin({defaultCodeBlockLanguage: 'txt'}),
+                               codeMirrorPlugin({
+                                   codeBlockLanguages: {
+                                       js: 'JavaScript',
+                                       css: 'CSS',
+                                       txt: 'text',
+                                       tsx: 'TypeScript'
+                                   }
+                               }),
+                               diffSourcePlugin({viewMode: 'rich-text', diffMarkdown: 'boo'}),
+                               markdownShortcutPlugin()
+                           ]}
                 />
-            </div>
-            <MarkdownView markdown={markdown} />
-        </TabList>
+            </div>}
+            { selectedView === 'preview' &&
+            <div className={styles.preview}>
+                <MarkdownView markdown={markdown}/>
+            </div>}
+        </div>
     </div>
 }

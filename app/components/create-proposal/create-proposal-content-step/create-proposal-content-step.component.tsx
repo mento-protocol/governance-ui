@@ -5,7 +5,8 @@ import {useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
 import Wrapper from "@components/create-proposal/wrapper/wrapper.component";
 import {CreateProposalFormStepEnum} from "@interfaces/create-proposal.interface";
-import {useCreateProposalContext} from "@/app/providers/create-proposal.provider";
+import {useCreateProposalStore} from "@/app/store";
+import {useEffect} from "react";
 
 const validationSchema = object({
     title: string().required().typeError('Invalid title'),
@@ -18,7 +19,7 @@ const formStep = CreateProposalFormStepEnum.content
 
 export const CreateProposalContentStep = () => {
 
-    const {form} = useCreateProposalContext();
+    const {patchContentStep} = useCreateProposalStore();
 
     const {
         register,
@@ -38,7 +39,19 @@ export const CreateProposalContentStep = () => {
         },
     });
 
-    return <Wrapper isOpened={form[formStep].isOpened} step={formStep} title="Add name and description">
+    useEffect(() => {
+        const subscription = watch((value) => {
+                console.log(value);
+                patchContentStep({
+                    title: value.title || '',
+                    description: value.content || ''
+                })
+            }
+        );
+        return () => subscription.unsubscribe()
+    }, [watch, patchContentStep]);
+
+    return <Wrapper step={formStep} title="Add name and description">
         <div>
             <p className="text-lg mb-4 ml-10">Give your proposal a title and a description. They will be public when
                 your proposal goes live.</p>

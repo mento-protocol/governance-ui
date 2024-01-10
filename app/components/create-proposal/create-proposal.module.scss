@@ -2,23 +2,22 @@
 
 .form_element {
   max-height: 0;
-  transition: max-height 0.3s $ease-in-cubic, padding 0s 0.3s linear;
-  padding-bottom: 0 !important;
+  transition: max-height 0s $ease-in-cubic;
   overflow: hidden;
+  padding-bottom: 2 * $theme-unit !important;
 
   .inner {
     opacity: 0;
     overflow: hidden;
-    transform: translateY(-50px);
-    transition: all 0.3s $ease-in-cubic;
-    padding: 0 $theme-unit;
+    transform: translateY(-25px);
+    transition: all 0s $ease-in-cubic;
   }
 
   &.opened {
     max-height: 100%;
     padding: initial;
-    padding-bottom: 4 * $theme-unit !important;
     transition: max-height 0.3s $ease-in-cubic;
+    padding-bottom: 0 !important;
     .inner {
       opacity: 1;
       transform: translateY(0);

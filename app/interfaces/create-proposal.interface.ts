@@ -1,16 +1,4 @@
-export interface CreateProposalForm {
-    [CreateProposalFormStepEnum.wallet]: CreateProposalFormStep;
-    [CreateProposalFormStepEnum.content]: CreateProposalFormStep;
-    [CreateProposalFormStepEnum.execution]: CreateProposalFormStep;
-    [CreateProposalFormStepEnum.preview]: CreateProposalFormStep;
-}
-
-interface CreateProposalFormStep {
-    isValid: boolean;
-    isEnabled: boolean;
-    isOpened: boolean;
-    value: { [key: string]: string }
-}
+import {addWeeks} from "date-fns";
 
 export enum CreateProposalFormStepEnum {
     wallet = 'wallet',
@@ -19,21 +7,107 @@ export enum CreateProposalFormStepEnum {
     preview = 'preview'
 }
 
-const nextFormStep = {
-    isValid: false,
-    isEnabled: false,
-    isOpened: false,
-    value: {}
-};
+export interface CreateProposalForm {
+    [CreateProposalFormStepEnum.wallet]: CreateProposalFormStep<WalletProposalForm>;
+    [CreateProposalFormStepEnum.content]: CreateProposalFormStep<WalletContentForm>;
+    [CreateProposalFormStepEnum.execution]: CreateProposalFormStep<WalletExecutionForm>;
+    [CreateProposalFormStepEnum.preview]: CreateProposalFormStep<WalletPreviewForm>;
+}
+
+export interface FormField<T> {
+    value: T;
+    validate: (value: any) => boolean;
+}
+
+export interface CreateProposalFormStep<T> {
+    isOpened: boolean;
+    value: T;
+    isValid: boolean;
+}
+
+export interface WalletProposalForm {
+    walletAddress: FormField<string>,
+    balanceVeMENTO: FormField<number>,
+    balanceMENTO: FormField<number>,
+}
+
+export interface WalletContentForm {
+    title: FormField<string>,
+    description: FormField<string>,
+    creteDate: FormField<Date>,
+    deadlineDate: FormField<Date>,
+}
+
+export interface WalletExecutionForm {
+    code: FormField<string>,
+}
+
+export interface WalletPreviewForm {
+
+}
+
+const isNullOrWhitespace = (input: string) => {
+    return !input || !input.trim();
+}
 
 export const initialCreateProposalForm: CreateProposalForm = {
     [CreateProposalFormStepEnum.wallet]: {
-        isValid: false,
+        value: {
+            walletAddress: {
+                value: '',
+                validate: (value: string) => !isNullOrWhitespace(value)
+            },
+            balanceMENTO: {
+                value: 0,
+                validate: (value: number) => value > 10
+            },
+            balanceVeMENTO: {
+                value: 0,
+                validate: (value: number) => value > 2500
+            },
+        },
         isOpened: true,
-        isEnabled: true,
-        value: {}
+        isValid: false,
     },
-    [CreateProposalFormStepEnum.content]: nextFormStep,
-    [CreateProposalFormStepEnum.execution]: nextFormStep,
-    [CreateProposalFormStepEnum.preview]: nextFormStep
+    [CreateProposalFormStepEnum.content]: {
+        value: {
+            title: {
+                value: '',
+                validate: (value: string) => !isNullOrWhitespace(value)
+            },
+            description: {
+                value: '',
+                validate: (value: string) => !isNullOrWhitespace(value)
+            },
+            creteDate: {
+                value: new Date(),
+                validate: (value: Date) => !!value
+            },
+            deadlineDate: {
+                value: addWeeks(new Date(), 2),
+                validate: (value: Date) => value > new Date()
+            },
+        },
+        isOpened: false,
+        isValid: false,
+    },
+
+    [CreateProposalFormStepEnum.execution]: {
+        value: {
+            code: {
+                value: '',
+                validate: (value: string) => true
+            },
+        },
+        isOpened: false,
+        isValid: false,
+    },
+
+    [CreateProposalFormStepEnum.preview]: {
+        value: {},
+        isOpened: false,
+        isValid: false,
+    },
 }
+
+export const createProposalFormStepOrder = [CreateProposalFormStepEnum.wallet, CreateProposalFormStepEnum.content, CreateProposalFormStepEnum.execution, CreateProposalFormStepEnum.preview];

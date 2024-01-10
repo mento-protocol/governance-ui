@@ -1,6 +1,6 @@
 "use client";
 import {statusToBadgeColorMap} from "@interfaces/proposal.interface";
-import {Avatar, Badge, Button, Card, Input, Loader, TabList} from "@components/_shared";
+import {Avatar, Badge, Button, Card, Input, Loader, TabList, WalletAddressWithCopy} from "@components/_shared";
 import {Countdown} from "@components/countdown/countdown.component";
 import {format} from "date-fns";
 import {useForm} from "react-hook-form";
@@ -14,7 +14,6 @@ import {MarkdownView} from "@/app/components/_shared/markdown-view/markdown-view
 import useModal from "@/app/providers/modal.provider";
 import {IVoteType} from "@interfaces/vote.interface";
 import {useProposalDetailsStore, useUserStore} from "@/app/store";
-import {WalletAddressWithCopy} from "@components/_shared/wallet-address-with-copy/wallet-address-with-copy.component";
 
 const validationSchema = object({
     votingPower: number().required().typeError('Invalid number').max(400)

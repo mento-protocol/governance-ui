@@ -1,15 +1,16 @@
 "use client";
-import { MentoIcon } from "@components/_icons/mento.icon";
-import { MentoTextLogoIcon } from "@components/_icons";
-import { Badge, Button, Card, Divider, DropdownButton, Expandable } from "@components/_shared";
-import { ProposalsListComponent } from "@components/proposals-list/proposals-list.component";
+import {MentoIcon} from "@components/_icons/mento.icon";
+import {MentoTextLogoIcon, CeloLogoIcon} from "@components/_icons";
+import {Badge, Button, Card, Divider, DropdownButton, Expandable} from "@components/_shared";
+import {ProposalsListComponent} from "@components/proposals-list/proposals-list.component";
 import NumbersService from "@/app/helpers/numbers.service";
-import { ContractParams } from "@components/contract-params/contract-params.component";
-import { useRouter } from "next/navigation";
-import { CeloLogoIcon } from "../components/_icons/celo-logo.icon";
+import {ContractParams} from "@components/contract-params/contract-params.component";
+import {useRouter} from "next/navigation";
+import {useUserStore} from "@/app/store";
 
 const Page = () => {
     const router = useRouter();
+    const {walletAddress} = useUserStore();
     return (
         <main className="flex flex-col place-items-center mt-x11">
             <div className="max-w-full">
@@ -29,7 +30,7 @@ const Page = () => {
                             <Button theme="clear" href="/create-proposal">
                                 Create new proposal
                             </Button>
-                            <Button theme="clear" href="/my-voting-power">
+                            <Button theme="clear" href="/my-voting-power" disabled={!walletAddress}>
                                 My voting power
                             </Button>
                         </div>

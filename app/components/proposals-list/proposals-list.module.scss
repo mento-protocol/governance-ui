@@ -38,6 +38,12 @@
         text-align: center;
         overflow: hidden;
 
+        &:not(:last-child):not(:first-child) {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
+
         &.header {
           border: none;
           margin-bottom: $theme-unit * 6;
@@ -71,6 +77,7 @@
           max-width: 110px;
           margin: 0 auto;
           gap: $theme-unit * 2;
+          width: 100%;
         }
       }
     }

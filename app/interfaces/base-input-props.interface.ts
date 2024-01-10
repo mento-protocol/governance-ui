@@ -5,6 +5,7 @@ export default interface BaseInputProps {
     placeholder?: string;
     error?: string;
     value?: any;
+    disabled?: boolean;
 }
 
 interface FormProps {

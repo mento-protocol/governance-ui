@@ -1,6 +1,5 @@
 "use client";
 import '../globals.scss';
-import '@/app/brand.scss';
 import '@rainbow-me/rainbowkit/styles.css';
 import {Inter} from 'next/font/google';
 import {Footer, Header, Breadcrumbs} from "@components/_shared";

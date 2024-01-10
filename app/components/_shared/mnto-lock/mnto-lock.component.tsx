@@ -11,20 +11,38 @@ import {
 import {date, InferType, number, object, setLocale} from "yup";
 import {useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
+import {useUserStore} from "@/app/store";
+import {useEffect} from "react";
+import {ILock} from "@interfaces/lock.interface";
+import useModal from "@/app/providers/modal.provider";
 
 interface MntoLockProps extends BaseComponentProps {
-    onLockCallback?: () => void;
 }
 
-const validationSchema = object({
-    toLock: number().required().typeError('Invalid number').max(400000),
+let validationSchema = object({
+    toLock: number().required().typeError('Invalid number').max(0),
     expiration: date().required().typeError('Invalid Date').min(addYears(new Date(), 1)).max(addYears(new Date(), 4)),
     expirationMonths: number().required().typeError('Invalid number').max(4 * 52)
 });
 
 type FormData = InferType<typeof validationSchema>
 
-export const MntoLock = ({className, style, onLockCallback}: MntoLockProps ) => {
+export const MntoLock = ({className, style}: MntoLockProps) => {
+
+    const {walletAddress, balanceMENTO, lock} = useUserStore();
+    const {showConfirm} = useModal();
+
+    const patchValidationSchema = (value: number) => {
+        validationSchema = object({
+            toLock: number().required().typeError('Invalid number').max(value),
+            expiration: date().required().typeError('Invalid Date').min(addYears(new Date(), 1)).max(addYears(new Date(), 4)),
+            expirationMonths: number().required().typeError('Invalid number').max(4 * 52)
+        });
+    }
+
+    useEffect(() => {
+        patchValidationSchema(balanceMENTO);
+    }, [balanceMENTO]);
 
     setLocale({
         mixed: {
@@ -45,10 +63,12 @@ export const MntoLock = ({className, style, onLockCallback}: MntoLockProps ) => 
         setValue,
         getValues,
         handleSubmit,
+        reset,
+        trigger,
         formState: {errors, isValid}
     } = useForm<FormData>({
         resolver: yupResolver(validationSchema),
-        mode: 'onChange'
+        mode: 'all'
     });
 
     const getMonths = () => {
@@ -65,15 +85,29 @@ export const MntoLock = ({className, style, onLockCallback}: MntoLockProps ) => 
     const dateSelected = (date: Date) => {
         setValue('expiration', date);
         setValue('expirationMonths', differenceInMonths(date, setISODay(new Date(), 3)));
-        console.log([
-            getYears(),
-            getMonths()
-        ].filter(Boolean).join(' '));
+        trigger('expiration');
     }
 
     const performLock = () => {
         if (isValid) {
-            onLockCallback && onLockCallback();
+            showConfirm(`Do you want to lock ${getValues('toLock')} MENTO for ${[
+                getYears(),
+                getMonths()
+            ].filter(Boolean).join(' and ')}?`, {
+                confirmText: 'Lock',
+                modalType: 'info'
+            }).then((confirmed) => {
+                if (confirmed) {
+                    lock({
+                        owner: walletAddress,
+                        amountMNTO: getValues('toLock'),
+                        amountsVeMNTO: Math.round(getValues('toLock') * 100 * (getValues('expirationMonths') / 12)),
+                        expireDate: getValues('expiration')
+                    } as ILock).then(() => {
+                        reset();
+                    });
+                }
+            });
         }
     }
 
@@ -81,7 +115,10 @@ export const MntoLock = ({className, style, onLockCallback}: MntoLockProps ) => 
         const newDate = nextWednesday(addMonths(new Date(), +months));
         setValue('expiration', newDate);
         setValue('expirationMonths', +months);
+        trigger('expiration');
     }
+
+    patchValidationSchema(balanceMENTO);
 
     return <div className={className} style={style}>
         <div className="flex flex-col lg:flex-row justify-between md:place-items-baseline gap-1 md:gap-5">
@@ -96,8 +133,8 @@ export const MntoLock = ({className, style, onLockCallback}: MntoLockProps ) => 
                        error={errors.toLock?.message}
                        addon={<div className="text-xs opacity-50">
                            <div className="flex justify-between gap-x3">
-                               <div className="whitespace-nowrap">Max available</div>
-                               <div className="whitespace-nowrap">400 000 MENT</div>
+                               <div className="whitespace-nowrap">Max</div>
+                               <div className="whitespace-nowrap">{balanceMENTO.toLocaleString()} MENTO</div>
                            </div>
                        </div>}/>
             </div>
@@ -109,6 +146,7 @@ export const MntoLock = ({className, style, onLockCallback}: MntoLockProps ) => 
             </div>
             <div className="flex-1">
                 <DatePicker id="expiration"
+                            className="w-full"
                             disallowedDays={['mon', 'tue', 'thu', 'fri', 'sat', 'sun']}
                             minDate={nextWednesday(addMonths(new Date(), 1))}
                             maxDate={nextWednesday(addYears(new Date(), 4))}
@@ -116,6 +154,9 @@ export const MntoLock = ({className, style, onLockCallback}: MntoLockProps ) => 
                             placeholder="Lock expires"
                             value={watch('expiration')}
                             onChange={(date) => dateSelected(date)}
+                            addon={<div className="text-xs opacity-50">
+                                Between 1 and 4 years
+                            </div>}
                             error={errors.expiration?.message}/>
             </div>
         </div>
@@ -125,7 +166,7 @@ export const MntoLock = ({className, style, onLockCallback}: MntoLockProps ) => 
                 You recieve veMENTO:
             </div>
             <div className="flex-1">
-                <strong>{(400000).toLocaleString()}</strong>
+                <strong>{isValid ? Math.round(watch('toLock') * 100 * (watch('expirationMonths') / 12)) : '¯\\_(ツ)_/¯'}</strong>
             </div>
         </div>
 
@@ -147,8 +188,8 @@ export const MntoLock = ({className, style, onLockCallback}: MntoLockProps ) => 
                         value: 1
                     })
                 }}/>
-        <Button block className="!mt-x6" onClick={handleSubmit(performLock)}>
-            Lock MNTO
+        <Button block className="!mt-x6" onClick={handleSubmit(performLock)} disabled={!isValid}>
+            Lock MENTO
         </Button>
     </div>
 }

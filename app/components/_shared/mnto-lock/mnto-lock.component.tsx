@@ -95,7 +95,7 @@ export const MntoLock = ({className, style, onLockCallback}: MntoLockProps ) => 
                        form={{...register('toLock')}}
                        error={errors.toLock?.message}
                        addon={<div className="text-xs opacity-50">
-                           <div className="flex justify-between gap-3">
+                           <div className="flex justify-between gap-x3">
                                <div className="whitespace-nowrap">Max available</div>
                                <div className="whitespace-nowrap">400 000 MENT</div>
                            </div>

@@ -48,27 +48,27 @@ export const ContractParams = () => {
                     Mento Core
                 </div>
             </Card.Header>
-            <div className="grid grid-cols-3 gap-x1 justify-between mb-3">
+            <div className="flex gap-x2 justify-between mb-3">
                 <div className="font-semibold">
                     Governor
                 </div>
-                <div className="text-right col-span-2 break-words">
+                <div className="text-right col-span-2 break-all">
                     1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa
                 </div>
             </div>
-            <div className="grid grid-cols-3 gap-x1 justify-between mb-3">
+            <div className="flex gap-x2 justify-between mb-3">
                 <div className="font-semibold">
                     Token
                 </div>
-                <div className="text-right col-span-2 break-words">
+                <div className="text-right col-span-2 break-all">
                     1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa
                 </div>
             </div>
-            <div className="grid grid-cols-3 gap-x1 justify-between mb-3">
+            <div className="flex gap-x2 justify-between mb-3">
                 <div className="font-semibold">
                     Timelock
                 </div>
-                <div className="text-right col-span-2 break-words">
+                <div className="text-right col-span-2 break-all">
                     1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa
                 </div>
             </div>
@@ -118,27 +118,27 @@ export const ContractParams = () => {
                     Mento Core
                 </div>
             </Card.Header>
-            <div className="grid grid-cols-3 gap-x1 justify-between mb-3">
+            <div className="flex gap-x2 justify-between mb-3">
                 <div className="font-semibold">
                     Governor
                 </div>
-                <div className="text-right col-span-2">
+                <div className="text-right col-span-2 break-all">
                     1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa
                 </div>
             </div>
-            <div className="grid grid-cols-3 gap-x1 justify-between mb-3">
+            <div className="flex gap-x2 justify-between mb-3">
                 <div className="font-semibold">
                     Token
                 </div>
-                <div className="text-right col-span-2">
+                <div className="text-right col-span-2 break-all">
                     1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa
                 </div>
             </div>
-            <div className="grid grid-cols-3 gap-x1 justify-between mb-3">
+            <div className="flex gap-x2 justify-between mb-3">
                 <div className="font-semibold">
                     Timelock
                 </div>
-                <div className="text-right col-span-2">
+                <div className="text-right col-span-2 break-all">
                     1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa
                 </div>
             </div>

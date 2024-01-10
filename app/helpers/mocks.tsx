@@ -1,9 +1,9 @@
-import IProposal, {ProposalStatus} from "@interfaces/proposal";
-import {MentoIcon} from "@components/_icons";
+import IProposal, { ProposalStatus } from "@interfaces/proposal";
+import { MentoIcon } from "@components/_icons";
 import addDays from "date-fns/addDays";
-import {IVote} from "@interfaces/vote.interface";
-import {ILock} from "@interfaces/lock.interface";
-import {addYears} from "date-fns";
+import { IVote } from "@interfaces/vote.interface";
+import { ILock } from "@interfaces/lock.interface";
+import { addYears } from "date-fns";
 
 const proposalDescription = `This is an amended draft proposal by the RARI Foundation, addressing community feedback.
     
@@ -106,7 +106,7 @@ Note that the Rari Foundation will absorb costs related to the service and maint
 
 export const singleProposal: IProposal = {
     id: '599ca521-df39-442f-937c-03b20bcafc2d',
-    icon: <MentoIcon/>,
+    icon: <MentoIcon width={40} height={40} />,
     title: 'Building  the Building the Future of NFTs: The Rarible Protocol',
     description: proposalDescription,
     status: ProposalStatus.active,
@@ -121,7 +121,7 @@ export const singleProposal: IProposal = {
 export const proposalsMock: IProposal[] = [
     {
         id: '599ca521-df39-442f-937c-03b20bcafc2d',
-        icon: <MentoIcon/>,
+        icon: <MentoIcon width={40} height={40} />,
         title: 'Building  the Building the Future of NFTs: The Rarible Protocol',
         description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
         status: ProposalStatus.active,
@@ -133,7 +133,7 @@ export const proposalsMock: IProposal[] = [
         creator: 'Andrzej'
     }, {
         id: '599ca521-df39-442f-937c-03b20bcafc2d',
-        icon: <MentoIcon/>,
+        icon: <MentoIcon width={40} height={40} />,
         title: 'Building  the Building the Future of NFTs: The Rarible Protocol',
         description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
         status: ProposalStatus.active,
@@ -145,7 +145,7 @@ export const proposalsMock: IProposal[] = [
         creator: 'Andrzej'
     }, {
         id: '599ca521-df39-442f-937c-03b20bcafc2d',
-        icon: <MentoIcon/>,
+        icon: <MentoIcon width={40} height={40} />,
         title: 'Building  the Building the Future of NFTs: The Rarible Protocol',
         description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
         status: ProposalStatus.active,
@@ -157,7 +157,7 @@ export const proposalsMock: IProposal[] = [
         creator: 'Andrzej'
     }, {
         id: '599ca521-df39-442f-937c-03b20bcafc2d',
-        icon: <MentoIcon/>,
+        icon: <MentoIcon width={40} height={40} />,
         title: 'Building  the Building the Future of NFTs: The Rarible Protocol',
         description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
         status: ProposalStatus.active,
@@ -169,7 +169,7 @@ export const proposalsMock: IProposal[] = [
         creator: 'Andrzej'
     }, {
         id: '599ca521-df39-442f-937c-03b20bcafc2d',
-        icon: <MentoIcon/>,
+        icon: <MentoIcon width={40} height={40} />,
         title: 'Building  the Building the Future of NFTs: The Rarible Protocol',
         description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
         status: ProposalStatus.active,
@@ -181,7 +181,7 @@ export const proposalsMock: IProposal[] = [
         creator: 'Andrzej'
     }, {
         id: '599ca521-df39-442f-937c-03b20bcafc2d',
-        icon: <MentoIcon/>,
+        icon: <MentoIcon width={40} height={40} />,
         title: 'Building  the Building the Future of NFTs: The Rarible Protocol',
         description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
         status: ProposalStatus.active,
@@ -193,7 +193,7 @@ export const proposalsMock: IProposal[] = [
         creator: 'Andrzej'
     }, {
         id: '599ca521-df39-442f-937c-03b20bcafc2d',
-        icon: <MentoIcon/>,
+        icon: <MentoIcon width={40} height={40} />,
         title: 'Building  the Building the Future of NFTs: The Rarible Protocol',
         description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
         status: ProposalStatus.active,
@@ -205,7 +205,7 @@ export const proposalsMock: IProposal[] = [
         creator: 'Andrzej'
     }, {
         id: '599ca521-df39-442f-937c-03b20bcafc2d',
-        icon: <MentoIcon/>,
+        icon: <MentoIcon width={40} height={40} />,
         title: 'Building  the Building the Future of NFTs: The Rarible Protocol',
         description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
         status: ProposalStatus.active,
@@ -217,7 +217,7 @@ export const proposalsMock: IProposal[] = [
         creator: 'Andrzej'
     }, {
         id: '599ca521-df39-442f-937c-03b20bcafc2d',
-        icon: <MentoIcon/>,
+        icon: <MentoIcon width={40} height={40} />,
         title: 'Building  the Building the Future of NFTs: The Rarible Protocol',
         description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
         status: ProposalStatus.active,
@@ -229,7 +229,7 @@ export const proposalsMock: IProposal[] = [
         creator: 'Andrzej'
     }, {
         id: '599ca521-df39-442f-937c-03b20bcafc2d',
-        icon: <MentoIcon/>,
+        icon: <MentoIcon width={40} height={40} />,
         title: 'Building  the Building the Future of NFTs: The Rarible Protocol',
         description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
         status: ProposalStatus.active,
@@ -241,7 +241,7 @@ export const proposalsMock: IProposal[] = [
         creator: 'Andrzej'
     }, {
         id: '599ca521-df39-442f-937c-03b20bcafc2d',
-        icon: <MentoIcon/>,
+        icon: <MentoIcon width={40} height={40} />,
         title: 'Building  the Building the Future of NFTs: The Rarible Protocol',
         description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
         status: ProposalStatus.active,
@@ -253,7 +253,7 @@ export const proposalsMock: IProposal[] = [
         creator: 'Andrzej'
     }, {
         id: '599ca521-df39-442f-937c-03b20bcafc2d',
-        icon: <MentoIcon/>,
+        icon: <MentoIcon width={40} height={40} />,
         title: 'Building  the Building the Future of NFTs: The Rarible Protocol',
         description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
         status: ProposalStatus.active,
@@ -265,7 +265,7 @@ export const proposalsMock: IProposal[] = [
         creator: 'Andrzej'
     }, {
         id: '599ca521-df39-442f-937c-03b20bcafc2d',
-        icon: <MentoIcon/>,
+        icon: <MentoIcon width={40} height={40} />,
         title: 'Building  the Building the Future of NFTs: The Rarible Protocol',
         description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
         status: ProposalStatus.active,
@@ -277,7 +277,7 @@ export const proposalsMock: IProposal[] = [
         creator: 'Andrzej'
     }, {
         id: '599ca521-df39-442f-937c-03b20bcafc2d',
-        icon: <MentoIcon/>,
+        icon: <MentoIcon width={40} height={40} />,
         title: 'Building  the Building the Future of NFTs: The Rarible Protocol',
         description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
         status: ProposalStatus.active,
@@ -289,7 +289,7 @@ export const proposalsMock: IProposal[] = [
         creator: 'Andrzej'
     }, {
         id: '599ca521-df39-442f-937c-03b20bcafc2d',
-        icon: <MentoIcon/>,
+        icon: <MentoIcon width={40} height={40} />,
         title: 'Building  the Building the Future of NFTs: The Rarible Protocol',
         description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
         status: ProposalStatus.active,
@@ -301,7 +301,7 @@ export const proposalsMock: IProposal[] = [
         creator: 'Andrzej'
     }, {
         id: '599ca521-df39-442f-937c-03b20bcafc2d',
-        icon: <MentoIcon/>,
+        icon: <MentoIcon width={40} height={40} />,
         title: 'Building  the Building the Future of NFTs: The Rarible Protocol',
         description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
         status: ProposalStatus.active,
@@ -313,7 +313,7 @@ export const proposalsMock: IProposal[] = [
         creator: 'Andrzej'
     }, {
         id: '599ca521-df39-442f-937c-03b20bcafc2d',
-        icon: <MentoIcon/>,
+        icon: <MentoIcon width={40} height={40} />,
         title: 'Building  the Building the Future of NFTs: The Rarible Protocol',
         description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
         status: ProposalStatus.active,
@@ -325,7 +325,7 @@ export const proposalsMock: IProposal[] = [
         creator: 'Andrzej'
     }, {
         id: '599ca521-df39-442f-937c-03b20bcafc2d',
-        icon: <MentoIcon/>,
+        icon: <MentoIcon width={40} height={40} />,
         title: 'Building  the Building the Future of NFTs: The Rarible Protocol',
         description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
         status: ProposalStatus.active,
@@ -343,251 +343,251 @@ export const votesMock: IVote[] = [
         address: '0xBFA98CF93CDC5E1FCA31F2C6D42DB66A9AB8A80D',
         votes: 250,
         type: 'for',
-    },{
+    }, {
         address: '0xBFA98CF93CDDEE1FCA31F2C6D42DB66A9AB8A80D',
         votes: 456,
         type: 'against'
-    },{
+    }, {
         address: '0xBFA98CF93CDC5E1FBA31F2C6D42DB66A9AB8A80D',
         votes: 1000,
         type: 'against'
-    },{
+    }, {
         address: '0xBFA98CF93CDC5E1FCA31F2C6D42DB64A9AB8A80D',
         votes: 234,
         type: 'for'
-    },{
+    }, {
         address: '0xBFA98CF93CDC5E1FCA31F3C6D42DB66A9AB8A80D',
         votes: 123,
         type: 'for'
-    },{
+    }, {
         address: '0xBFA98CF93CDC5E1FCA31F2C6D42DB66A9AB8A80D',
         votes: 250,
         type: 'for'
-    },{
+    }, {
         address: '0xBFA98CF93CDC5E1FCA31F2C6D42DB64A9AB8A80D',
         votes: 234,
         type: 'for'
-    },{
+    }, {
         address: '0xBFA98CF93CDC5E1FCA31F3C6D42DB66A9AB8A80D',
         votes: 123,
         type: 'for'
-    },{
+    }, {
         address: '0xBFA98CF93CDC5E1FCA31F2C6D42DB66A9AB8A80D',
         votes: 250,
         type: 'for'
-    },{
+    }, {
         address: '0xBFA98CF93CDC5E1FCA31F2C6D42DB64A9AB8A80D',
         votes: 234,
         type: 'for'
-    },{
+    }, {
         address: '0xBFA98CF93CDC5E1FCA31F3C6D42DB66A9AB8A80D',
         votes: 123,
         type: 'for'
-    },{
+    }, {
         address: '0xBFA98CF93CDC5E1FCA31F2C6D42DB66A9AB8A80D',
         votes: 250,
         type: 'for'
-    },{
+    }, {
         address: '0xBFA91CF93CDC5E1FCA31F2C6D42DB66A9AB8A10D',
         votes: 567,
         type: 'for'
-    },{
+    }, {
         address: '0xBFA98CF93CDC5E1FCA31F2C6D42DB66A9AB8A80D',
         votes: 45,
         type: 'for'
-    },{
+    }, {
         address: '0xBFA98CF93CDC8E1FCA31F2C6D42DB66A9AB8A80D',
         votes: 987,
         type: 'for'
-    },{
+    }, {
         address: '0xBFA98CF93CDC5E1FCA31F2C6D42DB66A9AB8A82D',
         votes: 345,
         type: 'for'
-    },{
+    }, {
         address: '0xBFA78CF93CDC5E1FCA31F2C6D42DB66A9AB8A80C',
         votes: 4856,
         type: 'for'
-    },{
+    }, {
         address: '0xBFA16CF93CDC5E1FCA31F2C6D42DB66A9AB8A80D',
         votes: 234,
         type: 'for'
-    },{
+    }, {
         address: '0xBFA10CF93CDC5E1FCA31F2C6D42DB66A9AB8A80D',
         votes: 819,
         type: 'for'
-    },{
+    }, {
         address: '0xBFA20CF93CDC5E1FCA31F2C6D42DB66A9AB8A80D',
         votes: 981,
         type: 'for'
-    },{
+    }, {
         address: '0xBFA98BB93CDC5E1FCA31F2C6D42DB66A9AB8A80D',
         votes: 234,
         type: 'for'
-    },{
+    }, {
         address: '0xBFA98CF93ADC5E1CCA31F126D42DB66A9AB8A80D',
         votes: 456,
         type: 'for'
-    },{
+    }, {
         address: '0xBFA98CF93CDC5E1FCA31F2C6D42DB66A9AB8A80D',
         votes: 1091,
         type: 'abstain'
-    },{
+    }, {
         address: '0xCDA98CF93CDC5E1FCA31F2C6D42DB66A9AB8A80D',
         votes: 987,
         type: 'for'
-    },{
+    }, {
         address: '0x12398CF93CDC5E1FCA31F2C6D42DB66A9AB8A80D',
         votes: 716,
         type: 'abstain'
-    },{
+    }, {
         address: '0xABC98CF93CDC5E1FCA31F2C6D42DB66A9AB8A80D',
         votes: 189,
         type: 'for'
-    },{
+    }, {
         address: '0xBFA98CF93CDC5E1FCA31F2C6D42DB66A9AB8A80D',
         votes: 45,
         type: 'abstain'
-    },{
+    }, {
         address: '0xBFA98CF93CDC8E1FCA31F2C6D42DB66A9AB8A80D',
         votes: 987,
         type: 'for'
-    },{
+    }, {
         address: '0xBFA98CF93CDC5E1FCA31F2C6D42DB66A9AB8A82D',
         votes: 345,
         type: 'for'
-    },{
+    }, {
         address: '0xBFA78CF93CDC5E1FCA31F2C6D42DB66A9AB8A80C',
         votes: 4856,
         type: 'abstain'
-    },{
+    }, {
         address: '0xBFA16CF93CDC5E1FCA31F2C6D42DB66A9AB8A80D',
         votes: 234,
         type: 'for'
-    },{
+    }, {
         address: '0xBFA10CF93CDC5E1FCA31F2C6D42DB66A9AB8A80D',
         votes: 819,
         type: 'abstain'
-    },{
+    }, {
         address: '0xBFA20CF93CDC5E1FCA31F2C6D42DB66A9AB8A80D',
         votes: 981,
         type: 'abstain'
-    },{
+    }, {
         address: '0xBFA98BB93CDC5E1FCA31F2C6D42DB66A9AB8A80D',
         votes: 234,
         type: 'abstain'
-    },{
+    }, {
         address: '0xBFA10CF93CDC5E1FCA31F2C6D42DB66A9AB8A80D',
         votes: 819,
         type: 'abstain'
-    },{
+    }, {
         address: '0xBFA20CF93CDC5E1FCA31F2C6D42DB66A9AB8A80D',
         votes: 981,
         type: 'abstain'
-    },{
+    }, {
         address: '0xBFA98BB93CDC5E1FCA31F2C6D42DB66A9AB8A80D',
         votes: 234,
         type: 'abstain'
-    },{
+    }, {
         address: '0xBFA10CF93CDC5E1FCA31F2C6D42DB66A9AB8A80D',
         votes: 819,
         type: 'abstain'
-    },{
+    }, {
         address: '0xBFA20CF93CDC5E1FCA31F2C6D42DB66A9AB8A80D',
         votes: 981,
         type: 'abstain'
-    },{
+    }, {
         address: '0xBFA98BB93CDC5E1FCA31F2C6D42DB66A9AB8A80D',
         votes: 234,
         type: 'abstain'
-    },{
+    }, {
         address: '0xBFA10CF93CDC5E1FCA31F2C6D42DB66A9AB8A80D',
         votes: 819,
         type: 'abstain'
-    },{
+    }, {
         address: '0xBFA20CF93CDC5E1FCA31F2C6D42DB66A9AB8A80D',
         votes: 981,
         type: 'abstain'
-    },{
+    }, {
         address: '0xBFA98BB93CDC5E1FCA31F2C6D42DB66A9AB8A80D',
         votes: 234,
         type: 'abstain'
-    },{
+    }, {
         address: '0xBFA98CF93ADC5E1CCA31F126D42DB66A9AB8A80D',
         votes: 456,
         type: 'for'
-    },{
+    }, {
         address: '0xBFA98CF93CDC5E1FCA31F2C6D42DB66A9AB8A80D',
         votes: 1091,
         type: 'for'
-    },{
+    }, {
         address: '0xCDA98CF93CDC5E1FCA31F2C6D42DB66A9AB8A80D',
         votes: 987,
         type: 'abstain'
-    },{
+    }, {
         address: '0x12398CF93CDC5E1FCA31F2C6D42DB66A9AB8A80D',
         votes: 716,
         type: 'against'
-    },{
+    }, {
         address: '0xABC98CF93CDC5E1FCA31F2C6D42DB66A9AB8A80D',
         votes: 189,
         type: 'against'
-    },{
+    }, {
         address: '0xCDA98CF93CDC5E1FCA31F2C6D42DB66A9AB8A80D',
         votes: 987,
         type: 'abstain'
-    },{
+    }, {
         address: '0x12398CF93CDC5E1FCA31F2C6D42DB66A9AB8A80D',
         votes: 716,
         type: 'against'
-    },{
+    }, {
         address: '0xABC98CF93CDC5E1FCA31F2C6D42DB66A9AB8A80D',
         votes: 189,
         type: 'against'
-    },{
+    }, {
         address: '0xCDA98CF93CDC5E1FCA31F2C6D42DB66A9AB8A80D',
         votes: 987,
         type: 'abstain'
-    },{
+    }, {
         address: '0x12398CF93CDC5E1FCA31F2C6D42DB66A9AB8A80D',
         votes: 716,
         type: 'against'
-    },{
+    }, {
         address: '0xABC98CF93CDC5E1FCA31F2C6D42DB66A9AB8A80D',
         votes: 189,
         type: 'against'
-    },{
+    }, {
         address: '0xCDA98CF93CDC5E1FCA31F2C6D42DB66A9AB8A80D',
         votes: 987,
         type: 'abstain'
-    },{
+    }, {
         address: '0x12398CF93CDC5E1FCA31F2C6D42DB66A9AB8A80D',
         votes: 716,
         type: 'against'
-    },{
+    }, {
         address: '0xABC98CF93CDC5E1FCA31F2C6D42DB66A9AB8A80D',
         votes: 189,
         type: 'against'
-    },{
+    }, {
         address: '0xCDA98CF93CDC5E1FCA31F2C6D42DB66A9AB8A80D',
         votes: 987,
         type: 'abstain'
-    },{
+    }, {
         address: '0x12398CF93CDC5E1FCA31F2C6D42DB66A9AB8A80D',
         votes: 716,
         type: 'against'
-    },{
+    }, {
         address: '0xABC98CF93CDC5E1FCA31F2C6D42DB66A9AB8A80D',
         votes: 189,
         type: 'against'
-    },{
+    }, {
         address: '0xCDA98CF93CDC5E1FCA31F2C6D42DB66A9AB8A80D',
         votes: 987,
         type: 'abstain'
-    },{
+    }, {
         address: '0x12398CF93CDC5E1FCA31F2C6D42DB66A9AB8A80D',
         votes: 716,
         type: 'against'
-    },{
+    }, {
         address: '0xABC98CF93CDC5E1FCA31F2C6D42DB66A9AB8A80D',
         votes: 189,
         type: 'against'

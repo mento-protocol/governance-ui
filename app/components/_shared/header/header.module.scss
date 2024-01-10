@@ -107,7 +107,7 @@
   }
 
   @include media-md {
-    padding: $default-gap;
+    padding: $theme-unit * 7 $theme-unit * 4 $theme-unit * 4;
 
     &__inner {
       position: static;
@@ -133,7 +133,7 @@
         padding-bottom: 0px;
 
         p {
-          font-size: 16px;
+          font-size: $theme-unit * 3;
         }
 
         &.dropdown {

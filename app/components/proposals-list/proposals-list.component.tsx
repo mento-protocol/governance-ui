@@ -17,11 +17,11 @@ export const ProposalsListComponent = ({className, style}: ProposalsListProps) =
     const proposals = proposalsMock;
 
     return (<div className={classNames(styles.wrapper, className)} style={style}>
-            <h2 className="text-2xl text-center mt-10 mb-6">Proposals</h2>
+            <h2 className="text-center mt-x11 mb-x6 font-medium">Proposals</h2>
             <Card block>
                 <div className={classNames(styles.proposals_grid, 'text_small')}>
                     <div className={classNames(styles.proposals_grid__row)}>
-                        <div className={classNames(styles.proposals_grid__row__element, styles.header, styles.first)}>
+                        <div className={classNames(styles.proposals_grid__row__element, styles.header)}>
                             Proposal name
                         </div>
                         <div className={classNames(styles.proposals_grid__row__element, styles.header)}>
@@ -31,14 +31,13 @@ export const ProposalsListComponent = ({className, style}: ProposalsListProps) =
                             Votes in favour
                         </div>
                         <div className={classNames(styles.proposals_grid__row__element, styles.header)}>
-                            PVotes agains
+                            PVotes against
                         </div>
                         <div className={classNames(styles.proposals_grid__row__element, styles.header, styles.last)}>
                             Total votes
                         </div>
                     </div>
                         {proposals.map((proposal, index) => <div key={index} className={classNames(styles.proposals_grid__row)}>
-                            {!!index && <div className={styles.divider}/>}
                             <div className={classNames(styles.proposals_grid__row__element, styles.first)}>
                                 <div className="flex gap-x1 place-items-center">
                                     <div>
@@ -49,8 +48,8 @@ export const ProposalsListComponent = ({className, style}: ProposalsListProps) =
                                     </Link>
                                 </div>
                             </div>
-                            <div className={classNames(styles.proposals_grid__row__element)}>
-                                <Badge className="uppercase font-medium"
+                            <div className={classNames(styles.proposals_grid__row__element, 'flex justify-center')}>
+                                <Badge className={classNames(styles.status, "uppercase font-medium")}
                                        type={statusToBadgeColorMap[proposal.status]}>{proposal.status.toString()}</Badge>
                             </div>
                             <div className={classNames(styles.proposals_grid__row__element)}>
@@ -62,6 +61,7 @@ export const ProposalsListComponent = ({className, style}: ProposalsListProps) =
                                              max={proposal.votesTotal} valueFormat="alphabetic"/>
                             </div>
                             <div className={classNames(styles.proposals_grid__row__element, styles.last, 'mb-3')}>{NumbersService.parseNumericValue(proposal.votesTotal)}</div>
+                            <div className={styles.divider}/>
                         </div>)}
                 </div>
             </Card>

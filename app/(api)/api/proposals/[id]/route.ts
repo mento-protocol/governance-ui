@@ -120,9 +120,7 @@ interface GetMethodContext {
     }
 }
 
-export async function GET(req: NextRequest, context: GetMethodContext) {
-    const id = context.params.id;
-
+export async function GET(req: NextRequest, { params: { id } }: GetMethodContext) {
     const data = {
         ...singleProposal,
         id

@@ -265,6 +265,6 @@ interface GetMethodContext {
 }
 
 
-export async function GET(req: NextRequest, context: GetMethodContext) {
+export async function GET(req: NextRequest, { params: { id } }: GetMethodContext) {
     return Response.json(votesMock);
 }

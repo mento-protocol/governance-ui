@@ -10,9 +10,7 @@ interface PutMethodContext {
     }
 }
 
-export async function PUT(req: NextRequest, context: PutMethodContext) {
-    const address = context.params.address;
-    const id = context.params.id;
+export async function PUT(req: NextRequest, { params: { address, id } }: PutMethodContext) {
     const lockToExtend = locksMock.find(lock => lock.id === id);
     if (!lockToExtend) {
         return Response.json({

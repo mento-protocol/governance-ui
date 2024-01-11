@@ -7,9 +7,7 @@ interface GetMethodContext {
     }
 }
 
-export async function GET(req: NextRequest, context: GetMethodContext) {
-    const address = context.params.address;
-
+export async function GET(req: NextRequest, { params: { address } }: GetMethodContext) {
     const data = {
         walletAddress: address,
         balanceMENTO: Math.round(Math.random() * 5000),

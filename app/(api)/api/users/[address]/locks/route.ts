@@ -45,13 +45,11 @@ interface PutMethodContext {
     }
 }
 
-export async function GET(req: NextRequest, context: GetMethodContext) {
-    const address = context.params.address;
+export async function GET(req: NextRequest, { params: { address } }: GetMethodContext) {
     return Response.json(locksMock);
 }
 
-export async function PUT(req: NextRequest, context: PutMethodContext) {
-    const address = context.params.address;
+export async function PUT(req: NextRequest, { params: { address } }: PutMethodContext) {
     const body = await req.json();
     return Response.json({
         owner: address,

@@ -34,7 +34,7 @@ export interface WalletProposalForm {
 export interface WalletContentForm {
     title: FormField<string>,
     description: FormField<string>,
-    creteDate: FormField<Date>,
+    createDate: FormField<Date>,
     deadlineDate: FormField<Date>,
 }
 
@@ -79,7 +79,7 @@ export const initialCreateProposalForm: CreateProposalForm = {
                 value: '',
                 validate: (value: string) => !isNullOrWhitespace(value)
             },
-            creteDate: {
+            createDate: {
                 value: new Date(),
                 validate: (value: Date) => !!value
             },

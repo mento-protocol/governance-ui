@@ -15,11 +15,12 @@ export const CreateProposalPreviewStep = () => {
     const { form } = useCreateProposalStore();
 
     const proposal = useMemo(() => {
+        const {title, description, creteDate, deadlineDate} = form[CreateProposalFormStepEnum.content].value
         return {
-            title: form[CreateProposalFormStepEnum.content].value.title.value,
-            description: form[CreateProposalFormStepEnum.content].value.description.value,
-            deadlineAt: form[CreateProposalFormStepEnum.content].value.deadlineDate.value,
-            createdAt: form[CreateProposalFormStepEnum.content].value.creteDate.value,
+            title: title.value,
+            description: description.value,
+            deadlineAt: deadlineDate.value,
+            createdAt: creteDate.value,
             creator: form[CreateProposalFormStepEnum.wallet].value.walletAddress.value,
         } as IProposal;
     }, [form]);

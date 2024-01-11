@@ -2,7 +2,7 @@ import {NextRequest} from "next/server";
 import {ILock} from "@interfaces/lock.interface";
 import {addYears} from "date-fns";
 
-export const locksMock: ILock[] = [
+const locksMock: ILock[] = [
     {
         owner: '0xabc',
         id: '599ca521-df39-442f-937c-03b20bcafc2d',

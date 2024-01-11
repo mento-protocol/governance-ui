@@ -1,7 +1,7 @@
 import {IVote, IVoteType} from "@interfaces/vote.interface";
 import {NextRequest} from "next/server";
 
-export const votesMock: IVote[] = [
+const votesMock: IVote[] = [
     {
         address: '0xBFA98CF93CDC5E1FCA31F2C6D42DB66A9AB8A80D',
         votes: 250,

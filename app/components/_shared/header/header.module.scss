@@ -32,7 +32,6 @@
     justify-content: flex-start;
     align-items: flex-start;
     gap: $default-gap;
-    padding: 0 $default-gap;
     z-index: 48;
     transition: transform 0.4s $ease-in-cubic;
     transform: translateX(100%);
@@ -107,7 +106,7 @@
   }
 
   @include media-md {
-    padding: $default-gap;
+    padding: $theme-unit * 7 $theme-unit * 4 $theme-unit * 4;
 
     &__inner {
       position: static;
@@ -133,7 +132,7 @@
         padding-bottom: 0px;
 
         p {
-          font-size: 16px;
+          font-size: $theme-unit * 3;
         }
 
         &.dropdown {

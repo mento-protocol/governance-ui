@@ -22,12 +22,13 @@ type WrapperProps = {
     target?: '_blank' | '_self' | '_parent' | '_top' | 'framename';
     block?: boolean,
     wrapperClassName?: string
+    disabled?: boolean;
 }
 
-const Wrapper = ({children, href, target, block, wrapperClassName}: WrapperProps) => {
-    return href ? <Link href={href} target={target} className={classNames(wrapperClassName, block && styles.block)}>
+const Wrapper = ({children, href, target, block, wrapperClassName, disabled}: WrapperProps) => {
+    return href ? <Link href={href} target={target} className={classNames(wrapperClassName, block && styles.block, disabled && styles.disabled)}>
         {children}
-    </Link> : <div className={classNames(wrapperClassName, block && styles.block)}>{children}</div>
+    </Link> : <div className={classNames(wrapperClassName, block && styles.block, disabled && styles.disabled)}>{children}</div>
 }
 
 export const Button = ({
@@ -45,7 +46,7 @@ export const Button = ({
                        }: ButtonProps) => {
 
     return (
-        <Wrapper href={href} target={target} block={block} wrapperClassName={wrapperClassName}>
+        <Wrapper href={href} target={target} block={block} wrapperClassName={wrapperClassName} disabled={disabled}>
             <div
                 className={classNames(styles.wrapper, styles[theme], className, block && styles.block, disabled && styles.disabled)}
                 style={style}>

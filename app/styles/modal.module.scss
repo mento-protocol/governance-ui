@@ -1,12 +1,11 @@
 @import "@/app/brand";
 
+.backdrop {
+  @include default-backdrop;
+}
+
 .modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: #{$c-black}BB;
+  @include default-backdrop;
   padding: $theme-unit * 4;
   overflow: auto;
   height: 100vh;
@@ -40,11 +39,15 @@
   }
 
   &__close {
-    width: $theme-unit * 10;
-    height: $theme-unit * 10;
-    background-color: $c-primary;
-    color: $c-white;
-    border-radius: 50%;
+
+    position: absolute;
+    right: $theme-unit * .5;
+    top: $theme-unit * .5;
+    width: $theme-unit * 8;
+    height: $theme-unit * 8;
+    background-color: transparent;
+    color: var(--theme-foreground-color);
+    border-radius: $theme-unit;
     font-size: $theme-unit * 5;
     line-height: $theme-unit * 5;
     font-weight: 300;
@@ -52,6 +55,11 @@
     align-items: center;
     justify-content: center;
     cursor: pointer;
+
+    &:hover {
+      background-color: $c-primary;
+      color: $c-white;
+    }
 
     * {
       margin: 0;

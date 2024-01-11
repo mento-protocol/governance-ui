@@ -19,16 +19,18 @@ export const Input = ({
                           form,
                           addon,
                           error,
+                          disabled,
                           compact
                       }: InputProps) => {
 
-    return <div className={classNames(styles.wrapper, compact && styles.compact, className)}>
+    return <div className={classNames(styles.wrapper, compact && styles.compact, disabled && styles.disabled, className)}>
         {!!label && <label htmlFor={id}>
             {label}
         </label>}
         <div className={classNames(styles.input, !!error && styles.error)}>
             <input id={id}
                    placeholder={placeholder}
+                   disabled={disabled}
                    type={type}
                    {...form}/>
             {addon}

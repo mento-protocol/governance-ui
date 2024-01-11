@@ -1,6 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
 @import "brand";
 
 @each $theme, $value in $themes {
@@ -51,6 +52,16 @@ a:hover,
 
 .full-w {
   width: 100%;
+}
+
+.prose:not(.prose-editor) {
+  * {
+    color: var(--theme-foreground-color);
+  }
+}
+
+.prose-editor {
+  max-width: 100%;
 }
 
 @each $color, $value in $brandColors {

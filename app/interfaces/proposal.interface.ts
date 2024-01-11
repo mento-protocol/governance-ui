@@ -7,9 +7,8 @@ export enum ProposalStatus {
     defeated = 'defeated',
 }
 
-export default interface Proposal {
+export default interface IProposal {
     id: string;
-    icon: React.ReactNode;
     title: string;
     description: string;
     status: ProposalStatus;

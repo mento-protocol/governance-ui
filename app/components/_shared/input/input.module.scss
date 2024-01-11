@@ -17,6 +17,13 @@
     }
   }
 
+  &.disabled {
+    cursor: not-allowed;
+    input {
+      cursor: not-allowed;
+    }
+  }
+
   .errorMessage {
     @include default-input-error-message;
   }

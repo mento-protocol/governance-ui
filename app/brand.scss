@@ -228,7 +228,7 @@ $themes: (
   right: 0;
   bottom: 0;
   backdrop-filter: blur(2px);
-  background-color: rgba(0, 0, 0, 0.2);
+  background-color: #{$c-black}22;
   z-index: -1;
   pointer-events: none;
   opacity: 0;

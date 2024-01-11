@@ -8,10 +8,7 @@ interface PutMethodContext {
     }
 }
 
-export async function PUT(req: NextRequest, context: PutMethodContext) {
-    const id = context.params.id;
-    const type = context.params.type;
-
+export async function PUT(req: NextRequest, { params: { type, id } }: PutMethodContext) {
     const body = await req.json();
 
     const data = {

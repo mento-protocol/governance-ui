@@ -1,11 +1,11 @@
 "use client";
-import { useCreateProposalContext } from "@/app/providers/create-proposal.provider";
 import Wrapper from "@components/create-proposal/wrapper/wrapper.component";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { CreateProposalFormStepEnum } from "@interfaces/create-proposal.interface";
 import { useForm } from "react-hook-form";
 import { InferType, object, setLocale, string } from "yup";
-import { TextArea, Textarea } from "../../_shared/textarea/textarea.component";
+import { Textarea } from "@components/_shared";
+import {useCreateProposalStore} from "@/app/store";
 
 const validationSchema = object({
     code: string().required().typeError('Invalid code')
@@ -17,7 +17,7 @@ const formStep = CreateProposalFormStepEnum.execution;
 
 export const CreateProposalExecutionStep = () => {
 
-    const { form } = useCreateProposalContext();
+    const { form } = useCreateProposalStore();
 
     const {
         register,
@@ -37,7 +37,7 @@ export const CreateProposalExecutionStep = () => {
         },
     });
 
-    return <Wrapper isOpened={form[formStep].isOpened} step={formStep} title="Execution Code">
+    return <Wrapper step={formStep} title="Execution Code">
         <div>
             <p className="text-lg">Paste your governance proposal’s execution code in the json format in the field below:</p>
             <Textarea

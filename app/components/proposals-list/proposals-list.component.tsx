@@ -71,7 +71,6 @@ export const ProposalsListComponent = ({className, style}: ProposalsListProps) =
                                              max={proposal.votesTotal} valueFormat="alphabetic"/>
                             </div>
                             <div className={classNames(styles.proposals_grid__row__element, styles.last, 'mb-3')}>{NumbersService.parseNumericValue(proposal.votesTotal)}</div>
-                            <div className={styles.divider}/>
                         </div>)}
                     </div>
                 </Card>

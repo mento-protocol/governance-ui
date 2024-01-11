@@ -54,10 +54,14 @@ a:hover,
   width: 100%;
 }
 
-.prose {
+.prose:not(.prose-editor) {
   * {
     color: var(--theme-foreground-color);
   }
+}
+
+.prose-editor {
+  max-width: 100%;
 }
 
 @each $color, $value in $brandColors {

@@ -19,3 +19,6 @@ export {ConnectButton} from './connect-button/connect-button.component';
 export {MarkdownEditor} from './markdown-editor/markdown-editor.component';
 export {Breadcrumbs} from './breadcrumbs/breadcrumbs.component';
 export {Loader} from './loader/loader.component';
+export {Textarea} from './textarea/textarea.component';
+export {WalletAddressWithCopy} from './wallet-address-with-copy/wallet-address-with-copy.component';
+export {MarkdownView} from './markdown-view/markdown-view.component';

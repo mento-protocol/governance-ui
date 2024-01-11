@@ -2,7 +2,7 @@ import IProposal, {ProposalStatus} from "@interfaces/proposal.interface";
 import {MentoIcon} from "@components/_icons";
 import {NextRequest} from "next/server";
 
-export const proposalsMock: IProposal[] = [
+const proposalsMock: IProposal[] = [
     {
         id: '599ca521-df39-442f-937c-03b20bcafc2d',
         title: 'Building  the Building the Future of NFTs: The Rarible Protocol',

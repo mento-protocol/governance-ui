@@ -1,34 +1,31 @@
 "use client";
-import { singleProposal } from "@/app/helpers/mocks";
-import { useCreateProposalContext } from "@/app/providers/create-proposal.provider";
 import Wrapper from "@components/create-proposal/wrapper/wrapper.component";
 import { CreateProposalFormStepEnum } from "@interfaces/create-proposal.interface";
-import { useForm } from "react-hook-form";
-import { MarkdownView } from "../../_shared/markdown-view/markdown-view.component";
 import { format } from "date-fns";
-import { WalletAddressWithCopy } from "../../_shared/wallet-address-with-copy/wallet-address-with-copy.component";
+import { WalletAddressWithCopy, MarkdownView } from "@components/_shared";
 import { Avatar } from "../../_shared";
+import {useCreateProposalStore} from "@/app/store";
+import {useMemo} from "react";
+import IProposal from "@interfaces/proposal.interface";
 
 const formStep = CreateProposalFormStepEnum.preview
 
 export const CreateProposalPreviewStep = () => {
 
-    const { form } = useCreateProposalContext();
+    const { form } = useCreateProposalStore();
 
-    const {
-        register,
-        watch,
-        setValue,
-        getValues,
-        handleSubmit,
-        formState: { errors, isValid }
-    } = useForm<FormData>({
-        mode: 'onChange'
-    });
+    const proposal = useMemo(() => {
+        const {title, description, createDate, deadlineDate} = form[CreateProposalFormStepEnum.content].value
+        return {
+            title: title.value,
+            description: description.value,
+            deadlineAt: deadlineDate.value,
+            createdAt: createDate.value,
+            creator: form[CreateProposalFormStepEnum.wallet].value.walletAddress.value,
+        } as IProposal;
+    }, [form]);
 
-    const proposal = singleProposal;
-
-    return <Wrapper isOpened={form[formStep].isOpened} step={formStep} title="Preview your proposal">
+    return <Wrapper step={formStep} title="Preview your proposal">
         <div className="ml-x7 mr-x8">
             <p className="text-lg">You&apos;ve successfully finished all the steps. Now, take a moment to go over your proposal and then submit it.</p>
             <div className="font-size-x6 line-height-x7 text-center mt-x5 mb-x7 font-medium">{proposal.title}</div>

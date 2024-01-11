@@ -2,7 +2,7 @@ import {NextRequest} from "next/server";
 import {ILock} from "@interfaces/lock.interface";
 import {addYears} from "date-fns";
 
-export const locksMock: ILock[] = [
+const locksMock: ILock[] = [
     {
         owner: '0xabc',
         id: '599ca521-df39-442f-937c-03b20bcafc2d',
@@ -45,13 +45,11 @@ interface PutMethodContext {
     }
 }
 
-export async function GET(req: NextRequest, context: GetMethodContext) {
-    const address = context.params.address;
+export async function GET(req: NextRequest, { params: { address } }: GetMethodContext) {
     return Response.json(locksMock);
 }
 
-export async function PUT(req: NextRequest, context: PutMethodContext) {
-    const address = context.params.address;
+export async function PUT(req: NextRequest, { params: { address } }: PutMethodContext) {
     const body = await req.json();
     return Response.json({
         owner: address,

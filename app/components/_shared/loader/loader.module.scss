@@ -1,8 +1,8 @@
 @import "@/app/brand";
 
 .loader {
-  width: 60px;
-  height: 60px;
+  width: $theme-unit * 12;
+  height: $theme-unit * 12;
   border-radius: 50%;
   position: relative;
   animation: rotate 1s linear infinite
@@ -13,7 +13,7 @@
   position: absolute;
   inset: 0px;
   border-radius: 50%;
-  border: 5px solid $c-primary;
+  border: $theme-unit solid $c-primary;
   animation: prixClipFix 2s linear infinite ;
 }
 
@@ -31,8 +31,8 @@
 
 .container {
   position: relative;
-  height: 60px;
-  width: 60px
+  height: $theme-unit * 12;
+  width: $theme-unit * 12;
 }
 
 .icon {

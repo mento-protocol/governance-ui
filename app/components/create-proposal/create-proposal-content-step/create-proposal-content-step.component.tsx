@@ -41,7 +41,6 @@ export const CreateProposalContentStep = () => {
 
     useEffect(() => {
         const subscription = watch((value) => {
-                console.log(value);
                 patchContentStep({
                     title: value.title || '',
                     description: value.content || ''

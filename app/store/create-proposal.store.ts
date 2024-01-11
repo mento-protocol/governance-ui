@@ -51,11 +51,6 @@ export const useCreateProposalStore = create<CreateProposalStore>((set, get) => 
     },
     checkFormValidity: () => {
         const form = get().form[get().openedForm];
-        console.log('checkFormValidity', get().openedForm);
-        Object.values(form.value).forEach((field) => {
-           console.log(field.value, field.validate(field.value));
-        });
-
         const isValid = Object.values(form.value).every((field) => field.validate(field.value));
         set({
             form: {

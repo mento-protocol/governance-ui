@@ -18,11 +18,11 @@ export const Footer = ({ className, style }: FooterProps) => {
     const pathname = usePathname();
 
     return (
-        <footer className={classNames('mt-10', className)} style={style}>
+        <footer className={classNames('mt-x5', className)} style={style}>
             <div className="main-container">
                 {pathname === '/' && <div className={classNames(styles.learn_more)}>
                     <div className={classNames(styles.content)}>
-                        <h2 className="text-6xl font-semibold my-2">Learn more</h2>
+                        <h2 className="text-6xl font-semibold my-x1">Learn more</h2>
                         <p className={styles.description}>If you&apos;re interested in learning more about
                             Mento, finding out what the team is working on now, or would like to contribute, please join
                             our discord server.</p>

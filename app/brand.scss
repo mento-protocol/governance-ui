@@ -124,6 +124,46 @@ $themes: (
       #{$property}: $value;
     }
   }
+
+  .sm\:#{$class-name} {
+    @include media-sm {
+      @each $property in $properties {
+        #{$property}: $value;
+      }
+    }
+  }
+
+  .md\:#{$class-name} {
+    @include media-md {
+      @each $property in $properties {
+        #{$property}: $value;
+      }
+    }
+  }
+
+  .lg\:#{$class-name} {
+    @include media-lg {
+      @each $property in $properties {
+        #{$property}: $value;
+      }
+    }
+  }
+
+  .xl\:#{$class-name} {
+    @include media-xl {
+      @each $property in $properties {
+        #{$property}: $value;
+      }
+    }
+  }
+
+  .xxl\:#{$class-name} {
+    @include media-2xl {
+      @each $property in $properties {
+        #{$property}: $value;
+      }
+    }
+  }
 }
 
 @mixin media-sm {

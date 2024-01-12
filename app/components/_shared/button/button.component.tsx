@@ -26,9 +26,11 @@ type WrapperProps = {
 }
 
 const Wrapper = ({children, href, target, block, wrapperClassName, disabled}: WrapperProps) => {
-    return href ? <Link href={href} target={target} className={classNames(wrapperClassName, block && styles.block, disabled && styles.disabled)}>
-        {children}
-    </Link> : <div className={classNames(wrapperClassName, block && styles.block, disabled && styles.disabled)}>{children}</div>
+    return <div className={classNames(disabled && styles.disabled)}>
+        {href ? <Link href={href} target={target} className={classNames(wrapperClassName, block && styles.block, disabled && styles.disabled)}>
+            {children}
+        </Link> : <div className={classNames(wrapperClassName, block && styles.block, disabled && styles.disabled)}>{children}</div>}
+    </div>
 }
 
 export const Button = ({

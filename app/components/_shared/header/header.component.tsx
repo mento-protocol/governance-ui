@@ -25,7 +25,7 @@ export const Header = ({className, style}: HeaderProps) => {
         setMenuOpened(name === menuOpened ? '' : name);
     }
 
-    return <header className={classNames(styles.header, 'pt-x7 pr-x4 pl-x4', className)} style={style}
+    return <header className={classNames(styles.header, className)} style={style}
                    onClick={() => setMenuOpened('')}>
         <div className={classNames(styles.header__inner, drawerOpened && styles.opened)}>
             <Link href={'/'}>
@@ -84,7 +84,7 @@ export const Header = ({className, style}: HeaderProps) => {
             <ConnectButton block/>
 
         </div>
-        <div className={classNames(styles.mobile_inner, 'flex p-6 z-50 md:hidden')}>
+        <div className={classNames(styles.mobile_inner, 'flex pa-x z-50 md:hidden')}>
             <Link href={'/'}>
                 <MentoLogoIcon useThemeColor/>
             </Link>

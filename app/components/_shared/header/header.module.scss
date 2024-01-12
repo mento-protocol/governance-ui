@@ -14,6 +14,7 @@
     left: 0;
     right: 0;
     background-color: var(--theme-background-color);
+    padding: $theme-unit * 2 $theme-unit * 4;
   }
 
   &__inner {
@@ -106,7 +107,7 @@
   }
 
   @include media-md {
-    padding: $theme-unit * 7 $theme-unit * 4 $theme-unit * 4;
+    padding: $theme-unit * 7 $theme-unit * 6 $theme-unit * 6;
 
     &__inner {
       position: static;

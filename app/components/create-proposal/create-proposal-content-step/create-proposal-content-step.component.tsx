@@ -52,7 +52,7 @@ export const CreateProposalContentStep = () => {
 
     return <Wrapper step={formStep} title="Add name and description">
         <div>
-            <p className="text-lg mb-4 ml-10">Give your proposal a title and a description. They will be public when
+            <p className="font-size-x4 line-height-x5 mb-4 ml-x7">Give your proposal a title and a description. They will be public when
                 your proposal goes live.</p>
             <Input label="Title"
                    type="text"

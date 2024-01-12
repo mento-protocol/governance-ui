@@ -39,7 +39,7 @@ export const CreateProposalExecutionStep = () => {
 
     return <Wrapper step={formStep} title="Execution Code">
         <div>
-            <p className="text-lg">Paste your governance proposal’s execution code in the json format in the field below:</p>
+            <p className="font-size-x4 line-height-x5 ml-x7">Paste your governance proposal’s execution code in the json format in the field below:</p>
             <Textarea
                 className="mt-x5 mb-x5 min-h-[266px]"
                 form={{ ...register('code') }}

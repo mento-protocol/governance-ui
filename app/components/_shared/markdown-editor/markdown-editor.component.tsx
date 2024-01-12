@@ -22,8 +22,8 @@ import {
 import '@mdxeditor/editor/style.css';
 import classNames from "classnames";
 import { useEffect, useRef, useState } from "react";
-import { MarkdownView } from '../markdown-view/markdown-view.component';
 import styles from './markdown-editor.module.scss';
+import { MarkdownView } from "..";
 interface MarkdownEditorProps extends BaseComponentProps {
     value: string;
     markdownChanged: (value: string) => void;

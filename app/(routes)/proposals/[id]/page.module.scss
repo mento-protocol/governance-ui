@@ -13,7 +13,16 @@
 
 .vote_label {
   opacity: 0.5;
-  margin-top: $theme-unit * 2;
+  margin-top: $theme-unit * 6;
+}
+
+.button_wrapper {
+  margin-top: $theme-unit * 3;
+}
+
+.details {
+  max-width: 670px;
+  width: 100%;
 }
 
 .proposal_addons {
@@ -29,20 +38,29 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    padding: $theme-unit;
+    padding: 4*$theme-unit 0;
     gap: $theme-unit;
-    background-color: $c-white;
+    background-color: var(--theme-background-color);
     z-index: 1;
 
     @include media-md {
       display: none;
     }
+
+    .mobile_button_wrapper {
+      width: 50%;
+    }
+
+    .mobile_button {
+      min-width: fit-content;
+    }
   }
+
 
   @include media-md {
     top: 140px;
     bottom: auto;
-    max-width: 400px;
+    max-width: 350px;
   }
 
   .backdrop {
@@ -96,7 +114,7 @@
       opacity: 1;
       transform: none;
       width: auto;
-      heiaht: auto;
+      height: auto;
 
       &__close {
         display: none;
@@ -104,6 +122,7 @@
     }
   }
 }
+
 
 .votesList {
   @include media-md {

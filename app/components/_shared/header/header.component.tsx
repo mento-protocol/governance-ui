@@ -1,13 +1,12 @@
 "use client";
-import styles from './header.module.scss';
-import classNames from "classnames";
-import {ChevronIcon, MentoLogoIcon} from "../../_icons";
-import Link from "next/link";
-import {useContext, useRef, useState} from "react";
 import useOutsideAlerter from "@/app/hooks/useOutsideAlerter";
-import {Button, ConnectButton, DropdownButton} from "@components/_shared";
+import { ChevronIcon, MentoLogoIcon } from "@components/_icons";
+import { Button, ConnectButton } from "@components/_shared";
 import BaseComponentProps from "@interfaces/base-component-props.interface";
-import WalletHelper from "@/app/helpers/wallet.helper";
+import classNames from "classnames";
+import Link from "next/link";
+import { useRef, useState } from "react";
+import styles from './header.module.scss';
 
 interface HeaderProps extends BaseComponentProps {
 }
@@ -26,7 +25,7 @@ export const Header = ({className, style}: HeaderProps) => {
         setMenuOpened(name === menuOpened ? '' : name);
     }
 
-    return <header className={classNames(styles.header, 'pa-6', className)} style={style}
+    return <header className={classNames(styles.header, className)} style={style}
                    onClick={() => setMenuOpened('')}>
         <div className={classNames(styles.header__inner, drawerOpened && styles.opened)}>
             <Link href={'/'}>
@@ -85,7 +84,7 @@ export const Header = ({className, style}: HeaderProps) => {
             <ConnectButton block/>
 
         </div>
-        <div className={classNames(styles.mobile_inner, 'flex p-6 z-50 md:hidden')}>
+        <div className={classNames(styles.mobile_inner, 'flex pa-x z-50 md:hidden')}>
             <Link href={'/'}>
                 <MentoLogoIcon useThemeColor/>
             </Link>

@@ -1,15 +1,15 @@
-import {Card} from "@components/_shared";
+import { Card } from "@components/_shared";
 import NumbersService from "@/app/helpers/numbers.service";
 
 export const ContractParams = () => {
-    return <div className="grid grid-cols-1 gap-default md:grid-cols-7 px-5">
+    return <div className="grid grid-cols-1 gap-x1 md:grid-cols-7 px-x4 pt-x4">
         <Card className="md:col-span-3">
             <Card.Header>
-                <div className="color-primary text-lg">
+                <div className="color-primary text-x4 font-medium  mb-x6">
                     Parameters
                 </div>
             </Card.Header>
-            <div className="grid grid-cols-2 gap-default justify-between mb-3">
+            <div className="grid grid-cols-2 gap-x1 justify-between mb-3">
                 <div className="font-semibold">
                     Proposal threshold
                 </div>
@@ -17,7 +17,7 @@ export const ContractParams = () => {
                     {NumbersService.parseNumericValue(1000000)}
                 </div>
             </div>
-            <div className="grid grid-cols-2 gap-default justify-between mb-3">
+            <div className="grid grid-cols-2 gap-x1 justify-between mb-3">
                 <div className="font-semibold">
                     Quorum needed
                 </div>
@@ -25,7 +25,7 @@ export const ContractParams = () => {
                     {NumbersService.parseNumericValue(180070000, 2)}
                 </div>
             </div>
-            <div className="grid grid-cols-2 gap-default justify-between mb-3">
+            <div className="grid grid-cols-2 gap-x1 justify-between mb-3">
                 <div className="font-semibold">
                     Proposal delay
                 </div>
@@ -33,7 +33,7 @@ export const ContractParams = () => {
                     3 days
                 </div>
             </div>
-            <div className="grid grid-cols-2 gap-default justify-between mb-3">
+            <div className="grid grid-cols-2 gap-x1 justify-between mb-3">
                 <div className="font-semibold">
                     Voting period
                 </div>
@@ -44,42 +44,42 @@ export const ContractParams = () => {
         </Card>
         <Card className="md:col-span-4">
             <Card.Header>
-                <div className="color-primary text-lg">
+                <div className="color-primary text-x4 font-medium mb-x6">
                     Mento Core
                 </div>
             </Card.Header>
-            <div className="grid grid-cols-3 gap-default justify-between mb-3">
+            <div className="flex gap-x2 justify-between mb-3">
                 <div className="font-semibold">
                     Governor
                 </div>
-                <div className="text-right col-span-2">
+                <div className="text-right col-span-2 break-all">
                     1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa
                 </div>
             </div>
-            <div className="grid grid-cols-3 gap-default justify-between mb-3">
+            <div className="flex gap-x2 justify-between mb-3">
                 <div className="font-semibold">
                     Token
                 </div>
-                <div className="text-right col-span-2">
+                <div className="text-right col-span-2 break-all">
                     1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa
                 </div>
             </div>
-            <div className="grid grid-cols-3 gap-default justify-between mb-3">
+            <div className="flex gap-x2 justify-between mb-3">
                 <div className="font-semibold">
                     Timelock
                 </div>
-                <div className="text-right col-span-2">
+                <div className="text-right col-span-2 break-all">
                     1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa
                 </div>
             </div>
         </Card>
         <Card className="md:col-span-3">
             <Card.Header>
-                <div className="color-primary text-lg">
+                <div className="color-primary text-x4 font-medium mb-x6">
                     Parameters
                 </div>
             </Card.Header>
-            <div className="grid grid-cols-2 gap-default justify-between mb-3">
+            <div className="grid grid-cols-2 gap-x1 justify-between mb-3">
                 <div className="font-semibold">
                     Proposal threshold
                 </div>
@@ -87,7 +87,7 @@ export const ContractParams = () => {
                     {NumbersService.parseNumericValue(1000000)}
                 </div>
             </div>
-            <div className="grid grid-cols-2 gap-default justify-between mb-3">
+            <div className="grid grid-cols-2 gap-x1 justify-between mb-3">
                 <div className="font-semibold">
                     Quorum needed
                 </div>
@@ -95,7 +95,7 @@ export const ContractParams = () => {
                     {NumbersService.parseNumericValue(180070000, 2)}
                 </div>
             </div>
-            <div className="grid grid-cols-2 gap-default justify-between mb-3">
+            <div className="grid grid-cols-2 gap-x1 justify-between mb-3">
                 <div className="font-semibold">
                     Proposal delay
                 </div>
@@ -103,7 +103,7 @@ export const ContractParams = () => {
                     3 days
                 </div>
             </div>
-            <div className="grid grid-cols-2 gap-default justify-between mb-3">
+            <div className="grid grid-cols-2 gap-x1 justify-between mb-3">
                 <div className="font-semibold">
                     Voting period
                 </div>
@@ -114,31 +114,31 @@ export const ContractParams = () => {
         </Card>
         <Card className="md:col-span-4">
             <Card.Header>
-                <div className="color-primary text-lg">
+                <div className="color-primary text-x4 font-medium mb-x6">
                     Mento Core
                 </div>
             </Card.Header>
-            <div className="grid grid-cols-3 gap-default justify-between mb-3">
+            <div className="flex gap-x2 justify-between mb-3">
                 <div className="font-semibold">
                     Governor
                 </div>
-                <div className="text-right col-span-2">
+                <div className="text-right col-span-2 break-all">
                     1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa
                 </div>
             </div>
-            <div className="grid grid-cols-3 gap-default justify-between mb-3">
+            <div className="flex gap-x2 justify-between mb-3">
                 <div className="font-semibold">
                     Token
                 </div>
-                <div className="text-right col-span-2">
+                <div className="text-right col-span-2 break-all">
                     1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa
                 </div>
             </div>
-            <div className="grid grid-cols-3 gap-default justify-between mb-3">
+            <div className="flex gap-x2 justify-between mb-3">
                 <div className="font-semibold">
                     Timelock
                 </div>
-                <div className="text-right col-span-2">
+                <div className="text-right col-span-2 break-all">
                     1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa
                 </div>
             </div>

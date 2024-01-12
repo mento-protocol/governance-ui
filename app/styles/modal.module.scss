@@ -1,0 +1,69 @@
+@import "@/app/brand";
+
+.backdrop {
+  @include default-backdrop;
+}
+
+.modal {
+  @include default-backdrop;
+  padding: $theme-unit * 4;
+  overflow: auto;
+  height: 100vh;
+  width: 100vw;
+
+  &__content {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    &__inner {
+      min-width: 300px;
+
+      &.success {
+        box-shadow: 0 0 0 2px $c-success;
+      }
+
+      &.error {
+        box-shadow: 0 0 0 2px $c-error;
+      }
+
+      &.warning {
+        box-shadow: 0 0 0 2px $c-warning;
+      }
+
+      &.info {
+        box-shadow: 0 0 0 2px $c-info;
+      }
+    }
+  }
+
+  &__close {
+
+    position: absolute;
+    right: $theme-unit * .5;
+    top: $theme-unit * .5;
+    width: $theme-unit * 8;
+    height: $theme-unit * 8;
+    background-color: transparent;
+    color: var(--theme-foreground-color);
+    border-radius: $theme-unit;
+    font-size: $theme-unit * 5;
+    line-height: $theme-unit * 5;
+    font-weight: 300;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+
+    &:hover {
+      background-color: $c-primary;
+      color: $c-white;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+    }
+  }
+}

@@ -1,45 +1,46 @@
 import BaseComponentProps from "@interfaces/base-component-props.interface";
 import styles from './footer.module.scss';
 import classNames from "classnames";
-import {ChevronIcon, DiscordIcon, GithubIcon, MentoLogoIcon, TwitterIcon} from "@components/_icons";
+import { ChevronIcon, DiscordIcon, GithubIcon, MentoLogoIcon, TwitterIcon, LearnMoreIcon } from "@components/_icons";
 import Link from "next/link";
-import Image from "next/image";
-import learnMoreImage from '@/app/assets/learn_more_image.png';
-import {Button} from "@components/_shared";
+import { Button } from "@components/_shared";
 import exports from '@styles/exports.module.scss';
-import {usePathname} from "next/navigation";
+import { usePathname } from "next/navigation";
+import { ThemeSwitch } from "../../theme-switch/theme-switch.component";
 
 interface FooterProps extends BaseComponentProps {
 }
 
-export const Footer = ({className, style}: FooterProps) => {
+export const Footer = ({ className, style }: FooterProps) => {
 
     const year = (new Date()).getFullYear();
 
     const pathname = usePathname();
 
     return (
-        <footer className={classNames('mt-10', className)} style={style}>
+        <footer className={classNames('mt-x5', className)} style={style}>
             <div className="main-container">
                 {pathname === '/' && <div className={classNames(styles.learn_more)}>
-                    <div className={classNames(styles.description)}>
-                        <h2 className="text-6xl font-semibold my-2">Learn more</h2>
-                        <p className="my-8 text-gray-400 font-light">If you&apos;re interested in learning more about
+                    <div className={classNames(styles.content)}>
+                        <h2 className="text-6xl font-semibold my-x1">Learn more</h2>
+                        <p className={styles.description}>If you&apos;re interested in learning more about
                             Mento, finding out what the team is working on now, or would like to contribute, please join
                             our discord server.</p>
-                        <Button className="mt-4" href="https://discord.gg" target="_blank">
-                            <DiscordIcon useThemeColor={false} color={exports.white}/>
-                            <span>Join the community</span>
-                            <ChevronIcon direction="right" useThemeColor={false} color={exports.white}/>
+                        <Button className={classNames(styles.button, "mt-x4")} href="https://discord.gg" target="_blank">
+                            <div className={styles.button__content}>
+                                <DiscordIcon useThemeColor={false} color={exports.white} />
+                                <span>Join the community</span>
+                                <ChevronIcon direction="right" useThemeColor={false} color={exports.white} />
+                            </div>
                         </Button>
                     </div>
-                    <div className="hidden md:block">
-                        <Image src={learnMoreImage} alt="Learn more about Mento"/>
+                    <div className={styles.learn_more__icon}>
+                        <LearnMoreIcon />
                     </div>
                 </div>}
-                <div className={classNames(styles.footer, 'p-6')}>
-                    <div className={classNames(styles.footer__element)}>
-                        <MentoLogoIcon className="mb-4" useThemeColor/>
+                <div className={styles.footer}>
+                    <div className={classNames(styles.footer__element, styles.footer__mento)}>
+                        <MentoLogoIcon className="mb-x1" useThemeColor />
                         <div> Mento © {year}2023.</div>
                         <div>All right reserved.</div>
                     </div>
@@ -61,10 +62,10 @@ export const Footer = ({className, style}: FooterProps) => {
                             <p>Discord</p>
                         </Link>
                         <Link href="#">
-                            <p>Twiter</p>
+                            <p>Twitter</p>
                         </Link>
                     </div>
-                    <div className={classNames(styles.footer__element)}>
+                    <div className={styles.footer__element}>
                         <strong>Other</strong>
                         <Link href="#">
                             <p>Team</p>
@@ -74,16 +75,20 @@ export const Footer = ({className, style}: FooterProps) => {
                         </Link>
                     </div>
                     <div className={classNames(styles.footer__element, 'justify-between')}>
-                        <div className="flex gap-default place-items-center">
+                        <div className="flex gap-x3 place-items-center">
                             <Link href="#">
-                                <TwitterIcon useThemeColor/>
+                                <TwitterIcon useThemeColor />
                             </Link>
-                            <Link href="#">
-                                <DiscordIcon useThemeColor/>
+                            <Link href="#" className="p-x2">
+                                <DiscordIcon useThemeColor />
                             </Link>
-                            <Link href="#">
-                                <GithubIcon useThemeColor/>
+                            <Link href="#" className="p-x2">
+                                <GithubIcon useThemeColor />
                             </Link>
+                        </div>
+                        <div className={classNames("flex", styles.theme)}>
+                            <span className="mr-x3">Theme</span>
+                            <ThemeSwitch />
                         </div>
                     </div>
                 </div>

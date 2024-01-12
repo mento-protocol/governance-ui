@@ -4,7 +4,7 @@
   z-index: 51;
   position: sticky;
   top: 0;
-  background: $c-white;
+  background: var(--theme-background-color);
 
   .mobile_inner {
     position: absolute;
@@ -13,15 +13,8 @@
     top: 0;
     left: 0;
     right: 0;
-    background-color: $c-white;
-
-    @include dark-mode {
-      background-color: $c-black;
-    }
-  }
-
-  @include dark-mode {
-    background: $c-black;
+    background-color: var(--theme-background-color);
+    padding: $theme-unit * 2 $theme-unit * 4;
   }
 
   &__inner {
@@ -30,26 +23,20 @@
     left: 0;
     bottom: 0;
     right: 0;
-    max-width: 1600px;
+    max-width: $breakpoint-lx;
     width: 100%;
     margin: 0 auto;
-    background: $c-white;
+    background: var(--theme-background-color);
 
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     align-items: flex-start;
     gap: $default-gap;
-    padding: $default-gap;
     z-index: 48;
     transition: transform 0.4s $ease-in-cubic;
     transform: translateX(100%);
-
     padding-top: 100px;
-
-    @include dark-mode {
-      background: $c-black;
-    }
 
     &.opened {
       transition: transform 0.5s $ease-out-circ;
@@ -64,6 +51,13 @@
     flex: 1;
 
     .item {
+      a {
+        &:hover {
+          text-decoration: none;
+          color: inherit;
+        }
+      }
+
       p {
         font-size: 20px;
         display: flex;
@@ -113,7 +107,7 @@
   }
 
   @include media-md {
-    padding: $default-gap;
+    padding: $theme-unit * 7 $theme-unit * 6 $theme-unit * 6;
 
     &__inner {
       position: static;
@@ -139,7 +133,7 @@
         padding-bottom: 0px;
 
         p {
-          font-size: 16px;
+          font-size: $theme-unit * 3;
         }
 
         &.dropdown {
@@ -147,8 +141,8 @@
           padding-bottom: 0px;
 
           ul {
-            background-color: $c-white;
-            border: 1px solid $c-black;
+            background-color: var(--theme-background-color);
+            border: 1px solid var(--theme-foreground-color);
             border-radius: $border-radius;
             padding: 0px;
             position: absolute;
@@ -160,18 +154,13 @@
             max-height: 200px;
             transform: translateY(-25px) translateX(-25%);
 
-            @include dark-mode {
-              border: 1px solid $c-white;
-              background-color: $c-black;
-            }
-
             li {
-              color: $c-black;
+              color: var(--theme-foreground-color);
               justify-content: flex-start;
               font-size: 12px;
               font-weight: 400;
               margin-left: 0px;
-              border-bottom: 1px solid transparent;
+              border-bottom: 1px solid var(--theme-foreground-color);
               transition: background-color .1s;
 
               a {
@@ -187,9 +176,10 @@
               }
 
               &:hover {
-                background-color: #80808022;
+                background-color: var(--theme-header-hover);
+
                 a {
-                  color: $c-black;
+                  color: var(--theme-foreground-color);
                 }
               }
 
@@ -197,25 +187,12 @@
                 border: none;
               }
 
-              @include dark-mode {
-                border-bottom: 1px solid $c-white;
-                color: $c-white;
+              &:first-child {
+                border-radius: $border-radius $border-radius 0 0;
+              }
 
-                &:hover {
-                  background-color: #80808088;
-                  a {
-                    color: $c-white;
-                  }
-                }
-
-                &:first-child {
-                  border-top-left-radius: $border-radius;
-                  border-top-right-radius: $border-radius;
-                }
-                &:last-child {
-                  border-bottom-left-radius: $border-radius;
-                  border-bottom-right-radius: $border-radius;
-                }
+              &:last-child {
+                border-radius: 0 0 $border-radius $border-radius;
               }
             }
           }

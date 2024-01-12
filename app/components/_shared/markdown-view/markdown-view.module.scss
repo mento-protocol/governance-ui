@@ -1,0 +1,19 @@
+@import "@/app/brand";
+
+.container {
+  color: var(--theme-foreground-color);
+  font-size: $theme-unit * 4;
+  line-height: $theme-unit * 4;
+
+  h3, strong {
+    color: var(--theme-foreground-color);
+  }
+
+  ul li::marker {
+    color: var(--theme-foreground-color);
+  }
+
+  li {
+    margin: unset;
+  }
+}

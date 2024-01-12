@@ -6,7 +6,6 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding-bottom: 1rem;
 
     .toggle {
       transition: transform 0.3s $ease-out-back;
@@ -25,7 +24,7 @@
     transition: max-height 0.3s ease-in-out;
 
     &.opened {
-      max-height: 1000px;
+      max-height: 1300px;
     }
   }
 }

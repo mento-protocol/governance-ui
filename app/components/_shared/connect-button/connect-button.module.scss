@@ -5,14 +5,7 @@
   flex-direction: column;
   align-items: center;
   width: 100%;
-
-  border-bottom: 1px solid $c-black;
-
-  @include dark-mode {
-    border-bottom: 1px solid $c-white;
-  }
-
-  gap: $default-gap;
+  border-bottom: 1px solid var(--theme-foreground-color);
 
   .addon {
     width: 100%;
@@ -26,11 +19,7 @@
     }
 
     &__title {
-      border-right: 1px solid $c-grey;
-
-      @include dark-mode {
-        border-right: 1px solid $c-white;
-      }
+      border-right: 1px solid var(--theme-secondary-color);
     }
 
     &__value,
@@ -42,5 +31,9 @@
       justify-content: center;
       align-items: center;
     }
+  }
+
+  .addon + .addon {
+    border-top: 1px solid var(--theme-secondary-color);
   }
 }

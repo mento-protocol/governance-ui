@@ -2,19 +2,25 @@
 
 
 .tabView {
+  background-color: inherit;
   .header {
     position: sticky;
     top: 0;
-    background: $c-white;
+    background-color: inherit;
     z-index: 1;
     padding: $theme-unit 0;
 
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    gap: $theme-unit * 2;
 
-    @include dark-mode {
-      background: $c-black;
+    &.left {
+      justify-content: flex-start;
+    }
+
+    &.right {
+      justify-content: flex-end;
     }
 
     button {
@@ -38,19 +44,20 @@
     display: flex;
     flex-wrap: nowrap;
     overflow: hidden;
-    margin-top: 3* $theme-unit;
-
+    
     max-height: 500px;
     overflow-y: auto;
-
+    
     @include media-md {
       max-height: 100%;
       overflow-y: visible;
     }
 
     &__item {
+      word-break: break-word;
       min-width: 100%;
       width: 100%;
+      max-width: 100%;
       transition: 300ms $ease-out-back;
 
       &.hidden {

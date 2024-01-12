@@ -4,12 +4,15 @@
   0% {
     margin-top: -3px;
   }
+
   25% {
     margin-top: -7px;
   }
+
   75% {
     margin-top: -1px;
   }
+
   100% {
     margin-top: -3px;
   }
@@ -43,6 +46,7 @@
     }
 
     @media (hover: none) {
+
       &:active,
       &:focus {
         animation: button-click-animation 0.45s $ease-out-back;
@@ -52,25 +56,19 @@
 }
 
 .wrapper {
-  margin-top: $theme-unit;
-  min-width: 160px;
-  height: 60px;
-  width: min-content;
+  height: 56px;
+  width: 100%;
   border-radius: $border-radius;
   background-color: transparent;
   border-bottom: 1px solid $c-black;
 
   .button {
-    min-width: 160px;
-    height: 60px;
+    min-width: inherit;
+    width: 100%;
+    height: 56px;
     border-radius: $border-radius;
-    border: 1px solid $c-black;
-    color: $c-black;
-
-    @include dark-mode {
-      border: 1px solid $c-white;
-      color: $c-white;
-    }
+    border: 1px solid var(--theme-foreground-color);
+    color: var(--theme-foreground-color);
 
     .inner {
       padding: 2 * $theme-unit 4 * $theme-unit;
@@ -94,11 +92,8 @@
 
     &:hover {
       transition: margin-top 0.2s cubic-bezier(.19, .69, .84, 1.76);
-      color: $c-black;
+      color: var(--theme-foreground-color);
 
-      @include dark-mode {
-        color: $c-white;
-      }
     }
   }
 
@@ -132,16 +127,13 @@
 
   &.clear {
     border-bottom: 1px solid transparent;
+
     .button {
       transition: background-color 0.2s ease-out;
 
       &:hover {
         transition: background-color 0.2s ease-out;
-        background-color: #cccfde;
-
-        @include dark-mode {
-          background-color: $c-grey;
-        }
+        background-color: var(--theme-button-background);
       }
 
       &:active {
@@ -152,15 +144,12 @@
 
   &.link {
     border-bottom: 1px solid transparent;
+
     .button {
       transition: color 0.2s ease-out;
       border: none;
-      color: $c-black;
+      color: var(--theme-foreground-color);
       text-decoration: underline;
-
-      @include dark-mode {
-        color: $c-white;
-      }
 
       &:hover {
         transition: color 0.2s ease-out;
@@ -183,12 +172,19 @@
   }
 
   &.disabled {
+    cursor: not-allowed;
+    pointer-events: none;
+
     .button {
       transition: margin-top 0.2s cubic-bezier(.19, .69, .84, 1.76);
-      cursor: not-allowed;
       opacity: 0.6;
       background-color: $c-grey;
       margin-top: 0px !important;
     }
   }
+}
+
+.disabled {
+  cursor: not-allowed;
+  pointer-events: none;
 }

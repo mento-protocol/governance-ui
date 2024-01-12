@@ -13,6 +13,24 @@ interface ButtonProps extends BaseComponentProps {
     target?: '_blank' | '_self' | '_parent' | '_top' | 'framename';
     block?: boolean;
     disabled?: boolean;
+    wrapperClassName?: string
+}
+
+type WrapperProps = {
+    children: ReactNode,
+    href?: string,
+    target?: '_blank' | '_self' | '_parent' | '_top' | 'framename';
+    block?: boolean,
+    wrapperClassName?: string
+    disabled?: boolean;
+}
+
+const Wrapper = ({children, href, target, block, wrapperClassName, disabled}: WrapperProps) => {
+    return <div className={classNames(disabled && styles.disabled)}>
+        {href ? <Link href={href} target={target} className={classNames(wrapperClassName, block && styles.block, disabled && styles.disabled)}>
+            {children}
+        </Link> : <div className={classNames(wrapperClassName, block && styles.block, disabled && styles.disabled)}>{children}</div>}
+    </div>
 }
 
 export const Button = ({
@@ -20,6 +38,7 @@ export const Button = ({
                            theme = 'primary',
                            onClick,
                            className,
+                           wrapperClassName,
                            style,
                            type = 'button',
                            href,
@@ -28,14 +47,8 @@ export const Button = ({
                            disabled
                        }: ButtonProps) => {
 
-    const Wrapper = ({children}: { children: ReactNode }) => {
-        return href ? <Link href={href} target={target} className={classNames(block && styles.block)}>
-            {children}
-        </Link> : <div className={classNames(block && styles.block)}>{children}</div>
-    }
-
     return (
-        <Wrapper>
+        <Wrapper href={href} target={target} block={block} wrapperClassName={wrapperClassName} disabled={disabled}>
             <div
                 className={classNames(styles.wrapper, styles[theme], className, block && styles.block, disabled && styles.disabled)}
                 style={style}>

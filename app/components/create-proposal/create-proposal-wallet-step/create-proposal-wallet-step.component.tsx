@@ -17,27 +17,27 @@ const CurrentFormStep = ({formStep}: { formStep: WalletStepEnum }) => {
     switch (formStep) {
         case WalletStepEnum.connectWallet:
             return <>
-                <p className="text-lg mb-4 ml-10 place-self-start">Connect your wallet to create new proposal.</p>
+                <p className="font-size-x4 line-height-x5 ml-x7 place-self-start">Connect your wallet to create new proposal.</p>
                 <ConnectButton theme="primary"/>
             </>;
         case WalletStepEnum.buyMnto:
             return <>
-                <p className="text-lg mb-4 ml-10 place-self-start">To create new governance proposal you need to
+                <p className="font-size-x4 line-height-x5 ml-x7 place-self-start">To create new governance proposal you need to
                     lock
                     2,500 veMNTO.</p>
-                <p className="text-lg mb-4 ml-10 place-self-start">You can purchase MNTO <a
+                <p className="font-size-x4 line-height-x5 ml-x7 place-self-start">You can purchase MNTO <a
                         href={'https://app.mento.org'} target="_blank">here.</a></p>
             </>;
         case WalletStepEnum.lockMnto:
             return <>
-                <p className="text-lg mb-4 ml-10 place-self-start">To create new governance proposal you need to
+                <p className="font-size-x4 line-height-x5 ml-x7 place-self-start">To create new governance proposal you need to
                     lock
                     2,500 veMNTO.</p>
                 <MntoLock/>
             </>;
         case WalletStepEnum.createProposal:
             return <>
-                <p className="text-lg mb-4 ml-10 place-self-start">Yay! You are all set to create a new proposal!</p>
+                <p className="font-size-x4 line-height-x5 ml-x7 place-self-start">Yay! You are all set to create a new proposal!</p>
             </>;
         default:
             return <></>;

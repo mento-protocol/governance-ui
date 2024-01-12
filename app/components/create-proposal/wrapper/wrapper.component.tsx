@@ -25,19 +25,17 @@ const Wrapper = ({children, className, step, title, style}: WrapperProps) => {
 
     const {next, prev, save, openedForm, canGoNext, canGoPrev} = useCreateProposalStore();
 
-    return <Card block className={classNames(className, 'pb-0')} style={style}>
+    return <Card block className={classNames(className, 'pb-0', styles.wrapper, !isOpened && "opacity-50")} style={style}>
         <Card.Header>
-            <div className="flex gap-x2 items-center bg-inherit">
+            <div className={styles.title}>
                 <StepCounter>{stepIndex}</StepCounter>
                 {title}
             </div>
         </Card.Header>
         <div className={classNames(styles.form_element, isOpened && styles.opened)}>
-            <div className={classNames('m-x4 flex flex-col place-items-center')}>
                 <div className={styles.inner}>
                     {children}
                 </div>
-            </div>
             <Card.Footer>
                 <div className="flex full-w justify-start items-center gap-x3">
                     <Button className="min-w-x20" onClick={prev} disabled={!canGoPrev} theme="tertiary">Back</Button>

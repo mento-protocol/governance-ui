@@ -1,9 +1,9 @@
 "use client";
-import styles from './slider.module.scss';
-import exports from '@styles/exports.module.scss';
+import styles from "./slider.module.scss";
+import exports from "@styles/exports.module.scss";
 import BaseComponentProps from "@interfaces/base-component-props.interface";
 import classNames from "classnames";
-import {ReactNode, useEffect, useMemo, useState} from "react";
+import { ReactNode, useEffect, useMemo, useState } from "react";
 import BaseInputProps from "@interfaces/base-input-props.interface";
 
 interface SliderProps extends BaseComponentProps, BaseInputProps {
@@ -18,22 +18,22 @@ interface SliderProps extends BaseComponentProps, BaseInputProps {
 }
 
 export const Slider = ({
-                           label,
-                           id,
-                           className,
-                           form,
-                           error,
-                           compact,
-                           min,
-                           max,
-                           step,
-                           minLabel,
-                           maxLabel,
-                           bubbleFormatter,
-                           value,
-                           changeCallback
-                       }: SliderProps) => {
-    const {onBlur, onChange, ref, name} = form;
+    label,
+    id,
+    className,
+    form,
+    error,
+    compact,
+    min,
+    max,
+    step,
+    minLabel,
+    maxLabel,
+    bubbleFormatter,
+    value,
+    changeCallback,
+}: SliderProps) => {
+    const { onBlur, onChange, ref, name } = form;
     const [currentValue, setCurrentValue] = useState(min || value);
 
     useEffect(() => {
@@ -41,48 +41,48 @@ export const Slider = ({
     }, [value]);
 
     const activeBackground = useMemo(() => {
-        const progress = Math.floor(currentValue / (max || 100) * 100);
+        const progress = Math.floor((currentValue / (max || 100)) * 100);
         return `linear-gradient(90deg, ${exports.secondary} ${progress}%, transparent ${progress}%)`;
     }, [currentValue, max]);
 
     const bubblePosition = useMemo(() => {
-        const progress = Math.floor(currentValue / (max || 100) * 100);
-        return `calc(${progress - ((100 - progress) / 100)}% - ${(progress * 44 / 100)}px)`;
+        const progress = Math.floor((currentValue / (max || 100)) * 100);
+        return `calc(${progress - (100 - progress) / 100}% - ${(progress * 44) / 100}px)`;
     }, [currentValue, max]);
 
     const onValueChange = (event: any) => {
         setCurrentValue(event.target.value);
         changeCallback && changeCallback(event.target.value);
         onChange(event);
-    }
+    };
 
-    return <div className={classNames(styles.sliderWrapper, compact && styles.compact, className)}>
-        {!!label && <label htmlFor={id}>
-            {label}
-        </label>}
-        <div className={styles.bubbleTrack}>
-            <div className={styles.bubble} style={{left: bubblePosition}}>
-                {bubbleFormatter ? bubbleFormatter(currentValue) : currentValue}
+    return (
+        <div className={classNames(styles.sliderWrapper, compact && styles.compact, className)}>
+            {!!label && <label htmlFor={id}>{label}</label>}
+            <div className={styles.bubbleTrack}>
+                <div className={styles.bubble} style={{ left: bubblePosition }}>
+                    {bubbleFormatter ? bubbleFormatter(currentValue) : currentValue}
+                </div>
             </div>
-        </div>
-        <div className={styles.labels}>
-            <div>
-                {minLabel}
+            <div className={styles.labels}>
+                <div>{minLabel}</div>
+                <div>{maxLabel}</div>
             </div>
-            <div>{maxLabel}</div>
+            <input
+                id={id}
+                step={step}
+                className={classNames(styles.slider)}
+                onChange={onValueChange}
+                onBlur={onBlur}
+                ref={ref}
+                name={name}
+                value={currentValue}
+                style={{ background: activeBackground }}
+                min={min}
+                max={max}
+                type={"range"}
+            />
+            {!!error && <div className={styles.errorMessage}>{error}</div>}
         </div>
-        <input id={id}
-               step={step}
-               className={classNames(styles.slider)}
-               onChange={onValueChange}
-               onBlur={onBlur}
-               ref={ref}
-               name={name}
-               value={currentValue}
-               style={{background: activeBackground}}
-               min={min}
-               max={max}
-               type={'range'}/>
-        {!!error && <div className={styles.errorMessage}>{error}</div>}
-    </div>
-}
+    );
+};

@@ -1,11 +1,11 @@
-import {NextRequest} from "next/server";
-import {IVoteType} from "@interfaces/vote.interface";
+import { NextRequest } from "next/server";
+import { IVoteType } from "@interfaces/vote.interface";
 
 interface PutMethodContext {
     params: {
         id: string;
         type: IVoteType;
-    }
+    };
 }
 
 export async function PUT(req: NextRequest, { params: { type, id } }: PutMethodContext) {
@@ -14,7 +14,7 @@ export async function PUT(req: NextRequest, { params: { type, id } }: PutMethodC
     const data = {
         id,
         type,
-        ...body
+        ...body,
     };
 
     return Response.json(data);

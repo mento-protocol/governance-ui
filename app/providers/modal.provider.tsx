@@ -1,6 +1,6 @@
-import {createContext, ReactNode, useContext, useState} from "react";
+import { createContext, ReactNode, useContext, useState } from "react";
 import modalStyles from "@styles/modal.module.scss";
-import {Button, Card} from "@components/_shared";
+import { Button, Card } from "@components/_shared";
 import classNames from "classnames";
 
 interface ModalProviderProps {
@@ -19,7 +19,7 @@ interface ModalWrapperProps {
     options?: ModalOptions;
 }
 
-type ModalType = 'success' | 'error' | 'warning' | 'info';
+type ModalType = "success" | "error" | "warning" | "info";
 
 interface ModalOptions {
     title?: string;
@@ -36,18 +36,18 @@ interface ModalInstance {
 
 const modalTypeToButtonThemeMap = (modalType?: ModalType) => {
     switch (modalType) {
-        case 'success':
-            return 'success';
-        case 'error':
-            return 'danger';
-        case 'warning':
-            return 'warning';
-        case 'info':
-            return 'info';
+        case "success":
+            return "success";
+        case "error":
+            return "danger";
+        case "warning":
+            return "warning";
+        case "info":
+            return "info";
         default:
-            return 'primary';
+            return "primary";
     }
-}
+};
 
 const ModalContext = createContext({
     showModal: (value: ReactNode, options?: Partial<ModalOptions>): Promise<boolean> => Promise.resolve(false),
@@ -55,99 +55,109 @@ const ModalContext = createContext({
 });
 
 const useModal = () => {
-    const {showModal, showConfirm} = useContext(ModalContext);
-    return {showModal, showConfirm};
-}
+    const { showModal, showConfirm } = useContext(ModalContext);
+    return { showModal, showConfirm };
+};
 
-const ModalWrapper = ({children, index, close, question, cancel, confirm, options}: ModalWrapperProps) => {
-    return <div key={index} className={classNames(modalStyles.modal, modalStyles.opened)} style={{zIndex: 1000 + index}}>
-        <div className={modalStyles.modal__content}>
-            <Card className={classNames(modalStyles.modal__content__inner, modalStyles[options?.modalType || ''])}>
-                <Card.Header className="relative !pb-x6">
-                    <div className="font-semibold">{options?.title || (!!question ? 'Confirm' : ' ')}</div>
-                    <div className={modalStyles.modal__close} onClick={close}>
-                        X
-                    </div>
-                </Card.Header>
-                <div className="ma-x4">
-                    {children}
-                </div>
-                {question && <Card.Footer className="flex justify-end gap-x2 mt-x4">
-                    <Button theme="tertiary" onClick={cancel}>{options?.cancelText || 'Cancel'}</Button>
-                    <Button theme={modalTypeToButtonThemeMap(options?.modalType)} onClick={confirm}>{options?.confirmText || 'Confirm'}</Button>
-                </Card.Footer>}
-            </Card>
+const ModalWrapper = ({ children, index, close, question, cancel, confirm, options }: ModalWrapperProps) => {
+    return (
+        <div key={index} className={classNames(modalStyles.modal, modalStyles.opened)} style={{ zIndex: 1000 + index }}>
+            <div className={modalStyles.modal__content}>
+                <Card className={classNames(modalStyles.modal__content__inner, modalStyles[options?.modalType || ""])}>
+                    <Card.Header className="relative !pb-x6">
+                        <div className="font-semibold">{options?.title || (!!question ? "Confirm" : " ")}</div>
+                        <div className={modalStyles.modal__close} onClick={close}>
+                            X
+                        </div>
+                    </Card.Header>
+                    <div className="ma-x4">{children}</div>
+                    {question && (
+                        <Card.Footer className="flex justify-end gap-x2 mt-x4">
+                            <Button theme="tertiary" onClick={cancel}>
+                                {options?.cancelText || "Cancel"}
+                            </Button>
+                            <Button theme={modalTypeToButtonThemeMap(options?.modalType)} onClick={confirm}>
+                                {options?.confirmText || "Confirm"}
+                            </Button>
+                        </Card.Footer>
+                    )}
+                </Card>
+            </div>
         </div>
-    </div>
-}
+    );
+};
 
-export const ModalProvider = ({children}: ModalProviderProps) => {
-
+export const ModalProvider = ({ children }: ModalProviderProps) => {
     const [modalWrapperID, setModalWrapperID] = useState<string>(Math.random().toString(36).substring(7));
 
     const addModal = (modal: ModalInstance) => {
         modals.push(modal);
         setModalWrapperID(Math.random().toString(36).substring(7));
-    }
+    };
 
     const removeModal = () => {
         modals.pop();
         setModalWrapperID(Math.random().toString(36).substring(7));
-    }
+    };
 
     const renderModal = (value: ReactNode, isQuestion: boolean, options?: Partial<ModalOptions>) => {
         const id = Math.random().toString(36).substring(7);
         return new Promise<boolean>((resolve) => {
-
             const confirm = () => {
                 removeModal();
                 resolve(true);
-            }
+            };
 
             const cancel = () => {
                 removeModal();
                 resolve(false);
-            }
+            };
 
-            const modal =
-                    <ModalWrapper close={cancel}
-                                  confirm={confirm}
-                                  cancel={cancel}
-                                  question={isQuestion}
-                                  index={modals.length}
-                                  options={options}>
-                        {value}
-                    </ModalWrapper>;
+            const modal = (
+                <ModalWrapper
+                    close={cancel}
+                    confirm={confirm}
+                    cancel={cancel}
+                    question={isQuestion}
+                    index={modals.length}
+                    options={options}
+                >
+                    {value}
+                </ModalWrapper>
+            );
 
             const modalInstance: ModalInstance = {
                 modal,
                 isQuestion: true,
-                options
+                options,
             };
             addModal(modalInstance);
         });
-    }
+    };
 
     const showModal = (value: ReactNode, options?: Partial<ModalOptions>) => {
         return renderModal(value, false, options);
-    }
+    };
 
     const showConfirm = (value: ReactNode, options?: Partial<ModalOptions>) => {
         return renderModal(value, true, options);
-    }
+    };
 
-    return <ModalContext.Provider value={{
-        showModal, showConfirm
-    }}>
-        {children}
-        <div id={modalWrapperID}>
-            {modals.map((modal, index) =>
-                <div key={index}>
-                    {modal.modal}
-                </div>
-            )}
-        </div>
-    </ModalContext.Provider>
-}
+    return (
+        <ModalContext.Provider
+            value={{
+                showModal,
+                showConfirm,
+            }}
+        >
+            {children}
+            <div id={modalWrapperID}>
+                {modals.map((modal, index) => (
+                    <div key={index}>{modal.modal}</div>
+                ))}
+            </div>
+        </ModalContext.Provider>
+    );
+};
 
 export default useModal;

@@ -1,43 +1,48 @@
 import BaseComponentProps from "@interfaces/base-component-props.interface";
-import styles from './footer.module.scss';
+import styles from "./footer.module.scss";
 import classNames from "classnames";
 import { ChevronIcon, DiscordIcon, GithubIcon, MentoLogoIcon, TwitterIcon, LearnMoreIcon } from "@components/_icons";
 import Link from "next/link";
 import { Button } from "@components/_shared";
-import exports from '@styles/exports.module.scss';
+import exports from "@styles/exports.module.scss";
 import { usePathname } from "next/navigation";
 import { ThemeSwitch } from "../../theme-switch/theme-switch.component";
 
-interface FooterProps extends BaseComponentProps {
-}
+interface FooterProps extends BaseComponentProps {}
 
 export const Footer = ({ className, style }: FooterProps) => {
-
-    const year = (new Date()).getFullYear();
+    const year = new Date().getFullYear();
 
     const pathname = usePathname();
 
     return (
-        <footer className={classNames('mt-x5', className)} style={style}>
+        <footer className={classNames("mt-x5", className)} style={style}>
             <div className="main-container">
-                {pathname === '/' && <div className={classNames(styles.learn_more)}>
-                    <div className={classNames(styles.content)}>
-                        <h2 className="text-6xl font-semibold my-x1">Learn more</h2>
-                        <p className={styles.description}>If you&apos;re interested in learning more about
-                            Mento, finding out what the team is working on now, or would like to contribute, please join
-                            our discord server.</p>
-                        <Button className={classNames(styles.button, "mt-x4")} href="https://discord.gg" target="_blank">
-                            <div className={styles.button__content}>
-                                <DiscordIcon useThemeColor={false} color={exports.white} />
-                                <span>Join the community</span>
-                                <ChevronIcon direction="right" useThemeColor={false} color={exports.white} />
-                            </div>
-                        </Button>
+                {pathname === "/" && (
+                    <div className={classNames(styles.learn_more)}>
+                        <div className={classNames(styles.content)}>
+                            <h2 className="text-6xl font-semibold my-x1">Learn more</h2>
+                            <p className={styles.description}>
+                                If you&apos;re interested in learning more about Mento, finding out what the team is
+                                working on now, or would like to contribute, please join our discord server.
+                            </p>
+                            <Button
+                                className={classNames(styles.button, "mt-x4")}
+                                href="https://discord.gg"
+                                target="_blank"
+                            >
+                                <div className={styles.button__content}>
+                                    <DiscordIcon useThemeColor={false} color={exports.white} />
+                                    <span>Join the community</span>
+                                    <ChevronIcon direction="right" useThemeColor={false} color={exports.white} />
+                                </div>
+                            </Button>
+                        </div>
+                        <div className={styles.learn_more__icon}>
+                            <LearnMoreIcon />
+                        </div>
                     </div>
-                    <div className={styles.learn_more__icon}>
-                        <LearnMoreIcon />
-                    </div>
-                </div>}
+                )}
                 <div className={styles.footer}>
                     <div className={classNames(styles.footer__element, styles.footer__mento)}>
                         <MentoLogoIcon className="mb-x1" useThemeColor />
@@ -74,7 +79,7 @@ export const Footer = ({ className, style }: FooterProps) => {
                             <p>Roadmap</p>
                         </Link>
                     </div>
-                    <div className={classNames(styles.footer__element, 'justify-between')}>
+                    <div className={classNames(styles.footer__element, "justify-between")}>
                         <div className="flex gap-x3 place-items-center">
                             <Link href="#">
                                 <TwitterIcon useThemeColor />
@@ -95,4 +100,4 @@ export const Footer = ({ className, style }: FooterProps) => {
             </div>
         </footer>
     );
-}
+};

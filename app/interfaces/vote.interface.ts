@@ -4,4 +4,4 @@ export interface IVote {
     type: IVoteType;
 }
 
-export type IVoteType = 'for' | 'against' | 'abstain';
+export type IVoteType = "for" | "against" | "abstain";

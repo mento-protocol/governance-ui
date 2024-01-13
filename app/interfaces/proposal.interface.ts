@@ -1,10 +1,10 @@
-import {BadgeType} from "@/app/types";
+import { BadgeType } from "@/app/types";
 
 export enum ProposalStatus {
-    active = 'active',
-    pending = 'pending',
-    executed = 'executed',
-    defeated = 'defeated',
+    active = "active",
+    pending = "pending",
+    executed = "executed",
+    defeated = "defeated",
 }
 
 export default interface IProposal {
@@ -20,9 +20,9 @@ export default interface IProposal {
     deadlineAt: Date;
 }
 
-export const statusToBadgeColorMap =  {
-    [ProposalStatus.active]: 'success' as BadgeType,
-    [ProposalStatus.pending]: 'secondary' as BadgeType,
-    [ProposalStatus.executed]: 'info' as BadgeType,
-    [ProposalStatus.defeated]: 'tertiary' as BadgeType,
-}
+export const statusToBadgeColorMap = {
+    [ProposalStatus.active]: "success" as BadgeType,
+    [ProposalStatus.pending]: "secondary" as BadgeType,
+    [ProposalStatus.executed]: "info" as BadgeType,
+    [ProposalStatus.defeated]: "tertiary" as BadgeType,
+};

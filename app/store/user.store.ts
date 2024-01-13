@@ -1,5 +1,5 @@
-import {create} from "zustand";
-import {ILock} from "@interfaces/lock.interface";
+import { create } from "zustand";
+import { ILock } from "@interfaces/lock.interface";
 
 interface UserStore {
     walletAddress?: string;
@@ -26,12 +26,20 @@ export const useUserStore = create<UserStore>((set, get) => ({
     balanceMENTO: 0,
     balanceVeMENTO: 0,
     disconnectWallet: async () => {
-      set({walletAddress: undefined, isInitialized: false, isFetching: false, isLocksFetching: false, locks: [], balanceMENTO: 0, balanceVeMENTO: 0});
+        set({
+            walletAddress: undefined,
+            isInitialized: false,
+            isFetching: false,
+            isLocksFetching: false,
+            locks: [],
+            balanceMENTO: 0,
+            balanceVeMENTO: 0,
+        });
     },
     initWallet: async (walletAddress) => {
-        set({isInitialized: true})
-        set({isFetching: true})
-        set({walletAddress});
+        set({ isInitialized: true });
+        set({ isFetching: true });
+        set({ walletAddress });
 
         await get().getBalance();
 
@@ -40,7 +48,7 @@ export const useUserStore = create<UserStore>((set, get) => ({
         }
     },
     getBalance: async () => {
-        set({isFetching: true})
+        set({ isFetching: true });
 
         const walletAddress = get().walletAddress;
         if (!walletAddress) {
@@ -54,11 +62,11 @@ export const useUserStore = create<UserStore>((set, get) => ({
         set({
             balanceMENTO: balanceResponseJson.balanceMENTO,
             balanceVeMENTO: balanceResponseJson.balanceVeMENTO,
-            isFetching: false
-        })
+            isFetching: false,
+        });
     },
     getLocks: async () => {
-        set({isLocksFetching: true})
+        set({ isLocksFetching: true });
 
         const walletAddress = get().walletAddress;
         if (!walletAddress) {
@@ -72,13 +80,13 @@ export const useUserStore = create<UserStore>((set, get) => ({
         set({
             locks: locksResponseJson.map((lock: ILock) => ({
                 ...lock,
-                expireDate: new Date(lock.expireDate)
+                expireDate: new Date(lock.expireDate),
             })),
-            isLocksFetching: false
-        })
+            isLocksFetching: false,
+        });
     },
     lock: async (lock) => {
-        set({isLocksFetching: true})
+        set({ isLocksFetching: true });
 
         const walletAddress = get().walletAddress;
         if (!walletAddress) {
@@ -86,9 +94,9 @@ export const useUserStore = create<UserStore>((set, get) => ({
         }
 
         const lockResponse = await fetch(`/api/users/${walletAddress}/locks`, {
-            method: 'PUT',
+            method: "PUT",
             headers: {
-                'Content-Type': 'application/json',
+                "Content-Type": "application/json",
             },
             body: JSON.stringify(lock),
         });
@@ -99,17 +107,17 @@ export const useUserStore = create<UserStore>((set, get) => ({
             locks: [
                 {
                     ...lockResponseJson,
-                    expireDate: new Date(lockResponseJson.expireDate)
+                    expireDate: new Date(lockResponseJson.expireDate),
                 },
                 ...get().locks,
             ],
-            isLocksFetching: false
-        })
+            isLocksFetching: false,
+        });
 
         await get().getBalance();
     },
     extendLock: async (id, date) => {
-        set({isFetching: true})
+        set({ isFetching: true });
 
         const walletAddress = get().walletAddress;
         if (!walletAddress) {
@@ -117,11 +125,11 @@ export const useUserStore = create<UserStore>((set, get) => ({
         }
 
         const lockResponse = await fetch(`/api/users/${walletAddress}/locks/${id}/extend`, {
-            method: 'PUT',
+            method: "PUT",
             headers: {
-                'Content-Type': 'application/json',
+                "Content-Type": "application/json",
             },
-            body: JSON.stringify({date}),
+            body: JSON.stringify({ date }),
         });
 
         const lockResponseJson = await lockResponse.json();
@@ -129,7 +137,7 @@ export const useUserStore = create<UserStore>((set, get) => ({
         set({
             balanceMENTO: lockResponseJson.balanceMENTO,
             balanceVeMENTO: lockResponseJson.balanceVeMENTO,
-            isFetching: false
-        })
+            isFetching: false,
+        });
     },
-}))
+}));

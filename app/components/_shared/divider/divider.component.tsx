@@ -3,5 +3,7 @@ import classNames from "classnames";
 import styles from "./divider.module.scss";
 
 export const Divider = ({ className, style }: BaseComponentProps) => {
-    return <div className={classNames(styles.divider, className)} style={style} />;
+  return (
+    <div className={classNames(styles.divider, className)} style={style} />
+  );
 };

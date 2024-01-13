@@ -7,34 +7,34 @@ import { WalletAddress } from "@components/wallet-address/wallet-address.compone
 import { useProposalDetailsStore } from "@/app/store";
 
 interface VotesListProps extends BaseComponentProps {
-    voteType: IVoteType;
+  voteType: IVoteType;
 }
 
 export const VotesList = ({ voteType, className, style }: VotesListProps) => {
-    const { votes, isFetching, fetch } = useProposalDetailsStore();
+  const { votes, isFetching, fetch } = useProposalDetailsStore();
 
-    const voters = new Set(...votes[voteType].map((item) => item.address)).size;
-    const totalVotes = votes[voteType].reduce((acc, vote) => acc + vote.votes, 0);
+  const voters = new Set(...votes[voteType].map((item) => item.address)).size;
+  const totalVotes = votes[voteType].reduce((acc, vote) => acc + vote.votes, 0);
 
-    if (isFetching) {
-        return <Loader isCenter />;
-    }
+  if (isFetching) {
+    return <Loader isCenter />;
+  }
 
-    return (
-        <div className={classNames(styles.list, className)} style={style}>
-            <div className={styles.header}>
-                <div>{voters} Addresses</div>
-                <div>{totalVotes} Votes</div>
-            </div>
-            {votes[voteType].map((vote, index) => (
-                <div key={index} className={styles.vote}>
-                    <div>
-                        <Avatar address={vote.address} />
-                        <WalletAddress address={vote.address} />
-                    </div>
-                    <div>{((vote.votes / totalVotes) * 100).toFixed(2)}%</div>
-                </div>
-            ))}
+  return (
+    <div className={classNames(styles.list, className)} style={style}>
+      <div className={styles.header}>
+        <div>{voters} Addresses</div>
+        <div>{totalVotes} Votes</div>
+      </div>
+      {votes[voteType].map((vote, index) => (
+        <div key={index} className={styles.vote}>
+          <div>
+            <Avatar address={vote.address} />
+            <WalletAddress address={vote.address} />
+          </div>
+          <div>{((vote.votes / totalVotes) * 100).toFixed(2)}%</div>
         </div>
-    );
+      ))}
+    </div>
+  );
 };

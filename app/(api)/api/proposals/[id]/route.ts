@@ -102,29 +102,32 @@ The 100,000 USD amount is payable in ARB under the exchange rate on the day of t
 Note that the Rari Foundation will absorb costs related to the service and maintainance of the Protocol upkeep after the integration implementation.`;
 
 const singleProposal: IProposal = {
-    id: "599ca521-df39-442f-937c-03b20bcafc2d",
-    title: "Building  the Building the Future of NFTs: The Rarible Protocol",
-    description: proposalDescription,
-    status: ProposalStatus.active,
-    votesYes: 2700,
-    votesNo: 1400,
-    votesTotal: 4100,
-    createdAt: addDays(new Date(), Math.round(Math.random() * 10) * -1),
-    deadlineAt: addDays(new Date(), Math.round(Math.random() * 10)),
-    creator: "Andrzej",
+  id: "599ca521-df39-442f-937c-03b20bcafc2d",
+  title: "Building  the Building the Future of NFTs: The Rarible Protocol",
+  description: proposalDescription,
+  status: ProposalStatus.active,
+  votesYes: 2700,
+  votesNo: 1400,
+  votesTotal: 4100,
+  createdAt: addDays(new Date(), Math.round(Math.random() * 10) * -1),
+  deadlineAt: addDays(new Date(), Math.round(Math.random() * 10)),
+  creator: "Andrzej",
 };
 
 interface GetMethodContext {
-    params: {
-        id: string;
-    };
+  params: {
+    id: string;
+  };
 }
 
-export async function GET(req: NextRequest, { params: { id } }: GetMethodContext) {
-    const data = {
-        ...singleProposal,
-        id,
-    };
+export async function GET(
+  req: NextRequest,
+  { params: { id } }: GetMethodContext,
+) {
+  const data = {
+    ...singleProposal,
+    id,
+  };
 
-    return Response.json(data);
+  return Response.json(data);
 }

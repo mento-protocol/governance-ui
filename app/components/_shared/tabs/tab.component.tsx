@@ -5,9 +5,9 @@ import classNames from "classnames";
 interface TabProps extends BaseComponentProps {}
 
 export const Tab = ({ className, style, children }: TabProps) => {
-    return (
-        <div className={classNames(className)} style={style}>
-            {children}
-        </div>
-    );
+  return (
+    <div className={classNames(className)} style={style}>
+      {children}
+    </div>
+  );
 };

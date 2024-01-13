@@ -7,6 +7,8 @@ import {
 } from "@rainbow-me/rainbowkit";
 import { getWalletConnectors } from "@/app/helpers/wallet";
 import { ReactNode, useEffect, useState } from "react";
+import { ApolloNextAppProvider } from "@apollo/experimental-nextjs-app-support/ssr";
+import { newApolloClient } from "@/app/helpers/apollo.client";
 
 const { chains, publicClient } = configureChains(
   [Alfajores, Baklava, Celo],
@@ -34,10 +36,12 @@ export function Providers({ children }: { children: ReactNode }) {
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
   return (
-    <WagmiConfig config={wagmiConfig}>
-      <RainbowKitProvider chains={chains}>
-        {mounted && children}
-      </RainbowKitProvider>
-    </WagmiConfig>
+    <ApolloNextAppProvider makeClient={newApolloClient}>
+      <WagmiConfig config={wagmiConfig}>
+        <RainbowKitProvider chains={chains}>
+          {mounted && children}
+        </RainbowKitProvider>
+      </WagmiConfig>
+    </ApolloNextAppProvider>
   );
 }

@@ -1,0 +1,12 @@
+schema:
+  - https://api.studio.thegraph.com/query/63311/mento/version/latest
+  - ./schema.client.graphql
+documents:
+  - "app/**/*.{ts,tsx}"
+generates:
+  ./app/gql/:
+    preset: client
+    plugins: []
+    presetConfig:
+      gqlTagName: gql
+ignoreNoDocuments: true

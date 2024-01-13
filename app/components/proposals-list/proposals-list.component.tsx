@@ -3,13 +3,40 @@ import StringService from "@/app/helpers/string.service";
 import { Card, Loader, ProgressBar } from "@components/_shared";
 import { Badge } from "@components/_shared/badge/badge.component";
 import BaseComponentProps from "@interfaces/base-component-props.interface";
-import { statusToBadgeColorMap } from "@interfaces/proposal.interface";
+import IProposal, {
+  ProposalStatus,
+  statusToBadgeColorMap,
+} from "@interfaces/proposal.interface";
 import classNames from "classnames";
 import Link from "next/link";
 import styles from "./proposals-list.module.scss";
-import { useEffect } from "react";
 import { MentoIcon } from "@components/_icons";
-import { useProposalsListStore } from "@/app/store";
+import { gql } from "@/app/gql";
+import { useSuspenseQuery } from "@apollo/experimental-nextjs-app-support/ssr";
+
+const GET_PROPOSALS = gql(`
+  query GetProposals {
+    proposals {
+      id
+      description
+      proposer {
+        id
+      }
+      supports {
+        id
+        weight
+      }
+      queued,
+      canceled,
+      executed,
+      proposalCreated {
+        timestamp
+      }
+      
+      status @client
+    }
+  }
+`);
 
 interface ProposalsListProps extends BaseComponentProps {}
 
@@ -17,11 +44,20 @@ export const ProposalsListComponent = ({
   className,
   style,
 }: ProposalsListProps) => {
-  const { isFetching, proposals, fetch } = useProposalsListStore();
-
-  useEffect(() => {
-    fetch();
-  }, [fetch]);
+  // const { isFetching, proposals, fetch } = useProposalsListStore();
+  const { data } = useSuspenseQuery(GET_PROPOSALS);
+  const proposals: Array<IProposal> = data?.proposals.map((proposal) => ({
+    id: proposal.id,
+    title: proposal.description,
+    description: proposal.description,
+    status: ProposalStatus.active,
+    votesTotal: 0,
+    votesYes: 0,
+    votesNo: 0,
+    creator: "",
+    createdAt: new Date(),
+    deadlineAt: new Date(),
+  }));
 
   return (
     <div className={classNames(styles.wrapper, className)} style={style}>
@@ -71,7 +107,6 @@ export const ProposalsListComponent = ({
               Total votes
             </div>
           </div>
-          {isFetching && <Loader isCenter />}
           {proposals.map((proposal, index) => (
             <div key={index} className={classNames(styles.proposals_grid__row)}>
               {!!index && <div className={styles.divider} />}

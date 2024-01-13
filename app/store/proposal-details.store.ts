@@ -4,86 +4,92 @@ import IProposal from "@interfaces/proposal.interface";
 import { IVote, IVoteType } from "@interfaces/vote.interface";
 
 type ProposalVotesMap = {
-    [key in IVoteType]: IVote[];
+  [key in IVoteType]: IVote[];
 };
 
 interface ProposalDetailsStore {
-    proposal?: IProposal;
-    isFetching: boolean;
-    fetch: (id: string) => Promise<void>;
-    fetchVotes: () => Promise<void>;
-    votes: ProposalVotesMap;
-    vote: (type: IVoteType, value: number, address: string) => Promise<void>;
-    create: (proposal: IProposal) => Promise<void>;
+  proposal?: IProposal;
+  isFetching: boolean;
+  fetch: (id: string) => Promise<void>;
+  fetchVotes: () => Promise<void>;
+  votes: ProposalVotesMap;
+  vote: (type: IVoteType, value: number, address: string) => Promise<void>;
+  create: (proposal: IProposal) => Promise<void>;
 }
 
-export const useProposalDetailsStore = create<ProposalDetailsStore>((set, get) => ({
+export const useProposalDetailsStore = create<ProposalDetailsStore>(
+  (set, get) => ({
     proposal: undefined,
     isFetching: false,
     votes: {
-        for: [],
-        against: [],
-        abstain: [],
+      for: [],
+      against: [],
+      abstain: [],
     },
     fetch: async (id) => {
-        set({ isFetching: true });
+      set({ isFetching: true });
 
-        const proposalResponse = await fetch(`/api/proposals/${id}`);
+      const proposalResponse = await fetch(`/api/proposals/${id}`);
 
-        const proposalResponseJson = await proposalResponse.json();
+      const proposalResponseJson = await proposalResponse.json();
 
-        const proposal = {
-            ...proposalResponseJson,
-            createdAt: new Date(proposalResponseJson.createdAt),
-            deadlineAt: new Date(proposalResponseJson.deadlineAt),
-        } as IProposal;
+      const proposal = {
+        ...proposalResponseJson,
+        createdAt: new Date(proposalResponseJson.createdAt),
+        deadlineAt: new Date(proposalResponseJson.deadlineAt),
+      } as IProposal;
 
-        set({ proposal });
-        await get().fetchVotes();
+      set({ proposal });
+      await get().fetchVotes();
     },
     fetchVotes: async () => {
-        set({ isFetching: true });
+      set({ isFetching: true });
 
-        const id = get().proposal?.id;
-        if (!id) {
-            return;
-        }
+      const id = get().proposal?.id;
+      if (!id) {
+        return;
+      }
 
-        const votesResponse = await fetch(`/api/proposals/${id}/votes`);
+      const votesResponse = await fetch(`/api/proposals/${id}/votes`);
 
-        const votesResponseJson = await votesResponse.json();
+      const votesResponseJson = await votesResponse.json();
 
-        const votes: ProposalVotesMap = {
-            for: votesResponseJson.filter((vote: IVote) => vote.type === "for"),
-            against: votesResponseJson.filter((vote: IVote) => vote.type === "against"),
-            abstain: votesResponseJson.filter((vote: IVote) => vote.type === "abstain"),
-        };
+      const votes: ProposalVotesMap = {
+        for: votesResponseJson.filter((vote: IVote) => vote.type === "for"),
+        against: votesResponseJson.filter(
+          (vote: IVote) => vote.type === "against",
+        ),
+        abstain: votesResponseJson.filter(
+          (vote: IVote) => vote.type === "abstain",
+        ),
+      };
 
-        set({ votes, isFetching: false });
+      set({ votes, isFetching: false });
     },
     vote: async (type, value, address) => {
-        const id = get().proposal?.id;
-        if (!id) {
-            return;
-        }
+      const id = get().proposal?.id;
+      if (!id) {
+        return;
+      }
 
-        await fetch(`/api/proposals/${id}/votes/${type}`, {
-            method: "PUT",
-            body: JSON.stringify({
-                value,
-                address,
-            }),
-            headers: {
-                "Content-Type": "application/json",
-            },
-        });
+      await fetch(`/api/proposals/${id}/votes/${type}`, {
+        method: "PUT",
+        body: JSON.stringify({
+          value,
+          address,
+        }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
 
-        await get().fetchVotes();
+      await get().fetchVotes();
     },
     create: async (proposal) => {
-        await fetch(`/api/proposals`, {
-            method: "PUT",
-            body: JSON.stringify(proposal),
-        });
+      await fetch(`/api/proposals`, {
+        method: "PUT",
+        body: JSON.stringify(proposal),
+      });
     },
-}));
+  }),
+);

@@ -9,11 +9,6 @@
     "lint": "next lint",
     "lint:fix": "next lint --fix"
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "npm run lint"
-    }
-  },
   "dependencies": {
     "@celo/rainbowkit-celo": "^1.1.2",
     "@hookform/resolvers": "^3.3.2",

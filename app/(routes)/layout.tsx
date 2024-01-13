@@ -11,29 +11,29 @@ import { usePathname } from "next/navigation";
 const inter = Inter({ subsets: ["latin"] });
 
 interface RootLayoutProps {
-    children: ReactNode;
+  children: ReactNode;
 }
 
 export default function RootLayout({ children }: RootLayoutProps) {
-    const path = usePathname();
-    const homePage = path === "/";
+  const path = usePathname();
+  const homePage = path === "/";
 
-    return (
-        <html lang="en">
-            <body className={inter.className}>
-                <Providers>
-                    <ModalProvider>
-                        <div className="min-h-screen flex flex-col">
-                            <Header />
-                            <div className="main-container px-x4 md:px-x6 min-[1178px]:px-0 mt-x10 md:mt-0 flex-1">
-                                {!homePage && <Breadcrumbs />}
-                                {children}
-                            </div>
-                            <Footer className="pt-x5" />
-                        </div>
-                    </ModalProvider>
-                </Providers>
-            </body>
-        </html>
-    );
+  return (
+    <html lang="en">
+      <body className={inter.className}>
+        <Providers>
+          <ModalProvider>
+            <div className="min-h-screen flex flex-col">
+              <Header />
+              <div className="main-container px-x4 md:px-x6 min-[1178px]:px-0 mt-x10 md:mt-0 flex-1">
+                {!homePage && <Breadcrumbs />}
+                {children}
+              </div>
+              <Footer className="pt-x5" />
+            </div>
+          </ModalProvider>
+        </Providers>
+      </body>
+    </html>
+  );
 }

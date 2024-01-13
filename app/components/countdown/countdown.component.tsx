@@ -59,7 +59,7 @@ export const Countdown = ({
         setIntervalRef(null);
       }
     };
-  }, [end, countDownMilliseconds]);
+  }, [end, countDownMilliseconds, intervalRef]);
 
   const clearAllTimeouts = () => {
     const noopInterval = window.setInterval(

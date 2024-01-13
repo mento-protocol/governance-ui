@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import styles from "./avatar.module.scss";
 import classNames from "classnames";
 import BaseComponentProps from "@interfaces/base-component-props.interface";

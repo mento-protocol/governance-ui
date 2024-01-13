@@ -1,10 +1,10 @@
-import {addWeeks} from "date-fns";
+import { addWeeks } from "date-fns";
 
 export enum CreateProposalFormStepEnum {
-    wallet = 'wallet',
-    content = 'content',
-    execution = 'execution',
-    preview = 'preview'
+    wallet = "wallet",
+    content = "content",
+    execution = "execution",
+    preview = "preview",
 }
 
 export interface CreateProposalForm {
@@ -26,44 +26,42 @@ export interface CreateProposalFormStep<T> {
 }
 
 export interface WalletProposalForm {
-    walletAddress: FormField<string>,
-    balanceVeMENTO: FormField<number>,
-    balanceMENTO: FormField<number>,
+    walletAddress: FormField<string>;
+    balanceVeMENTO: FormField<number>;
+    balanceMENTO: FormField<number>;
 }
 
 export interface WalletContentForm {
-    title: FormField<string>,
-    description: FormField<string>,
-    createDate: FormField<Date>,
-    deadlineDate: FormField<Date>,
+    title: FormField<string>;
+    description: FormField<string>;
+    createDate: FormField<Date>;
+    deadlineDate: FormField<Date>;
 }
 
 export interface WalletExecutionForm {
-    code: FormField<string>,
+    code: FormField<string>;
 }
 
-export interface WalletPreviewForm {
-
-}
+export interface WalletPreviewForm {}
 
 const isNullOrWhitespace = (input: string) => {
     return !input || !input.trim();
-}
+};
 
 export const initialCreateProposalForm: CreateProposalForm = {
     [CreateProposalFormStepEnum.wallet]: {
         value: {
             walletAddress: {
-                value: '',
-                validate: (value: string) => !isNullOrWhitespace(value)
+                value: "",
+                validate: (value: string) => !isNullOrWhitespace(value),
             },
             balanceMENTO: {
                 value: 0,
-                validate: (value: number) => value > 10
+                validate: (value: number) => value > 10,
             },
             balanceVeMENTO: {
                 value: 0,
-                validate: (value: number) => value > 2500
+                validate: (value: number) => value > 2500,
             },
         },
         isOpened: true,
@@ -72,20 +70,20 @@ export const initialCreateProposalForm: CreateProposalForm = {
     [CreateProposalFormStepEnum.content]: {
         value: {
             title: {
-                value: '',
-                validate: (value: string) => !isNullOrWhitespace(value)
+                value: "",
+                validate: (value: string) => !isNullOrWhitespace(value),
             },
             description: {
-                value: '',
-                validate: (value: string) => !isNullOrWhitespace(value)
+                value: "",
+                validate: (value: string) => !isNullOrWhitespace(value),
             },
             createDate: {
                 value: new Date(),
-                validate: (value: Date) => !!value
+                validate: (value: Date) => !!value,
             },
             deadlineDate: {
                 value: addWeeks(new Date(), 2),
-                validate: (value: Date) => value > new Date()
+                validate: (value: Date) => value > new Date(),
             },
         },
         isOpened: false,
@@ -95,8 +93,8 @@ export const initialCreateProposalForm: CreateProposalForm = {
     [CreateProposalFormStepEnum.execution]: {
         value: {
             code: {
-                value: '',
-                validate: (value: string) => true
+                value: "",
+                validate: (value: string) => true,
             },
         },
         isOpened: false,
@@ -108,6 +106,11 @@ export const initialCreateProposalForm: CreateProposalForm = {
         isOpened: false,
         isValid: false,
     },
-}
+};
 
-export const createProposalFormStepOrder = [CreateProposalFormStepEnum.wallet, CreateProposalFormStepEnum.content, CreateProposalFormStepEnum.execution, CreateProposalFormStepEnum.preview];
+export const createProposalFormStepOrder = [
+    CreateProposalFormStepEnum.wallet,
+    CreateProposalFormStepEnum.content,
+    CreateProposalFormStepEnum.execution,
+    CreateProposalFormStepEnum.preview,
+];

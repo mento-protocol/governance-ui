@@ -6,7 +6,9 @@ interface WalletAddressProps extends BaseComponentProps {
 }
 
 export const WalletAddress = ({ address, className, style }: WalletAddressProps) => {
-    return <div className={className} style={style}>
-        {WalletHelper.getShortAddress(address)}
-    </div>
-}
+    return (
+        <div className={className} style={style}>
+            {WalletHelper.getShortAddress(address)}
+        </div>
+    );
+};

@@ -1,13 +1,15 @@
 import {
     CreateProposalForm,
-    CreateProposalFormStepEnum, createProposalFormStepOrder,
-    initialCreateProposalForm, WalletProposalForm
+    CreateProposalFormStepEnum,
+    createProposalFormStepOrder,
+    initialCreateProposalForm,
+    WalletProposalForm,
 } from "@interfaces/create-proposal.interface";
-import {create} from "zustand";
+import { create } from "zustand";
 
 interface CreateProposalStore {
     form: CreateProposalForm;
-    navigateInForm: (direction: 'next' | 'prev') => void;
+    navigateInForm: (direction: "next" | "prev") => void;
     canGoNext: boolean;
     canGoPrev: boolean;
     openedForm: CreateProposalFormStepEnum;
@@ -18,18 +20,9 @@ interface CreateProposalStore {
     checkFormValidity: () => void;
     checkNavigateValidity: () => void;
     reset: () => void;
-    patchWalletStep: (value: {
-        balanceVeMENTO: number,
-        balanceMENTO: number,
-        walletAddress: string,
-    }) => void;
-    patchContentStep: (value: {
-        title: string,
-        description: string,
-    }) => void;
-    patchExecutionStep: (value: {
-        code: string,
-    }) => void;
+    patchWalletStep: (value: { balanceVeMENTO: number; balanceMENTO: number; walletAddress: string }) => void;
+    patchContentStep: (value: { title: string; description: string }) => void;
+    patchExecutionStep: (value: { code: string }) => void;
 }
 
 export const useCreateProposalStore = create<CreateProposalStore>((set, get) => ({
@@ -38,17 +31,15 @@ export const useCreateProposalStore = create<CreateProposalStore>((set, get) => 
         if (!get().canGoNext || !get().form[get().openedForm].isValid) {
             return;
         }
-        get().navigateInForm('next');
+        get().navigateInForm("next");
     },
     prev: () => {
         if (!get().canGoPrev) {
             return;
         }
-        get().navigateInForm('prev');
+        get().navigateInForm("prev");
     },
-    save: () => {
-
-    },
+    save: () => {},
     checkFormValidity: () => {
         const form = get().form[get().openedForm];
         const isValid = Object.values(form.value).every((field) => field.validate(field.value));
@@ -58,13 +49,13 @@ export const useCreateProposalStore = create<CreateProposalStore>((set, get) => 
                 [get().openedForm]: {
                     ...form,
                     isValid,
-                }
-            }
+                },
+            },
         });
     },
-    navigateInForm: (direction: 'next' | 'prev') => {
+    navigateInForm: (direction: "next" | "prev") => {
         const openedIndex = createProposalFormStepOrder.indexOf(get().openedForm);
-        const nextFormKey = createProposalFormStepOrder[openedIndex + (direction === 'next' ? 1 : -1)];
+        const nextFormKey = createProposalFormStepOrder[openedIndex + (direction === "next" ? 1 : -1)];
 
         set({
             form: {
@@ -76,7 +67,7 @@ export const useCreateProposalStore = create<CreateProposalStore>((set, get) => 
                 [nextFormKey]: {
                     ...get().form[nextFormKey],
                     isOpened: true,
-                }
+                },
             },
             openedForm: nextFormKey,
         });
@@ -120,9 +111,9 @@ export const useCreateProposalStore = create<CreateProposalStore>((set, get) => 
                             ...get().form[CreateProposalFormStepEnum.wallet].value.balanceMENTO,
                             value: value.balanceMENTO,
                         },
-                    }
-                }
-            }
+                    },
+                },
+            },
         });
         get().checkFormValidity();
         get().checkNavigateValidity();
@@ -144,9 +135,9 @@ export const useCreateProposalStore = create<CreateProposalStore>((set, get) => 
                             ...get().form[CreateProposalFormStepEnum.content].value.description,
                             value: value.description,
                         },
-                    }
-                }
-            }
+                    },
+                },
+            },
         });
         get().checkFormValidity();
         get().checkNavigateValidity();
@@ -163,11 +154,11 @@ export const useCreateProposalStore = create<CreateProposalStore>((set, get) => 
                             ...get().form[CreateProposalFormStepEnum.execution].value.code,
                             value: value.code,
                         },
-                    }
-                }
-            }
+                    },
+                },
+            },
         });
         get().checkFormValidity();
         get().checkNavigateValidity();
-    }
+    },
 }));

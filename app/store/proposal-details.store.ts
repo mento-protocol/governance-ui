@@ -1,7 +1,7 @@
-import {create} from "zustand";
+import { create } from "zustand";
 
 import IProposal from "@interfaces/proposal.interface";
-import {IVote, IVoteType} from "@interfaces/vote.interface";
+import { IVote, IVoteType } from "@interfaces/vote.interface";
 
 type ProposalVotesMap = {
     [key in IVoteType]: IVote[];
@@ -26,7 +26,7 @@ export const useProposalDetailsStore = create<ProposalDetailsStore>((set, get) =
         abstain: [],
     },
     fetch: async (id) => {
-        set({isFetching: true})
+        set({ isFetching: true });
 
         const proposalResponse = await fetch(`/api/proposals/${id}`);
 
@@ -36,13 +36,13 @@ export const useProposalDetailsStore = create<ProposalDetailsStore>((set, get) =
             ...proposalResponseJson,
             createdAt: new Date(proposalResponseJson.createdAt),
             deadlineAt: new Date(proposalResponseJson.deadlineAt),
-        } as IProposal
+        } as IProposal;
 
-        set({proposal});
+        set({ proposal });
         await get().fetchVotes();
     },
     fetchVotes: async () => {
-        set({isFetching: true})
+        set({ isFetching: true });
 
         const id = get().proposal?.id;
         if (!id) {
@@ -54,12 +54,12 @@ export const useProposalDetailsStore = create<ProposalDetailsStore>((set, get) =
         const votesResponseJson = await votesResponse.json();
 
         const votes: ProposalVotesMap = {
-            for: votesResponseJson.filter((vote: IVote) => vote.type === 'for'),
-            against: votesResponseJson.filter((vote: IVote) => vote.type === 'against'),
-            abstain: votesResponseJson.filter((vote: IVote) => vote.type === 'abstain'),
+            for: votesResponseJson.filter((vote: IVote) => vote.type === "for"),
+            against: votesResponseJson.filter((vote: IVote) => vote.type === "against"),
+            abstain: votesResponseJson.filter((vote: IVote) => vote.type === "abstain"),
         };
 
-        set({votes, isFetching: false})
+        set({ votes, isFetching: false });
     },
     vote: async (type, value, address) => {
         const id = get().proposal?.id;
@@ -68,13 +68,13 @@ export const useProposalDetailsStore = create<ProposalDetailsStore>((set, get) =
         }
 
         await fetch(`/api/proposals/${id}/votes/${type}`, {
-            method: 'PUT',
+            method: "PUT",
             body: JSON.stringify({
                 value,
                 address,
             }),
             headers: {
-                'Content-Type': 'application/json',
+                "Content-Type": "application/json",
             },
         });
 
@@ -82,8 +82,8 @@ export const useProposalDetailsStore = create<ProposalDetailsStore>((set, get) =
     },
     create: async (proposal) => {
         await fetch(`/api/proposals`, {
-            method: 'PUT',
+            method: "PUT",
             body: JSON.stringify(proposal),
         });
-    }
-}))
+    },
+}));

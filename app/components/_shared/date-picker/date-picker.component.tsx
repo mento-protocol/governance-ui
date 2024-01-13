@@ -1,15 +1,15 @@
 "use client";
-import 'react-day-picker/dist/style.css';
-import styles from './date-picker.module.scss';
+import "react-day-picker/dist/style.css";
+import styles from "./date-picker.module.scss";
 import BaseComponentProps from "@interfaces/base-component-props.interface";
-import {DayPicker, SelectSingleEventHandler} from "react-day-picker";
+import { DayPicker, SelectSingleEventHandler } from "react-day-picker";
 import classNames from "classnames";
-import {ReactNode, useEffect, useMemo, useRef, useState} from "react";
+import { ReactNode, useEffect, useMemo, useRef, useState } from "react";
 import useOutsideAlerter from "@/app/hooks/useOutsideAlerter";
-import {format, isAfter, isBefore} from "date-fns";
+import { format, isAfter, isBefore } from "date-fns";
 import addDays from "date-fns/addDays";
 
-type DisallowedDay = 'sun' | 'mon' | 'tue' | 'wed' | 'thu' | 'fri' | 'sat' | 0 | 1 | 2 | 3 | 4 | 5 | 6;
+type DisallowedDay = "sun" | "mon" | "tue" | "wed" | "thu" | "fri" | "sat" | 0 | 1 | 2 | 3 | 4 | 5 | 6;
 
 interface DatePickerProps extends BaseComponentProps {
     compact?: boolean;
@@ -40,27 +40,25 @@ const dayToNumberMap: Record<DisallowedDay, number> = {
     3: 3,
     4: 4,
     5: 5,
-    6: 6
-}
+    6: 6,
+};
 
 export const DatePicker = ({
-                               id,
-                               label,
-                               error,
-                               placeholder,
-                               minDate,
-                               maxDate,
-                               compact,
-                               className,
-                               style,
-                               disallowedDays,
-                               onChange,
-                               value,
-                               addon,
-                               calendarStartDate
-                           }: DatePickerProps) => {
-
-
+    id,
+    label,
+    error,
+    placeholder,
+    minDate,
+    maxDate,
+    compact,
+    className,
+    style,
+    disallowedDays,
+    onChange,
+    value,
+    addon,
+    calendarStartDate,
+}: DatePickerProps) => {
     const datePicker = useRef(null);
     useOutsideAlerter(datePicker, () => {
         setDatePickerOpened(false);
@@ -78,11 +76,10 @@ export const DatePicker = ({
         setCalendarMonth(value || calendarStartDate || minDate);
     }, [value, calendarStartDate, minDate]);
 
-
     const disabledDays = useMemo(() => {
         if (!minDate || !maxDate) return [];
 
-        const disallowedDaysMapped = (disallowedDays || []).map(day => dayToNumberMap[day]);
+        const disallowedDaysMapped = (disallowedDays || []).map((day) => dayToNumberMap[day]);
 
         let current = minDate;
         const disabledDays = [];
@@ -106,27 +103,27 @@ export const DatePicker = ({
 
     const onMonthChange = (date: Date) => {
         setCalendarMonth(date);
-    }
+    };
 
-    return <div className={classNames(styles.datePicker, compact && styles.compact, className)} style={style}>
-
-        {!!label && <label htmlFor={id}>
-            {label}
-        </label>}
-        <div className={classNames(styles.input, datePickerOpened && styles.focused, !!error && styles.error)}
-             onClick={() => setDatePickerOpened(true)}>
-            <div id={id}>
-                {!selectedDate && <div className={styles.placeholder}>{placeholder}</div>}
-                {!!selectedDate && <div className={styles.selectedDate}>{selectedDate.toLocaleDateString()}</div>}
+    return (
+        <div className={classNames(styles.datePicker, compact && styles.compact, className)} style={style}>
+            {!!label && <label htmlFor={id}>{label}</label>}
+            <div
+                className={classNames(styles.input, datePickerOpened && styles.focused, !!error && styles.error)}
+                onClick={() => setDatePickerOpened(true)}
+            >
+                <div id={id}>
+                    {!selectedDate && <div className={styles.placeholder}>{placeholder}</div>}
+                    {!!selectedDate && <div className={styles.selectedDate}>{selectedDate.toLocaleDateString()}</div>}
+                </div>
+                {addon}
             </div>
-            {addon}
-        </div>
-        {!!error && <div className={styles.errorMessage}>{error}</div>}
+            {!!error && <div className={styles.errorMessage}>{error}</div>}
 
-        <div className={classNames(styles.backdrop, datePickerOpened && styles.opened)}>
-            <div ref={datePicker} className={classNames(styles.pickerDropdown)}>
-                <div className={styles.inner}>
-                    <DayPicker
+            <div className={classNames(styles.backdrop, datePickerOpened && styles.opened)}>
+                <div ref={datePicker} className={classNames(styles.pickerDropdown)}>
+                    <div className={styles.inner}>
+                        <DayPicker
                             mode="single"
                             fromDate={minDate}
                             selected={selectedDate}
@@ -141,9 +138,10 @@ export const DatePicker = ({
                             }}
                             onSelect={handleDayClick}
                             onMonthChange={onMonthChange}
-                    />
+                        />
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-}
+    );
+};

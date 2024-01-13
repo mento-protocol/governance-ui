@@ -1,4 +1,4 @@
-import {MutableRefObject, useEffect} from "react";
+import { MutableRefObject, useEffect } from "react";
 
 function useOutsideAlerter(ref: MutableRefObject<any>, callback: (...args: any[]) => any, prompt?: string) {
     useEffect(() => {

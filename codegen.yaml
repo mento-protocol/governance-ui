@@ -2,11 +2,10 @@ schema:
   - https://api.studio.thegraph.com/query/63311/mento/version/latest
   - ./schema.client.graphql
 documents:
-  - "app/**/*.{ts,tsx}"
+  - "app/graphql/**/*.graphql"
 generates:
-  ./app/gql/:
+  ./app/graphql/generated/:
     preset: client
-    plugins: []
     presetConfig:
       gqlTagName: gql
 ignoreNoDocuments: true

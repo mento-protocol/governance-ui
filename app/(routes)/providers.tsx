@@ -8,7 +8,7 @@ import {
 import { getWalletConnectors } from "@/app/helpers/wallet";
 import { ReactNode, useEffect, useState } from "react";
 import { ApolloNextAppProvider } from "@apollo/experimental-nextjs-app-support/ssr";
-import { newApolloClient } from "@/app/helpers/apollo.client";
+import { newApolloClient } from "@/app/graphql/apollo.client";
 
 const { chains, publicClient } = configureChains(
   [Alfajores, Baklava, Celo],

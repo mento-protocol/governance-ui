@@ -1,0 +1,25 @@
+query getProposals {
+  proposals {
+    id
+    proposalId
+    description
+    proposer {
+      id
+    }
+    supports {
+      id
+      weight
+    }
+    queued
+    canceled
+    executed
+    proposalCreated {
+      timestamp
+    }
+    metadata @client {
+      title
+      description
+    }
+    state @client
+  }
+}

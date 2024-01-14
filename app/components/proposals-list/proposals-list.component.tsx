@@ -4,39 +4,15 @@ import { Card, Loader, ProgressBar } from "@components/_shared";
 import { Badge } from "@components/_shared/badge/badge.component";
 import BaseComponentProps from "@interfaces/base-component-props.interface";
 import IProposal, {
-  ProposalStatus,
-  statusToBadgeColorMap,
+  stateToBadgeColorMap,
 } from "@interfaces/proposal.interface";
 import classNames from "classnames";
 import Link from "next/link";
 import styles from "./proposals-list.module.scss";
 import { MentoIcon } from "@components/_icons";
-import { gql } from "@/app/gql";
 import { useSuspenseQuery } from "@apollo/experimental-nextjs-app-support/ssr";
-
-const GET_PROPOSALS = gql(`
-  query GetProposals {
-    proposals {
-      id
-      description
-      proposer {
-        id
-      }
-      supports {
-        id
-        weight
-      }
-      queued,
-      canceled,
-      executed,
-      proposalCreated {
-        timestamp
-      }
-      
-      status @client
-    }
-  }
-`);
+import { useProposalStates } from "@/app/hooks/useProposalStates";
+import { GetProposals } from "@/app/graphql";
 
 interface ProposalsListProps extends BaseComponentProps {}
 
@@ -45,12 +21,12 @@ export const ProposalsListComponent = ({
   style,
 }: ProposalsListProps) => {
   // const { isFetching, proposals, fetch } = useProposalsListStore();
-  const { data } = useSuspenseQuery(GET_PROPOSALS);
+  const { data } = useSuspenseQuery(GetProposals);
   const proposals: Array<IProposal> = data?.proposals.map((proposal) => ({
-    id: proposal.id,
-    title: proposal.description,
-    description: proposal.description,
-    status: ProposalStatus.active,
+    id: proposal.proposalId,
+    title: proposal.metadata!.title,
+    description: proposal.metadata!.description,
+    state: proposal.state,
     votesTotal: 0,
     votesYes: 0,
     votesNo: 0,
@@ -58,6 +34,8 @@ export const ProposalsListComponent = ({
     createdAt: new Date(),
     deadlineAt: new Date(),
   }));
+
+  useProposalStates(data?.proposals);
 
   return (
     <div className={classNames(styles.wrapper, className)} style={style}>
@@ -126,11 +104,7 @@ export const ProposalsListComponent = ({
                     href={`/proposals/${proposal.id}`}
                   >
                     <p>
-                      {StringService.limitLength(
-                        `${proposal.title} - ${proposal.description}`,
-                        75,
-                        true,
-                      )}
+                      {StringService.limitLength(`${proposal.title}`, 75, true)}
                     </p>
                   </Link>
                 </div>
@@ -143,9 +117,9 @@ export const ProposalsListComponent = ({
               >
                 <Badge
                   className={classNames(styles.status, "uppercase font-medium")}
-                  type={statusToBadgeColorMap[proposal.status]}
+                  type={stateToBadgeColorMap[proposal.state]}
                 >
-                  {proposal.status.toString()}
+                  {proposal.state.toString()}
                 </Badge>
               </div>
               <div className={classNames(styles.proposals_grid__row__element)}>

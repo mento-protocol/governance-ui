@@ -1,5 +1,23 @@
 directive @client on FIELD
 
+type ProposalMetadata {
+  title: String!
+  description: String!
+}
+
+enum ProposalState {
+  Pending
+  Active
+  Canceled
+  Defeated
+  Succeeded
+  Queued
+  Expired
+  Executed
+  NoState
+}
+
 extend type Proposal {
-  status: String!
+  state: ProposalState!
+  metadata: ProposalMetadata!
 }

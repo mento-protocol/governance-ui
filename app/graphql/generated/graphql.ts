@@ -1275,6 +1275,7 @@ export type Proposal = {
   executed: Scalars['Boolean']['output'];
   governor: Governor;
   id: Scalars['ID']['output'];
+  metadata: ProposalMetadata;
   proposalCanceled: Array<ProposalCanceled>;
   proposalCreated: Array<ProposalCreated>;
   proposalExecuted: Array<ProposalExecuted>;
@@ -1284,7 +1285,7 @@ export type Proposal = {
   queued: Scalars['Boolean']['output'];
   receipts: Array<VoteReceipt>;
   startBlock: Scalars['BigInt']['output'];
-  status: Scalars['String']['output'];
+  state: ProposalState;
   supports: Array<ProposalSupport>;
   votecast: Array<VoteCast>;
 };
@@ -1942,6 +1943,12 @@ export enum ProposalExecuted_OrderBy {
   TransactionTimestamp = 'transaction__timestamp'
 }
 
+export type ProposalMetadata = {
+  __typename?: 'ProposalMetadata';
+  description: Scalars['String']['output'];
+  title: Scalars['String']['output'];
+};
+
 export type ProposalQueued = Event & {
   __typename?: 'ProposalQueued';
   emitter: Account;
@@ -2091,6 +2098,18 @@ export enum ProposalQueued_OrderBy {
   TransactionBlockNumber = 'transaction__blockNumber',
   TransactionId = 'transaction__id',
   TransactionTimestamp = 'transaction__timestamp'
+}
+
+export enum ProposalState {
+  Active = 'Active',
+  Canceled = 'Canceled',
+  Defeated = 'Defeated',
+  Executed = 'Executed',
+  Expired = 'Expired',
+  NoState = 'NoState',
+  Pending = 'Pending',
+  Queued = 'Queued',
+  Succeeded = 'Succeeded'
 }
 
 export type ProposalSupport = {
@@ -5902,7 +5921,7 @@ export enum _SubgraphErrorPolicy_ {
 export type GetProposalsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetProposalsQuery = { __typename?: 'Query', proposals: Array<{ __typename?: 'Proposal', id: string, description: string, queued: boolean, canceled: boolean, executed: boolean, status: string, proposer: { __typename?: 'Account', id: any }, supports: Array<{ __typename?: 'ProposalSupport', id: string, weight: any }>, proposalCreated: Array<{ __typename?: 'ProposalCreated', timestamp: any }> }> };
+export type GetProposalsQuery = { __typename?: 'Query', proposals: Array<{ __typename?: 'Proposal', id: string, proposalId: any, description: string, queued: boolean, canceled: boolean, executed: boolean, state: ProposalState, proposer: { __typename?: 'Account', id: any }, supports: Array<{ __typename?: 'ProposalSupport', id: string, weight: any }>, proposalCreated: Array<{ __typename?: 'ProposalCreated', timestamp: any }>, metadata: { __typename?: 'ProposalMetadata', title: string, description: string } }> };
 
 
-export const GetProposalsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetProposals"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"proposals"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"proposer"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}},{"kind":"Field","name":{"kind":"Name","value":"supports"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"weight"}}]}},{"kind":"Field","name":{"kind":"Name","value":"queued"}},{"kind":"Field","name":{"kind":"Name","value":"canceled"}},{"kind":"Field","name":{"kind":"Name","value":"executed"}},{"kind":"Field","name":{"kind":"Name","value":"proposalCreated"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"timestamp"}}]}},{"kind":"Field","name":{"kind":"Name","value":"status"},"directives":[{"kind":"Directive","name":{"kind":"Name","value":"client"}}]}]}}]}}]} as unknown as DocumentNode<GetProposalsQuery, GetProposalsQueryVariables>;
+export const GetProposalsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getProposals"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"proposals"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"proposalId"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"proposer"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}},{"kind":"Field","name":{"kind":"Name","value":"supports"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"weight"}}]}},{"kind":"Field","name":{"kind":"Name","value":"queued"}},{"kind":"Field","name":{"kind":"Name","value":"canceled"}},{"kind":"Field","name":{"kind":"Name","value":"executed"}},{"kind":"Field","name":{"kind":"Name","value":"proposalCreated"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"timestamp"}}]}},{"kind":"Field","name":{"kind":"Name","value":"metadata"},"directives":[{"kind":"Directive","name":{"kind":"Name","value":"client"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"description"}}]}},{"kind":"Field","name":{"kind":"Name","value":"state"},"directives":[{"kind":"Directive","name":{"kind":"Name","value":"client"}}]}]}}]}}]} as unknown as DocumentNode<GetProposalsQuery, GetProposalsQueryVariables>;

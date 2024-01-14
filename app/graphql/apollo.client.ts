@@ -7,7 +7,7 @@ import {
   NextSSRApolloClient,
   SSRMultipartLink,
 } from "@apollo/experimental-nextjs-app-support/ssr";
-import { ProposalStatus } from "../interfaces/proposal.interface";
+import { ProposalPolicy } from "./policies/Proposal";
 
 // have a function to create a client for you
 export function newApolloClient() {
@@ -27,28 +27,7 @@ export function newApolloClient() {
     // use the `NextSSRInMemoryCache`, not the normal `InMemoryCache`
     cache: new NextSSRInMemoryCache({
       typePolicies: {
-        Proposal: {
-          fields: {
-            status: {
-              read(_, { readField }): ProposalStatus {
-                const queued = readField("queued");
-                const canceled = readField("canceled");
-                const executed = readField("executed");
-                if (queued) {
-                  return ProposalStatus.pending;
-                }
-                if (canceled) {
-                  return ProposalStatus.defeated;
-                }
-                if (executed) {
-                  return ProposalStatus.executed;
-                }
-                // Todo figure out how to make it better
-                return ProposalStatus.active;
-              },
-            },
-          },
-        },
+        Proposal: ProposalPolicy,
       },
     }),
     link:

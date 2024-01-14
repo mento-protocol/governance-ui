@@ -12,9 +12,17 @@ import { useCreateProposalStore } from "@/app/store";
 interface WrapperProps extends BaseComponentProps {
   step: CreateProposalFormStepEnum;
   title: string;
+  onSave: () => void;
 }
 
-const Wrapper = ({ children, className, step, title, style }: WrapperProps) => {
+const Wrapper = ({
+  children,
+  className,
+  step,
+  title,
+  style,
+  onSave,
+}: WrapperProps) => {
   const { form } = useCreateProposalStore();
 
   const stepIndex = useMemo(() => {
@@ -25,7 +33,7 @@ const Wrapper = ({ children, className, step, title, style }: WrapperProps) => {
     return form[step].isOpened;
   }, [form, step]);
 
-  const { next, prev, save, openedForm, canGoNext, canGoPrev } =
+  const { next, prev, openedForm, canGoNext, canGoPrev } =
     useCreateProposalStore();
 
   return (
@@ -66,7 +74,7 @@ const Wrapper = ({ children, className, step, title, style }: WrapperProps) => {
             )}
             {!canGoNext &&
               openedForm === CreateProposalFormStepEnum.preview && (
-                <Button className="min-w-x20" onClick={save} theme="primary">
+                <Button className="min-w-x20" onClick={onSave} theme="primary">
                   Save
                 </Button>
               )}

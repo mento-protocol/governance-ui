@@ -16,7 +16,7 @@ import { useEffect } from "react";
 import { ILock } from "@interfaces/lock.interface";
 import useModal from "@/app/providers/modal.provider";
 
-interface MntoLockProps extends BaseComponentProps {}
+interface MentoLockProps extends BaseComponentProps {}
 
 let validationSchema = object({
   toLock: number().required().typeError("Invalid number").max(0),
@@ -33,7 +33,7 @@ let validationSchema = object({
 
 type FormData = InferType<typeof validationSchema>;
 
-export const MntoLock = ({ className, style }: MntoLockProps) => {
+export const MentoLock = ({ className, style }: MentoLockProps) => {
   const { walletAddress, balanceMENTO, lock } = useUserStore();
   const { showConfirm } = useModal();
 

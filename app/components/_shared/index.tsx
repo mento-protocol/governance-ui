@@ -13,7 +13,7 @@ export { Tab } from "./tabs/tab.component";
 export { TabList } from "./tabs/tab-list.component";
 export { DatePicker } from "./date-picker/date-picker.component";
 export { Slider } from "./slider/slider.component";
-export { MntoLock } from "./mnto-lock/mnto-lock.component";
+export { MentoLock } from "./mento-lock/mento-lock.component";
 export { StepCounter } from "./step-counter/step-counter.component";
 export { ConnectButton } from "./connect-button/connect-button.component";
 export { MarkdownEditor } from "./markdown-editor/markdown-editor.component";

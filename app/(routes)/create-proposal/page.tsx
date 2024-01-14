@@ -14,7 +14,7 @@ const Page = () => {
 
   useEffect(() => {
     reset();
-  });
+  }, [reset]);
 
   return (
     <main className="flex flex-col place-items-center">

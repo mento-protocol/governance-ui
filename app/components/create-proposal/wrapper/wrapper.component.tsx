@@ -12,7 +12,7 @@ import { useCreateProposalStore } from "@/app/store";
 interface WrapperProps extends BaseComponentProps {
   step: CreateProposalFormStepEnum;
   title: string;
-  onSave: () => void;
+  onSave?: () => void;
 }
 
 const Wrapper = ({

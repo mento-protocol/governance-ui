@@ -1,4 +1,4 @@
-import { createConfig, http, Chain, WagmiConfig } from "wagmi";
+import { createConfig, http } from "wagmi";
 import { Alfajores, Baklava, Celo } from "@/app/helpers/chains";
 import {
   metaMaskWallet,

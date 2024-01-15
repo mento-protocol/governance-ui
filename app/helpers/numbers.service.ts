@@ -4,6 +4,16 @@ const M = 1000000;
 const K = 1000;
 
 export default abstract class NumbersService {
+  public static scaleBalance(
+    value: bigint,
+    decimals: number = 18,
+    precision: number = 3,
+  ): number {
+    return (
+      Number(value / BigInt(10 ** (decimals - precision))) / 10 ** precision
+    );
+  }
+
   public static parseNumericValue(
     value: number | string,
     precision: number = 1,

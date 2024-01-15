@@ -1,17 +1,11 @@
 import { BadgeType } from "@/app/types";
-
-export enum ProposalStatus {
-  active = "active",
-  pending = "pending",
-  executed = "executed",
-  defeated = "defeated",
-}
+import { ProposalState } from "@/app/graphql";
 
 export default interface IProposal {
   id: string;
   title: string;
   description: string;
-  status: ProposalStatus;
+  state: ProposalState;
   votesTotal: number;
   votesYes: number;
   votesNo: number;
@@ -20,9 +14,14 @@ export default interface IProposal {
   deadlineAt: Date;
 }
 
-export const statusToBadgeColorMap = {
-  [ProposalStatus.active]: "success" as BadgeType,
-  [ProposalStatus.pending]: "secondary" as BadgeType,
-  [ProposalStatus.executed]: "info" as BadgeType,
-  [ProposalStatus.defeated]: "tertiary" as BadgeType,
+export const stateToBadgeColorMap: Record<ProposalState, BadgeType> = {
+  [ProposalState.Active]: "primary",
+  [ProposalState.Pending]: "secondary",
+  [ProposalState.Executed]: "success",
+  [ProposalState.Defeated]: "danger",
+  [ProposalState.Canceled]: "warning",
+  [ProposalState.Expired]: "warning",
+  [ProposalState.NoState]: "info",
+  [ProposalState.Queued]: "primary",
+  [ProposalState.Succeeded]: "success",
 };

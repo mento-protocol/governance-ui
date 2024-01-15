@@ -5,17 +5,25 @@ import { CopyIcon } from "../../_icons/copy.icon";
 import classNames from "classnames";
 
 interface WalletAddressWithCopyProps extends BaseComponentProps {
-    address: string;
+  address: string;
 }
 
-export const WalletAddressWithCopy = ({ className, style, address }: WalletAddressWithCopyProps) => {
-    return <div className={classNames(className, 'flex items-center gap-x2')}
-        style={style}>
-        <WalletAddress address={address} />
-        <CopyToClipboard text={address} >
-            <div className="cursor-pointer" >
-                <CopyIcon />
-            </div>
-        </CopyToClipboard>
+export const WalletAddressWithCopy = ({
+  className,
+  style,
+  address,
+}: WalletAddressWithCopyProps) => {
+  return (
+    <div
+      className={classNames(className, "flex items-center gap-x2")}
+      style={style}
+    >
+      <WalletAddress address={address} />
+      <CopyToClipboard text={address}>
+        <div className="cursor-pointer">
+          <CopyIcon />
+        </div>
+      </CopyToClipboard>
     </div>
-}
+  );
+};

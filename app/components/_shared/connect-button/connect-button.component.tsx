@@ -14,6 +14,7 @@ import { useUserStore } from "@/app/store";
 import { useEffect } from "react";
 import { useChainState } from "@/app/providers/chainState.provider";
 import NumbersService from "@/app/helpers/numbers.service";
+import classNames from "classnames";
 
 interface ConnectedDropdownProps extends BaseComponentProps {
   block?: boolean;
@@ -125,7 +126,7 @@ export const ConnectButton = ({
 
         return (
           <>
-            <div className={className} style={style}>
+            <div className={classNames(className, styles.container)} style={style}>
               {!connected ? (
                 <Button theme={theme || "secondary"} onClick={openConnectModal}>
                   <div className="flex flex-row justify-center place-items-center gap-2">

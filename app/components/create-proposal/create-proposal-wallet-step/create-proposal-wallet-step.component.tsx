@@ -21,7 +21,7 @@ const CurrentFormStep = ({ formStep }: { formStep: WalletStepEnum }) => {
           <p className="font-size-x4 line-height-x5 ml-x7 place-self-start">
             Connect your wallet to create new proposal.
           </p>
-          <ConnectButton theme="primary" />
+          <ConnectButton theme="primary" className="mt-x5"/>
         </>
       );
     case WalletStepEnum.buyMento:

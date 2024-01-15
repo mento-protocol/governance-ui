@@ -12,6 +12,8 @@ import BaseComponentProps from "@interfaces/base-component-props.interface";
 import { ButtonType } from "@/app/types";
 import { useUserStore } from "@/app/store";
 import { useEffect } from "react";
+import { useChainState } from "@/app/providers/chainState.provider";
+import NumbersService from "@/app/helpers/numbers.service";
 
 interface ConnectedDropdownProps extends BaseComponentProps {
   block?: boolean;
@@ -48,6 +50,9 @@ export const ConnectedDropdown = ({
     }
   }, [account, chain, isFetching, isInitialized, disconnectWallet, initWallet]);
 
+  const tokens = useChainState((s) => s.tokens);
+  const chainStateReady = useChainState((s) => s.ready);
+
   return (
     <DropdownButton
       theme={"clear"}
@@ -56,20 +61,39 @@ export const ConnectedDropdown = ({
       avatar={<Avatar address={account.address || ""} />}
     >
       <DropdownButton.Dropdown>
-        <div className={styles.wallet_addons}>
-          <div className={styles.addon}>
-            <div className={styles.addon__title}>
-              {account.displayBalance?.split(" ")[1]}
+        {chainStateReady ? (
+          <div className={styles.wallet_addons}>
+            <div className={styles.addon}>
+              <div className={styles.addon__title}>
+                {tokens.nativeCurrency.symbol}
+              </div>
+              <div className={styles.addon__value}>
+                {NumbersService.scaleBalance(
+                  tokens.nativeCurrency.balance,
+                  tokens.nativeCurrency.decimals,
+                )}
+              </div>
             </div>
-            <div className={styles.addon__value}>
-              {account.displayBalance?.split(" ")[0]}
+            <div className={styles.addon}>
+              <div className={styles.addon__title}>{tokens.mento.symbol}</div>
+              <div className={styles.addon__value}>
+                {NumbersService.scaleBalance(
+                  tokens.mento.balance,
+                  tokens.mento.decimals,
+                )}
+              </div>
+            </div>
+            <div className={styles.addon}>
+              <div className={styles.addon__title}>{tokens.veMento.symbol}</div>
+              <div className={styles.addon__value}>
+                {NumbersService.scaleBalance(
+                  tokens.veMento.balance,
+                  tokens.veMento.decimals,
+                )}
+              </div>
             </div>
           </div>
-          <div className={styles.addon}>
-            <div className={styles.addon__title}>MENTO</div>
-            <div className={styles.addon__value}>{balanceMENTO}</div>
-          </div>
-        </div>
+        ) : null}
         <DropdownButton.Element onClick={openAccountModal}>
           Account settings
         </DropdownButton.Element>
@@ -97,6 +121,7 @@ export const ConnectButton = ({
       {({ account, chain, openConnectModal, mounted }) => {
         if (!mounted) return <></>;
         const connected = !!account && !!chain;
+        console.log(account);
 
         return (
           <>

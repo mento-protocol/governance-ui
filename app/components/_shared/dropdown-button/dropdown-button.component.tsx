@@ -36,6 +36,7 @@ export const DropdownButton = ({
 
   const dropdownRef = useRef(null);
   const dropdownContentRef = useRef(null);
+
   useOutsideAlerter(dropdownRef, () => {
     setDropdownOpened(false);
   });

@@ -1,10 +1,18 @@
-import { getWalletConnectConnector, type Wallet } from "@rainbow-me/rainbowkit";
-import type { DefaultWalletOptions } from "@rainbow-me/rainbowkit/dist/wallets/Wallet.js";
+import {
+  getWalletConnectConnector,
+  RainbowKitWalletConnectParameters,
+  type Wallet,
+} from "@rainbow-me/rainbowkit";
 
 export function isAndroid(): boolean {
   return (
     typeof navigator !== "undefined" && /android/i.test(navigator.userAgent)
   );
+}
+
+export interface DefaultWalletOptions {
+  projectId: string;
+  walletConnectParameters?: RainbowKitWalletConnectParameters;
 }
 
 export const valora = ({

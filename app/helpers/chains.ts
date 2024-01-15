@@ -1,11 +1,10 @@
-import { Chain } from "@rainbow-me/rainbowkit";
-import { celoAlfajores } from "viem/chains";
+import { Chain, celoAlfajores } from "viem/chains";
 import { celo } from "viem/chains";
 
 export const Celo: Chain = {
   ...celo,
-  iconUrl: "https://rainbowkit-with-celo.vercel.app/icons/celo.svg",
-  iconBackground: "#fff",
+  // iconUrl: "https://rainbowkit-with-celo.vercel.app/icons/celo.svg",
+  // iconBackground: "#fff",
   contracts: {
     ...celo.contracts,
     governance: {
@@ -25,8 +24,8 @@ export const Celo: Chain = {
 
 export const Alfajores: Chain = {
   ...celoAlfajores,
-  iconUrl: "https://rainbowkit-with-celo.vercel.app/icons/alfajores.svg",
-  iconBackground: "#fff",
+  // iconUrl: "https://rainbowkit-with-celo.vercel.app/icons/alfajores.svg",
+  // iconBackground: "#fff",
   contracts: {
     ...celoAlfajores.contracts,
     governance: {
@@ -47,9 +46,9 @@ export const Alfajores: Chain = {
 export const Baklava: Chain = {
   id: 62320,
   name: "Baklava",
-  network: "Baklava Testnet",
-  iconUrl: "https://rainbowkit-with-celo.vercel.app/icons/baklava.svg",
-  iconBackground: "#fff",
+  // network: "Baklava Testnet",
+  // iconUrl: "https://rainbowkit-with-celo.vercel.app/icons/baklava.svg",
+  // iconBackground: "#fff",
   nativeCurrency: {
     decimals: 18,
     name: "CELO",

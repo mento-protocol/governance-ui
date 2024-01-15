@@ -21,7 +21,7 @@
 import { makeVar } from "@apollo/client/cache";
 import { Proposal, ProposalState, Scalars } from "@/app/graphql";
 import { useEffect } from "react";
-import { useContractReads } from "wagmi";
+import { useReadContracts } from "wagmi";
 import { GovernorABI } from "@/app/abis/Governor";
 
 type ProposalID = Scalars["ID"]["output"];
@@ -30,7 +30,7 @@ export const proposalToStateVar = makeVar<ProposalToState>({});
 
 /// ENUMS in solidity are just numbers, so we need to map them to the ProposalState enum
 type StateNumber = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7;
-const STATE_FROM_NUMBER: Record<StateNumbers, ProposalState> = {
+const STATE_FROM_NUMBER: Record<StateNumber, ProposalState> = {
   0: ProposalState.Pending,
   1: ProposalState.Active,
   2: ProposalState.Canceled,
@@ -41,17 +41,21 @@ const STATE_FROM_NUMBER: Record<StateNumbers, ProposalState> = {
   7: ProposalState.Executed,
 };
 
+export const isStateNumber = (value: any): value is StateNumber => {
+  return value && typeof value === "number" && value >= 0 && value <= 7;
+};
+
 export const useProposalStates = (
   proposals: Pick<Proposal, "proposalId">[],
 ) => {
-  const { data, isError, isLoading } = useContractReads({
+  const { data, isError, isLoading } = useReadContracts({
     contracts: proposals.map((proposal) => ({
       // TODO: Add propper address
       address: "0xc1d32e3bac67b28d31d7828c8ff160e44c37be1c",
       abi: GovernorABI,
       functionName: "state",
       args: [proposal.proposalId],
-    })),
+    })) as any, // TODO fix typing
   });
 
   useEffect(() => {
@@ -59,12 +63,7 @@ export const useProposalStates = (
     if (data === undefined) return;
     proposalToStateVar(
       data.reduce<ProposalToState>((acc, { result }, index) => {
-        if (
-          result &&
-          typeof result === "number" &&
-          result >= 0 &&
-          result <= 7
-        ) {
+        if (isStateNumber(result)) {
           const proposalId = proposals[index].proposalId;
           acc[proposalId] = STATE_FROM_NUMBER[result];
         }

@@ -1,6 +1,7 @@
 import { NextRequest } from "next/server";
-import IProposal, { ProposalStatus } from "@interfaces/proposal.interface";
+import IProposal from "@interfaces/proposal.interface";
 import addDays from "date-fns/addDays";
+import { ProposalState } from "@/app/graphql/generated/graphql";
 
 const proposalDescription = `This is an amended draft proposal by the RARI Foundation, addressing community feedback.
     
@@ -105,7 +106,7 @@ const singleProposal: IProposal = {
   id: "599ca521-df39-442f-937c-03b20bcafc2d",
   title: "Building  the Building the Future of NFTs: The Rarible Protocol",
   description: proposalDescription,
-  status: ProposalStatus.active,
+  state: ProposalState.Active,
   votesYes: 2700,
   votesNo: 1400,
   votesTotal: 4100,

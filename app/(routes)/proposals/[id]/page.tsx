@@ -1,5 +1,5 @@
 "use client";
-import { statusToBadgeColorMap } from "@interfaces/proposal.interface";
+import { stateToBadgeColorMap } from "@interfaces/proposal.interface";
 import {
   Avatar,
   Badge,
@@ -95,9 +95,9 @@ const Page = ({ params }: { params: { id: string } }) => {
         <>
           <Badge
             className="uppercase mt-x6 mb-3 font-medium"
-            type={statusToBadgeColorMap[proposal.status]}
+            type={stateToBadgeColorMap[proposal.state]}
           >
-            {proposal.status.toString()}
+            {proposal.state.toString()}
           </Badge>
           <div className="flex flex-col md:grid md:grid-cols-7 gap-x1 ">
             <div className="md:col-start-1 md:col-span-4">

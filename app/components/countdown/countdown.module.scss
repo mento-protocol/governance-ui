@@ -3,12 +3,14 @@
 .countdown {
   display: flex;
   flex-direction: row;
-  justify-content: flex-start;
+  justify-content: center;
   align-items: center;
   gap: $theme-unit;
+  margin-top: 3 * $theme-unit;
 
   @include media-md {
     justify-content: flex-end;
+    margin-top: 0;
   }
 
   .item {
@@ -16,33 +18,41 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    min-width: 80px;
-
+    min-width: 11 * $theme-unit;
     gap: 2 * $theme-unit;
+
+    @include media-md {
+      gap: 3 * $theme-unit;
+      min-width: 16 * $theme-unit;
+    }
 
 
     .value {
-      font-size: $theme-unit * 3;
-      line-height: $theme-unit * 3;
+      font-size: $theme-unit * 4;
+      line-height: $theme-unit * 4;
       font-weight: 500;
       position: relative;
       width: 100%;
       text-align: center;
 
       @include media-md {
-        font-size: $theme-unit * 4;
-        line-height: $theme-unit * 4;
+        font-size: $theme-unit * 6;
+        line-height: $theme-unit * 6;
       }
-
     }
 
     .label {
-      font-size: 12px;
-      line-height: 12px;
+      color: #000;
+      font-size: 3 * $theme-unit;
+      line-height: 3 * $theme-unit;
       font-weight: 400;
-      text-transform: uppercase;
       width: 100%;
       text-align: center;
+      
+      @include media-md {
+        font-size: 4 * $theme-unit;
+        line-height: 4 * $theme-unit;
+      }
     }
 
     &.day {

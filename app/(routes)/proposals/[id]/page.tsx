@@ -69,7 +69,7 @@ const Page = ({ params }: { params: { id: string } }) => {
           </Badge>
           <div className="flex flex-col md:grid md:grid-cols-7 gap-x1 ">
             <div className="md:col-start-1 md:col-span-4">
-              <h1 className="text-xl md:text-5xl font-semibold">
+              <h1 className="text-xl md:font-size-x11 md:line-height-x11 font-medium">
                 {proposal.title}
               </h1>
             </div>
@@ -80,28 +80,33 @@ const Page = ({ params }: { params: { id: string } }) => {
               />
             </div>
           </div>
-          <div className="flex flex-wrap place-items-center justify-start md:justify-between mt-8 gap-x1 ">
-            <div className="flex place-items-center gap-1">
+          <div className="flex flex-wrap place-items-center justify-start mt-8 gap-x6 ">
+            <div className="flex place-items-center gap-x2">
               <Avatar address={proposal.creator || ""} />
-              <div>by {proposal.creator}</div>
+              by{" "}
+              <span className="font-medium">
+                <WalletAddressWithCopy address={proposal.id} />
+              </span>
             </div>
             <div className="flex place-items-center gap-x2">
-              <code>ID</code>
-              <WalletAddressWithCopy address={proposal.id} />
-            </div>
-            <div className="flex place-items-center gap-1">
               <span>Proposed on:</span>
-              <strong>{format(proposal.createdAt, "MMMM do, yyyy")}</strong>
+              <span className="font-medium">
+                {format(proposal.createdAt, "MMMM do, yyyy")}
+              </span>
             </div>
-            <div className="flex place-items-center gap-1">
+            <div className="flex place-items-center gap-x2">
               <span>Voting deadline:</span>
-              <strong>{format(proposal.deadlineAt, "MMMM do, yyyy")}</strong>
+              <span className="font-medium">
+                {format(proposal.deadlineAt, "MMMM do, yyyy")}
+              </span>
             </div>
           </div>
 
-          <div className="mt-8 flex flex-col md:flex-row md:justify-between place-items-start gap-x1 ">
+          <div className="mt-x6 flex flex-col md:flex-row md:justify-between place-items-start gap-x1 ">
             <div className={classNames(styles.details, "flex-1")}>
-              <h3>Details</h3>
+              <h3 className="flex justify-center font-size-x6 line-height-x6 font-medium mb-x6">
+                Proposal Description
+              </h3>
               <MarkdownView markdown={proposal.description} />
             </div>
             <div className={styles.proposal_addons}>

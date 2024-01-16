@@ -40,19 +40,7 @@
 
         &:not(:last-child):not(:first-child) {
           display: flex;
-          justify-content: center;
           align-items: center;
-        }
-
-        &.header {
-          border: none;
-          margin-bottom: $theme-unit * 6;
-          font-weight: 500;
-          font-size: $theme-unit * 3;
-
-          &:first-child {
-            text-align: left;
-          }
         }
 
         &.first {
@@ -78,6 +66,30 @@
           margin: 0 auto;
           gap: $theme-unit * 2;
           width: 100%;
+        }
+      }
+
+      &.headers {
+        margin-bottom: 6 * $theme-unit;
+        
+        .header {
+          border: none;
+          font-weight: 500;
+          font-size: $theme-unit * 3;
+          text-align: center;
+          overflow: hidden;
+          font-family: 'Inter';
+          line-height: 5 * $theme-unit;
+          letter-spacing: -0.304px;
+          
+          &:first-child {
+            text-align: left;
+            margin-left: 13 * $theme-unit;
+          }
+
+          &:last-child {
+            text-align: right;
+          }
         }
       }
     }

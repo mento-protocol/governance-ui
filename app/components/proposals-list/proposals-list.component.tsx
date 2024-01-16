@@ -1,6 +1,10 @@
+import { GetProposals } from "@/app/graphql";
 import NumbersService from "@/app/helpers/numbers.service";
 import StringService from "@/app/helpers/string.service";
-import { Card, Loader, ProgressBar } from "@components/_shared";
+import { useProposalStates } from "@/app/hooks/useProposalStates";
+import { useSuspenseQuery } from "@apollo/experimental-nextjs-app-support/ssr";
+import { MentoIcon } from "@components/_icons";
+import { Card, ProgressBar } from "@components/_shared";
 import { Badge } from "@components/_shared/badge/badge.component";
 import BaseComponentProps from "@interfaces/base-component-props.interface";
 import IProposal, {
@@ -9,10 +13,6 @@ import IProposal, {
 import classNames from "classnames";
 import Link from "next/link";
 import styles from "./proposals-list.module.scss";
-import { MentoIcon } from "@components/_icons";
-import { useSuspenseQuery } from "@apollo/experimental-nextjs-app-support/ssr";
-import { useProposalStates } from "@/app/hooks/useProposalStates";
-import { GetProposals } from "@/app/graphql";
 
 interface ProposalsListProps extends BaseComponentProps {}
 
@@ -42,48 +42,14 @@ export const ProposalsListComponent = ({
       <h2 className="text-center mt-x11 mb-x6 font-medium">Proposals</h2>
       <Card block>
         <div className={classNames(styles.proposals_grid, "text_small")}>
-          <div className={classNames(styles.proposals_grid__row)}>
-            <div
-              className={classNames(
-                styles.proposals_grid__row__element,
-                styles.header,
-              )}
-            >
-              Proposal name
-            </div>
-            <div
-              className={classNames(
-                styles.proposals_grid__row__element,
-                styles.header,
-              )}
-            >
-              Status
-            </div>
-            <div
-              className={classNames(
-                styles.proposals_grid__row__element,
-                styles.header,
-              )}
-            >
-              Votes in favour
-            </div>
-            <div
-              className={classNames(
-                styles.proposals_grid__row__element,
-                styles.header,
-              )}
-            >
-              PVotes against
-            </div>
-            <div
-              className={classNames(
-                styles.proposals_grid__row__element,
-                styles.header,
-                styles.last,
-              )}
-            >
-              Total votes
-            </div>
+          <div
+            className={classNames(styles.proposals_grid__row, styles.headers)}
+          >
+            <div className={styles.header}>Proposal name</div>
+            <div className={styles.header}>Status</div>
+            <div className={styles.header}>Votes in favour</div>
+            <div className={styles.header}>PVotes against</div>
+            <div className={styles.header}>Total votes</div>
           </div>
           {proposals.map((proposal, index) => (
             <div key={index} className={classNames(styles.proposals_grid__row)}>

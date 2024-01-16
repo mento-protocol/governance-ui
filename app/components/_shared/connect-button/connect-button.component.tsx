@@ -126,7 +126,10 @@ export const ConnectButton = ({
 
         return (
           <>
-            <div className={classNames(className, styles.container)} style={style}>
+            <div
+              className={classNames(className, styles.container)}
+              style={style}
+            >
               {!connected ? (
                 <Button theme={theme || "secondary"} onClick={openConnectModal}>
                   <div className="flex flex-row justify-center place-items-center gap-2">

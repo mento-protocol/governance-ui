@@ -9,7 +9,7 @@ import {
   Card,
   Loader,
   TabList,
-  WalletAddressWithCopy
+  WalletAddressWithCopy,
 } from "@components/_shared";
 import { Countdown } from "@components/countdown/countdown.component";
 import { VotesList } from "@components/votes-list/votes-list.component";
@@ -46,14 +46,11 @@ const Page = ({ params }: { params: { id: string } }) => {
   const [votesListOpened, setVotesListOpened] = useState(false);
 
   const onSubmit = (voteType: IVoteType) => {
-    showConfirm(
-      `Are you sure you want to vote with ${balanceVeMENTO} power?`,
-      {
-        modalType: voteTypeToModalType(voteType),
-      },
-    ).then((result) => {
+    showConfirm(`Are you sure you want to vote with ${balanceVeMENTO} power?`, {
+      modalType: voteTypeToModalType(voteType),
+    }).then((result) => {
       if (result) {
-        vote(voteType, balanceVeMENTO, walletAddress || '');
+        vote(voteType, balanceVeMENTO, walletAddress || "");
       }
     });
   };
@@ -150,20 +147,22 @@ const Page = ({ params }: { params: { id: string } }) => {
                     </button>
                   </Card.Header>
                   <div className="flex flex-col gap-1 ">
-                  <div className={styles.addon}>
-                    <div className="flex justify-center">
-                      {!!walletAddress ? (
-                        <div className={styles.power}>
-                          <div className={styles.power__title}>Your voting power</div>
-                          <div className={styles.power__value}>{balanceVeMENTO} veMENTO</div>
-                        </div>
-                      ) : (
-                        <div className="underline">
-                          Please connect wallet
-                        </div>
-                      )}
+                    <div className={styles.addon}>
+                      <div className="flex justify-center">
+                        {!!walletAddress ? (
+                          <div className={styles.power}>
+                            <div className={styles.power__title}>
+                              Your voting power
+                            </div>
+                            <div className={styles.power__value}>
+                              {balanceVeMENTO} veMENTO
+                            </div>
+                          </div>
+                        ) : (
+                          <div className="underline">Please connect wallet</div>
+                        )}
+                      </div>
                     </div>
-                  </div>
                     <Button
                       className={styles.button_wrapper}
                       disabled={!walletAddress}

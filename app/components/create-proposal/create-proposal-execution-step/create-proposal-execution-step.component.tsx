@@ -46,7 +46,7 @@ export const CreateProposalExecutionStep = () => {
         <Textarea
           className="mt-x5 mb-x5 min-h-[266px]"
           form={{ ...register("code") }}
-          id="proposal-execution"
+          id="code"
           error={errors.code?.message}
           placeholder="Paste your code here"
         />

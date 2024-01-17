@@ -7,6 +7,7 @@ import {
   Badge,
   Button,
   Card,
+  ExecutionCodeView,
   Loader,
   TabList,
   WalletAddressWithCopy,
@@ -108,6 +109,8 @@ const Page = ({ params }: { params: { id: string } }) => {
                 Proposal Description
               </h3>
               <MarkdownView markdown={proposal.description} />
+              {/* add proper execution code data */}
+              <ExecutionCodeView code={proposal.description} />
             </div>
             <div className={styles.proposal_addons}>
               <div className={classNames(styles.mobile_controls)}>

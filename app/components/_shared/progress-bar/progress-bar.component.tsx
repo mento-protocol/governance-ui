@@ -12,11 +12,13 @@ interface ProgressBarProps extends BaseComponentProps {
   valueFormat?: "localised" | "alphabetic";
 }
 
+export interface MultiProgressBarValue {
+  value: number;
+  type?: "success" | "info" | "warning" | "danger";
+}
+
 interface MultiProgressBarProps extends BaseComponentProps {
-  values: {
-    value: number;
-    type?: "success" | "info" | "warning" | "danger";
-  }[];
+  values: MultiProgressBarValue[];
   max: number;
   color?: string;
 }
@@ -78,7 +80,7 @@ export const MultiProgressBar = ({
             <div
               key={index}
               className={classNames(styles.value, styles[value.type || ""])}
-              style={{ width: `${progress}%`, color }}
+              style={{ width: `${progress}%`, color, zIndex: 10 - index }}
             ></div>
           );
         })}

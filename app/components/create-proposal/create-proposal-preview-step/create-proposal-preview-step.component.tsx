@@ -6,8 +6,9 @@ import Wrapper from "@components/create-proposal/wrapper/wrapper.component";
 import { CreateProposalFormStepEnum } from "@interfaces/create-proposal.interface";
 import { useCallback, useMemo, useState } from "react";
 import { Address } from "viem";
-import { useWriteContract } from "wagmi";
 import styles from "./create-proposal-preview-step.module.scss";
+import { useSimulateContract, useWriteContract } from "wagmi";
+import { govenorContract } from "@/app/helpers/contracts";
 
 const formStep = CreateProposalFormStepEnum.preview;
 
@@ -57,7 +58,7 @@ export const CreateProposalPreviewStep = () => {
 
   const onSave = useCallback(() => {
     writeContract({
-      address: "0xc1d32e3bac67b28d31d7828c8ff160e44c37be1c",
+      address: govenorContract,
       abi: GovernorABI,
       functionName: "propose",
       args: [

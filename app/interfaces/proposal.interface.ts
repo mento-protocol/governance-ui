@@ -8,6 +8,7 @@ export default interface IProposal {
   state: ProposalState;
   votesTotal: number;
   votesYes: number;
+  endBlock: BigInt | string;
   votesNo: number;
   creator?: string;
   createdAt: Date;

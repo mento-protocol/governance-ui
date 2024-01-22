@@ -13,6 +13,7 @@ import IProposal, {
 import classNames from "classnames";
 import Link from "next/link";
 import styles from "./proposals-list.module.scss";
+import addDays from "date-fns/addDays";
 
 interface ProposalsListProps extends BaseComponentProps {}
 
@@ -20,19 +21,19 @@ export const ProposalsListComponent = ({
   className,
   style,
 }: ProposalsListProps) => {
-  // const { isFetching, proposals, fetch } = useProposalsListStore();
   const { data } = useSuspenseQuery(GetProposals);
   const proposals: Array<IProposal> = data?.proposals.map((proposal) => ({
     id: proposal.proposalId,
     title: proposal.metadata!.title,
     description: proposal.metadata!.description,
     state: proposal.state,
+    endBlock: proposal.endBlock,
     votesTotal: 0,
     votesYes: 0,
     votesNo: 0,
     creator: "",
     createdAt: new Date(),
-    deadlineAt: new Date(),
+    deadlineAt: addDays(new Date(), 14),
   }));
 
   useProposalStates(data?.proposals);

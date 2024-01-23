@@ -110,6 +110,7 @@ const singleProposal: IProposal = {
   votesYes: 2700,
   votesNo: 1400,
   votesTotal: 4100,
+  endBlock: 9898989898n,
   createdAt: addDays(new Date(), Math.round(Math.random() * 10) * -1),
   deadlineAt: addDays(new Date(), Math.round(Math.random() * 10)),
   creator: "Andrzej",

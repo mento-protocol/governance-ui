@@ -2,7 +2,7 @@ import { ConnectButton, MentoLock } from "@components/_shared";
 import { CreateProposalFormStepEnum } from "@interfaces/create-proposal.interface";
 import Wrapper from "@components/create-proposal/wrapper/wrapper.component";
 import { useCreateProposalStore, useUserStore } from "@/app/store";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 const formStep = CreateProposalFormStepEnum.wallet;
 

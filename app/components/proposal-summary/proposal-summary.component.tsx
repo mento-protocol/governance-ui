@@ -18,8 +18,6 @@ const ProposalSummaryComponent = () => {
     args: [],
   });
 
-  console.log(contractData);
-
   const currentBlockNumber = useBlockNumber();
 
   const proposals: Array<IProposal> = data?.proposals.map((proposal) => ({
@@ -41,8 +39,6 @@ const ProposalSummaryComponent = () => {
   }, [proposals]);
 
   const activeProposalCount = useMemo(() => {
-    console.log(currentBlockNumber.data);
-    console.log(proposals.map((proposal) => proposal.endBlock));
     return proposals.filter(
       (proposal) =>
         !currentBlockNumber.data ||

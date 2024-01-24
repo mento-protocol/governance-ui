@@ -141,7 +141,6 @@ const createChainStateStore = () => {
             },
           ],
         });
-        console.log(results);
         const [mentoBalance, veMentoBalance] = results.map((result) =>
           result.result ? result.result : BigInt(0),
         );

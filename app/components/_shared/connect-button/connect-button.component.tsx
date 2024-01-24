@@ -122,7 +122,6 @@ export const ConnectButton = ({
       {({ account, chain, openConnectModal, mounted }) => {
         if (!mounted) return <></>;
         const connected = !!account && !!chain;
-        console.log(account);
 
         return (
           <>

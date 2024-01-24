@@ -13,7 +13,7 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
  * Therefore it is highly recommended to use the babel or swc plugin for production.
  */
 const documents = {
-    "query getProposals {\n  proposals {\n    id\n    proposalId\n    description\n    proposer {\n      id\n    }\n    supports {\n      id\n      weight\n    }\n    queued\n    canceled\n    executed\n    proposalCreated {\n      timestamp\n    }\n    metadata @client {\n      title\n      description\n    }\n    state @client\n  }\n}": types.GetProposalsDocument,
+    "query getProposals {\n  proposals {\n    id\n    proposalId\n    description\n    proposer {\n      id\n    }\n    supports {\n      id\n      weight\n      support\n    }\n    queued\n    canceled\n    executed\n    proposalCreated {\n      timestamp\n    }\n    metadata @client {\n      title\n      description\n    }\n    state @client\n    votesFor @client\n    votesAgainst @client\n    votesAbstain @client\n    votesTotal @client\n  }\n}": types.GetProposalsDocument,
 };
 
 /**
@@ -33,7 +33,7 @@ export function gql(source: string): unknown;
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function gql(source: "query getProposals {\n  proposals {\n    id\n    proposalId\n    description\n    proposer {\n      id\n    }\n    supports {\n      id\n      weight\n    }\n    queued\n    canceled\n    executed\n    proposalCreated {\n      timestamp\n    }\n    metadata @client {\n      title\n      description\n    }\n    state @client\n  }\n}"): (typeof documents)["query getProposals {\n  proposals {\n    id\n    proposalId\n    description\n    proposer {\n      id\n    }\n    supports {\n      id\n      weight\n    }\n    queued\n    canceled\n    executed\n    proposalCreated {\n      timestamp\n    }\n    metadata @client {\n      title\n      description\n    }\n    state @client\n  }\n}"];
+export function gql(source: "query getProposals {\n  proposals {\n    id\n    proposalId\n    description\n    proposer {\n      id\n    }\n    supports {\n      id\n      weight\n      support\n    }\n    queued\n    canceled\n    executed\n    proposalCreated {\n      timestamp\n    }\n    metadata @client {\n      title\n      description\n    }\n    state @client\n    votesFor @client\n    votesAgainst @client\n    votesAbstain @client\n    votesTotal @client\n  }\n}"): (typeof documents)["query getProposals {\n  proposals {\n    id\n    proposalId\n    description\n    proposer {\n      id\n    }\n    supports {\n      id\n      weight\n      support\n    }\n    queued\n    canceled\n    executed\n    proposalCreated {\n      timestamp\n    }\n    metadata @client {\n      title\n      description\n    }\n    state @client\n    votesFor @client\n    votesAgainst @client\n    votesAbstain @client\n    votesTotal @client\n  }\n}"];
 
 export function gql(source: string) {
   return (documents as any)[source] ?? {};

@@ -9,6 +9,7 @@ query getProposals {
     supports {
       id
       weight
+      support
     }
     queued
     canceled

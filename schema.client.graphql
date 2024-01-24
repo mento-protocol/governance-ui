@@ -19,5 +19,9 @@ enum ProposalState {
 
 extend type Proposal {
   state: ProposalState!
-  metadata: ProposalMetadata!
+  metadata: ProposalMetadata!,
+  votesFor: BigInt!,
+  votesAgainst: BigInt!,
+  votesAbstain: BigInt!,
+  votesTotal: BigInt!,
 }

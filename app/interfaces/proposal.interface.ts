@@ -6,9 +6,9 @@ export default interface IProposal {
   title: string;
   description: string;
   state: ProposalState;
+  votesFor: number;
+  votesAgainst: number;
   votesTotal: number;
-  votesYes: number;
-  votesNo: number;
   creator?: string;
   createdAt: Date;
   deadlineAt: Date;

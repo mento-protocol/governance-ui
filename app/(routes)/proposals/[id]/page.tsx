@@ -13,6 +13,7 @@ import {
   WalletAddressWithCopy,
 } from "@components/_shared";
 import { Countdown } from "@components/countdown/countdown.component";
+import { ProposalCurrentVotes } from "@components/proposal-current-votes/proposal-current-votes.component";
 import { VotesList } from "@components/votes-list/votes-list.component";
 import { stateToBadgeColorMap } from "@interfaces/proposal.interface";
 import { IVoteType } from "@interfaces/vote.interface";
@@ -102,9 +103,9 @@ const Page = ({ params }: { params: { id: string } }) => {
               </span>
             </div>
           </div>
-
           <div className="mt-x6 flex flex-col md:flex-row md:justify-between place-items-start gap-x1 ">
             <div className={classNames(styles.details, "flex-1")}>
+              <ProposalCurrentVotes className="mb-x6" />
               <h3 className="flex justify-center font-size-x6 line-height-x6 font-medium mb-x6">
                 Proposal Description
               </h3>

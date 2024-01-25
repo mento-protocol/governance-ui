@@ -45,11 +45,11 @@ export const ContractParams = () => {
 
           <ParamDisplay
             label="Voting period"
-            value={<span>{`${data?.votingPeriod} days`}</span>}
+            value={data ? <span>{`${data?.votingPeriod} days`}</span> : null}
           />
           <ParamDisplay
             label="Timelock"
-            value={<span>{`${data?.timelock} days`}</span>}
+            value={data ? <span>{`${data?.timelock} days`}</span> : null}
           />
         </div>
       </Card>
@@ -179,18 +179,7 @@ async function getGovernanceDetails(chain: Chain) {
   const governorContract = await createGovernance(provider);
 
   if (governorContract.address === "") {
-    return {
-      votingPeriod: null,
-      proposalDelay: null,
-      proposalThreshold: null,
-      quorumNeeded: null,
-    };
-    contracts: {
-      MentoGovernor: null;
-      MentoToken: null;
-      TimelockController: null;
-      Locking: null;
-    }
+    return null;
   }
 
   const timelockContractAddress = await governorContract.timelock();

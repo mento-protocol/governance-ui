@@ -2044,10 +2044,7 @@ export type Proposal = {
   state: ProposalState;
   supports: Array<ProposalSupport>;
   votecast: Array<VoteCast>;
-  votesAbstain: Scalars['BigInt']['output'];
-  votesAgainst: Scalars['BigInt']['output'];
-  votesFor: Scalars['BigInt']['output'];
-  votesTotal: Scalars['BigInt']['output'];
+  votes: ProposalVotes;
 };
 
 
@@ -2959,6 +2956,14 @@ export enum ProposalSupport_OrderBy {
   Votes = 'votes',
   Weight = 'weight'
 }
+
+export type ProposalVotes = {
+  __typename?: 'ProposalVotes';
+  votesAbstain: Scalars['BigInt']['output'];
+  votesAgainst: Scalars['BigInt']['output'];
+  votesFor: Scalars['BigInt']['output'];
+  votesTotal: Scalars['BigInt']['output'];
+};
 
 export type Proposal_Filter = {
   /** Filter for the block changed event. */
@@ -7287,7 +7292,7 @@ export enum _SubgraphErrorPolicy_ {
 export type GetProposalsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetProposalsQuery = { __typename?: 'Query', proposals: Array<{ __typename?: 'Proposal', id: string, proposalId: any, description: string, queued: boolean, canceled: boolean, executed: boolean, state: ProposalState, votesFor: any, votesAgainst: any, votesAbstain: any, votesTotal: any, proposer: { __typename?: 'Account', id: any }, supports: Array<{ __typename?: 'ProposalSupport', id: string, weight: any, support: number }>, proposalCreated: Array<{ __typename?: 'ProposalCreated', timestamp: any }>, metadata: { __typename?: 'ProposalMetadata', title: string, description: string } }> };
+export type GetProposalsQuery = { __typename?: 'Query', proposals: Array<{ __typename?: 'Proposal', id: string, proposalId: any, description: string, queued: boolean, canceled: boolean, executed: boolean, state: ProposalState, proposer: { __typename?: 'Account', id: any }, supports: Array<{ __typename?: 'ProposalSupport', id: string, weight: any, support: number }>, proposalCreated: Array<{ __typename?: 'ProposalCreated', timestamp: any }>, metadata: { __typename?: 'ProposalMetadata', title: string, description: string }, votes: { __typename?: 'ProposalVotes', votesFor: any, votesAgainst: any, votesAbstain: any, votesTotal: any } }> };
 
 
-export const GetProposalsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getProposals"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"proposals"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"proposalId"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"proposer"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}},{"kind":"Field","name":{"kind":"Name","value":"supports"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"weight"}},{"kind":"Field","name":{"kind":"Name","value":"support"}}]}},{"kind":"Field","name":{"kind":"Name","value":"queued"}},{"kind":"Field","name":{"kind":"Name","value":"canceled"}},{"kind":"Field","name":{"kind":"Name","value":"executed"}},{"kind":"Field","name":{"kind":"Name","value":"proposalCreated"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"timestamp"}}]}},{"kind":"Field","name":{"kind":"Name","value":"metadata"},"directives":[{"kind":"Directive","name":{"kind":"Name","value":"client"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"description"}}]}},{"kind":"Field","name":{"kind":"Name","value":"state"},"directives":[{"kind":"Directive","name":{"kind":"Name","value":"client"}}]},{"kind":"Field","name":{"kind":"Name","value":"votesFor"},"directives":[{"kind":"Directive","name":{"kind":"Name","value":"client"}}]},{"kind":"Field","name":{"kind":"Name","value":"votesAgainst"},"directives":[{"kind":"Directive","name":{"kind":"Name","value":"client"}}]},{"kind":"Field","name":{"kind":"Name","value":"votesAbstain"},"directives":[{"kind":"Directive","name":{"kind":"Name","value":"client"}}]},{"kind":"Field","name":{"kind":"Name","value":"votesTotal"},"directives":[{"kind":"Directive","name":{"kind":"Name","value":"client"}}]}]}}]}}]} as unknown as DocumentNode<GetProposalsQuery, GetProposalsQueryVariables>;
+export const GetProposalsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getProposals"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"proposals"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"proposalId"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"proposer"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}},{"kind":"Field","name":{"kind":"Name","value":"supports"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"weight"}},{"kind":"Field","name":{"kind":"Name","value":"support"}}]}},{"kind":"Field","name":{"kind":"Name","value":"queued"}},{"kind":"Field","name":{"kind":"Name","value":"canceled"}},{"kind":"Field","name":{"kind":"Name","value":"executed"}},{"kind":"Field","name":{"kind":"Name","value":"proposalCreated"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"timestamp"}}]}},{"kind":"Field","name":{"kind":"Name","value":"metadata"},"directives":[{"kind":"Directive","name":{"kind":"Name","value":"client"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"description"}}]}},{"kind":"Field","name":{"kind":"Name","value":"state"},"directives":[{"kind":"Directive","name":{"kind":"Name","value":"client"}}]},{"kind":"Field","name":{"kind":"Name","value":"votes"},"directives":[{"kind":"Directive","name":{"kind":"Name","value":"client"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"votesFor"}},{"kind":"Field","name":{"kind":"Name","value":"votesAgainst"}},{"kind":"Field","name":{"kind":"Name","value":"votesAbstain"}},{"kind":"Field","name":{"kind":"Name","value":"votesTotal"}}]}}]}}]}}]} as unknown as DocumentNode<GetProposalsQuery, GetProposalsQueryVariables>;

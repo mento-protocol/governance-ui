@@ -1,14 +1,12 @@
 import { BadgeType } from "@/app/types";
-import { ProposalState } from "@/app/graphql";
+import { ProposalState, ProposalVotes } from "@/app/graphql";
 
 export default interface IProposal {
   id: string;
   title: string;
   description: string;
   state: ProposalState;
-  votesFor: number;
-  votesAgainst: number;
-  votesTotal: number;
+  votes: ProposalVotes;
   creator?: string;
   createdAt: Date;
   deadlineAt: Date;

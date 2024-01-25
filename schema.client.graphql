@@ -1,5 +1,12 @@
 directive @client on FIELD
 
+type ProposalVotes {
+  votesFor: BigInt!,
+  votesAgainst: BigInt!,
+  votesAbstain: BigInt!,
+  votesTotal: BigInt!,
+}
+
 type ProposalMetadata {
   title: String!
   description: String!
@@ -20,8 +27,5 @@ enum ProposalState {
 extend type Proposal {
   state: ProposalState!
   metadata: ProposalMetadata!,
-  votesFor: BigInt!,
-  votesAgainst: BigInt!,
-  votesAbstain: BigInt!,
-  votesTotal: BigInt!,
+  votes: ProposalVotes!,
 }

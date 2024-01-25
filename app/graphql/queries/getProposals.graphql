@@ -22,9 +22,11 @@ query getProposals {
       description
     }
     state @client
-    votesFor @client
-    votesAgainst @client
-    votesAbstain @client
-    votesTotal @client
+    votes @client {
+      votesFor
+      votesAgainst
+      votesAbstain
+      votesTotal
+    }
   }
 }

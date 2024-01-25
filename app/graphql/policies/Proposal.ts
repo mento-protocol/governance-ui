@@ -45,7 +45,7 @@ export const ProposalPolicy: TypePolicy = {
         const supportsRef = readField<Array<ProposalSupport>>("supports");
         const supports = supportsRef?.map((supportRef) => {
           const support = readField("support", supportRef);
-          const weight: bigint | undefined = readField("weight", supportRef);
+          const weight: bigint = readField("weight", supportRef) || 0n;
           return {
             support,
             weight,
@@ -55,7 +55,7 @@ export const ProposalPolicy: TypePolicy = {
         const getVotesArray = (support: number) =>
           supports
             ?.filter((data) => data.support === support)
-            .map((data) => data.weight || 0n) || [];
+            .map((data) => data.weight) || [];
 
         const votesAgainstArr = getVotesArray(0);
         const votesForArr = getVotesArray(1);
@@ -65,7 +65,7 @@ export const ProposalPolicy: TypePolicy = {
         const votesFor = getCalculatedVotes(votesForArr);
         const votesAbstain = getCalculatedVotes(votesAbstainArr);
 
-        const votesTotal = votesFor - votesAgainst;
+        const votesTotal = votesFor + votesAgainst + votesAbstain;
 
         return {
           votesAgainst,

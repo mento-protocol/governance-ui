@@ -190,12 +190,12 @@ async function getGovernanceDetails(chain: Chain) {
 
   const timeLockDuration = await getTimeLockDurationInSecondsForChain(
     chain,
-    timelockContractAddress
+    timelockContractAddress,
   );
 
   const timelockInDays = convertSecondsToDays(Number(timeLockDuration));
   const votingPeriodInDays = convertSecondsToDays(
-    convertCeloBlocksToSeconds(Number(votingPeriod))
+    convertCeloBlocksToSeconds(Number(votingPeriod)),
   );
 
   return {
@@ -203,10 +203,10 @@ async function getGovernanceDetails(chain: Chain) {
     timelock: timelockInDays.toString(),
     proposalThreshold: NumbersService.parseNumericValue(
       proposalThreshold.toString(),
-      2
+      2,
     ).toString(),
     quorumNeeded: NumbersService.parseNumericValue(
-      quorumNeeded.toString()
+      quorumNeeded.toString(),
     ).toString(),
     contracts,
   };
@@ -214,7 +214,7 @@ async function getGovernanceDetails(chain: Chain) {
 
 async function getTimeLockDurationInSecondsForChain(
   chain: Chain,
-  timelockContractAddress: string
+  timelockContractAddress: string,
 ) {
   const timeLockControllerAbi = [
     {
@@ -262,7 +262,7 @@ function convertSecondsToDays(durationInSeconds: number): number {
 
 function useWindowWidth(): number {
   const [windowWidth, setWindowWidth] = React.useState<number>(
-    window.innerWidth
+    window.innerWidth,
   );
 
   React.useEffect(() => {

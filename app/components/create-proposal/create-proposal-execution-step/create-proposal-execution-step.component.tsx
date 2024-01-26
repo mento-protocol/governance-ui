@@ -6,6 +6,7 @@ import { useForm } from "react-hook-form";
 import { InferType, object, setLocale, string } from "yup";
 import { Textarea } from "@components/_shared";
 import { useCreateProposalStore } from "@/app/store";
+import { useEffect } from "react";
 
 const validationSchema = object({
   code: string().required().typeError("Invalid code"),
@@ -16,7 +17,7 @@ type FormData = InferType<typeof validationSchema>;
 const formStep = CreateProposalFormStepEnum.execution;
 
 export const CreateProposalExecutionStep = () => {
-  const { form } = useCreateProposalStore();
+  const { patchExecutionStep } = useCreateProposalStore();
 
   const {
     register,
@@ -35,6 +36,15 @@ export const CreateProposalExecutionStep = () => {
       default: "Value is required",
     },
   });
+
+  useEffect(() => {
+    const subscription = watch((value) => {
+      patchExecutionStep({
+        code: value.code || "",
+      });
+    });
+    return () => subscription.unsubscribe();
+  }, [watch, patchExecutionStep]);
 
   return (
     <Wrapper step={formStep} title="Execution Code">

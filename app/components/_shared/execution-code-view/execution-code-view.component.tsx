@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { MarkdownView, SeeAll } from "..";
+import { SeeAll } from "..";
 import styles from "./execution-code-view.module.scss";
 
 interface ExecutionCodeViewProps {

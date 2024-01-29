@@ -3,6 +3,7 @@ import { proposalToStateVar } from "@/app/hooks/useProposalStates";
 import { TypePolicy } from "@apollo/client/cache";
 
 type Votes = {
+  [key: string]: bigint;
   votesAgainst: bigint;
   votesFor: bigint;
   votesAbstain: bigint;
@@ -52,27 +53,35 @@ export const ProposalPolicy: TypePolicy = {
           };
         });
 
-        const getVotesArray = (support: number) =>
-          supports
-            ?.filter((data) => data.support === support)
-            .map((data) => data.weight) || [];
-
-        const votesAgainstArr = getVotesArray(0);
-        const votesForArr = getVotesArray(1);
-        const votesAbstainArr = getVotesArray(2);
-
-        const votesAgainst = getCalculatedVotes(votesAgainstArr);
-        const votesFor = getCalculatedVotes(votesForArr);
-        const votesAbstain = getCalculatedVotes(votesAbstainArr);
-
-        const votesTotal = votesFor + votesAgainst + votesAbstain;
-
-        return {
-          votesAgainst,
-          votesFor,
-          votesAbstain,
-          votesTotal,
+        const supportType: { [key: number]: string } = {
+          0: "votesAgainst",
+          1: "votesFor",
+          2: "votesAbstain",
         };
+
+        const reducedSupports = supports?.reduce(
+          (acc: Votes, support) => {
+            const key = supportType[Number(support.support)];
+            acc.votesTotal += BigInt(support.weight);
+            acc[key] += BigInt(support.weight);
+            return acc;
+          },
+          {
+            votesAgainst: 0n,
+            votesFor: 0n,
+            votesAbstain: 0n,
+            votesTotal: 0n,
+          },
+        );
+
+        return (
+          reducedSupports || {
+            votesAgainst: 0n,
+            votesFor: 0n,
+            votesAbstain: 0n,
+            votesTotal: 0n,
+          }
+        );
       },
     },
   },

@@ -10,6 +10,7 @@ import { stateToBadgeColorMap } from "@interfaces/proposal.interface";
 import classNames from "classnames";
 import Link from "next/link";
 import styles from "./proposals-list.module.scss";
+import { formatUnits } from "viem";
 
 interface ProposalsListProps extends BaseComponentProps {}
 
@@ -36,72 +37,88 @@ export const ProposalsListComponent = ({
             <div className={styles.header}>Votes against</div>
             <div className={styles.header}>Total votes</div>
           </div>
-          {data?.proposals.map(({ id, metadata, state, votes }, index) => (
-            <div key={index} className={classNames(styles.proposals_grid__row)}>
-              {!!index && <div className={styles.divider} />}
+          {data?.proposals.map(
+            ({ id, proposalId, metadata, state, votes }, index) => (
               <div
-                className={classNames(
-                  styles.proposals_grid__row__element,
-                  styles.first,
-                )}
+                key={index}
+                className={classNames(styles.proposals_grid__row)}
               >
-                <div className="flex gap-x3 place-items-center">
-                  <div className={styles.index}>
-                    {index + 1 <= 9 ? `0${index + 1}` : index + 1}
+                {!!index && <div className={styles.divider} />}
+                <div
+                  className={classNames(
+                    styles.proposals_grid__row__element,
+                    styles.first,
+                  )}
+                >
+                  <div className="flex gap-x3 place-items-center">
+                    <div className={styles.index}>{proposalId}</div>
+                    <Link
+                      className="flex-1"
+                      style={{ maxHeight: "3em" }}
+                      href={`/proposals/${id}`}
+                    >
+                      <p>
+                        {StringService.limitLength(
+                          `${metadata?.title}`,
+                          75,
+                          true,
+                        )}
+                      </p>
+                    </Link>
                   </div>
-                  <Link
-                    className="flex-1"
-                    style={{ maxHeight: "3em" }}
-                    href={`/proposals/${id}`}
+                </div>
+                <div
+                  className={classNames(
+                    styles.proposals_grid__row__element,
+                    "flex justify-center",
+                  )}
+                >
+                  <Badge
+                    className={classNames(
+                      styles.status,
+                      "uppercase font-medium",
+                    )}
+                    type={stateToBadgeColorMap[state]}
                   >
-                    <p>
-                      {StringService.limitLength(`${metadata.title}`, 75, true)}
-                    </p>
-                  </Link>
+                    {state?.toString()}
+                  </Badge>
+                </div>
+                <div
+                  className={classNames(styles.proposals_grid__row__element)}
+                >
+                  <ProgressBar
+                    type="success"
+                    className={styles.progress_bar}
+                    current={Number(formatUnits(votes.votesFor, 18))}
+                    max={Number(formatUnits(votes.votesTotal, 18))}
+                    valueFormat="alphabetic"
+                  />
+                </div>
+                <div
+                  className={classNames(styles.proposals_grid__row__element)}
+                >
+                  <ProgressBar
+                    type="danger"
+                    className={styles.progress_bar}
+                    current={Number(formatUnits(votes.votesAgainst, 18))}
+                    max={Number(formatUnits(votes.votesTotal, 18))}
+                    valueFormat="alphabetic"
+                  />
+                </div>
+                <div
+                  className={classNames(
+                    styles.proposals_grid__row__element,
+                    styles.last,
+                    "mb-3",
+                  )}
+                >
+                  {NumbersService.parseNumericValue(
+                    formatUnits(votes.votesTotal, 18),
+                  )}
                 </div>
               </div>
-              <div
-                className={classNames(
-                  styles.proposals_grid__row__element,
-                  "flex justify-center",
-                )}
-              >
-                <Badge
-                  className={classNames(styles.status, "uppercase font-medium")}
-                  type={stateToBadgeColorMap[state]}
-                >
-                  {state?.toString()}
-                </Badge>
-              </div>
-              <div className={classNames(styles.proposals_grid__row__element)}>
-                <ProgressBar
-                  type="success"
-                  className={styles.progress_bar}
-                  current={Number(votes.votesFor)}
-                  max={Number(votes.votesTotal)}
-                  valueFormat="alphabetic"
-                />
-              </div>
-              <div className={classNames(styles.proposals_grid__row__element)}>
-                <ProgressBar
-                  type="danger"
-                  className={styles.progress_bar}
-                  current={Number(votes.votesAgainst)}
-                  max={Number(votes.votesTotal)}
-                  valueFormat="alphabetic"
-                />
-              </div>
-              <div
-                className={classNames(
-                  styles.proposals_grid__row__element,
-                  styles.last,
-                  "mb-3",
-                )}
-              >
-                {NumbersService.parseNumericValue(Number(votes.votesTotal))}
-              </div>
-            </div>
-          ))}
+            ),
+          )}
         </div>
       </Card>
     </div>

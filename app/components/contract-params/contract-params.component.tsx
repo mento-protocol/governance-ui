@@ -1,32 +1,22 @@
 "use client";
 import React from "react";
 import classNames from "classnames";
-import { JsonRpcProvider } from "@ethersproject/providers";
 import Link from "next/link";
-import { Governance, getContractsByChainId } from "@mento-protocol/mento-sdk";
 import CopyToClipboard from "react-copy-to-clipboard";
-import { useQuery } from "@tanstack/react-query";
-import { readContract } from "viem/actions";
-import { celo } from "viem/chains";
-import { http, createClient } from "viem";
-import { type Chain } from "viem";
-import { useAccount } from "wagmi";
+import { ChainContract } from "viem";
+import { useAccount, useReadContracts } from "wagmi";
 
 import { Card } from "@components/_shared";
 import NumbersService from "@/app/helpers/numbers.service";
 import WalletHelper from "@/app/helpers/wallet.helper";
 import { CopyIcon } from "../_icons/copy.icon";
+import { TimelockControllerABI } from "@/app/abis/TimelockController";
+import { GovernorABI } from "@/app/abis/Governor";
+import { Celo } from "@/app/helpers/chains";
 
 export const ContractParams = () => {
-  const { chain } = useAccount();
-  const connectedChainOrMainnet = chain ?? celo;
-
-  const { data } = useQuery({
-    queryKey: [connectedChainOrMainnet],
-    queryFn: async () => {
-      return await getGovernanceDetails(connectedChainOrMainnet);
-    },
-  });
+  const governanceDetails = useGovernanceDetails();
+  const governorContractAddresses = useGovernanceContractAddresses();
 
   return (
     <div className="grid grid-cols-1 gap-x1 md:grid-cols-7 px-x4 pt-x4">
@@ -39,18 +29,18 @@ export const ContractParams = () => {
         <div className="flex flex-col flex-grow justify-between gap-[15px]">
           <ParamDisplay
             label="Proposal threshold"
-            value={data?.proposalThreshold}
+            value={governanceDetails?.proposalThreshold}
           />
-          <ParamDisplay label="Quorum needed" value={data?.quorumNeeded} />
+          <ParamDisplay
+            label="Quorum needed"
+            value={governanceDetails?.quorumNeeded}
+          />
 
           <ParamDisplay
             label="Voting period"
-            value={data ? <span>{`${data?.votingPeriod} days`}</span> : null}
+            value={governanceDetails?.votingPeriod}
           />
-          <ParamDisplay
-            label="Timelock"
-            value={data ? <span>{`${data?.timelock} days`}</span> : null}
-          />
+          <ParamDisplay label="Timelock" value={governanceDetails?.timelock} />
         </div>
       </Card>
       <Card className="md:col-span-4 flex flex-col">
@@ -61,11 +51,11 @@ export const ContractParams = () => {
         </Card.Header>
         <div className="flex flex-col flex-grow justify-between gap-[15px]">
           <ParamDisplay
-            label="Govener"
+            label="Governor"
             value={
-              data ? (
+              governorContractAddresses.governor ? (
                 <ContractAddressLinkWithCopy
-                  address={data?.contracts?.MentoGovernor}
+                  address={governorContractAddresses.governor}
                 />
               ) : null
             }
@@ -73,9 +63,9 @@ export const ContractParams = () => {
           <ParamDisplay
             label="Token"
             value={
-              data ? (
+              governorContractAddresses.mento ? (
                 <ContractAddressLinkWithCopy
-                  address={data?.contracts?.MentoToken}
+                  address={governorContractAddresses.mento}
                 />
               ) : null
             }
@@ -83,9 +73,9 @@ export const ContractParams = () => {
           <ParamDisplay
             label="Timelock"
             value={
-              data ? (
+              governorContractAddresses.timelock ? (
                 <ContractAddressLinkWithCopy
-                  address={data?.contracts?.TimelockController}
+                  address={governorContractAddresses.timelock}
                 />
               ) : null
             }
@@ -93,9 +83,9 @@ export const ContractParams = () => {
           <ParamDisplay
             label="Locker"
             value={
-              data ? (
+              governorContractAddresses.locking ? (
                 <ContractAddressLinkWithCopy
-                  address={data?.contracts?.Locking}
+                  address={governorContractAddresses.locking}
                 />
               ) : null
             }
@@ -130,22 +120,20 @@ const ContractAddressLinkWithCopy = ({
   className?: string;
 }) => {
   const { chain } = useAccount();
-  const connectedChainOrMainnet = chain ?? celo;
+  const connectedChainOrMainnet = chain ?? Celo;
   const blockExplorerUrl = connectedChainOrMainnet.blockExplorers?.default.url;
   const blockExplorerContractUrl = `${blockExplorerUrl}/address/${address}`;
   const windowWidth = useWindowWidth();
-  let length;
+  let addressLength = 30;
 
   if (!address) {
     return;
   }
 
   if (windowWidth <= 600) {
-    length = 15;
+    addressLength = 15;
   } else if (windowWidth <= 1200) {
-    length = 20;
-  } else {
-    length = 30;
+    addressLength = 20;
   }
 
   return (
@@ -153,8 +141,12 @@ const ContractAddressLinkWithCopy = ({
       {...restProps}
       className={classNames(className, "flex items-center gap-8")}
     >
-      <Link href={blockExplorerContractUrl}>
-        {WalletHelper.getShortAddress(address, length)}
+      <Link
+        target="_blank"
+        rel="nooppener noreferrer"
+        href={blockExplorerContractUrl}
+      >
+        {WalletHelper.getShortAddress(address, addressLength)}
       </Link>
       <CopyToClipboard text={address}>
         <div className="cursor-pointer">
@@ -165,99 +157,120 @@ const ContractAddressLinkWithCopy = ({
   );
 };
 
-async function createProvider(chain: Chain) {
-  const rpcUrl = chain.rpcUrls.default.http[0];
-  return new JsonRpcProvider(rpcUrl);
-}
+function useGovernanceDetails() {
+  const governanceContractAddresses = useGovernanceContractAddresses();
 
-async function createGovernance(provider: JsonRpcProvider) {
-  return new Governance(provider).getGovernorContract();
-}
+  const govenorContact = {
+    address: governanceContractAddresses.governor,
+    abi: GovernorABI,
+  } as const;
+  const timeLockContract = {
+    address: governanceContractAddresses.timelock,
+    abi: TimelockControllerABI,
+  } as const;
 
-async function getGovernanceDetails(chain: Chain) {
-  const provider = await createProvider(chain);
-  const governorContract = await createGovernance(provider);
+  const result = useReadContracts({
+    contracts: [
+      {
+        ...govenorContact,
+        functionName: "votingPeriod",
+      },
+      {
+        ...govenorContact,
+        functionName: "proposalThreshold",
+      },
+      {
+        ...govenorContact,
+        functionName: "quorumVotes",
+      },
+      {
+        ...timeLockContract,
+        functionName: "getMinDelay",
+      },
+    ],
+  });
 
-  if (governorContract.address === "") {
+  if (!result.data) {
     return null;
   }
 
-  const timelockContractAddress = await governorContract.timelock();
-  const votingPeriod = await governorContract.votingPeriod();
-  const proposalThreshold = await governorContract.proposalThreshold();
-  const quorumNeeded = await governorContract.quorumVotes();
-  const contracts = getContractsByChainId(chain.id);
+  const [
+    votingPeriodData,
+    proposalThresholdData,
+    quorumNeededData,
+    timeLockDurationData,
+  ] = result.data;
 
-  const timeLockDuration = await getTimeLockDurationInSecondsForChain(
-    chain,
-    timelockContractAddress,
-  );
+  const votingPeriod = formatParam(votingPeriodData, (value) => {
+    const votingPeriodInSeconds = convertCeloBlocksToSeconds(value);
+    return `${convertSecondsToDays(votingPeriodInSeconds)} days`;
+  });
 
-  const timelockInDays = convertSecondsToDays(Number(timeLockDuration));
-  const votingPeriodInDays = convertSecondsToDays(
-    convertCeloBlocksToSeconds(Number(votingPeriod)),
-  );
+  const timelock = formatParam(timeLockDurationData, (value) => {
+    return `${convertSecondsToDays(value)} days`;
+  });
+
+  // TODO: Confirm format of proposalThreshold and quorumNeeded
+  const proposalThreshold = formatParam(proposalThresholdData, (value) => {
+    return NumbersService.parseNumericValue(value.toString(), 2).toString();
+  });
+
+  const quorumNeeded = formatParam(quorumNeededData, (value) => {
+    return NumbersService.parseNumericValue(value.toString()).toString();
+  });
 
   return {
-    votingPeriod: votingPeriodInDays.toString(),
-    timelock: timelockInDays.toString(),
-    proposalThreshold: NumbersService.parseNumericValue(
-      proposalThreshold.toString(),
-      2,
-    ).toString(),
-    quorumNeeded: NumbersService.parseNumericValue(
-      quorumNeeded.toString(),
-    ).toString(),
-    contracts,
+    votingPeriod,
+    timelock,
+    proposalThreshold,
+    quorumNeeded,
   };
 }
 
-async function getTimeLockDurationInSecondsForChain(
-  chain: Chain,
-  timelockContractAddress: string,
-) {
-  const timeLockControllerAbi = [
-    {
-      inputs: [],
-      name: "getMinDelay",
-      outputs: [
-        {
-          internalType: "uint256",
-          name: "",
-          type: "uint256",
-        },
-      ],
-      stateMutability: "view",
-      type: "function",
-    },
-  ] as const;
+function useGovernanceContractAddresses() {
+  const { chain } = useAccount();
+  const connectedChainOrMainnet = chain ?? Celo;
 
-  const config = createClient({
-    chain,
-    transport: http(),
-  });
-  return await readContract(config, {
-    abi: timeLockControllerAbi,
-    address: timelockContractAddress as `0x${string}`,
-    functionName: "getMinDelay",
-  });
+  const governor = (
+    connectedChainOrMainnet.contracts?.governance! as ChainContract
+  ).address;
+  const timelock = (
+    connectedChainOrMainnet.contracts?.timelock! as ChainContract
+  ).address;
+  const locking = (connectedChainOrMainnet.contracts?.locking! as ChainContract)
+    .address;
+  const mento = (connectedChainOrMainnet.contracts?.mento! as ChainContract)
+    .address;
+  return {
+    governor,
+    timelock,
+    locking,
+    mento,
+  };
 }
 
-function convertCeloBlocksToSeconds(numBlocks: number): number {
-  const blocksPerWeek = 120960;
-  const secondsPerWeek = 7 * 24 * 60 * 60; // 7 days in seconds
-
-  // Calculate the duration of one block in seconds
-  const secondsPerBlock = secondsPerWeek / blocksPerWeek;
-
-  // Calculate total duration in seconds for the given number of blocks
-  return numBlocks * secondsPerBlock;
+function convertCeloBlocksToSeconds(
+  numBlocks: string | bigint | number,
+): number {
+  // Based on the 120960 blocks per week calulation used in governance contracts
+  const CELO_SECONDS_PER_BLOCK = 5;
+  return Number(numBlocks) * CELO_SECONDS_PER_BLOCK;
 }
 
-function convertSecondsToDays(durationInSeconds: number): number {
+function convertSecondsToDays(
+  durationInSeconds: string | bigint | number,
+): number {
   const secondsPerDay = 24 * 60 * 60;
-  const days = durationInSeconds / secondsPerDay;
+  const days = Number(durationInSeconds) / secondsPerDay;
   return Math.floor(days);
+}
+
+function formatParam(data: any, formatter: (value: string | number) => string) {
+  if (data.result !== undefined) {
+    return formatter(data.result);
+  }
+
+  return null;
 }
 
 function useWindowWidth(): number {

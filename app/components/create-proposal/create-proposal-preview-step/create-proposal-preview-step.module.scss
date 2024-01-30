@@ -1,0 +1,42 @@
+@import "@/app/brand";
+
+.container {
+  .title {
+    margin-top: 5 * $theme-unit;
+    text-align: center;
+    font-size: 8 * $theme-unit;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 8 * $theme-unit;
+  }
+
+  .form_data_title {
+    margin: 5 * $theme-unit 0;
+    display: flex;
+    justify-content: center;
+    font-size: 6 * $theme-unit;
+    line-height: 6 * $theme-unit;
+    font-weight: 500
+  }
+
+  .button_wrapper {
+    width: 100%;
+    text-align: center;
+
+    button {
+      color: $c-primary;
+      text-align: center;
+      font-size: 4 * $theme-unit;
+      font-style: normal;
+      font-weight: 400;
+      line-height: 100%; 
+      text-align: center;
+    }
+  }
+
+  .execution {
+    border-radius: 8px;
+    border: 1px solid $c-lightGrey;
+    padding: 4 * $theme-unit;
+  }
+}

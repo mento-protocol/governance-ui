@@ -1,0 +1,32 @@
+query getProposal($id: BigInt) {
+  proposals(where: { proposalId: $id }) {
+    id
+    proposalId
+    description
+    proposer {
+      id
+    }
+    supports {
+      id
+      weight
+      support
+    }
+    queued
+    canceled
+    executed
+    proposalCreated {
+      timestamp
+    }
+    metadata @client {
+      title
+      description
+    }
+    state @client
+    votes @client {
+      votesFor
+      votesAgainst
+      votesAbstain
+      votesTotal
+    }
+  }
+}

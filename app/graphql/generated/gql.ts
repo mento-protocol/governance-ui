@@ -13,6 +13,7 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
  * Therefore it is highly recommended to use the babel or swc plugin for production.
  */
 const documents = {
+    "query getProposal($id: BigInt) {\n  proposals(where: {proposalId: $id}) {\n    id\n    proposalId\n    description\n    proposer {\n      id\n    }\n    supports {\n      id\n      weight\n      support\n    }\n    queued\n    canceled\n    executed\n    proposalCreated {\n      timestamp\n    }\n    metadata @client {\n      title\n      description\n    }\n    state @client\n    votes @client {\n      votesFor\n      votesAgainst\n      votesAbstain\n      votesTotal\n    }\n  }\n}": types.GetProposalDocument,
     "query getProposals {\n  proposals {\n    id\n    proposalId\n    description\n    proposer {\n      id\n    }\n    supports {\n      id\n      weight\n      support\n    }\n    queued\n    canceled\n    executed\n    proposalCreated {\n      timestamp\n    }\n    endBlock\n    metadata @client {\n      title\n      description\n    }\n    state @client\n    votes @client {\n      votesFor\n      votesAgainst\n      votesAbstain\n      votesTotal\n    }\n  }\n}": types.GetProposalsDocument,
 };
 
@@ -30,6 +31,10 @@ const documents = {
  */
 export function gql(source: string): unknown;
 
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: "query getProposal($id: BigInt) {\n  proposals(where: {proposalId: $id}) {\n    id\n    proposalId\n    description\n    proposer {\n      id\n    }\n    supports {\n      id\n      weight\n      support\n    }\n    queued\n    canceled\n    executed\n    proposalCreated {\n      timestamp\n    }\n    metadata @client {\n      title\n      description\n    }\n    state @client\n    votes @client {\n      votesFor\n      votesAgainst\n      votesAbstain\n      votesTotal\n    }\n  }\n}"): (typeof documents)["query getProposal($id: BigInt) {\n  proposals(where: {proposalId: $id}) {\n    id\n    proposalId\n    description\n    proposer {\n      id\n    }\n    supports {\n      id\n      weight\n      support\n    }\n    queued\n    canceled\n    executed\n    proposalCreated {\n      timestamp\n    }\n    metadata @client {\n      title\n      description\n    }\n    state @client\n    votes @client {\n      votesFor\n      votesAgainst\n      votesAbstain\n      votesTotal\n    }\n  }\n}"];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

@@ -3,7 +3,7 @@ import React from "react";
 import classNames from "classnames";
 import Link from "next/link";
 import CopyToClipboard from "react-copy-to-clipboard";
-import { ChainContract } from "viem";
+import { ChainContract, formatUnits } from "viem";
 import { useAccount, useReadContracts } from "wagmi";
 
 import { Card } from "@components/_shared";
@@ -210,13 +210,12 @@ function useGovernanceDetails() {
     return `${convertSecondsToDays(value)} days`;
   });
 
-  // TODO: Confirm format of proposalThreshold and quorumNeeded
   const proposalThreshold = formatParam(proposalThresholdData, (value) => {
-    return NumbersService.parseNumericValue(value.toString(), 2).toString();
+    return formatUnits(BigInt(value), 18);
   });
 
   const quorumNeeded = formatParam(quorumNeededData, (value) => {
-    return NumbersService.parseNumericValue(value.toString()).toString();
+    return Math.round(Number(formatUnits(BigInt(value), 18))).toString();
   });
 
   return {
@@ -247,7 +246,7 @@ function useGovernanceContractAddresses() {
 }
 
 function convertCeloBlocksToSeconds(
-  numBlocks: string | bigint | number
+  numBlocks: string | bigint | number,
 ): number {
   // Based on the 120960 blocks per week calulation used in governance contracts
   const CELO_SECONDS_PER_BLOCK = 5;
@@ -255,14 +254,17 @@ function convertCeloBlocksToSeconds(
 }
 
 function convertSecondsToDays(
-  durationInSeconds: string | bigint | number
+  durationInSeconds: string | bigint | number,
 ): number {
   const secondsPerDay = 24 * 60 * 60;
   const days = Number(durationInSeconds) / secondsPerDay;
   return Math.floor(days);
 }
 
-function formatParam(data: any, formatter: (value: string | number) => string) {
+function formatParam(
+  data: any,
+  formatter: (value: string | number | bigint) => string,
+) {
   if (data.result !== undefined) {
     return formatter(data.result);
   }
@@ -272,7 +274,7 @@ function formatParam(data: any, formatter: (value: string | number) => string) {
 
 function useWindowWidth(): number {
   const [windowWidth, setWindowWidth] = React.useState<number>(
-    window.innerWidth
+    window.innerWidth,
   );
 
   React.useEffect(() => {

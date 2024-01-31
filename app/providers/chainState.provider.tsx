@@ -37,7 +37,7 @@ export const ChainStateProvider = ({ children }: ChainStateProviderProps) => {
       state.chainId !== chainId ||
       state.wallet != account.address
     ) {
-      state.init(chainId, contracts, account.address!, client);
+      state.init(chainId, contracts!, account.address!, client);
     }
   }, [chainId, contracts, account, client]);
 

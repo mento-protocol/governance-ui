@@ -48,14 +48,14 @@ export const Baklava: MentoChain = {
   },
   testnet: true,
   contracts: {
-    ...transformToChainContracts(addresses[celoAlfajores.id]),
+    ...transformToChainContracts(addresses[62320]),
   },
 };
 
 /**
- * Transform the mento contract addresses to the format used by Viem.
- * @param contractAddresses The mento contract addresses.
- * @returns The transformed mento contract addresses.
+ * Transforms the specified Mento contract addresses to the format used by Viem.
+ * @param contractAddresses The Mento contract addresses to be transformed.
+ * @returns Mento contract addresses in the format used by Viem.
  */
 function transformToChainContracts(
   contractAddresses: ContractAddresses,

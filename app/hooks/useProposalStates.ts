@@ -50,7 +50,7 @@ export const useProposalStates = (
 ) => {
   const { data, isError, isLoading } = useReadContracts({
     contracts: proposals.map((proposal) => ({
-      // TODO: Add propper address
+      // TODO: load address from Chain object
       address: "0xc1d32e3bac67b28d31d7828c8ff160e44c37be1c",
       abi: GovernorABI,
       functionName: "state",

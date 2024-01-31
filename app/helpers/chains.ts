@@ -1,7 +1,16 @@
+import { ChainContract } from "viem";
 import { Chain, celoAlfajores } from "viem/chains";
 import { celo } from "viem/chains";
 
-export const Celo: Chain = {
+export type MentoChain = Chain & {
+  contracts: Chain["contracts"] & {
+    mento: ChainContract;
+    governance: ChainContract;
+    locking: ChainContract;
+  };
+};
+
+export const Celo: MentoChain = {
   ...celo,
   // iconUrl: "https://rainbowkit-with-celo.vercel.app/icons/celo.svg",
   // iconBackground: "#fff",
@@ -22,7 +31,7 @@ export const Celo: Chain = {
   },
 };
 
-export const Alfajores: Chain = {
+export const Alfajores: MentoChain = {
   ...celoAlfajores,
   // iconUrl: "https://rainbowkit-with-celo.vercel.app/icons/alfajores.svg",
   // iconBackground: "#fff",
@@ -43,7 +52,7 @@ export const Alfajores: Chain = {
   },
 };
 
-export const Baklava: Chain = {
+export const Baklava: MentoChain = {
   id: 62320,
   name: "Baklava",
   // network: "Baklava Testnet",

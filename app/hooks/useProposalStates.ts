@@ -23,6 +23,7 @@ import { Proposal, ProposalState, Scalars } from "@/app/graphql";
 import { useEffect } from "react";
 import { useReadContracts } from "wagmi";
 import { GovernorABI } from "@/app/abis/Governor";
+import { useContracts } from "./useContracts";
 
 type ProposalID = Scalars["ID"]["output"];
 type ProposalToState = Record<ProposalID, ProposalState>;
@@ -48,10 +49,10 @@ export const isStateNumber = (value: any): value is StateNumber => {
 export const useProposalStates = (
   proposals: Pick<Proposal, "proposalId">[],
 ) => {
+  const contracts = useContracts();
   const { data, isError, isLoading } = useReadContracts({
     contracts: proposals.map((proposal) => ({
-      // TODO: load address from Chain object
-      address: "0xc1d32e3bac67b28d31d7828c8ff160e44c37be1c",
+      address: contracts.governance.address,
       abi: GovernorABI,
       functionName: "state",
       args: [proposal.proposalId],

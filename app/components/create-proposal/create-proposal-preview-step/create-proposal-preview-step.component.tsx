@@ -21,6 +21,7 @@ type ProposalCreateParams = {
 
 export const CreateProposalPreviewStep = () => {
   const { form } = useCreateProposalStore();
+  const contracts = useContracts();
 
   const proposal: ProposalCreateParams = useMemo(() => {
     const { title, description } =
@@ -55,7 +56,7 @@ export const CreateProposalPreviewStep = () => {
 
   const onSave = useCallback(() => {
     writeContract({
-      address: "0xc1d32e3bac67b28d31d7828c8ff160e44c37be1c",
+      address: contracts.governor.address,
       abi: GovernorABI,
       functionName: "propose",
       args: [
@@ -67,7 +68,7 @@ export const CreateProposalPreviewStep = () => {
         JSON.stringify(proposal.metadata),
       ] as any,
     });
-  }, [writeContract, proposal]);
+  }, [writeContract, proposal, contracts.governor.address]);
 
   return (
     <Wrapper step={formStep} title="Preview your proposal" onSave={onSave}>

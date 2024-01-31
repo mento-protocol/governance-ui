@@ -1,5 +1,6 @@
 "use client";
 import { GovernorABI } from "@/app/abis/Governor";
+import { useContracts } from "@/app/hooks/useContracts";
 import { useCreateProposalStore } from "@/app/store";
 import { MarkdownView } from "@components/_shared";
 import Wrapper from "@components/create-proposal/wrapper/wrapper.component";
@@ -56,7 +57,7 @@ export const CreateProposalPreviewStep = () => {
 
   const onSave = useCallback(() => {
     writeContract({
-      address: contracts.governor.address,
+      address: contracts.governance.address,
       abi: GovernorABI,
       functionName: "propose",
       args: [
@@ -68,7 +69,7 @@ export const CreateProposalPreviewStep = () => {
         JSON.stringify(proposal.metadata),
       ] as any,
     });
-  }, [writeContract, proposal, contracts.governor.address]);
+  }, [writeContract, proposal, contracts.governance.address]);
 
   return (
     <Wrapper step={formStep} title="Preview your proposal" onSave={onSave}>

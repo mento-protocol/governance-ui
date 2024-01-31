@@ -1,6 +1,7 @@
-import { ChainContract } from "viem";
+import { Address, ChainContract } from "viem";
 import { Chain, celoAlfajores } from "viem/chains";
 import { celo } from "viem/chains";
+import { addresses } from "@mento-protocol/mento-sdk";
 
 export type MentoChain = Chain & {
   contracts: Chain["contracts"] & {
@@ -12,20 +13,18 @@ export type MentoChain = Chain & {
 
 export const Celo: MentoChain = {
   ...celo,
-  // iconUrl: "https://rainbowkit-with-celo.vercel.app/icons/celo.svg",
-  // iconBackground: "#fff",
   contracts: {
     ...celo.contracts,
     governance: {
-      address: "0x0",
+      address: addresses[celo.id].MentoGovernor as Address,
       blockCreated: 0,
     },
     mento: {
-      address: "0x0",
+      address: addresses[celo.id].MentoToken as Address,
       blockCreated: 0,
     },
     locking: {
-      address: "0x0",
+      address: addresses[celo.id].Locking as Address,
       blockCreated: 0,
     },
   },
@@ -33,20 +32,18 @@ export const Celo: MentoChain = {
 
 export const Alfajores: MentoChain = {
   ...celoAlfajores,
-  // iconUrl: "https://rainbowkit-with-celo.vercel.app/icons/alfajores.svg",
-  // iconBackground: "#fff",
   contracts: {
     ...celoAlfajores.contracts,
     governance: {
-      address: "0xc1d32e3bac67b28d31d7828c8ff160e44c37be1c",
+      address: addresses[celoAlfajores.id].MentoGovernor as Address,
       blockCreated: 21963087,
     },
     mento: {
-      address: "0xc88f553dc20fc78ce554bff97c2f4a4e5bdb0134",
+      address: addresses[celoAlfajores.id].MentoToken as Address,
       blockCreated: 21963087,
     },
     locking: {
-      address: "0x8e1707307f04ec9742ad3d8e6d88ae5f506f83ca",
+      address: addresses[celoAlfajores.id].Locking as Address,
       blockCreated: 21963087,
     },
   },
@@ -55,9 +52,6 @@ export const Alfajores: MentoChain = {
 export const Baklava: MentoChain = {
   id: 62320,
   name: "Baklava",
-  // network: "Baklava Testnet",
-  // iconUrl: "https://rainbowkit-with-celo.vercel.app/icons/baklava.svg",
-  // iconBackground: "#fff",
   nativeCurrency: {
     decimals: 18,
     name: "CELO",
@@ -84,16 +78,16 @@ export const Baklava: MentoChain = {
   testnet: true,
   contracts: {
     governance: {
-      address: "0x0",
-      blockCreated: 0,
+      address: addresses[62320].MentoGovernor as Address,
+      blockCreated: 21963087,
     },
     mento: {
-      address: "0x0",
-      blockCreated: 0,
+      address: addresses[62320].MentoToken as Address,
+      blockCreated: 21963087,
     },
     locking: {
-      address: "0x0",
-      blockCreated: 0,
+      address: addresses[62320].Locking as Address,
+      blockCreated: 21963087,
     },
   },
 };

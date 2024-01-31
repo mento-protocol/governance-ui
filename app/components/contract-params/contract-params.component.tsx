@@ -12,7 +12,7 @@ import WalletHelper from "@/app/helpers/wallet.helper";
 import { CopyIcon } from "../_icons/copy.icon";
 import { TimelockControllerABI } from "@/app/abis/TimelockController";
 import { GovernorABI } from "@/app/abis/Governor";
-import { Celo } from "@/app/helpers/chains";
+import { Celo, Baklava, Alfajores } from "@/app/helpers/chains";
 
 export const ContractParams = () => {
   const governanceDetails = useGovernanceDetails();
@@ -228,19 +228,16 @@ function useGovernanceDetails() {
 }
 
 function useGovernanceContractAddresses() {
-  const { chain } = useAccount();
-  const connectedChainOrMainnet = chain ?? Celo;
+  const { chain: connectedChain } = useAccount();
+  const supportedChains = [Celo, Baklava, Alfajores];
+  const isChainConnectedAndSupported =
+    connectedChain && supportedChains.includes(connectedChain);
+  const chain = isChainConnectedAndSupported ? connectedChain : Celo;
 
-  const governor = (
-    connectedChainOrMainnet.contracts?.governance! as ChainContract
-  ).address;
-  const timelock = (
-    connectedChainOrMainnet.contracts?.timelock! as ChainContract
-  ).address;
-  const locking = (connectedChainOrMainnet.contracts?.locking! as ChainContract)
-    .address;
-  const mento = (connectedChainOrMainnet.contracts?.mento! as ChainContract)
-    .address;
+  const governor = (chain.contracts?.governance! as ChainContract).address;
+  const timelock = (chain.contracts?.timelock! as ChainContract).address;
+  const locking = (chain.contracts?.locking! as ChainContract).address;
+  const mento = (chain.contracts?.mento! as ChainContract).address;
   return {
     governor,
     timelock,
@@ -250,7 +247,7 @@ function useGovernanceContractAddresses() {
 }
 
 function convertCeloBlocksToSeconds(
-  numBlocks: string | bigint | number,
+  numBlocks: string | bigint | number
 ): number {
   // Based on the 120960 blocks per week calulation used in governance contracts
   const CELO_SECONDS_PER_BLOCK = 5;
@@ -258,7 +255,7 @@ function convertCeloBlocksToSeconds(
 }
 
 function convertSecondsToDays(
-  durationInSeconds: string | bigint | number,
+  durationInSeconds: string | bigint | number
 ): number {
   const secondsPerDay = 24 * 60 * 60;
   const days = Number(durationInSeconds) / secondsPerDay;
@@ -275,7 +272,7 @@ function formatParam(data: any, formatter: (value: string | number) => string) {
 
 function useWindowWidth(): number {
   const [windowWidth, setWindowWidth] = React.useState<number>(
-    window.innerWidth,
+    window.innerWidth
   );
 
   React.useEffect(() => {

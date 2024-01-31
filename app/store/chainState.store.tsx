@@ -1,7 +1,7 @@
 import { Address, MulticallParameters, PublicClient, erc20Abi } from "viem";
 import { createStore } from "zustand";
 import { immer } from "zustand/middleware/immer";
-import { MentoChain } from "../helpers/chains";
+import { MentoChain } from "../types";
 
 interface TokenWithBalance {
   symbol: string;
@@ -136,13 +136,13 @@ export const createChainStateStore = () => {
               mento: {
                 symbol: "MENTO",
                 decimals: 18,
-                address: contracts.mento.address,
+                address: contracts.MentoToken.address,
                 balance: BigInt(0),
               },
               veMento: {
                 symbol: "veMENTO",
                 decimals: 18,
-                address: contracts.locking.address,
+                address: contracts.Locking.address,
                 balance: BigInt(0),
               },
             },

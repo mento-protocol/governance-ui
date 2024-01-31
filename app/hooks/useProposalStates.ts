@@ -52,7 +52,7 @@ export const useProposalStates = (
   const contracts = useContracts();
   const { data, isError, isLoading } = useReadContracts({
     contracts: proposals.map((proposal) => ({
-      address: contracts.governance.address,
+      address: contracts?.MentoGovernor.address,
       abi: GovernorABI,
       functionName: "state",
       args: [proposal.proposalId],

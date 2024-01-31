@@ -1,32 +1,14 @@
-import { Address, ChainContract } from "viem";
-import { Chain, celoAlfajores } from "viem/chains";
+import { Address } from "viem";
+import { celoAlfajores } from "viem/chains";
 import { celo } from "viem/chains";
-import { addresses } from "@mento-protocol/mento-sdk";
-
-export type MentoChain = Chain & {
-  contracts: Chain["contracts"] & {
-    mento: ChainContract;
-    governance: ChainContract;
-    locking: ChainContract;
-  };
-};
+import { addresses, ContractAddresses } from "@mento-protocol/mento-sdk";
+import { MentoChain, MentoChainContracts } from "../types";
 
 export const Celo: MentoChain = {
   ...celo,
   contracts: {
     ...celo.contracts,
-    governance: {
-      address: addresses[celo.id].MentoGovernor as Address,
-      blockCreated: 0,
-    },
-    mento: {
-      address: addresses[celo.id].MentoToken as Address,
-      blockCreated: 0,
-    },
-    locking: {
-      address: addresses[celo.id].Locking as Address,
-      blockCreated: 0,
-    },
+    ...transformToChainContracts(addresses[celo.id]),
   },
 };
 
@@ -34,18 +16,7 @@ export const Alfajores: MentoChain = {
   ...celoAlfajores,
   contracts: {
     ...celoAlfajores.contracts,
-    governance: {
-      address: addresses[celoAlfajores.id].MentoGovernor as Address,
-      blockCreated: 21963087,
-    },
-    mento: {
-      address: addresses[celoAlfajores.id].MentoToken as Address,
-      blockCreated: 21963087,
-    },
-    locking: {
-      address: addresses[celoAlfajores.id].Locking as Address,
-      blockCreated: 21963087,
-    },
+    ...transformToChainContracts(addresses[celoAlfajores.id]),
   },
 };
 
@@ -77,17 +48,26 @@ export const Baklava: MentoChain = {
   },
   testnet: true,
   contracts: {
-    governance: {
-      address: addresses[62320].MentoGovernor as Address,
-      blockCreated: 21963087,
-    },
-    mento: {
-      address: addresses[62320].MentoToken as Address,
-      blockCreated: 21963087,
-    },
-    locking: {
-      address: addresses[62320].Locking as Address,
-      blockCreated: 21963087,
-    },
+    ...transformToChainContracts(addresses[celoAlfajores.id]),
   },
 };
+
+/**
+ * Transform the mento contract addresses to the format used by Viem.
+ * @param contractAddresses The mento contract addresses.
+ * @returns The transformed mento contract addresses.
+ */
+function transformToChainContracts(
+  contractAddresses: ContractAddresses,
+): MentoChainContracts {
+  const chainContracts: Partial<MentoChainContracts> = {};
+
+  Object.keys(contractAddresses).forEach((key) => {
+    const contractKey = key as keyof ContractAddresses;
+    chainContracts[contractKey] = {
+      address: contractAddresses[contractKey] as Address,
+    };
+  });
+
+  return chainContracts as MentoChainContracts;
+}

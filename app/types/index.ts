@@ -1,3 +1,7 @@
+import { ChainContract } from "viem";
+import { Chain } from "viem/chains";
+import { ContractAddresses } from "@mento-protocol/mento-sdk";
+
 export type BadgeType =
   | "primary"
   | "secondary"
@@ -17,3 +21,11 @@ export type ButtonType =
   | "info"
   | "link"
   | "clear";
+
+export type MentoChainContracts = {
+  [K in keyof ContractAddresses]: ChainContract;
+};
+
+export type MentoChain = Chain & {
+  contracts: Chain["contracts"] & MentoChainContracts;
+};

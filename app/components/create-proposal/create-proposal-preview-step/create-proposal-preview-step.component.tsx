@@ -57,7 +57,7 @@ export const CreateProposalPreviewStep = () => {
 
   const onSave = useCallback(() => {
     writeContract({
-      address: contracts.governance.address,
+      address: contracts?.MentoGovernor.address as Address,
       abi: GovernorABI,
       functionName: "propose",
       args: [
@@ -69,7 +69,7 @@ export const CreateProposalPreviewStep = () => {
         JSON.stringify(proposal.metadata),
       ] as any,
     });
-  }, [writeContract, proposal, contracts.governance.address]);
+  }, [writeContract, proposal, contracts?.MentoGovernor.address]);
 
   return (
     <Wrapper step={formStep} title="Preview your proposal" onSave={onSave}>

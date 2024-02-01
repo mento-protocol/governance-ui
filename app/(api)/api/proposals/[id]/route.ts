@@ -1,5 +1,4 @@
 import { NextRequest } from "next/server";
-import IProposal from "@interfaces/proposal.interface";
 import addDays from "date-fns/addDays";
 import { ProposalState } from "@/app/graphql/generated/graphql";
 
@@ -102,7 +101,7 @@ The 100,000 USD amount is payable in ARB under the exchange rate on the day of t
 
 Note that the Rari Foundation will absorb costs related to the service and maintainance of the Protocol upkeep after the integration implementation.`;
 
-const singleProposal: IProposal = {
+const singleProposal: any = {
   id: "599ca521-df39-442f-937c-03b20bcafc2d",
   title: "Building  the Building the Future of NFTs: The Rarible Protocol",
   description: proposalDescription,

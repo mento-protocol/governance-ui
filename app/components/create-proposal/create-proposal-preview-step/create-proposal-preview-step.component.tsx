@@ -7,7 +7,7 @@ import { CreateProposalFormStepEnum } from "@interfaces/create-proposal.interfac
 import { useCallback, useMemo, useState } from "react";
 import { Address } from "viem";
 import styles from "./create-proposal-preview-step.module.scss";
-import { useSimulateContract, useWriteContract } from "wagmi";
+import { useWriteContract } from "wagmi";
 import { govenorContract } from "@/app/helpers/contracts";
 
 const formStep = CreateProposalFormStepEnum.preview;

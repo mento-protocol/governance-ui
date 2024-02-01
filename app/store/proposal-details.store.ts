@@ -1,6 +1,4 @@
 import { create } from "zustand";
-
-import IProposal from "@interfaces/proposal.interface";
 import { IVote, IVoteType } from "@interfaces/vote.interface";
 
 type ProposalVotesMap = {
@@ -8,13 +6,13 @@ type ProposalVotesMap = {
 };
 
 interface ProposalDetailsStore {
-  proposal?: IProposal;
+  proposal?: any;
   isFetching: boolean;
   fetch: (id: string) => Promise<void>;
   fetchVotes: () => Promise<void>;
   votes: ProposalVotesMap;
   vote: (type: IVoteType, value: number, address: string) => Promise<void>;
-  create: (proposal: IProposal) => Promise<void>;
+  create: (proposal: any) => Promise<void>;
 }
 
 export const useProposalDetailsStore = create<ProposalDetailsStore>(
@@ -31,13 +29,13 @@ export const useProposalDetailsStore = create<ProposalDetailsStore>(
 
       const proposalResponse = await fetch(`/api/proposals/${id}`);
 
-      const proposalResponseJson = await proposalResponse.json();
+      const proposalResponseJson = (await proposalResponse.json()) as any;
 
       const proposal = {
         ...proposalResponseJson,
         createdAt: new Date(proposalResponseJson.createdAt),
         deadlineAt: new Date(proposalResponseJson.deadlineAt),
-      } as IProposal;
+      } as any;
 
       set({ proposal });
       await get().fetchVotes();
@@ -52,7 +50,7 @@ export const useProposalDetailsStore = create<ProposalDetailsStore>(
 
       const votesResponse = await fetch(`/api/proposals/${id}/votes`);
 
-      const votesResponseJson = await votesResponse.json();
+      const votesResponseJson = (await votesResponse.json()) as IVote[];
 
       const votes: ProposalVotesMap = {
         for: votesResponseJson.filter((vote: IVote) => vote.type === "for"),

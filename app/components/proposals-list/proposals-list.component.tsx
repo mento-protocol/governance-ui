@@ -51,7 +51,7 @@ export const ProposalsListComponent = ({
                   )}
                 >
                   <div className="flex gap-x3 place-items-center">
-                    <div className={styles.index}>{proposalId}</div>
+                    {/* <div className={styles.index}>{proposalId}</div> */}
                     <Link
                       className="flex-1"
                       style={{ maxHeight: "3em" }}

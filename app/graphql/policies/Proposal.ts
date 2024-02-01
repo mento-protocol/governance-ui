@@ -3,15 +3,11 @@ import { proposalToStateVar } from "@/app/hooks/useProposalStates";
 import { TypePolicy } from "@apollo/client/cache";
 
 type Votes = {
-  [key: string]: bigint;
   votesAgainst: bigint;
   votesFor: bigint;
   votesAbstain: bigint;
   votesTotal: bigint;
 };
-
-const getCalculatedVotes = (votesArray: bigint[]) =>
-  votesArray?.reduce((acc, currVal) => BigInt(acc) + BigInt(currVal), 0n);
 
 export const ProposalPolicy: TypePolicy = {
   fields: {
@@ -43,8 +39,8 @@ export const ProposalPolicy: TypePolicy = {
     },
     votes: {
       read(_, { readField }): Votes {
-        const supportsRef = readField<Array<ProposalSupport>>("supports");
-        const supports = supportsRef?.map((supportRef) => {
+        const supportsRef = readField<Array<ProposalSupport>>("supports") || [];
+        const supports = supportsRef.map((supportRef) => {
           const support = readField("support", supportRef);
           const weight: bigint = readField("weight", supportRef) || 0n;
           return {
@@ -53,7 +49,7 @@ export const ProposalPolicy: TypePolicy = {
           };
         });
 
-        const supportType: { [key: number]: string } = {
+        const supportType: Record<number, keyof Votes> = {
           0: "votesAgainst",
           1: "votesFor",
           2: "votesAbstain",

@@ -2,16 +2,15 @@ import { GetProposals } from "@/app/graphql";
 import { useBlockNumber, useReadContract } from "wagmi";
 import { lockingContract } from "@/app/helpers/contracts";
 import { LockingABI } from "@/app/abis/Locking";
-import IProposal from "@interfaces/proposal.interface";
-import addDays from "date-fns/addDays";
 import { useMemo } from "react";
 import { useSuspenseQuery } from "@apollo/client";
 import NumbersService from "@/app/helpers/numbers.service";
 import { Card } from "@components/_shared";
+import { formatUnits } from "viem";
 
 const ProposalSummaryComponent = () => {
   const { data } = useSuspenseQuery(GetProposals);
-  const { data: contractData } = useReadContract({
+  const { data: totalSupply } = useReadContract({
     address: lockingContract,
     abi: LockingABI,
     functionName: "totalSupply",
@@ -20,31 +19,21 @@ const ProposalSummaryComponent = () => {
 
   const currentBlockNumber = useBlockNumber();
 
-  const proposals: Array<IProposal> = data?.proposals.map((proposal) => ({
-    id: proposal.proposalId,
-    title: proposal.metadata!.title,
-    description: proposal.metadata!.description,
-    state: proposal.state,
-    endBlock: proposal.endBlock,
-    votesTotal: 0,
-    votesYes: 0,
-    votesNo: 0,
-    creator: "",
-    createdAt: new Date(),
-    deadlineAt: addDays(new Date(), 14),
-  }));
+  const proposalsEndBlocks: Array<BigInt> = data?.proposals.map(
+    (proposal) => proposal.endBlock,
+  );
 
   const proposalCount = useMemo(() => {
-    return proposals.length;
-  }, [proposals]);
+    return proposalsEndBlocks.length;
+  }, [proposalsEndBlocks]);
 
   const activeProposalCount = useMemo(() => {
-    return proposals.filter(
-      (proposal) =>
+    return proposalsEndBlocks.filter(
+      (proposalEndBlock) =>
         !currentBlockNumber.data ||
-        BigInt(proposal.endBlock.toString()) > BigInt(currentBlockNumber.data),
+        BigInt(proposalEndBlock.toString()) > BigInt(currentBlockNumber.data),
     ).length;
-  }, [proposals, currentBlockNumber]);
+  }, [proposalsEndBlocks, currentBlockNumber]);
 
   return (
     <Card className="mt-8" block>
@@ -69,10 +58,7 @@ const ProposalSummaryComponent = () => {
         </div>
         <div className="flex flex-col justify-center place-items-center gap-x2">
           <div className="font-size-x6 line-height-x6 font-medium">
-            {NumbersService.parseNumericValue(
-              +(contractData?.toString() || 0),
-              3,
-            )}
+            {formatUnits(totalSupply || 0n, 3)}
           </div>
           <div className="font-size-x3">
             Total veMento

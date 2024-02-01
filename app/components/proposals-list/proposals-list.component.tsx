@@ -7,13 +7,12 @@ import { MentoIcon } from "@components/_icons";
 import { Card, ProgressBar } from "@components/_shared";
 import { Badge } from "@components/_shared/badge/badge.component";
 import BaseComponentProps from "@interfaces/base-component-props.interface";
-import IProposal, {
+import IListProposal, {
   stateToBadgeColorMap,
 } from "@interfaces/proposal.interface";
 import classNames from "classnames";
 import Link from "next/link";
 import styles from "./proposals-list.module.scss";
-import addDays from "date-fns/addDays";
 
 interface ProposalsListProps extends BaseComponentProps {}
 
@@ -22,19 +21,17 @@ export const ProposalsListComponent = ({
   style,
 }: ProposalsListProps) => {
   const { data } = useSuspenseQuery(GetProposals);
-  const proposals: Array<IProposal> = data?.proposals.map((proposal) => ({
+  const proposals: Array<IListProposal> = data?.proposals.map((proposal) => ({
     id: proposal.proposalId,
     title: proposal.metadata!.title,
     description: proposal.metadata!.description,
     state: proposal.state,
-    endBlock: proposal.endBlock,
     votesTotal: 0,
     votesYes: 0,
     votesNo: 0,
-    creator: "",
-    createdAt: new Date(),
-    deadlineAt: addDays(new Date(), 14),
   }));
+
+  console.log(data?.proposals);
 
   useProposalStates(data?.proposals);
 

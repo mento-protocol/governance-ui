@@ -19,6 +19,18 @@ export const Celo: Chain = {
       address: "0x0",
       blockCreated: 0,
     },
+    timelock: {
+      address: "0x0",
+      blockCreated: 0,
+    },
+    airgrab: {
+      address: "0x0",
+      blockCreated: 0,
+    },
+    emission: {
+      address: "0x0",
+      blockCreated: 0,
+    },
   },
 };
 
@@ -29,15 +41,27 @@ export const Alfajores: Chain = {
   contracts: {
     ...celoAlfajores.contracts,
     governance: {
-      address: "0xc1d32e3bac67b28d31d7828c8ff160e44c37be1c",
+      address: "0x84382a356c1Dc6ada21997E64dc72e5a7AcF5826",
       blockCreated: 21963087,
     },
     mento: {
-      address: "0xc88f553dc20fc78ce554bff97c2f4a4e5bdb0134",
+      address: "0x53De3F938c64baB8C621c8A3C5000b385afE2404",
       blockCreated: 21963087,
     },
     locking: {
-      address: "0x8e1707307f04ec9742ad3d8e6d88ae5f506f83ca",
+      address: "0x65a1271ce7B2ec8D564A4Bc752E13A36a46e81B8",
+      blockCreated: 21963087,
+    },
+    timelock: {
+      address: "0x2AFC4a1e7928Fb3bfC81076740d3142FF8B1DE05",
+      blockCreated: 21963087,
+    },
+    airgrab: {
+      address: "0x281fA47f59456fA04DF699539fA4b1F25e7769A3",
+      blockCreated: 21963087,
+    },
+    emission: {
+      address: "0x8D1267bFf3f8166AEB2B58217b74188d1fe326f3",
       blockCreated: 21963087,
     },
   },
@@ -83,6 +107,18 @@ export const Baklava: Chain = {
       blockCreated: 0,
     },
     locking: {
+      address: "0x0",
+      blockCreated: 0,
+    },
+    timelock: {
+      address: "0x0",
+      blockCreated: 0,
+    },
+    airgrab: {
+      address: "0x0",
+      blockCreated: 0,
+    },
+    emission: {
       address: "0x0",
       blockCreated: 0,
     },

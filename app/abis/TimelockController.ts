@@ -1,4 +1,3 @@
-// TODO: Get full ABI
 export const TimelockControllerABI = [
   {
     inputs: [],

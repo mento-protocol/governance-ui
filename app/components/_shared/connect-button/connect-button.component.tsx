@@ -14,6 +14,7 @@ import { useUserStore } from "@/app/store";
 import { useEffect } from "react";
 import { useChainState } from "@/app/providers/chainState.provider";
 import NumbersService from "@/app/helpers/numbers.service";
+import { formatUnits } from "viem";
 
 interface ConnectedDropdownProps extends BaseComponentProps {
   block?: boolean;
@@ -32,13 +33,8 @@ export const ConnectedDropdown = ({
   const { openChainModal } = useChainModal();
   const { openAccountModal } = useAccountModal();
 
-  const {
-    initWallet,
-    disconnectWallet,
-    isFetching,
-    isInitialized,
-    balanceMENTO,
-  } = useUserStore();
+  const { initWallet, disconnectWallet, isFetching, isInitialized } =
+    useUserStore();
 
   useEffect(() => {
     const connected = !!account && !!chain;
@@ -64,32 +60,15 @@ export const ConnectedDropdown = ({
         {chainStateReady ? (
           <div className={styles.wallet_addons}>
             <div className={styles.addon}>
-              <div className={styles.addon__title}>
-                {tokens.nativeCurrency.symbol}
-              </div>
-              <div className={styles.addon__value}>
-                {NumbersService.scaleBalance(
-                  tokens.nativeCurrency.balance,
-                  tokens.nativeCurrency.decimals,
-                )}
-              </div>
-            </div>
-            <div className={styles.addon}>
               <div className={styles.addon__title}>{tokens.mento.symbol}</div>
               <div className={styles.addon__value}>
-                {NumbersService.scaleBalance(
-                  tokens.mento.balance,
-                  tokens.mento.decimals,
-                )}
+                {formatUnits(tokens.mento.balance, tokens.mento.decimals)}
               </div>
             </div>
             <div className={styles.addon}>
               <div className={styles.addon__title}>{tokens.veMento.symbol}</div>
               <div className={styles.addon__value}>
-                {NumbersService.scaleBalance(
-                  tokens.veMento.balance,
-                  tokens.veMento.decimals,
-                )}
+                {formatUnits(tokens.veMento.balance, tokens.veMento.decimals)}
               </div>
             </div>
           </div>
@@ -121,7 +100,6 @@ export const ConnectButton = ({
       {({ account, chain, openConnectModal, mounted }) => {
         if (!mounted) return <></>;
         const connected = !!account && !!chain;
-        console.log(account);
 
         return (
           <>

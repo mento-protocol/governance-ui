@@ -17,6 +17,9 @@ const ProposalSummaryComponent = () => {
     args: [],
   });
 
+  console.log("lockingContract", lockingContract);
+  console.log("totalSupply", totalSupply);
+
   const currentBlockNumber = useBlockNumber();
 
   const proposalsEndBlocks: Array<BigInt> = data?.proposals.map(

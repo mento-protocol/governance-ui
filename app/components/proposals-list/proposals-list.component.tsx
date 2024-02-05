@@ -31,8 +31,6 @@ export const ProposalsListComponent = ({
     votesNo: 0,
   }));
 
-  console.log(data?.proposals);
-
   useProposalStates(data?.proposals);
 
   return (

@@ -35,6 +35,13 @@ const ProposalSummaryComponent = () => {
     ).length;
   }, [proposalsEndBlocks, currentBlockNumber]);
 
+  const getTotalSupplyParsed = useMemo(() => {
+    const formattedTotalSupply = formatUnits(totalSupply || 0n, 12);
+    const decimalsSplit = formattedTotalSupply.split(".");
+
+    return `${decimalsSplit[0]}${decimalsSplit[1] ? `.${decimalsSplit[1].slice(0, 3)}` : ""}T`;
+  }, [totalSupply]);
+
   return (
     <Card className="mt-8" block>
       <div className="flex flex-wrap gap-x6 m-x4 mr-x6 ml-x6 justify-between">
@@ -58,13 +65,9 @@ const ProposalSummaryComponent = () => {
         </div>
         <div className="flex flex-col justify-center place-items-center gap-x2">
           <div className="font-size-x6 line-height-x6 font-medium">
-            {formatUnits(totalSupply || 0n, 3)}
+            {getTotalSupplyParsed}
           </div>
-          <div className="font-size-x3">
-            Total veMento
-            <br />
-            Voting Power
-          </div>
+          <div className="font-size-x3">Total Supply</div>
         </div>
       </div>
     </Card>

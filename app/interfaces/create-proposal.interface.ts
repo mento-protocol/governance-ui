@@ -27,8 +27,8 @@ export interface CreateProposalFormStep<T> {
 
 export interface WalletProposalForm {
   walletAddress: FormField<string>;
-  balanceVeMENTO: FormField<number>;
-  balanceMENTO: FormField<number>;
+  balanceVeMENTO: FormField<bigint>;
+  balanceMENTO: FormField<bigint>;
 }
 
 export interface WalletContentForm {
@@ -54,12 +54,12 @@ export const initialCreateProposalForm: CreateProposalForm = {
         validate: (value: string) => !isNullOrWhitespace(value),
       },
       balanceMENTO: {
-        value: 0,
-        validate: (value: number) => value > 10,
+        value: 0n,
+        validate: (value: bigint) => value > 0,
       },
       balanceVeMENTO: {
-        value: 0,
-        validate: (value: number) => value > 2500,
+        value: 0n,
+        validate: (value: bigint) => value > 2500,
       },
     },
     isOpened: true,

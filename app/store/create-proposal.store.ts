@@ -21,8 +21,8 @@ interface CreateProposalStore {
   checkNavigateValidity: () => void;
   reset: () => void;
   patchWalletStep: (value: {
-    balanceVeMENTO: number;
-    balanceMENTO: number;
+    balanceVeMENTO: bigint;
+    balanceMENTO: bigint;
     walletAddress: string;
   }) => void;
   patchContentStep: (value: { title: string; description: string }) => void;

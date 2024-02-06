@@ -7,11 +7,13 @@ import {
   Badge,
   Button,
   Card,
+  ExecutionCodeView,
   Loader,
   TabList,
   WalletAddressWithCopy,
 } from "@components/_shared";
 import { Countdown } from "@components/countdown/countdown.component";
+import { ProposalCurrentVotes } from "@components/proposal-current-votes/proposal-current-votes.component";
 import { VotesList } from "@components/votes-list/votes-list.component";
 import { stateToBadgeColorMap } from "@interfaces/proposal.interface";
 import { IVoteType } from "@interfaces/vote.interface";
@@ -19,7 +21,6 @@ import classNames from "classnames";
 import { format } from "date-fns";
 import { useEffect, useState } from "react";
 import styles from "./page.module.scss";
-import { ProposalCurrentVotes } from "@components/proposal-current-votes/proposal-current-votes.component";
 
 const voteTypeToModalType = (voteType: IVoteType) => {
   switch (voteType) {
@@ -109,6 +110,8 @@ const Page = ({ params }: { params: { id: string } }) => {
                 Proposal Description
               </h3>
               <MarkdownView markdown={proposal.description} />
+              {/* add proper execution code data */}
+              <ExecutionCodeView code={proposal.description} />
             </div>
             <div className={styles.proposal_addons}>
               <div className={classNames(styles.mobile_controls)}>

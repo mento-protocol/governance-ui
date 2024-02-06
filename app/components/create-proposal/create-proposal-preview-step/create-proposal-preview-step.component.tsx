@@ -1,5 +1,6 @@
 "use client";
 import { GovernorABI } from "@/app/abis/Governor";
+import { useContracts } from "@/app/hooks/useContracts";
 import { useCreateProposalStore } from "@/app/store";
 import { MarkdownView } from "@components/_shared";
 import Wrapper from "@components/create-proposal/wrapper/wrapper.component";
@@ -21,6 +22,7 @@ type ProposalCreateParams = {
 
 export const CreateProposalPreviewStep = () => {
   const { form } = useCreateProposalStore();
+  const contracts = useContracts();
 
   const proposal: ProposalCreateParams = useMemo(() => {
     const { title, description } =
@@ -55,7 +57,7 @@ export const CreateProposalPreviewStep = () => {
 
   const onSave = useCallback(() => {
     writeContract({
-      address: "0xc1d32e3bac67b28d31d7828c8ff160e44c37be1c",
+      address: contracts?.MentoGovernor.address as Address,
       abi: GovernorABI,
       functionName: "propose",
       args: [
@@ -67,7 +69,7 @@ export const CreateProposalPreviewStep = () => {
         JSON.stringify(proposal.metadata),
       ] as any,
     });
-  }, [writeContract, proposal]);
+  }, [writeContract, proposal, contracts?.MentoGovernor.address]);
 
   return (
     <Wrapper step={formStep} title="Preview your proposal" onSave={onSave}>

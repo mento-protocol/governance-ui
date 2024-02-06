@@ -7,8 +7,8 @@ import Wrapper from "@components/create-proposal/wrapper/wrapper.component";
 import { CreateProposalFormStepEnum } from "@interfaces/create-proposal.interface";
 import { useCallback, useMemo, useState } from "react";
 import { Address } from "viem";
-import { useWriteContract } from "wagmi";
 import styles from "./create-proposal-preview-step.module.scss";
+import { useWriteContract } from "wagmi";
 
 const formStep = CreateProposalFormStepEnum.preview;
 

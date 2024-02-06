@@ -233,6 +233,7 @@ function useGovernanceContractAddresses() {
   const timelock = contracts.TimelockController.address;
   const locking = contracts.Locking.address;
   const mento = contracts.MentoToken.address;
+
   return {
     governor,
     timelock,

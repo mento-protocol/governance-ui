@@ -21,6 +21,7 @@ import classNames from "classnames";
 import { format } from "date-fns";
 import { useEffect, useState } from "react";
 import styles from "./page.module.scss";
+import { ProposalState } from "@/app/graphql";
 
 const voteTypeToModalType = (voteType: IVoteType) => {
   switch (voteType) {
@@ -65,7 +66,7 @@ const Page = ({ params }: { params: { id: string } }) => {
         <>
           <Badge
             className="uppercase mt-x6 mb-3 font-medium"
-            type={stateToBadgeColorMap[proposal.state]}
+            type={stateToBadgeColorMap[proposal.state as ProposalState]}
           >
             {proposal.state.toString()}
           </Badge>

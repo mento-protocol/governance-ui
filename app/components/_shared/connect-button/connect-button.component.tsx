@@ -13,7 +13,6 @@ import { ButtonType } from "@/app/types";
 import { useUserStore } from "@/app/store";
 import { useEffect } from "react";
 import { useChainState } from "@/app/providers/chainState.provider";
-import NumbersService from "@/app/helpers/numbers.service";
 import classNames from "classnames";
 import { formatUnits } from "viem";
 

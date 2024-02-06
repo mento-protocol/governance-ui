@@ -3,16 +3,16 @@ import React from "react";
 import classNames from "classnames";
 import Link from "next/link";
 import CopyToClipboard from "react-copy-to-clipboard";
-import { ChainContract, formatUnits } from "viem";
+import { formatUnits } from "viem";
 import { useAccount, useReadContracts } from "wagmi";
 
 import { Card } from "@components/_shared";
-import NumbersService from "@/app/helpers/numbers.service";
 import WalletHelper from "@/app/helpers/wallet.helper";
 import { CopyIcon } from "../_icons/copy.icon";
 import { TimelockControllerABI } from "@/app/abis/TimelockController";
 import { GovernorABI } from "@/app/abis/Governor";
-import { Celo, Baklava, Alfajores } from "@/app/helpers/chains";
+import { Celo } from "@/app/helpers/chains";
+import { useContracts } from "@/app/hooks/useContracts";
 
 export const ContractParams = () => {
   const governanceDetails = useGovernanceDetails();
@@ -227,16 +227,13 @@ function useGovernanceDetails() {
 }
 
 function useGovernanceContractAddresses() {
-  const { chain: connectedChain } = useAccount();
-  const supportedChains = [Celo, Baklava, Alfajores];
-  const isChainConnectedAndSupported =
-    connectedChain && supportedChains.includes(connectedChain);
-  const chain = isChainConnectedAndSupported ? connectedChain : Celo;
+  const contracts = useContracts();
 
-  const governor = (chain.contracts?.governance! as ChainContract).address;
-  const timelock = (chain.contracts?.timelock! as ChainContract).address;
-  const locking = (chain.contracts?.locking! as ChainContract).address;
-  const mento = (chain.contracts?.mento! as ChainContract).address;
+  const governor = contracts.MentoGovernor.address;
+  const timelock = contracts.TimelockController.address;
+  const locking = contracts.Locking.address;
+  const mento = contracts.MentoToken.address;
+
   return {
     governor,
     timelock,

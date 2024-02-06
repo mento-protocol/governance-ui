@@ -29,7 +29,7 @@
       }
 
       @include media-md {
-        grid-template-columns: 2fr 100px 150px 150px 150px;
+        grid-template-columns: minmax(150px,2fr) 100px 150px 150px 150px;
       }
 
       @include row-divider;
@@ -47,6 +47,7 @@
           text-align: left;
           overflow: hidden;
           text-overflow: ellipsis;
+          word-break: break-word;
           font-weight: 400;
         }
 
@@ -55,6 +56,12 @@
           margin-right: $theme-unit;
         }
 
+        .index {
+          text-align: center;
+          font-size: 5 * $theme-unit;
+          font-weight: 500;
+          line-height: 5 * $theme-unit;
+        }
         .status {
           min-width: 95px;
           display: flex;
@@ -84,7 +91,6 @@
           
           &:first-child {
             text-align: left;
-            margin-left: 13 * $theme-unit;
           }
 
           &:last-child {

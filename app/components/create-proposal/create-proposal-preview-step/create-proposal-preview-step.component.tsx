@@ -1,5 +1,6 @@
 "use client";
 import { GovernorABI } from "@/app/abis/Governor";
+import { useContracts } from "@/app/hooks/useContracts";
 import { useCreateProposalStore } from "@/app/store";
 import { ExecutionCodeView, MarkdownView, SeeAll } from "@components/_shared";
 import Wrapper from "@components/create-proposal/wrapper/wrapper.component";
@@ -8,7 +9,6 @@ import { useCallback, useMemo, useState } from "react";
 import { Address } from "viem";
 import styles from "./create-proposal-preview-step.module.scss";
 import { useWriteContract } from "wagmi";
-import { govenorContract } from "@/app/helpers/contracts";
 
 const formStep = CreateProposalFormStepEnum.preview;
 
@@ -24,6 +24,7 @@ type ProposalCreateParams = {
 export const CreateProposalPreviewStep = () => {
   const [isProposalPreviewOpen, setIsProposalPreviewOpen] = useState(false);
   const { form } = useCreateProposalStore();
+  const contracts = useContracts();
 
   const proposal: ProposalCreateParams = useMemo(() => {
     const { title, description } =
@@ -58,7 +59,7 @@ export const CreateProposalPreviewStep = () => {
 
   const onSave = useCallback(() => {
     writeContract({
-      address: govenorContract,
+      address: contracts?.MentoGovernor.address as Address,
       abi: GovernorABI,
       functionName: "propose",
       args: [
@@ -70,7 +71,7 @@ export const CreateProposalPreviewStep = () => {
         JSON.stringify(proposal.metadata),
       ] as any,
     });
-  }, [writeContract, proposal]);
+  }, [writeContract, proposal, contracts?.MentoGovernor.address]);
 
   return (
     <Wrapper

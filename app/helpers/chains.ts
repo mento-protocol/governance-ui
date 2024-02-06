@@ -1,78 +1,42 @@
-import { Chain, celoAlfajores } from "viem/chains";
+import { Address } from "viem";
+import { celoAlfajores } from "viem/chains";
 import { celo } from "viem/chains";
+import { addresses, ContractAddresses } from "@mento-protocol/mento-sdk";
+import { MentoChain, MentoChainContracts } from "../types";
 
-export const Celo: Chain = {
+export const Celo: MentoChain = {
   ...celo,
-  // iconUrl: "https://rainbowkit-with-celo.vercel.app/icons/celo.svg",
-  // iconBackground: "#fff",
   contracts: {
     ...celo.contracts,
-    governance: {
-      address: "0x0",
-      blockCreated: 0,
-    },
-    mento: {
-      address: "0x0",
-      blockCreated: 0,
-    },
-    locking: {
-      address: "0x0",
-      blockCreated: 0,
-    },
-    timelock: {
-      address: "0x0",
-      blockCreated: 0,
-    },
-    airgrab: {
-      address: "0x0",
-      blockCreated: 0,
-    },
-    emission: {
-      address: "0x0",
-      blockCreated: 0,
-    },
+    ...transformToChainContracts(addresses[celo.id]),
   },
 };
 
-export const Alfajores: Chain = {
+export const Alfajores: MentoChain = {
   ...celoAlfajores,
-  // iconUrl: "https://rainbowkit-with-celo.vercel.app/icons/alfajores.svg",
-  // iconBackground: "#fff",
   contracts: {
     ...celoAlfajores.contracts,
-    governance: {
-      address: "0x84382a356c1Dc6ada21997E64dc72e5a7AcF5826",
-      blockCreated: 21963087,
+    ...transformToChainContracts(addresses[celoAlfajores.id]),
+    //TODO: REMOVE ME POST SUBGRAPH UPDATE PLS :'(
+    //      Here we override the MentoGovernor and Locking contract addresses
+    //      To use the versions deployed by @bowd that have proposal and have
+    //      been indexed by the subgraph.
+    //      This should be removed once the subgraph is updated and the contracts
+    //      Have been seeded with some test proposals.
+    //      See comment here:
+    //      https://github.com/mento-protocol/governance-ui/pull/50#issue-2109977351
+    MentoGovernor: {
+      address: "0xc1d32e3bac67b28d31d7828c8ff160e44c37be1c",
     },
-    mento: {
-      address: "0x53De3F938c64baB8C621c8A3C5000b385afE2404",
-      blockCreated: 21963087,
-    },
-    locking: {
-      address: "0x65a1271ce7B2ec8D564A4Bc752E13A36a46e81B8",
-      blockCreated: 21963087,
-    },
-    timelock: {
-      address: "0x2AFC4a1e7928Fb3bfC81076740d3142FF8B1DE05",
-      blockCreated: 21963087,
-    },
-    airgrab: {
-      address: "0x281fA47f59456fA04DF699539fA4b1F25e7769A3",
-      blockCreated: 21963087,
-    },
-    emission: {
-      address: "0x8D1267bFf3f8166AEB2B58217b74188d1fe326f3",
-      blockCreated: 21963087,
+    Locking: {
+      address: "0x8E1707307f04eC9742AD3d8e6D88AE5F506F83cA",
     },
   },
 };
 
-export const Baklava: Chain = {
+export const Baklava: MentoChain = {
   id: 62320,
   name: "Baklava",
-  // network: "Baklava Testnet",
-  // iconUrl: "https://rainbowkit-with-celo.vercel.app/icons/baklava.svg",
-  // iconBackground: "#fff",
   nativeCurrency: {
     decimals: 18,
     name: "CELO",
@@ -98,29 +62,26 @@ export const Baklava: Chain = {
   },
   testnet: true,
   contracts: {
-    governance: {
-      address: "0x0",
-      blockCreated: 0,
-    },
-    mento: {
-      address: "0x0",
-      blockCreated: 0,
-    },
-    locking: {
-      address: "0x0",
-      blockCreated: 0,
-    },
-    timelock: {
-      address: "0x0",
-      blockCreated: 0,
-    },
-    airgrab: {
-      address: "0x0",
-      blockCreated: 0,
-    },
-    emission: {
-      address: "0x0",
-      blockCreated: 0,
-    },
+    ...transformToChainContracts(addresses[62320]),
   },
 };
+
+/**
+ * Transforms the specified Mento contract addresses to the format used by Viem.
+ * @param contractAddresses The Mento contract addresses to be transformed.
+ * @returns Mento contract addresses in the format used by Viem.
+ */
+function transformToChainContracts(
+  contractAddresses: ContractAddresses,
+): MentoChainContracts {
+  const chainContracts: Partial<MentoChainContracts> = {};
+
+  Object.keys(contractAddresses).forEach((key) => {
+    const contractKey = key as keyof ContractAddresses;
+    chainContracts[contractKey] = {
+      address: contractAddresses[contractKey] as Address,
+    };
+  });
+
+  return chainContracts as MentoChainContracts;
+}

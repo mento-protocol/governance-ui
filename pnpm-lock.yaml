@@ -21,8 +21,8 @@ dependencies:
     specifier: ^1.11.2
     version: 1.14.3(@codemirror/language@6.10.0)(@lezer/common@1.2.0)(@lezer/highlight@1.2.0)(@types/react-dom@18.2.18)(@types/react@18.2.47)(react-dom@18.2.0)(react@18.2.0)(yjs@13.6.10)
   '@mento-protocol/mento-sdk':
-    specifier: ^0.2.0
-    version: 0.2.0(ethers@5.7.2)
+    specifier: ^0.2.2
+    version: 0.2.2(ethers@5.7.2)
   '@rainbow-me/rainbowkit':
     specifier: 2.0.0-beta.1
     version: 2.0.0-beta.1(@types/react@18.2.47)(react-dom@18.2.0)(react@18.2.0)(viem@2.0.6)(wagmi@2.2.0)
@@ -2941,7 +2941,7 @@ packages:
       graphql: ^14.0.0 || ^15.0.0 || ^16.0.0 || ^17.0.0
     dependencies:
       graphql: 16.8.1
-      tslib: 2.6.2
+      tslib: 2.5.3
     dev: true
 
   /@graphql-tools/prisma-loader@8.0.2(@types/node@20.11.0)(graphql@16.8.1):
@@ -3000,7 +3000,7 @@ packages:
       '@ardatan/relay-compiler': 12.0.0(graphql@16.8.1)
       '@graphql-tools/utils': 10.0.12(graphql@16.8.1)
       graphql: 16.8.1
-      tslib: 2.6.2
+      tslib: 2.5.3
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -3605,17 +3605,17 @@ packages:
       - yjs
     dev: false
 
-  /@mento-protocol/mento-core-ts@0.2.0:
-    resolution: {integrity: sha512-7YV9hIvtc2VLPs9/DnqkXAIM5renG+dct+XTC4z8wf6YFoVJdQ0mU53Rpy6NeLiRmBLJCPNpYEJc4ptwLacOnw==}
+  /@mento-protocol/mento-core-ts@0.2.1:
+    resolution: {integrity: sha512-p99LMVVZ7VEHgirdjgUjDH1HA9810c8z+i0EzcgTPBK8TjkGY47aV2DDWknjETcjIYfXek7V/GYhwdjeKoqEbw==}
     dev: false
 
-  /@mento-protocol/mento-sdk@0.2.0(ethers@5.7.2):
-    resolution: {integrity: sha512-jIHFGNN0NisQEAyOc4Ezz4q81diiOKAWMB6Gny7xe0EzXXdSYkJJJNWZCgm9th2e0HY+Lc1eoP3OEU3DAgkxAA==}
+  /@mento-protocol/mento-sdk@0.2.2(ethers@5.7.2):
+    resolution: {integrity: sha512-yORrxenpUqhXQeYWOa0bwbnM9aEupOokYAQcdiwGa76rkZJ43bSNM36R0qzLbnJ4Xj3xzrz8aqjp//AacLNN2Q==}
     engines: {node: '>=14'}
     peerDependencies:
       ethers: ^5.7
     dependencies:
-      '@mento-protocol/mento-core-ts': 0.2.0
+      '@mento-protocol/mento-core-ts': 0.2.1
       ethers: 5.7.2
     dev: false
 

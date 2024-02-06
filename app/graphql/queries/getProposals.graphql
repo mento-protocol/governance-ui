@@ -9,6 +9,7 @@ query getProposals {
     supports {
       id
       weight
+      support
     }
     queued
     canceled
@@ -21,5 +22,11 @@ query getProposals {
       description
     }
     state @client
+    votes @client {
+      votesFor
+      votesAgainst
+      votesAbstain
+      votesTotal
+    }
   }
 }

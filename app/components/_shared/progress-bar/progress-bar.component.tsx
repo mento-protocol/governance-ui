@@ -26,13 +26,13 @@ interface MultiProgressBarProps extends BaseComponentProps {
 export const ProgressBar = ({
   className,
   style,
-  current,
+  current = 0,
   max,
   type,
   color,
   valueFormat,
 }: ProgressBarProps) => {
-  const progress = Math.floor((current / max) * 100);
+  const progress = max ? Math.floor((current / max) * 100) : 0;
 
   const parsedValue = useMemo(() => {
     if (!valueFormat) {

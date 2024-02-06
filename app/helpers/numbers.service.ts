@@ -1,5 +1,5 @@
 const T = 1000000000000;
-const B = 1000000000;
+const G = 1000000000;
 const M = 1000000;
 const K = 1000;
 
@@ -25,8 +25,8 @@ export default abstract class NumbersService {
     if (+value / T >= 1) {
       return `${(+value / T).toFixed((+value / T) % 1 ? precision : 0)}T`;
     }
-    if (+value / B >= 1) {
-      return `${(+value / B).toFixed((+value / B) % 1 ? precision : 0)}B`;
+    if (+value / G >= 1) {
+      return `${(+value / G).toFixed((+value / G) % 1 ? precision : 0)}G`;
     }
     if (+value / M >= 1) {
       return `${(+value / M).toFixed((+value / M) % 1 ? precision : 0)}M`;

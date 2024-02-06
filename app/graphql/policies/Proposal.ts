@@ -9,6 +9,19 @@ type Votes = {
   votesTotal: bigint;
 };
 
+const supportKey = (support: number): keyof Votes => {
+  switch (support) {
+    case 0:
+      return "votesAgainst";
+    case 1:
+      return "votesFor";
+    case 2:
+      return "votesAbstain";
+    default:
+      throw new Error(`Invalid support type: ${support.toString()}`);
+  }
+};
+
 export const ProposalPolicy: TypePolicy = {
   fields: {
     state: {
@@ -39,27 +52,21 @@ export const ProposalPolicy: TypePolicy = {
     },
     votes: {
       read(_, { readField }): Votes {
-        const supportsRef = readField<Array<ProposalSupport>>("supports") || [];
-        const supports = supportsRef.map((supportRef) => {
-          const support = readField("support", supportRef);
-          const weight: bigint = readField("weight", supportRef) || 0n;
-          return {
-            support,
-            weight,
-          };
-        });
+        const supportRefs = readField<Array<ProposalSupport>>("supports") || [];
+        return supportRefs.reduce(
+          (acc: Votes, supportRef) => {
+            const supportType = readField<ProposalSupport["support"]>(
+              "support",
+              supportRef,
+            );
+            const weight = readField<ProposalSupport["weight"]>(
+              "weight",
+              supportRef,
+            );
+            const key = supportKey(supportType!);
 
-        const supportType: Record<number, keyof Votes> = {
-          0: "votesAgainst",
-          1: "votesFor",
-          2: "votesAbstain",
-        };
-
-        const reducedSupports = supports?.reduce(
-          (acc: Votes, support) => {
-            const key = supportType[Number(support.support)];
-            acc.votesTotal += BigInt(support.weight);
-            acc[key] += BigInt(support.weight);
+            acc.votesTotal += weight;
+            acc[key] += weight;
             return acc;
           },
           {
@@ -68,15 +75,6 @@ export const ProposalPolicy: TypePolicy = {
             votesAbstain: 0n,
             votesTotal: 0n,
           },
-        );
-
-        return (
-          reducedSupports || {
-            votesAgainst: 0n,
-            votesFor: 0n,
-            votesAbstain: 0n,
-            votesTotal: 0n,
-          }
         );
       },
     },

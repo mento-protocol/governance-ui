@@ -18,9 +18,7 @@ export const ProposalsListComponent = ({
   className,
   style,
 }: ProposalsListProps) => {
-  // const { isFetching, proposals, fetch } = useProposalsListStore();
   const { data } = useSuspenseQuery(GetProposals);
-
   useProposalStates(data?.proposals);
 
   return (
@@ -38,7 +36,7 @@ export const ProposalsListComponent = ({
             <div className={styles.header}>Total votes</div>
           </div>
           {data?.proposals.map(
-            ({ id, proposalId, metadata, state, votes }, index) => (
+            ({ proposalId, metadata, state, votes }, index) => (
               <div
                 key={index}
                 className={classNames(styles.proposals_grid__row)}
@@ -51,11 +49,10 @@ export const ProposalsListComponent = ({
                   )}
                 >
                   <div className="flex gap-x3 place-items-center">
-                    {/* <div className={styles.index}>{proposalId}</div> */}
                     <Link
                       className="flex-1"
                       style={{ maxHeight: "3em" }}
-                      href={`/proposals/${id}`}
+                      href={`/proposals/${proposalId}`}
                     >
                       <p>
                         {StringService.limitLength(

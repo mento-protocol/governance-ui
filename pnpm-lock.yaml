@@ -11,6 +11,9 @@ dependencies:
   '@apollo/experimental-nextjs-app-support':
     specifier: ^0.6.0
     version: 0.6.0(@apollo/client@3.8.9)(next@14.0.4)(react@18.2.0)
+  '@ethersproject/providers':
+    specifier: ^5.7.2
+    version: 5.7.2
   '@hookform/resolvers':
     specifier: ^3.3.2
     version: 3.3.4(react-hook-form@7.49.3)

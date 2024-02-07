@@ -1,8 +1,29 @@
 @import "@/app/brand";
 
 .addon {
-  opacity: 0.5;
   font-size: 16px;
+
+  .power {
+    display: flex;
+    flex-direction: column;
+    font-style: normal;
+    font-weight: 400;
+    text-align: center;
+
+    &__title {
+      color: #A8A8A8; 
+      font-size: 4 * $theme-unit;
+      line-height: 4 * $theme-unit;
+    }
+
+    &__value{
+      margin-top: 3 * $theme-unit;
+      margin-bottom: 2 * $theme-unit;
+      color: #000;
+      font-size: 6 * $theme-unit;
+      line-height: 6 * $theme-unit;
+    }
+  }
 }
 
 .input {
@@ -107,6 +128,15 @@
       display: flex;
       justify-content: center;
       align-items: center;
+    }
+
+    .votes_title {
+      text-align: center;
+      font-size: 6 * $theme-unit;
+      font-style: normal;
+      font-weight: 500;
+      line-height: 6 * $theme-unit;
+      margin-bottom: 3 * $theme-unit;
     }
 
     @include media-md {

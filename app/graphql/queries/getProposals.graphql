@@ -9,6 +9,7 @@ query getProposals {
     supports {
       id
       weight
+      support
     }
     queued
     canceled
@@ -16,10 +17,17 @@ query getProposals {
     proposalCreated {
       timestamp
     }
+    endBlock
     metadata @client {
       title
       description
     }
     state @client
+    votes @client {
+      votesFor
+      votesAgainst
+      votesAbstain
+      votesTotal
+    }
   }
 }

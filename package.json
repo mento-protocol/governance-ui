@@ -7,11 +7,13 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "lint:fix": "next lint --fix"
+    "lint:fix": "next lint --fix",
+    "codegen": "graphql-codegen --config codegen.yaml"
   },
   "dependencies": {
     "@apollo/client": "^3.8.9",
     "@apollo/experimental-nextjs-app-support": "^0.6.0",
+    "@ethersproject/providers": "^5.7.2",
     "@hookform/resolvers": "^3.3.2",
     "@mdxeditor/editor": "^1.11.2",
     "@mento-protocol/mento-sdk": "^0.2.2",

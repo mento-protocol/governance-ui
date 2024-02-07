@@ -12,16 +12,27 @@ interface ProgressBarProps extends BaseComponentProps {
   valueFormat?: "localised" | "alphabetic";
 }
 
+export interface MultiProgressBarValue {
+  value: number;
+  type?: "success" | "info" | "warning" | "danger";
+}
+
+interface MultiProgressBarProps extends BaseComponentProps {
+  values: MultiProgressBarValue[];
+  max: number;
+  color?: string;
+}
+
 export const ProgressBar = ({
   className,
   style,
-  current,
+  current = 0,
   max,
   type,
   color,
   valueFormat,
 }: ProgressBarProps) => {
-  const progress = Math.floor((current / max) * 100);
+  const progress = max ? Math.floor((current / max) * 100) : 0;
 
   const parsedValue = useMemo(() => {
     if (!valueFormat) {
@@ -45,6 +56,34 @@ export const ProgressBar = ({
           className={classNames(styles.value, styles[type || ""])}
           style={{ width: `${progress}%`, color }}
         ></div>
+      </div>
+    </div>
+  );
+};
+
+export const MultiProgressBar = ({
+  className,
+  values,
+  max,
+  color,
+  style,
+}: MultiProgressBarProps) => {
+  return (
+    <div
+      className={classNames(styles.progress_bar_wrapper, className)}
+      style={style}
+    >
+      <div className={styles.progress_bar}>
+        {values.map((value, index) => {
+          const progress = Math.floor((value.value / max) * 100);
+          return (
+            <div
+              key={index}
+              className={classNames(styles.value, styles[value.type || ""])}
+              style={{ width: `${progress}%`, color, zIndex: 10 - index }}
+            ></div>
+          );
+        })}
       </div>
     </div>
   );

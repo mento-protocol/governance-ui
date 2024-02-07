@@ -1,33 +1,27 @@
 "use client";
-import { stateToBadgeColorMap } from "@interfaces/proposal.interface";
+import { MarkdownView } from "@/app/components/_shared/markdown-view/markdown-view.component";
+import useModal from "@/app/providers/modal.provider";
+import { useProposalDetailsStore, useUserStore } from "@/app/store";
 import {
   Avatar,
   Badge,
   Button,
   Card,
-  Input,
+  ExecutionCodeView,
   Loader,
   TabList,
   WalletAddressWithCopy,
 } from "@components/_shared";
 import { Countdown } from "@components/countdown/countdown.component";
-import { format } from "date-fns";
-import { useForm } from "react-hook-form";
-import styles from "./page.module.scss";
-import { InferType, number, object, setLocale } from "yup";
-import { yupResolver } from "@hookform/resolvers/yup";
+import { ProposalCurrentVotes } from "@components/proposal-current-votes/proposal-current-votes.component";
 import { VotesList } from "@components/votes-list/votes-list.component";
-import classNames from "classnames";
-import { useEffect, useState } from "react";
-import { MarkdownView } from "@/app/components/_shared/markdown-view/markdown-view.component";
-import useModal from "@/app/providers/modal.provider";
+import { stateToBadgeColorMap } from "@interfaces/proposal.interface";
 import { IVoteType } from "@interfaces/vote.interface";
-import { useProposalDetailsStore, useUserStore } from "@/app/store";
-
-const validationSchema = object({
-  votingPower: number().required().typeError("Invalid number").max(400),
-});
-type FormData = InferType<typeof validationSchema>;
+import classNames from "classnames";
+import { format } from "date-fns";
+import { useEffect, useState } from "react";
+import styles from "./page.module.scss";
+import { ProposalState } from "@/app/graphql";
 
 const voteTypeToModalType = (voteType: IVoteType) => {
   switch (voteType) {
@@ -42,7 +36,7 @@ const voteTypeToModalType = (voteType: IVoteType) => {
 };
 
 const Page = ({ params }: { params: { id: string } }) => {
-  const { showConfirm, showModal } = useModal();
+  const { showConfirm } = useModal();
 
   const { proposal, isFetching, fetch, vote } = useProposalDetailsStore();
   const { walletAddress, balanceVeMENTO } = useUserStore();
@@ -51,38 +45,15 @@ const Page = ({ params }: { params: { id: string } }) => {
     fetch(params.id);
   }, [params.id, fetch]);
 
-  setLocale({
-    mixed: {
-      default: "Invalid number",
-    },
-    number: {
-      max: ({ max }) => `Must not exceed ${max}`,
-    },
-  });
-
   const [votingOpened, setVotingOpened] = useState(false);
   const [votesListOpened, setVotesListOpened] = useState(false);
 
-  const {
-    register,
-    handleSubmit,
-    setValue,
-    formState: { errors, isValid },
-  } = useForm<FormData>({
-    resolver: yupResolver(validationSchema),
-    mode: "all",
-  });
-
-  const onSubmit = (data: FormData, voteType: IVoteType) => {
-    showConfirm(
-      `Are you sure you want to vote with ${data.votingPower} power?`,
-      {
-        modalType: voteTypeToModalType(voteType),
-      },
-    ).then((result) => {
+  const onSubmit = (voteType: IVoteType) => {
+    showConfirm(`Are you sure you want to vote with ${balanceVeMENTO} power?`, {
+      modalType: voteTypeToModalType(voteType),
+    }).then((result) => {
       if (result) {
-        setValue("votingPower", 0);
-        vote(voteType, data.votingPower, "xD");
+        vote(voteType, balanceVeMENTO, walletAddress || "");
       }
     });
   };
@@ -95,13 +66,13 @@ const Page = ({ params }: { params: { id: string } }) => {
         <>
           <Badge
             className="uppercase mt-x6 mb-3 font-medium"
-            type={stateToBadgeColorMap[proposal.state]}
+            type={stateToBadgeColorMap[proposal.state as ProposalState]}
           >
             {proposal.state.toString()}
           </Badge>
           <div className="flex flex-col md:grid md:grid-cols-7 gap-x1 ">
             <div className="md:col-start-1 md:col-span-4">
-              <h1 className="text-xl md:text-5xl font-semibold">
+              <h1 className="text-xl md:font-size-x11 md:line-height-x11 font-medium">
                 {proposal.title}
               </h1>
             </div>
@@ -112,29 +83,36 @@ const Page = ({ params }: { params: { id: string } }) => {
               />
             </div>
           </div>
-          <div className="flex flex-wrap place-items-center justify-start md:justify-between mt-8 gap-x1 ">
-            <div className="flex place-items-center gap-1">
+          <div className="flex flex-wrap place-items-center justify-start mt-8 gap-x6 ">
+            <div className="flex place-items-center gap-x2">
               <Avatar address={proposal.creator || ""} />
-              <div>by {proposal.creator}</div>
+              by{" "}
+              <span className="font-medium">
+                <WalletAddressWithCopy address={proposal.id} />
+              </span>
             </div>
             <div className="flex place-items-center gap-x2">
-              <code>ID</code>
-              <WalletAddressWithCopy address={proposal.id} />
-            </div>
-            <div className="flex place-items-center gap-1">
               <span>Proposed on:</span>
-              <strong>{format(proposal.createdAt, "MMMM do, yyyy")}</strong>
+              <span className="font-medium">
+                {format(proposal.createdAt, "MMMM do, yyyy")}
+              </span>
             </div>
-            <div className="flex place-items-center gap-1">
+            <div className="flex place-items-center gap-x2">
               <span>Voting deadline:</span>
-              <strong>{format(proposal.deadlineAt, "MMMM do, yyyy")}</strong>
+              <span className="font-medium">
+                {format(proposal.deadlineAt, "MMMM do, yyyy")}
+              </span>
             </div>
           </div>
-
-          <div className="mt-8 flex flex-col md:flex-row md:justify-between place-items-start gap-x1 ">
+          <div className="mt-x6 flex flex-col md:flex-row md:justify-between place-items-start gap-x1 ">
             <div className={classNames(styles.details, "flex-1")}>
-              <h3>Details</h3>
+              <ProposalCurrentVotes className="mb-x6" />
+              <h3 className="flex justify-center font-size-x6 line-height-x6 font-medium mb-x6">
+                Proposal Description
+              </h3>
               <MarkdownView markdown={proposal.description} />
+              {/* add proper execution code data */}
+              <ExecutionCodeView code={proposal.description} />
             </div>
             <div className={styles.proposal_addons}>
               <div className={classNames(styles.mobile_controls)}>
@@ -169,8 +147,8 @@ const Page = ({ params }: { params: { id: string } }) => {
                     !walletAddress && "!opacity-60",
                   )}
                 >
-                  <Card.Header className="text-center text-2xl">
-                    <strong>Voting</strong>
+                  <Card.Header className="text-center">
+                    <h2 className={styles.votes_title}>Cast votes</h2>
                     <button
                       className={styles.proposal_addon__close}
                       onClick={() => setVotingOpened(false)}
@@ -179,63 +157,48 @@ const Page = ({ params }: { params: { id: string } }) => {
                     </button>
                   </Card.Header>
                   <div className="flex flex-col gap-1 ">
-                    <Input
-                      label="Voting power"
-                      id="voting-power"
-                      type="number"
-                      className={styles.input}
-                      placeholder="Voting power"
-                      disabled={!walletAddress}
-                      form={{ ...register("votingPower") }}
-                      error={errors.votingPower?.message}
-                      addon={
-                        <div className={styles.addon}>
-                          <div className="flex justify-between">
-                            {!!walletAddress ? (
-                              <>
-                                <div className="underline">Max available</div>
-                                <div>{balanceVeMENTO} MENT</div>
-                              </>
-                            ) : (
-                              <div className="underline">
-                                Please connect wallet
-                              </div>
-                            )}
+                    <div className={styles.addon}>
+                      <div className="flex justify-center">
+                        {!!walletAddress ? (
+                          <div className={styles.power}>
+                            <div className={styles.power__title}>
+                              Your voting power
+                            </div>
+                            <div className={styles.power__value}>
+                              {balanceVeMENTO} veMENTO
+                            </div>
                           </div>
-                        </div>
-                      }
-                    />
-                    <p className={styles.vote_label}>Vote</p>
+                        ) : (
+                          <div className="underline">Please connect wallet</div>
+                        )}
+                      </div>
+                    </div>
                     <Button
                       className={styles.button_wrapper}
-                      disabled={!isValid}
+                      disabled={!walletAddress}
                       theme="success"
                       block
-                      onClick={handleSubmit((data) => onSubmit(data, "for"))}
+                      onClick={() => onSubmit("for")}
                     >
                       For
                     </Button>
                     <Button
                       className={styles.button_wrapper}
-                      disabled={!isValid}
+                      disabled={!walletAddress}
                       type="submit"
                       theme="danger"
                       block
-                      onClick={handleSubmit((data) =>
-                        onSubmit(data, "against"),
-                      )}
+                      onClick={() => onSubmit("against")}
                     >
                       Against
                     </Button>
                     <Button
                       className={styles.button_wrapper}
-                      disabled={!isValid}
+                      disabled={!walletAddress}
                       type="submit"
                       theme="tertiary"
                       block
-                      onClick={handleSubmit((data) =>
-                        onSubmit(data, "abstain"),
-                      )}
+                      onClick={() => onSubmit("abstain")}
                     >
                       Abstain
                     </Button>

@@ -2,7 +2,7 @@ import { ConnectButton, MentoLock } from "@components/_shared";
 import { CreateProposalFormStepEnum } from "@interfaces/create-proposal.interface";
 import Wrapper from "@components/create-proposal/wrapper/wrapper.component";
 import { useCreateProposalStore, useUserStore } from "@/app/store";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 const formStep = CreateProposalFormStepEnum.wallet;
 
@@ -21,7 +21,7 @@ const CurrentFormStep = ({ formStep }: { formStep: WalletStepEnum }) => {
           <p className="font-size-x4 line-height-x5 ml-x7 place-self-start">
             Connect your wallet to create new proposal.
           </p>
-          <ConnectButton theme="primary" />
+          <ConnectButton theme="primary" className="mt-x5" />
         </>
       );
     case WalletStepEnum.buyMento:

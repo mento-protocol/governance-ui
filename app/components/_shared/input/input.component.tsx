@@ -1,7 +1,7 @@
 import styles from "./input.module.scss";
 import BaseComponentProps from "@interfaces/base-component-props.interface";
 import classNames from "classnames";
-import { ReactNode, useMemo } from "react";
+import { ReactNode } from "react";
 import BaseInputProps from "@interfaces/base-input-props.interface";
 
 interface InputProps extends BaseComponentProps, BaseInputProps {

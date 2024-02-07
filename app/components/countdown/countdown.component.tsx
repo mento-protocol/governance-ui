@@ -15,29 +15,25 @@ const getTimeLeftValues = (countDown: number) => {
   return [days, hours, minutes, seconds];
 };
 
-const useCountdown = (end: Date, countDownMilliseconds: number) => {
-  const countDownDate = new Date(end).getTime();
-
-  const [countDown, setCountDown] = useState(
-    countDownDate - new Date().getTime(),
-  );
+const useCountdown = (end: number, countDownMilliseconds: number) => {
+  const [countDown, setCountDown] = useState(end);
 
   useEffect(() => {
     const interval = setInterval(() => {
-      const timeLeft = countDownDate - new Date().getTime();
+      const timeLeft = countDown - countDownMilliseconds;
       if (timeLeft >= 0) {
         setCountDown(timeLeft);
       }
     }, countDownMilliseconds);
 
     return () => clearInterval(interval);
-  }, [countDownDate, countDownMilliseconds]);
+  }, [countDown, countDownMilliseconds]);
 
   return getTimeLeftValues(countDown);
 };
 
 interface CountdownComponentProps extends BaseComponentProps {
-  end: Date;
+  end: number;
   countDownMilliseconds: number;
 }
 

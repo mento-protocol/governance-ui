@@ -61,10 +61,12 @@ const Page = ({ params }: { params: { id: string } }) => {
 
   const estimatedBlockTimestamp = useMemo(() => {
     const CELO_BLOCK_TIME = 5; // seconds
-    const countDownDate = proposal?.endBlock || 0;
-    const blockTimestamp = block ? Number(block.timestamp) : 0;
+    const targetBlock = proposal?.endBlock || 0;
+    const currentBlockTimestamp = block ? Number(block.timestamp) : 0;
     const currentBlock = block ? Number(block.number) : 0;
-    return blockTimestamp + CELO_BLOCK_TIME * (countDownDate - currentBlock);
+    return (
+      currentBlockTimestamp + CELO_BLOCK_TIME * (targetBlock - currentBlock)
+    );
   }, [block, proposal?.endBlock]);
 
   return (
@@ -148,14 +150,14 @@ const Page = ({ params }: { params: { id: string } }) => {
               <div
                 className={classNames(
                   styles.backdrop,
-                  votingOpened && styles.opened,
+                  votingOpened && styles.opened
                 )}
               >
                 <Card
                   className={classNames(
                     styles.proposal_addon,
                     votingOpened && styles.opened,
-                    !walletAddress && "!opacity-60",
+                    !walletAddress && "!opacity-60"
                   )}
                 >
                   <Card.Header className="text-center">
@@ -219,7 +221,7 @@ const Page = ({ params }: { params: { id: string } }) => {
               <div
                 className={classNames(
                   styles.backdrop,
-                  votesListOpened && styles.opened,
+                  votesListOpened && styles.opened
                 )}
               >
                 <Card
@@ -227,7 +229,7 @@ const Page = ({ params }: { params: { id: string } }) => {
                     styles.proposal_addon,
                     votesListOpened && styles.opened,
                     styles.votesList,
-                    "mt-5",
+                    "mt-5"
                   )}
                 >
                   <Card.Header className="text-center text-2xl">

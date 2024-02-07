@@ -150,14 +150,14 @@ const Page = ({ params }: { params: { id: string } }) => {
               <div
                 className={classNames(
                   styles.backdrop,
-                  votingOpened && styles.opened
+                  votingOpened && styles.opened,
                 )}
               >
                 <Card
                   className={classNames(
                     styles.proposal_addon,
                     votingOpened && styles.opened,
-                    !walletAddress && "!opacity-60"
+                    !walletAddress && "!opacity-60",
                   )}
                 >
                   <Card.Header className="text-center">
@@ -221,7 +221,7 @@ const Page = ({ params }: { params: { id: string } }) => {
               <div
                 className={classNames(
                   styles.backdrop,
-                  votesListOpened && styles.opened
+                  votesListOpened && styles.opened,
                 )}
               >
                 <Card
@@ -229,7 +229,7 @@ const Page = ({ params }: { params: { id: string } }) => {
                     styles.proposal_addon,
                     votesListOpened && styles.opened,
                     styles.votesList,
-                    "mt-5"
+                    "mt-5",
                   )}
                 >
                   <Card.Header className="text-center text-2xl">

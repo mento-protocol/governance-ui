@@ -92,6 +92,7 @@ export const useCreateProposalStore = create<CreateProposalStore>(
       openedForm: CreateProposalFormStepEnum.wallet,
       checkNavigateValidity: () => {
         set({
+          ...get(),
           canGoNext:
             get().openedForm !== CreateProposalFormStepEnum.preview &&
             get().form[get().openedForm].isValid,

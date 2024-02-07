@@ -65,7 +65,8 @@ const CurrentFormStep = ({ formStep }: { formStep: WalletStepEnum }) => {
 export const CreateProposalWalletStep = () => {
   const { veMento, mento } = useChainState((s) => s.tokens);
   const { address } = useAccount();
-  const { form, patchWalletStep } = useCreateProposalStore();
+  const { patchWalletStep, form, canGoNext, canGoPrev, next, prev } =
+    useCreateProposalStore();
 
   const getAndValidateStep = useCallback((): WalletStepEnum => {
     if (!address) {
@@ -77,21 +78,40 @@ export const CreateProposalWalletStep = () => {
     } else {
       return WalletStepEnum.createProposal;
     }
-  }, [address, mento, mento]);
+  }, [address, mento.balance, veMento.balance]);
 
   const [walletFormStep, setFormStep] = useState(getAndValidateStep());
 
   useEffect(() => {
     setFormStep(getAndValidateStep());
+    console.log("getAndValidateStep", getAndValidateStep(), {
+      walletAddress: address || "",
+      balanceMENTO: mento.balance,
+      balanceVeMENTO: veMento.balance,
+    });
     patchWalletStep({
       walletAddress: address || "",
       balanceMENTO: mento.balance,
       balanceVeMENTO: veMento.balance,
     });
-  }, [address, mento, mento, getAndValidateStep, patchWalletStep]);
+  }, [
+    address,
+    mento.balance,
+    getAndValidateStep,
+    patchWalletStep,
+    veMento.balance,
+  ]);
 
   return (
-    <Wrapper step={formStep} title="Connect your wallet & login">
+    <Wrapper
+      step={formStep}
+      isOpened={form[formStep].isOpened}
+      canGoNext={canGoNext}
+      canGoPrev={canGoPrev}
+      next={next}
+      prev={prev}
+      title="Connect your wallet & login"
+    >
       <CurrentFormStep formStep={walletFormStep} />
     </Wrapper>
   );

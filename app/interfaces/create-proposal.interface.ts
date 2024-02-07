@@ -59,7 +59,7 @@ export const initialCreateProposalForm: CreateProposalForm = {
       },
       balanceVeMENTO: {
         value: 0n,
-        validate: (value: bigint) => value > 2500,
+        validate: (value: bigint) => value >= 2500,
       },
     },
     isOpened: true,

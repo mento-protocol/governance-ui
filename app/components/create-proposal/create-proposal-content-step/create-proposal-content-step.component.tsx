@@ -18,7 +18,8 @@ type FormData = InferType<typeof validationSchema>;
 const formStep = CreateProposalFormStepEnum.content;
 
 export const CreateProposalContentStep = () => {
-  const { patchContentStep } = useCreateProposalStore();
+  const { patchContentStep, form, canGoNext, canGoPrev, next, prev } =
+    useCreateProposalStore();
 
   const {
     register,
@@ -49,7 +50,15 @@ export const CreateProposalContentStep = () => {
   }, [watch, patchContentStep]);
 
   return (
-    <Wrapper step={formStep} title="Add name and description">
+    <Wrapper
+      step={formStep}
+      isOpened={form[formStep].isOpened}
+      canGoNext={canGoNext}
+      canGoPrev={canGoPrev}
+      next={next}
+      prev={prev}
+      title="Add name and description"
+    >
       <div>
         <p className="font-size-x4 line-height-x5 mb-4 ml-x7">
           Give your proposal a title and a description. They will be public when

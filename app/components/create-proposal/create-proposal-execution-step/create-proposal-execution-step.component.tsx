@@ -17,7 +17,8 @@ type FormData = InferType<typeof validationSchema>;
 const formStep = CreateProposalFormStepEnum.execution;
 
 export const CreateProposalExecutionStep = () => {
-  const { patchExecutionStep } = useCreateProposalStore();
+  const { patchExecutionStep, form, canGoNext, canGoPrev, next, prev } =
+    useCreateProposalStore();
 
   const {
     register,
@@ -47,7 +48,15 @@ export const CreateProposalExecutionStep = () => {
   }, [watch, patchExecutionStep]);
 
   return (
-    <Wrapper step={formStep} title="Execution Code">
+    <Wrapper
+      step={formStep}
+      isOpened={form[formStep].isOpened}
+      canGoNext={canGoNext}
+      canGoPrev={canGoPrev}
+      next={next}
+      prev={prev}
+      title="Execution Code"
+    >
       <div>
         <p className="font-size-x4 line-height-x5 ml-x7">
           Paste your governance proposal’s execution code in the json format in

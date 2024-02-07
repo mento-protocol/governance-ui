@@ -23,7 +23,7 @@ type ProposalCreateParams = {
 
 export const CreateProposalPreviewStep = () => {
   const [isProposalPreviewOpen, setIsProposalPreviewOpen] = useState(false);
-  const { form } = useCreateProposalStore();
+  const { form, canGoNext, canGoPrev, next, prev } = useCreateProposalStore();
   const contracts = useContracts();
 
   const proposal: ProposalCreateParams = useMemo(() => {
@@ -79,6 +79,11 @@ export const CreateProposalPreviewStep = () => {
       title="Preview your proposal"
       onSave={onSave}
       className={styles.container}
+      isOpened={form[formStep].isOpened}
+      canGoNext={canGoNext}
+      canGoPrev={canGoPrev}
+      next={next}
+      prev={prev}
     >
       <pre>{JSON.stringify(data, null, 2)}</pre>
       <pre>{error ? error.message : null}</pre>

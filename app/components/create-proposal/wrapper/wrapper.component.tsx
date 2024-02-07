@@ -1,3 +1,4 @@
+"use client";
 import styles from "../create-proposal.module.scss";
 import { Button, Card, StepCounter } from "@components/_shared";
 import classNames from "classnames";
@@ -13,6 +14,11 @@ interface WrapperProps extends BaseComponentProps {
   step: CreateProposalFormStepEnum;
   title: string;
   onSave?: () => void;
+  isOpened: boolean;
+  canGoNext: boolean;
+  canGoPrev: boolean;
+  next: () => void;
+  prev: () => void;
 }
 
 const Wrapper = ({
@@ -22,19 +28,15 @@ const Wrapper = ({
   title,
   style,
   onSave,
+  isOpened,
+  canGoNext,
+  canGoPrev,
+  next,
+  prev,
 }: WrapperProps) => {
-  const { form } = useCreateProposalStore();
-
   const stepIndex = useMemo(() => {
     return createProposalFormStepOrder.indexOf(step) + 1;
   }, [step]);
-
-  const isOpened = useMemo(() => {
-    return form[step].isOpened;
-  }, [form, step]);
-
-  const { next, prev, openedForm, canGoNext, canGoPrev } =
-    useCreateProposalStore();
 
   return (
     <Card
@@ -67,17 +69,21 @@ const Wrapper = ({
             >
               Back
             </Button>
-            {canGoNext && (
-              <Button className="min-w-x20" onClick={next} theme="primary">
+            {step !== CreateProposalFormStepEnum.preview && (
+              <Button
+                className="min-w-x20"
+                onClick={next}
+                theme="primary"
+                disabled={!canGoNext}
+              >
                 Next
               </Button>
             )}
-            {!canGoNext &&
-              openedForm === CreateProposalFormStepEnum.preview && (
-                <Button className="min-w-x20" onClick={onSave} theme="primary">
-                  Save
-                </Button>
-              )}
+            {!canGoNext && step === CreateProposalFormStepEnum.preview && (
+              <Button className="min-w-x20" onClick={onSave} theme="primary">
+                Save
+              </Button>
+            )}
           </div>
         </Card.Footer>
       </div>

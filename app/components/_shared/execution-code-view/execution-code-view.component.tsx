@@ -4,14 +4,18 @@ import styles from "./execution-code-view.module.scss";
 
 interface ExecutionCodeViewProps {
   code: unknown;
+  hideTitle?: boolean;
 }
 
-export const ExecutionCodeView = ({ code }: ExecutionCodeViewProps) => {
+export const ExecutionCodeView = ({
+  code,
+  hideTitle,
+}: ExecutionCodeViewProps) => {
   const [isExecutionViewOpen, setIsExecutionViewOpen] = useState(false);
 
   return (
     <div className={styles.container}>
-      <h3 className={styles.form_data_title}>Execution Code</h3>
+      {!hideTitle && <h3 className={styles.form_data_title}>Execution Code</h3>}
       <div className={styles.execution}>
         <SeeAll
           height="210"

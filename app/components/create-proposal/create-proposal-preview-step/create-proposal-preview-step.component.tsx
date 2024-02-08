@@ -23,7 +23,7 @@ type ProposalCreateParams = {
 
 export const CreateProposalPreviewStep = () => {
   const [isProposalPreviewOpen, setIsProposalPreviewOpen] = useState(false);
-  const { form, canGoNext, canGoPrev, next, prev } = useCreateProposalStore();
+  const { form, next, prev } = useCreateProposalStore();
   const contracts = useContracts();
 
   const proposal: ProposalCreateParams = useMemo(() => {
@@ -71,19 +71,19 @@ export const CreateProposalPreviewStep = () => {
         JSON.stringify(proposal.metadata),
       ] as any,
     });
+    localStorage.removeItem("proposalTitle");
+    localStorage.removeItem("proposalDescription");
+    localStorage.removeItem("proposalExecutionCode");
   }, [writeContract, proposal, contracts?.MentoGovernor.address]);
 
   return (
     <Wrapper
       step={formStep}
       title="Preview your proposal"
-      onSave={onSave}
+      next={onSave}
+      prev={prev}
       className={styles.container}
       isOpened={form[formStep].isOpened}
-      canGoNext={canGoNext}
-      canGoPrev={canGoPrev}
-      next={next}
-      prev={prev}
     >
       <pre>{JSON.stringify(data, null, 2)}</pre>
       <pre>{error ? error.message : null}</pre>

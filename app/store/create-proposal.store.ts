@@ -10,15 +10,12 @@ import { create } from "zustand";
 interface CreateProposalStore {
   form: CreateProposalForm;
   navigateInForm: (direction: "next" | "prev") => void;
-  canGoNext: boolean;
-  canGoPrev: boolean;
   openedForm: CreateProposalFormStepEnum;
 
   next: () => void;
   prev: () => void;
   save: () => void;
   checkFormValidity: () => void;
-  checkNavigateValidity: () => void;
   reset: () => void;
   patchWalletStep: (value: {
     balanceVeMENTO: bigint;
@@ -34,15 +31,9 @@ export const useCreateProposalStore = create<CreateProposalStore>(
     return {
       form: initialCreateProposalForm,
       next: () => {
-        if (!get().canGoNext || !get().form[get().openedForm].isValid) {
-          return;
-        }
         get().navigateInForm("next");
       },
       prev: () => {
-        if (!get().canGoPrev) {
-          return;
-        }
         get().navigateInForm("prev");
       },
       save: () => {},
@@ -85,25 +76,13 @@ export const useCreateProposalStore = create<CreateProposalStore>(
           openedForm: nextFormKey,
         });
         get().checkFormValidity();
-        get().checkNavigateValidity();
       },
       canGoNext: false,
       canGoPrev: false,
       openedForm: CreateProposalFormStepEnum.wallet,
-      checkNavigateValidity: () => {
-        set({
-          ...get(),
-          canGoNext:
-            get().openedForm !== CreateProposalFormStepEnum.preview &&
-            get().form[get().openedForm].isValid,
-          canGoPrev: get().openedForm !== CreateProposalFormStepEnum.wallet,
-        });
-      },
       reset: () => {
         set({
           form: initialCreateProposalForm,
-          canGoNext: false,
-          canGoPrev: false,
           openedForm: CreateProposalFormStepEnum.wallet,
         });
       },
@@ -135,9 +114,10 @@ export const useCreateProposalStore = create<CreateProposalStore>(
           },
         });
         get().checkFormValidity();
-        get().checkNavigateValidity();
       },
       patchContentStep: (value) => {
+        localStorage.setItem("proposalTitle", value.title);
+        localStorage.setItem("proposalDescription", value.description);
         set({
           form: {
             ...get().form,
@@ -160,9 +140,9 @@ export const useCreateProposalStore = create<CreateProposalStore>(
           },
         });
         get().checkFormValidity();
-        get().checkNavigateValidity();
       },
       patchExecutionStep: (value) => {
+        localStorage.setItem("proposalCode", value.code);
         set({
           form: {
             ...get().form,
@@ -181,7 +161,6 @@ export const useCreateProposalStore = create<CreateProposalStore>(
           },
         });
         get().checkFormValidity();
-        get().checkNavigateValidity();
       },
     };
   },

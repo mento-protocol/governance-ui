@@ -7,16 +7,14 @@ import {
   CreateProposalFormStepEnum,
   createProposalFormStepOrder,
 } from "@interfaces/create-proposal.interface";
-import { useMemo } from "react";
-import { useCreateProposalStore } from "@/app/store";
+import { ReactNode, useMemo } from "react";
 
 interface WrapperProps extends BaseComponentProps {
   step: CreateProposalFormStepEnum;
-  title: string;
-  onSave?: () => void;
+  title: string | ReactNode;
   isOpened: boolean;
-  canGoNext: boolean;
-  canGoPrev: boolean;
+  canGoNext?: boolean;
+  canGoPrev?: boolean;
   next: () => void;
   prev: () => void;
 }
@@ -27,10 +25,9 @@ const Wrapper = ({
   step,
   title,
   style,
-  onSave,
   isOpened,
-  canGoNext,
-  canGoPrev,
+  canGoNext = true,
+  canGoPrev = true,
   next,
   prev,
 }: WrapperProps) => {
@@ -46,6 +43,7 @@ const Wrapper = ({
         "pb-0",
         styles.wrapper,
         !isOpened && "opacity-50",
+        !isOpened && "pointer-events-none",
       )}
       style={style}
     >
@@ -80,7 +78,7 @@ const Wrapper = ({
               </Button>
             )}
             {!canGoNext && step === CreateProposalFormStepEnum.preview && (
-              <Button className="min-w-x20" onClick={onSave} theme="primary">
+              <Button className="min-w-x20" onClick={next} theme="primary">
                 Save
               </Button>
             )}

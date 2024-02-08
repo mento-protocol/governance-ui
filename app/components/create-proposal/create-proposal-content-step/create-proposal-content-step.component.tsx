@@ -18,15 +18,12 @@ type FormData = InferType<typeof validationSchema>;
 const formStep = CreateProposalFormStepEnum.content;
 
 export const CreateProposalContentStep = () => {
-  const { patchContentStep, form, canGoNext, canGoPrev, next, prev } =
-    useCreateProposalStore();
+  const { patchContentStep, form, next, prev } = useCreateProposalStore();
 
   const {
     register,
     watch,
     setValue,
-    getValues,
-    handleSubmit,
     formState: { errors, isValid },
   } = useForm<FormData>({
     resolver: yupResolver(validationSchema),
@@ -53,8 +50,7 @@ export const CreateProposalContentStep = () => {
     <Wrapper
       step={formStep}
       isOpened={form[formStep].isOpened}
-      canGoNext={canGoNext}
-      canGoPrev={canGoPrev}
+      canGoNext={form[formStep].isValid}
       next={next}
       prev={prev}
       title="Add name and description"

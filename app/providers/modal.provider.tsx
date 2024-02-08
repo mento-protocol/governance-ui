@@ -88,7 +88,7 @@ const ModalWrapper = ({
           )}
         >
           <Card.Header className="relative !pb-x6">
-            <div className="font-semibold">
+            <div className="font-semibold font-size-x4">
               {options?.title || (!!question ? "Confirm" : " ")}
             </div>
             <div className={modalStyles.modal__close} onClick={close}>

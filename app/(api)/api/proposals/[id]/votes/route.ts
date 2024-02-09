@@ -1,4 +1,4 @@
-import { IVote, IVoteType } from "@interfaces/vote.interface";
+import { IVote } from "@interfaces/vote.interface";
 import { NextRequest } from "next/server";
 
 const votesMock: IVote[] = [

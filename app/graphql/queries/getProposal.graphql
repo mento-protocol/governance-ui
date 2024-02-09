@@ -1,27 +1,40 @@
 query getProposal($id: BigInt) {
   proposals(where: { proposalId: $id }) {
     id
-    proposalId
     description
+    proposalId
+
+    proposalCreated {
+      timestamp
+      transaction {
+        id
+      }
+    }
     proposer {
       id
     }
+
+    # Proposal Status
+    queued
+    canceled
+    executed
+
+    metadata @client {
+      title
+      description
+    }
+
+    state @client
+
     supports {
       id
       weight
       support
     }
-    queued
-    canceled
-    executed
-    proposalCreated {
-      timestamp
-    }
-    metadata @client {
-      title
-      description
-    }
-    state @client
+
+    # Voting
+    startBlock
+    endBlock
     votes @client {
       votesFor
       votesAgainst

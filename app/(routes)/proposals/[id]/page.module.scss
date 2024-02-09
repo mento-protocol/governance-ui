@@ -11,12 +11,12 @@
     text-align: center;
 
     &__title {
-      color: #A8A8A8; 
+      color: #a8a8a8;
       font-size: 4 * $theme-unit;
       line-height: 4 * $theme-unit;
     }
 
-    &__value{
+    &__value {
       margin-top: 3 * $theme-unit;
       margin-bottom: 2 * $theme-unit;
       color: #000;
@@ -59,7 +59,7 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    padding: 4*$theme-unit 0;
+    padding: 4 * $theme-unit 0;
     gap: $theme-unit;
     background-color: var(--theme-background-color);
     z-index: 1;
@@ -76,7 +76,6 @@
       min-width: fit-content;
     }
   }
-
 
   @include media-md {
     top: 140px;
@@ -153,8 +152,7 @@
   }
 }
 
-
-.votesList {
+.participantsList {
   @include media-md {
     overflow-y: auto;
     max-height: 450px !important;

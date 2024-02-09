@@ -37,14 +37,16 @@ const Page = ({ params }: { params: { id: string } }) => {
   const [votingModalActive, setVotingModalActive] = useState(false);
   const [participantsModalActive, setParticipantsModelActive] = useState(false);
 
-  const block = useBlock({ blockNumber: BigInt(proposal.endBlock) });
-
   // TODO: Check if there can be cases where proposalCreated[0] can be undefined or if there can be multiple elements in the array
   const proposedOn = format(
     new Date(parseInt(proposal.proposalCreated[0].timestamp) * 1000),
     "MMMM do, yyyy",
   );
 
+  // TODO: Reimplement voteEnd date considering all possible proposal states
+  // i.e. useBlock only works AFTER voting has finished, during or before voting deadline
+  // we will need to approximate the end date via sth like `Date.now() + (endBlock - currentblock) * 5 seconds`
+  const block = useBlock({ blockNumber: BigInt(proposal.endBlock) });
   let voteEnd;
   if (block.data?.timestamp) {
     voteEnd = format(

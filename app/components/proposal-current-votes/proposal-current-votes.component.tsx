@@ -1,16 +1,17 @@
-import BaseComponentProps from "@interfaces/base-component-props.interface";
+import { useProposalDetailsStore } from "@/app/store";
 import { Card } from "@components/_shared";
 import {
   MultiProgressBar,
   MultiProgressBarValue,
 } from "@components/_shared/progress-bar/progress-bar.component";
-import { useProposalDetailsStore } from "@/app/store";
+import BaseComponentProps from "@interfaces/base-component-props.interface";
+import classNames from "classnames";
 import { useCallback, useEffect, useState } from "react";
 import styles from "./proposal-current-votes.module.scss";
-import classNames from "classnames";
 
 interface ProposalCurrentVotesProps extends BaseComponentProps {}
 
+// TODO: Replace mock API with real data sources
 export const ProposalCurrentVotes = ({
   className,
   style,

@@ -9,8 +9,8 @@ import BaseComponentProps from "@interfaces/base-component-props.interface";
 import { stateToBadgeColorMap } from "@interfaces/proposal.interface";
 import classNames from "classnames";
 import Link from "next/link";
-import styles from "./proposals-list.module.scss";
 import { formatUnits, numberToHex } from "viem";
+import styles from "./proposals-list.module.scss";
 
 interface ProposalsListProps extends BaseComponentProps {}
 
@@ -91,8 +91,8 @@ export const ProposalsListComponent = ({
                   <ProgressBar
                     type="success"
                     className={styles.progress_bar}
-                    current={Number(formatUnits(votes.votesFor, 18))}
-                    max={Number(formatUnits(votes.votesTotal, 18))}
+                    current={Number(formatUnits(votes.for.total, 18))}
+                    max={Number(formatUnits(votes.total, 18))}
                     valueFormat="alphabetic"
                   />
                 </div>
@@ -102,8 +102,8 @@ export const ProposalsListComponent = ({
                   <ProgressBar
                     type="danger"
                     className={styles.progress_bar}
-                    current={Number(formatUnits(votes.votesAgainst, 18))}
-                    max={Number(formatUnits(votes.votesTotal, 18))}
+                    current={Number(formatUnits(votes.against.total, 18))}
+                    max={Number(formatUnits(votes.total, 18))}
                     valueFormat="alphabetic"
                   />
                 </div>
@@ -115,7 +115,7 @@ export const ProposalsListComponent = ({
                   )}
                 >
                   {NumbersService.parseNumericValue(
-                    formatUnits(votes.votesTotal, 18),
+                    formatUnits(votes.total, 18),
                   )}
                 </div>
               </div>

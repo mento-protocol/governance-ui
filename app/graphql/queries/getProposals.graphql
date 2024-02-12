@@ -6,28 +6,51 @@ query getProposals {
     proposer {
       id
     }
-    supports {
-      id
-      weight
-      support
-    }
-    queued
-    canceled
-    executed
     proposalCreated {
       timestamp
     }
+
     endBlock
     metadata @client {
       title
       description
     }
+
+    ###################
+    # Proposal Status #
+    ###################
+    queued
+    canceled
+    executed
     state @client
+
+    #########
+    # Votes #
+    #########
+
+    # receipts aren't used directly in the component. But they are required for the
+    # votes to be calculated in ./app/graphql/policies/Proposal.ts
+    receipts {
+      voter {
+        id
+      }
+      support {
+        support
+      }
+      weight
+    }
+
     votes @client {
-      votesFor
-      votesAgainst
-      votesAbstain
-      votesTotal
+      for {
+        total
+      }
+      against {
+        total
+      }
+      abstain {
+        total
+      }
+      total
     }
   }
 }

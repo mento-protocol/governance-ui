@@ -6,9 +6,6 @@ query getProposal($id: BigInt) {
 
     proposalCreated {
       timestamp
-      transaction {
-        id
-      }
     }
     proposer {
       id
@@ -26,20 +23,48 @@ query getProposal($id: BigInt) {
 
     state @client
 
-    supports {
-      id
-      weight
-      support
-    }
+    #########
+    # Votes #
+    #########
 
-    # Voting
     startBlock
     endBlock
+
+    # receipts aren't used directly in the component. But they are required for the
+    # votes to be calculated in ./app/graphql/policies/Proposal.ts
+    receipts {
+      voter {
+        id
+      }
+      support {
+        support
+      }
+      weight
+    }
+
     votes @client {
-      votesFor
-      votesAgainst
-      votesAbstain
-      votesTotal
+      for {
+        participants {
+          address
+          weight
+        }
+        total
+      }
+      against {
+        participants {
+          address
+          weight
+        }
+        total
+      }
+      abstain {
+        participants {
+          address
+          weight
+        }
+        total
+      }
+      total
     }
   }
 }

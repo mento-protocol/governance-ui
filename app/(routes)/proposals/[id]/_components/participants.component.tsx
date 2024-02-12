@@ -1,9 +1,11 @@
 import { Card, TabList } from "@/app/components/_shared";
 import { VotesList } from "@/app/components/votes-list/votes-list.component";
+import { Votes } from "@/app/types";
 import classNames from "classnames";
 import styles from "../page.module.scss";
 
 type Props = {
+  votes: Votes;
   participantsModalActive: boolean;
   setParticipantsModelActive: (active: boolean) => void;
 };
@@ -11,6 +13,7 @@ type Props = {
 export default function Participants({
   participantsModalActive,
   setParticipantsModelActive,
+  votes,
 }: Props) {
   return (
     <div
@@ -37,9 +40,9 @@ export default function Participants({
           </button>
         </Card.Header>
         <TabList tabs={["For", "Against", "Abstain"]}>
-          <VotesList voteType="for" />
-          <VotesList voteType="against" />
-          <VotesList voteType="abstain" />
+          <VotesList voteType="for" votes={votes} />
+          <VotesList voteType="against" votes={votes} />
+          <VotesList voteType="abstain" votes={votes} />
         </TabList>
       </Card>
     </div>

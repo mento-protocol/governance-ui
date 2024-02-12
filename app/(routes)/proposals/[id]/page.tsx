@@ -11,6 +11,7 @@ import styles from "./page.module.scss";
 
 // Components
 import { MarkdownView } from "@/app/components/_shared/markdown-view/markdown-view.component";
+import { Votes } from "@/app/types";
 import {
   Avatar,
   Badge,
@@ -32,6 +33,11 @@ const Page = ({ params }: { params: { id: string } }) => {
   useProposalStates(data?.proposals);
   const proposal = data?.proposals[0];
   console.log(proposal);
+
+  const proposer = proposal.proposer?.id;
+  const status = proposal.state?.toString();
+  const title = proposal.metadata?.title;
+  const description = proposal.metadata?.description;
 
   // The modals are mobile-only
   const [votingModalActive, setVotingModalActive] = useState(false);
@@ -55,6 +61,9 @@ const Page = ({ params }: { params: { id: string } }) => {
     );
   }
 
+  // Fetch Participants
+  const votes = proposal.votes as Votes;
+
   const loading = false;
 
   return (
@@ -67,12 +76,12 @@ const Page = ({ params }: { params: { id: string } }) => {
             className="uppercase mt-x6 mb-3 font-medium"
             type={stateToBadgeColorMap[proposal.state as ProposalState]}
           >
-            {proposal.state.toString()}
+            {status}
           </Badge>
           <div className="flex flex-col md:grid md:grid-cols-7 gap-x1 ">
             <div className="md:col-start-1 md:col-span-4">
               <h1 className="text-xl md:font-size-x11 md:line-height-x11 font-medium">
-                {proposal.metadata.title}
+                {title}
               </h1>
             </div>
             <div className="md:col-start-5 md:col-span-3"></div>
@@ -87,10 +96,10 @@ const Page = ({ params }: { params: { id: string } }) => {
           </div>
           <div className="flex flex-wrap place-items-center justify-start mt-8 gap-x6 ">
             <div className="flex place-items-center gap-x2">
-              <Avatar address={proposal.proposer.id || ""} />
+              <Avatar address={proposer} />
               by{" "}
               <span className="font-medium">
-                <WalletAddressWithCopy address={proposal.proposer.id} />
+                <WalletAddressWithCopy address={proposer} />
               </span>
             </div>
             <div className="flex place-items-center gap-x2">
@@ -106,9 +115,9 @@ const Page = ({ params }: { params: { id: string } }) => {
             <div className={classNames(styles.details, "flex-1")}>
               <ProposalCurrentVotes className="mb-x6" />
               <h3 className="flex justify-center font-size-x6 line-height-x6 font-medium mb-x6">
-                Proposal Description
+                Description
               </h3>
-              <MarkdownView markdown={proposal.metadata.description} />
+              <MarkdownView markdown={description} />
               {/* TODO: Implement 'Execution Code' section */}
               <ExecutionCode />
             </div>
@@ -140,10 +149,10 @@ const Page = ({ params }: { params: { id: string } }) => {
                 votingModalActive={votingModalActive}
                 walletAddress={walletAddress}
               />
-              {/* TODO: Load actual voting participants from subgraph */}
               <Participants
                 participantsModalActive={participantsModalActive}
                 setParticipantsModelActive={setParticipantsModelActive}
+                votes={votes}
               />
             </div>
           </div>

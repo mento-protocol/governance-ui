@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useRef } from "react";
-import { useChainId, useAccount, usePublicClient } from "wagmi";
+import { useAccount, useChainId, usePublicClient } from "wagmi";
 import { useStore } from "zustand";
 import { useContracts } from "../hooks/useContracts";
 import {

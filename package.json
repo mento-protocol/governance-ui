@@ -9,7 +9,8 @@
     "lint": "next lint",
     "lint:fix": "next lint --fix",
     "codegen": "graphql-codegen --config codegen.yaml",
-    "todo": "npx leasot '**/*.{ts,tsx,scss,gql}' --ignore 'node_modules/**/*','.git/**/*' || true"
+    "todo": "npx leasot '**/*.{ts,tsx,scss,gql}' --ignore 'node_modules/**/*','.git/**/*','app/graphql/generated' || true",
+    "prepare": "husky"
   },
   "dependencies": {
     "@apollo/client": "^3.8.9",
@@ -60,7 +61,7 @@
     "eslint-config-next": "13.5.4",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-prettier": "^5.1.3",
-    "husky": "^8.0.3",
+    "husky": "^9.0.10",
     "postcss": "^8",
     "prettier": "^3.2.1",
     "tailwindcss": "^3",

@@ -66,15 +66,7 @@ const CurrentFormStep = ({ formStep }: { formStep: WalletStepEnum }) => {
 export const CreateProposalWalletStep = () => {
   const { veMento, mento } = useChainState((s) => s.tokens);
   const { address } = useAccount();
-  const {
-    patchWalletStep,
-    patchContentStep,
-    patchExecutionStep,
-    form,
-    next,
-    prev,
-  } = useCreateProposalStore();
-  const { showConfirm } = useModal();
+  const { patchWalletStep, form, next, prev } = useCreateProposalStore();
 
   const getAndValidateStep = useMemo((): WalletStepEnum => {
     if (!address) {
@@ -105,43 +97,17 @@ export const CreateProposalWalletStep = () => {
     veMento.balance,
   ]);
 
-  const goNext = useCallback(() => {
-    if (getAndValidateStep === WalletStepEnum.createProposal) {
-      next();
-
-      const cacheTitle = localStorage.getItem("proposalTitle");
-      const cacheDescription = localStorage.getItem("proposalDescription");
-      const cacheExecutionCode = localStorage.getItem("proposalExecutionCode");
-
-      if (cacheTitle || cacheDescription || cacheExecutionCode) {
-        localStorage.removeItem("proposalTitle");
-        localStorage.removeItem("proposalDescription");
-        localStorage.removeItem("proposalExecutionCode");
-        showConfirm("Do you want to load the cached proposal?").then((res) => {
-          if (res) {
-            patchContentStep({
-              title: cacheTitle || "",
-              description: cacheDescription || "",
-            });
-            patchExecutionStep({
-              code: cacheExecutionCode || "",
-            });
-          }
-        });
-      }
-    }
-  }, [getAndValidateStep]);
   return (
     <Wrapper
       step={formStep}
       isOpened={form[formStep].isOpened}
       canGoNext={getAndValidateStep === WalletStepEnum.createProposal}
       canGoPrev={false}
-      next={goNext}
+      next={next}
       prev={prev}
       title="Connect your wallet & login"
     >
-      <CurrentFormStep formStep={walletFormStep} />
+      {form[formStep].isOpened && <CurrentFormStep formStep={walletFormStep} />}
     </Wrapper>
   );
 };

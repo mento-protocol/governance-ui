@@ -20,103 +20,17 @@ type FormData = {
 const formStep = CreateProposalFormStepEnum.execution;
 
 export const CreateProposalExecutionStep = () => {
-  const { patchExecutionStep, form, next, prev } = useCreateProposalStore();
+  const { patchExecutionStep, form, next, prev, validateExecuteJson } =
+    useCreateProposalStore();
   const { showModal } = useModal();
-  const {
-    register,
-    watch,
-    setError,
-    getValues,
-    formState: { errors, isValid },
-  } = useForm<FormData>({
-    mode: "all",
-  });
-
-  const validateIsJson = (value: string) => {
-    try {
-      const json = JSON.parse(value);
-      return true;
-    } catch (e) {
-      return false;
-    }
-  };
-
-  const validateCode = (code: string) => {
-    if (StringService.isNullOrEmpty(code)) {
-      return true;
-    }
-
-    if (!validateIsJson(code)) {
-      setError("code", {
-        type: "manual",
-        message: "Invalid JSON format",
-      });
-      return false;
-    }
-    const json = JSON.parse(code);
-    if (!Array.isArray(json)) {
-      setError("code", {
-        type: "manual",
-        message: "Value is not an array",
-      });
-      return false;
-    }
-
-    if (json.length === 0) {
-      setError("code", {
-        type: "manual",
-        message: "Array is empty",
-      });
-      return false;
-    }
-    if (
-      !json.every((item) => {
-        return (
-          Object.hasOwn(item, "address") &&
-          Object.hasOwn(item, "value") &&
-          Object.hasOwn(item, "data")
-        );
-      })
-    ) {
-      setError("code", {
-        type: "manual",
-        message: "Elements have invalid format",
-      });
-      return false;
-    }
-
-    const invalidAddresses = json
-      .map((item) => item.address)
-      .filter((address) => !isAddress(address));
-    if (invalidAddresses.length > 0) {
-      setError("code", {
-        type: "manual",
-        message: `Invalid address: ${invalidAddresses.join(", ")}`,
-      });
-      return false;
-    }
-    return true;
-  };
 
   const validateAndGoNext = () => {
-    const code = getValues("code");
-    console.log("code", code);
-    const isValid = validateCode(code);
-    console.log("isValid", isValid);
-    if (isValid) {
+    const hasErrors = validateExecuteJson();
+    console.log("isValid", hasErrors);
+    if (!hasErrors) {
       next();
     }
   };
-
-  useEffect(() => {
-    const subscription = watch((value) => {
-      console.log("watch", value.code);
-      patchExecutionStep({
-        code: value.code || "",
-      });
-    });
-    return () => subscription.unsubscribe();
-  }, [watch, patchExecutionStep]);
 
   return (
     <Wrapper
@@ -141,22 +55,65 @@ export const CreateProposalExecutionStep = () => {
         </div>
       }
     >
-      <div>
-        <p className="font-size-x4 line-height-x5 ml-x7">
-          Paste your governance proposal’s execution code in the json format in
-          the field below:
-        </p>
-        <Textarea
-          className={classNames(
-            styles.executionInput,
-            "mt-x5 mb-x5 min-h-[266px]",
-          )}
-          form={{ ...register("code") }}
-          id="code"
-          error={errors.code?.message}
-          placeholder="Enter your code"
-        />
-      </div>
+      {form[formStep].isOpened && <InnerForm />}
     </Wrapper>
+  );
+};
+
+const InnerForm = () => {
+  const { patchExecutionStep, form, executeJsonError } =
+    useCreateProposalStore();
+  console.log("CreateProposalExecutionStep", form[formStep].value.code.value);
+
+  const {
+    register,
+    watch,
+    setError,
+    clearErrors,
+    formState: { errors, isValid },
+  } = useForm<FormData>({
+    defaultValues: {
+      code: form[formStep].value.code.value,
+    },
+    mode: "all",
+  });
+
+  useEffect(() => {
+    if (executeJsonError) {
+      setError("code", {
+        type: "manual",
+        message: executeJsonError,
+      });
+    } else {
+      clearErrors("code");
+    }
+  }, [executeJsonError, setError]);
+
+  useEffect(() => {
+    const subscription = watch((value) => {
+      console.log("watch", value.code);
+      patchExecutionStep({
+        code: value.code || "",
+      });
+    });
+    return () => subscription.unsubscribe();
+  }, [watch, patchExecutionStep]);
+  return (
+    <div>
+      <p className="font-size-x4 line-height-x5 ml-x7">
+        Paste your governance proposal’s execution code in the json format in
+        the field below:
+      </p>
+      <Textarea
+        className={classNames(
+          styles.executionInput,
+          "mt-x5 mb-x5 min-h-[266px]",
+        )}
+        form={{ ...register("code") }}
+        id="code"
+        error={errors.code?.message}
+        placeholder="Enter your code"
+      />
+    </div>
   );
 };

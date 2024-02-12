@@ -46,56 +46,62 @@ const isNullOrWhitespace = (input: string) => {
   return !input || !input.trim();
 };
 
-export const initialCreateProposalForm: CreateProposalForm = {
-  [CreateProposalFormStepEnum.wallet]: {
-    value: {
-      walletAddress: {
-        value: "",
-        validate: (value: string) => !isNullOrWhitespace(value),
+export const getInitialCreateProposalForm = (
+  title = "",
+  description = "",
+  code = "",
+) => {
+  return {
+    [CreateProposalFormStepEnum.wallet]: {
+      value: {
+        walletAddress: {
+          value: "",
+          validate: (value: string) => !isNullOrWhitespace(value),
+        },
+        balanceMENTO: {
+          value: 0n,
+          validate: (value: bigint) => value > 0,
+        },
+        balanceVeMENTO: {
+          value: 0n,
+          validate: (value: bigint) => value >= 2500,
+        },
       },
-      balanceMENTO: {
-        value: 0n,
-        validate: (value: bigint) => value > 0,
-      },
-      balanceVeMENTO: {
-        value: 0n,
-        validate: (value: bigint) => value >= 2500,
-      },
+      isOpened: true,
+      isValid: false,
     },
-    isOpened: true,
-    isValid: false,
-  },
-  [CreateProposalFormStepEnum.content]: {
-    value: {
-      title: {
-        value: "",
-        validate: (value: string) => !isNullOrWhitespace(value),
+    [CreateProposalFormStepEnum.content]: {
+      value: {
+        title: {
+          value: title,
+          validate: (value: string) => !isNullOrWhitespace(value),
+        },
+        description: {
+          value: description,
+          validate: (value: string) => !isNullOrWhitespace(value),
+        },
       },
-      description: {
-        value: "",
-        validate: (value: string) => !isNullOrWhitespace(value),
-      },
+      isOpened: false,
+      isValid: false,
     },
-    isOpened: false,
-    isValid: false,
-  },
 
-  [CreateProposalFormStepEnum.execution]: {
-    value: {
-      code: {
-        value: "",
-        validate: (value: string) => true,
+    [CreateProposalFormStepEnum.execution]: {
+      value: {
+        code: {
+          value: code,
+          validate: (value: string) => true,
+        },
       },
+      isOpened: false,
+      isValid: false,
     },
-    isOpened: false,
-    isValid: false,
-  },
 
-  [CreateProposalFormStepEnum.preview]: {
-    value: {},
-    isOpened: false,
-    isValid: false,
-  },
+    [CreateProposalFormStepEnum.preview]: {
+      value: {},
+      isOpened: false,
+      isValid: false,
+    },
+  };
 };
 
 export const createProposalFormStepOrder = [

@@ -26,7 +26,6 @@ export const CreateProposalExecutionStep = () => {
 
   const validateAndGoNext = () => {
     const hasErrors = validateExecuteJson();
-    console.log("isValid", hasErrors);
     if (!hasErrors) {
       next();
     }
@@ -63,7 +62,6 @@ export const CreateProposalExecutionStep = () => {
 const InnerForm = () => {
   const { patchExecutionStep, form, executeJsonError } =
     useCreateProposalStore();
-  console.log("CreateProposalExecutionStep", form[formStep].value.code.value);
 
   const {
     register,
@@ -91,7 +89,6 @@ const InnerForm = () => {
 
   useEffect(() => {
     const subscription = watch((value) => {
-      console.log("watch", value.code);
       patchExecutionStep({
         code: value.code || "",
       });

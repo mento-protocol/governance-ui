@@ -87,6 +87,11 @@ const InnerForm = () => {
         error={errors.title?.message}
         placeholder="Enter a title for your proposal"
       />
+      <p className="mt-4 font-semibold">Description</p>
+      <p className="mt-4">
+        Proposal description can be written as plain text or formatted with{" "}
+        <span className="font-semibold">Markdown.</span>
+      </p>
       <MarkdownEditor
         className="mt-4"
         value={watch("content")}

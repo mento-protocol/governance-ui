@@ -8,7 +8,8 @@ import { CreateProposalFormStepEnum } from "@interfaces/create-proposal.interfac
 import { useCallback, useMemo, useState } from "react";
 import { Address } from "viem";
 import styles from "./create-proposal-preview-step.module.scss";
-import { useWriteContract } from "wagmi";
+import { useWriteContract, useSimulateContract } from "wagmi";
+import { useRouter } from "next/navigation";
 
 const formStep = CreateProposalFormStepEnum.preview;
 
@@ -23,8 +24,11 @@ type ProposalCreateParams = {
 
 export const CreateProposalPreviewStep = () => {
   const [isProposalPreviewOpen, setIsProposalPreviewOpen] = useState(false);
+  const [isPending, setIsPending] = useState(false);
   const { form, next, prev } = useCreateProposalStore();
+  const { data, error, writeContract } = useWriteContract();
   const contracts = useContracts();
+  const router = useRouter();
 
   const proposal: ProposalCreateParams = useMemo(() => {
     const { title, description } =
@@ -55,25 +59,32 @@ export const CreateProposalPreviewStep = () => {
     };
   }, [form]);
 
-  const { data, error, writeContract } = useWriteContract();
-
   const onSave = useCallback(() => {
-    writeContract({
-      address: contracts?.MentoGovernor.address as Address,
-      abi: GovernorABI,
-      functionName: "propose",
-      args: [
-        proposal.transactions.map(
-          (transaction) => transaction.address as Address,
-        ),
-        proposal.transactions.map((transaction) => BigInt(transaction.value)),
-        proposal.transactions.map((transaction) => transaction.data),
-        JSON.stringify(proposal.metadata),
-      ] as any,
-    });
-    localStorage.removeItem("proposalTitle");
-    localStorage.removeItem("proposalDescription");
-    localStorage.removeItem("proposalExecutionCode");
+    setIsPending(true);
+    writeContract(
+      {
+        address: contracts?.MentoGovernor.address as Address,
+        abi: GovernorABI,
+        functionName: "propose",
+        args: [
+          proposal.transactions.map(
+            (transaction) => transaction.address as Address,
+          ),
+          proposal.transactions.map((transaction) => BigInt(transaction.value)),
+          proposal.transactions.map((transaction) => transaction.data),
+          JSON.stringify(proposal.metadata),
+        ] as any,
+      },
+      {
+        onSuccess: () => {
+          setIsPending(false);
+          router.push("/");
+          localStorage.removeItem("proposalTitle");
+          localStorage.removeItem("proposalDescription");
+          localStorage.removeItem("proposalExecutionCode");
+        },
+      },
+    );
   }, [writeContract, proposal, contracts?.MentoGovernor.address]);
 
   return (
@@ -82,6 +93,7 @@ export const CreateProposalPreviewStep = () => {
       title="Preview your proposal"
       next={onSave}
       prev={prev}
+      isPending={isPending}
       className={styles.container}
       isOpened={form[formStep].isOpened}
     >

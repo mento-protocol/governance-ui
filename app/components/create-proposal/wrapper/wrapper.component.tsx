@@ -1,6 +1,6 @@
 "use client";
 import styles from "../create-proposal.module.scss";
-import { Button, Card, StepCounter } from "@components/_shared";
+import { Button, Card, Loader, StepCounter } from "@components/_shared";
 import classNames from "classnames";
 import BaseComponentProps from "@interfaces/base-component-props.interface";
 import {
@@ -15,6 +15,7 @@ interface WrapperProps extends BaseComponentProps {
   isOpened: boolean;
   canGoNext?: boolean;
   canGoPrev?: boolean;
+  isPending?: boolean;
   next: () => void;
   prev: () => void;
 }
@@ -28,6 +29,7 @@ const Wrapper = ({
   isOpened,
   canGoNext = true,
   canGoPrev = true,
+  isPending = false,
   next,
   prev,
 }: WrapperProps) => {
@@ -62,7 +64,7 @@ const Wrapper = ({
             <Button
               className="min-w-x20"
               onClick={prev}
-              disabled={!canGoPrev}
+              disabled={!canGoPrev || isPending}
               theme="tertiary"
             >
               Back
@@ -72,14 +74,19 @@ const Wrapper = ({
                 className="min-w-x20"
                 onClick={next}
                 theme="primary"
-                disabled={!canGoNext}
+                disabled={!canGoNext || isPending}
               >
-                Next
+                {!isPending ? "Next" : <Loader empty size={20} />}
               </Button>
             )}
-            {!canGoNext && step === CreateProposalFormStepEnum.preview && (
-              <Button className="min-w-x20" onClick={next} theme="primary">
-                Save
+            {step === CreateProposalFormStepEnum.preview && (
+              <Button
+                className="min-w-x20"
+                onClick={next}
+                theme="primary"
+                disabled={!canGoNext || isPending}
+              >
+                {!isPending ? "Save" : <Loader empty size={20} />}
               </Button>
             )}
           </div>

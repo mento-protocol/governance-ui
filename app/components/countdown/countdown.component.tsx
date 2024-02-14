@@ -3,15 +3,37 @@ import BaseComponentProps from "@interfaces/base-component-props.interface";
 import classNames from "classnames";
 import styles from "./countdown.module.scss";
 import { useEffect, useState } from "react";
-import {
-  differenceInDays,
-  differenceInHours,
-  differenceInMinutes,
-  differenceInSeconds,
-} from "date-fns";
+
+const getTimeLeftValues = (countDown: number) => {
+  const days = Math.floor(countDown / (1000 * 60 * 60 * 24));
+  const hours = Math.floor(
+    (countDown % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60),
+  );
+  const minutes = Math.floor((countDown % (1000 * 60 * 60)) / (1000 * 60));
+  const seconds = Math.floor((countDown % (1000 * 60)) / 1000);
+
+  return [days, hours, minutes, seconds];
+};
+
+const useCountdown = (end: number, countDownMilliseconds: number) => {
+  const [countDown, setCountDown] = useState(end);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const timeLeft = countDown - countDownMilliseconds;
+      if (timeLeft >= 0) {
+        setCountDown(timeLeft);
+      }
+    }, countDownMilliseconds);
+
+    return () => clearInterval(interval);
+  }, [countDown, countDownMilliseconds]);
+
+  return getTimeLeftValues(countDown);
+};
 
 interface CountdownComponentProps extends BaseComponentProps {
-  end: Date;
+  end: number;
   countDownMilliseconds: number;
 }
 
@@ -21,56 +43,10 @@ export const Countdown = ({
   countDownMilliseconds,
   style,
 }: CountdownComponentProps) => {
-  const [days, setDays] = useState(0);
-  const [hours, setHours] = useState(0);
-  const [minutes, setMinutes] = useState(0);
-  const [seconds, setSeconds] = useState(0);
-
-  const [intervalRef, setIntervalRef] = useState(null as number | null);
-
-  const parseCountdown = (to: Date) => {
-    const from = new Date();
-    setDays(Math.floor(differenceInDays(to, from)));
-    setHours(Math.floor(differenceInHours(to, from) % 24));
-    setMinutes(Math.floor(differenceInMinutes(to, from) % 60));
-    setSeconds(Math.floor(differenceInSeconds(to, from) % 60));
-  };
-
-  useEffect(() => {
-    if (intervalRef) {
-      clearTimeout(intervalRef);
-      setIntervalRef(null);
-      clearAllTimeouts();
-    }
-    parseCountdown(end);
-    const t = setInterval(
-      () => {
-        parseCountdown(end);
-      },
-      countDownMilliseconds,
-      {},
-    );
-
-    setIntervalRef(t);
-
-    return () => {
-      if (intervalRef) {
-        clearTimeout(intervalRef);
-        setIntervalRef(null);
-      }
-    };
-  }, [end, countDownMilliseconds, intervalRef]);
-
-  const clearAllTimeouts = () => {
-    const noopInterval = window.setInterval(
-      function () {},
-      Number.MAX_SAFE_INTEGER,
-    );
-
-    for (let i = 1; i < noopInterval; i++) {
-      window.clearInterval(i);
-    }
-  };
+  const [days, hours, minutes, seconds] = useCountdown(
+    end,
+    countDownMilliseconds,
+  );
 
   return (
     <div className={classNames(styles.countdown, className)} style={style}>

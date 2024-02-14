@@ -19,9 +19,10 @@ import { stateToBadgeColorMap } from "@interfaces/proposal.interface";
 import { IVoteType } from "@interfaces/vote.interface";
 import classNames from "classnames";
 import { format } from "date-fns";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import styles from "./page.module.scss";
 import { ProposalState } from "@/app/graphql";
+import { useBlock } from "wagmi";
 
 const voteTypeToModalType = (voteType: IVoteType) => {
   switch (voteType) {
@@ -37,9 +38,9 @@ const voteTypeToModalType = (voteType: IVoteType) => {
 
 const Page = ({ params }: { params: { id: string } }) => {
   const { showConfirm } = useModal();
-
   const { proposal, isFetching, fetch, vote } = useProposalDetailsStore();
   const { walletAddress, balanceVeMENTO } = useUserStore();
+  const { data: block } = useBlock();
 
   useEffect(() => {
     fetch(params.id);
@@ -57,6 +58,16 @@ const Page = ({ params }: { params: { id: string } }) => {
       }
     });
   };
+
+  const estimatedBlockTimestamp = useMemo(() => {
+    const CELO_BLOCK_TIME = 5; // seconds
+    const targetBlock = proposal?.endBlock || 0;
+    const currentBlockTimestamp = block ? Number(block.timestamp) : 0;
+    const currentBlock = block ? Number(block.number) : 0;
+    return (
+      currentBlockTimestamp + CELO_BLOCK_TIME * (targetBlock - currentBlock)
+    );
+  }, [block, proposal?.endBlock]);
 
   return (
     <main className="flex flex-col">
@@ -77,10 +88,12 @@ const Page = ({ params }: { params: { id: string } }) => {
               </h1>
             </div>
             <div className="md:col-start-5 md:col-span-3">
-              <Countdown
-                end={proposal.deadlineAt}
-                countDownMilliseconds={1000}
-              />
+              {estimatedBlockTimestamp ? (
+                <Countdown
+                  end={estimatedBlockTimestamp}
+                  countDownMilliseconds={1000}
+                />
+              ) : null}
             </div>
           </div>
           <div className="flex flex-wrap place-items-center justify-start mt-8 gap-x6 ">

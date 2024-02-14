@@ -2,10 +2,11 @@ import { ConnectButton, MentoLock } from "@components/_shared";
 import { CreateProposalFormStepEnum } from "@interfaces/create-proposal.interface";
 import Wrapper from "@components/create-proposal/wrapper/wrapper.component";
 import { useCreateProposalStore, useUserStore } from "@/app/store";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useChainState } from "@/app/providers/chainState.provider";
 import { useAccount } from "wagmi";
 import useModal from "@/app/providers/modal.provider";
+import { debounce } from "lodash";
 
 const formStep = CreateProposalFormStepEnum.wallet;
 
@@ -66,7 +67,46 @@ const CurrentFormStep = ({ formStep }: { formStep: WalletStepEnum }) => {
 export const CreateProposalWalletStep = () => {
   const { veMento, mento } = useChainState((s) => s.tokens);
   const { address } = useAccount();
-  const { patchWalletStep, form, next, prev } = useCreateProposalStore();
+  const {
+    patchWalletStep,
+    form,
+    openedForm,
+    next,
+    prev,
+    patchContentStep,
+    patchExecutionStep,
+  } = useCreateProposalStore();
+  const { showConfirm } = useModal();
+
+  const validateCacheAndNavigate = debounce(
+    () => {
+      const cacheTitle = localStorage.getItem("proposalTitle");
+      const cacheDescription = localStorage.getItem("proposalDescription");
+      const cacheExecutionCode = localStorage.getItem("proposalExecutionCode");
+
+      if (cacheTitle || cacheDescription || cacheExecutionCode) {
+        localStorage.removeItem("proposalTitle");
+        localStorage.removeItem("proposalDescription");
+        localStorage.removeItem("proposalExecutionCode");
+        showConfirm("Do you want to load the cached proposal?").then((res) => {
+          if (res) {
+            patchContentStep({
+              title: cacheTitle || "",
+              description: cacheDescription || "",
+            });
+            patchExecutionStep({
+              code: cacheExecutionCode || "",
+            });
+          }
+          next();
+        });
+      } else {
+        next();
+      }
+    },
+    1000,
+    { leading: true, trailing: false },
+  );
 
   const getAndValidateStep = useMemo((): WalletStepEnum => {
     if (!address) {
@@ -84,6 +124,11 @@ export const CreateProposalWalletStep = () => {
 
   useEffect(() => {
     setFormStep(getAndValidateStep);
+    if (getAndValidateStep === WalletStepEnum.createProposal) {
+      if (openedForm === formStep) {
+        validateCacheAndNavigate();
+      }
+    }
     patchWalletStep({
       walletAddress: address || "",
       balanceMENTO: mento.balance,

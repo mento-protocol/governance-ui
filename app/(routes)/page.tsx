@@ -11,7 +11,6 @@ import {
 } from "@components/_shared";
 import { ProposalsListComponent } from "@components/proposals-list/proposals-list.component";
 import { Loader } from "@components/_shared";
-import NumbersService from "@/app/helpers/numbers.service";
 import { ContractParams } from "@components/contract-params/contract-params.component";
 import { useRouter } from "next/navigation";
 import { useUserStore } from "@/app/store";

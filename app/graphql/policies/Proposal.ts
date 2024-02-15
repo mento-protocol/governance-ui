@@ -5,8 +5,8 @@ import {
   Account,
   ProposalState,
   ProposalSupport,
-  VoteReceipt,
   ProposalVotes,
+  VoteCast,
 } from "../generated/graphql";
 
 export const ProposalPolicy: TypePolicy = {
@@ -38,17 +38,17 @@ export const ProposalPolicy: TypePolicy = {
       },
     },
     votes: {
-      read(_, { readField }): Votes {
-        const receiptRefs = readField<Array<VoteReceipt>>("receipts") || [];
+      read(_, { readField }): ProposalVotes {
+        const votecastRefs = readField<Array<VoteCast>>("votecast") || [];
 
-        return receiptRefs.reduce(
-          (acc: Votes, receiptRef) => {
-            const voterRef = readField<Account>("voter", receiptRef);
+        return votecastRefs.reduce(
+          (acc: ProposalVotes, votecastRef) => {
+            const voterRef = readField<Account>("voter", votecastRef);
             const supportRef = readField<ProposalSupport>(
               "support",
-              receiptRef,
+              votecastRef,
             );
-            const rawWeight = readField<string>("weight", receiptRef) || "";
+            const rawWeight = readField<string>("weight", supportRef) || "";
             const weight = BigInt(rawWeight);
 
             const address = readField<string>("id", voterRef) as Address;

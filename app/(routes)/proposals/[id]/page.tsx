@@ -1,17 +1,16 @@
 "use client";
-import { GetProposal, ProposalState } from "@/app/graphql";
+import { GetProposal, Proposal, ProposalState } from "@/app/graphql";
 import { useProposalStates } from "@/app/hooks/useProposalStates";
 import { useUserStore } from "@/app/store";
 import { useSuspenseQuery } from "@apollo/experimental-nextjs-app-support/ssr";
 import classNames from "classnames";
 import { format } from "date-fns";
 import { useState } from "react";
-import { useBlock } from "wagmi";
+import { UseBlockReturnType, useBlock, useBlockNumber } from "wagmi";
 import styles from "./page.module.scss";
 
 // Components
 import { MarkdownView } from "@/app/components/_shared/markdown-view/markdown-view.component";
-import { Votes } from "@/app/types";
 import {
   Avatar,
   Badge,
@@ -27,43 +26,36 @@ import Vote from "./_components/vote.component";
 
 const Page = ({ params }: { params: { id: string } }) => {
   const { walletAddress, balanceVeMENTO } = useUserStore();
-  const { data } = useSuspenseQuery(GetProposal, {
+
+  // FIXME: The return type definition is a bit hacky and ideally shouldn't be needed.
+  // It's likely fragments-related. If we inline the ProposalFields fragment into GetProposal,
+  // then it works without explicit return type definition 🤷‍♂️
+  const { data } = useSuspenseQuery<{ proposals: Proposal[] }>(GetProposal, {
     variables: { id: params.id },
   });
+
   useProposalStates(data?.proposals);
+
+  const [mobileVotingModalActive, setMobileVotingModalActive] = useState(false);
+  const [mobileParticipantsModalActive, setMobileParticipantsModelActive] =
+    useState(false);
+
   const proposal = data?.proposals[0];
-  console.log(proposal);
+  const currentBlock = useBlockNumber();
+  const endBlock = useBlock({ blockNumber: BigInt(proposal.endBlock) });
 
-  const proposer = proposal.proposer?.id;
+  const proposerId = proposal.proposer?.id;
   const status = proposal.state?.toString();
-  const title = proposal.metadata?.title;
-  const description = proposal.metadata?.description;
+  const { title, description } = proposal.metadata;
 
-  // The modals are mobile-only
-  const [votingModalActive, setVotingModalActive] = useState(false);
-  const [participantsModalActive, setParticipantsModelActive] = useState(false);
-
-  // TODO: Check if there can be cases where proposalCreated[0] can be undefined or if there can be multiple elements in the array
   const proposedOn = format(
-    new Date(parseInt(proposal.proposalCreated[0].timestamp) * 1000),
-    "MMMM do, yyyy",
+    // Bit weird that proposalCreated is an array but there should really ever be 1 ProposalCreated event so we just take the first one
+    new Date(proposal.proposalCreated[0].timestamp * 1000),
+    "MMMM do, yyyy 'at' hh:mm a",
   );
+  const votingDeadline = getEndBlockTime(proposal, currentBlock.data, endBlock);
 
-  // TODO: Reimplement voteEnd date considering all possible proposal states
-  // i.e. useBlock only works AFTER voting has finished, during or before voting deadline
-  // we will need to approximate the end date via sth like `Date.now() + (endBlock - currentblock) * 5 seconds`
-  const block = useBlock({ blockNumber: BigInt(proposal.endBlock) });
-  let voteEnd;
-  if (block.data?.timestamp) {
-    voteEnd = format(
-      new Date(Number(block.data.timestamp) * 1000),
-      "MMMM do, yyyy 'at' hh:mma",
-    );
-  }
-
-  // Fetch Participants
-  const votes = proposal.votes as Votes;
-
+  // TODO: Implement proper loading logic
   const loading = false;
 
   return (
@@ -96,10 +88,10 @@ const Page = ({ params }: { params: { id: string } }) => {
           </div>
           <div className="flex flex-wrap place-items-center justify-start mt-8 gap-x6 ">
             <div className="flex place-items-center gap-x2">
-              <Avatar address={proposer} />
+              <Avatar address={proposerId} />
               by{" "}
               <span className="font-medium">
-                <WalletAddressWithCopy address={proposer} />
+                <WalletAddressWithCopy address={proposerId} />
               </span>
             </div>
             <div className="flex place-items-center gap-x2">
@@ -108,7 +100,7 @@ const Page = ({ params }: { params: { id: string } }) => {
             </div>
             <div className="flex place-items-center gap-x2">
               <span>Voting deadline:</span>
-              <span className="font-medium">{voteEnd}</span>
+              <span className="font-medium">{votingDeadline}</span>
             </div>
           </div>
           <div className="mt-x6 flex flex-col md:flex-row md:justify-between place-items-start gap-x1 ">
@@ -118,8 +110,7 @@ const Page = ({ params }: { params: { id: string } }) => {
                 Description
               </h3>
               <MarkdownView markdown={description} />
-              {/* TODO: Implement 'Execution Code' section */}
-              <ExecutionCode />
+              <ExecutionCode calls={proposal.calls} />
             </div>
             <div className={styles.proposal_addons}>
               <div className={classNames(styles.mobile_controls)}>
@@ -128,7 +119,7 @@ const Page = ({ params }: { params: { id: string } }) => {
                   disabled={!walletAddress}
                   className={styles.mobile_button}
                   theme="primary"
-                  onClick={() => setVotingModalActive(true)}
+                  onClick={() => setMobileVotingModalActive(true)}
                 >
                   Vote
                 </Button>
@@ -136,7 +127,7 @@ const Page = ({ params }: { params: { id: string } }) => {
                   wrapperClassName={styles.mobile_button_wrapper}
                   className={styles.mobile_button}
                   theme="secondary"
-                  onClick={() => setParticipantsModelActive(true)}
+                  onClick={() => setMobileParticipantsModelActive(true)}
                 >
                   Participants
                 </Button>
@@ -145,14 +136,14 @@ const Page = ({ params }: { params: { id: string } }) => {
               {/* TODO: Hide voting section when voting isn't active */}
               <Vote
                 balanceVeMENTO={balanceVeMENTO}
-                setVotingModalActive={setVotingModalActive}
-                votingModalActive={votingModalActive}
+                setVotingModalActive={setMobileVotingModalActive}
+                votingModalActive={mobileVotingModalActive}
                 walletAddress={walletAddress}
               />
               <Participants
-                participantsModalActive={participantsModalActive}
-                setParticipantsModelActive={setParticipantsModelActive}
-                votes={votes}
+                participantsModalActive={mobileParticipantsModalActive}
+                setParticipantsModelActive={setMobileParticipantsModelActive}
+                votes={proposal.votes}
               />
             </div>
           </div>
@@ -161,5 +152,34 @@ const Page = ({ params }: { params: { id: string } }) => {
     </main>
   );
 };
+
+function getEndBlockTime(
+  proposal: Proposal,
+  currentBlock: bigint | undefined,
+  endBlock: UseBlockReturnType,
+) {
+  let endBlockTime;
+  if (currentBlock) {
+    // If the end block is already mined, we can fetch the timestamp
+    if (Number(currentBlock) >= proposal.endBlock && endBlock.data) {
+      endBlockTime = format(
+        new Date(Number(endBlock.data.timestamp) * 1000),
+        "MMMM do, yyyy 'at' hh:mm a",
+      );
+    } else {
+      // If the end block is not mined yet, we estimate the time
+      endBlockTime = format(
+        new Date(
+          Date.now() +
+            // Estimation of ~5 seconds per block
+            (proposal.endBlock - Number(currentBlock)) * 5000,
+        ),
+        "MMMM do, yyyy 'at' hh:mm a",
+      );
+    }
+  }
+
+  return endBlockTime;
+}
 
 export default Page;

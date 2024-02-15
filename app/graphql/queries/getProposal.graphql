@@ -1,70 +1,14 @@
 query getProposal($id: BigInt) {
   proposals(where: { proposalId: $id }) {
-    id
-    description
-    proposalId
-
-    proposalCreated {
-      timestamp
-    }
-    proposer {
-      id
-    }
-
-    # Proposal Status
-    queued
-    canceled
-    executed
-
-    metadata @client {
-      title
-      description
-    }
-
-    state @client
-
-    #########
-    # Votes #
-    #########
-
-    startBlock
-    endBlock
-
-    # receipts aren't used directly in the component. But they are required for the
-    # votes to be calculated in ./app/graphql/policies/Proposal.ts
-    receipts {
-      voter {
+    ...ProposalFields
+    calls(orderBy: index, orderDirection: asc) {
+      index
+      target {
         id
       }
-      support {
-        support
-      }
-      weight
-    }
-
-    votes @client {
-      for {
-        participants {
-          address
-          weight
-        }
-        total
-      }
-      against {
-        participants {
-          address
-          weight
-        }
-        total
-      }
-      abstain {
-        participants {
-          address
-          weight
-        }
-        total
-      }
-      total
+      value
+      signature
+      calldata
     }
   }
 }

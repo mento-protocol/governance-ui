@@ -22,7 +22,10 @@ export const VotesList = ({
     <div className={classNames(styles.list, className)} style={style}>
       <div className={styles.header}>
         <div>{votes[voteType].participants.length} Addresses</div>
-        <div>{formatUnits(votes[voteType].total, 18)} Votes</div>
+        <div>
+          {Number(formatUnits(votes[voteType].total, 18)).toLocaleString()}{" "}
+          Votes
+        </div>
       </div>
       {votes[voteType].participants.map((participant: Participant, index) => (
         <div key={index} className={styles.vote}>
@@ -41,6 +44,7 @@ const getParticipantPercentage = (
   participant: Participant,
   totalVotes: bigint,
 ) => {
+  // If there are no votes, we need to avoid division by zero
   if (totalVotes > BigInt(0)) {
     return `${Number((participant.weight / totalVotes) * BigInt(100)).toFixed(2)}%`;
   } else return "0%";

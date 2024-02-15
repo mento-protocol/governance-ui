@@ -6,7 +6,7 @@ type Participant {
 }
 
 type VoteType {
-  participants: [Participant!]
+  participants: [Participant!]!
   total: BigInt!
 }
 

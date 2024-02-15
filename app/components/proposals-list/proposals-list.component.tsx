@@ -1,4 +1,4 @@
-import { GetProposals } from "@/app/graphql";
+import { GetProposals, Proposal } from "@/app/graphql";
 import NumbersService from "@/app/helpers/numbers.service";
 import StringService from "@/app/helpers/string.service";
 import { useProposalStates } from "@/app/hooks/useProposalStates";
@@ -18,7 +18,7 @@ export const ProposalsListComponent = ({
   className,
   style,
 }: ProposalsListProps) => {
-  const { data } = useSuspenseQuery(GetProposals);
+  const { data } = useSuspenseQuery<{ proposals: Proposal[] }>(GetProposals);
   useProposalStates(data?.proposals);
 
   return (

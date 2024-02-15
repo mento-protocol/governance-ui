@@ -1,5 +1,4 @@
-import { Participant } from "@/app/graphql";
-import type { Votes } from "@/app/types";
+import type { Participant, ProposalVotes } from "@/app/graphql";
 import { Avatar } from "@components/_shared";
 import { WalletAddress } from "@components/wallet-address/wallet-address.component";
 import BaseComponentProps from "@interfaces/base-component-props.interface";
@@ -10,7 +9,7 @@ import styles from "./votes-list.module.scss";
 
 interface VotesListProps extends BaseComponentProps {
   voteType: IVoteType;
-  votes: Votes;
+  votes: ProposalVotes;
 }
 
 export const VotesList = ({

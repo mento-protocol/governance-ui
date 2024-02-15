@@ -1,11 +1,11 @@
 import { Card, TabList } from "@/app/components/_shared";
 import { VotesList } from "@/app/components/votes-list/votes-list.component";
-import { Votes } from "@/app/types";
+import type { ProposalVotes } from "@/app/graphql";
 import classNames from "classnames";
 import styles from "../page.module.scss";
 
 type Props = {
-  votes: Votes;
+  votes: ProposalVotes;
   participantsModalActive: boolean;
   setParticipantsModelActive: (active: boolean) => void;
 };

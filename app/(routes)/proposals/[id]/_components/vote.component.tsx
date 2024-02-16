@@ -23,7 +23,7 @@ export default function Vote({
       modalType: voteTypeToModalType(voteType),
     }).then((result) => {
       if (result) {
-        // TODO: Trigger vote tx here
+        // TODO: Trigger real vote tx here
         // vote(voteType, balanceVeMENTO, walletAddress || "");
       }
     });
@@ -34,6 +34,7 @@ export default function Vote({
       className={classNames(
         styles.backdrop,
         votingModalActive && styles.opened,
+        "mb-5",
       )}
     >
       <Card

@@ -134,14 +134,14 @@ const Page = ({ params }: { params: { id: string } }) => {
                   Participants
                 </Button>
               </div>
-              {/* TODO: Wire up voting buttons to actually trigger a TX */}
-              {/* TODO: Hide voting section when voting isn't active */}
-              <Vote
-                balanceVeMENTO={balanceVeMENTO}
-                setVotingModalActive={setMobileVotingModalActive}
-                votingModalActive={mobileVotingModalActive}
-                walletAddress={walletAddress}
-              />
+              {proposal.state === "Active" && (
+                <Vote
+                  balanceVeMENTO={balanceVeMENTO}
+                  setVotingModalActive={setMobileVotingModalActive}
+                  votingModalActive={mobileVotingModalActive}
+                  walletAddress={walletAddress}
+                />
+              )}
               <Participants
                 participantsModalActive={mobileParticipantsModalActive}
                 setParticipantsModelActive={setMobileParticipantsModelActive}

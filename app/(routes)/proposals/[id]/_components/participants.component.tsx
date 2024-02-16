@@ -27,7 +27,6 @@ export default function Participants({
           styles.proposal_addon,
           participantsModalActive && styles.opened,
           styles.participantsList,
-          "mt-5",
         )}
       >
         <Card.Header className="text-center text-2xl">

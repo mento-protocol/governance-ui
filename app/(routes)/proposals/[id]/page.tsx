@@ -21,7 +21,6 @@ import {
   Avatar,
   Badge,
   Button,
-  Loader,
   WalletAddressWithCopy,
 } from "@components/_shared";
 import { ProposalCurrentVotes } from "@components/proposal-current-votes/proposal-current-votes.component";
@@ -58,9 +57,8 @@ const Page = ({ params }: { params: { id: string } }) => {
 
   return (
     <main className="flex flex-col">
-      {loading && <Loader isCenter />}
-      {!loading && !proposal && <div>Proposal not found</div>}
-      {!loading && proposal && (
+      {!proposal && <div>Proposal not found</div>}
+      {proposal && (
         <>
           <Badge
             className="uppercase mt-x6 mb-3 font-medium"
@@ -100,10 +98,11 @@ const Page = ({ params }: { params: { id: string } }) => {
             <div className="flex place-items-center gap-x2">
               <span>Voting deadline:</span>
               <span className="font-medium">
-                <BlockExplorerLink type="block" item={proposal.endBlock}>
-                  {votingDeadline &&
-                    format(votingDeadline, "MMMM do, yyyy 'at' hh:mm a")}
-                </BlockExplorerLink>
+                {votingDeadline && (
+                  <BlockExplorerLink type="block" item={proposal.endBlock}>
+                    {format(votingDeadline, "MMMM do, yyyy 'at' hh:mm a")}{" "}
+                  </BlockExplorerLink>
+                )}
               </span>
             </div>
           </div>

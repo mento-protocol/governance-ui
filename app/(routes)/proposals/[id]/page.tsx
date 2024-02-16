@@ -5,7 +5,7 @@ import { useUserStore } from "@/app/store";
 import { useSuspenseQuery } from "@apollo/experimental-nextjs-app-support/ssr";
 import classNames from "classnames";
 import { format } from "date-fns";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import {
   UseBlockNumberReturnType,
   UseBlockReturnType,
@@ -17,6 +17,7 @@ import styles from "./page.module.scss";
 // Components
 import BlockExplorerLink from "@/app/components/_shared/block-explorer-link/block-explorer-link.component";
 import { MarkdownView } from "@/app/components/_shared/markdown-view/markdown-view.component";
+import { Countdown } from "@/app/components/countdown/countdown.component";
 import {
   Avatar,
   Badge,
@@ -53,7 +54,24 @@ const Page = ({ params }: { params: { id: string } }) => {
   const status = proposal.state?.toString();
   // There should really ever be 1 ProposalCreated event per proposal so we just take the first one
   const proposedOn = new Date(proposal.proposalCreated[0].timestamp * 1000);
-  const votingDeadline = getEndBlockTime(proposal, currentBlock, endBlock);
+
+  const votingDeadline = useMemo(() => {
+    const CELO_BLOCK_TIME = 5000; // 5 seconds
+
+    if (currentBlock.data) {
+      // If the end block is already mined, we can fetch the timestamp
+      if (Number(currentBlock.data) >= proposal.endBlock && endBlock.data) {
+        return new Date(Number(endBlock.data.timestamp) * 1000);
+      } else {
+        // If the end block is not mined yet, we estimate the time
+        return new Date(
+          Date.now() +
+            // Estimation of ~5 seconds per block
+            (proposal.endBlock - Number(currentBlock.data)) * CELO_BLOCK_TIME,
+        );
+      }
+    }
+  }, [currentBlock, endBlock, proposal.endBlock]);
 
   return (
     <main className="flex flex-col">
@@ -73,10 +91,12 @@ const Page = ({ params }: { params: { id: string } }) => {
               </h1>
             </div>
             <div className="md:col-start-5 md:col-span-3">
-              {/* TODO: Reactivate once the Countdown bug with 'Maximum update depth exceeded' is fixed */}
-              {/* {votingDeadline && (
-                <Countdown countDownMilliseconds={1000} end={votingDeadline} />
-              )} */}
+              {votingDeadline && (
+                <Countdown
+                  endTimestamp={votingDeadline.getTime()}
+                  updateIntervalInMs={1000}
+                />
+              )}
             </div>
           </div>
           <div className="flex flex-wrap place-items-center justify-start mt-8 gap-x6 ">

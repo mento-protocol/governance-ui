@@ -1,8 +1,8 @@
 "use client";
 import BaseComponentProps from "@interfaces/base-component-props.interface";
 import classNames from "classnames";
-import styles from "./countdown.module.scss";
 import { useEffect, useState } from "react";
+import styles from "./countdown.module.scss";
 
 const getTimeLeftValues = (countDown: number) => {
   const days = Math.floor(countDown / (1000 * 60 * 60 * 24));
@@ -15,37 +15,37 @@ const getTimeLeftValues = (countDown: number) => {
   return [days, hours, minutes, seconds];
 };
 
-const useCountdown = (end: number, countDownMilliseconds: number) => {
-  const [countDown, setCountDown] = useState(end);
+const useCountdown = (endTimestamp: number, updateIntervalInMs: number) => {
+  const [countDown, setCountDown] = useState(endTimestamp - Date.now());
 
   useEffect(() => {
     const interval = setInterval(() => {
-      const timeLeft = countDown - countDownMilliseconds;
+      const timeLeft = countDown - updateIntervalInMs;
       if (timeLeft >= 0) {
         setCountDown(timeLeft);
       }
-    }, countDownMilliseconds);
+    }, updateIntervalInMs);
 
     return () => clearInterval(interval);
-  }, [countDown, countDownMilliseconds]);
+  }, [countDown, updateIntervalInMs]);
 
   return getTimeLeftValues(countDown);
 };
 
 interface CountdownComponentProps extends BaseComponentProps {
-  end: number;
-  countDownMilliseconds: number;
+  endTimestamp: number;
+  updateIntervalInMs: number;
 }
 
 export const Countdown = ({
   className,
-  end,
-  countDownMilliseconds,
+  endTimestamp,
+  updateIntervalInMs,
   style,
 }: CountdownComponentProps) => {
   const [days, hours, minutes, seconds] = useCountdown(
-    end,
-    countDownMilliseconds,
+    endTimestamp,
+    updateIntervalInMs,
   );
 
   return (

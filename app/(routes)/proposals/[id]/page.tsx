@@ -6,10 +6,16 @@ import { useSuspenseQuery } from "@apollo/experimental-nextjs-app-support/ssr";
 import classNames from "classnames";
 import { format } from "date-fns";
 import { useState } from "react";
-import { UseBlockReturnType, useBlock, useBlockNumber } from "wagmi";
+import {
+  UseBlockReturnType,
+  useAccount,
+  useBlock,
+  useBlockNumber,
+} from "wagmi";
 import styles from "./page.module.scss";
 
 // Components
+import BlockExplorerLink from "@/app/components/_shared/block-explorer-link/block-explorer-link.component";
 import { MarkdownView } from "@/app/components/_shared/markdown-view/markdown-view.component";
 import {
   Avatar,
@@ -26,6 +32,8 @@ import Vote from "./_components/vote.component";
 
 const Page = ({ params }: { params: { id: string } }) => {
   const { walletAddress, balanceVeMENTO } = useUserStore();
+  const { chain } = useAccount();
+  const blockExplorerUrl = chain?.blockExplorers?.default.url;
 
   // FIXME: The return type definition is a bit hacky and ideally shouldn't be needed.
   // It's likely fragments-related. If we inline the ProposalFields fragment into GetProposal,
@@ -76,14 +84,11 @@ const Page = ({ params }: { params: { id: string } }) => {
                 {title}
               </h1>
             </div>
-            <div className="md:col-start-5 md:col-span-3"></div>
             <div className="md:col-start-5 md:col-span-3">
-              {estimatedBlockTimestamp ? (
-                <Countdown
-                  end={estimatedBlockTimestamp}
-                  countDownMilliseconds={1000}
-                />
-              ) : null}
+              {/* TODO: Reactivate once the Countdown bug with 'Maximum update depth exceeded' is fixed */}
+              {/* {votingDeadline && (
+                <Countdown countDownMilliseconds={1000} end={votingDeadline} />
+              )} */}
             </div>
           </div>
           <div className="flex flex-wrap place-items-center justify-start mt-8 gap-x6 ">
@@ -96,11 +101,20 @@ const Page = ({ params }: { params: { id: string } }) => {
             </div>
             <div className="flex place-items-center gap-x2">
               <span>Proposed on:</span>
-              <span className="font-medium">{proposedOn}</span>
+              <span className="font-medium">
+                <BlockExplorerLink type="block" item={proposal.startBlock}>
+                  {proposedOn}
+                </BlockExplorerLink>
+              </span>
             </div>
             <div className="flex place-items-center gap-x2">
               <span>Voting deadline:</span>
-              <span className="font-medium">{votingDeadline}</span>
+              <span className="font-medium">
+                <BlockExplorerLink type="block" item={proposal.endBlock}>
+                  {votingDeadline &&
+                    format(votingDeadline, "MMMM do, yyyy 'at' hh:mm a")}
+                </BlockExplorerLink>
+              </span>
             </div>
           </div>
           <div className="mt-x6 flex flex-col md:flex-row md:justify-between place-items-start gap-x1 ">
@@ -162,19 +176,13 @@ function getEndBlockTime(
   if (currentBlock) {
     // If the end block is already mined, we can fetch the timestamp
     if (Number(currentBlock) >= proposal.endBlock && endBlock.data) {
-      endBlockTime = format(
-        new Date(Number(endBlock.data.timestamp) * 1000),
-        "MMMM do, yyyy 'at' hh:mm a",
-      );
+      endBlockTime = new Date(Number(endBlock.data.timestamp) * 1000);
     } else {
       // If the end block is not mined yet, we estimate the time
-      endBlockTime = format(
-        new Date(
-          Date.now() +
-            // Estimation of ~5 seconds per block
-            (proposal.endBlock - Number(currentBlock)) * 5000,
-        ),
-        "MMMM do, yyyy 'at' hh:mm a",
+      endBlockTime = new Date(
+        Date.now() +
+          // Estimation of ~5 seconds per block
+          (proposal.endBlock - Number(currentBlock)) * 5000,
       );
     }
   }

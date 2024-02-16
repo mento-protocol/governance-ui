@@ -6,7 +6,12 @@ import { useSuspenseQuery } from "@apollo/experimental-nextjs-app-support/ssr";
 import classNames from "classnames";
 import { format } from "date-fns";
 import { useState } from "react";
-import { UseBlockReturnType, useBlock, useBlockNumber } from "wagmi";
+import {
+  UseBlockNumberReturnType,
+  UseBlockReturnType,
+  useBlock,
+  useBlockNumber,
+} from "wagmi";
 import styles from "./page.module.scss";
 
 // Components
@@ -49,10 +54,7 @@ const Page = ({ params }: { params: { id: string } }) => {
   const status = proposal.state?.toString();
   // There should really ever be 1 ProposalCreated event per proposal so we just take the first one
   const proposedOn = new Date(proposal.proposalCreated[0].timestamp * 1000);
-  const votingDeadline = getEndBlockTime(proposal, currentBlock.data, endBlock);
-
-  // TODO: Implement proper loading logic
-  const loading = false;
+  const votingDeadline = getEndBlockTime(proposal, currentBlock, endBlock);
 
   return (
     <main className="flex flex-col">
@@ -157,20 +159,20 @@ const Page = ({ params }: { params: { id: string } }) => {
 
 function getEndBlockTime(
   proposal: Proposal,
-  currentBlock: bigint | undefined,
+  currentBlock: UseBlockNumberReturnType,
   endBlock: UseBlockReturnType,
 ) {
   let endBlockTime;
-  if (currentBlock) {
+  if (currentBlock.data) {
     // If the end block is already mined, we can fetch the timestamp
-    if (Number(currentBlock) >= proposal.endBlock && endBlock.data) {
+    if (Number(currentBlock.data) >= proposal.endBlock && endBlock.data) {
       endBlockTime = new Date(Number(endBlock.data.timestamp) * 1000);
     } else {
       // If the end block is not mined yet, we estimate the time
       endBlockTime = new Date(
         Date.now() +
           // Estimation of ~5 seconds per block
-          (proposal.endBlock - Number(currentBlock)) * 5000,
+          (proposal.endBlock - Number(currentBlock.data)) * 5000,
       );
     }
   }

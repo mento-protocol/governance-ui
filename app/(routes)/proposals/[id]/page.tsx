@@ -35,13 +35,13 @@ const Page = ({ params }: { params: { id: string } }) => {
     variables: { id: params.id },
   });
 
-  useProposalStates(data?.proposals);
+  useProposalStates(data.proposals);
 
   const [mobileVotingModalActive, setMobileVotingModalActive] = useState(false);
   const [mobileParticipantsModalActive, setMobileParticipantsModelActive] =
     useState(false);
 
-  const proposal = data?.proposals[0];
+  const proposal = data.proposals[0];
   const { title, description } = proposal.metadata;
   const currentBlock = useBlockNumber();
   const endBlock = useBlock({ blockNumber: BigInt(proposal.endBlock) });

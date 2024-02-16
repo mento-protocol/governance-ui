@@ -6,12 +6,7 @@ import { useSuspenseQuery } from "@apollo/experimental-nextjs-app-support/ssr";
 import classNames from "classnames";
 import { format } from "date-fns";
 import { useState } from "react";
-import {
-  UseBlockReturnType,
-  useAccount,
-  useBlock,
-  useBlockNumber,
-} from "wagmi";
+import { UseBlockReturnType, useBlock, useBlockNumber } from "wagmi";
 import styles from "./page.module.scss";
 
 // Components
@@ -32,8 +27,6 @@ import Vote from "./_components/vote.component";
 
 const Page = ({ params }: { params: { id: string } }) => {
   const { walletAddress, balanceVeMENTO } = useUserStore();
-  const { chain } = useAccount();
-  const blockExplorerUrl = chain?.blockExplorers?.default.url;
 
   // FIXME: The return type definition is a bit hacky and ideally shouldn't be needed.
   // It's likely fragments-related. If we inline the ProposalFields fragment into GetProposal,
@@ -49,18 +42,13 @@ const Page = ({ params }: { params: { id: string } }) => {
     useState(false);
 
   const proposal = data?.proposals[0];
+  const { title, description } = proposal.metadata;
   const currentBlock = useBlockNumber();
   const endBlock = useBlock({ blockNumber: BigInt(proposal.endBlock) });
-
   const proposerId = proposal.proposer?.id;
   const status = proposal.state?.toString();
-  const { title, description } = proposal.metadata;
-
-  const proposedOn = format(
-    // Bit weird that proposalCreated is an array but there should really ever be 1 ProposalCreated event so we just take the first one
-    new Date(proposal.proposalCreated[0].timestamp * 1000),
-    "MMMM do, yyyy 'at' hh:mm a",
-  );
+  // There should really ever be 1 ProposalCreated event per proposal so we just take the first one
+  const proposedOn = new Date(proposal.proposalCreated[0].timestamp * 1000);
   const votingDeadline = getEndBlockTime(proposal, currentBlock.data, endBlock);
 
   // TODO: Implement proper loading logic
@@ -103,7 +91,7 @@ const Page = ({ params }: { params: { id: string } }) => {
               <span>Proposed on:</span>
               <span className="font-medium">
                 <BlockExplorerLink type="block" item={proposal.startBlock}>
-                  {proposedOn}
+                  {format(proposedOn, "MMMM do, yyyy 'at' hh:mm a")}
                 </BlockExplorerLink>
               </span>
             </div>

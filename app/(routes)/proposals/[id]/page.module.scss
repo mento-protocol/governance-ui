@@ -19,7 +19,7 @@
     &__value {
       margin-top: 3 * $theme-unit;
       margin-bottom: 2 * $theme-unit;
-      color: #000;
+      color: var(--theme-foreground-color);
       font-size: 6 * $theme-unit;
       line-height: 6 * $theme-unit;
     }

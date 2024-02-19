@@ -6,12 +6,7 @@ import { useSuspenseQuery } from "@apollo/experimental-nextjs-app-support/ssr";
 import classNames from "classnames";
 import { format } from "date-fns";
 import { useMemo, useState } from "react";
-import {
-  UseBlockNumberReturnType,
-  UseBlockReturnType,
-  useBlock,
-  useBlockNumber,
-} from "wagmi";
+import { useBlock, useBlockNumber } from "wagmi";
 import styles from "./page.module.scss";
 
 // Components
@@ -175,28 +170,5 @@ const Page = ({ params }: { params: { id: string } }) => {
     </main>
   );
 };
-
-function getEndBlockTime(
-  proposal: Proposal,
-  currentBlock: UseBlockNumberReturnType,
-  endBlock: UseBlockReturnType,
-) {
-  let endBlockTime;
-  if (currentBlock.data) {
-    // If the end block is already mined, we can fetch the timestamp
-    if (Number(currentBlock.data) >= proposal.endBlock && endBlock.data) {
-      endBlockTime = new Date(Number(endBlock.data.timestamp) * 1000);
-    } else {
-      // If the end block is not mined yet, we estimate the time
-      endBlockTime = new Date(
-        Date.now() +
-          // Estimation of ~5 seconds per block
-          (proposal.endBlock - Number(currentBlock.data)) * 5000,
-      );
-    }
-  }
-
-  return endBlockTime;
-}
 
 export default Page;

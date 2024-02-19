@@ -1,26 +1,13 @@
-import { ProposalState, ProposalSupport } from "../generated/graphql";
 import { proposalToStateVar } from "@/app/hooks/useProposalStates";
-import { TypePolicy } from "@apollo/client/cache";
-
-type Votes = {
-  votesAgainst: bigint;
-  votesFor: bigint;
-  votesAbstain: bigint;
-  votesTotal: bigint;
-};
-
-const supportKey = (support: number): keyof Votes => {
-  switch (support) {
-    case 0:
-      return "votesAgainst";
-    case 1:
-      return "votesFor";
-    case 2:
-      return "votesAbstain";
-    default:
-      throw new Error(`Invalid support type: ${support.toString()}`);
-  }
-};
+import type { TypePolicy } from "@apollo/client/cache";
+import type { Address } from "viem";
+import {
+  Account,
+  ProposalState,
+  ProposalSupport,
+  ProposalVotes,
+  VoteCast,
+} from "../generated/graphql";
 
 export const ProposalPolicy: TypePolicy = {
   fields: {
@@ -51,29 +38,74 @@ export const ProposalPolicy: TypePolicy = {
       },
     },
     votes: {
-      read(_, { readField }): Votes {
-        const supportRefs = readField<Array<ProposalSupport>>("supports") || [];
-        return supportRefs.reduce(
-          (acc: Votes, supportRef) => {
-            const supportType = readField<ProposalSupport["support"]>(
+      read(_, { readField }): ProposalVotes {
+        const votecastRefs = readField<Array<VoteCast>>("votecast") || [];
+
+        return votecastRefs.reduce(
+          (acc: ProposalVotes, votecastRef) => {
+            const voterRef = readField<Account>("voter", votecastRef);
+            const supportRef = readField<ProposalSupport>(
+              "support",
+              votecastRef,
+            );
+            const rawWeight = readField<string>("weight", supportRef) || "";
+            const weight = BigInt(rawWeight);
+
+            const address = readField<string>("id", voterRef) as Address;
+            const support = readField<ProposalSupport["support"]>(
               "support",
               supportRef,
             );
-            const weight = readField<ProposalSupport["weight"]>(
-              "weight",
-              supportRef,
-            );
-            const key = supportKey(supportType!);
 
-            acc.votesTotal += weight;
-            acc[key] += weight;
+            switch (support) {
+              // AGAINST
+              case 0:
+                acc.against.total += weight;
+                acc.against.participants.push({
+                  address,
+                  weight,
+                });
+                break;
+
+              // FOR
+              case 1:
+                acc.for.total += weight;
+                acc.for.participants.push({
+                  address,
+                  weight,
+                });
+                break;
+
+              // ABSTAIN
+              case 2:
+                acc.abstain.total += weight;
+                acc.abstain.participants.push({
+                  address,
+                  weight,
+                });
+                break;
+
+              default:
+                throw new Error(`Invalid support type: ${support}`);
+            }
+            acc.total += weight;
+
             return acc;
           },
           {
-            votesAgainst: 0n,
-            votesFor: 0n,
-            votesAbstain: 0n,
-            votesTotal: 0n,
+            for: {
+              participants: [],
+              total: 0n,
+            },
+            against: {
+              participants: [],
+              total: 0n,
+            },
+            abstain: {
+              participants: [],
+              total: 0n,
+            },
+            total: 0n,
           },
         );
       },

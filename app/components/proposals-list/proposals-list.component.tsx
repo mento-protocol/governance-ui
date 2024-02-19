@@ -1,4 +1,4 @@
-import { GetProposals } from "@/app/graphql";
+import { GetProposals, Proposal } from "@/app/graphql";
 import NumbersService from "@/app/helpers/numbers.service";
 import StringService from "@/app/helpers/string.service";
 import { useProposalStates } from "@/app/hooks/useProposalStates";
@@ -9,8 +9,8 @@ import BaseComponentProps from "@interfaces/base-component-props.interface";
 import { stateToBadgeColorMap } from "@interfaces/proposal.interface";
 import classNames from "classnames";
 import Link from "next/link";
+import { formatUnits, numberToHex } from "viem";
 import styles from "./proposals-list.module.scss";
-import { formatUnits } from "viem";
 
 interface ProposalsListProps extends BaseComponentProps {}
 
@@ -18,7 +18,7 @@ export const ProposalsListComponent = ({
   className,
   style,
 }: ProposalsListProps) => {
-  const { data } = useSuspenseQuery(GetProposals);
+  const { data } = useSuspenseQuery<{ proposals: Proposal[] }>(GetProposals);
   useProposalStates(data?.proposals);
 
   return (
@@ -49,6 +49,11 @@ export const ProposalsListComponent = ({
                   )}
                 >
                   <div className="flex gap-x3 place-items-center">
+                    <div className={styles.index}>
+                      <Link href={`/proposals/${proposalId}`}>
+                        {numberToHex(BigInt(proposalId)).slice(0, 10)}
+                      </Link>
+                    </div>
                     <Link
                       className="flex-1"
                       style={{ maxHeight: "3em" }}
@@ -86,8 +91,8 @@ export const ProposalsListComponent = ({
                   <ProgressBar
                     type="success"
                     className={styles.progress_bar}
-                    current={Number(formatUnits(votes.votesFor, 18))}
-                    max={Number(formatUnits(votes.votesTotal, 18))}
+                    current={Number(formatUnits(votes.for.total, 18))}
+                    max={Number(formatUnits(votes.total, 18))}
                     valueFormat="alphabetic"
                   />
                 </div>
@@ -97,8 +102,8 @@ export const ProposalsListComponent = ({
                   <ProgressBar
                     type="danger"
                     className={styles.progress_bar}
-                    current={Number(formatUnits(votes.votesAgainst, 18))}
-                    max={Number(formatUnits(votes.votesTotal, 18))}
+                    current={Number(formatUnits(votes.against.total, 18))}
+                    max={Number(formatUnits(votes.total, 18))}
                     valueFormat="alphabetic"
                   />
                 </div>
@@ -110,7 +115,7 @@ export const ProposalsListComponent = ({
                   )}
                 >
                   {NumbersService.parseNumericValue(
-                    formatUnits(votes.votesTotal, 18),
+                    formatUnits(votes.total, 18),
                   )}
                 </div>
               </div>

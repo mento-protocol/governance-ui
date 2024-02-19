@@ -1,10 +1,20 @@
 directive @client on FIELD
 
+type Participant {
+  address: String!
+  weight: BigInt!
+}
+
+type VoteType {
+  participants: [Participant!]!
+  total: BigInt!
+}
+
 type ProposalVotes {
-  votesFor: BigInt!,
-  votesAgainst: BigInt!,
-  votesAbstain: BigInt!,
-  votesTotal: BigInt!,
+  for: VoteType!
+  against: VoteType!
+  abstain: VoteType!
+  total: BigInt!
 }
 
 type ProposalMetadata {
@@ -26,6 +36,6 @@ enum ProposalState {
 
 extend type Proposal {
   state: ProposalState!
-  metadata: ProposalMetadata!,
-  votes: ProposalVotes!,
+  metadata: ProposalMetadata!
+  votes: ProposalVotes!
 }

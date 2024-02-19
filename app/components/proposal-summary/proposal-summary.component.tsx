@@ -1,16 +1,16 @@
-import { GetProposals } from "@/app/graphql";
-import { useBlockNumber, useReadContract } from "wagmi";
 import { LockingABI } from "@/app/abis/Locking";
-import { useMemo } from "react";
-import { useSuspenseQuery } from "@apollo/client";
+import { GetProposals, Proposal } from "@/app/graphql";
 import NumbersService from "@/app/helpers/numbers.service";
-import { Card } from "@components/_shared";
-import { formatUnits } from "viem";
 import { useContracts } from "@/app/hooks/useContracts";
+import { useSuspenseQuery } from "@apollo/client";
+import { Card } from "@components/_shared";
+import { useMemo } from "react";
+import { formatUnits } from "viem";
+import { useBlockNumber, useReadContract } from "wagmi";
 
 const ProposalSummaryComponent = () => {
   const contracts = useContracts();
-  const { data } = useSuspenseQuery(GetProposals);
+  const { data } = useSuspenseQuery<{ proposals: Proposal[] }>(GetProposals);
   const { data: totalSupply } = useReadContract({
     address: contracts.Locking.address,
     abi: LockingABI,

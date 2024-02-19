@@ -1,0 +1,64 @@
+fragment ProposalFields on Proposal {
+  proposalId
+  description
+  proposer {
+    id
+  }
+  proposalCreated {
+    timestamp
+  }
+
+  # Votes
+  votecast {
+    timestamp
+    voter {
+      id
+    }
+    support {
+      support
+      weight
+    }
+  }
+
+  # Start & End Time
+  startBlock
+  endBlock
+
+  # Proposal Status
+  queued
+  canceled
+  executed
+
+  ######################
+  # Client-side fields #
+  ######################
+  state @client
+  metadata @client {
+    title
+    description
+  }
+  votes @client {
+    for {
+      participants {
+        address
+        weight
+      }
+      total
+    }
+    against {
+      participants {
+        address
+        weight
+      }
+      total
+    }
+    abstain {
+      participants {
+        address
+        weight
+      }
+      total
+    }
+    total
+  }
+}

@@ -1,6 +1,6 @@
+import { ContractAddresses } from "@mento-protocol/mento-sdk";
 import { ChainContract } from "viem";
 import { Chain } from "viem/chains";
-import { ContractAddresses } from "@mento-protocol/mento-sdk";
 
 export type BadgeType =
   | "primary"

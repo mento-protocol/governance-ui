@@ -1,119 +1,123 @@
 "use client";
+import { GetProposal, Proposal, ProposalState } from "@/app/graphql";
+import { useProposalStates } from "@/app/hooks/useProposalStates";
+import { useUserStore } from "@/app/store";
+import { useSuspenseQuery } from "@apollo/experimental-nextjs-app-support/ssr";
+import classNames from "classnames";
+import { format } from "date-fns";
+import { useMemo, useState } from "react";
+import { useBlock, useBlockNumber } from "wagmi";
+import styles from "./page.module.scss";
+
+// Components
+import BlockExplorerLink from "@/app/components/_shared/block-explorer-link/block-explorer-link.component";
 import { MarkdownView } from "@/app/components/_shared/markdown-view/markdown-view.component";
-import useModal from "@/app/providers/modal.provider";
-import { useProposalDetailsStore, useUserStore } from "@/app/store";
+import { Countdown } from "@/app/components/countdown/countdown.component";
 import {
   Avatar,
   Badge,
   Button,
-  Card,
-  ExecutionCodeView,
-  Loader,
-  TabList,
   WalletAddressWithCopy,
 } from "@components/_shared";
-import { Countdown } from "@components/countdown/countdown.component";
 import { ProposalCurrentVotes } from "@components/proposal-current-votes/proposal-current-votes.component";
-import { VotesList } from "@components/votes-list/votes-list.component";
 import { stateToBadgeColorMap } from "@interfaces/proposal.interface";
-import { IVoteType } from "@interfaces/vote.interface";
-import classNames from "classnames";
-import { format } from "date-fns";
-import { useEffect, useMemo, useState } from "react";
-import styles from "./page.module.scss";
-import { ProposalState } from "@/app/graphql";
-import { useBlock } from "wagmi";
-
-const voteTypeToModalType = (voteType: IVoteType) => {
-  switch (voteType) {
-    case "for":
-      return "success";
-    case "against":
-      return "error";
-    case "abstain":
-    default:
-      return "info";
-  }
-};
+import ExecutionCode from "./_components/execution-code.component";
+import Participants from "./_components/participants.component";
+import Vote from "./_components/vote.component";
 
 const Page = ({ params }: { params: { id: string } }) => {
-  const { showConfirm } = useModal();
-  const { proposal, isFetching, fetch, vote } = useProposalDetailsStore();
   const { walletAddress, balanceVeMENTO } = useUserStore();
-  const { data: block } = useBlock();
 
-  useEffect(() => {
-    fetch(params.id);
-  }, [params.id, fetch]);
+  // FIXME: The return type definition is a bit hacky and ideally shouldn't be needed.
+  // It's likely fragments-related. If we inline the ProposalFields fragment into GetProposal,
+  // then it works without explicit return type definition 🤷‍♂️
+  const { data } = useSuspenseQuery<{ proposals: Proposal[] }>(GetProposal, {
+    variables: { id: params.id },
+  });
 
-  const [votingOpened, setVotingOpened] = useState(false);
-  const [votesListOpened, setVotesListOpened] = useState(false);
+  useProposalStates(data.proposals);
 
-  const onSubmit = (voteType: IVoteType) => {
-    showConfirm(`Are you sure you want to vote with ${balanceVeMENTO} power?`, {
-      modalType: voteTypeToModalType(voteType),
-    }).then((result) => {
-      if (result) {
-        vote(voteType, balanceVeMENTO, walletAddress || "");
+  const [mobileVotingModalActive, setMobileVotingModalActive] = useState(false);
+  const [mobileParticipantsModalActive, setMobileParticipantsModelActive] =
+    useState(false);
+
+  const proposal = data.proposals[0];
+  const { title, description } = proposal.metadata;
+  const currentBlock = useBlockNumber();
+  const endBlock = useBlock({ blockNumber: BigInt(proposal.endBlock) });
+  const proposerId = proposal.proposer?.id;
+  const status = proposal.state?.toString();
+  // There should really ever be 1 ProposalCreated event per proposal so we just take the first one
+  const proposedOn = new Date(proposal.proposalCreated[0].timestamp * 1000);
+
+  const votingDeadline = useMemo(() => {
+    const CELO_BLOCK_TIME = 5000; // 5 seconds
+
+    if (currentBlock.data) {
+      // If the end block is already mined, we can fetch the timestamp
+      if (Number(currentBlock.data) >= proposal.endBlock && endBlock.data) {
+        return new Date(Number(endBlock.data.timestamp) * 1000);
+      } else {
+        // If the end block is not mined yet, we estimate the time
+        return new Date(
+          Date.now() +
+            // Estimation of ~5 seconds per block
+            (proposal.endBlock - Number(currentBlock.data)) * CELO_BLOCK_TIME,
+        );
       }
-    });
-  };
-
-  const estimatedBlockTimestamp = useMemo(() => {
-    const CELO_BLOCK_TIME = 5; // seconds
-    const targetBlock = proposal?.endBlock || 0;
-    const currentBlockTimestamp = block ? Number(block.timestamp) : 0;
-    const currentBlock = block ? Number(block.number) : 0;
-    return (
-      currentBlockTimestamp + CELO_BLOCK_TIME * (targetBlock - currentBlock)
-    );
-  }, [block, proposal?.endBlock]);
+    }
+  }, [currentBlock, endBlock, proposal.endBlock]);
 
   return (
     <main className="flex flex-col">
-      {isFetching && <Loader isCenter />}
-      {!isFetching && !proposal && <div>Proposal not found</div>}
-      {!isFetching && proposal && (
+      {!proposal && <div>Proposal not found</div>}
+      {proposal && (
         <>
           <Badge
             className="uppercase mt-x6 mb-3 font-medium"
             type={stateToBadgeColorMap[proposal.state as ProposalState]}
           >
-            {proposal.state.toString()}
+            {status}
           </Badge>
           <div className="flex flex-col md:grid md:grid-cols-7 gap-x1 ">
             <div className="md:col-start-1 md:col-span-4">
               <h1 className="text-xl md:font-size-x11 md:line-height-x11 font-medium">
-                {proposal.title}
+                {title}
               </h1>
             </div>
             <div className="md:col-start-5 md:col-span-3">
-              {estimatedBlockTimestamp ? (
+              {proposal.state === "Active" && votingDeadline && (
                 <Countdown
-                  end={estimatedBlockTimestamp}
-                  countDownMilliseconds={1000}
+                  endTimestamp={votingDeadline.getTime()}
+                  updateIntervalInMs={1000}
                 />
-              ) : null}
+              )}
             </div>
           </div>
           <div className="flex flex-wrap place-items-center justify-start mt-8 gap-x6 ">
             <div className="flex place-items-center gap-x2">
-              <Avatar address={proposal.creator || ""} />
+              <Avatar address={proposerId} />
               by{" "}
               <span className="font-medium">
-                <WalletAddressWithCopy address={proposal.id} />
+                <WalletAddressWithCopy address={proposerId} />
               </span>
             </div>
             <div className="flex place-items-center gap-x2">
               <span>Proposed on:</span>
               <span className="font-medium">
-                {format(proposal.createdAt, "MMMM do, yyyy")}
+                <BlockExplorerLink type="block" item={proposal.startBlock}>
+                  {format(proposedOn, "MMMM do, yyyy 'at' hh:mm a")}
+                </BlockExplorerLink>
               </span>
             </div>
             <div className="flex place-items-center gap-x2">
               <span>Voting deadline:</span>
               <span className="font-medium">
-                {format(proposal.deadlineAt, "MMMM do, yyyy")}
+                {votingDeadline && (
+                  <BlockExplorerLink type="block" item={proposal.endBlock}>
+                    {format(votingDeadline, "MMMM do, yyyy 'at' hh:mm a")}{" "}
+                  </BlockExplorerLink>
+                )}
               </span>
             </div>
           </div>
@@ -121,11 +125,10 @@ const Page = ({ params }: { params: { id: string } }) => {
             <div className={classNames(styles.details, "flex-1")}>
               <ProposalCurrentVotes className="mb-x6" />
               <h3 className="flex justify-center font-size-x6 line-height-x6 font-medium mb-x6">
-                Proposal Description
+                Description
               </h3>
-              <MarkdownView markdown={proposal.description} />
-              {/* add proper execution code data */}
-              <ExecutionCodeView code={proposal.description} />
+              <MarkdownView markdown={description} />
+              <ExecutionCode calls={proposal.calls} />
             </div>
             <div className={styles.proposal_addons}>
               <div className={classNames(styles.mobile_controls)}>
@@ -134,7 +137,7 @@ const Page = ({ params }: { params: { id: string } }) => {
                   disabled={!walletAddress}
                   className={styles.mobile_button}
                   theme="primary"
-                  onClick={() => setVotingOpened(true)}
+                  onClick={() => setMobileVotingModalActive(true)}
                 >
                   Vote
                 </Button>
@@ -142,112 +145,24 @@ const Page = ({ params }: { params: { id: string } }) => {
                   wrapperClassName={styles.mobile_button_wrapper}
                   className={styles.mobile_button}
                   theme="secondary"
-                  onClick={() => setVotesListOpened(true)}
+                  onClick={() => setMobileParticipantsModelActive(true)}
                 >
-                  Votes
+                  Participants
                 </Button>
               </div>
-              <div
-                className={classNames(
-                  styles.backdrop,
-                  votingOpened && styles.opened,
-                )}
-              >
-                <Card
-                  className={classNames(
-                    styles.proposal_addon,
-                    votingOpened && styles.opened,
-                    !walletAddress && "!opacity-60",
-                  )}
-                >
-                  <Card.Header className="text-center">
-                    <h2 className={styles.votes_title}>Cast votes</h2>
-                    <button
-                      className={styles.proposal_addon__close}
-                      onClick={() => setVotingOpened(false)}
-                    >
-                      X
-                    </button>
-                  </Card.Header>
-                  <div className="flex flex-col gap-1 ">
-                    <div className={styles.addon}>
-                      <div className="flex justify-center">
-                        {!!walletAddress ? (
-                          <div className={styles.power}>
-                            <div className={styles.power__title}>
-                              Your voting power
-                            </div>
-                            <div className={styles.power__value}>
-                              {balanceVeMENTO} veMENTO
-                            </div>
-                          </div>
-                        ) : (
-                          <div className="underline">Please connect wallet</div>
-                        )}
-                      </div>
-                    </div>
-                    <Button
-                      className={styles.button_wrapper}
-                      disabled={!walletAddress}
-                      theme="success"
-                      block
-                      onClick={() => onSubmit("for")}
-                    >
-                      For
-                    </Button>
-                    <Button
-                      className={styles.button_wrapper}
-                      disabled={!walletAddress}
-                      type="submit"
-                      theme="danger"
-                      block
-                      onClick={() => onSubmit("against")}
-                    >
-                      Against
-                    </Button>
-                    <Button
-                      className={styles.button_wrapper}
-                      disabled={!walletAddress}
-                      type="submit"
-                      theme="tertiary"
-                      block
-                      onClick={() => onSubmit("abstain")}
-                    >
-                      Abstain
-                    </Button>
-                  </div>
-                </Card>
-              </div>
-              <div
-                className={classNames(
-                  styles.backdrop,
-                  votesListOpened && styles.opened,
-                )}
-              >
-                <Card
-                  className={classNames(
-                    styles.proposal_addon,
-                    votesListOpened && styles.opened,
-                    styles.votesList,
-                    "mt-5",
-                  )}
-                >
-                  <Card.Header className="text-center text-2xl">
-                    <strong>Votes</strong>
-                    <button
-                      className={styles.proposal_addon__close}
-                      onClick={() => setVotesListOpened(false)}
-                    >
-                      X
-                    </button>
-                  </Card.Header>
-                  <TabList tabs={["For", "Against", "Abstain"]}>
-                    <VotesList voteType="for" />
-                    <VotesList voteType="against" />
-                    <VotesList voteType="abstain" />
-                  </TabList>
-                </Card>
-              </div>
+              {proposal.state === "Active" && (
+                <Vote
+                  balanceVeMENTO={balanceVeMENTO}
+                  setVotingModalActive={setMobileVotingModalActive}
+                  votingModalActive={mobileVotingModalActive}
+                  walletAddress={walletAddress}
+                />
+              )}
+              <Participants
+                participantsModalActive={mobileParticipantsModalActive}
+                setParticipantsModelActive={setMobileParticipantsModelActive}
+                votes={proposal.votes}
+              />
             </div>
           </div>
         </>

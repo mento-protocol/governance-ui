@@ -1,4 +1,5 @@
-import { Address, MulticallParameters, PublicClient, erc20Abi } from "viem";
+import type { Address, MulticallParameters, PublicClient } from "viem";
+import { erc20Abi } from "viem";
 import { createStore } from "zustand";
 import { immer } from "zustand/middleware/immer";
 import { MentoChain } from "../types";
@@ -12,7 +13,7 @@ interface TokenWithBalance {
 
 interface ChainStateData {
   // Internals:
-  client: PublicClient | null;
+  client: PublicClient | undefined;
   refreshInterval: ReturnType<typeof setInterval> | null;
   initialized: boolean;
   ready: boolean;
@@ -31,7 +32,7 @@ interface ChainStateActions {
     chainId: MentoChain["id"],
     contracts: MentoChain["contracts"],
     wallet: Address,
-    client: PublicClient,
+    client: PublicClient | undefined,
   ) => void;
   clear: () => void;
   load: (viewCalls: ViewCall[]) => Promise<void>;
@@ -52,7 +53,7 @@ const INITIAL_STATE: ChainStateData = {
   ready: false,
   chainId: 0,
   wallet: "0x0",
-  client: null,
+  client: undefined,
   contracts: null,
   tokens: {
     mento: emptyTokenBalance,
@@ -118,7 +119,7 @@ export const createChainStateStore = () => {
         chainId: MentoChain["id"],
         contracts: MentoChain["contracts"],
         wallet: Address,
-        client: PublicClient,
+        client: PublicClient | undefined,
       ) => {
         if (get().initialized === true) {
           get().clear();
@@ -172,7 +173,7 @@ export const createChainStateStore = () => {
       },
       load: async (viewCalls: ViewCall[]) => {
         const client = get().client;
-        if (client === null) return;
+        if (client == null) return;
         const results = await client.multicall({
           contracts: viewCalls.map((viewCall) => viewCall.call),
         });

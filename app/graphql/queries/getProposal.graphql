@@ -1,0 +1,14 @@
+query getProposal($id: BigInt) {
+  proposals(where: { proposalId: $id }) {
+    ...ProposalFields
+    calls(orderBy: index, orderDirection: asc) {
+      index
+      target {
+        id
+      }
+      value
+      signature
+      calldata
+    }
+  }
+}

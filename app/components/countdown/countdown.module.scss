@@ -26,7 +26,6 @@
       min-width: 16 * $theme-unit;
     }
 
-
     .value {
       font-size: $theme-unit * 4;
       line-height: $theme-unit * 4;
@@ -42,13 +41,13 @@
     }
 
     .label {
-      color: #000;
+      color: var(--theme-foreground-color);
       font-size: 3 * $theme-unit;
       line-height: 3 * $theme-unit;
       font-weight: 400;
       width: 100%;
       text-align: center;
-      
+
       @include media-md {
         font-size: 4 * $theme-unit;
         line-height: 4 * $theme-unit;

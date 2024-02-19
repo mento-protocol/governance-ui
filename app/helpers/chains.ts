@@ -1,7 +1,6 @@
-import { Address } from "viem";
-import { celoAlfajores } from "viem/chains";
-import { celo } from "viem/chains";
 import { addresses, ContractAddresses } from "@mento-protocol/mento-sdk";
+import { Address } from "viem";
+import { celo, celoAlfajores } from "viem/chains";
 import { MentoChain, MentoChainContracts } from "../types";
 
 export const Celo: MentoChain = {
@@ -14,6 +13,13 @@ export const Celo: MentoChain = {
 
 export const Alfajores: MentoChain = {
   ...celoAlfajores,
+  blockExplorers: {
+    default: {
+      name: "Celoscan",
+      url: "https://alfajores.celoscan.io",
+      apiUrl: "https://api-alfajores.celoscan.io/api",
+    },
+  },
   contracts: {
     ...celoAlfajores.contracts,
     ...transformToChainContracts(addresses[celoAlfajores.id]),

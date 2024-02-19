@@ -5,6 +5,13 @@ import { MentoChain, MentoChainContracts } from "../types";
 
 export const Celo: MentoChain = {
   ...celo,
+  blockExplorers: {
+    default: {
+      name: "Celoscan",
+      url: "https://celoscan.io",
+      apiUrl: "https://api.celoscan.io/api",
+    },
+  },
   contracts: {
     ...celo.contracts,
     ...transformToChainContracts(addresses[celo.id]),

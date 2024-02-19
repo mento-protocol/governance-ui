@@ -86,7 +86,7 @@ const Page = ({ params }: { params: { id: string } }) => {
               </h1>
             </div>
             <div className="md:col-start-5 md:col-span-3">
-              {votingDeadline && (
+              {proposal.state === "Active" && votingDeadline && (
                 <Countdown
                   endTimestamp={votingDeadline.getTime()}
                   updateIntervalInMs={1000}

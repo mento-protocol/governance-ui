@@ -37,7 +37,7 @@ const ProposalSummaryComponent = () => {
   }, [proposalsEndBlocks, currentBlockNumber]);
 
   const getTotalSupplyParsed = useMemo(() => {
-    const formattedTotalSupply = formatUnits(totalSupply || 0n, 12);
+    const formattedTotalSupply = formatUnits(totalSupply || 0n, 15);
     const decimalsSplit = formattedTotalSupply.split(".");
 
     return `${decimalsSplit[0]}${decimalsSplit[1] ? `.${decimalsSplit[1].slice(0, 3)}` : ""}T`;

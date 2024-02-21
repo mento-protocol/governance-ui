@@ -4,23 +4,26 @@ import { Button, DropdownButton } from "@components/_shared";
 import classNames from "classnames";
 import { GetLocksDocument, Lock } from "@/app/graphql";
 import { useSuspenseQuery } from "@apollo/client";
-import { useReadContract } from "wagmi";
+import { useAccount, useReadContract } from "wagmi";
 import { LockingABI } from "@/app/abis/Locking";
 import { useContracts } from "@/app/hooks/useContracts";
-import { useMemo } from "react";
+import { useCallback, useMemo } from "react";
 import { addWeeks, format, nextWednesday } from "date-fns";
 import { formatUnits } from "viem";
+import { useWriteContract } from "wagmi";
+import useModal from "@/app/providers/modal.provider";
 
 interface LocksListProps extends BaseComponentProps {
   address: string;
 }
 
 export const LocksList = ({ address }: LocksListProps) => {
-  const { data } = useSuspenseQuery<{ locks: Lock[] }>(GetLocksDocument, {
-    variables: { address },
-  });
-
-  console.log(data);
+  const { data, refetch } = useSuspenseQuery<{ locks: Lock[] }>(
+    GetLocksDocument,
+    {
+      variables: { address },
+    },
+  );
 
   return (
     <div className={styles.locksList}>
@@ -33,13 +36,27 @@ export const LocksList = ({ address }: LocksListProps) => {
         </div>
         <div className={classNames(styles.title, styles.item)}>Expires on</div>
       </div>
-      {data?.locks?.map((lock) => <LockEntry lock={lock} key={lock.lockId} />)}
+      {data?.locks?.map((lock) => (
+        <LockEntry onExtend={refetch} lock={lock} key={lock.lockId} />
+      ))}
     </div>
   );
 };
 
-const LockEntry = ({ lock, key }: { lock: Lock; key: string | number }) => {
+const LockEntry = ({
+  lock,
+  key,
+  onExtend,
+}: {
+  lock: Lock;
+  key: string | number;
+  onExtend: () => void;
+}) => {
   const contracts = useContracts();
+  const { showConfirm } = useModal();
+  const { address } = useAccount();
+  const { error, writeContract } = useWriteContract();
+
   const { data: getLock } = useReadContract({
     address: contracts.Locking.address,
     abi: LockingABI,
@@ -67,6 +84,36 @@ const LockEntry = ({ lock, key }: { lock: Lock; key: string | number }) => {
     return `${endDate.toLocaleDateString()} (${format(endDate, "E")})`;
   }, [lock]);
 
+  const reLock = useCallback(async () => {
+    const res = await showConfirm(
+      `Are you sure you want to extend lock ${lock.lockId}?`,
+    );
+
+    if (!res) return;
+
+    writeContract(
+      {
+        address: contracts.Locking.address,
+        abi: LockingABI,
+        functionName: "relock",
+        args: [lock.lockId, address!, lock.amount, lock.slope, lock.cliff],
+      },
+      {
+        onSuccess: () => {
+          onExtend();
+        },
+      },
+    );
+  }, [
+    writeContract,
+    contracts.Locking.address,
+    lock.lockId,
+    lock.amount,
+    lock.slope,
+    lock.cliff,
+    address,
+  ]);
+
   return (
     <div className={styles.locksList__row} key={key}>
       <div className={styles.divider}></div>
@@ -76,12 +123,12 @@ const LockEntry = ({ lock, key }: { lock: Lock; key: string | number }) => {
       <div>
         <DropdownButton className="md:hidden" theme="clear">
           <DropdownButton.Dropdown>
-            <DropdownButton.Element onClick={() => {}}>
+            <DropdownButton.Element onClick={reLock}>
               Extend lock
             </DropdownButton.Element>
           </DropdownButton.Dropdown>
         </DropdownButton>
-        <Button className="md:static" block theme="clear">
+        <Button className="md:static" block theme="clear" onClick={reLock}>
           Extend lock
         </Button>
       </div>

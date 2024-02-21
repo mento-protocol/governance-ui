@@ -8,8 +8,10 @@ import { CreateProposalFormStepEnum } from "@interfaces/create-proposal.interfac
 import { useCallback, useMemo, useState } from "react";
 import { Address } from "viem";
 import styles from "./create-proposal-preview-step.module.scss";
-import { useWriteContract, useSimulateContract } from "wagmi";
+import { useWriteContract } from "wagmi";
 import { useRouter } from "next/navigation";
+import { simulateContract } from "@wagmi/core";
+import { wagmiConfig } from "@/app/helpers/wagmi.config";
 
 const formStep = CreateProposalFormStepEnum.preview;
 
@@ -25,6 +27,7 @@ type ProposalCreateParams = {
 export const CreateProposalPreviewStep = () => {
   const [isProposalPreviewOpen, setIsProposalPreviewOpen] = useState(false);
   const [isPending, setIsPending] = useState(false);
+  const [isSimulationError, setIsSimulationError] = useState(false);
   const { form, next, prev } = useCreateProposalStore();
   const { data, error, writeContract } = useWriteContract();
   const contracts = useContracts();
@@ -59,33 +62,52 @@ export const CreateProposalPreviewStep = () => {
     };
   }, [form]);
 
-  const onSave = useCallback(() => {
+  const onSave = useCallback(async () => {
     setIsPending(true);
-    writeContract(
-      {
-        address: contracts?.MentoGovernor.address as Address,
-        abi: GovernorABI,
-        functionName: "propose",
-        args: [
-          proposal.transactions.map(
-            (transaction) => transaction.address as Address,
-          ),
-          proposal.transactions.map((transaction) => BigInt(transaction.value)),
-          proposal.transactions.map((transaction) => transaction.data),
-          JSON.stringify(proposal.metadata),
-        ] as any,
+    setIsSimulationError(false);
+
+    const contractParams = {
+      address: contracts?.MentoGovernor.address as Address,
+      abi: GovernorABI,
+      functionName: "propose",
+      args: [
+        proposal.transactions.map(
+          (transaction) => transaction.address as Address,
+        ),
+        proposal.transactions.map((transaction) => BigInt(transaction.value)),
+        proposal.transactions.map((transaction) => transaction.data),
+        JSON.stringify(proposal.metadata),
+      ] as any,
+    } as any;
+
+    try {
+      await simulateContract(wagmiConfig, contractParams);
+    } catch (e: any) {
+      setIsPending(false);
+      setIsSimulationError(true);
+      return;
+    }
+
+    writeContract(contractParams, {
+      onSuccess: () => {
+        setIsPending(false);
+        setIsSimulationError(false);
+        router.push("/");
+        localStorage.removeItem("proposalTitle");
+        localStorage.removeItem("proposalDescription");
+        localStorage.removeItem("proposalExecutionCode");
       },
-      {
-        onSuccess: () => {
-          setIsPending(false);
-          router.push("/");
-          localStorage.removeItem("proposalTitle");
-          localStorage.removeItem("proposalDescription");
-          localStorage.removeItem("proposalExecutionCode");
-        },
+      onError: () => {
+        setIsPending(false);
       },
-    );
-  }, [writeContract, proposal, contracts?.MentoGovernor.address]);
+    });
+  }, [
+    contracts?.MentoGovernor.address,
+    proposal.transactions,
+    proposal.metadata,
+    writeContract,
+    router,
+  ]);
 
   return (
     <Wrapper
@@ -93,15 +115,24 @@ export const CreateProposalPreviewStep = () => {
       title="Preview your proposal"
       next={onSave}
       prev={prev}
+      canGoNext={!isPending}
       isPending={isPending}
       className={styles.container}
       isOpened={form[formStep].isOpened}
     >
       {form[formStep].isOpened && (
         <div>
-          <pre>{JSON.stringify(data, null, 2)}</pre>
-          <pre>{error ? error.message : null}</pre>
           <div className="ml-x7">
+            {error && (
+              <pre className="my-x3 p-x2 text-error border-solid border border-error rounded-x1">
+                {error.message}
+              </pre>
+            )}
+            {isSimulationError && (
+              <pre className="my-x3 p-x2 text-error border-solid border border-error rounded-x1">
+                Contract simulation error - please check your data
+              </pre>
+            )}
             <p className="font-size-x4 line-height-x5">
               You&apos;ve successfully finished all the steps. Now, take a
               moment to go over your proposal and then submit it.
@@ -116,7 +147,11 @@ export const CreateProposalPreviewStep = () => {
               >
                 <MarkdownView markdown={proposal.metadata.description} />
               </SeeAll>
-              <ExecutionCodeView code={proposal.transactions} />
+              <ExecutionCodeView
+                code={
+                  form[CreateProposalFormStepEnum.execution].value.code.value
+                }
+              />
             </div>
           </div>
         </div>

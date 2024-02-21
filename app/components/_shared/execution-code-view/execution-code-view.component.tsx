@@ -13,6 +13,7 @@ export const ExecutionCodeView = ({
 }: ExecutionCodeViewProps) => {
   const [isExecutionViewOpen, setIsExecutionViewOpen] = useState(false);
 
+  const codeString = JSON.stringify(code, null, 2);
   return (
     <div className={styles.container}>
       {!hideTitle && <h3 className={styles.form_data_title}>Execution Code</h3>}
@@ -22,9 +23,7 @@ export const ExecutionCodeView = ({
           isOpen={isExecutionViewOpen}
           setIsOpen={setIsExecutionViewOpen}
         >
-          <div>
-            <pre>{JSON.stringify(code, null, 2)}</pre>
-          </div>
+          <div>{!!codeString.length && <pre>{codeString}</pre>}</div>
         </SeeAll>
       </div>
     </div>

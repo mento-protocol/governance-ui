@@ -5,13 +5,11 @@ import { useCreateProposalStore } from "@/app/store";
 import { ExecutionCodeView, MarkdownView, SeeAll } from "@components/_shared";
 import Wrapper from "@components/create-proposal/wrapper/wrapper.component";
 import { CreateProposalFormStepEnum } from "@interfaces/create-proposal.interface";
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { Address } from "viem";
 import styles from "./create-proposal-preview-step.module.scss";
-import { useWriteContract } from "wagmi";
+import { useSimulateContract, useWriteContract } from "wagmi";
 import { useRouter } from "next/navigation";
-import { simulateContract } from "@wagmi/core";
-import { wagmiConfig } from "@/app/helpers/wagmi.config";
 
 const formStep = CreateProposalFormStepEnum.preview;
 
@@ -27,7 +25,6 @@ type ProposalCreateParams = {
 export const CreateProposalPreviewStep = () => {
   const [isProposalPreviewOpen, setIsProposalPreviewOpen] = useState(false);
   const [isPending, setIsPending] = useState(false);
-  const [isSimulationError, setIsSimulationError] = useState(false);
   const { form, next, prev } = useCreateProposalStore();
   const { data, error, writeContract } = useWriteContract();
   const contracts = useContracts();
@@ -43,15 +40,15 @@ export const CreateProposalPreviewStep = () => {
       );
     } catch (e) {}
 
-    if (transactions.length === 0) {
-      transactions = [
-        {
-          address: "0x0000000000000000000000000000000000000000",
-          value: 0,
-          data: "0x",
-        },
-      ];
-    }
+    // if (transactions.length === 0) {
+    //   transactions = [
+    //     {
+    //       address: "0x0000000000000000000000000000000000000000",
+    //       value: 0,
+    //       data: "0x",
+    //     },
+    //   ];
+    // }
 
     return {
       metadata: {
@@ -62,9 +59,34 @@ export const CreateProposalPreviewStep = () => {
     };
   }, [form]);
 
+  const {
+    error: simulatedContractError,
+    isError: isSimulatedContractError,
+    isPending: isSimulatedContractPending,
+    refetch: refetchSimulatedCall,
+  } = useSimulateContract({
+    address: contracts?.MentoGovernor.address as Address,
+    abi: GovernorABI,
+    functionName: "propose",
+
+    args: [
+      proposal.transactions.map(
+        (transaction) => transaction.address as Address,
+      ),
+      proposal.transactions.map((transaction) => BigInt(transaction.value)),
+      proposal.transactions.map((transaction) => transaction.data),
+      JSON.stringify(proposal.metadata),
+    ] as any,
+  });
+
+  useEffect(() => {
+    if (form[formStep].isOpened) {
+      refetchSimulatedCall();
+    }
+  }, [form, proposal, refetchSimulatedCall]);
+
   const onSave = useCallback(async () => {
     setIsPending(true);
-    setIsSimulationError(false);
 
     const contractParams = {
       address: contracts?.MentoGovernor.address as Address,
@@ -80,18 +102,9 @@ export const CreateProposalPreviewStep = () => {
       ] as any,
     } as any;
 
-    try {
-      await simulateContract(wagmiConfig, contractParams);
-    } catch (e: any) {
-      setIsPending(false);
-      setIsSimulationError(true);
-      return;
-    }
-
     writeContract(contractParams, {
       onSuccess: () => {
         setIsPending(false);
-        setIsSimulationError(false);
         router.push("/");
         localStorage.removeItem("proposalTitle");
         localStorage.removeItem("proposalDescription");
@@ -115,8 +128,10 @@ export const CreateProposalPreviewStep = () => {
       title="Preview your proposal"
       next={onSave}
       prev={prev}
-      canGoNext={!isPending}
-      isPending={isPending}
+      canGoNext={
+        !isPending && !isSimulatedContractError && !isSimulatedContractPending
+      }
+      isPending={isPending || isSimulatedContractPending}
       className={styles.container}
       isOpened={form[formStep].isOpened}
     >
@@ -128,9 +143,10 @@ export const CreateProposalPreviewStep = () => {
                 {error.message}
               </pre>
             )}
-            {isSimulationError && (
+            {isSimulatedContractError && (
               <pre className="my-x3 p-x2 text-error border-solid border border-error rounded-x1">
-                Contract simulation error - please check your data
+                <p>Simulation failed:</p>
+                {simulatedContractError.message}
               </pre>
             )}
             <p className="font-size-x4 line-height-x5">

@@ -44,6 +44,9 @@ export const Alfajores: MentoChain = {
     Locking: {
       address: "0x8E1707307f04eC9742AD3d8e6D88AE5F506F83cA",
     },
+    MentoToken: {
+      address: "0xc88f553DC20fc78ce554bfF97C2F4a4E5BDB0134",
+    },
   },
 };
 

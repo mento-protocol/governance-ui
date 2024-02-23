@@ -65,17 +65,11 @@ const LockEntry = ({
   });
 
   const mentoParsed = useMemo(() => {
-    const formattedAmount = formatUnits(lock.amount || 0n, 15);
-    const decimalsSplit = formattedAmount.split(".");
-
-    return `${decimalsSplit[0]}${decimalsSplit[1] ? `.${decimalsSplit[1].slice(0, 3)}` : ""}T`;
+    return Number(formatUnits(lock.amount || 0n, 18)).toLocaleString();
   }, [lock.amount]);
 
   const vementoParsed = useMemo(() => {
-    const formattedLockAmount = formatUnits(getLock?.[0] || 0n, 15);
-    const decimalsSplit = formattedLockAmount.split(".");
-
-    return `${decimalsSplit[0]}${decimalsSplit[1] ? `.${decimalsSplit[1].slice(0, 3)}` : ""}T`;
+    return Number(formatUnits(getLock?.[0] || 0n, 18)).toLocaleString();
   }, [getLock]);
 
   const expirationDate = useMemo(() => {
@@ -120,18 +114,18 @@ const LockEntry = ({
       <div className={styles.item}>{mentoParsed}</div>
       <div className={styles.item}>{vementoParsed}</div>
       <div className={styles.item}>{expirationDate}</div>
-      <div>
-        <DropdownButton className="md:hidden" theme="clear">
-          <DropdownButton.Dropdown>
-            <DropdownButton.Element onClick={reLock}>
-              Extend lock
-            </DropdownButton.Element>
-          </DropdownButton.Dropdown>
-        </DropdownButton>
-        <Button className="md:static" block theme="clear" onClick={reLock}>
-          Extend lock
-        </Button>
-      </div>
+      {/*<div>*/}
+      {/*  <DropdownButton className="md:hidden" theme="clear">*/}
+      {/*    <DropdownButton.Dropdown>*/}
+      {/*      <DropdownButton.Element onClick={reLock}>*/}
+      {/*        Extend lock*/}
+      {/*      </DropdownButton.Element>*/}
+      {/*    </DropdownButton.Dropdown>*/}
+      {/*  </DropdownButton>*/}
+      {/*  <Button className="md:static" block theme="clear" onClick={reLock}>*/}
+      {/*    Extend lock*/}
+      {/*  </Button>*/}
+      {/*</div>*/}
     </div>
   );
 };

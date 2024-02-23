@@ -150,12 +150,12 @@ const Page = ({ params }: { params: { id: string } }) => {
                   Participants
                 </Button>
               </div>
-              {proposal.state === "Active" && (
+              {true && (
                 <Vote
+                  proposal={proposal}
                   balanceVeMENTO={balanceVeMENTO}
                   setVotingModalActive={setMobileVotingModalActive}
                   votingModalActive={mobileVotingModalActive}
-                  walletAddress={walletAddress}
                 />
               )}
               <Participants

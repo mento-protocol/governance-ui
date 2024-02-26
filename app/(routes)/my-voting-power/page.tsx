@@ -18,9 +18,7 @@ const Page = () => {
         <>
           <h2 className="text-2xl mt-8 mb-4">My Locks</h2>
           <Card block>
-            {address && !isConnecting && !isDisconnected && (
-              <LocksList address={address} />
-            )}
+            {address && !isConnecting && <LocksList address={address} />}
             {isConnecting && <Loader isCenter />}
           </Card>
         </>

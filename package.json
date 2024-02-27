@@ -8,7 +8,7 @@
     "start": "next start",
     "lint": "next lint",
     "lint:fix": "next lint --fix",
-    "codegen": "graphql-codegen --config codegen.yaml",
+    "codegen": "graphql-codegen",
     "todo": "npx leasot '**/*.{ts,tsx,scss,gql}' --ignore 'node_modules/**/*','.git/**/*','app/graphql/generated' || true",
     "prepare": "husky"
   },

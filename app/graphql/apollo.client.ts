@@ -1,17 +1,17 @@
 "use client";
 // ^ this file needs the "use client" pragma
 
-import { ApolloLink, HttpLink, gql } from "@apollo/client";
+import { ApolloLink, HttpLink } from "@apollo/client";
 import {
-  NextSSRInMemoryCache,
   NextSSRApolloClient,
+  NextSSRInMemoryCache,
   SSRMultipartLink,
 } from "@apollo/experimental-nextjs-app-support/ssr";
-import { ProposalPolicy } from "./policies/Proposal";
+import { ProposalPolicy } from "./subgraph/policies/Proposal";
 
 // have a function to create a client for you
 export function newApolloClient() {
-  const httpLink = new HttpLink({
+  const httpLinkTheGraph = new HttpLink({
     // this needs to be an absolute url, as relative urls cannot be used in SSR
     uri: "https://api.studio.thegraph.com/query/63311/mento/version/latest",
     // you can disable result caching here if you want to
@@ -22,6 +22,16 @@ export function newApolloClient() {
     // to an Apollo Client data fetching hook, e.g.:
     // const { data } = useSuspenseQuery(MY_QUERY, { context: { fetchOptions: { cache: "force-cache" }}});
   });
+
+  const httpLinkCeloExplorer = new HttpLink({
+    uri: "https://explorer.celo.org/alfajores/graphiql",
+  });
+
+  const endpoints = ApolloLink.split(
+    (operation) => operation.getContext().apiName === "celoExplorer",
+    httpLinkCeloExplorer,
+    httpLinkTheGraph,
+  );
 
   return new NextSSRApolloClient({
     // use the `NextSSRInMemoryCache`, not the normal `InMemoryCache`
@@ -39,8 +49,8 @@ export function newApolloClient() {
             new SSRMultipartLink({
               stripDefer: true,
             }),
-            httpLink,
+            endpoints,
           ])
-        : httpLink,
+        : endpoints,
   });
 }

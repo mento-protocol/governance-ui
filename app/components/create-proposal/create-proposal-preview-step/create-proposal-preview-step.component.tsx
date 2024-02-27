@@ -40,15 +40,15 @@ export const CreateProposalPreviewStep = () => {
       );
     } catch (e) {}
 
-    // if (transactions.length === 0) {
-    //   transactions = [
-    //     {
-    //       address: "0x0000000000000000000000000000000000000000",
-    //       value: 0,
-    //       data: "0x",
-    //     },
-    //   ];
-    // }
+    if (transactions.length === 0) {
+      transactions = [
+        {
+          address: "0x0000000000000000000000000000000000000000",
+          value: 0,
+          data: "0x",
+        },
+      ];
+    }
 
     return {
       metadata: {

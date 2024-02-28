@@ -1,12 +1,16 @@
 import { CodegenConfig } from "@graphql-codegen/cli";
+import "dotenv/config";
+import loadEnvVar from "./app/helpers/load-env-var";
+
+const CELO_EXPLORER_API_URL = loadEnvVar(
+  process.env.NEXT_PUBLIC_CELO_EXPLORER_API_URL,
+);
+const SUBGRAPH_URL = loadEnvVar(process.env.NEXT_PUBLIC_SUBGRAPH_URL);
 
 const config: CodegenConfig = {
   generates: {
     "./app/graphql/subgraph/generated/": {
-      schema: [
-        "https://api.studio.thegraph.com/query/63311/mento/version/latest",
-        "./schema.client.graphql",
-      ],
+      schema: [SUBGRAPH_URL, "./schema.client.graphql"],
       documents: ["app/graphql/subgraph/**/*.graphql"],
       preset: "client",
       presetConfig: {
@@ -14,11 +18,8 @@ const config: CodegenConfig = {
       },
     },
     "./app/graphql/celo-explorer/generated/": {
-      schema: "https://explorer.celo.org/alfajores/graphiql",
+      schema: CELO_EXPLORER_API_URL,
       documents: ["app/graphql/celo-explorer/**/*.graphql"],
-      config: {
-        typesPrefix: "Ex",
-      },
       preset: "client",
     },
   },

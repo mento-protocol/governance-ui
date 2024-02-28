@@ -1,0 +1,19 @@
+query getAllLocks {
+  locks(where: { relocked: false }) {
+    lockId
+    owner {
+      id
+    }
+    amount
+    time
+    slope
+    cliff
+    lockCreate {
+      id
+      timestamp
+    }
+    delegate {
+      id
+    }
+  }
+}

@@ -1,5 +1,5 @@
 import { LockingABI } from "@/app/abis/Locking";
-import { GetProposals, Proposal } from "@/app/graphql";
+import { GetAllLocks, GetProposals, Lock, Proposal } from "@/app/graphql";
 import NumbersService from "@/app/helpers/numbers.service";
 import { useContracts } from "@/app/hooks/useContracts";
 import { useSuspenseQuery } from "@apollo/client";
@@ -11,6 +11,15 @@ import { useBlockNumber, useReadContract } from "wagmi";
 const ProposalSummaryComponent = () => {
   const contracts = useContracts();
   const { data } = useSuspenseQuery<{ proposals: Proposal[] }>(GetProposals);
+  const {
+    data: { locks },
+  } = useSuspenseQuery<{ locks: Lock[] }>(GetAllLocks);
+  const { data: currentWeek } = useReadContract({
+    address: contracts.Locking.address,
+    abi: LockingABI,
+    functionName: "getWeek",
+    args: [],
+  });
   const { data: totalSupply } = useReadContract({
     address: contracts.Locking.address,
     abi: LockingABI,
@@ -40,6 +49,24 @@ const ProposalSummaryComponent = () => {
     return Number(formatUnits(totalSupply || 0n, 18)).toLocaleString();
   }, [totalSupply]);
 
+  const getActiveVoters = useMemo(() => {
+    console.log(locks);
+    // Filter out expired locks
+    const activeLocks = locks.filter(
+      ({ time, cliff, slope }) =>
+        parseInt(time) + cliff + slope > (currentWeek || 0),
+    );
+
+    const uniqueDelegates = new Set<string>();
+    activeLocks.forEach((lock) => {
+      uniqueDelegates.add(lock.delegate.id);
+    });
+    console.log(uniqueDelegates);
+
+    // Return the count of unique delegate IDs
+    return uniqueDelegates.size;
+  }, [currentWeek]);
+
   return (
     <Card className="mt-8" block>
       <div className="flex flex-wrap gap-x6 m-x4 mr-x6 ml-x6 justify-between">
@@ -57,7 +84,7 @@ const ProposalSummaryComponent = () => {
         </div>
         <div className="flex flex-col justify-center place-items-center gap-x2">
           <div className="font-size-x6 line-height-x6 font-medium">
-            {NumbersService.parseNumericValue(2097, 3)}
+            {getActiveVoters}
           </div>
           <div className="font-size-x3">Voters</div>
         </div>

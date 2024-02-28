@@ -50,22 +50,19 @@ const ProposalSummaryComponent = () => {
   }, [totalSupply]);
 
   const getActiveVoters = useMemo(() => {
-    console.log(locks);
+    if (!locks || !currentWeek) return 0;
     // Filter out expired locks
     const activeLocks = locks.filter(
-      ({ time, cliff, slope }) =>
-        parseInt(time) + cliff + slope > (currentWeek || 0),
+      ({ time, cliff, slope }) => parseInt(time) + cliff + slope > currentWeek,
     );
 
-    const uniqueDelegates = new Set<string>();
+    const uniqueVoters = new Set<string>();
     activeLocks.forEach((lock) => {
-      uniqueDelegates.add(lock.delegate.id);
+      uniqueVoters.add(lock.delegate.id);
     });
-    console.log(uniqueDelegates);
 
-    // Return the count of unique delegate IDs
-    return uniqueDelegates.size;
-  }, [currentWeek]);
+    return uniqueVoters.size;
+  }, [currentWeek, locks]);
 
   return (
     <Card className="mt-8" block>

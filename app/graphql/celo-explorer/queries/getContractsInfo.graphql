@@ -1,0 +1,9 @@
+query getContractsInfo($addresses: [AddressHash!]!) {
+  addresses(hashes: $addresses) {
+    hash
+    smartContract {
+      name
+      abi
+    }
+  }
+}

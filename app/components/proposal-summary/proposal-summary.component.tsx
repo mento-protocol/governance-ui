@@ -51,15 +51,14 @@ const ProposalSummaryComponent = () => {
 
   const getActiveVoters = useMemo(() => {
     if (!locks || !currentWeek) return 0;
-    // Filter out expired locks
-    const activeLocks = locks.filter(
-      ({ time, cliff, slope }) => parseInt(time) + cliff + slope > currentWeek,
-    );
 
     const uniqueVoters = new Set<string>();
-    activeLocks.forEach((lock) => {
-      uniqueVoters.add(lock.owner.id);
+    locks.forEach((lock) => {
+      const { time, cliff, slope } = lock;
+      if (parseInt(time) + cliff + slope > currentWeek)
+        uniqueVoters.add(lock.owner.id);
     });
+
     return uniqueVoters.size;
   }, [currentWeek, locks]);
 

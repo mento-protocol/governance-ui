@@ -1,6 +1,7 @@
 import {
   GetProposalDocument as GetProposal,
   GetProposalsDocument as GetProposals,
+  GetAllLocksDocument as GetAllLocks,
 } from "./subgraph/generated/graphql";
 
 export * from "./subgraph/generated";
@@ -14,5 +15,5 @@ import {
   GetContractsInfoQuery,
 } from "./celo-explorer/generated/graphql";
 
-export { GetContractsInfo, GetProposal, GetProposals };
+export { GetContractsInfo, GetProposal, GetProposals, GetAllLocks };
 export type { GetContractsInfoQuery };

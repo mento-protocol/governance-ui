@@ -58,7 +58,7 @@ const ProposalSummaryComponent = () => {
 
     const uniqueVoters = new Set<string>();
     activeLocks.forEach((lock) => {
-      uniqueVoters.add(lock.delegate.id);
+      uniqueVoters.add(lock.owner.id);
     });
 
     return uniqueVoters.size;

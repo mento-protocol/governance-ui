@@ -1,7 +1,6 @@
 "use client";
 import { GetProposal, Proposal, ProposalState } from "@/app/graphql";
 import { useProposalStates } from "@/app/hooks/useProposalStates";
-import { useUserStore } from "@/app/store";
 import { useSuspenseQuery } from "@apollo/experimental-nextjs-app-support/ssr";
 import classNames from "classnames";
 import { format } from "date-fns";
@@ -13,12 +12,7 @@ import styles from "./page.module.scss";
 import BlockExplorerLink from "@/app/components/_shared/block-explorer-link/block-explorer-link.component";
 import { MarkdownView } from "@/app/components/_shared/markdown-view/markdown-view.component";
 import { Countdown } from "@/app/components/countdown/countdown.component";
-import {
-  Avatar,
-  Badge,
-  Button,
-  WalletAddressWithCopy,
-} from "@components/_shared";
+import { Avatar, Badge, WalletAddressWithCopy } from "@components/_shared";
 import { ProposalCurrentVotes } from "@components/proposal-current-votes/proposal-current-votes.component";
 import { stateToBadgeColorMap } from "@interfaces/proposal.interface";
 import ExecutionCode from "./_components/execution-code.component";
@@ -26,8 +20,6 @@ import Participants from "./_components/participants.component";
 import Vote from "./_components/vote.component";
 
 const Page = ({ params }: { params: { id: string } }) => {
-  const { walletAddress, balanceVeMENTO } = useUserStore();
-
   // FIXME: The return type definition is a bit hacky and ideally shouldn't be needed.
   // It's likely fragments-related. If we inline the ProposalFields fragment into GetProposal,
   // then it works without explicit return type definition 🤷‍♂️
@@ -37,7 +29,6 @@ const Page = ({ params }: { params: { id: string } }) => {
 
   useProposalStates(data.proposals);
 
-  const [mobileVotingModalActive, setMobileVotingModalActive] = useState(false);
   const [mobileParticipantsModalActive, setMobileParticipantsModelActive] =
     useState(false);
 
@@ -123,41 +114,20 @@ const Page = ({ params }: { params: { id: string } }) => {
           </div>
           <div className="mt-x6 flex flex-col md:flex-row md:justify-between place-items-start gap-x1 ">
             <div className={classNames(styles.details, "flex-1")}>
-              <ProposalCurrentVotes className="mb-x6" />
+              <ProposalCurrentVotes className="md:mb-x6" />
+              <div className="md:hidden my-x6">
+                <Vote proposal={proposal} />
+              </div>
               <h3 className="flex justify-center font-size-x6 line-height-x6 font-medium mb-x6">
                 Description
               </h3>
               <MarkdownView markdown={description} />
               <ExecutionCode calls={proposal.calls} />
             </div>
-            <div className={styles.proposal_addons}>
-              <div className={classNames(styles.mobile_controls)}>
-                <Button
-                  wrapperClassName={styles.mobile_button_wrapper}
-                  disabled={!walletAddress}
-                  className={styles.mobile_button}
-                  theme="primary"
-                  onClick={() => setMobileVotingModalActive(true)}
-                >
-                  Vote
-                </Button>
-                <Button
-                  wrapperClassName={styles.mobile_button_wrapper}
-                  className={styles.mobile_button}
-                  theme="secondary"
-                  onClick={() => setMobileParticipantsModelActive(true)}
-                >
-                  Participants
-                </Button>
+            <div className="md:max-w-[350px] flex flex-col gap-x11">
+              <div className="hidden md:block">
+                <Vote proposal={proposal} />
               </div>
-              {true && (
-                <Vote
-                  proposal={proposal}
-                  balanceVeMENTO={balanceVeMENTO}
-                  setVotingModalActive={setMobileVotingModalActive}
-                  votingModalActive={mobileVotingModalActive}
-                />
-              )}
               <Participants
                 participantsModalActive={mobileParticipantsModalActive}
                 setParticipantsModelActive={setMobileParticipantsModelActive}

@@ -14,7 +14,7 @@ export default function ExecutionCode({ calls }: Props) {
       <h3 className="flex justify-center font-size-x6 line-height-x6 font-medium mb-x6">
         Execution Code
       </h3>
-      <div className="rounded-lg border-2 p-4">
+      <div className="rounded-lg border border-[#B3B3B3] p-4">
         {calls.map((call, index) => (
           <div key={index} className="break-words">
             {index > 0 && <hr className="my-4" />}

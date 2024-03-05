@@ -13,7 +13,7 @@ import { ProposalPolicy } from "./policies/Proposal";
 export function newApolloClient() {
   const httpLink = new HttpLink({
     // this needs to be an absolute url, as relative urls cannot be used in SSR
-    uri: "https://api.studio.thegraph.com/query/63311/mento/version/latest",
+    uri: "https://api.studio.thegraph.com/query/67235/mento-alfajores/version/latest",
     // you can disable result caching here if you want to
     // (this does not work if you are rendering your page with `export const dynamic = "force-static"`)
     fetchOptions: { cache: "no-store" },

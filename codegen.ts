@@ -5,7 +5,8 @@ import loadEnvVar from "./app/helpers/load-env-var";
 const CELO_EXPLORER_API_URL = loadEnvVar(
   process.env.NEXT_PUBLIC_CELO_EXPLORER_API_URL,
 );
-const SUBGRAPH_URL = loadEnvVar(process.env.NEXT_PUBLIC_SUBGRAPH_URL);
+// TODO: Make this dependent on the current network
+const SUBGRAPH_URL = loadEnvVar(process.env.NEXT_PUBLIC_SUBGRAPH_URL_ALFAJORES);
 
 const config: CodegenConfig = {
   generates: {

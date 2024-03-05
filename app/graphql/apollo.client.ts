@@ -20,7 +20,8 @@ const CELO_EXPLORER_API_URL_ALFAJORES = loadEnvVar(
 const CELO_EXPLORER_API_URL_BAKLAVA = loadEnvVar(
   process.env.NEXT_PUBLIC_CELO_EXPLORER_API_URL_BAKLAVA,
 );
-const SUBGRAPH_URL = loadEnvVar(process.env.NEXT_PUBLIC_SUBGRAPH_URL);
+// TODO: Make this dependent on the current network
+const SUBGRAPH_URL = loadEnvVar(process.env.NEXT_PUBLIC_SUBGRAPH_URL_ALFAJORES);
 
 // have a function to create a client for you
 export function newApolloClient() {

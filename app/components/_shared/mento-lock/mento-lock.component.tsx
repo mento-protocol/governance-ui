@@ -179,14 +179,14 @@ export const MentoLock = ({ className, style }: MentoLockProps) => {
         },
       ).then((confirmed) => {
         if (confirmed) {
-          lock({
-            owner: walletAddress,
-            amountMNTO: getValues("toLock"),
-            amountsVeMNTO: getLock?.[0],
-            expireDate: getValues("expiration"),
-          } as ILock).then(() => {
-            reset();
-          });
+          // lock({
+          //   owner: walletAddress,
+          //   amountMNTO: getValues("toLock"),
+          //   amountsVeMNTO: getLock?.[0],
+          //   expireDate: getValues("expiration"),
+          // } as ILock).then(() => {
+          //   reset();
+          // });
         }
       });
     }

@@ -13,8 +13,13 @@ const config: Config = {
         "gradient-conic":
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       },
+      fontFamily: { fg: ["var(--font-fg)"], inter: ["var(--font-inter)"] },
     },
-    colors: { "primary-blue": "#4D62F0" },
+    colors: {
+      "primary-blue": "#4D62F0",
+      "light-red": "#FF848A",
+      "light-green": "#D2FCBF",
+    },
     keyframes: {
       "spin-slow": {
         "0%": { transform: "rotate(0deg)" },

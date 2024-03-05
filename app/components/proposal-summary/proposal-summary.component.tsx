@@ -1,5 +1,5 @@
 import { LockingABI } from "@/app/abis/Locking";
-import { GetProposals, Proposal } from "@/app/graphql";
+import { GetAllLocks, GetProposals, Lock, Proposal } from "@/app/graphql";
 import NumbersService from "@/app/helpers/numbers.service";
 import { useContracts } from "@/app/hooks/useContracts";
 import { useSuspenseQuery } from "@apollo/client";
@@ -15,6 +15,15 @@ const ProposalSummaryComponent = () => {
     address: contracts.Locking.address,
     abi: LockingABI,
     functionName: "totalSupply",
+    args: [],
+  });
+  const {
+    data: { locks },
+  } = useSuspenseQuery<{ locks: Lock[] }>(GetAllLocks);
+  const { data: currentWeek } = useReadContract({
+    address: contracts.Locking.address,
+    abi: LockingABI,
+    functionName: "getWeek",
     args: [],
   });
 
@@ -40,6 +49,19 @@ const ProposalSummaryComponent = () => {
     return Number(formatUnits(totalSupply || 0n, 18)).toLocaleString();
   }, [totalSupply]);
 
+  const getActiveVoters = useMemo(() => {
+    if (!locks || !currentWeek) return 0;
+
+    const uniqueVoters = new Set<string>();
+    locks.forEach((lock) => {
+      const { time, cliff, slope } = lock;
+      if (parseInt(time) + cliff + slope > currentWeek)
+        uniqueVoters.add(lock.owner.id);
+    });
+
+    return uniqueVoters.size;
+  }, [currentWeek, locks]);
+
   return (
     <Card className="mt-8" block>
       <div className="flex flex-wrap gap-x6 m-x4 mr-x6 ml-x6 justify-between">
@@ -57,7 +79,7 @@ const ProposalSummaryComponent = () => {
         </div>
         <div className="flex flex-col justify-center place-items-center gap-x2">
           <div className="font-size-x6 line-height-x6 font-medium">
-            {NumbersService.parseNumericValue(2097, 3)}
+            {getActiveVoters}
           </div>
           <div className="font-size-x3">Voters</div>
         </div>

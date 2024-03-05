@@ -5,6 +5,7 @@ interface UserStore {
   walletAddress?: string;
   locks: ILock[];
   isFetching: boolean;
+  isReady: boolean;
   isLocksFetching: boolean;
   isInitialized: boolean;
   getBalance: () => Promise<void>;
@@ -21,6 +22,7 @@ export const useUserStore = create<UserStore>((set, get) => ({
   walletAddress: undefined,
   locks: [],
   isFetching: false,
+  isReady: false,
   isLocksFetching: false,
   isInitialized: false,
   balanceMENTO: 0,
@@ -31,6 +33,7 @@ export const useUserStore = create<UserStore>((set, get) => ({
       isInitialized: false,
       isFetching: false,
       isLocksFetching: false,
+      isReady: false,
       locks: [],
       balanceMENTO: 0,
       balanceVeMENTO: 0,
@@ -46,6 +49,7 @@ export const useUserStore = create<UserStore>((set, get) => ({
     if (get().isLocksFetching) {
       await get().getLocks();
     }
+    set({ isReady: true });
   },
   getBalance: async () => {
     set({ isFetching: true });

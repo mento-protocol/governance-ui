@@ -6,10 +6,9 @@ type Props = {
   children: React.ReactNode;
   type: "address" | "tx" | "block";
   item: string;
-  className?: string;
 };
 
-function BlockExplorerLink({ children, type, item, className }: Props) {
+function BlockExplorerLink({ children, type, item }: Props) {
   const { chain } = useAccount();
   const blockExplorerUrl = chain?.blockExplorers?.default.url;
   return blockExplorerUrl ? (

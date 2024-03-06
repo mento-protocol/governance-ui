@@ -1,20 +1,26 @@
-import BaseComponentProps from "@interfaces/base-component-props.interface";
+import { LockingABI } from "@/app/abis/Locking";
+import { useContracts } from "@/app/hooks/useContracts";
+import { useChainState } from "@/app/providers/chainState.provider";
+import useModal from "@/app/providers/modal.provider";
 import { Button, DatePicker, Input, Slider } from "@components/_shared";
+import { yupResolver } from "@hookform/resolvers/yup";
+import BaseComponentProps from "@interfaces/base-component-props.interface";
 import {
-  addMonths,
+  addWeeks,
   addYears,
   differenceInMonths,
+  differenceInWeeks,
   differenceInYears,
   nextWednesday,
-  setISODay,
 } from "date-fns";
-import { date, InferType, number, object, setLocale } from "yup";
+import { debounce } from "lodash";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import "react-day-picker/dist/style.css";
 import { useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { useUserStore } from "@/app/store";
-import { useEffect } from "react";
-import { ILock } from "@interfaces/lock.interface";
-import useModal from "@/app/providers/modal.provider";
+import { toast } from "sonner";
+import { formatUnits } from "viem";
+import { useAccount, useReadContract, useWriteContract } from "wagmi";
+import { InferType, date, number, object, setLocale } from "yup";
 
 interface MentoLockProps extends BaseComponentProps {}
 
@@ -23,19 +29,26 @@ let validationSchema = object({
   expiration: date()
     .required()
     .typeError("Invalid Date")
-    .min(addYears(new Date(), 1))
-    .max(addYears(new Date(), 4)),
-  expirationMonths: number()
+    .min(new Date())
+    .max(addYears(new Date(), 2)),
+  expirationWeeks: number()
     .required()
     .typeError("Invalid number")
-    .max(4 * 52),
+    .max(2 * 52),
 });
 
 type FormData = InferType<typeof validationSchema>;
 
 export const MentoLock = ({ className, style }: MentoLockProps) => {
-  const { walletAddress, balanceMENTO, lock } = useUserStore();
+  const { address } = useAccount();
+  const [debouncedToLock, setDebouncedToLock] = useState<number>(0);
+  const [debouncedWeeks, setDebouncedWeeks] = useState<number>(0);
   const { showConfirm } = useModal();
+  const contracts = useContracts();
+  const tokens = useChainState((s) => s.tokens);
+  const balanceMENTO = Number(
+    formatUnits(tokens.mento.balance, tokens.mento.decimals),
+  );
 
   const patchValidationSchema = (value: number) => {
     validationSchema = object({
@@ -43,12 +56,12 @@ export const MentoLock = ({ className, style }: MentoLockProps) => {
       expiration: date()
         .required()
         .typeError("Invalid Date")
-        .min(addYears(new Date(), 1))
-        .max(addYears(new Date(), 4)),
-      expirationMonths: number()
+        .min(new Date())
+        .max(addYears(new Date(), 2)),
+      expirationWeeks: number()
         .required()
         .typeError("Invalid number")
-        .max(4 * 52),
+        .max(2 * 52),
     });
   };
 
@@ -62,10 +75,6 @@ export const MentoLock = ({ className, style }: MentoLockProps) => {
     },
     number: {
       max: ({ max }) => `Must not exceed ${max}`,
-    },
-    date: {
-      max: ({ max }) => `Cannot lock for more than 4 years`,
-      min: ({ min }) => `Cannot lock for less than 1 year`,
     },
   });
 
@@ -83,41 +92,81 @@ export const MentoLock = ({ className, style }: MentoLockProps) => {
     mode: "all",
   });
 
+  const currentDate = new Date();
+  const addWeekDate = addWeeks(currentDate, -1);
+  const weeks = useMemo(
+    () => differenceInWeeks(getValues("expiration"), addWeekDate),
+    [addWeekDate, watch("expiration")],
+  );
+
+  const debounceLock = useRef(
+    debounce(async () => {
+      const toLockVal = getValues("toLock");
+      const addWeek = addWeeks(currentDate, -1);
+      const weeksCount = differenceInWeeks(getValues("expiration"), addWeek);
+
+      if (toLockVal && weeksCount) {
+        setDebouncedToLock(toLockVal);
+        setDebouncedWeeks(weeksCount);
+      }
+    }, 500),
+  ).current;
+
+  useEffect(() => {
+    debounceLock();
+  }, [watch("expiration"), watch("toLock"), watch("expirationWeeks")]);
+
+  useEffect(() => {
+    return () => {
+      debounceLock.cancel();
+    };
+  }, [debounceLock]);
+
+  const { data: getLock } = useReadContract({
+    address: contracts.Locking.address,
+    abi: LockingABI,
+    functionName: "getLock",
+    args: [BigInt(debouncedToLock * Math.pow(10, 18)), debouncedWeeks, 0],
+  });
+
+  const { writeContract } = useWriteContract();
+
+  const vementoParsed = useMemo(() => {
+    return Number(formatUnits(getLock?.[0] || 0n, 18)).toLocaleString();
+  }, [getLock]);
+
+  const getWeeks = () => {
+    return weeks < 4 && `${weeks} ${weeks > 1 ? "weeks" : "week"}`;
+  };
+
   const getMonths = () => {
-    const years = differenceInYears(
-      getValues("expiration"),
-      setISODay(new Date(), 3),
-    );
+    const years = differenceInYears(getValues("expiration"), addWeekDate);
     const months = differenceInMonths(
       getValues("expiration"),
-      setISODay(addYears(new Date(), years), 3),
+      addYears(addWeekDate, years),
     );
+
     return months > 0 && `${months} ${months > 1 ? "months" : "month"}`;
   };
 
   const getYears = () => {
-    const years = differenceInYears(
-      getValues("expiration"),
-      setISODay(new Date(), 3),
-    );
+    const years = differenceInYears(getValues("expiration"), addWeekDate);
     return years > 0 && `${years} ${years > 1 ? "years" : "year"}`;
   };
 
   const dateSelected = (date: Date) => {
     setValue("expiration", date);
-    setValue(
-      "expirationMonths",
-      differenceInMonths(date, setISODay(new Date(), 3)),
-    );
+    setValue("expirationWeeks", differenceInWeeks(date, currentDate));
     trigger("expiration");
   };
 
-  const performLock = () => {
+  const performLock = useCallback(async () => {
     if (isValid) {
-      showConfirm(
+      const res = await showConfirm(
         `Do you want to lock ${getValues("toLock")} MENTO for ${[
           getYears(),
           getMonths(),
+          getWeeks(),
         ]
           .filter(Boolean)
           .join(" and ")}?`,
@@ -125,35 +174,49 @@ export const MentoLock = ({ className, style }: MentoLockProps) => {
           confirmText: "Lock",
           modalType: "info",
         },
-      ).then((confirmed) => {
-        if (confirmed) {
-          lock({
-            owner: walletAddress,
-            amountMNTO: getValues("toLock"),
-            amountsVeMNTO: Math.round(
-              getValues("toLock") * 100 * (getValues("expirationMonths") / 12),
-            ),
-            expireDate: getValues("expiration"),
-          } as ILock).then(() => {
-            reset();
-          });
-        }
-      });
+      );
+
+      if (!res) return;
+
+      writeContract(
+        {
+          address: contracts.Locking.address,
+          abi: LockingABI,
+          functionName: "lock",
+          args: [
+            address!,
+            address!,
+            BigInt(debouncedToLock * Math.pow(10, 18)),
+            debouncedWeeks,
+            0,
+          ],
+        },
+        {
+          onSuccess: () => {
+            toast.success("MENTO has been successfully locked!");
+          },
+        },
+      );
     }
-  };
+  }, [
+    writeContract,
+    contracts.Locking.address,
+    address!,
+    debouncedToLock,
+    debouncedWeeks,
+  ]);
 
-  const monthSelected = (months: number | string) => {
-    const newDate = nextWednesday(addMonths(new Date(), +months));
+  const weekSelected = (weeks: number | string) => {
+    const newDate = nextWednesday(addWeeks(currentDate, +weeks));
     setValue("expiration", newDate);
-    setValue("expirationMonths", +months);
+    setValue("expirationWeeks", +weeks);
     trigger("expiration");
+    trigger("expirationWeeks");
   };
-
-  patchValidationSchema(balanceMENTO);
 
   return (
     <div className={className} style={style}>
-      <div className="flex flex-col lg:flex-row justify-between md:place-items-baseline gap-1 md:gap-5">
+      <div className="flex flex-row justify-between md:place-items-baseline gap-1 md:gap-5">
         <div className="text-lg flex-1 whitespace-nowrap">MENTO to lock:</div>
         <div className="flex-1">
           <Input
@@ -165,9 +228,18 @@ export const MentoLock = ({ className, style }: MentoLockProps) => {
             addon={
               <div className="text-xs opacity-50">
                 <div className="flex justify-between gap-x3">
-                  <div className="whitespace-nowrap">Max</div>
+                  <button
+                    className="whitespace-nowrap"
+                    onClick={() => {
+                      setValue("toLock", balanceMENTO);
+                      trigger("toLock");
+                    }}
+                  >
+                    Max available
+                  </button>
                   <div className="whitespace-nowrap">
-                    {balanceMENTO.toLocaleString()} MENTO
+                    {balanceMENTO}
+                    MENTO
                   </div>
                 </div>
               </div>
@@ -176,57 +248,50 @@ export const MentoLock = ({ className, style }: MentoLockProps) => {
         </div>
       </div>
 
-      <div className="flex flex-col lg:flex-row justify-between md:place-items-baseline gap-1 md:gap-5">
-        <div className="text-lg flex-1 whitespace-nowrap">Lock expires:</div>
+      <div className="flex flex-row justify-between md:place-items-baseline gap-1 md:gap-5">
+        <div className="text-lg flex-1 whitespace-nowrap">Lock until:</div>
         <div className="flex-1">
           <DatePicker
             id="expiration"
             className="w-full"
             disallowedDays={["mon", "tue", "thu", "fri", "sat", "sun"]}
-            minDate={nextWednesday(addMonths(new Date(), 1))}
-            maxDate={nextWednesday(addYears(new Date(), 4))}
-            calendarStartDate={new Date()}
-            placeholder="Lock expires"
+            minDate={nextWednesday(currentDate)}
+            maxDate={nextWednesday(addWeeks(currentDate, 103))}
+            calendarStartDate={currentDate}
+            placeholder="Lock until"
             value={watch("expiration")}
             onChange={(date) => dateSelected(date)}
-            addon={
-              <div className="text-xs opacity-50">Between 1 and 4 years</div>
-            }
             error={errors.expiration?.message}
           />
         </div>
       </div>
 
-      <div className="flex flex-col mt-x6 lg:flex-row justify-between md:place-items-baseline gap-1 md:gap-5">
+      <div className="flex mt-x6 flex-row justify-between md:place-items-baseline gap-1 md:gap-5">
         <div className="text-lg flex-1 whitespace-nowrap">
           You receive veMENTO:
         </div>
         <div className="flex-1">
-          <strong>
-            {isValid
-              ? Math.round(
-                  watch("toLock") * 100 * (watch("expirationMonths") / 12),
-                )
-              : "¯\\_(ツ)_/¯"}
-          </strong>
+          <strong>{isValid ? vementoParsed : "¯\\_(ツ)_/¯"}</strong>
         </div>
       </div>
 
       <Slider
-        id={"expirationMonths"}
-        min={1}
-        minLabel={`1 month`}
-        max={48}
-        maxLabel={`4 years`}
+        id="expirationWeeks"
+        min={0}
+        minLabel="1 week"
+        max={103}
+        maxLabel="2 years"
         step={1}
-        value={watch("expirationMonths")}
-        bubbleFormatter={(value) => {
-          return [getYears(), getMonths()].filter(Boolean).join(" ");
+        value={watch("expirationWeeks")}
+        bubbleFormatter={() => {
+          return [getYears(), getMonths(), getWeeks()]
+            .filter(Boolean)
+            .join(" ");
         }}
-        changeCallback={(value) => monthSelected(value)}
+        changeCallback={(value) => weekSelected(value)}
         form={{
-          ...register("expirationMonths", {
-            value: 1,
+          ...register("expirationWeeks", {
+            value: 0,
           }),
         }}
       />

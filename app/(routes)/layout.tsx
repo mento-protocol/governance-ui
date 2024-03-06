@@ -7,6 +7,7 @@ import React, { ReactNode } from "react";
 import { Providers } from "@/app/(routes)/providers";
 import { ModalProvider } from "@/app/providers/modal.provider";
 import { usePathname } from "next/navigation";
+import { Toaster } from "sonner";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -24,6 +25,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
         <Providers>
           <ModalProvider>
             <div className="min-h-screen flex flex-col">
+              <Toaster position="top-center" richColors />
               <Header />
               <div className="main-container px-x4 md:px-x6 min-[1178px]:px-0 mt-x10 md:mt-0 flex-1">
                 {!homePage && <Breadcrumbs />}

@@ -1,19 +1,43 @@
 "use client";
 // ^ this file needs the "use client" pragma
 
-import { ApolloLink, HttpLink, gql } from "@apollo/client";
+import { ApolloLink, createHttpLink } from "@apollo/client";
 import {
-  NextSSRInMemoryCache,
   NextSSRApolloClient,
+  NextSSRInMemoryCache,
   SSRMultipartLink,
 } from "@apollo/experimental-nextjs-app-support/ssr";
-import { ProposalPolicy } from "./policies/Proposal";
+import loadEnvVar from "../helpers/load-env-var";
+import { ProposalPolicy } from "./subgraph/policies/Proposal";
+
+const CELO_EXPLORER_API_URL = loadEnvVar(
+  process.env.NEXT_PUBLIC_CELO_EXPLORER_API_URL,
+);
+const CELO_EXPLORER_API_URL_ALFAJORES = loadEnvVar(
+  process.env.NEXT_PUBLIC_CELO_EXPLORER_API_URL_ALFAJORES,
+);
+
+const CELO_EXPLORER_API_URL_BAKLAVA = loadEnvVar(
+  process.env.NEXT_PUBLIC_CELO_EXPLORER_API_URL_BAKLAVA,
+);
+const SUBGRAPH_URL = loadEnvVar(process.env.NEXT_PUBLIC_SUBGRAPH_URL);
 
 // have a function to create a client for you
 export function newApolloClient() {
-  const httpLink = new HttpLink({
-    // this needs to be an absolute url, as relative urls cannot be used in SSR
-    uri: "https://api.studio.thegraph.com/query/67235/mento-alfajores/version/latest",
+  const httpLink = createHttpLink({
+    // needs to be an absolute url, as relative urls cannot be used in SSR
+    uri: (operation) => {
+      const { apiName } = operation.getContext();
+
+      if (apiName === "celoExplorer") return CELO_EXPLORER_API_URL;
+      if (apiName === "celoExplorerAlfajores")
+        return CELO_EXPLORER_API_URL_ALFAJORES;
+      if (apiName === "celoExplorerBaklava")
+        return CELO_EXPLORER_API_URL_BAKLAVA;
+
+      return SUBGRAPH_URL;
+    },
+
     // you can disable result caching here if you want to
     // (this does not work if you are rendering your page with `export const dynamic = "force-static"`)
     fetchOptions: { cache: "no-store" },

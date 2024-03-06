@@ -1,7 +1,7 @@
-const T = 1000000000000;
-const G = 1000000000;
-const M = 1000000;
-const K = 1000;
+export const TRILLION = 1000000000000000;
+export const BILLION = 1000000000;
+export const MILLION = 1000000;
+export const THOUSAND = 1000;
 
 export default abstract class NumbersService {
   public static scaleBalance(
@@ -22,17 +22,17 @@ export default abstract class NumbersService {
       return "0";
     }
 
-    if (+value / T >= 1) {
-      return `${(+value / T).toFixed((+value / T) % 1 ? precision : 0)}T`;
+    if (+value / TRILLION >= 1) {
+      return `${(+value / TRILLION).toFixed((+value / TRILLION) % 1 ? precision : 0)}T`;
     }
-    if (+value / G >= 1) {
-      return `${(+value / G).toFixed((+value / G) % 1 ? precision : 0)}G`;
+    if (+value / BILLION >= 1) {
+      return `${(+value / BILLION).toFixed((+value / BILLION) % 1 ? precision : 0)}G`;
     }
-    if (+value / M >= 1) {
-      return `${(+value / M).toFixed((+value / M) % 1 ? precision : 0)}M`;
+    if (+value / MILLION >= 1) {
+      return `${(+value / MILLION).toFixed((+value / MILLION) % 1 ? precision : 0)}M`;
     }
-    if (+value / K >= 1) {
-      return `${(+value / K).toFixed((+value / K) % 1 ? precision : 0)}K`;
+    if (+value / THOUSAND >= 1) {
+      return `${(+value / THOUSAND).toFixed((+value / THOUSAND) % 1 ? precision : 0)}K`;
     }
 
     return (+value).toFixed(0);

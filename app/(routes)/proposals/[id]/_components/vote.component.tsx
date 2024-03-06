@@ -1,72 +1,31 @@
-import { Button, Card, ConnectButton } from "@/app/components/_shared";
 import { useAccount } from "wagmi";
-import { Proposal, ProposalState } from "@/app/graphql";
-import { useUserStore } from "@/app/store";
+import classNames from "classnames";
+import { formatUnits } from "viem";
+
+import { Button, Card, ConnectButton, Loader } from "@/app/components/_shared";
 import { ChevronIcon } from "@/app/components/_icons";
 import BlockExplorerLink from "@/app/components/_shared/block-explorer-link/block-explorer-link.component";
+import InactiveProposalStatusMessage from "@/app/components/inactive-proposal-status-message/inactive-proposal-status-message";
+
+import { Proposal, ProposalState } from "@/app/graphql";
+import { useChainState } from "@/app/providers/chainState.provider";
 import useVoteReceipt from "@/app/hooks/useVoteReceipt";
 import useCastVote from "@/app/hooks/useCastVote";
-import MentoLoadingSpinner from "@/app/components/_shared/mento-loading-spinner";
-import exports from "@styles/exports.module.scss";
-import { SVGProps } from "react";
-import { BaseError, formatUnits } from "viem";
 import WalletHelper from "@/app/helpers/wallet.helper";
-import classNames from "classnames";
-import { useChainState } from "@/app/providers/chainState.provider";
 import NumbersService from "@/app/helpers/numbers.service";
+import ErrorHelper from "@/app/helpers/error.helper";
+import { SuccessIcon } from "@/app/components/_icons/success-icon";
 
-const exploreLaterMessage =
-  "Please explore other proposals to participate in the Mento ecosystem!";
-const INACTIVE_PROPOSAL_MESSAGE_MAP: Record<
-  Exclude<ProposalState, ProposalState.Active>,
-  { header: string; statusMessage: string; statusDetail: string }
-> = {
-  [ProposalState.Succeeded]: {
-    header: "Proposal Succeeded",
-    statusMessage: "This proposal has succeeded",
-    statusDetail: exploreLaterMessage,
-  },
-  [ProposalState.Defeated]: {
-    header: "Proposal Defeated",
-    statusMessage: "This proposal was defeated.",
-    statusDetail: exploreLaterMessage,
-  },
-  [ProposalState.Pending]: {
-    header: "Proposal Pending",
-    statusMessage: "This proposal is currently pending.",
-    statusDetail: "Please return later to participate in Mento ecosystem!",
-  },
-  [ProposalState.Canceled]: {
-    header: "Proposal Canceled",
-    statusMessage: "This proposal was canceled.",
-    statusDetail: exploreLaterMessage,
-  },
-  [ProposalState.Executed]: {
-    header: "Proposal Executed",
-    statusMessage: "This proposal was executed.",
-    statusDetail: exploreLaterMessage,
-  },
-  [ProposalState.Expired]: {
-    header: "Proposal Expired",
-    statusMessage: "This proposal has expired.",
-    statusDetail: exploreLaterMessage,
-  },
-  [ProposalState.Queued]: {
-    header: "Proposal Queued",
-    statusMessage: "This proposal is queued.",
-    statusDetail: exploreLaterMessage,
-  },
-  [ProposalState.NoState]: {
-    header: "Proposal Pending",
-    statusMessage: "This proposal is currently pending.",
-    statusDetail: exploreLaterMessage,
-  },
-};
+const VOTE_TYPES = {
+  Against: 0,
+  For: 1,
+  Abstain: 2,
+} as const;
 
 const voteTypeMap: Record<
   number,
   {
-    message: keyof typeof VoteTypes;
+    message: keyof typeof VOTE_TYPES;
     buttonType: string;
   }
 > = {
@@ -79,6 +38,19 @@ const voteTypeMap: Record<
 };
 
 export default function Vote({ proposal }: { proposal: Proposal }) {
+  if (proposal && proposal.state === ProposalState.NoState) {
+    return (
+      <>
+        <VotingCardTitle />
+        <div className="flex flex-col gap-x3 mt-x2 text-center">
+          <br />
+          <Loader isCenter />
+          <br />
+        </div>
+      </>
+    );
+  }
+
   return (
     <Card>
       {proposal.state === ProposalState.Active ? (
@@ -90,35 +62,16 @@ export default function Vote({ proposal }: { proposal: Proposal }) {
   );
 }
 
-const InactiveProposalStatusMessage = ({
-  proposalState,
-}: {
-  proposalState: Exclude<ProposalState, ProposalState.Active>;
-}) => {
-  return (
-    <>
-      <VotingCardTitle>
-        {INACTIVE_PROPOSAL_MESSAGE_MAP[proposalState].header}
-      </VotingCardTitle>
-      <div className="flex flex-col min-h-[163px] justify-between text-[22px] leading-[22px] font-fg">
-        <div className="flex-grow" />
-        <span>
-          {INACTIVE_PROPOSAL_MESSAGE_MAP[proposalState].statusMessage}
-        </span>
-        <div className="h-x4" />
-        <span>{INACTIVE_PROPOSAL_MESSAGE_MAP[proposalState].statusDetail}</span>
-        <div className="flex-grow" />
-      </div>
-    </>
-  );
-};
-
 const CastVote = ({ proposalId }: { proposalId: Proposal["proposalId"] }) => {
   const { address, isConnected, isConnecting } = useAccount();
 
   const tokens = useChainState((s) => s.tokens);
   const chainStateReady = useChainState((s) => s.ready);
-  const { data: voteReceipt } = useVoteReceipt({ proposalId, address });
+  const { data: voteReceipt, isLoading: isHasVotedStatusLoading } =
+    useVoteReceipt({
+      proposalId,
+      address,
+    });
 
   const vote = useCastVote();
 
@@ -128,17 +81,24 @@ const CastVote = ({ proposalId }: { proposalId: Proposal["proposalId"] }) => {
     try {
       vote.castVote(proposalId, voteType);
     } catch (error) {
+      // TODO: sentrify me
       console.log(error);
     }
   };
 
-  if (isConnecting || !chainStateReady) {
+  console.log({ isConnecting, chainStateReady, isHasVotedStatusLoading });
+
+  if (
+    isConnecting ||
+    (isConnected && !chainStateReady) ||
+    isHasVotedStatusLoading
+  ) {
     return (
       <>
         <VotingCardTitle />
         <div className="flex flex-col gap-x3 mt-x2 text-center">
           <br />
-          <MentoLoadingSpinner />
+          <Loader isCenter />
           <br />
         </div>
       </>
@@ -170,7 +130,7 @@ const CastVote = ({ proposalId }: { proposalId: Proposal["proposalId"] }) => {
         <VotingCardTitle />
         <div className="flex flex-col gap-x5">
           <LockedBalance />
-          <span>You should lock your MENTO to vote</span>
+          <span>You need to lock your MENTO to vote</span>
           <Button href="/my-voting-power" theme="primary">
             Lock Mento <ChevronIcon direction="right" />
           </Button>
@@ -185,7 +145,7 @@ const CastVote = ({ proposalId }: { proposalId: Proposal["proposalId"] }) => {
         <VotingCardTitle />
         <div className="flex flex-col gap-x3 mt-x2 text-center">
           <span className="text-md">Confirm your vote</span>
-          <MentoLoadingSpinner />
+          <Loader isCenter />
           <>
             {vote?.variables?.args && (
               <div className="flex flex-col items-center justify-center text-[0.875rem] gap-1">
@@ -229,6 +189,11 @@ const CastVote = ({ proposalId }: { proposalId: Proposal["proposalId"] }) => {
           <span className="text-[#A8A8A8] dark:text-[#AAB3B6] text-sm">
             Your vote is being processed
           </span>
+          {vote.hash && (
+            <BlockExplorerLink type="tx" item={vote.hash}>
+              View on explorer
+            </BlockExplorerLink>
+          )}
         </div>
       </>
     );
@@ -242,11 +207,7 @@ const CastVote = ({ proposalId }: { proposalId: Proposal["proposalId"] }) => {
           <span className="text-md">Vote success</span>
           <SuccessIcon className="w-20 h-20 mx-auto" />
           {vote.hash && (
-            <BlockExplorerLink
-              type="tx"
-              className="text-primary-blue text-sm"
-              item={vote.hash}
-            >
+            <BlockExplorerLink type="tx" item={vote.hash}>
               View on explorer
             </BlockExplorerLink>
           )}
@@ -260,14 +221,12 @@ const CastVote = ({ proposalId }: { proposalId: Proposal["proposalId"] }) => {
       <VotingCardTitle />
       <div className="flex flex-col gap-x5 mt-x3">
         <LockedBalance />
-        <div className="flex flex-col gap-1">
+        <div className="flex flex-col gap-2">
           <VotingButtons onSubmit={handleCastVote} />
           {vote.error && (
             <div className="text-light-red flex flex-col gap-1 item-center justify-center text-sm w-full">
               <span>Error casting vote</span>
-              <span>
-                {(vote.error as BaseError).shortMessage || vote?.error?.message}
-              </span>
+              <span>{ErrorHelper.processWagmiErrorMessage(vote.error)}</span>
             </div>
           )}
         </div>
@@ -276,29 +235,21 @@ const CastVote = ({ proposalId }: { proposalId: Proposal["proposalId"] }) => {
   );
 };
 
-const VoteTypes = {
-  Against: 0,
-  For: 1,
-  Abstain: 2,
-} as const;
-
-type VoteType = (typeof VoteTypes)[keyof typeof VoteTypes];
-
 const VotingButtons = ({
   onSubmit,
 }: {
-  onSubmit: (voteType: VoteType) => void;
+  onSubmit: (voteType: (typeof VOTE_TYPES)[keyof typeof VOTE_TYPES]) => void;
 }) => {
   return (
     <div className="flex flex-col gap-x3">
-      <Button theme="success" block onClick={() => onSubmit(VoteTypes.For)}>
+      <Button theme="success" block onClick={() => onSubmit(VOTE_TYPES.For)}>
         For
       </Button>
       <Button
         type="submit"
         theme="danger"
         block
-        onClick={() => onSubmit(VoteTypes.Against)}
+        onClick={() => onSubmit(VOTE_TYPES.Against)}
       >
         Against
       </Button>
@@ -306,7 +257,7 @@ const VotingButtons = ({
         type="submit"
         theme="tertiary"
         block
-        onClick={() => onSubmit(VoteTypes.Abstain)}
+        onClick={() => onSubmit(VOTE_TYPES.Abstain)}
       >
         Abstain
       </Button>
@@ -347,24 +298,3 @@ const VotingCardTitle = ({
     </Card.Header>
   );
 };
-
-export const SuccessIcon = ({
-  bgColor = exports.success,
-  checkColor = exports.black,
-  ...props
-}: {
-  bgColor?: string;
-  checkColor?: string;
-} & SVGProps<SVGSVGElement>) => (
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52" {...props}>
-    <circle cx="26" cy="26" r="25" fill={bgColor} />
-    <path
-      d="M14.1 27.2l7.1 7.2 16.7-16.8"
-      fill="none"
-      stroke={checkColor}
-      strokeWidth="2"
-      strokeLinecap="butt"
-      strokeLinejoin="miter"
-    />
-  </svg>
-);

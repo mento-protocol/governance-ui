@@ -28,9 +28,11 @@ import Vote from "./_components/vote.component";
 const Page = ({ params }: { params: { id: string } }) => {
   const { walletAddress, balanceVeMENTO } = useUserStore();
 
-  // FIXME: The return type definition is a bit hacky and ideally shouldn't be needed.
-  // It's likely fragments-related. If we inline the ProposalFields fragment into GetProposal,
-  // then it works without explicit return type definition 🤷‍♂️
+  /**
+   * FIXME: The return type definition is a bit hacky and ideally shouldn't be needed.
+   * It's likely fragments-related. If we inline the ProposalFields fragment into the
+   * GetProposal query, then it works without an explicit return type definition 🤷‍♂️
+   */
   const { data } = useSuspenseQuery<{ proposals: Proposal[] }>(GetProposal, {
     variables: { id: params.id },
   });

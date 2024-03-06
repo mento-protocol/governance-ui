@@ -16,12 +16,12 @@ const CELO_EXPLORER_API_URL = loadEnvVar(
 const CELO_EXPLORER_API_URL_ALFAJORES = loadEnvVar(
   process.env.NEXT_PUBLIC_CELO_EXPLORER_API_URL_ALFAJORES,
 );
-
 const CELO_EXPLORER_API_URL_BAKLAVA = loadEnvVar(
   process.env.NEXT_PUBLIC_CELO_EXPLORER_API_URL_BAKLAVA,
 );
-// TODO: Make this dependent on the current network
-const SUBGRAPH_URL = loadEnvVar(process.env.NEXT_PUBLIC_SUBGRAPH_URL_ALFAJORES);
+const SUBGRAPH_URL_ALFAJORES = loadEnvVar(
+  process.env.NEXT_PUBLIC_SUBGRAPH_URL_ALFAJORES,
+);
 
 // have a function to create a client for you
 export function newApolloClient() {
@@ -30,13 +30,19 @@ export function newApolloClient() {
     uri: (operation) => {
       const { apiName } = operation.getContext();
 
-      if (apiName === "celoExplorer") return CELO_EXPLORER_API_URL;
-      if (apiName === "celoExplorerAlfajores")
-        return CELO_EXPLORER_API_URL_ALFAJORES;
-      if (apiName === "celoExplorerBaklava")
-        return CELO_EXPLORER_API_URL_BAKLAVA;
-
-      return SUBGRAPH_URL;
+      switch (apiName) {
+        case "celoExplorer":
+          return CELO_EXPLORER_API_URL;
+        case "celoExplorerAlfajores":
+          return CELO_EXPLORER_API_URL_ALFAJORES;
+        case "celoExplorerBaklava":
+          return CELO_EXPLORER_API_URL_BAKLAVA;
+        case "subgraphAlfajores":
+          return SUBGRAPH_URL_ALFAJORES;
+        default:
+          // TODO: Replace with production subgraph URL once it's deployed
+          return SUBGRAPH_URL_ALFAJORES;
+      }
     },
 
     // you can disable result caching here if you want to

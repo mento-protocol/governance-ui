@@ -44,11 +44,6 @@
       box-shadow: 0px 0px 10px var(--theme-date-picker-box);
       transform: translateY(100%);
       transition: all 0.4s $ease-out-expo;
-
-      .selected {
-        background-color: $c-primary !important;
-        color: $c-white;
-      }
     }
 
     &.opened {
@@ -83,4 +78,9 @@
       }
     }
   }
+}
+
+.selected {
+  background-color: $c-primary !important;
+  color: $c-white;
 }

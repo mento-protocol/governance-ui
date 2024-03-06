@@ -22,10 +22,13 @@ interface ModalWrapperProps {
 type ModalType = "success" | "error" | "warning" | "info";
 
 interface ModalOptions {
+  hideTitle?: boolean;
+  blockButtons?: boolean;
   title?: string;
   confirmText?: string;
   cancelText?: string;
   modalType?: ModalType;
+  closeCallback?: () => void;
 }
 
 interface ModalInstance {
@@ -58,11 +61,12 @@ const ModalContext = createContext({
     value: ReactNode,
     options?: Partial<ModalOptions>,
   ): Promise<boolean> => Promise.resolve(false),
+  removeModal: () => {},
 });
 
 const useModal = () => {
-  const { showModal, showConfirm } = useContext(ModalContext);
-  return { showModal, showConfirm };
+  const { showModal, showConfirm, removeModal } = useContext(ModalContext);
+  return { showModal, showConfirm, removeModal };
 };
 
 const ModalWrapper = ({
@@ -87,23 +91,30 @@ const ModalWrapper = ({
             modalStyles[options?.modalType || ""],
           )}
         >
-          <Card.Header className="relative !pb-x6">
-            <div className="font-semibold">
-              {options?.title || (!!question ? "Confirm" : " ")}
-            </div>
-            <div className={modalStyles.modal__close} onClick={close}>
-              X
-            </div>
-          </Card.Header>
+          {!options?.hideTitle && (
+            <Card.Header className="relative !pb-x6">
+              <div className="font-semibold">
+                {options?.title || (!!question ? "Confirm" : " ")}
+              </div>
+              <div className={modalStyles.modal__close} onClick={close}>
+                X
+              </div>
+            </Card.Header>
+          )}
           <div className="ma-x4">{children}</div>
           {question && (
             <Card.Footer className="flex justify-end gap-x2 mt-x4">
-              <Button theme="tertiary" onClick={cancel}>
+              <Button
+                theme="tertiary"
+                onClick={cancel}
+                block={options?.blockButtons}
+              >
                 {options?.cancelText || "Cancel"}
               </Button>
               <Button
                 theme={modalTypeToButtonThemeMap(options?.modalType)}
                 onClick={confirm}
+                block={options?.blockButtons}
               >
                 {options?.confirmText || "Confirm"}
               </Button>
@@ -126,6 +137,8 @@ export const ModalProvider = ({ children }: ModalProviderProps) => {
   };
 
   const removeModal = () => {
+    const modal = modals[modals.length - 1];
+    modal.options?.closeCallback?.();
     modals.pop();
     setModalWrapperID(Math.random().toString(36).substring(7));
   };
@@ -182,6 +195,7 @@ export const ModalProvider = ({ children }: ModalProviderProps) => {
       value={{
         showModal,
         showConfirm,
+        removeModal,
       }}
     >
       {children}

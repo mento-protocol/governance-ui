@@ -6,14 +6,13 @@
 
   &__row {
     display: grid;
-    //grid-template-columns: 1fr 1fr 1fr 100px;
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr 100px;
     gap: $default-gap;
     margin-bottom: 10px;
     align-items: center;
 
     @include media-md {
-      //grid-template-columns: 1fr 1fr 1fr 250px;
+      grid-template-columns: 1fr 1fr 1fr 250px;
     }
 
     .title {

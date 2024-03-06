@@ -34,7 +34,9 @@ const Wrapper = ({
   disabled,
 }: WrapperProps) => {
   return (
-    <div className={classNames(disabled && styles.disabled)}>
+    <div
+      className={classNames(block && styles.block, disabled && styles.disabled)}
+    >
       {href ? (
         <Link
           href={href}

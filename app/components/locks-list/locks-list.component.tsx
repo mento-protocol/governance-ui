@@ -1,17 +1,24 @@
 import styles from "./locks-list.module.scss";
 import BaseComponentProps from "@interfaces/base-component-props.interface";
-import { Button, DropdownButton } from "@components/_shared";
+import { Button, DropdownButton, Loader } from "@components/_shared";
 import classNames from "classnames";
-import { GetLocksDocument, Lock } from "@/app/graphql";
+import { GetMyLocksDocument, Lock } from "@/app/graphql";
 import { useSuspenseQuery } from "@apollo/client";
-import { useAccount, useReadContract } from "wagmi";
+import { useAccount, useReadContract, useWriteContract } from "wagmi";
 import { LockingABI } from "@/app/abis/Locking";
 import { useContracts } from "@/app/hooks/useContracts";
-import { useCallback, useMemo } from "react";
-import { addWeeks, format, nextWednesday } from "date-fns";
+import { useMemo, useState } from "react";
+import {
+  addWeeks,
+  addYears,
+  differenceInWeeks,
+  nextWednesday,
+  setDay,
+} from "date-fns";
 import { formatUnits } from "viem";
-import { useWriteContract } from "wagmi";
 import useModal from "@/app/providers/modal.provider";
+import { ExtendLockModal } from "@components/extend-lock-modal/extend-lock.modal";
+import { toast } from "sonner";
 
 interface LocksListProps extends BaseComponentProps {
   address: string;
@@ -19,7 +26,7 @@ interface LocksListProps extends BaseComponentProps {
 
 export const LocksList = ({ address }: LocksListProps) => {
   const { data, refetch } = useSuspenseQuery<{ locks: Lock[] }>(
-    GetLocksDocument,
+    GetMyLocksDocument,
     {
       variables: { address },
     },
@@ -53,11 +60,9 @@ const LockEntry = ({
   onExtend: () => void;
 }) => {
   const contracts = useContracts();
-  const { showConfirm } = useModal();
-  const { address } = useAccount();
-  const { error, writeContract } = useWriteContract();
+  const { showModal } = useModal();
 
-  const { data: getLock } = useReadContract({
+  const { data: getLock, refetch } = useReadContract({
     address: contracts.Locking.address,
     abi: LockingABI,
     functionName: "getLock",
@@ -74,58 +79,40 @@ const LockEntry = ({
 
   const expirationDate = useMemo(() => {
     const startDate = new Date(lock.lockCreate[0].timestamp * 1000);
-    const endDate = nextWednesday(addWeeks(startDate, lock.slope + lock.cliff));
-    return endDate.toLocaleDateString();
+    return nextWednesday(addWeeks(startDate, lock.slope + lock.cliff));
   }, [lock]);
 
-  const reLock = useCallback(async () => {
-    const res = await showConfirm(
-      `Are you sure you want to extend lock ${lock.lockId}?`,
-    );
+  const reLock = async () => {
+    const minDate = addWeeks(expirationDate, 1);
+    const maxDate = nextWednesday(addYears(new Date(), 2));
 
-    if (!res) return;
-
-    writeContract(
+    await showModal(
+      <ExtendLockModal minDate={minDate} maxDate={maxDate} lock={lock} />,
       {
-        address: contracts.Locking.address,
-        abi: LockingABI,
-        functionName: "relock",
-        args: [lock.lockId, address!, lock.amount, lock.slope, lock.cliff],
-      },
-      {
-        onSuccess: () => {
-          onExtend();
-        },
+        hideTitle: true,
+        closeCallback: refetch,
       },
     );
-  }, [
-    writeContract,
-    contracts.Locking.address,
-    lock.lockId,
-    lock.amount,
-    lock.slope,
-    lock.cliff,
-    address,
-  ]);
+  };
 
   return (
     <div className={styles.locksList__row} key={key}>
       <div className={styles.divider}></div>
       <div className={styles.item}>{mentoParsed}</div>
       <div className={styles.item}>{vementoParsed}</div>
-      <div className={styles.item}>{expirationDate}</div>
-      {/*<div>*/}
-      {/*  <DropdownButton className="md:hidden" theme="clear">*/}
-      {/*    <DropdownButton.Dropdown>*/}
-      {/*      <DropdownButton.Element onClick={reLock}>*/}
-      {/*        Extend lock*/}
-      {/*      </DropdownButton.Element>*/}
-      {/*    </DropdownButton.Dropdown>*/}
-      {/*  </DropdownButton>*/}
-      {/*  <Button className="md:static" block theme="clear" onClick={reLock}>*/}
-      {/*    Extend lock*/}
-      {/*  </Button>*/}
-      {/*</div>*/}
+      <div className={styles.item}>{expirationDate.toLocaleDateString()}</div>
+      <div>
+        <DropdownButton className="md:hidden" theme="clear">
+          <DropdownButton.Dropdown>
+            <DropdownButton.Element onClick={reLock}>
+              Extend lock
+            </DropdownButton.Element>
+          </DropdownButton.Dropdown>
+        </DropdownButton>
+        <Button className="md:static" block theme="clear" onClick={reLock}>
+          Extend lock
+        </Button>
+      </div>
     </div>
   );
 };

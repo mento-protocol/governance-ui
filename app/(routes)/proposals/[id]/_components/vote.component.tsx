@@ -1,5 +1,5 @@
 import { Button, Card, ConnectButton } from "@/app/components/_shared";
-import { useAccount, useReadContract } from "wagmi";
+import { useAccount } from "wagmi";
 import { Proposal, ProposalState } from "@/app/graphql";
 import { useUserStore } from "@/app/store";
 import { ChevronIcon } from "@/app/components/_icons";
@@ -9,10 +9,11 @@ import useCastVote from "@/app/hooks/useCastVote";
 import MentoLoadingSpinner from "@/app/components/_shared/mento-loading-spinner";
 import exports from "@styles/exports.module.scss";
 import { SVGProps } from "react";
-import { Address, BaseError, erc20Abi } from "viem";
-import { useContracts } from "@/app/hooks/useContracts";
+import { BaseError, formatUnits } from "viem";
 import WalletHelper from "@/app/helpers/wallet.helper";
 import classNames from "classnames";
+import { useChainState } from "@/app/providers/chainState.provider";
+import NumbersService from "@/app/helpers/numbers.service";
 
 const exploreLaterMessage =
   "Please explore other proposals to participate in the Mento ecosystem!";
@@ -115,18 +116,13 @@ const InactiveProposalStatusMessage = ({
 const CastVote = ({ proposalId }: { proposalId: Proposal["proposalId"] }) => {
   const { address, isConnected, isConnecting } = useAccount();
 
-  const { balanceVeMENTO, isReady } = useUserStore();
-  const {
-    data: voteReceipt,
-    error,
-    isError,
-  } = useVoteReceipt({ proposalId, address });
+  const tokens = useChainState((s) => s.tokens);
+  const chainStateReady = useChainState((s) => s.ready);
+  const { data: voteReceipt } = useVoteReceipt({ proposalId, address });
 
   const vote = useCastVote();
 
-  const hasEnoughLockedMentoToVote = balanceVeMENTO
-    ? balanceVeMENTO > 0
-    : false;
+  const hasEnoughLockedMentoToVote = tokens.veMento.balance > 0;
 
   const handleCastVote = (voteType: number) => {
     try {
@@ -136,7 +132,7 @@ const CastVote = ({ proposalId }: { proposalId: Proposal["proposalId"] }) => {
     }
   };
 
-  if (isConnecting || !isReady) {
+  if (isConnecting || !chainStateReady) {
     return (
       <>
         <VotingCardTitle />
@@ -172,11 +168,13 @@ const CastVote = ({ proposalId }: { proposalId: Proposal["proposalId"] }) => {
     return (
       <>
         <VotingCardTitle />
-        <LockedBalance />
-        <span>You should lock your MENTO to vote</span>
-        <Button href="/my-voting-power" theme="primary">
-          Lock Mento <ChevronIcon direction="right" />
-        </Button>
+        <div className="flex flex-col gap-x5">
+          <LockedBalance />
+          <span>You should lock your MENTO to vote</span>
+          <Button href="/my-voting-power" theme="primary">
+            Lock Mento <ChevronIcon direction="right" />
+          </Button>
+        </div>
       </>
     );
   }
@@ -327,13 +325,13 @@ const Disconnected = () => {
 };
 
 const LockedBalance = () => {
-  const { balanceVeMENTO } = useUserStore();
+  const tokens = useChainState((s) => s.tokens);
   return (
     <div className="flex flex-col gap-x2 items-center font-fg">
       <div className="text-[1.125rem] text-[#A8A8A8] dark:text-[#AAB3B6]">
         Your voting power
       </div>
-      <div className="text-[2rem] leading-[2rem]">{`${balanceVeMENTO} veMENTO`}</div>
+      <div className="text-[2rem] animate-[pulse] leading-[2rem]">{`${NumbersService.parseNumericValue(formatUnits(tokens.veMento.balance, tokens.veMento.decimals))} veMENTO`}</div>
     </div>
   );
 };
@@ -370,17 +368,3 @@ export const SuccessIcon = ({
     />
   </svg>
 );
-
-const useBalanceVeMENTO = ({ address }: { address?: Address }) => {
-  const contracts = useContracts();
-  const lockedMentoRead = useReadContract({
-    abi: erc20Abi,
-    address: contracts.Locking.address,
-    functionName: "balanceOf",
-    args: [address!],
-    query: { enabled: !!address, staleTime: 10000 },
-    scopeKey: "balanceVeMENTO",
-  });
-  console.log({ lockedMentoRead });
-  return { balanceVeMENTO: lockedMentoRead.data, ...lockedMentoRead };
-};

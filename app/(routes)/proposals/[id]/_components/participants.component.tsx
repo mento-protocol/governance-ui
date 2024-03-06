@@ -6,44 +6,21 @@ import styles from "../page.module.scss";
 
 type Props = {
   votes: ProposalVotes;
-  participantsModalActive: boolean;
-  setParticipantsModelActive: (active: boolean) => void;
 };
 
-export default function Participants({
-  participantsModalActive,
-  setParticipantsModelActive,
-  votes,
-}: Props) {
+export default function Participants({ votes }: Props) {
   return (
-    <div
-      className={classNames(
-        styles.backdrop,
-        participantsModalActive && styles.opened,
-      )}
+    <Card
+      className={classNames(styles.proposal_addon, styles.participantsList)}
     >
-      <Card
-        className={classNames(
-          styles.proposal_addon,
-          participantsModalActive && styles.opened,
-          styles.participantsList,
-        )}
-      >
-        <Card.Header className="text-center text-2xl">
-          <strong>Participants</strong>
-          <button
-            className={styles.proposal_addon__close}
-            onClick={() => setParticipantsModelActive(false)}
-          >
-            X
-          </button>
-        </Card.Header>
-        <TabList tabs={["For", "Against", "Abstain"]}>
-          <VotesList voteType="for" votes={votes} />
-          <VotesList voteType="against" votes={votes} />
-          <VotesList voteType="abstain" votes={votes} />
-        </TabList>
-      </Card>
-    </div>
+      <Card.Header className="text-center text-2xl">
+        <strong>Participants</strong>
+      </Card.Header>
+      <TabList tabs={["For", "Against", "Abstain"]}>
+        <VotesList voteType="for" votes={votes} />
+        <VotesList voteType="against" votes={votes} />
+        <VotesList voteType="abstain" votes={votes} />
+      </TabList>
+    </Card>
   );
 }

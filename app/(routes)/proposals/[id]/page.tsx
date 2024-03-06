@@ -57,10 +57,6 @@ const Page = ({ params }: { params: { id: string } }) => {
     }
   }, [currentBlock, endBlock, proposal.endBlock]);
 
-  const [mobileVotingModalActive, setMobileVotingModalActive] = useState(false);
-  const [mobileParticipantsModalActive, setMobileParticipantsModelActive] =
-    useState(false);
-
   return (
     <main className="flex flex-col">
       {!proposal && <div>Proposal not found</div>}
@@ -114,7 +110,7 @@ const Page = ({ params }: { params: { id: string } }) => {
               </span>
             </div>
           </div>
-          <div className="mt-x6 flex flex-col md:flex-row md:justify-between place-items-start gap-x1 ">
+          <div className="mt-x6 flex flex-col md:flex-row md:justify-between place-items-start gap-x6 md:gap-x1">
             <div className={classNames(styles.details, "flex-1")}>
               <ProposalCurrentVotes className="md:mb-x6" />
               <div className="md:hidden my-x6">
@@ -130,11 +126,7 @@ const Page = ({ params }: { params: { id: string } }) => {
               <div className="hidden md:block">
                 <Vote proposal={proposal} />
               </div>
-              <Participants
-                participantsModalActive={mobileParticipantsModalActive}
-                setParticipantsModelActive={setMobileParticipantsModelActive}
-                votes={proposal.votes}
-              />
+              <Participants votes={proposal.votes} />
             </div>
           </div>
         </>

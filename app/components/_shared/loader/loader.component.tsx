@@ -1,11 +1,10 @@
 import { MentoIcon } from "@components/_icons";
 import styles from "./loader.module.scss";
-import exports from "@styles/exports.module.scss";
 import classNames from "classnames";
 
 export const Loader = ({
   isCenter,
-  backgroundColor = exports.info,
+  backgroundColor = "none",
 }: {
   isCenter?: boolean;
   backgroundColor?: string;

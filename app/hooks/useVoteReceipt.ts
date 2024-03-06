@@ -11,7 +11,6 @@ const useVoteReceipt = ({
   address: Address | undefined;
   proposalId: Proposal["proposalId"];
 }) => {
-  console.log({ address, proposalId, hello: !!address });
   const contracts = useContracts();
   return useReadContract({
     abi: GovernorABI,

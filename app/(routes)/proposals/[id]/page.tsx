@@ -4,7 +4,7 @@ import { useProposalStates } from "@/app/hooks/useProposalStates";
 import { useSuspenseQuery } from "@apollo/experimental-nextjs-app-support/ssr";
 import classNames from "classnames";
 import { format } from "date-fns";
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import { useBlock, useBlockNumber } from "wagmi";
 import styles from "./page.module.scss";
 

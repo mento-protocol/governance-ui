@@ -86,8 +86,6 @@ const CastVote = ({ proposalId }: { proposalId: Proposal["proposalId"] }) => {
     }
   };
 
-  console.log({ isConnecting, chainStateReady, isHasVotedStatusLoading });
-
   if (
     isConnecting ||
     (isConnected && !chainStateReady) ||

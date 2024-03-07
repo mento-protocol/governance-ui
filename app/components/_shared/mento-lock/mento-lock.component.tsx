@@ -161,7 +161,7 @@ export const MentoLock = ({ className, style }: MentoLockProps) => {
   return (
     <div className={className} style={style}>
       <div className="flex flex-col lg:flex-row justify-between md:place-items-baseline gap-1 md:gap-5">
-        <div className="text-lg flex-1 whitespace-nowrap">MNTO to lock:</div>
+        <div className="text-lg flex-1 whitespace-nowrap">MENTO to lock:</div>
         <div className="flex-1">
           <Input
             id="toLock"
@@ -206,7 +206,7 @@ export const MentoLock = ({ className, style }: MentoLockProps) => {
 
       <div className="flex flex-col mt-x6 lg:flex-row justify-between md:place-items-baseline gap-1 md:gap-5">
         <div className="text-lg flex-1 whitespace-nowrap">
-          You recieve veMENTO:
+          You receive veMENTO:
         </div>
         <div className="flex-1">
           <strong>

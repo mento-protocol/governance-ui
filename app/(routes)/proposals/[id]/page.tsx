@@ -37,11 +37,8 @@ const Page = ({ params }: { params: { id: string } }) => {
 
   useProposalStates(data.proposals);
 
-  const [mobileVotingModalActive, setMobileVotingModalActive] = useState(false);
-  const [mobileParticipantsModalActive, setMobileParticipantsModelActive] =
-    useState(false);
-
   const proposal = data.proposals[0];
+
   const { title, description } = proposal.metadata;
   const currentBlock = useBlockNumber();
   const endBlock = useBlock({ blockNumber: BigInt(proposal.endBlock) });
@@ -67,6 +64,10 @@ const Page = ({ params }: { params: { id: string } }) => {
       }
     }
   }, [currentBlock, endBlock, proposal.endBlock]);
+
+  const [mobileVotingModalActive, setMobileVotingModalActive] = useState(false);
+  const [mobileParticipantsModalActive, setMobileParticipantsModelActive] =
+    useState(false);
 
   return (
     <main className="flex flex-col">

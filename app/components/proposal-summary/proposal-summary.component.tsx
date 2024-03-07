@@ -6,11 +6,17 @@ import { useSuspenseQuery } from "@apollo/client";
 import { Card } from "@components/_shared";
 import { useMemo } from "react";
 import { formatUnits } from "viem";
-import { useBlockNumber, useReadContract } from "wagmi";
+import { useBlockNumber, useChainId, useReadContract } from "wagmi";
 
 const ProposalSummaryComponent = () => {
+  const chainId = useChainId();
   const contracts = useContracts();
-  const { data } = useSuspenseQuery<{ proposals: Proposal[] }>(GetProposals);
+  const { data } = useSuspenseQuery<{ proposals: Proposal[] }>(GetProposals, {
+    context: {
+      apiName: chainId === 44787 ? "subgraphAlfajores" : "subgraph",
+    },
+  });
+
   const { data: totalSupply } = useReadContract({
     address: contracts.Locking.address,
     abi: LockingABI,

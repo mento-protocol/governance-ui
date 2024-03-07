@@ -19,6 +19,8 @@ const CELO_EXPLORER_API_URL_ALFAJORES = loadEnvVar(
 const CELO_EXPLORER_API_URL_BAKLAVA = loadEnvVar(
   process.env.NEXT_PUBLIC_CELO_EXPLORER_API_URL_BAKLAVA,
 );
+
+const SUBGRAPH_URL = loadEnvVar(process.env.NEXT_PUBLIC_SUBGRAPH_URL);
 const SUBGRAPH_URL_ALFAJORES = loadEnvVar(
   process.env.NEXT_PUBLIC_SUBGRAPH_URL_ALFAJORES,
 );
@@ -37,11 +39,12 @@ export function newApolloClient() {
           return CELO_EXPLORER_API_URL_ALFAJORES;
         case "celoExplorerBaklava":
           return CELO_EXPLORER_API_URL_BAKLAVA;
+        case "subgraph":
+          return SUBGRAPH_URL;
         case "subgraphAlfajores":
           return SUBGRAPH_URL_ALFAJORES;
         default:
-          // TODO: Replace with production subgraph URL once it's deployed
-          return SUBGRAPH_URL_ALFAJORES;
+          return SUBGRAPH_URL;
       }
     },
 

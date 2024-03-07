@@ -5,11 +5,13 @@ import loadEnvVar from "./app/helpers/load-env-var";
 const CELO_EXPLORER_API_URL = loadEnvVar(
   process.env.NEXT_PUBLIC_CELO_EXPLORER_API_URL,
 );
-// TODO: Make this dependent on the current network
-const SUBGRAPH_URL = loadEnvVar(process.env.NEXT_PUBLIC_SUBGRAPH_URL_ALFAJORES);
+
+const SUBGRAPH_URL = loadEnvVar(process.env.NEXT_PUBLIC_SUBGRAPH_URL);
 
 const config: CodegenConfig = {
   generates: {
+    // NOTE: In case we need to use different subgraph URLs for different environments
+    // we'll need to add another element to the object below, i.e. "./app/graphql/subgraph-alfajores/generated"
     "./app/graphql/subgraph/generated/": {
       schema: [SUBGRAPH_URL, "./schema.client.graphql"],
       documents: ["app/graphql/subgraph/**/*.graphql"],

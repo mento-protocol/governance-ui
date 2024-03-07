@@ -17,10 +17,10 @@ const CELO_EXPLORER_API_URL_ALFAJORES = loadEnvVar(
   process.env.NEXT_PUBLIC_CELO_EXPLORER_API_URL_ALFAJORES,
 );
 
-const CELO_EXPLORER_API_URL_BAKLAVA = loadEnvVar(
-  process.env.NEXT_PUBLIC_CELO_EXPLORER_API_URL_BAKLAVA,
-);
 const SUBGRAPH_URL = loadEnvVar(process.env.NEXT_PUBLIC_SUBGRAPH_URL);
+const SUBGRAPH_URL_ALFAJORES = loadEnvVar(
+  process.env.NEXT_PUBLIC_SUBGRAPH_URL_ALFAJORES,
+);
 
 // have a function to create a client for you
 export function newApolloClient() {
@@ -29,13 +29,18 @@ export function newApolloClient() {
     uri: (operation) => {
       const { apiName } = operation.getContext();
 
-      if (apiName === "celoExplorer") return CELO_EXPLORER_API_URL;
-      if (apiName === "celoExplorerAlfajores")
-        return CELO_EXPLORER_API_URL_ALFAJORES;
-      if (apiName === "celoExplorerBaklava")
-        return CELO_EXPLORER_API_URL_BAKLAVA;
-
-      return SUBGRAPH_URL;
+      switch (apiName) {
+        case "celoExplorer":
+          return CELO_EXPLORER_API_URL;
+        case "celoExplorerAlfajores":
+          return CELO_EXPLORER_API_URL_ALFAJORES;
+        case "subgraph":
+          return SUBGRAPH_URL;
+        case "subgraphAlfajores":
+          return SUBGRAPH_URL_ALFAJORES;
+        default:
+          return SUBGRAPH_URL;
+      }
     },
 
     // you can disable result caching here if you want to

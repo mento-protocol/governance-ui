@@ -28,7 +28,6 @@ export const ProposalsListComponent = ({
   });
 
   useProposalStates(data?.proposals);
-  console.log(data.proposals);
 
   return (
     <div className={classNames(styles.wrapper, className)} style={style}>

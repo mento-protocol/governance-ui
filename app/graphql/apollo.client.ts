@@ -16,9 +16,6 @@ const CELO_EXPLORER_API_URL = loadEnvVar(
 const CELO_EXPLORER_API_URL_ALFAJORES = loadEnvVar(
   process.env.NEXT_PUBLIC_CELO_EXPLORER_API_URL_ALFAJORES,
 );
-const CELO_EXPLORER_API_URL_BAKLAVA = loadEnvVar(
-  process.env.NEXT_PUBLIC_CELO_EXPLORER_API_URL_BAKLAVA,
-);
 
 const SUBGRAPH_URL = loadEnvVar(process.env.NEXT_PUBLIC_SUBGRAPH_URL);
 const SUBGRAPH_URL_ALFAJORES = loadEnvVar(
@@ -37,8 +34,6 @@ export function newApolloClient() {
           return CELO_EXPLORER_API_URL;
         case "celoExplorerAlfajores":
           return CELO_EXPLORER_API_URL_ALFAJORES;
-        case "celoExplorerBaklava":
-          return CELO_EXPLORER_API_URL_BAKLAVA;
         case "subgraph":
           return SUBGRAPH_URL;
         case "subgraphAlfajores":

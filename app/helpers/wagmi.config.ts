@@ -1,12 +1,12 @@
-import { createConfig, http } from "wagmi";
-import { Alfajores, Baklava, Celo } from "@/app/helpers/chains";
+import { Alfajores, Celo } from "@/app/helpers/chains";
+import { connectorsForWallets } from "@rainbow-me/rainbowkit";
 import {
   metaMaskWallet,
   omniWallet,
   trustWallet,
   walletConnectWallet,
 } from "@rainbow-me/rainbowkit/wallets";
-import { connectorsForWallets } from "@rainbow-me/rainbowkit";
+import { createConfig, http } from "wagmi";
 import { valora } from "./Valora.wallet";
 
 const connectors = connectorsForWallets(
@@ -30,10 +30,9 @@ const connectors = connectorsForWallets(
 );
 
 export const wagmiConfig = createConfig({
-  chains: [Alfajores, Baklava, Celo],
+  chains: [Alfajores, Celo],
   transports: {
     [Alfajores.id]: http(),
-    [Baklava.id]: http(),
     [Celo.id]: http(),
   },
   // autoConnect: true,

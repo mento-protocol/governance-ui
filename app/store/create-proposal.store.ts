@@ -61,7 +61,7 @@ interface CreateProposalStore {
   executeJsonError: string | undefined;
   next: () => void;
   prev: () => void;
-  save: () => void;
+  start: () => void;
   validateExecuteJson: () => string | undefined;
   checkFormValidity: () => void;
   reset: (title: string, description: string, code: string) => void;
@@ -85,7 +85,9 @@ export const useCreateProposalStore = create<CreateProposalStore>(
       prev: () => {
         get().navigateInForm("prev");
       },
-      save: () => {},
+      start: () => {
+        set({ openedForm: CreateProposalFormStepEnum.wallet });
+      },
       checkFormValidity: () => {
         const form = get().form[get().openedForm];
         const isValid = Object.values(form.value).every((field) =>

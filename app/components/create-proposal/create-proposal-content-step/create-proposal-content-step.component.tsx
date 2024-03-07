@@ -37,12 +37,6 @@ type FormData = InferType<typeof validationSchema>;
 const InnerForm = () => {
   const { patchContentStep, form, next, prev } = useCreateProposalStore();
 
-  console.log(
-    "CreateProposalContentStep",
-    form[formStep].value.title.value,
-    form[formStep].value.description.value,
-  );
-
   const {
     register,
     watch,

@@ -7,6 +7,7 @@ import React, { ReactNode } from "react";
 import { Providers } from "@/app/(routes)/providers";
 import { ModalProvider } from "@/app/providers/modal.provider";
 import { usePathname } from "next/navigation";
+import { Toaster } from "sonner";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -21,6 +22,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <html lang="en">
       <body className={inter.className} suppressHydrationWarning={true}>
+        <Toaster />
         <Providers>
           <ModalProvider>
             <div className="min-h-screen flex flex-col">

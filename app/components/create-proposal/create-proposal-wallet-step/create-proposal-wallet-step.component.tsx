@@ -1,7 +1,7 @@
 import { ConnectButton, MentoLock } from "@components/_shared";
 import { CreateProposalFormStepEnum } from "@interfaces/create-proposal.interface";
 import Wrapper from "@components/create-proposal/wrapper/wrapper.component";
-import { useCreateProposalStore, useUserStore } from "@/app/store";
+import { useCreateProposalStore } from "@/app/store";
 import { useEffect, useMemo, useState } from "react";
 import { useChainState } from "@/app/providers/chainState.provider";
 import { useAccount } from "wagmi";
@@ -108,7 +108,13 @@ export const CreateProposalWalletStep = () => {
     { leading: true, trailing: false },
   );
 
-  const getAndValidateStep = useMemo((): WalletStepEnum => {
+  useEffect(() => {
+    return () => {
+      validateCacheAndNavigate.cancel();
+    };
+  }, [validateCacheAndNavigate]);
+
+  const walletStep = useMemo((): WalletStepEnum => {
     if (!address) {
       return WalletStepEnum.connectWallet;
     } else if (mento.balance <= 0) {
@@ -120,11 +126,8 @@ export const CreateProposalWalletStep = () => {
     }
   }, [address, mento.balance, veMento.balance]);
 
-  const [walletFormStep, setFormStep] = useState(getAndValidateStep);
-
   useEffect(() => {
-    setFormStep(getAndValidateStep);
-    if (getAndValidateStep === WalletStepEnum.createProposal) {
+    if (walletStep === WalletStepEnum.createProposal) {
       if (openedForm === formStep) {
         validateCacheAndNavigate();
       }
@@ -134,25 +137,19 @@ export const CreateProposalWalletStep = () => {
       balanceMENTO: mento.balance,
       balanceVeMENTO: veMento.balance,
     });
-  }, [
-    address,
-    mento.balance,
-    getAndValidateStep,
-    patchWalletStep,
-    veMento.balance,
-  ]);
+  }, [address, mento.balance, walletStep, patchWalletStep, veMento.balance]);
 
   return (
     <Wrapper
       step={formStep}
       isOpened={form[formStep].isOpened}
-      canGoNext={getAndValidateStep === WalletStepEnum.createProposal}
+      canGoNext={walletStep === WalletStepEnum.createProposal}
       canGoPrev={false}
       next={next}
       prev={prev}
       title="Connect your wallet & login"
     >
-      {form[formStep].isOpened && <CurrentFormStep formStep={walletFormStep} />}
+      {form[formStep].isOpened && <CurrentFormStep formStep={walletStep} />}
     </Wrapper>
   );
 };

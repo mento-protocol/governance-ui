@@ -2,7 +2,12 @@
 import { GovernorABI } from "@/app/abis/Governor";
 import { useContracts } from "@/app/hooks/useContracts";
 import { useCreateProposalStore } from "@/app/store";
-import { ExecutionCodeView, MarkdownView, SeeAll } from "@components/_shared";
+import {
+  Button,
+  ExecutionCodeView,
+  MarkdownView,
+  SeeAll,
+} from "@components/_shared";
 import Wrapper from "@components/create-proposal/wrapper/wrapper.component";
 import { CreateProposalFormStepEnum } from "@interfaces/create-proposal.interface";
 import { useCallback, useEffect, useMemo, useState } from "react";
@@ -10,6 +15,9 @@ import { Address } from "viem";
 import styles from "./create-proposal-preview-step.module.scss";
 import { useSimulateContract, useWriteContract } from "wagmi";
 import { useRouter } from "next/navigation";
+import useModal from "@/app/providers/modal.provider";
+import { err } from "pino-std-serializers";
+import { toast } from "sonner";
 
 const formStep = CreateProposalFormStepEnum.preview;
 
@@ -22,10 +30,31 @@ type ProposalCreateParams = {
   }>;
 };
 
+const ErrorNode = ({ error, details }: { error: string; details: string }) => {
+  const { showModal } = useModal();
+  return (
+    <div className="flex justify-center items-center text-error">
+      {error}
+      <button
+        className="text-error bg-transparent border-none ml-x2 cursor-pointer hover:underline"
+        onClick={() =>
+          showModal(
+            <pre className="my-x3 p-x2 text-error border-solid border border-error rounded-x1">
+              {details}
+            </pre>,
+          )
+        }
+      >
+        Show more
+      </button>
+    </div>
+  );
+};
+
 export const CreateProposalPreviewStep = () => {
   const [isProposalPreviewOpen, setIsProposalPreviewOpen] = useState(false);
   const [isPending, setIsPending] = useState(false);
-  const { form, next, prev } = useCreateProposalStore();
+  const { form, next, prev, openedForm, start } = useCreateProposalStore();
   const { data, error, writeContract } = useWriteContract();
   const contracts = useContracts();
   const router = useRouter();
@@ -68,7 +97,9 @@ export const CreateProposalPreviewStep = () => {
     address: contracts?.MentoGovernor.address as Address,
     abi: GovernorABI,
     functionName: "propose",
-
+    query: {
+      enabled: openedForm === CreateProposalFormStepEnum.preview,
+    },
     args: [
       proposal.transactions.map(
         (transaction) => transaction.address as Address,
@@ -104,11 +135,13 @@ export const CreateProposalPreviewStep = () => {
 
     writeContract(contractParams, {
       onSuccess: () => {
-        setIsPending(false);
+        toast.success("Proposal created successfully");
         router.push("/");
         localStorage.removeItem("proposalTitle");
         localStorage.removeItem("proposalDescription");
         localStorage.removeItem("proposalExecutionCode");
+        setIsPending(false);
+        start();
       },
       onError: () => {
         setIsPending(false);
@@ -122,6 +155,24 @@ export const CreateProposalPreviewStep = () => {
     router,
   ]);
 
+  const errorNode = useMemo(() => {
+    if (isSimulatedContractError) {
+      return (
+        <ErrorNode
+          error="An error occurred simulating your proposal"
+          details={simulatedContractError.message}
+        />
+      );
+    } else if (error) {
+      return (
+        <ErrorNode
+          error="An error occurred creating your proposal"
+          details={error.message}
+        />
+      );
+    }
+  }, [isSimulatedContractError, simulatedContractError, error]);
+
   return (
     <Wrapper
       step={formStep}
@@ -134,21 +185,11 @@ export const CreateProposalPreviewStep = () => {
       isPending={isPending || isSimulatedContractPending}
       className={styles.container}
       isOpened={form[formStep].isOpened}
+      error={errorNode}
     >
       {form[formStep].isOpened && (
         <div>
           <div className="ml-x7">
-            {error && (
-              <pre className="my-x3 p-x2 text-error border-solid border border-error rounded-x1">
-                {error.message}
-              </pre>
-            )}
-            {isSimulatedContractError && (
-              <pre className="my-x3 p-x2 text-error border-solid border border-error rounded-x1">
-                <p>Simulation failed:</p>
-                {simulatedContractError.message}
-              </pre>
-            )}
             <p className="font-size-x4 line-height-x5">
               You&apos;ve successfully finished all the steps. Now, take a
               moment to go over your proposal and then submit it.

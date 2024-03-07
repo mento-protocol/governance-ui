@@ -12,6 +12,7 @@ import { ReactNode, useMemo } from "react";
 interface WrapperProps extends BaseComponentProps {
   step: CreateProposalFormStepEnum;
   title: string | ReactNode;
+  error?: ReactNode;
   isOpened: boolean;
   canGoNext?: boolean;
   canGoPrev?: boolean;
@@ -30,6 +31,7 @@ const Wrapper = ({
   canGoNext = true,
   canGoPrev = true,
   isPending = false,
+  error,
   next,
   prev,
 }: WrapperProps) => {
@@ -60,7 +62,12 @@ const Wrapper = ({
       >
         <div className={styles.inner}>{children}</div>
         <Card.Footer>
-          <div className="flex full-w justify-start items-center gap-x3">
+          <div
+            className={classNames(
+              "flex full-w justify-start items-center gap-x3",
+              step === CreateProposalFormStepEnum.preview && "ml-x7",
+            )}
+          >
             <Button
               className="min-w-x20"
               onClick={prev}
@@ -69,26 +76,23 @@ const Wrapper = ({
             >
               Back
             </Button>
-            {step !== CreateProposalFormStepEnum.preview && (
-              <Button
-                className="min-w-x20"
-                onClick={next}
-                theme="primary"
-                disabled={!canGoNext || isPending}
-              >
-                {!isPending ? "Next" : <Loader empty size={20} />}
-              </Button>
-            )}
-            {step === CreateProposalFormStepEnum.preview && (
-              <Button
-                className="min-w-x20"
-                onClick={next}
-                theme="primary"
-                disabled={!canGoNext || isPending}
-              >
-                {!isPending ? "Save" : <Loader empty size={20} />}
-              </Button>
-            )}
+            <Button
+              className="min-w-x20"
+              onClick={next}
+              theme="primary"
+              disabled={!canGoNext || isPending}
+            >
+              {!isPending ? (
+                step === CreateProposalFormStepEnum.preview ? (
+                  "Create proposal"
+                ) : (
+                  "Next"
+                )
+              ) : (
+                <Loader empty size={20} />
+              )}
+            </Button>
+            {error}
           </div>
         </Card.Footer>
       </div>

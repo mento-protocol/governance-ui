@@ -11,6 +11,7 @@ import { useMemo, useState } from "react";
 import {
   addWeeks,
   addYears,
+  differenceInCalendarWeeks,
   differenceInWeeks,
   nextWednesday,
   setDay,
@@ -83,8 +84,8 @@ const LockEntry = ({
   }, [lock]);
 
   const reLock = async () => {
-    const minDate = addWeeks(expirationDate, 1);
-    const maxDate = nextWednesday(addYears(new Date(), 2));
+    const minDate = addWeeks(expirationDate, 4);
+    const maxDate = nextWednesday(addYears(expirationDate, 2));
 
     await showModal(
       <ExtendLockModal minDate={minDate} maxDate={maxDate} lock={lock} />,

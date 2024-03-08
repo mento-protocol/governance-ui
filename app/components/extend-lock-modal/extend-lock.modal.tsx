@@ -5,14 +5,19 @@ import {
   dayToNumberMap,
   DisallowedDay,
 } from "@interfaces/date-picker.interface";
-import { differenceInWeeks, isBefore, setDay } from "date-fns";
+import {
+  differenceInCalendarWeeks,
+  differenceInWeeks,
+  isBefore,
+  setDay,
+} from "date-fns";
 import addDays from "date-fns/addDays";
 import { LockingABI } from "@/app/abis/Locking";
 import { toast } from "sonner";
 import { Lock } from "@/app/graphql";
 import { useAccount, useWriteContract } from "wagmi";
 import { useContracts } from "@/app/hooks/useContracts";
-import { Button, Card } from "@components/_shared";
+import { Button, Card, Loader } from "@components/_shared";
 import useModal from "@/app/providers/modal.provider";
 
 interface ExtendLockModalProps {
@@ -36,6 +41,7 @@ export const ExtendLockModal = ({
   lock,
 }: ExtendLockModalProps) => {
   const [pickerDate, setPickerDate] = useState<Date | undefined>(minDate);
+  const [isPending, setIsPending] = useState(false);
   const [calendarMonth, setCalendarMonth] = useState(minDate);
   const { writeContract } = useWriteContract();
   const { address } = useAccount();
@@ -71,38 +77,38 @@ export const ExtendLockModal = ({
   }, [minDate, maxDate]);
 
   const save = () => {
-    const newSlope = differenceInWeeks(pickerDate!, setDay(new Date(), 3));
+    setIsPending(true);
+    const elapsedWeeks = differenceInCalendarWeeks(
+      setDay(new Date(), 3),
+      setDay(new Date(lock.lockCreate[0].timestamp * 1000), 3),
+    );
+    const newCliff =
+      lock.cliff - elapsedWeeks < 0 ? 0 : lock.cliff - elapsedWeeks;
 
-    console.log("relock", [lock.lockId, address!, lock.amount, newSlope, 0]);
-
-    console.log("initial", [
-      lock.lockId,
-      address!,
-      lock.amount,
-      lock.slope,
-      lock.cliff,
-    ]);
+    const newSlope =
+      differenceInCalendarWeeks(pickerDate!, setDay(new Date(), 3)) - newCliff;
 
     writeContract(
       {
         address: contracts.Locking.address,
         abi: LockingABI,
         functionName: "relock",
-        args: [lock.lockId, address!, lock.amount, newSlope, 0],
+        args: [lock.lockId, address!, lock.amount, newSlope, newCliff],
       },
       {
         onSuccess: () => {
           toast.success("Lock extended");
+          setIsPending(false);
           removeModal();
         },
         onError: (error) => {
           console.error(error.message);
           toast.error(error.message);
+          setIsPending(false);
           removeModal();
         },
       },
     );
-    console.log("save");
   };
 
   const cancel = () => {
@@ -111,7 +117,7 @@ export const ExtendLockModal = ({
   };
 
   return (
-    <div>
+    <div className="relative">
       <DayPicker
         mode="single"
         required
@@ -130,13 +136,23 @@ export const ExtendLockModal = ({
         onMonthChange={onMonthChange}
       />
       <div className="flex justify-end gap-x2 mt-x4">
-        <Button theme="tertiary" onClick={cancel} block>
+        <Button theme="tertiary" onClick={cancel} block disabled={isPending}>
           Cancel
         </Button>
-        <Button theme="primary" onClick={save} block>
+        <Button
+          theme="primary"
+          onClick={save}
+          block
+          disabled={!pickerDate || isPending}
+        >
           Extend
         </Button>
       </div>
+      {isPending && (
+        <div className="absolute w-full h-full left-0 top-0 z-50 backdrop-blur-sm flex justify-center items-center">
+          <Loader />
+        </div>
+      )}
     </div>
   );
 };

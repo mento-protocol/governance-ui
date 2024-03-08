@@ -81,7 +81,7 @@ const InnerForm = () => {
     } else {
       clearErrors("code");
     }
-  }, [executeJsonError, setError]);
+  }, [clearErrors, executeJsonError, setError]);
 
   useEffect(() => {
     const subscription = watch((value) => {

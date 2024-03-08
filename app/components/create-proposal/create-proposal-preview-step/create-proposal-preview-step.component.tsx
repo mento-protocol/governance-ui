@@ -151,6 +151,7 @@ export const CreateProposalPreviewStep = () => {
     proposal.metadata,
     writeContract,
     router,
+    start,
   ]);
 
   const errorNode = useMemo(() => {

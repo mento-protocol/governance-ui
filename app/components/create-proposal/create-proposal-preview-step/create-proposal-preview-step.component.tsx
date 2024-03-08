@@ -19,8 +19,6 @@ import useModal from "@/app/providers/modal.provider";
 import { err } from "pino-std-serializers";
 import { toast } from "sonner";
 
-const formStep = CreateProposalFormStepEnum.preview;
-
 type ProposalCreateParams = {
   metadata: { title: string; description: string };
   transactions: Array<{
@@ -111,7 +109,7 @@ export const CreateProposalPreviewStep = () => {
   });
 
   useEffect(() => {
-    if (form[formStep].isOpened) {
+    if (form[CreateProposalFormStepEnum.preview].isOpened) {
       refetchSimulatedCall();
     }
   }, [form, proposal, refetchSimulatedCall]);
@@ -175,7 +173,7 @@ export const CreateProposalPreviewStep = () => {
 
   return (
     <Wrapper
-      step={formStep}
+      step={CreateProposalFormStepEnum.preview}
       title="Preview your proposal"
       next={onSave}
       prev={prev}
@@ -184,10 +182,10 @@ export const CreateProposalPreviewStep = () => {
       }
       isPending={isPending || isSimulatedContractPending}
       className={styles.container}
-      isOpened={form[formStep].isOpened}
+      isOpened={form[CreateProposalFormStepEnum.preview].isOpened}
       error={errorNode}
     >
-      {form[formStep].isOpened && (
+      {form[CreateProposalFormStepEnum.preview].isOpened && (
         <div>
           <div className="ml-x7">
             <p className="font-size-x4 line-height-x5">

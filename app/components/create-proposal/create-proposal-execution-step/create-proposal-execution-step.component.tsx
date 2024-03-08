@@ -8,16 +8,12 @@ import { useCreateProposalStore } from "@/app/store";
 import { useEffect } from "react";
 import classNames from "classnames";
 import { HelpIcon } from "@components/_icons";
-import StringService from "@/app/helpers/string.service";
-import { isAddress } from "viem";
 import useModal from "@/app/providers/modal.provider";
 import { ExecutionExplanationModal } from "@components/create-proposal";
 
 type FormData = {
   code: string;
 };
-
-const formStep = CreateProposalFormStepEnum.execution;
 
 export const CreateProposalExecutionStep = () => {
   const { patchExecutionStep, form, next, prev, validateExecuteJson } =
@@ -33,9 +29,9 @@ export const CreateProposalExecutionStep = () => {
 
   return (
     <Wrapper
-      step={formStep}
-      isOpened={form[formStep].isOpened}
-      canGoNext={form[formStep].isValid}
+      step={CreateProposalFormStepEnum.execution}
+      isOpened={form[CreateProposalFormStepEnum.execution].isOpened}
+      canGoNext={form[CreateProposalFormStepEnum.execution].isValid}
       next={validateAndGoNext}
       prev={prev}
       title={
@@ -54,7 +50,7 @@ export const CreateProposalExecutionStep = () => {
         </div>
       }
     >
-      {form[formStep].isOpened && <InnerForm />}
+      {form[CreateProposalFormStepEnum.execution].isOpened && <InnerForm />}
     </Wrapper>
   );
 };
@@ -71,7 +67,7 @@ const InnerForm = () => {
     formState: { errors, isValid },
   } = useForm<FormData>({
     defaultValues: {
-      code: form[formStep].value.code.value,
+      code: form[CreateProposalFormStepEnum.execution].value.code.value,
     },
     mode: "all",
   });

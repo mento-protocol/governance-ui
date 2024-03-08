@@ -1,5 +1,4 @@
 import { ConnectButton, MentoLock } from "@components/_shared";
-import { CreateProposalFormStepEnum } from "@interfaces/create-proposal.interface";
 import Wrapper from "@components/create-proposal/wrapper/wrapper.component";
 import { useCreateProposalStore } from "@/app/store";
 import { useEffect, useMemo, useState } from "react";
@@ -7,8 +6,7 @@ import { useChainState } from "@/app/providers/chainState.provider";
 import { useAccount } from "wagmi";
 import useModal from "@/app/providers/modal.provider";
 import { debounce } from "lodash";
-
-const formStep = CreateProposalFormStepEnum.wallet;
+import { CreateProposalFormStepEnum } from "@interfaces/create-proposal.interface";
 
 enum WalletStepEnum {
   connectWallet = "connectWallet",
@@ -127,29 +125,40 @@ export const CreateProposalWalletStep = () => {
   }, [address, mento.balance, veMento.balance]);
 
   useEffect(() => {
-    if (walletStep === WalletStepEnum.createProposal) {
-      if (openedForm === formStep) {
-        validateCacheAndNavigate();
-      }
+    if (
+      walletStep === WalletStepEnum.createProposal &&
+      openedForm === CreateProposalFormStepEnum.wallet
+    ) {
+      validateCacheAndNavigate();
     }
     patchWalletStep({
       walletAddress: address || "",
       balanceMENTO: mento.balance,
       balanceVeMENTO: veMento.balance,
     });
-  }, [address, mento.balance, walletStep, patchWalletStep, veMento.balance]);
+  }, [
+    address,
+    mento.balance,
+    walletStep,
+    patchWalletStep,
+    veMento.balance,
+    openedForm,
+    validateCacheAndNavigate,
+  ]);
 
   return (
     <Wrapper
-      step={formStep}
-      isOpened={form[formStep].isOpened}
+      step={CreateProposalFormStepEnum.wallet}
+      isOpened={form[CreateProposalFormStepEnum.wallet].isOpened}
       canGoNext={walletStep === WalletStepEnum.createProposal}
       canGoPrev={false}
       next={next}
       prev={prev}
       title="Connect your wallet & login"
     >
-      {form[formStep].isOpened && <CurrentFormStep formStep={walletStep} />}
+      {form[CreateProposalFormStepEnum.wallet].isOpened && (
+        <CurrentFormStep formStep={walletStep} />
+      )}
     </Wrapper>
   );
 };

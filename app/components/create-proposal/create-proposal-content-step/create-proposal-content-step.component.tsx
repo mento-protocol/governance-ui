@@ -8,21 +8,19 @@ import { CreateProposalFormStepEnum } from "@interfaces/create-proposal.interfac
 import { useCreateProposalStore } from "@/app/store";
 import { useEffect } from "react";
 
-const formStep = CreateProposalFormStepEnum.content;
-
 export const CreateProposalContentStep = () => {
   const { form, next, prev } = useCreateProposalStore();
 
   return (
     <Wrapper
-      step={formStep}
-      isOpened={form[formStep].isOpened}
-      canGoNext={form[formStep].isValid}
+      step={CreateProposalFormStepEnum.content}
+      isOpened={form[CreateProposalFormStepEnum.content].isOpened}
+      canGoNext={form[CreateProposalFormStepEnum.content].isValid}
       next={next}
       prev={prev}
       title="Add name and description"
     >
-      {form[formStep].isOpened && <InnerForm />}
+      {form[CreateProposalFormStepEnum.content].isOpened && <InnerForm />}
     </Wrapper>
   );
 };
@@ -44,8 +42,8 @@ const InnerForm = () => {
     formState: { errors, isValid },
   } = useForm<FormData>({
     defaultValues: {
-      title: form[formStep].value.title.value,
-      content: form[formStep].value.description.value,
+      title: form[CreateProposalFormStepEnum.content].value.title.value,
+      content: form[CreateProposalFormStepEnum.content].value.description.value,
     },
     resolver: yupResolver(validationSchema),
     mode: "onChange",

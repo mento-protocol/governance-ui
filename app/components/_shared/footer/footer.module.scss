@@ -1,7 +1,6 @@
 @import "@/app/brand";
 
 .footer {
-  margin: 75px 0 112px;
   border-top: 1px solid $c-black;
   display: flex;
   justify-content: space-between;
@@ -24,7 +23,6 @@
   }
 
   &__element {
-    margin-top: 71px;
     display: flex;
     flex-direction: column;
     gap: 2 * $theme-unit;

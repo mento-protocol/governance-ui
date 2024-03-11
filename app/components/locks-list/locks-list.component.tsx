@@ -101,15 +101,18 @@ const LockEntry = ({
       <div className={styles.divider}></div>
       <div className={styles.item}>{mentoParsed}</div>
       <div className={styles.item}>{vementoParsed}</div>
-      <div className={styles.item}>{expirationDate.toLocaleDateString()}</div>
-      <div>
-        <DropdownButton className="md:hidden" theme="clear">
-          <DropdownButton.Dropdown>
-            <DropdownButton.Element onClick={reLock}>
-              Extend lock
-            </DropdownButton.Element>
-          </DropdownButton.Dropdown>
-        </DropdownButton>
+      <div className={styles.item}>
+        <div>{expirationDate.toLocaleDateString()}</div>
+        <div className="md:hidden">
+          <button
+            className="p-0 bg-transparent text-primary transition-all whitespace-nowrap underline hover:text-secondary md:hidden"
+            onClick={reLock}
+          >
+            Extend lock
+          </button>
+        </div>
+      </div>
+      <div className={classNames(styles.item, "hidden md:block")}>
         <Button className="md:static" block theme="clear" onClick={reLock}>
           Extend lock
         </Button>

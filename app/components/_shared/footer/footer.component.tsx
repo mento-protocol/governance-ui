@@ -23,7 +23,7 @@ export const Footer = ({ className, style }: FooterProps) => {
   const pathname = usePathname();
 
   return (
-    <footer className={classNames("mt-x5", className)} style={style}>
+    <footer className={classNames(className)} style={style}>
       <div className="main-container">
         {pathname === "/" && (
           <div className={classNames(styles.learn_more)}>

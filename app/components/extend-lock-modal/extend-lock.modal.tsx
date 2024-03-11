@@ -117,24 +117,26 @@ export const ExtendLockModal = ({
   };
 
   return (
-    <div className="relative">
-      <DayPicker
-        mode="single"
-        required
-        fromDate={minDate}
-        selected={pickerDate}
-        toDate={maxDate}
-        month={calendarMonth}
-        numberOfMonths={1}
-        showOutsideDays
-        fixedWeeks
-        disabled={disabledDays}
-        modifiersClassNames={{
-          selected: styles.selected,
-        }}
-        onSelect={handleDayClick}
-        onMonthChange={onMonthChange}
-      />
+    <div className="relative pb-x8 md:pb-0">
+      <div className="flex flex-col justify-center items-center">
+        <DayPicker
+          mode="single"
+          required
+          fromDate={minDate}
+          selected={pickerDate}
+          toDate={maxDate}
+          month={calendarMonth}
+          numberOfMonths={1}
+          showOutsideDays
+          fixedWeeks
+          disabled={disabledDays}
+          modifiersClassNames={{
+            selected: styles.selected,
+          }}
+          onSelect={handleDayClick}
+          onMonthChange={onMonthChange}
+        />
+      </div>
       <div className="flex justify-end gap-x2 mt-x4">
         <Button theme="tertiary" onClick={cancel} block disabled={isPending}>
           Cancel

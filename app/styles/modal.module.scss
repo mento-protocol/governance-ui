@@ -6,16 +6,31 @@
 
 .modal {
   @include default-backdrop;
-  padding: $theme-unit * 4;
   overflow: auto;
   height: 100vh;
   width: 100vw;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  top: 0;
+
+  @include media-md {
+    padding: $theme-unit * 4;
+  }
 
   &__content {
     position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    bottom: 0;
+    left: 0;
+    right: 0;
+
+    @include media-md {
+      bottom: auto;
+      top: 50%;
+      left: 50%;
+      right: auto;
+      transform: translate(-50%, -50%);
+    }
 
     &__inner {
       min-width: 300px;

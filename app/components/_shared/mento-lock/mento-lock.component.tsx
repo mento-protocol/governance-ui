@@ -2,7 +2,7 @@ import { LockingABI } from "@/app/abis/Locking";
 import { useContracts } from "@/app/hooks/useContracts";
 import { useChainState } from "@/app/providers/chainState.provider";
 import useModal from "@/app/providers/modal.provider";
-import { Button, DatePicker, Input, Slider } from "@components/_shared";
+import { Button, DatePicker, Input, Loader, Slider } from "@components/_shared";
 import { yupResolver } from "@hookform/resolvers/yup";
 import BaseComponentProps from "@interfaces/base-component-props.interface";
 import {
@@ -21,16 +21,19 @@ import { toast } from "sonner";
 import { formatUnits } from "viem";
 import { useAccount, useReadContract, useWriteContract } from "wagmi";
 import { InferType, date, number, object, setLocale } from "yup";
+import styles from "./mento-lock.module.scss";
+import classNames from "classnames";
 
 interface MentoLockProps extends BaseComponentProps {}
+
+const currentDate = new Date();
 
 let validationSchema = object({
   toLock: number().required().typeError("Invalid number").max(0),
   expiration: date()
     .required()
     .typeError("Invalid Date")
-    .min(new Date())
-    .max(addYears(new Date(), 2)),
+    .max(addYears(currentDate, 2)),
   expirationWeeks: number()
     .required()
     .typeError("Invalid number")
@@ -56,8 +59,7 @@ export const MentoLock = ({ className, style }: MentoLockProps) => {
       expiration: date()
         .required()
         .typeError("Invalid Date")
-        .min(new Date())
-        .max(addYears(new Date(), 2)),
+        .max(addYears(currentDate, 2)),
       expirationWeeks: number()
         .required()
         .typeError("Invalid number")
@@ -74,7 +76,7 @@ export const MentoLock = ({ className, style }: MentoLockProps) => {
       default: "Invalid number",
     },
     number: {
-      max: ({ max }) => `Must not exceed ${max}`,
+      max: ({ max }) => `Amount exceeds current balance ${max}`,
     },
   });
 
@@ -92,7 +94,6 @@ export const MentoLock = ({ className, style }: MentoLockProps) => {
     mode: "all",
   });
 
-  const currentDate = new Date();
   const addWeekDate = addWeeks(currentDate, -1);
   const weeks = useMemo(
     () => differenceInWeeks(getValues("expiration"), addWeekDate),
@@ -122,7 +123,7 @@ export const MentoLock = ({ className, style }: MentoLockProps) => {
     };
   }, [debounceLock]);
 
-  const { data: getLock } = useReadContract({
+  const { data: getLock, isFetching: isLockFetching } = useReadContract({
     address: contracts.Locking.address,
     abi: LockingABI,
     functionName: "getLock",
@@ -132,6 +133,7 @@ export const MentoLock = ({ className, style }: MentoLockProps) => {
   const { writeContract } = useWriteContract();
 
   const vementoParsed = useMemo(() => {
+    if (!getLock) return;
     return Number(formatUnits(getLock?.[0] || 0n, 18)).toLocaleString();
   }, [getLock]);
 
@@ -215,9 +217,9 @@ export const MentoLock = ({ className, style }: MentoLockProps) => {
   };
 
   return (
-    <div className={className} style={style}>
-      <div className="flex flex-row justify-between md:place-items-baseline gap-1 md:gap-5">
-        <div className="text-lg flex-1 whitespace-nowrap">MENTO to lock:</div>
+    <div className={classNames(className, styles.container)} style={style}>
+      <div className="flex flex-row justify-between gap-1 md:gap-5">
+        <div className="flex-1 whitespace-nowrap mt-x1">MENTO to lock:</div>
         <div className="flex-1">
           <Input
             id="toLock"
@@ -225,19 +227,21 @@ export const MentoLock = ({ className, style }: MentoLockProps) => {
             placeholder="Voting power"
             form={{ ...register("toLock") }}
             error={errors.toLock?.message}
+            className={styles.toLockInput}
+            classNameInput={styles.input}
             addon={
-              <div className="text-xs opacity-50">
+              <div className="opacity-50">
                 <div className="flex justify-between gap-x3">
                   <button
-                    className="whitespace-nowrap"
+                    className="whitespace-nowrap text-[14px]"
                     onClick={() => {
                       setValue("toLock", balanceMENTO);
                       trigger("toLock");
                     }}
                   >
-                    Max available
+                    Max
                   </button>
-                  <div className="whitespace-nowrap">
+                  <div className="whitespace-nowrap text-[14px]">
                     {balanceMENTO}
                     MENTO
                   </div>
@@ -248,8 +252,8 @@ export const MentoLock = ({ className, style }: MentoLockProps) => {
         </div>
       </div>
 
-      <div className="flex flex-row justify-between md:place-items-baseline gap-1 md:gap-5">
-        <div className="text-lg flex-1 whitespace-nowrap">Lock until:</div>
+      <div className="flex flex-row justify-between gap-1 md:gap-5">
+        <div className="flex-1 whitespace-nowrap mt-x3">Lock until:</div>
         <div className="flex-1">
           <DatePicker
             id="expiration"
@@ -266,12 +270,18 @@ export const MentoLock = ({ className, style }: MentoLockProps) => {
         </div>
       </div>
 
-      <div className="flex mt-x6 flex-row justify-between md:place-items-baseline gap-1 md:gap-5">
-        <div className="text-lg flex-1 whitespace-nowrap">
+      <div className="flex mt-x6 flex-row justify-between gap-1 md:gap-5">
+        <div className="flex-1 whitespace-nowrap mt-x1">
           You receive veMENTO:
         </div>
-        <div className="flex-1">
-          <strong>{isValid ? vementoParsed : "¯\\_(ツ)_/¯"}</strong>
+        <div className={styles.veMento}>
+          {isLockFetching ? (
+            <div className={styles.loader}>
+              <Loader />
+            </div>
+          ) : (
+            <span>{isValid ? vementoParsed : "¯\\_(ツ)_/¯"}</span>
+          )}
         </div>
       </div>
 

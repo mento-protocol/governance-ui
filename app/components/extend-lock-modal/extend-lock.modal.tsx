@@ -1,23 +1,18 @@
 import styles from "@components/_shared/date-picker/date-picker.module.scss";
 import { DayPicker, SelectSingleEventHandler } from "react-day-picker";
-import { useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import {
   dayToNumberMap,
   DisallowedDay,
 } from "@interfaces/date-picker.interface";
-import {
-  differenceInCalendarWeeks,
-  differenceInWeeks,
-  isBefore,
-  setDay,
-} from "date-fns";
+import { differenceInCalendarWeeks, isBefore, setDay } from "date-fns";
 import addDays from "date-fns/addDays";
 import { LockingABI } from "@/app/abis/Locking";
 import { toast } from "sonner";
 import { Lock } from "@/app/graphql";
 import { useAccount, useWriteContract } from "wagmi";
 import { useContracts } from "@/app/hooks/useContracts";
-import { Button, Card, Loader } from "@components/_shared";
+import { Button, Loader } from "@components/_shared";
 import useModal from "@/app/providers/modal.provider";
 
 interface ExtendLockModalProps {
@@ -52,9 +47,9 @@ export const ExtendLockModal = ({
     setPickerDate(date);
   };
 
-  const onMonthChange = (date: Date) => {
+  const onMonthChange = useCallback((date: Date) => {
     setCalendarMonth(date);
-  };
+  }, []);
 
   const disabledDays = useMemo(() => {
     if (!minDate || !maxDate) return [];
@@ -76,7 +71,7 @@ export const ExtendLockModal = ({
     return disabledDays;
   }, [minDate, maxDate]);
 
-  const save = () => {
+  const save = useCallback(() => {
     setIsPending(true);
     const elapsedWeeks = differenceInCalendarWeeks(
       setDay(new Date(), 3),
@@ -109,12 +104,21 @@ export const ExtendLockModal = ({
         },
       },
     );
-  };
+  }, [
+    address,
+    contracts.Locking.address,
+    lock.amount,
+    lock.cliff,
+    lock.lockCreate,
+    lock.lockId,
+    pickerDate,
+    removeModal,
+    writeContract,
+  ]);
 
-  const cancel = () => {
-    console.log("cancel");
+  const cancel = useCallback(() => {
     removeModal();
-  };
+  }, [removeModal]);
 
   return (
     <div className="relative pb-x8 md:pb-0">

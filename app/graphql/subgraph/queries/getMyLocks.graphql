@@ -1,0 +1,16 @@
+query getMyLocks($address: String) {
+    locks(where: {owner: $address, relocked: false}) {
+        lockId
+        owner {
+            id
+        }
+        amount
+        time
+        slope
+        cliff
+        lockCreate {
+            id,
+            timestamp,
+        }
+    }
+}

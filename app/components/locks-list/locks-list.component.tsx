@@ -1,35 +1,31 @@
 import styles from "./locks-list.module.scss";
 import BaseComponentProps from "@interfaces/base-component-props.interface";
-import { Button, DropdownButton, Loader } from "@components/_shared";
+import { Button } from "@components/_shared";
 import classNames from "classnames";
 import { GetMyLocksDocument, Lock } from "@/app/graphql";
 import { useSuspenseQuery } from "@apollo/client";
-import { useAccount, useReadContract, useWriteContract } from "wagmi";
+import { useChainId, useReadContract } from "wagmi";
 import { LockingABI } from "@/app/abis/Locking";
 import { useContracts } from "@/app/hooks/useContracts";
-import { useMemo, useState } from "react";
-import {
-  addWeeks,
-  addYears,
-  differenceInCalendarWeeks,
-  differenceInWeeks,
-  nextWednesday,
-  setDay,
-} from "date-fns";
+import { useMemo } from "react";
+import { addWeeks, addYears, nextWednesday } from "date-fns";
 import { formatUnits } from "viem";
 import useModal from "@/app/providers/modal.provider";
 import { ExtendLockModal } from "@components/extend-lock-modal/extend-lock.modal";
-import { toast } from "sonner";
 
 interface LocksListProps extends BaseComponentProps {
   address: string;
 }
 
 export const LocksList = ({ address }: LocksListProps) => {
+  const chainId = useChainId();
   const { data, refetch } = useSuspenseQuery<{ locks: Lock[] }>(
     GetMyLocksDocument,
     {
       variables: { address },
+      context: {
+        apiName: chainId === 44787 ? "subgraphAlfajores" : "subgraph",
+      },
     },
   );
 

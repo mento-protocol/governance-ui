@@ -18,10 +18,9 @@ import { stateToBadgeColorMap } from "@interfaces/proposal.interface";
 import ExecutionCode from "./_components/execution-code.component";
 import Participants from "./_components/participants.component";
 import Vote from "./_components/vote.component";
+import { celoAlfajores } from "viem/chains";
 
 const Page = ({ params }: { params: { id: string } }) => {
-  const chainId = useChainId();
-
   /**
    * FIXME: The return type definition is a bit hacky and ideally shouldn't be needed.
    * It's likely fragments-related. If we inline the ProposalFields fragment into the
@@ -30,7 +29,7 @@ const Page = ({ params }: { params: { id: string } }) => {
   const { data } = useSuspenseQuery<{ proposals: Proposal[] }>(GetProposal, {
     variables: { id: params.id },
     context: {
-      apiName: chainId === 44787 ? "subgraphAlfajores" : "subgraph",
+      apiName: celoAlfajores.id ? "subgraphAlfajores" : "subgraph",
     },
   });
 

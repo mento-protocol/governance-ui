@@ -5,7 +5,7 @@ import { useSuspenseQuery } from "@apollo/experimental-nextjs-app-support/ssr";
 import classNames from "classnames";
 import { format } from "date-fns";
 import { useMemo } from "react";
-import { useBlock, useBlockNumber } from "wagmi";
+import { useBlock, useBlockNumber, useChainId } from "wagmi";
 import styles from "./page.module.scss";
 
 // Components
@@ -20,11 +20,18 @@ import Participants from "./_components/participants.component";
 import Vote from "./_components/vote.component";
 
 const Page = ({ params }: { params: { id: string } }) => {
-  // FIXME: The return type definition is a bit hacky and ideally shouldn't be needed.
-  // It's likely fragments-related. If we inline the ProposalFields fragment into GetProposal,
-  // then it works without explicit return type definition 🤷‍♂️
+  const chainId = useChainId();
+
+  /**
+   * FIXME: The return type definition is a bit hacky and ideally shouldn't be needed.
+   * It's likely fragments-related. If we inline the ProposalFields fragment into the
+   * GetProposal query, then it works without an explicit return type definition 🤷‍♂️
+   */
   const { data } = useSuspenseQuery<{ proposals: Proposal[] }>(GetProposal, {
     variables: { id: params.id },
+    context: {
+      apiName: chainId === 44787 ? "subgraphAlfajores" : "subgraph",
+    },
   });
 
   useProposalStates(data.proposals);

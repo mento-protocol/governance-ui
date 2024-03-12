@@ -10,6 +10,7 @@ import { stateToBadgeColorMap } from "@interfaces/proposal.interface";
 import classNames from "classnames";
 import Link from "next/link";
 import { formatUnits, numberToHex } from "viem";
+import { useChainId } from "wagmi";
 import styles from "./proposals-list.module.scss";
 
 interface ProposalsListProps extends BaseComponentProps {}
@@ -18,7 +19,14 @@ export const ProposalsListComponent = ({
   className,
   style,
 }: ProposalsListProps) => {
-  const { data } = useSuspenseQuery<{ proposals: Proposal[] }>(GetProposals);
+  const chainId = useChainId();
+  const { data } = useSuspenseQuery<{ proposals: Proposal[] }>(GetProposals, {
+    queryKey: "GetProposals",
+    context: {
+      apiName: chainId === 44787 ? "subgraphAlfajores" : "subgraph",
+    },
+  });
+
   useProposalStates(data?.proposals);
 
   return (

@@ -50,38 +50,6 @@ export const Alfajores: MentoChain = {
   },
 };
 
-export const Baklava: MentoChain = {
-  id: 62320,
-  name: "Baklava",
-  nativeCurrency: {
-    decimals: 18,
-    name: "CELO",
-    symbol: "B-CELO",
-  },
-  rpcUrls: {
-    default: {
-      http: ["https://baklava-forno.celo-testnet.org"],
-    },
-    public: {
-      http: ["https://baklava-forno.celo-testnet.org"],
-    },
-  },
-  blockExplorers: {
-    default: {
-      name: "Celo Explorer",
-      url: "https://explorer.celo.org/baklava",
-    },
-    etherscan: {
-      name: "Celo Explorer",
-      url: "https://explorer.celo.org/baklava",
-    },
-  },
-  testnet: true,
-  contracts: {
-    ...transformToChainContracts(addresses[62320]),
-  },
-};
-
 /**
  * Transforms the specified Mento contract addresses to the format used by Viem.
  * @param contractAddresses The Mento contract addresses to be transformed.

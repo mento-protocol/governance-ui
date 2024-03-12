@@ -1,6 +1,6 @@
 import { useAccount } from "wagmi";
 import classNames from "classnames";
-import { formatUnits } from "viem";
+import { UserRejectedRequestError, formatUnits } from "viem";
 
 import { Button, Card, ConnectButton, Loader } from "@/app/components/_shared";
 import { ChevronIcon } from "@/app/components/_icons";
@@ -210,12 +210,12 @@ const CastVote = ({ proposalId }: { proposalId: Proposal["proposalId"] }) => {
         <LockedBalance />
         <div className="flex flex-col gap-2">
           <VotingButtons onSubmit={handleCastVote} />
-          {vote.error && (
-            <div className="text-light-red flex flex-col gap-1 item-center justify-center text-sm w-full">
+          {vote.error && !(vote.error instanceof UserRejectedRequestError) ? (
+            <div className="text-light-red flex flex-col gap-1 items-center justify-center text-sm w-full">
               <span>Error casting vote</span>
               <span>{ErrorHelper.processWagmiErrorMessage(vote.error)}</span>
             </div>
-          )}
+          ) : null}
         </div>
       </div>
     </>

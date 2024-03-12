@@ -20,22 +20,13 @@ const VOTE_TYPES = {
   Against: 0,
   For: 1,
   Abstain: 2,
-} as const;
+} as { [key: string]: number };
 
-const voteTypeMap: Record<
-  number,
-  {
-    message: keyof typeof VOTE_TYPES;
-    buttonType: string;
-  }
-> = {
-  1: { message: "For", buttonType: "bg-light-green" },
-  0: {
-    message: "Against",
-    buttonType: "bg-light-red",
-  },
-  2: { message: "Abstain", buttonType: "bg-white" },
-};
+const REVERSE_VOTE_TYPE_MAP = {
+  [VOTE_TYPES.For]: "For",
+  [VOTE_TYPES.Against]: "Against",
+  [VOTE_TYPES.Abstain]: "Abstain",
+} as const;
 
 export default function Vote({ proposal }: { proposal: Proposal }) {
   if (proposal && proposal.state === ProposalState.NoState) {
@@ -113,7 +104,11 @@ const CastVote = ({ proposalId }: { proposalId: Proposal["proposalId"] }) => {
         <VotingCardTitle />
         <div className="flex flex-col min-h-[163px] justify-between text-[22px] leading-[22px] font-fg">
           <div className="flex-grow" />
-          <span>{`You have already voted "${voteTypeMap[voteReceipt.support].message}" on this proposal`}</span>
+          <div>
+            <span>{`You already voted `}</span>
+            <VoteTypePill voteType={voteReceipt.support} />
+            <span>{` on this proposal`}</span>
+          </div>
           <div className="h-x4" />
           <span>Thank you for participating in the Mento ecosystem!</span>
           <div className="flex-grow" />
@@ -150,15 +145,9 @@ const CastVote = ({ proposalId }: { proposalId: Proposal["proposalId"] }) => {
                 <div className="flex items-center justify-center gap-1">
                   <span>{`Voting `}</span>
                   <span className="flex items-center justify-center">
-                    <span
-                      className={classNames(
-                        "flex justify-center items-center text-black text-sm px-2 py-1 rounded-md border-[0.5px] border-black",
-                        voteTypeMap[Number(vote?.variables?.args?.[1])]
-                          .buttonType,
-                      )}
-                    >
-                      {`${voteTypeMap[Number(vote?.variables?.args?.[1])].message}`}
-                    </span>
+                    <VoteTypePill
+                      voteType={vote?.variables?.args?.[1] as number}
+                    />
                   </span>
                   <span>on</span>
                 </div>
@@ -294,5 +283,20 @@ const VotingCardTitle = ({
         {children}
       </h2>
     </Card.Header>
+  );
+};
+
+const VoteTypePill = ({ voteType }: { voteType: number }) => {
+  return (
+    <span
+      className={classNames(
+        "inline-flex justify-center items-center text-black text-sm px-2 py-1 rounded-md border-[0.5px] border-black",
+        { "bg-light-green": voteType === VOTE_TYPES.For },
+        { "bg-light-red": voteType === VOTE_TYPES.Against },
+        { "bg-white": voteType === VOTE_TYPES.Abstain },
+      )}
+    >
+      {`${REVERSE_VOTE_TYPE_MAP[voteType]}`}
+    </span>
   );
 };

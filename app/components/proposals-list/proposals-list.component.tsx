@@ -57,11 +57,6 @@ export const ProposalsListComponent = ({
                   )}
                 >
                   <div className="flex gap-x3 place-items-center">
-                    <div className={styles.index}>
-                      <Link href={`/proposals/${proposalId}`}>
-                        {numberToHex(BigInt(proposalId)).slice(0, 10)}
-                      </Link>
-                    </div>
                     <Link
                       className="flex-1"
                       style={{ maxHeight: "3em" }}

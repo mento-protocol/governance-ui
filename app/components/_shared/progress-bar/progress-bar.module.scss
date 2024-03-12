@@ -25,22 +25,6 @@
         border-bottom-left-radius: 0;
         margin-left: $theme-unit * -1;
       }
-
-      &.success {
-        background-color: $c-success;
-      }
-
-      &.danger {
-        background-color: $c-error;
-      }
-
-      &.warning {
-        background-color: $c-warning;
-      }
-
-      &.info {
-        background-color: $c-info;
-      }
     }
   }
 }

@@ -63,9 +63,10 @@
           line-height: 5 * $theme-unit;
         }
         .status {
-          min-width: 95px;
+          min-width: 100px;
           display: flex;
           justify-content: center;
+          color: black;
         }
 
         .progress_bar {
@@ -85,7 +86,6 @@
           font-size: $theme-unit * 3;
           text-align: center;
           overflow: hidden;
-          font-family: 'Inter';
           line-height: 5 * $theme-unit;
           letter-spacing: -0.304px;
           

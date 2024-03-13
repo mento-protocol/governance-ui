@@ -17,18 +17,25 @@ import { useRouter } from "next/navigation";
 import { useUserStore } from "@/app/store";
 import { Suspense } from "react";
 import ProposalSummaryComponent from "@components/proposal-summary/proposal-summary.component";
+import Link from "next/link";
 
 const Page = () => {
   const router = useRouter();
   const { walletAddress } = useUserStore();
   return (
     <main className="flex flex-col place-items-center mt-x11">
-      <div className="max-w-full">
-        <MentoTextLogoIcon className="max-w-full" useThemeColor />
-      </div>
-      <h2 className="font-size-x6 line-height-x6 mt-x6 font-medium">
-        Claim your part and participate in
-        <br /> shaping the future of digital assets
+      <h1 className="font-size-x8 text-center md:font-size-x11 font-bold leading-2 md:leading-loose tracking-wide whitespace-break-spaces">
+        MENTO
+        <br className="md:hidden" />
+        <span
+          style={{ WebkitTextStroke: "1.5px black" }}
+          className="text-transparent md:pl-3"
+        >
+          GOVERNANCE
+        </span>
+      </h1>
+      <h2 className="font-size-x6 line-height-x6 mt-x6 font-medium text-center max-w-[17em]">
+        Participate in the governance process of Mento stablecoin platform
       </h2>
 
       <Card className="mt-x11" block>
@@ -50,31 +57,20 @@ const Page = () => {
                 My voting power
               </Button>
             </div>
-            <DropdownButton className="md:hidden">
-              <DropdownButton.Dropdown>
-                <DropdownButton.Element
-                  onClick={() => router.push("/create-proposal")}
-                >
-                  Create new proposal
-                </DropdownButton.Element>
-                <DropdownButton.Element
-                  onClick={() => router.push("/my-voting-power")}
-                >
-                  My voting power
-                </DropdownButton.Element>
-              </DropdownButton.Dropdown>
-            </DropdownButton>
           </div>
         </Card.Header>
         <div className="my-x6">
           <p className="mb-x6 text-x4">Transparent Digital Asset Solutions</p>
-          <div className="flex flex-wrap flex-row gap-x3">
+          <div className="flex items-start flex-col md:flex-row flex-wrap gap-x3">
+            <Link
+              className="md:hidden text-primary underline mb-x2"
+              href="/my-voting-power"
+            >
+              My voting power
+            </Link>
             <Badge rounded type="tertiary">
               <CeloLogoIcon />
-              &nbsp;CELO
-            </Badge>
-            <Badge rounded type="secondary">
-              ERC20
+              &nbsp;Celo Mainnet
             </Badge>
             <Badge rounded type="secondary">
               {(9999999998).toLocaleString()} Supply

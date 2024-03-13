@@ -19,14 +19,14 @@ export const ContractParams = () => {
   const governorContractAddresses = useGovernanceContractAddresses();
 
   return (
-    <div className="grid grid-cols-1 gap-x1 md:grid-cols-7 px-x4 pt-x4">
-      <Card className="md:col-span-3 flex flex-col">
+    <div className="grid grid-cols-1 gap-x2 md:grid-cols-7 pt-x4">
+      <Card className="md:col-span-3 flex flex-col !border-none !md:border">
         <Card.Header>
-          <div className="color-primary text-x4 font-medium mb-x6">
+          <div className="text-primary text-x4 font-light mb-x6">
             Parameters
           </div>
         </Card.Header>
-        <div className="flex flex-col flex-grow justify-between gap-[15px]">
+        <div className="flex flex-col flex-grow justify-between gap-x3">
           <ParamDisplay
             label="Proposal threshold"
             value={governanceDetails?.proposalThreshold}
@@ -45,13 +45,14 @@ export const ContractParams = () => {
       </Card>
       <Card className="md:col-span-4 flex flex-col">
         <Card.Header>
-          <div className="color-primary text-x4 font-medium mb-x6">
+          <div className="text-primary text-x4 font-light mb-x6">
             Contract addresses
           </div>
         </Card.Header>
         <div className="flex flex-col flex-grow justify-between gap-[15px]">
           <ParamDisplay
             label="Governor"
+            vertical
             value={
               governorContractAddresses.governor ? (
                 <ContractAddressLinkWithCopy
@@ -99,14 +100,23 @@ export const ContractParams = () => {
 const ParamDisplay = ({
   label,
   value,
+  vertical,
 }: {
   label: string;
   value: React.ReactNode | undefined;
+  vertical?: boolean;
 }) => {
   return (
-    <div className="flex gap-8 justify-between items-center">
+    <div
+      className={classNames(
+        "flex gap-2 justify-between items-center",
+        vertical && "flex-col !items-start md:flex-row !md:items-center",
+      )}
+    >
       <div className="font-semibold">{label}</div>
-      <div className="text-right col-span-2 break-all">{value ?? "-"}</div>
+      <div className="text-right font-light col-span-2 break-all">
+        {value ?? "-"}
+      </div>
     </div>
   );
 };
@@ -146,7 +156,9 @@ const ContractAddressLinkWithCopy = ({
         rel="nooppener noreferrer"
         href={blockExplorerContractUrl}
       >
-        {WalletHelper.getShortAddress(address, addressLength)}
+        <span className="text-primary">
+          {WalletHelper.getShortAddress(address, addressLength)}
+        </span>
       </Link>
       <CopyToClipboard text={address}>
         <div className="cursor-pointer">

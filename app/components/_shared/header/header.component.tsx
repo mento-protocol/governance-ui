@@ -1,6 +1,6 @@
 "use client";
 import useOutsideAlerter from "@/app/hooks/useOutsideAlerter";
-import { ChevronIcon, MentoLogoIcon } from "@components/_icons";
+import { ChevronIcon, MentoLogoIcon, MenuIcon } from "@components/_icons";
 import { Button, ConnectButton } from "@components/_shared";
 import BaseComponentProps from "@interfaces/base-component-props.interface";
 import classNames from "classnames";
@@ -111,11 +111,8 @@ export const Header = ({ className, style }: HeaderProps) => {
         <Link href={"/"}>
           <MentoLogoIcon useThemeColor />
         </Link>
-        <Button
-          theme="secondary"
-          onClick={() => setDrawerOpened(!drawerOpened)}
-        >
-          menu
+        <Button theme="link" onClick={() => setDrawerOpened(!drawerOpened)}>
+          <MenuIcon />
         </Button>
       </div>
     </header>

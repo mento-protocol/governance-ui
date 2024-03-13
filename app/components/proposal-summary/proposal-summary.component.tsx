@@ -52,7 +52,12 @@ const ProposalSummaryComponent = () => {
   }, [proposalsEndBlocks, currentBlockNumber]);
 
   const getTotalSupplyParsed = useMemo(() => {
-    return Number(formatUnits(totalSupply || 0n, 18)).toLocaleString();
+    return Number(formatUnits(totalSupply || 0n, 18)).toLocaleString(
+      undefined,
+      {
+        maximumFractionDigits: 0,
+      },
+    );
   }, [totalSupply]);
 
   const getActiveVoters = useMemo(() => {
@@ -70,7 +75,7 @@ const ProposalSummaryComponent = () => {
 
   return (
     <Card className="mt-8" block>
-      <div className="flex flex-wrap gap-x6 m-x4 mr-x6 ml-x6 justify-between">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-x6 justify-between">
         <div className="flex flex-col justify-center place-items-center gap-x2">
           <div className="font-size-x6 line-height-x6 font-medium">
             {proposalCount}

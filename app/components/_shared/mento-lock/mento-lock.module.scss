@@ -12,9 +12,21 @@
     line-height: 22px;
   }
 
-  .toLockInput {
-    width: 152px;
+  .row {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: $theme-unit * 2;  
 
+    @media ( min-width: 370px ) {
+      flex-direction: row;
+    }
+  }
+
+
+  .toLockInput {
+    min-width: 152px;
+    
     @media ( min-width: 450px ) {
       width: 204px;
     }
@@ -36,6 +48,7 @@
     }
   }
   
+  
   .veMento {
     position: relative;
     font-style: normal;
@@ -48,12 +61,19 @@
       line-height: 22px;
       font-size: 22px;
       width: 204px;
+      display: flex;
+      align-items: end;
     }
 
     .loader {
       position: absolute;
-      top: $theme-unit * -5;
-      left: $theme-unit * 11;
+      top: $theme-unit * -1;
+      left: 35%;
+      
+      @media ( min-width: 370px ) {
+        top: $theme-unit * -5;
+        left: 35%;
+      }
     }
   }
 }

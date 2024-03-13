@@ -11,7 +11,7 @@ const Page = () => {
         My Voting Power
       </h2>
       <Card block>
-        <div className="flex flex-row min-w-full justify-center overflow-x-auto">
+        <div className="flex flex-row min-w-full justify-center">
           <MentoLock className="max-w-[428px] w-[100%]" />
         </div>
       </Card>

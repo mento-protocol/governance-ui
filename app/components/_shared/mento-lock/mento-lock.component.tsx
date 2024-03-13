@@ -228,7 +228,7 @@ export const MentoLock = ({ className, style }: MentoLockProps) => {
 
   return (
     <div className={classNames(className, styles.container)} style={style}>
-      <div className="flex flex-row justify-between gap-1 md:gap-5">
+      <div className={styles.row}>
         <div className="flex-1 whitespace-nowrap mt-x1">MENTO to lock:</div>
         <div className="flex-1">
           <Input
@@ -262,7 +262,7 @@ export const MentoLock = ({ className, style }: MentoLockProps) => {
         </div>
       </div>
 
-      <div className="flex flex-row justify-between gap-1 md:gap-5">
+      <div className={styles.row}>
         <div className="flex-1 whitespace-nowrap mt-x3">Lock until:</div>
         <div className="flex-1">
           <DatePicker
@@ -280,7 +280,7 @@ export const MentoLock = ({ className, style }: MentoLockProps) => {
         </div>
       </div>
 
-      <div className="flex mt-x6 flex-row justify-between gap-1 md:gap-5">
+      <div className={classNames(styles.row, "mt-x6")}>
         <div className="flex-1 whitespace-nowrap mt-x1">
           You receive veMENTO:
         </div>

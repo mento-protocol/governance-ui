@@ -104,7 +104,7 @@ export const ConnectButton = ({
         return (
           <>
             <div
-              className={classNames(className, styles.container)}
+              className={classNames(className, block ? "" : styles.container)}
               style={style}
             >
               {!connected ? (

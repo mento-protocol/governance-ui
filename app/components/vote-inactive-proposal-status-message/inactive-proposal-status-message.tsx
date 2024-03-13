@@ -57,7 +57,7 @@ const InactiveProposalStatusMessage = ({
   proposalState: Exclude<ProposalState, ProposalState.Active>;
 }) => {
   return (
-    <>
+    <Card>
       <Card.Header className="text-center">
         <h2 className="text-[2rem] leading-[2rem] font-fg font-medium">
           {INACTIVE_PROPOSAL_MESSAGE_MAP[proposalState].header}
@@ -72,7 +72,7 @@ const InactiveProposalStatusMessage = ({
         <span>{INACTIVE_PROPOSAL_MESSAGE_MAP[proposalState].statusDetail}</span>
         <div className="flex-grow" />
       </div>
-    </>
+    </Card>
   );
 };
 

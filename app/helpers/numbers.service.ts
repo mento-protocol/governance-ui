@@ -26,7 +26,7 @@ export default abstract class NumbersService {
       return `${(+value / TRILLION).toFixed((+value / TRILLION) % 1 ? precision : 0)}T`;
     }
     if (+value / BILLION >= 1) {
-      return `${(+value / BILLION).toFixed((+value / BILLION) % 1 ? precision : 0)}G`;
+      return `${(+value / BILLION).toFixed((+value / BILLION) % 1 ? precision : 0)}B`;
     }
     if (+value / MILLION >= 1) {
       return `${(+value / MILLION).toFixed((+value / MILLION) % 1 ? precision : 0)}M`;

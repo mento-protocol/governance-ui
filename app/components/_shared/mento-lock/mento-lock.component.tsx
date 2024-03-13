@@ -94,10 +94,14 @@ export const MentoLock = ({ className, style }: MentoLockProps) => {
     mode: "all",
   });
 
+  const watchExpiration = watch("expiration");
+  const watchToLock = watch("toLock");
+  const watchExpirationWeeks = watch("expirationWeeks");
+
   const addWeekDate = addWeeks(currentDate, -1);
   const weeks = useMemo(
-    () => differenceInWeeks(getValues("expiration"), addWeekDate),
-    [addWeekDate, watch("expiration")],
+    () => differenceInWeeks(watchExpiration, addWeekDate),
+    [addWeekDate, watchExpiration],
   );
 
   const debounceLock = useRef(
@@ -114,8 +118,8 @@ export const MentoLock = ({ className, style }: MentoLockProps) => {
   ).current;
 
   useEffect(() => {
-    debounceLock();
-  }, [watch("expiration"), watch("toLock"), watch("expirationWeeks")]);
+    if (watchExpiration && watchToLock) debounceLock();
+  }, [watchExpiration, watchToLock, debounceLock]);
 
   useEffect(() => {
     return () => {
@@ -137,24 +141,24 @@ export const MentoLock = ({ className, style }: MentoLockProps) => {
     return Number(formatUnits(getLock?.[0] || 0n, 18)).toLocaleString();
   }, [getLock]);
 
-  const getWeeks = () => {
+  const weeksText = useMemo(() => {
     return weeks < 4 && `${weeks} ${weeks > 1 ? "weeks" : "week"}`;
-  };
+  }, [weeks]);
 
-  const getMonths = () => {
-    const years = differenceInYears(getValues("expiration"), addWeekDate);
+  const months = useMemo(() => {
+    const years = differenceInYears(watchExpiration, addWeekDate);
     const months = differenceInMonths(
-      getValues("expiration"),
+      watchExpiration,
       addYears(addWeekDate, years),
     );
 
     return months > 0 && `${months} ${months > 1 ? "months" : "month"}`;
-  };
+  }, [addWeekDate, watchExpiration]);
 
-  const getYears = () => {
-    const years = differenceInYears(getValues("expiration"), addWeekDate);
+  const years = useMemo(() => {
+    const years = differenceInYears(watchExpiration, addWeekDate);
     return years > 0 && `${years} ${years > 1 ? "years" : "year"}`;
-  };
+  }, [addWeekDate, watchExpiration]);
 
   const dateSelected = (date: Date) => {
     setValue("expiration", date);
@@ -166,9 +170,9 @@ export const MentoLock = ({ className, style }: MentoLockProps) => {
     if (isValid) {
       const res = await showConfirm(
         `Do you want to lock ${getValues("toLock")} MENTO for ${[
-          getYears(),
-          getMonths(),
-          getWeeks(),
+          years,
+          months,
+          weeksText,
         ]
           .filter(Boolean)
           .join(" and ")}?`,
@@ -201,9 +205,15 @@ export const MentoLock = ({ className, style }: MentoLockProps) => {
       );
     }
   }, [
+    isValid,
+    showConfirm,
+    getValues,
+    years,
+    months,
+    weeksText,
     writeContract,
     contracts.Locking.address,
-    address!,
+    address,
     debouncedToLock,
     debouncedWeeks,
   ]);
@@ -292,11 +302,9 @@ export const MentoLock = ({ className, style }: MentoLockProps) => {
         max={103}
         maxLabel="2 years"
         step={1}
-        value={watch("expirationWeeks")}
+        value={watchExpirationWeeks}
         bubbleFormatter={() => {
-          return [getYears(), getMonths(), getWeeks()]
-            .filter(Boolean)
-            .join(" ");
+          return [years, months, weeksText].filter(Boolean).join(" ");
         }}
         changeCallback={(value) => weekSelected(value)}
         form={{

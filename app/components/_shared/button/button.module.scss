@@ -110,7 +110,7 @@
   }
 
   &.danger {
-    @include branded-button($c-error-dark, $c-error, $c-white);
+    @include branded-button($c-error-dark, $c-error, $c-black);
   }
 
   &.warning {

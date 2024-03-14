@@ -34,7 +34,10 @@ const Page = () => {
         <Card.Header className="!pb-0">
           <div className="flex flex-row justify-between items-center">
             <div className="flex flex-row justify-start place-items-center gap-x3 font-bold font-size-x6 sm:font-size-x11">
-              <MentoIcon />
+              <MentoIcon
+                shouldChangeWithTheme={false}
+                backgroundColor="#A5E5F7"
+              />
               Mento
             </div>
             <div className="hidden gap-x3 md:flex">

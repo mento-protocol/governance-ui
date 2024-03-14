@@ -4,10 +4,10 @@ import {
   type GetContractsInfoQuery,
   type ProposalCall,
 } from "@/app/graphql";
-import { useCeloExplorerApi } from "@/app/hooks/useCeloExplorer";
 import { useQuery } from "@apollo/experimental-nextjs-app-support/ssr";
 import { useMemo } from "react";
 import { decodeFunctionData } from "viem";
+import { useChainId } from "wagmi";
 
 type Props = {
   calls: ProposalCall[];
@@ -21,13 +21,15 @@ type ContractInfo = {
 };
 
 export default function ExecutionCode({ calls }: Props) {
-  const { name: apiName } = useCeloExplorerApi();
+  const chainId = useChainId();
 
   const { data, error: apolloError } = useQuery(GetContractsInfo, {
     variables: {
       addresses: calls.map((call) => call.target.id),
     },
-    context: { apiName },
+    context: {
+      apiName: chainId === 44787 ? "celoExplorerAlfajores" : "celoExplorer",
+    },
     skip: !calls.length,
   });
 
@@ -51,7 +53,7 @@ export default function ExecutionCode({ calls }: Props) {
       <h3 className="flex justify-center font-size-x6 line-height-x6 font-medium mb-x6">
         Execution Code
       </h3>
-      <div className="rounded-lg border-2 p-4">
+      <div className="rounded-lg border border-[#B3B3B3] p-4">
         {formattedCalls.map((call, index) => (
           <div key={call.target + call.id} className="break-words">
             {index > 0 && <hr className="my-4" />}

@@ -1,27 +1,34 @@
-import styles from "./locks-list.module.scss";
-import BaseComponentProps from "@interfaces/base-component-props.interface";
-import { Button, DropdownButton } from "@components/_shared";
-import classNames from "classnames";
-import { GetLocksDocument, Lock } from "@/app/graphql";
-import { useSuspenseQuery } from "@apollo/client";
-import { useAccount, useReadContract } from "wagmi";
 import { LockingABI } from "@/app/abis/Locking";
+import { GetLocksDocument, Lock } from "@/app/graphql";
 import { useContracts } from "@/app/hooks/useContracts";
-import { useCallback, useMemo } from "react";
-import { addWeeks, format, nextWednesday } from "date-fns";
-import { formatUnits } from "viem";
-import { useWriteContract } from "wagmi";
 import useModal from "@/app/providers/modal.provider";
+import { useSuspenseQuery } from "@apollo/client";
+import BaseComponentProps from "@interfaces/base-component-props.interface";
+import classNames from "classnames";
+import { addWeeks, nextWednesday } from "date-fns";
+import { useCallback, useMemo } from "react";
+import { formatUnits } from "viem";
+import {
+  useAccount,
+  useChainId,
+  useReadContract,
+  useWriteContract,
+} from "wagmi";
+import styles from "./locks-list.module.scss";
 
 interface LocksListProps extends BaseComponentProps {
   address: string;
 }
 
 export const LocksList = ({ address }: LocksListProps) => {
+  const chainId = useChainId();
   const { data, refetch } = useSuspenseQuery<{ locks: Lock[] }>(
     GetLocksDocument,
     {
       variables: { address },
+      context: {
+        apiName: chainId === 44787 ? "subgraphAlfajores" : "subgraph",
+      },
     },
   );
 

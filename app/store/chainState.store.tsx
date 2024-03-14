@@ -95,7 +95,7 @@ const compileViewCalls = (state: ChainStateData): ViewCall[] => {
       // $MENTO.balanceOf(wallet) -> state.tokens.mento.balance
       call: balanceOf(state.tokens.mento.address, state.wallet),
       update: (result: bigint) => (state: ChainState) => {
-        state.tokens.mento.balance += result;
+        state.tokens.mento.balance = result;
       },
       refresh: true,
     },
@@ -103,7 +103,7 @@ const compileViewCalls = (state: ChainStateData): ViewCall[] => {
       // $veMENTO.balanceOf(wallet) -> state.tokens.veMento.balance
       call: balanceOf(state.tokens.veMento.address, state.wallet),
       update: (result: bigint) => (state: ChainState) => {
-        state.tokens.veMento.balance += result;
+        state.tokens.veMento.balance = result;
       },
       refresh: true,
     },

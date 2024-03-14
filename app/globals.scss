@@ -12,6 +12,10 @@
   }
 }
 
+:root {
+  --font-fg: "Founders Grotesk", sans-serif;
+}
+
 body {
   color: var(--theme-foreground-color);
   font-size: 18px;
@@ -19,12 +23,43 @@ body {
   line-height: 18px;
   background-color: var(--theme-background-color);
 }
+@font-face {
+  font-family: "Founders Grotesk";
+  src: url("/fonts/FoundersGrotesk-Regular.otf") format("opentype");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Founders Grotesk";
+  src: url("/fonts/FoundersGrotesk-Medium.otf") format("opentype");
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Founders Grotesk";
+  src: url("/fonts/FoundersGrotesk-Semibold.otf") format("opentype");
+  font-weight: 600;
+  font-style: normal;
+}
 
 @include media-md {
   body {
-    background: url('/images/bg.png'), url('/images/bg.png'), linear-gradient(180deg, var(--theme-background-color) 0%, var(--theme-background-color) 100%);
-    background-size: 1000px 1500px, 1000px 1500px, cover;
-    background-position: 70vw 10vh, -30vw 70vh, center;
+    background: url("/images/bg.png"), url("/images/bg.png"),
+      linear-gradient(
+        180deg,
+        var(--theme-background-color) 0%,
+        var(--theme-background-color) 100%
+      );
+    background-size:
+      1000px 1500px,
+      1000px 1500px,
+      cover;
+    background-position:
+      70vw 10vh,
+      -30vw 70vh,
+      center;
     background-repeat: no-repeat, no-repeat, no-repeat;
   }
 }
@@ -72,8 +107,16 @@ a:hover,
   @include theme-class(border-b-#{$color}, (border-bottom-color), $value);
   @include theme-class(border-l-#{$color}, (border-left-color), $value);
   @include theme-class(border-r-#{$color}, (border-right-color), $value);
-  @include theme-class(border-y-#{$color}, (border-top-color, border-bottom-color), $value);
-  @include theme-class(border-x-#{$color}, (border-left-color, border-right-color), $value);
+  @include theme-class(
+    border-y-#{$color},
+    (border-top-color, border-bottom-color),
+    $value
+  );
+  @include theme-class(
+    border-x-#{$color},
+    (border-left-color, border-right-color),
+    $value
+  );
 }
 
 @each $size, $value in $brandSizes {
@@ -108,31 +151,87 @@ a:hover,
   @include theme-class(line-height-#{$size}, (line-height), $value);
 
   @include theme-class(rounded-#{$size}, (border-radius), $value);
-  @include theme-class(rounded-t-#{$size}, (border-top-left-radius, border-top-right-radius), $value);
-  @include theme-class(rounded-b-#{$size}, (border-bottom-left-radius, border-bottom-right-radius), $value);
-  @include theme-class(rounded-l-#{$size}, (border-top-left-radius, border-bottom-left-radius), $value);
-  @include theme-class(rounded-r-#{$size}, (border-top-right-radius, border-bottom-right-radius), $value);
+  @include theme-class(
+    rounded-t-#{$size},
+    (border-top-left-radius, border-top-right-radius),
+    $value
+  );
+  @include theme-class(
+    rounded-b-#{$size},
+    (border-bottom-left-radius, border-bottom-right-radius),
+    $value
+  );
+  @include theme-class(
+    rounded-l-#{$size},
+    (border-top-left-radius, border-bottom-left-radius),
+    $value
+  );
+  @include theme-class(
+    rounded-r-#{$size},
+    (border-top-right-radius, border-bottom-right-radius),
+    $value
+  );
   @include theme-class(rounded-tl-#{$size}, (border-top-left-radius), $value);
   @include theme-class(rounded-tr-#{$size}, (border-top-right-radius), $value);
-  @include theme-class(rounded-bl-#{$size}, (border-bottom-left-radius), $value);
-  @include theme-class(rounded-br-#{$size}, (border-bottom-right-radius), $value);
+  @include theme-class(
+    rounded-bl-#{$size},
+    (border-bottom-left-radius),
+    $value
+  );
+  @include theme-class(
+    rounded-br-#{$size},
+    (border-bottom-right-radius),
+    $value
+  );
 }
 
 @include theme-class(rounded-full, (border-radius), 50%);
-@include theme-class(rounded-t-full, (border-top-left-radius, border-top-right-radius), 50%);
-@include theme-class(rounded-b-full, (border-bottom-left-radius, border-bottom-right-radius), 50%);
-@include theme-class(rounded-l-full, (border-top-left-radius, border-bottom-left-radius), 50%);
-@include theme-class(rounded-r-full, (border-top-right-radius, border-bottom-right-radius), 50%);
+@include theme-class(
+  rounded-t-full,
+  (border-top-left-radius, border-top-right-radius),
+  50%
+);
+@include theme-class(
+  rounded-b-full,
+  (border-bottom-left-radius, border-bottom-right-radius),
+  50%
+);
+@include theme-class(
+  rounded-l-full,
+  (border-top-left-radius, border-bottom-left-radius),
+  50%
+);
+@include theme-class(
+  rounded-r-full,
+  (border-top-right-radius, border-bottom-right-radius),
+  50%
+);
 @include theme-class(rounded-tl-full, (border-top-left-radius), 50%);
 @include theme-class(rounded-tr-full, (border-top-right-radius), 50%);
 @include theme-class(rounded-bl-full, (border-bottom-left-radius), 50%);
 @include theme-class(rounded-br-full, (border-bottom-right-radius), 50%);
 
 @include theme-class(rounded-half, (border-radius), 25%);
-@include theme-class(rounded-t-half, (border-top-left-radius, border-top-right-radius), 25%);
-@include theme-class(rounded-b-half, (border-bottom-left-radius, border-bottom-right-radius), 25%);
-@include theme-class(rounded-l-half, (border-top-left-radius, border-bottom-left-radius), 25%);
-@include theme-class(rounded-r-half, (border-top-right-radius, border-bottom-right-radius), 25%);
+@include theme-class(
+  rounded-t-half,
+  (border-top-left-radius, border-top-right-radius),
+  25%
+);
+@include theme-class(
+  rounded-b-half,
+  (border-bottom-left-radius, border-bottom-right-radius),
+  25%
+);
+@include theme-class(
+  rounded-l-half,
+  (border-top-left-radius, border-bottom-left-radius),
+  25%
+);
+@include theme-class(
+  rounded-r-half,
+  (border-top-right-radius, border-bottom-right-radius),
+  25%
+);
 @include theme-class(rounded-tl-half, (border-top-left-radius), 25%);
 @include theme-class(rounded-tr-half, (border-top-right-radius), 25%);
 @include theme-class(rounded-bl-half, (border-bottom-left-radius), 25%);

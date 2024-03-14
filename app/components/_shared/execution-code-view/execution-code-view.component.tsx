@@ -16,8 +16,13 @@ export const ExecutionCodeView = ({
   const [isExecutionViewOpen, setIsExecutionViewOpen] = useState(false);
 
   const isDarkMode = document.body.classList.contains("dark");
+  let codeObj = undefined;
+  try {
+    codeObj = typeof code === "string" ? JSON.parse(code) : code;
+  } catch (e) {
+    codeObj = code;
+  }
 
-  const codeObj = typeof code === "string" ? JSON.parse(code) : code;
   return (
     <div className={styles.container}>
       {!hideTitle && <h3 className={styles.form_data_title}>Execution Code</h3>}

@@ -1,0 +1,160 @@
+@import "@styles/brand";
+
+.addon {
+  font-size: 16px;
+
+  .power {
+    display: flex;
+    flex-direction: column;
+    font-style: normal;
+    font-weight: 400;
+    text-align: center;
+
+    &__title {
+      color: #a8a8a8;
+      font-size: 4 * $theme-unit;
+      line-height: 4 * $theme-unit;
+    }
+
+    &__value {
+      margin-top: 3 * $theme-unit;
+      margin-bottom: 2 * $theme-unit;
+      color: var(--theme-foreground-color);
+      font-size: 6 * $theme-unit;
+      line-height: 6 * $theme-unit;
+    }
+  }
+}
+
+.input {
+  label {
+    opacity: 0.5;
+  }
+}
+
+.vote_label {
+  opacity: 0.5;
+  margin-top: $theme-unit * 6;
+}
+
+.button_wrapper {
+  margin-top: $theme-unit * 3;
+}
+
+.details {
+  max-width: 670px;
+  width: 100%;
+}
+
+.proposal_addons {
+  position: sticky;
+  bottom: 0;
+  flex: 1;
+  width: 100%;
+  z-index: 49;
+
+  .mobile_controls {
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 4 * $theme-unit 0;
+    gap: $theme-unit;
+    background-color: var(--theme-background-color);
+    z-index: 1;
+
+    @include media-md {
+      display: none;
+    }
+
+    .mobile_button_wrapper {
+      width: 50%;
+    }
+
+    .mobile_button {
+      min-width: fit-content;
+    }
+  }
+
+  @include media-md {
+    top: 140px;
+    bottom: auto;
+    max-width: 350px;
+  }
+
+  .backdrop {
+    @include default-backdrop;
+
+    @include media-md {
+      position: static;
+      backdrop-filter: none;
+      background-color: transparent;
+      pointer-events: all;
+      z-index: 1;
+      opacity: 1;
+    }
+  }
+
+  .proposal_addon {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100vw;
+    max-height: calc(100vh - 140px);
+    opacity: 0;
+    transform: translateY(100%);
+    transition: all 0.5s $ease-out-quint;
+
+    &.opened {
+      transform: translateX(0);
+      opacity: 1;
+      z-index: 2;
+    }
+
+    &__close {
+      position: absolute;
+      right: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      padding: 10px;
+      background-color: $c-primary;
+      border-radius: $border-radius;
+      width: 40px;
+      height: 40px;
+      color: $c-white;
+      font-size: 15px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .votes_title {
+      text-align: center;
+      font-size: 6 * $theme-unit;
+      font-style: normal;
+      font-weight: 500;
+      line-height: 6 * $theme-unit;
+      margin-bottom: 3 * $theme-unit;
+    }
+
+    @include media-md {
+      position: static;
+      opacity: 1;
+      transform: none;
+      width: auto;
+      height: auto;
+
+      &__close {
+        display: none;
+      }
+    }
+  }
+}
+
+.participantsList {
+  @include media-md {
+    overflow-y: auto;
+    max-height: 450px !important;
+  }
+}

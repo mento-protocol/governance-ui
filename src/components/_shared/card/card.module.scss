@@ -1,0 +1,56 @@
+@import "@styles/brand";
+
+.card {
+  background-color: var(--theme-card-background);
+  border: 1px solid var(--theme-card-border);
+  border-radius: $border-radius;
+
+  &__header {
+    padding: 2 * $theme-unit;
+    position: relative;
+    background-color: inherit;
+    border-radius: $theme-unit $theme-unit 0 0;
+
+    @include media-md {
+      padding: 4 * $theme-unit;
+      padding-bottom: 2 * $theme-unit;
+    }
+  }
+
+  &__footer,
+  &>div {
+    padding: 0 2 * $theme-unit;
+
+    &:last-child {
+      padding-bottom: 2 * $theme-unit;
+    }
+
+    @include media-md {
+      padding: 0 4 * $theme-unit;
+
+      &:last-child {
+        padding-bottom: 4 * $theme-unit;
+      }
+    }
+  }
+
+  &>div {
+    border-radius: $border-radius;
+  }
+
+  &>div:first-child {
+    padding-top: 2 * $theme-unit;
+
+    @include media-md {
+      padding-top: 4 * $theme-unit;
+    }
+  }
+
+  &.block {
+    width: 100%;
+  }
+
+  &.transparent {
+    background-color: transparent;
+  }
+}

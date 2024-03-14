@@ -1,6 +1,6 @@
 import { CodegenConfig } from "@graphql-codegen/cli";
 import "dotenv/config";
-import loadEnvVar from "./app/helpers/load-env-var";
+import loadEnvVar from "@lib/helpers/load-env-var";
 
 const CELO_EXPLORER_API_URL = loadEnvVar(
   process.env.NEXT_PUBLIC_CELO_EXPLORER_API_URL,

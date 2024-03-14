@@ -1,0 +1,36 @@
+@import "@styles/brand";
+
+.list {
+  .header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+
+    color: $c-grey;
+    font-size: 14px;
+    font-weight: 300;
+    padding-bottom: $theme-unit * 2;
+  }
+
+  .vote {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: $theme-unit;
+
+    &:not(:last-child) {
+      border-bottom: 1px solid $c-lightGrey;
+    }
+
+    div {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: $theme-unit;
+    }
+  }
+
+}

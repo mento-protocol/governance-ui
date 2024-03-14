@@ -27,17 +27,26 @@
       "@/*": [
         "./*"
       ],
+      "@app/*": [
+        "./src/app/*"
+      ],
       "@components/*": [
-        "./app/components/*"
+        "./src/components/*"
+      ],
+      "@config/*": [
+        "./src/config/*"
+      ],
+      "@lib/*": [
+        "./src/lib/*"
       ],
       "@interfaces/*": [
-        "./app/interfaces/*"
+        "./src/lib/interfaces/*"
       ],
       "@types/*": [
-        "./app/types/*"
+        "./src/lib/types/*"
       ],
       "@styles/*": [
-        "./app/styles/*"
+        "./src/styles/*"
       ]
     }
   },

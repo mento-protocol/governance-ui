@@ -1,0 +1,32 @@
+@import "@styles/brand";
+
+.wrapper {
+  margin-top: $theme-unit;
+
+  .input {
+    @include default-input-style;
+  }
+
+  &.compact {
+    .input {
+      padding: 12px 16px 12px 16px;
+
+      input {
+        font-size: 14px;
+      }
+    }
+  }
+
+  &.disabled {
+    cursor: not-allowed;
+    input {
+      cursor: not-allowed;
+    }
+  }
+
+  .errorMessage {
+    @include default-input-error-message;
+  }
+}
+
+

@@ -3,8 +3,7 @@ import NumbersService from "@/app/helpers/numbers.service";
 import StringService from "@/app/helpers/string.service";
 import { useProposalStates } from "@/app/hooks/useProposalStates";
 import { useSuspenseQuery } from "@apollo/experimental-nextjs-app-support/ssr";
-import { Card, ProgressBar } from "@components/_shared";
-import { Badge } from "@components/_shared/badge/badge.component";
+import { Card, ProgressBar, Status } from "@components/_shared";
 import BaseComponentProps from "@interfaces/base-component-props.interface";
 import { stateToBadgeColorMap } from "@interfaces/proposal.interface";
 import classNames from "classnames";
@@ -72,22 +71,10 @@ export const ProposalsListComponent = ({
                     </Link>
                   </div>
                 </div>
-                <div
-                  className={classNames(
-                    styles.proposals_grid__row__element,
-                    "flex justify-center",
-                  )}
-                >
-                  <Badge
-                    className={classNames(
-                      styles.status,
-                      "uppercase font-medium",
-                    )}
-                    type={stateToBadgeColorMap[state]}
-                  >
-                    {state?.toString()}
-                  </Badge>
-                </div>
+                <Status
+                  text={state?.toString()}
+                  type={stateToBadgeColorMap[state]}
+                />
                 <div
                   className={classNames(styles.proposals_grid__row__element)}
                 >

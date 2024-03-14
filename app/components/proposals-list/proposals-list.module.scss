@@ -2,6 +2,7 @@
 
 .wrapper {
   width: 100%;
+  font-family: "Founders Grotesk";
 
   h2 {
     font-size: $theme-unit * 6;
@@ -49,11 +50,16 @@
           text-overflow: ellipsis;
           word-break: break-word;
           font-weight: 400;
+          font-size: 18px;
         }
 
         &.last {
           text-align: right;
           margin-right: $theme-unit;
+          font-size: 22px;
+          font-style: normal;
+          font-weight: 400;
+          line-height: 22px;
         }
 
         .index {
@@ -77,13 +83,18 @@
         }
       }
 
+      .badge {
+        height: 22px;
+      }
+
       &.headers {
         margin-bottom: 6 * $theme-unit;
         
         .header {
+          font-family: "Inter";
           border: none;
           font-weight: 500;
-          font-size: $theme-unit * 3;
+          font-size: 16px;
           text-align: center;
           overflow: hidden;
           line-height: 5 * $theme-unit;

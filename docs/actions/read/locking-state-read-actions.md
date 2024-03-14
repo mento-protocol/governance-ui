@@ -1,24 +1,27 @@
 # State read actions
 [Home](../README.md) / [Docs](../index.md) / [Actions](./index.md) / Locking contract read state
 
-# Dapp executed
-
-## Mento Contract
-
-### Get supply
-
 ## Locking
 
 ### Get total locked
+#### Mutations
+
+- **Success**
+    - Total locked parameter updated
 
 ### Get total voters
 
-## Governor 
+#### Mutations
 
-### Get proposals
+- **Success**
+    - Total voters parameter updated
 
-### Get proposal parameters
+### Get Balance
+#### Prerequisites
 
-# Wallet
+- Wallet is connected
 
-### Is Connected
+#### Mutations
+
+- **Success**
+    - User `veMENTO` balance updated

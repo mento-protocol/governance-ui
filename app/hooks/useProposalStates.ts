@@ -71,5 +71,8 @@ export const useProposalStates = (
         return acc;
       }, {}),
     );
+    // TODO: Fix this
+    // Type error: Type instantiation is excessively deep and possibly infinite.
+    // @ts-ignore
   }, [data, isLoading, isError, proposals]);
 };

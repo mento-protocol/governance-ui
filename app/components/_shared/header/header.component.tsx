@@ -103,7 +103,7 @@ export const Header = ({ className, style }: HeaderProps) => {
             </Link>
           </li>
         </ul>
-        <ConnectButton block />
+        <ConnectButton />
       </div>
       <div
         className={classNames(styles.mobile_inner, "flex pa-x z-50 md:hidden")}

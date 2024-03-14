@@ -38,7 +38,10 @@ const validateCode = (code: string) => {
       return (
         Object.hasOwn(item, "address") &&
         Object.hasOwn(item, "value") &&
-        Object.hasOwn(item, "data")
+        Object.hasOwn(item, "data") &&
+        typeof item.address === "string" &&
+        !isNaN(+item.value) &&
+        typeof item.data === "string"
       );
     })
   ) {
@@ -210,10 +213,12 @@ export const useCreateProposalStore = create<CreateProposalStore>(
               },
             },
           },
+          executeJsonError: undefined,
         });
         get().checkFormValidity();
       },
       validateExecuteJson: () => {
+        console.log("validateExecuteJson");
         set({
           executeJsonError: undefined,
         });

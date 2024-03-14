@@ -1,11 +1,10 @@
 import { ConnectButton, MentoLock } from "@components/_shared";
 import Wrapper from "@components/create-proposal/wrapper/wrapper.component";
 import { useCreateProposalStore } from "@/app/store";
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useChainState } from "@/app/providers/chainState.provider";
 import { useAccount } from "wagmi";
 import useModal from "@/app/providers/modal.provider";
-import { debounce } from "lodash";
 import { CreateProposalFormStepEnum } from "@interfaces/create-proposal.interface";
 
 enum WalletStepEnum {
@@ -64,6 +63,7 @@ const CurrentFormStep = ({ formStep }: { formStep: WalletStepEnum }) => {
 
 export const CreateProposalWalletStep = () => {
   const { veMento, mento } = useChainState((s) => s.tokens);
+  const [walletStepFinished, setWalletStepFinished] = useState(false);
   const { address } = useAccount();
   const {
     patchWalletStep,
@@ -76,41 +76,45 @@ export const CreateProposalWalletStep = () => {
   } = useCreateProposalStore();
   const { showConfirm } = useModal();
 
-  const validateCacheAndNavigate = debounce(
-    () => {
-      const cacheTitle = localStorage.getItem("proposalTitle");
-      const cacheDescription = localStorage.getItem("proposalDescription");
-      const cacheExecutionCode = localStorage.getItem("proposalExecutionCode");
+  const finishWalletStep = useCallback(() => {
+    setWalletStepFinished(true);
+    next();
+  }, [next]);
 
-      if (cacheTitle || cacheDescription || cacheExecutionCode) {
-        localStorage.removeItem("proposalTitle");
-        localStorage.removeItem("proposalDescription");
-        localStorage.removeItem("proposalExecutionCode");
-        showConfirm("Do you want to load the cached proposal?").then((res) => {
-          if (res) {
-            patchContentStep({
-              title: cacheTitle || "",
-              description: cacheDescription || "",
-            });
-            patchExecutionStep({
-              code: cacheExecutionCode || "",
-            });
-          }
-          next();
-        });
-      } else {
-        next();
-      }
-    },
-    1000,
-    { leading: true, trailing: false },
-  );
+  const validateCacheAndNavigate = useCallback(() => {
+    if (walletStepFinished) {
+      return;
+    }
+    const cacheTitle = localStorage.getItem("proposalTitle");
+    const cacheDescription = localStorage.getItem("proposalDescription");
+    const cacheExecutionCode = localStorage.getItem("proposalExecutionCode");
 
-  useEffect(() => {
-    return () => {
-      validateCacheAndNavigate.cancel();
-    };
-  }, [validateCacheAndNavigate]);
+    if (cacheTitle || cacheDescription || cacheExecutionCode) {
+      localStorage.removeItem("proposalTitle");
+      localStorage.removeItem("proposalDescription");
+      localStorage.removeItem("proposalExecutionCode");
+      showConfirm("Do you want to load the cached proposal?").then((res) => {
+        if (res) {
+          patchContentStep({
+            title: cacheTitle || "",
+            description: cacheDescription || "",
+          });
+          patchExecutionStep({
+            code: cacheExecutionCode || "",
+          });
+        }
+        finishWalletStep();
+      });
+    } else {
+      finishWalletStep();
+    }
+  }, [
+    finishWalletStep,
+    patchContentStep,
+    patchExecutionStep,
+    showConfirm,
+    walletStepFinished,
+  ]);
 
   const walletStep = useMemo((): WalletStepEnum => {
     if (!address) {
@@ -152,7 +156,7 @@ export const CreateProposalWalletStep = () => {
       isOpened={form[CreateProposalFormStepEnum.wallet].isOpened}
       canGoNext={walletStep === WalletStepEnum.createProposal}
       canGoPrev={false}
-      next={next}
+      next={finishWalletStep}
       prev={prev}
       title="Connect your wallet & login"
     >

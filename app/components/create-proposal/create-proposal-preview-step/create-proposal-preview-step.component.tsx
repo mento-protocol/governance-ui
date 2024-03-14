@@ -102,7 +102,13 @@ export const CreateProposalPreviewStep = () => {
       proposal.transactions.map(
         (transaction) => transaction.address as Address,
       ),
-      proposal.transactions.map((transaction) => BigInt(transaction.value)),
+      proposal.transactions.map((transaction) => {
+        try {
+          return BigInt(transaction.value);
+        } catch {
+          return 0n;
+        }
+      }),
       proposal.transactions.map((transaction) => transaction.data),
       JSON.stringify(proposal.metadata),
     ] as any,

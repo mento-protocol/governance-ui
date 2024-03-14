@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { SeeAll } from "..";
+import { JsonView, darkStyles, defaultStyles } from "react-json-view-lite";
+import "react-json-view-lite/dist/index.css";
 import styles from "./execution-code-view.module.scss";
 
 interface ExecutionCodeViewProps {
@@ -13,7 +15,9 @@ export const ExecutionCodeView = ({
 }: ExecutionCodeViewProps) => {
   const [isExecutionViewOpen, setIsExecutionViewOpen] = useState(false);
 
-  const codeString = JSON.stringify(code, null, 2);
+  const isDarkMode = document.body.classList.contains("dark");
+
+  const codeObj = typeof code === "string" ? JSON.parse(code) : code;
   return (
     <div className={styles.container}>
       {!hideTitle && <h3 className={styles.form_data_title}>Execution Code</h3>}
@@ -23,7 +27,21 @@ export const ExecutionCodeView = ({
           isOpen={isExecutionViewOpen}
           setIsOpen={setIsExecutionViewOpen}
         >
-          <div>{!!codeString.length && <pre>{codeString}</pre>}</div>
+          <div>
+            {!!codeObj && (
+              <JsonView
+                data={codeObj}
+                style={
+                  isDarkMode
+                    ? darkStyles
+                    : {
+                        ...defaultStyles,
+                        container: `${defaultStyles.container} !bg-transparent`,
+                      }
+                }
+              />
+            )}
+          </div>
         </SeeAll>
       </div>
     </div>

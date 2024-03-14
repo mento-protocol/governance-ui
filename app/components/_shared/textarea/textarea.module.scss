@@ -5,6 +5,7 @@
 
   .textarea {
     @include default-input-style;
+    padding: $theme-unit;
     min-height: inherit;
 
     textarea {
@@ -14,8 +15,6 @@
 
   &.compact {
     .textarea {
-      padding: 12px 16px 12px 16px;
-
       textarea {
         font-size: 14px;
       }

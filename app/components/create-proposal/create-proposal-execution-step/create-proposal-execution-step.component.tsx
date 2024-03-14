@@ -16,7 +16,7 @@ type FormData = {
 };
 
 export const CreateProposalExecutionStep = () => {
-  const { patchExecutionStep, form, next, prev, validateExecuteJson } =
+  const { executeJsonError, form, next, prev, validateExecuteJson } =
     useCreateProposalStore();
   const { showModal } = useModal();
 
@@ -31,7 +31,7 @@ export const CreateProposalExecutionStep = () => {
     <Wrapper
       step={CreateProposalFormStepEnum.execution}
       isOpened={form[CreateProposalFormStepEnum.execution].isOpened}
-      canGoNext={form[CreateProposalFormStepEnum.execution].isValid}
+      canGoNext={!executeJsonError}
       next={validateAndGoNext}
       prev={prev}
       title={
@@ -73,17 +73,6 @@ const InnerForm = () => {
   });
 
   useEffect(() => {
-    if (executeJsonError) {
-      setError("code", {
-        type: "manual",
-        message: executeJsonError,
-      });
-    } else {
-      clearErrors("code");
-    }
-  }, [clearErrors, executeJsonError, setError]);
-
-  useEffect(() => {
     const subscription = watch((value) => {
       patchExecutionStep({
         code: value.code || "",
@@ -98,13 +87,10 @@ const InnerForm = () => {
         the field below:
       </p>
       <Textarea
-        className={classNames(
-          styles.executionInput,
-          "mt-x5 mb-x5 min-h-[266px]",
-        )}
+        className={classNames(styles.executionInput, "min-h-[266px]")}
         form={{ ...register("code") }}
         id="code"
-        error={errors.code?.message}
+        error={executeJsonError}
         placeholder="Enter your code"
       />
     </div>

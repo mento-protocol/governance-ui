@@ -81,10 +81,7 @@ const Page = () => {
               &nbsp;CELO {chainText}
             </Badge>
             <Badge rounded type="secondary">
-              ERC20
-            </Badge>
-            <Badge rounded type="secondary">
-              {(9999999998).toLocaleString()} Supply
+              MENTO {(9999999998).toLocaleString()} Supply
             </Badge>
           </div>
         </div>

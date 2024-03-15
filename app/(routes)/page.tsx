@@ -78,10 +78,10 @@ const Page = () => {
           <div className="flex flex-wrap flex-row gap-x3">
             <Badge rounded type="tertiary">
               <CeloLogoIcon />
-              &nbsp;CELO {chainText}
+              &nbsp;CELO
             </Badge>
             <Badge rounded type="secondary">
-              MENTO {(9999999998).toLocaleString()} Supply
+              MENTO {(1_000_000_000).toLocaleString()} Supply
             </Badge>
           </div>
         </div>

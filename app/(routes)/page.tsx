@@ -11,16 +11,20 @@ import {
 } from "@components/_shared";
 import { ProposalsListComponent } from "@components/proposals-list/proposals-list.component";
 import { Loader } from "@components/_shared";
-import NumbersService from "@/app/helpers/numbers.service";
 import { ContractParams } from "@components/contract-params/contract-params.component";
 import { useRouter } from "next/navigation";
 import { useUserStore } from "@/app/store";
 import { Suspense } from "react";
 import ProposalSummaryComponent from "@components/proposal-summary/proposal-summary.component";
+import { useAccount } from "wagmi";
 
 const Page = () => {
   const router = useRouter();
   const { walletAddress } = useUserStore();
+  const { chain } = useAccount();
+
+  const chainText = chain?.testnet ? "Testnet" : "Mainnet";
+
   return (
     <main className="flex flex-col place-items-center mt-x11">
       <div className="max-w-full">
@@ -74,7 +78,7 @@ const Page = () => {
           <div className="flex flex-wrap flex-row gap-x3">
             <Badge rounded type="tertiary">
               <CeloLogoIcon />
-              &nbsp;CELO
+              &nbsp;CELO {chainText}
             </Badge>
             <Badge rounded type="secondary">
               ERC20

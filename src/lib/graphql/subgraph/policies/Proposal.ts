@@ -1,6 +1,5 @@
 import type { Address } from "viem";
 import type { TypePolicy } from "@apollo/client/cache";
-import { proposalToStateVar } from "@lib/hooks/useProposalStates";
 import {
   Account,
   ProposalState,
@@ -8,6 +7,7 @@ import {
   ProposalVotes,
   VoteCast,
 } from "../generated/graphql";
+import { proposalToStateVar } from "@lib/contracts/governor/useProposalStates";
 
 export const ProposalPolicy: TypePolicy = {
   fields: {

@@ -7,9 +7,6 @@ import { ChevronIcon } from "@components/_icons";
 import BlockExplorerLink from "@components/_shared/block-explorer-link/block-explorer-link.component";
 
 import { Proposal } from "@lib/graphql";
-import { useChainState } from "@lib/providers/chainState.provider";
-import useVoteReceipt from "@lib/hooks/useVoteReceipt";
-import useCastVote from "@lib/hooks/useCastVote";
 
 import ErrorHelper from "@lib/helpers/error.helper";
 import { SuccessIcon } from "@components/_icons/success-icon";
@@ -21,6 +18,9 @@ import LockedBalance from "./locked-balance";
 
 import HasVoted from "./has-voted";
 import VoteConfirmation from "./vote-confirmation";
+import useTokens from "@lib/contracts/useTokens";
+import useCastVote from "@lib/contracts/governor/useCastVote";
+import useVoteReceipt from "@lib/contracts/governor/useVoteReceipt";
 
 export const VOTE_TYPES = {
   Against: 0,
@@ -36,8 +36,7 @@ export const REVERSE_VOTE_TYPE_MAP = {
 
 const CastVote = ({ proposalId }: { proposalId: Proposal["proposalId"] }) => {
   const { address, isConnected, isConnecting, isDisconnected } = useAccount();
-  const tokens = useChainState((s) => s.tokens);
-  const chainStateReady = useChainState((s) => s.ready);
+  const { mentoBalance, veMentoBalance } = useTokens();
   const { data: voteReceipt, isLoading: isHasVotedStatusLoading } =
     useVoteReceipt({
       proposalId,
@@ -46,11 +45,8 @@ const CastVote = ({ proposalId }: { proposalId: Proposal["proposalId"] }) => {
 
   const vote = useCastVote();
 
-  const hasEnoughLockedMentoToVote = tokens.veMento.balance > 0;
-  const isInitializing =
-    isConnecting ||
-    (isConnected && !chainStateReady) ||
-    isHasVotedStatusLoading;
+  const hasEnoughLockedMentoToVote = veMentoBalance.value > 0;
+  const isInitializing = isConnecting || isHasVotedStatusLoading;
 
   const handleCastVote = (voteType: number) => {
     try {

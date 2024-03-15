@@ -13,8 +13,9 @@ import BaseComponentProps from "@interfaces/base-component-props.interface";
 import WalletHelper from "@lib/helpers/wallet.helper";
 import { ButtonType } from "@lib/types";
 import { useUserStore } from "@lib/store";
-import { useChainState } from "@lib/providers/chainState.provider";
 import styles from "./connect-button.module.scss";
+import useTokens from "@lib/contracts/useTokens";
+import { useAccount } from "wagmi";
 
 interface ConnectedDropdownProps extends BaseComponentProps {
   block?: boolean;
@@ -32,6 +33,7 @@ export const ConnectedDropdown = ({
 }: ConnectedDropdownProps) => {
   const { openChainModal } = useChainModal();
   const { openAccountModal } = useAccountModal();
+  const { isConnected } = useAccount();
 
   const { initWallet, disconnectWallet, isFetching, isInitialized } =
     useUserStore();
@@ -46,8 +48,7 @@ export const ConnectedDropdown = ({
     }
   }, [account, chain, isFetching, isInitialized, disconnectWallet, initWallet]);
 
-  const tokens = useChainState((s) => s.tokens);
-  const chainStateReady = useChainState((s) => s.ready);
+  const { mentoBalance, veMentoBalance } = useTokens();
 
   return (
     <DropdownButton
@@ -57,18 +58,18 @@ export const ConnectedDropdown = ({
       avatar={<Avatar address={account.address || ""} />}
     >
       <DropdownButton.Dropdown>
-        {chainStateReady ? (
+        {isConnected ? (
           <div className={styles.wallet_addons}>
             <div className={styles.addon}>
-              <div className={styles.addon__title}>{tokens.mento.symbol}</div>
+              <div className={styles.addon__title}>{mentoBalance.symbol}</div>
               <div className={styles.addon__value}>
-                {formatUnits(tokens.mento.balance, tokens.mento.decimals)}
+                {formatUnits(mentoBalance.value, mentoBalance.decimal)}
               </div>
             </div>
             <div className={styles.addon}>
-              <div className={styles.addon__title}>{tokens.veMento.symbol}</div>
+              <div className={styles.addon__title}>{veMentoBalance.symbol}</div>
               <div className={styles.addon__value}>
-                {formatUnits(tokens.veMento.balance, tokens.veMento.decimals)}
+                {formatUnits(veMentoBalance.value, veMentoBalance.decimal)}
               </div>
             </div>
           </div>

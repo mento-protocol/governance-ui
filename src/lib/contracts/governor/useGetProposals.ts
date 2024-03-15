@@ -2,7 +2,7 @@ import { useSuspenseQuery } from "@apollo/client";
 import { GetProposals, Proposal } from "@lib/graphql";
 import { useChainId } from "wagmi";
 
-const useGovernorContract = () => {
+const useGetProposals = () => {
   const chainId = useChainId();
   const {
     data: { proposals },
@@ -19,4 +19,4 @@ const useGovernorContract = () => {
   };
 };
 
-export default useGovernorContract;
+export default useGetProposals;

@@ -1,6 +1,7 @@
 import { useWaitForTransactionReceipt, useWriteContract } from "wagmi";
-import { useContracts } from "@lib/hooks/useContracts";
+import { useContracts } from "@lib/contracts/useContracts";
 import { GovernorABI } from "@lib/abi/Governor";
+import { useCallback } from "react";
 
 const useCastVote = () => {
   const contracts = useContracts();
@@ -15,16 +16,19 @@ const useCastVote = () => {
       hash: data,
     });
 
-  const castVote = (proposalId: number, support: number) => {
-    const params = {
-      address: contracts.MentoGovernor.address,
-      abi: GovernorABI,
-      functionName: "castVote",
-      args: [BigInt(proposalId).valueOf(), support],
-    } as const;
+  const castVote = useCallback(
+    (proposalId: number, support: number) => {
+      const params = {
+        address: contracts.MentoGovernor.address,
+        abi: GovernorABI,
+        functionName: "castVote",
+        args: [BigInt(proposalId).valueOf(), support],
+      } as const;
 
-    writeContract(params);
-  };
+      writeContract(params);
+    },
+    [contracts.MentoGovernor.address, writeContract],
+  );
 
   return {
     hash: data,

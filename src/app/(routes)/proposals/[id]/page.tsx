@@ -6,7 +6,6 @@ import { useSuspenseQuery } from "@apollo/experimental-nextjs-app-support/ssr";
 import classNames from "classnames";
 import { format } from "date-fns";
 import { GetProposal, Proposal, ProposalState } from "@lib/graphql";
-import { useProposalStates } from "@lib/hooks/useProposalStates";
 import styles from "./page.module.scss";
 
 // Components
@@ -19,6 +18,7 @@ import { stateToBadgeColorMap } from "@interfaces/proposal.interface";
 import ExecutionCode from "./_components/execution-code.component";
 import Participants from "./_components/participants.component";
 import Vote from "./_components/vote.component";
+import { useProposalStates } from "@lib/contracts/governor/useProposalStates";
 
 const Page = ({ params }: { params: { id: string } }) => {
   /**

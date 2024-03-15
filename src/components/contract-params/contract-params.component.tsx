@@ -12,7 +12,7 @@ import { CopyIcon } from "@components/_icons/copy.icon";
 import { TimelockControllerABI } from "@lib/abi/TimelockController";
 import { GovernorABI } from "@lib/abi/Governor";
 import { Celo } from "@config/chains";
-import { useContracts } from "@lib/hooks/useContracts";
+import { useContracts } from "@lib/contracts/useContracts";
 
 export const ContractParams = () => {
   const governanceDetails = useGovernanceDetails();

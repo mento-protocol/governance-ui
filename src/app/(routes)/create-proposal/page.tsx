@@ -10,6 +10,7 @@ import { useCreateProposalStore } from "@lib/store";
 import styles from "./page.module.scss";
 
 const Page = () => {
+  // TODO: Nuke proposal form from state
   const { reset } = useCreateProposalStore();
 
   useEffect(() => {

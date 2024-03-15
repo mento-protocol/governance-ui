@@ -1,4 +1,4 @@
-import { useContracts } from "@lib/hooks/useContracts";
+import { useContracts } from "@lib/contracts/useContracts";
 import { useReadContract } from "wagmi";
 import { LockingABI } from "@lib/abi/Locking";
 import { useSuspenseQuery } from "@apollo/client";

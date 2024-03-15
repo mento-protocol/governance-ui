@@ -2,7 +2,7 @@ import { useReadContract } from "wagmi";
 import { Address } from "viem";
 import { GovernorABI } from "@lib/abi/Governor";
 import { Proposal } from "@lib/graphql";
-import { useContracts } from "@lib/hooks/useContracts";
+import { useContracts } from "@lib/contracts/useContracts";
 
 const useVoteReceipt = ({
   address,

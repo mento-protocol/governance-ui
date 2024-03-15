@@ -1,6 +1,6 @@
 import { LockingABI } from "@lib/abi/Locking";
 import { GetLocksDocument, Lock } from "@lib/graphql";
-import { useContracts } from "@lib/hooks/useContracts";
+import { useContracts } from "@lib/contracts/useContracts";
 import useModal from "@lib/providers/modal.provider";
 import { useSuspenseQuery } from "@apollo/client";
 import BaseComponentProps from "@interfaces/base-component-props.interface";

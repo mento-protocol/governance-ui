@@ -1,6 +1,6 @@
 /**
- * Proposal States are a bit tricky to com epute from the data we get from the graph.
- * This is because the state dependes both on the Proposal and the TimelockOperation.
+ * Proposal States are a bit tricky to compute from the data we get from the graph.
+ * This is because the state depends both on the Proposal and the TimelockOperation.
  * These are as follows:
  * Pending: Proposal is created but startBlock > block.now
  * Active: startBlock <= block.now
@@ -23,7 +23,7 @@ import { Proposal, ProposalState, Scalars } from "@lib/graphql";
 import { makeVar } from "@apollo/client/cache";
 import { useEffect } from "react";
 import { useReadContracts } from "wagmi";
-import { useContracts } from "./useContracts";
+import { useContracts } from "@lib/contracts/useContracts";
 
 type ProposalID = Scalars["ID"]["output"];
 type ProposalToState = Record<ProposalID, ProposalState>;
@@ -57,6 +57,9 @@ export const useProposalStates = (
       functionName: "state",
       args: [proposal.proposalId],
     })),
+    query: {
+      refetchInterval: 5000,
+    },
   });
 
   useEffect(() => {

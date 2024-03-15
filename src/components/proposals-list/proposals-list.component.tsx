@@ -1,7 +1,6 @@
 import { GetProposals, Proposal } from "@lib/graphql";
 import NumbersService from "@lib/helpers/numbers.service";
 import StringService from "@lib/helpers/string.service";
-import { useProposalStates } from "@lib/hooks/useProposalStates";
 import { useSuspenseQuery } from "@apollo/experimental-nextjs-app-support/ssr";
 import { Card, ProgressBar } from "@components/_shared";
 import { Badge } from "@components/_shared/badge/badge.component";
@@ -12,6 +11,7 @@ import Link from "next/link";
 import { formatUnits, numberToHex } from "viem";
 import { useChainId } from "wagmi";
 import styles from "./proposals-list.module.scss";
+import { useProposalStates } from "@lib/contracts/governor/useProposalStates";
 
 interface ProposalsListProps extends BaseComponentProps {}
 

@@ -4,7 +4,6 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { RainbowKitProvider } from "@rainbow-me/rainbowkit";
 import { ApolloNextAppProvider } from "@apollo/experimental-nextjs-app-support/ssr";
 import { newApolloClient } from "@lib/graphql/apollo.client";
-import { ChainStateProvider } from "@lib/providers/chainState.provider";
 import { wagmiConfig } from "@config/wagmi.config";
 import { Celo } from "@config/chains";
 
@@ -18,7 +17,7 @@ export function Providers({ children }: { children: ReactNode }) {
       <WagmiProvider config={wagmiConfig}>
         <QueryClientProvider client={queryClient}>
           <RainbowKitProvider initialChain={Celo}>
-            <ChainStateProvider>{mounted && children}</ChainStateProvider>
+            {mounted && children}
           </RainbowKitProvider>
         </QueryClientProvider>
       </WagmiProvider>

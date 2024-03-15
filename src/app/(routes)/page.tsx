@@ -16,10 +16,12 @@ import { Loader } from "@components/_shared";
 import { ContractParams } from "@components/contract-params/contract-params.component";
 import ProposalSummaryComponent from "@components/proposal-summary/proposal-summary.component";
 import { useUserStore } from "@lib/store";
+import { useAccount } from "wagmi";
 
 const Page = () => {
   const router = useRouter();
-  const { walletAddress } = useUserStore();
+  const { address } = useAccount();
+
   return (
     <main className="flex flex-col place-items-center mt-x11">
       <div className="max-w-full">
@@ -44,11 +46,7 @@ const Page = () => {
               <Button theme="clear" href="/create-proposal">
                 Create new proposal
               </Button>
-              <Button
-                theme="clear"
-                href="/my-voting-power"
-                disabled={!walletAddress}
-              >
+              <Button theme="clear" href="/my-voting-power" disabled={!address}>
                 My voting power
               </Button>
             </div>

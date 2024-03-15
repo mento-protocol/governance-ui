@@ -1,40 +1,17 @@
 import { useMemo } from "react";
 import { formatUnits } from "viem";
-import { useBlockNumber, useChainId, useReadContract } from "wagmi";
-import { useSuspenseQuery } from "@apollo/client";
-import { LockingABI } from "@lib/abi/Locking";
-import { GetAllLocks, GetProposals, Lock, Proposal } from "@lib/graphql";
-import { useContracts } from "@lib/hooks/useContracts";
+import { useBlockNumber } from "wagmi";
 import { Card } from "@components/_shared";
+import useLockingContract from "@lib/contracts/locking/useLockingContract";
+import useGovernorContract from "@lib/contracts/governor/useGovernorContract";
 
 const ProposalSummaryComponent = () => {
-  const chainId = useChainId();
-  const contracts = useContracts();
-  const { data } = useSuspenseQuery<{ proposals: Proposal[] }>(GetProposals, {
-    context: {
-      apiName: chainId === 44787 ? "subgraphAlfajores" : "subgraph",
-    },
-  });
-
-  const { data: totalSupply } = useReadContract({
-    address: contracts.Locking.address,
-    abi: LockingABI,
-    functionName: "totalSupply",
-    args: [],
-  });
-  const {
-    data: { locks },
-  } = useSuspenseQuery<{ locks: Lock[] }>(GetAllLocks);
-  const { data: currentWeek } = useReadContract({
-    address: contracts.Locking.address,
-    abi: LockingABI,
-    functionName: "getWeek",
-    args: [],
-  });
+  const { totalSupply, locks, currentWeek } = useLockingContract();
+  const { proposals } = useGovernorContract();
 
   const currentBlockNumber = useBlockNumber();
 
-  const proposalsEndBlocks: Array<BigInt> = data?.proposals.map(
+  const proposalsEndBlocks: Array<BigInt> = proposals.map(
     (proposal) => proposal.endBlock,
   );
 

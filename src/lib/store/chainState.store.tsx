@@ -1,7 +1,5 @@
 import type { Address, MulticallParameters, PublicClient } from "viem";
 import { erc20Abi } from "viem";
-import { createStore } from "zustand";
-import { immer } from "zustand/middleware/immer";
 import { MentoChain } from "../types";
 
 interface TokenWithBalance {

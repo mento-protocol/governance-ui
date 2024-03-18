@@ -9,7 +9,7 @@
     padding: 2 * $theme-unit;
     position: relative;
     background-color: inherit;
-    border-radius: 2 * $theme-unit 2 * $theme-unit 0 0;
+    border-radius: 8.5px 8.5px 0 0;
 
     @include media-md {
       padding: 4 * $theme-unit;
@@ -35,7 +35,7 @@
   }
 
   &>div {
-    border-radius: 2 * $border-radius;
+    border-radius: 8.5px;
   }
 
   &>div:first-child {

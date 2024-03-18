@@ -3,13 +3,13 @@
 .card {
   background-color: var(--theme-card-background);
   border: 1px solid var(--theme-card-border);
-  border-radius: $border-radius;
+  border-radius: 8px;
 
   &__header {
     padding: 2 * $theme-unit;
     position: relative;
     background-color: inherit;
-    border-radius: $theme-unit $theme-unit 0 0;
+    border-radius: 2 * $theme-unit 2 * $theme-unit 0 0;
 
     @include media-md {
       padding: 4 * $theme-unit;
@@ -35,7 +35,7 @@
   }
 
   &>div {
-    border-radius: $border-radius;
+    border-radius: 2 * $border-radius;
   }
 
   &>div:first-child {

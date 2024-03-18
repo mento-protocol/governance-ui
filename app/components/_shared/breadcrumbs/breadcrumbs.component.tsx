@@ -13,7 +13,7 @@ type CrumbProps = {
 const Crumb = ({ path, index, last }: CrumbProps) => {
   const crumbName = routingMap.get(path);
   const isProposalCrumb = crumbName === "Proposal";
-  const proposalId = isProposalCrumb ? shortenProposalId(getProposalIdFromPath()) : "";
+  const proposalId = getProposalIdFromPath(usePathname());
 
   return (
     <li className={styles.crumb}>
@@ -21,9 +21,14 @@ const Crumb = ({ path, index, last }: CrumbProps) => {
         <span className={styles.crumb__separator}>{">"}</span>
       )}
       {last ? (
-        <span>{crumbName}{isProposalCrumb && ` ${proposalId}`}</span>
+        <span>
+          {crumbName}
+          {isProposalCrumb && ` ${shortenProposalId(proposalId)}`}
+        </span>
       ) : (
-        <a href={path || "/"} className={styles.crumb__clickable}>{crumbName}</a>
+        <a href={path || "/"} className={styles.crumb__clickable}>
+          {crumbName}
+        </a>
       )}
     </li>
   );
@@ -52,15 +57,12 @@ export const Breadcrumbs = () => {
   );
 };
 
-function getProposalIdFromPath(): string {
+function getProposalIdFromPath(path: string): string {
   const proposalPagePattern = /\/proposals\/(\d+)/;
-  if (!proposalPagePattern.test(usePathname())) {
-    throw new Error("Not a proposal page");
-  }
-  const match = proposalPagePattern.exec(usePathname())!;
-  return match[1]
+  const match = proposalPagePattern.exec(path)!;
+  return match ? match[1] : "";
 }
 
 function shortenProposalId(proposalId: string): string {
-  return `${proposalId.slice(0,8)}...${proposalId.slice(-4)}`;
+  return `${proposalId.slice(0, 8)}...${proposalId.slice(-4)}`;
 }

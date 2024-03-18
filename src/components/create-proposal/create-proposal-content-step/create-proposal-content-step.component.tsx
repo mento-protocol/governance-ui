@@ -37,18 +37,17 @@ export const CreateProposalContentStep = () => {
   useEffect(() => {
     const subscription = watch((value) => {
       updateProposal({
-        metadata: {
-          title: value.title || "",
-          description: value.content || "",
-        },
-        transactions: newProposal.transactions,
+        title: value.title || "",
+        description: value.content || "",
+        code: newProposal.code,
       });
     });
     return () => subscription.unsubscribe();
-  }, [watch, updateProposal, newProposal.transactions]);
+  }, [watch, updateProposal, newProposal.code, isValid]);
 
   return (
     <CreateProposalWrapper
+      componentStep={CreateProposalStep.content}
       title="Add name and description"
       onPrev={() => setStep(CreateProposalStep.wallet)}
       onNext={isValid ? () => setStep(CreateProposalStep.execution) : undefined}

@@ -1,5 +1,5 @@
-import { useEffect } from "react";
-import { date, InferType, number, object, setLocale } from "yup";
+import { useCallback, useEffect, useMemo } from "react";
+import { date, number, object, setLocale } from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import BaseComponentProps from "@interfaces/base-component-props.interface";
@@ -12,34 +12,26 @@ import {
   nextWednesday,
   setISODay,
 } from "date-fns";
-import { useUserStore } from "@lib/store";
-import { ILock } from "@interfaces/lock.interface";
 import useModal from "@lib/providers/modal.provider";
+import { formatUnits } from "viem";
+import useTokens from "@lib/contracts/useTokens";
+import { useAccount } from "wagmi";
+import useLockMento from "@lib/contracts/locking/useLockMento";
 
 interface MentoLockProps extends BaseComponentProps {}
 
-let validationSchema = object({
-  toLock: number().required().typeError("Invalid number").max(0),
-  expiration: date()
-    .required()
-    .typeError("Invalid Date")
-    .min(addYears(new Date(), 1))
-    .max(addYears(new Date(), 4)),
-  expirationMonths: number()
-    .required()
-    .typeError("Invalid number")
-    .max(4 * 52),
-});
-
-type FormData = InferType<typeof validationSchema>;
-
 export const MentoLock = ({ className, style }: MentoLockProps) => {
-  const { walletAddress, balanceMENTO, lock } = useUserStore();
+  const { mentoBalance } = useTokens();
+  const { address } = useAccount();
   const { showConfirm } = useModal();
+  const { lockMento, isConfirmed, reset: resetHook } = useLockMento();
 
-  const patchValidationSchema = (value: number) => {
-    validationSchema = object({
-      toLock: number().required().typeError("Invalid number").max(value),
+  const validationSchema = useMemo(() => {
+    return object({
+      toLock: number()
+        .required()
+        .typeError("Invalid number")
+        .max(parseInt(formatUnits(mentoBalance.value, mentoBalance.decimal))),
       expiration: date()
         .required()
         .typeError("Invalid Date")
@@ -50,11 +42,7 @@ export const MentoLock = ({ className, style }: MentoLockProps) => {
         .typeError("Invalid number")
         .max(4 * 52),
     });
-  };
-
-  useEffect(() => {
-    patchValidationSchema(balanceMENTO);
-  }, [balanceMENTO]);
+  }, [mentoBalance]);
 
   setLocale({
     mixed: {
@@ -78,12 +66,12 @@ export const MentoLock = ({ className, style }: MentoLockProps) => {
     reset,
     trigger,
     formState: { errors, isValid },
-  } = useForm<FormData>({
+  } = useForm({
     resolver: yupResolver(validationSchema),
     mode: "all",
   });
 
-  const getMonths = () => {
+  const getMonths = useCallback(() => {
     const years = differenceInYears(
       getValues("expiration"),
       setISODay(new Date(), 3),
@@ -93,15 +81,15 @@ export const MentoLock = ({ className, style }: MentoLockProps) => {
       setISODay(addYears(new Date(), years), 3),
     );
     return months > 0 && `${months} ${months > 1 ? "months" : "month"}`;
-  };
+  }, [getValues]);
 
-  const getYears = () => {
+  const getYears = useCallback(() => {
     const years = differenceInYears(
       getValues("expiration"),
       setISODay(new Date(), 3),
     );
     return years > 0 && `${years} ${years > 1 ? "years" : "year"}`;
-  };
+  }, [getValues]);
 
   const dateSelected = (date: Date) => {
     setValue("expiration", date);
@@ -112,8 +100,8 @@ export const MentoLock = ({ className, style }: MentoLockProps) => {
     trigger("expiration");
   };
 
-  const performLock = () => {
-    if (isValid) {
+  const performLock = useCallback(() => {
+    if (isValid && address) {
       showConfirm(
         `Do you want to lock ${getValues("toLock")} MENTO for ${[
           getYears(),
@@ -127,20 +115,36 @@ export const MentoLock = ({ className, style }: MentoLockProps) => {
         },
       ).then((confirmed) => {
         if (confirmed) {
-          lock({
-            owner: walletAddress,
-            amountMNTO: getValues("toLock"),
-            amountsVeMNTO: Math.round(
-              getValues("toLock") * 100 * (getValues("expirationMonths") / 12),
-            ),
-            expireDate: getValues("expiration"),
-          } as ILock).then(() => {
-            reset();
-          });
+          lockMento(address, address, getValues("toLock"), 10, 10);
+          // lockMento({
+          //   owner: address,
+          //   amountMNTO: getValues("toLock"),
+          //   amountsVeMNTO: Math.round(
+          //     getValues("toLock") * 100 * (getValues("expirationMonths") / 12),
+          //   ),
+          //   expireDate: getValues("expiration"),
+          // } as ILock).then(() => {
+          //   reset();
+          // });
         }
       });
     }
-  };
+  }, [
+    address,
+    getMonths,
+    getValues,
+    getYears,
+    isValid,
+    lockMento,
+    showConfirm,
+  ]);
+
+  useEffect(() => {
+    if (isConfirmed) {
+      reset();
+      resetHook();
+    }
+  }, [isConfirmed, reset, resetHook]);
 
   const monthSelected = (months: number | string) => {
     const newDate = nextWednesday(addMonths(new Date(), +months));
@@ -148,8 +152,6 @@ export const MentoLock = ({ className, style }: MentoLockProps) => {
     setValue("expirationMonths", +months);
     trigger("expiration");
   };
-
-  patchValidationSchema(balanceMENTO);
 
   return (
     <div className={className} style={style}>
@@ -167,7 +169,7 @@ export const MentoLock = ({ className, style }: MentoLockProps) => {
                 <div className="flex justify-between gap-x3">
                   <div className="whitespace-nowrap">Max</div>
                   <div className="whitespace-nowrap">
-                    {balanceMENTO.toLocaleString()} MENTO
+                    {`${formatUnits(mentoBalance.value, mentoBalance.decimal)} ${mentoBalance.symbol}`}
                   </div>
                 </div>
               </div>

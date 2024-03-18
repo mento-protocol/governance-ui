@@ -28,7 +28,7 @@ const ProposalSummaryComponent = () => {
   }, [proposalsEndBlocks, currentBlockNumber]);
 
   const getTotalSupplyParsed = useMemo(() => {
-    return Number(formatUnits(totalSupply || 0n, 18)).toLocaleString();
+    return Number(formatUnits(totalSupply || BigInt(0), 18)).toLocaleString();
   }, [totalSupply]);
 
   const getActiveVoters = useMemo(() => {

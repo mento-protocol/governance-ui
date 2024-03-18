@@ -1,12 +1,15 @@
-import { ReactNode } from "react";
+import { ReactNode, useMemo } from "react";
 import classNames from "classnames";
 import { Button, Card, StepCounter } from "@components/_shared";
 import styles from "../create-proposal.module.scss";
-import { useCreateProposal } from "@components/create-proposal/create-proposal-provider";
+import {
+  CreateProposalStep,
+  useCreateProposal,
+} from "@components/create-proposal/create-proposal-provider";
 
 interface ICreateProposalWrapper {
   className?: string;
-  isOpened?: boolean;
+  componentStep: CreateProposalStep;
   title: string;
   children: ReactNode | ReactNode[];
   onPrev?: () => void;
@@ -17,13 +20,17 @@ interface ICreateProposalWrapper {
 const CreateProposalWrapper = ({
   children,
   className,
-  isOpened,
+  componentStep,
   title,
   onPrev,
   onNext,
   onSave,
 }: ICreateProposalWrapper) => {
   const { step } = useCreateProposal();
+
+  const isOpen = useMemo(() => {
+    return step === componentStep;
+  }, [componentStep, step]);
 
   return (
     <Card
@@ -32,18 +39,16 @@ const CreateProposalWrapper = ({
         "pb-0",
         styles.wrapper,
         className,
-        !isOpened && "opacity-50",
+        !isOpen && "opacity-50",
       )}
     >
       <Card.Header>
         <div className={styles.title}>
-          <StepCounter>{step}</StepCounter>
+          <StepCounter>{componentStep}</StepCounter>
           {title}
         </div>
       </Card.Header>
-      <div
-        className={classNames(styles.form_element, isOpened && styles.opened)}
-      >
+      <div className={classNames(styles.form_element, isOpen && styles.opened)}>
         <div className={styles.inner}>{children}</div>
         <Card.Footer>
           <div className="flex full-w justify-start items-center gap-x3">

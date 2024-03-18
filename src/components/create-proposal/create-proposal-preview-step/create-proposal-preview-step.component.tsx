@@ -14,42 +14,9 @@ export const CreateProposalPreviewStep = () => {
   const { createError, createTx } = useCreateProposalOnChain();
   const { setStep, newProposal, submitProposal } = useCreateProposal();
 
-  // const proposal: ProposalCreateParams = useMemo(() => {
-  //   const { title, description } =
-  //     form[CreateProposalFormStepEnum.content].value;
-  //   let transactions = [];
-  //   try {
-  //     transactions = JSON.parse(
-  //       form[CreateProposalFormStepEnum.execution].value.code.value,
-  //     );
-  //   } catch (e) {}
-
-  //   if (transactions.length === 0) {
-  //     transactions = [
-  //       {
-  //         address: "0x0000000000000000000000000000000000000000",
-  //         value: 0,
-  //         data: "0x",
-  //       },
-  //     ];
-  //   }
-
-  //   return {
-  //     metadata: {
-  //       title: title.value,
-  //       description: description.value,
-  //     },
-  //     transactions,
-  //   };
-  // }, [form]);
-
-  // const onSave = useCallback(
-  //   () => createProposal(proposal),
-  //   [createProposal, proposal],
-  // );
-
   return (
     <CreateProposalWrapper
+      componentStep={CreateProposalStep.preview}
       title="Preview your proposal"
       onPrev={() => setStep(CreateProposalStep.execution)}
       className={styles.container}
@@ -62,7 +29,7 @@ export const CreateProposalPreviewStep = () => {
           You&apos;ve successfully finished all the steps. Now, take a moment to
           go over your proposal and then submit it.
         </p>
-        <div className={styles.title}>{newProposal.metadata.title}</div>
+        <div className={styles.title}>{newProposal.title}</div>
         <div>
           <h3 className={styles.form_data_title}>Proposal Description</h3>
           <SeeAll
@@ -70,9 +37,11 @@ export const CreateProposalPreviewStep = () => {
             isOpen={isProposalPreviewOpen}
             setIsOpen={setIsProposalPreviewOpen}
           >
-            <MarkdownView markdown={newProposal.metadata.description} />
+            <MarkdownView markdown={newProposal.description} />
           </SeeAll>
-          <ExecutionCodeView code={newProposal.transactions} />
+          {newProposal.code != "" && (
+            <ExecutionCodeView code={newProposal.code} />
+          )}
         </div>
       </div>
     </CreateProposalWrapper>

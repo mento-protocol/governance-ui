@@ -1,9 +1,9 @@
 import { addresses, ContractAddresses } from "@mento-protocol/mento-sdk";
-import { Address } from "viem";
+import { Address, defineChain } from "viem";
 import { celo, celoAlfajores } from "viem/chains";
 import { MentoChain, MentoChainContracts } from "@lib/types";
 
-export const Celo: MentoChain = {
+export const Celo: MentoChain = defineChain({
   ...celo,
   blockExplorers: {
     default: {
@@ -16,9 +16,9 @@ export const Celo: MentoChain = {
     ...celo.contracts,
     ...transformToChainContracts(addresses[celo.id]),
   },
-};
+});
 
-export const Alfajores: MentoChain = {
+export const Alfajores: MentoChain = defineChain({
   ...celoAlfajores,
   blockExplorers: {
     default: {
@@ -48,7 +48,7 @@ export const Alfajores: MentoChain = {
       address: "0xc88f553DC20fc78ce554bfF97C2F4a4E5BDB0134",
     },
   },
-};
+});
 
 /**
  * Transforms the specified Mento contract addresses to the format used by Viem.

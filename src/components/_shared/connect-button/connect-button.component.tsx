@@ -1,5 +1,4 @@
 "use client";
-import { useEffect } from "react";
 import {
   ConnectButton as RainbowConnectButton,
   useAccountModal,
@@ -12,7 +11,6 @@ import { ChevronIcon } from "@components/_icons";
 import BaseComponentProps from "@interfaces/base-component-props.interface";
 import WalletHelper from "@lib/helpers/wallet.helper";
 import { ButtonType } from "@lib/types";
-import { useUserStore } from "@lib/store";
 import styles from "./connect-button.module.scss";
 import useTokens from "@lib/contracts/useTokens";
 import { useAccount } from "wagmi";
@@ -34,19 +32,6 @@ export const ConnectedDropdown = ({
   const { openChainModal } = useChainModal();
   const { openAccountModal } = useAccountModal();
   const { isConnected } = useAccount();
-
-  const { initWallet, disconnectWallet, isFetching, isInitialized } =
-    useUserStore();
-
-  useEffect(() => {
-    const connected = !!account && !!chain;
-    if (connected && !isInitialized && !isFetching) {
-      initWallet(account.address);
-    }
-    if (!connected && !isFetching && isInitialized) {
-      disconnectWallet();
-    }
-  }, [account, chain, isFetching, isInitialized, disconnectWallet, initWallet]);
 
   const { mentoBalance, veMentoBalance } = useTokens();
 

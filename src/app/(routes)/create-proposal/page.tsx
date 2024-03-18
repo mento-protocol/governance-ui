@@ -6,27 +6,22 @@ import {
   CreateProposalWalletStep,
   CreateProposalPreviewStep,
 } from "@components/create-proposal";
-import { useCreateProposalStore } from "@lib/store";
 import styles from "./page.module.scss";
+import { CreateProposalProvider } from "@components/create-proposal/create-proposal-provider";
 
 const Page = () => {
-  // TODO: Nuke proposal form from state
-  const { reset } = useCreateProposalStore();
-
-  useEffect(() => {
-    reset();
-  }, [reset]);
-
   return (
-    <main className="flex flex-col place-items-center">
-      <h2 className="text-2xl font-bold mb-5">Create a Proposal</h2>
-      <div className={styles.form_wrapper}>
-        <CreateProposalWalletStep />
-        <CreateProposalContentStep />
-        <CreateProposalExecutionStep />
-        <CreateProposalPreviewStep />
-      </div>
-    </main>
+    <CreateProposalProvider>
+      <main className="flex flex-col place-items-center">
+        <h2 className="text-2xl font-bold mb-5">Create a Proposal</h2>
+        <div className={styles.form_wrapper}>
+          <CreateProposalWalletStep />
+          <CreateProposalContentStep />
+          <CreateProposalExecutionStep />
+          <CreateProposalPreviewStep />
+        </div>
+      </main>
+    </CreateProposalProvider>
   );
 };
 

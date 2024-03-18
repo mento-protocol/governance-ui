@@ -7,6 +7,7 @@ import {
   CreateProposalStep,
   useCreateProposal,
 } from "@components/create-proposal/create-proposal-provider";
+import { parseUnits } from "viem";
 
 enum WalletStepEnum {
   connectWallet = "connectWallet",
@@ -70,20 +71,28 @@ export const CreateProposalWalletStep = () => {
   const getAndValidateStep = useCallback((): WalletStepEnum => {
     if (!address) {
       return WalletStepEnum.connectWallet;
-    } else if (mentoBalance.value <= 10) {
+    } else if (mentoBalance.value <= parseUnits("10", mentoBalance.decimal)) {
       return WalletStepEnum.buyMento;
-    } else if (veMentoBalance.value < 2500) {
+    } else if (
+      veMentoBalance.value < parseUnits("2500", veMentoBalance.decimal)
+    ) {
       return WalletStepEnum.lockMento;
     } else {
       return WalletStepEnum.createProposal;
     }
-  }, [address, mentoBalance.value, veMentoBalance.value]);
+  }, [
+    address,
+    mentoBalance.decimal,
+    mentoBalance.value,
+    veMentoBalance.decimal,
+    veMentoBalance.value,
+  ]);
 
-  const [walletFormStep, setFormStep] = useState(getAndValidateStep());
+  const [walletFormStep] = useState(getAndValidateStep());
 
   return (
     <CreateProposalWrapper
-      isOpened={true}
+      componentStep={CreateProposalStep.wallet}
       onNext={() => setStep(CreateProposalStep.content)}
       title="Connect your wallet & login"
     >

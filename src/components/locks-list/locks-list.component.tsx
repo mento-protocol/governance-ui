@@ -75,7 +75,7 @@ const LockEntry = ({
     return Number(formatUnits(lock.amount || 0n, 18)).toLocaleString();
   }, [lock.amount]);
 
-  const vementoParsed = useMemo(() => {
+  const veMentoParsed = useMemo(() => {
     return Number(formatUnits(getLock?.[0] || 0n, 18)).toLocaleString();
   }, [getLock]);
 
@@ -121,7 +121,7 @@ const LockEntry = ({
     <div className={styles.locksList__row} key={key}>
       <div className={styles.divider}></div>
       <div className={styles.item}>{mentoParsed}</div>
-      <div className={styles.item}>{vementoParsed}</div>
+      <div className={styles.item}>{veMentoParsed}</div>
       <div className={styles.item}>{expirationDate}</div>
       {/*<div>*/}
       {/*  <DropdownButton className="md:hidden" theme="clear">*/}

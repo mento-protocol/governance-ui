@@ -1,4 +1,3 @@
-import { useProposalDetailsStore } from "@lib/store";
 import { Card } from "@components/_shared";
 import {
   MultiProgressBar,
@@ -6,8 +5,9 @@ import {
 } from "@components/_shared/progress-bar/progress-bar.component";
 import BaseComponentProps from "@interfaces/base-component-props.interface";
 import classNames from "classnames";
-import { useCallback, useEffect, useState } from "react";
 import styles from "./proposal-current-votes.module.scss";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { IVote } from "@lib/interfaces/vote.interface";
 
 interface ProposalCurrentVotesProps extends BaseComponentProps {}
 
@@ -16,28 +16,42 @@ export const ProposalCurrentVotes = ({
   className,
   style,
 }: ProposalCurrentVotesProps) => {
-  const { votes } = useProposalDetailsStore();
+  // TODO: Replace with context fetch to api
+  const votes: IVote[] = useMemo(() => [], []);
+
+  const forProposal = useMemo(
+    () => votes.filter((vote) => vote.type === "for"),
+    [votes],
+  );
+  const againstProposal = useMemo(
+    () => votes.filter((vote) => vote.type === "against"),
+    [votes],
+  );
+  const abstainProposal = useMemo(
+    () => votes.filter((vote) => vote.type === "abstain"),
+    [votes],
+  );
 
   const parseVotes = useCallback(() => {
     return [
       {
-        value: votes.for.reduce((acc, vote) => acc + vote.votes, 0),
+        value: forProposal.reduce((acc, vote) => acc + vote.votes, 0),
         type: "success",
       },
       {
-        value: votes.against.reduce((acc, vote) => acc + vote.votes, 0),
+        value: againstProposal.reduce((acc, vote) => acc + vote.votes, 0),
         type: "danger",
       },
     ] as MultiProgressBarValue[];
-  }, [votes]);
+  }, [againstProposal, forProposal]);
 
   const parseMax = useCallback(() => {
     return (
-      votes.for.reduce((acc, vote) => acc + vote.votes, 0) +
-      votes.against.reduce((acc, vote) => acc + vote.votes, 0) +
-      votes.abstain.reduce((acc, vote) => acc + vote.votes, 0)
+      forProposal.reduce((acc, vote) => acc + vote.votes, 0) +
+      againstProposal.reduce((acc, vote) => acc + vote.votes, 0) +
+      abstainProposal.reduce((acc, vote) => acc + vote.votes, 0)
     );
-  }, [votes]);
+  }, [abstainProposal, againstProposal, forProposal]);
 
   const [values, setValues] = useState(parseVotes());
   const [max, setMax] = useState(parseMax());
@@ -63,7 +77,7 @@ export const ProposalCurrentVotes = ({
               <div>For</div>
             </div>
             <div>
-              {votes.for
+              {forProposal
                 .reduce((acc, vote) => acc + vote.votes, 0)
                 .toLocaleString()}
             </div>
@@ -74,7 +88,7 @@ export const ProposalCurrentVotes = ({
               <div>Against</div>
             </div>
             <div>
-              {votes.against
+              {againstProposal
                 .reduce((acc, vote) => acc + vote.votes, 0)
                 .toLocaleString()}
             </div>
@@ -85,7 +99,7 @@ export const ProposalCurrentVotes = ({
               <div>Abstain</div>
             </div>
             <div>
-              {votes.abstain
+              {abstainProposal
                 .reduce((acc, vote) => acc + vote.votes, 0)
                 .toLocaleString()}
             </div>

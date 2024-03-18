@@ -1,7 +1,7 @@
 import { GovernorABI } from "@lib/abi/Governor";
 import { useContracts } from "@lib/contracts/useContracts";
 import { useCallback } from "react";
-import { Address } from "viem";
+import { Address, toBytes, toHex } from "viem";
 import { useWriteContract } from "wagmi";
 
 export type ProposalCreateParams = {
@@ -28,10 +28,10 @@ const useCreateProposalOnChain = () => {
             (transaction) => transaction.address as Address,
           ),
           proposal.transactions.map((transaction) => BigInt(transaction.value)),
-          proposal.transactions.map((transaction) => transaction.data),
+          proposal.transactions.map((transaction) => toHex(transaction.data)), // TODO: Confirm this doesn't need toBytes first
           JSON.stringify(proposal.metadata),
-        ] as any,
-      });
+        ],
+      } as const);
     },
     [writeContract, MentoGovernor.address],
   );

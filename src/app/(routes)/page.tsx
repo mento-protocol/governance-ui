@@ -15,7 +15,6 @@ import { ProposalsListComponent } from "@components/proposals-list/proposals-lis
 import { Loader } from "@components/_shared";
 import { ContractParams } from "@components/contract-params/contract-params.component";
 import ProposalSummaryComponent from "@components/proposal-summary/proposal-summary.component";
-import { useUserStore } from "@lib/store";
 import { useAccount } from "wagmi";
 
 const Page = () => {

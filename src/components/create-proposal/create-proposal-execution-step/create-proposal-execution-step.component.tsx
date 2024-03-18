@@ -12,7 +12,6 @@ import {
 
 const validationSchema = object().shape({
   code: string()
-    .required()
     .test("json", "Invalid JSON format", (value) => {
       if (!value) return true;
 
@@ -57,6 +56,7 @@ export const CreateProposalExecutionStep = () => {
 
   return (
     <CreateProposalWrapper
+      componentStep={CreateProposalStep.execution}
       title="Execution Code"
       onPrev={() => setStep(CreateProposalStep.content)}
       onNext={isValid ? () => setStep(CreateProposalStep.preview) : undefined}

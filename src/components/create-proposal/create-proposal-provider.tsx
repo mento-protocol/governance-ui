@@ -1,19 +1,17 @@
-import { createContext, useCallback, useContext, useState } from "react";
 import {
-  CreateProposalContentStep,
-  CreateProposalExecutionStep,
-  CreateProposalPreviewStep,
-  CreateProposalWalletStep,
-} from "@components/create-proposal";
-import useCreateProposalOnChain, {
-  ProposalCreateParams,
-} from "@lib/contracts/governor/useCreateProposalOnChain";
+  ReactNode,
+  createContext,
+  useCallback,
+  useContext,
+  useState,
+} from "react";
+import useCreateProposalOnChain from "@lib/contracts/governor/useCreateProposalOnChain";
 
 export enum CreateProposalStep {
-  wallet,
-  content,
-  execution,
-  preview,
+  wallet = 1,
+  content = 2,
+  execution = 3,
+  preview = 4,
 }
 
 type CreateProposalForm = {
@@ -34,7 +32,13 @@ const CreateProposalContext = createContext<ICreateProposalContext | undefined>(
   undefined,
 );
 
-export const ModalProvider = () => {
+interface ICreateProposalProvider {
+  children: ReactNode | ReactNode[];
+}
+
+export const CreateProposalProvider = ({
+  children,
+}: ICreateProposalProvider) => {
   const freshProposal = {
     description: "",
     title: "",
@@ -82,10 +86,7 @@ export const ModalProvider = () => {
         submitProposal,
       }}
     >
-      {step == CreateProposalStep.wallet && <CreateProposalWalletStep />}
-      {step == CreateProposalStep.content && <CreateProposalContentStep />}
-      {step == CreateProposalStep.execution && <CreateProposalExecutionStep />}
-      {step == CreateProposalStep.preview && <CreateProposalPreviewStep />}
+      {children}
     </CreateProposalContext.Provider>
   );
 };

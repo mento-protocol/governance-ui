@@ -11,17 +11,19 @@ type CrumbProps = {
 };
 
 const Crumb = ({ path, index, last }: CrumbProps) => {
-  const pathName = routingMap[path];
+  const crumbName = routingMap.get(path);
+  const isProposalCrumb = crumbName === "Proposal";
+  const proposalId = isProposalCrumb ? shortenProposalId(getProposalIdFromPath()) : "";
 
   return (
     <li className={styles.crumb}>
-      {index > 0 && pathName && (
+      {index > 0 && crumbName && (
         <span className={styles.crumb__separator}>{">"}</span>
       )}
       {last ? (
-        <span className={styles.crumb__last}>{pathName}</span>
+        <span>{crumbName}{isProposalCrumb && ` ${proposalId}`}</span>
       ) : (
-        <a href={path || "/"}>{pathName}</a>
+        <a href={path || "/"} className={styles.crumb__clickable}>{crumbName}</a>
       )}
     </li>
   );
@@ -29,23 +31,36 @@ const Crumb = ({ path, index, last }: CrumbProps) => {
 
 export const Breadcrumbs = () => {
   const paths = usePathname().split("/");
-  const crumbPaths = useMemo(
-    () => paths.filter((path) => routingMap[path]),
+  const crumbsPath = useMemo(
+    () => paths.filter((path) => routingMap.has(path)),
     [paths],
   );
 
   return (
     <nav className={styles.container} aria-label="Breadcrumb">
       <ol>
-        {crumbPaths.map((path, index) => (
+        {crumbsPath.map((path, index) => (
           <Crumb
-            path={path}
             key={index}
+            path={path}
             index={index}
-            last={index === crumbPaths.length - 1}
+            last={index === crumbsPath.length - 1}
           />
         ))}
       </ol>
     </nav>
   );
 };
+
+function getProposalIdFromPath(): string {
+  const proposalPagePattern = /\/proposals\/(\d+)/;
+  if (!proposalPagePattern.test(usePathname())) {
+    throw new Error("Not a proposal page");
+  }
+  const match = proposalPagePattern.exec(usePathname())!;
+  return match[1]
+}
+
+function shortenProposalId(proposalId: string): string {
+  return `${proposalId.slice(0,8)}...${proposalId.slice(-4)}`;
+}

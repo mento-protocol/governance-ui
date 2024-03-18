@@ -20,9 +20,9 @@ export const ContractParams = () => {
 
   return (
     <div className="grid grid-cols-1 gap-x2 md:grid-cols-7 pt-x4">
-      <Card className="md:col-span-3 flex flex-col !border-none !md:border">
+      <Card noBorderMobile className="md:col-span-3 flex flex-col">
         <Card.Header>
-          <div className="text-primary text-x4 font-light mb-x6">
+          <div className="text-primary text-center md:text-left text-x4 font-light mb-x6">
             Parameters
           </div>
         </Card.Header>
@@ -43,9 +43,9 @@ export const ContractParams = () => {
           <ParamDisplay label="Timelock" value={governanceDetails?.timelock} />
         </div>
       </Card>
-      <Card className="md:col-span-4 flex flex-col">
+      <Card noBorderMobile className="md:col-span-4 flex flex-col">
         <Card.Header>
-          <div className="text-primary text-x4 font-light mb-x6">
+          <div className="text-primary text-center md:text-left text-x4 font-light mb-x6">
             Contract addresses
           </div>
         </Card.Header>
@@ -63,6 +63,7 @@ export const ContractParams = () => {
           />
           <ParamDisplay
             label="Token"
+            vertical
             value={
               governorContractAddresses.mento ? (
                 <ContractAddressLinkWithCopy
@@ -73,6 +74,7 @@ export const ContractParams = () => {
           />
           <ParamDisplay
             label="Timelock"
+            vertical
             value={
               governorContractAddresses.timelock ? (
                 <ContractAddressLinkWithCopy
@@ -83,6 +85,7 @@ export const ContractParams = () => {
           />
           <ParamDisplay
             label="Locker"
+            vertical
             value={
               governorContractAddresses.locking ? (
                 <ContractAddressLinkWithCopy
@@ -109,12 +112,13 @@ const ParamDisplay = ({
   return (
     <div
       className={classNames(
-        "flex gap-2 justify-between items-center",
-        vertical && "flex-col !items-start md:flex-row !md:items-center",
+        "flex gap-2 justify-between w-full",
+        !vertical && "items-center",
+        vertical && "flex-col items-start md:flex-row md:items-center",
       )}
     >
       <div className="font-semibold">{label}</div>
-      <div className="text-right font-light col-span-2 break-all">
+      <div className="w-full md:w-auto font-light col-span-2">
         {value ?? "-"}
       </div>
     </div>
@@ -140,7 +144,11 @@ const ContractAddressLinkWithCopy = ({
     return;
   }
 
-  if (windowWidth <= 600) {
+  if (windowWidth <= 400) {
+    addressLength = 20;
+  } else if (windowWidth <= 768) {
+    addressLength = 25;
+  } else if (windowWidth <= 920) {
     addressLength = 15;
   } else if (windowWidth <= 1200) {
     addressLength = 20;
@@ -149,7 +157,7 @@ const ContractAddressLinkWithCopy = ({
   return (
     <div
       {...restProps}
-      className={classNames(className, "flex items-center gap-8")}
+      className={classNames(className, "flex items-center justify-end gap-4")}
     >
       <Link
         target="_blank"

@@ -58,7 +58,7 @@ const Wrapper = ({
       >
         <div className={styles.inner}>{children}</div>
         <Card.Footer>
-          <div className="flex full-w justify-start items-center gap-x3">
+          <div className="flex w-full justify-start items-center gap-x3">
             <Button
               className="min-w-x20"
               onClick={prev}

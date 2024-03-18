@@ -44,6 +44,10 @@ body {
   font-style: normal;
 }
 
+.font-fg {
+  font-family: var(--font-fg);
+}
+
 @include media-md {
   body {
     background: url("/images/bg.png"), url("/images/bg.png"),
@@ -71,6 +75,11 @@ body {
   margin-right: auto;
 }
 
+.header_text {
+  -webkit-text-stroke-width: 1px;
+  -webkit-text-stroke-color: var(--theme-foreground-color);
+}
+
 svg.branded-icon path {
   fill: var(--theme-foreground-color) !important;
 }
@@ -83,10 +92,6 @@ a:hover,
 
 .flex-0 {
   flex: 0;
-}
-
-.full-w {
-  width: 100%;
 }
 
 .prose:not(.prose-editor) {

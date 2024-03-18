@@ -5,6 +5,14 @@
   border: 1px solid var(--theme-card-border);
   border-radius: $border-radius;
 
+  &.noBorderMobile {
+    border: none;
+
+    @include media-md {
+      border: 1px solid var(--theme-card-border);
+    }
+  }
+
   &__header {
     padding: 2 * $theme-unit;
     position: relative;

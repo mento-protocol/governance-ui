@@ -1,10 +1,12 @@
 import { ConnectButton, MentoLock } from "@components/_shared";
-import { CreateProposalFormStepEnum } from "@interfaces/create-proposal.interface";
-import Wrapper from "@components/create-proposal/wrapper/wrapper.component";
-import { useCreateProposalStore, useUserStore } from "@lib/store";
-import { useCallback, useEffect, useState } from "react";
-
-const formStep = CreateProposalFormStepEnum.wallet;
+import { useCallback, useState } from "react";
+import { useAccount } from "wagmi";
+import useTokens from "@lib/contracts/useTokens";
+import CreateProposalWrapper from "@components/create-proposal/create-proposal-wrapper/create-proposal-wrapper.component";
+import {
+  CreateProposalStep,
+  useCreateProposal,
+} from "@components/create-proposal/create-proposal-provider";
 
 enum WalletStepEnum {
   connectWallet = "connectWallet",
@@ -61,41 +63,31 @@ const CurrentFormStep = ({ formStep }: { formStep: WalletStepEnum }) => {
 };
 
 export const CreateProposalWalletStep = () => {
-  const { walletAddress, balanceVeMENTO, balanceMENTO } = useUserStore();
-  const { form, patchWalletStep } = useCreateProposalStore();
+  const { address } = useAccount();
+  const { mentoBalance, veMentoBalance } = useTokens();
+  const { setStep } = useCreateProposal();
 
   const getAndValidateStep = useCallback((): WalletStepEnum => {
-    if (!walletAddress) {
+    if (!address) {
       return WalletStepEnum.connectWallet;
-    } else if (balanceMENTO <= 10) {
+    } else if (mentoBalance.value <= 10) {
       return WalletStepEnum.buyMento;
-    } else if (balanceVeMENTO < 2500) {
+    } else if (veMentoBalance.value < 2500) {
       return WalletStepEnum.lockMento;
     } else {
       return WalletStepEnum.createProposal;
     }
-  }, [walletAddress, balanceVeMENTO, balanceMENTO]);
+  }, [address, mentoBalance.value, veMentoBalance.value]);
 
   const [walletFormStep, setFormStep] = useState(getAndValidateStep());
 
-  useEffect(() => {
-    setFormStep(getAndValidateStep());
-    patchWalletStep({
-      walletAddress: walletAddress || "",
-      balanceVeMENTO,
-      balanceMENTO,
-    });
-  }, [
-    walletAddress,
-    balanceVeMENTO,
-    balanceMENTO,
-    getAndValidateStep,
-    patchWalletStep,
-  ]);
-
   return (
-    <Wrapper step={formStep} title="Connect your wallet & login">
+    <CreateProposalWrapper
+      isOpened={true}
+      onNext={() => setStep(CreateProposalStep.content)}
+      title="Connect your wallet & login"
+    >
       <CurrentFormStep formStep={walletFormStep} />
-    </Wrapper>
+    </CreateProposalWrapper>
   );
 };

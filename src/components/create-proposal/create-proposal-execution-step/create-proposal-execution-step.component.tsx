@@ -1,32 +1,39 @@
 "use client";
 import { useEffect } from "react";
-import { InferType, object, setLocale, string } from "yup";
+import { object, setLocale, string } from "yup";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import Wrapper from "@components/create-proposal/wrapper/wrapper.component";
-import { CreateProposalFormStepEnum } from "@interfaces/create-proposal.interface";
 import { Textarea } from "@components/_shared";
-import { useCreateProposalStore } from "@lib/store";
+import CreateProposalWrapper from "@components/create-proposal/create-proposal-wrapper/create-proposal-wrapper.component";
+import {
+  CreateProposalStep,
+  useCreateProposal,
+} from "@components/create-proposal/create-proposal-provider";
 
-const validationSchema = object({
-  code: string().required().typeError("Invalid code"),
+const validationSchema = object().shape({
+  code: string()
+    .required()
+    .test("json", "Invalid JSON format", (value) => {
+      if (!value) return true;
+
+      try {
+        JSON.parse(value);
+        return true;
+      } catch (error) {
+        return false;
+      }
+    })
+    .typeError("Invalid code"),
 });
 
-type FormData = InferType<typeof validationSchema>;
-
-const formStep = CreateProposalFormStepEnum.execution;
-
 export const CreateProposalExecutionStep = () => {
-  const { patchExecutionStep } = useCreateProposalStore();
+  const { setStep, newProposal, updateProposal } = useCreateProposal();
 
   const {
     register,
     watch,
-    setValue,
-    getValues,
-    handleSubmit,
     formState: { errors, isValid },
-  } = useForm<FormData>({
+  } = useForm({
     resolver: yupResolver(validationSchema),
     mode: "onChange",
   });
@@ -39,19 +46,25 @@ export const CreateProposalExecutionStep = () => {
 
   useEffect(() => {
     const subscription = watch((value) => {
-      patchExecutionStep({
-        code: value.code || "",
-      });
+      value?.code &&
+        updateProposal({
+          ...newProposal,
+          code: value.code,
+        });
     });
     return () => subscription.unsubscribe();
-  }, [watch, patchExecutionStep]);
+  }, [watch, updateProposal, newProposal]);
 
   return (
-    <Wrapper step={formStep} title="Execution Code">
+    <CreateProposalWrapper
+      title="Execution Code"
+      onPrev={() => setStep(CreateProposalStep.content)}
+      onNext={isValid ? () => setStep(CreateProposalStep.preview) : undefined}
+    >
       <div>
         <p className="font-size-x4 line-height-x5 ml-x7">
-          Paste your governance proposal’s execution code in the json format in
-          the field below:
+          Paste your governance proposal&apos;s execution code in the json
+          format in the field below:
         </p>
         <Textarea
           className="mt-x5 mb-x5 min-h-[266px]"
@@ -61,6 +74,6 @@ export const CreateProposalExecutionStep = () => {
           placeholder="Paste your code here"
         />
       </div>
-    </Wrapper>
+    </CreateProposalWrapper>
   );
 };

@@ -1,33 +1,29 @@
 "use client";
 import { useEffect } from "react";
-import { InferType, object, setLocale, string } from "yup";
+import { object, setLocale, string } from "yup";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Input, MarkdownEditor } from "@components/_shared";
-import Wrapper from "@components/create-proposal/wrapper/wrapper.component";
-import { CreateProposalFormStepEnum } from "@interfaces/create-proposal.interface";
-import { useCreateProposalStore } from "@lib/store";
+import CreateProposalWrapper from "@components/create-proposal/create-proposal-wrapper/create-proposal-wrapper.component";
+import {
+  CreateProposalStep,
+  useCreateProposal,
+} from "@components/create-proposal/create-proposal-provider";
 
-const validationSchema = object({
+const validationSchema = object().shape({
   title: string().required().typeError("Invalid title"),
   content: string().required().typeError("Invalid description"),
 });
 
-type FormData = InferType<typeof validationSchema>;
-
-const formStep = CreateProposalFormStepEnum.content;
-
 export const CreateProposalContentStep = () => {
-  const { patchContentStep } = useCreateProposalStore();
+  const { setStep, updateProposal, newProposal } = useCreateProposal();
 
   const {
     register,
     watch,
     setValue,
-    getValues,
-    handleSubmit,
     formState: { errors, isValid },
-  } = useForm<FormData>({
+  } = useForm({
     resolver: yupResolver(validationSchema),
     mode: "onChange",
   });
@@ -40,16 +36,23 @@ export const CreateProposalContentStep = () => {
 
   useEffect(() => {
     const subscription = watch((value) => {
-      patchContentStep({
-        title: value.title || "",
-        description: value.content || "",
+      updateProposal({
+        metadata: {
+          title: value.title || "",
+          description: value.content || "",
+        },
+        transactions: newProposal.transactions,
       });
     });
     return () => subscription.unsubscribe();
-  }, [watch, patchContentStep]);
+  }, [watch, updateProposal, newProposal.transactions]);
 
   return (
-    <Wrapper step={formStep} title="Add name and description">
+    <CreateProposalWrapper
+      title="Add name and description"
+      onPrev={() => setStep(CreateProposalStep.wallet)}
+      onNext={isValid ? () => setStep(CreateProposalStep.execution) : undefined}
+    >
       <div>
         <p className="font-size-x4 line-height-x5 mb-4 ml-x7">
           Give your proposal a title and a description. They will be public when
@@ -69,6 +72,6 @@ export const CreateProposalContentStep = () => {
           markdownChanged={(value) => setValue("content", value)}
         />
       </div>
-    </Wrapper>
+    </CreateProposalWrapper>
   );
 };

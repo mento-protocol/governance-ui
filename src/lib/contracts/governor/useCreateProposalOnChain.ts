@@ -2,7 +2,7 @@ import { GovernorABI } from "@lib/abi/Governor";
 import { useContracts } from "@lib/contracts/useContracts";
 import { useCallback } from "react";
 import { Address } from "viem";
-import { useChainId, useWriteContract } from "wagmi";
+import { useWriteContract } from "wagmi";
 
 export type ProposalCreateParams = {
   metadata: { title: string; description: string };
@@ -13,8 +13,8 @@ export type ProposalCreateParams = {
   }>;
 };
 
-const useCreateProposal = () => {
-  const { data, error, writeContract } = useWriteContract();
+const useCreateProposalOnChain = () => {
+  const { data, error, writeContract, isSuccess } = useWriteContract();
   const { MentoGovernor } = useContracts();
 
   const createProposal = useCallback(
@@ -40,7 +40,8 @@ const useCreateProposal = () => {
     createProposal,
     createError: error,
     createTx: data,
+    isSuccess,
   };
 };
 
-export default useCreateProposal;
+export default useCreateProposalOnChain;

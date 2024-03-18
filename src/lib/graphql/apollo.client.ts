@@ -23,7 +23,7 @@ const SUBGRAPH_URL_ALFAJORES = loadEnvVar(
 );
 
 // have a function to create a client for you
-export function newApolloClient() {
+export function makeClient() {
   const httpLink = createHttpLink({
     // needs to be an absolute url, as relative urls cannot be used in SSR
     uri: (operation) => {

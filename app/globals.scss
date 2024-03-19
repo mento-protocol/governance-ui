@@ -20,9 +20,22 @@ body {
   color: var(--theme-foreground-color);
   font-size: 18px;
   font-weight: 400;
-  line-height: 18px;
+  line-height: 1;
   background-color: var(--theme-background-color);
+  font-family: var(--font-fg);
+
+  @include media-md {
+    font-size: 22px;
+  }
 }
+
+@font-face {
+  font-family: "Founders Grotesk";
+  src: url("/fonts/FoundersGrotesk-Light.otf") format("opentype");
+  font-weight: 300;
+  font-style: normal;
+}
+
 @font-face {
   font-family: "Founders Grotesk";
   src: url("/fonts/FoundersGrotesk-Regular.otf") format("opentype");
@@ -41,6 +54,13 @@ body {
   font-family: "Founders Grotesk";
   src: url("/fonts/FoundersGrotesk-Semibold.otf") format("opentype");
   font-weight: 600;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Founders Grotesk";
+  src: url("/fonts/FoundersGrotesk-Bold.otf") format("opentype");
+  font-weight: 700;
   font-style: normal;
 }
 
@@ -110,6 +130,10 @@ body {
 
 .font-fg {
   font-family: var(--font-fg);
+}
+
+.font-inter {
+  font-family: "Inter", sans-serif;
 }
 
 @include media-md {

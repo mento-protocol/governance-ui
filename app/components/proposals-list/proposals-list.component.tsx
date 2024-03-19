@@ -106,7 +106,6 @@ export const ProposalsListComponent = ({
                   className={classNames(
                     styles.proposals_grid__row__element,
                     styles.last,
-                    "mb-3",
                   )}
                 >
                   {NumbersService.parseNumericValue(

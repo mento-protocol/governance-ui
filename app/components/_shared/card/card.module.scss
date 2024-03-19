@@ -14,27 +14,27 @@
   }
 
   &__header {
-    padding: 2 * $theme-unit;
+    padding: 16px;
     position: relative;
     background-color: inherit;
-    border-radius: $theme-unit $theme-unit 0 0;
+    border-radius: $border-radius $border-radius 0 0;
 
     @include media-md {
-      padding: 4 * $theme-unit;
+      padding: 20px;
       padding-bottom: 2 * $theme-unit;
     }
   }
 
   &__footer,
   &>div {
-    padding: 0 2 * $theme-unit;
+    padding: 0 16px;
 
     &:last-child {
       padding-bottom: 2 * $theme-unit;
     }
 
     @include media-md {
-      padding: 0 4 * $theme-unit;
+      padding: 0 20px;
 
       &:last-child {
         padding-bottom: 4 * $theme-unit;

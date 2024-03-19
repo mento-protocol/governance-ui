@@ -35,7 +35,7 @@
   }
 
   .execution {
-    border-radius: 8px;
+    border-radius: $border-radius;
     border: 1px solid $c-lightGrey;
     padding: 4 * $theme-unit;
   }

@@ -3,5 +3,9 @@
 .divider {
     border-bottom: 1px solid $c-grey;
     width: 1080;
-    margin: 0 4*$theme-unit 1rem;
+    margin: 0 16px 20px;
+
+    @include media-md {
+        margin: 0 20px 20px;
+    }
 }

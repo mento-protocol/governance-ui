@@ -22,7 +22,7 @@ export const ContractParams = () => {
     <div className="grid grid-cols-1 gap-x2 md:grid-cols-7 pt-x4">
       <Card noBorderMobile className="md:col-span-3 flex flex-col">
         <Card.Header>
-          <div className="text-primary text-center md:text-left text-x4 font-light mb-x6">
+          <div className="text-primary text-center md:text-left font-light mb-x6">
             Parameters
           </div>
         </Card.Header>
@@ -45,7 +45,7 @@ export const ContractParams = () => {
       </Card>
       <Card noBorderMobile className="md:col-span-4 flex flex-col">
         <Card.Header>
-          <div className="text-primary text-center md:text-left text-x4 font-light mb-x6">
+          <div className="text-primary text-center md:text-left font-light mb-[20px] md:mb-[30px]">
             Contract addresses
           </div>
         </Card.Header>
@@ -117,8 +117,13 @@ const ParamDisplay = ({
         vertical && "flex-col items-start md:flex-row md:items-center",
       )}
     >
-      <div className="font-semibold">{label}</div>
-      <div className="w-full md:w-auto font-light col-span-2">
+      <div className="font-medium">{label}</div>
+      <div
+        className={classNames(
+          "font-light col-span-2 text-[22px]",
+          vertical && "w-full md:w-auto",
+        )}
+      >
         {value ?? "-"}
       </div>
     </div>

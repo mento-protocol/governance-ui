@@ -75,13 +75,15 @@ const LockEntry = ({
   }, [getLock]);
 
   const expirationDate = useMemo(() => {
-    const startDate = new Date(lock.lockCreate[0].timestamp * 1000);
+    if (!lock.lockCreate || !lock.lockCreate[0]?.timestamp) return undefined;
+    const startDate = new Date(lock.lockCreate[0]?.timestamp * 1000);
     return nextWednesday(addWeeks(startDate, lock.slope + lock.cliff));
   }, [lock]);
 
   const reLock = async () => {
-    const minDate = addWeeks(expirationDate, 4);
-    const maxDate = nextWednesday(addYears(expirationDate, 2));
+    if (!expirationDate) return;
+    const minDate = addWeeks(expirationDate!, 4);
+    const maxDate = nextWednesday(addYears(expirationDate!, 2));
 
     await showModal(
       <ExtendLockModal minDate={minDate} maxDate={maxDate} lock={lock} />,
@@ -98,20 +100,24 @@ const LockEntry = ({
       <div className={styles.item}>{mentoParsed}</div>
       <div className={styles.item}>{vementoParsed}</div>
       <div className={styles.item}>
-        <div>{expirationDate.toLocaleDateString()}</div>
+        <div>{expirationDate?.toLocaleDateString()}</div>
         <div className="md:hidden">
-          <button
-            className="p-0 bg-transparent text-primary transition-all whitespace-nowrap underline hover:text-secondary md:hidden"
-            onClick={reLock}
-          >
-            Extend lock
-          </button>
+          {!!expirationDate && (
+            <button
+              className="p-0 bg-transparent text-primary transition-all whitespace-nowrap underline hover:text-secondary md:hidden"
+              onClick={reLock}
+            >
+              Extend lock
+            </button>
+          )}
         </div>
       </div>
       <div className={classNames(styles.item, "hidden md:block")}>
-        <Button className="md:static" block theme="clear" onClick={reLock}>
-          Extend lock
-        </Button>
+        {!!expirationDate && (
+          <Button className="md:static" block theme="clear" onClick={reLock}>
+            Extend lock
+          </Button>
+        )}
       </div>
     </div>
   );

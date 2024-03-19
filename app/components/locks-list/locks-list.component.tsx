@@ -75,8 +75,10 @@ const LockEntry = ({
   }, [getLock]);
 
   const expirationDate = useMemo(() => {
-    if (!lock.lockCreate || !lock.lockCreate[0]?.timestamp) return undefined;
-    const startDate = new Date(lock.lockCreate[0]?.timestamp * 1000);
+    const createTimestamp =
+      lock.lockCreate[0]?.timestamp || lock.replaces?.relock[0]?.timestamp;
+    if (!createTimestamp) return undefined;
+    const startDate = new Date(createTimestamp * 1000);
     return nextWednesday(addWeeks(startDate, lock.slope + lock.cliff));
   }, [lock]);
 

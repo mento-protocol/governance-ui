@@ -1,5 +1,11 @@
 query getMyLocks($address: String) {
     locks(where: {owner: $address, relocked: false}) {
+        replaces{
+            lockId
+            relock{
+                timestamp
+            }
+        }
         lockId
         owner {
             id
@@ -11,6 +17,10 @@ query getMyLocks($address: String) {
         lockCreate {
             id,
             timestamp,
+        }
+        relock {
+            id,
+            timestamp
         }
     }
 }

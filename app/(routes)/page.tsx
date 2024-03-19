@@ -22,7 +22,6 @@ const Page = () => {
   const router = useRouter();
   const { walletAddress } = useUserStore();
   const { chain } = useAccount();
-  console.log("chain", chain);
 
   const chainKind = chain?.testnet ? "Testnet" : "Mainnet";
   const chainText = chain?.name || "CELO";

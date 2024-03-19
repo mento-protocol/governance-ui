@@ -112,7 +112,7 @@ export const Header = ({ className, style }: HeaderProps) => {
           <MentoLogoIcon useThemeColor />
         </Link>
         <Button theme="link" onClick={() => setDrawerOpened(!drawerOpened)}>
-          <MenuIcon />
+          <MenuIcon opened={drawerOpened} />
         </Button>
       </div>
     </header>

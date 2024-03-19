@@ -192,6 +192,51 @@ a:hover,
   max-width: 100%;
 }
 
+.hamburger {
+  position: relative;
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+
+  span {
+    position: absolute;
+    width: 100%;
+    height: 2px;
+    background-color: var(--theme-foreground-color);
+    transition: 0.3s;
+  }
+
+  span:nth-child(1) {
+    top: 0;
+  }
+
+  span:nth-child(2) {
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  span:nth-child(3) {
+    bottom: 0;
+  }
+
+    &.opened {
+        span:nth-child(1) {
+        top: 50%;
+        transform: translateY(-50%) rotate(45deg);
+        }
+
+        span:nth-child(2) {
+        opacity: 0;
+        }
+
+        span:nth-child(3) {
+        top: 50%;
+        transform: translateY(-50%) rotate(-45deg);
+        }
+    }
+}
+
 @each $color, $value in $brandColors {
   @include theme-class(bg-#{$color}, (background-color), $value);
   @include theme-class(text-#{$color}, (color), $value);

@@ -31,7 +31,7 @@ const useCreateProposalOnChain = () => {
           proposal.transactions.map((transaction) => toHex(transaction.data)), // TODO: Confirm this doesn't need toBytes first
           JSON.stringify(proposal.metadata),
         ],
-      } as const);
+      });
     },
     [writeContract, MentoGovernor.address],
   );

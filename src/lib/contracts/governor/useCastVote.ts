@@ -23,7 +23,7 @@ const useCastVote = () => {
         abi: GovernorABI,
         functionName: "castVote",
         args: [BigInt(proposalId).valueOf(), support],
-      } as const);
+      });
     },
     [contracts.MentoGovernor.address, writeContract],
   );

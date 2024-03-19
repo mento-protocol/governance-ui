@@ -29,7 +29,7 @@ const useLockMento = () => {
         abi: LockingABI,
         functionName: "lock",
         args: [account, delegate, BigInt(amount), slope, cliff],
-      } as const);
+      });
     },
     [contracts.Locking.address, writeContract],
   );

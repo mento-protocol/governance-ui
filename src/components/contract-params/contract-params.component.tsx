@@ -160,10 +160,11 @@ const ContractAddressLinkWithCopy = ({
 function useGovernanceDetails() {
   const governanceContractAddresses = useGovernanceContractAddresses();
 
-  const govenorContact = {
+  const governorContact = {
     address: governanceContractAddresses.governor,
     abi: GovernorABI,
   } as const;
+
   const timeLockContract = {
     address: governanceContractAddresses.timelock,
     abi: TimelockControllerABI,
@@ -172,15 +173,15 @@ function useGovernanceDetails() {
   const result = useReadContracts({
     contracts: [
       {
-        ...govenorContact,
+        ...governorContact,
         functionName: "votingPeriod",
       },
       {
-        ...govenorContact,
+        ...governorContact,
         functionName: "proposalThreshold",
       },
       {
-        ...govenorContact,
+        ...governorContact,
         functionName: "quorumVotes",
       },
       {

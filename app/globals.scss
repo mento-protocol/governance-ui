@@ -64,6 +64,14 @@ a:hover,
   max-width: 100%;
 }
 
+.rdp-day_outside:not(.rdp-day_disabled) {
+  opacity: 1;
+}
+
+.rdp-button:hover:not([disabled]):not(.rdp-day_selected) {
+  color: $c-black;
+}
+
 @each $color, $value in $brandColors {
   @include theme-class(bg-#{$color}, (background-color), $value);
   @include theme-class(text-#{$color}, (color), $value);

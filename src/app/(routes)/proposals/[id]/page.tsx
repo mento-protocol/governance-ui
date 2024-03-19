@@ -5,20 +5,20 @@ import { useBlock, useBlockNumber } from "wagmi";
 import { useSuspenseQuery } from "@apollo/experimental-nextjs-app-support/ssr";
 import classNames from "classnames";
 import { format } from "date-fns";
-import { GetProposal, Proposal, ProposalState } from "@lib/graphql";
+import { GetProposal, Proposal, ProposalState } from "@/lib/graphql";
 import styles from "./page.module.scss";
 
 // Components
-import BlockExplorerLink from "@components/_shared/block-explorer-link/block-explorer-link.component";
-import { MarkdownView } from "@components/_shared/markdown-view/markdown-view.component";
-import { Countdown } from "@components/countdown/countdown.component";
-import { Avatar, Badge, WalletAddressWithCopy } from "@components/_shared";
-import { ProposalCurrentVotes } from "@components/proposal-current-votes/proposal-current-votes.component";
-import { stateToBadgeColorMap } from "@interfaces/proposal.interface";
+import BlockExplorerLink from "@/components/_shared/block-explorer-link/block-explorer-link.component";
+import { MarkdownView } from "@/components/_shared/markdown-view/markdown-view.component";
+import { Countdown } from "@/components/countdown/countdown.component";
+import { Avatar, Badge, WalletAddressWithCopy } from "@/components/_shared";
+import { ProposalCurrentVotes } from "@/components/proposal-current-votes/proposal-current-votes.component";
+import { stateToBadgeColorMap } from "@/interfaces/proposal.interface";
 import ExecutionCode from "./_components/execution-code.component";
 import Participants from "./_components/participants.component";
 import Vote from "./_components/vote.component";
-import { useProposalStates } from "@lib/contracts/governor/useProposalStates";
+import { useProposalStates } from "@/lib/contracts/governor/useProposalStates";
 
 const Page = ({ params }: { params: { id: string } }) => {
   /**

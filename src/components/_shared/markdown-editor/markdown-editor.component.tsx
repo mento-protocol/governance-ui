@@ -26,8 +26,8 @@ import {
   toolbarPlugin,
 } from "@mdxeditor/editor";
 import "@mdxeditor/editor/style.css";
-import BaseComponentProps from "@interfaces/base-component-props.interface";
-import { MarkdownView } from "@components/_shared";
+import BaseComponentProps from "@/interfaces/base-component-props.interface";
+import { MarkdownView } from "@/components/_shared";
 import styles from "./markdown-editor.module.scss";
 
 interface MarkdownEditorProps extends BaseComponentProps {

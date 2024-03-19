@@ -2,25 +2,25 @@ import { useAccount } from "wagmi";
 
 import { UserRejectedRequestError } from "viem";
 
-import { Button, Card } from "@components/_shared";
-import { ChevronIcon } from "@components/_icons";
-import BlockExplorerLink from "@components/_shared/block-explorer-link/block-explorer-link.component";
+import { Button, Card } from "@/components/_shared";
+import { ChevronIcon } from "@/components/_icons";
+import BlockExplorerLink from "@/components/_shared/block-explorer-link/block-explorer-link.component";
 
-import { Proposal } from "@lib/graphql";
+import { Proposal } from "@/lib/graphql";
 
-import ErrorHelper from "@lib/helpers/error.helper";
-import { SuccessIcon } from "@components/_icons/success-icon";
-import VotingCardTitle from "@components/_shared/vote-voting-card-title/voting-card-title";
+import ErrorHelper from "@/lib/helpers/error.helper";
+import { SuccessIcon } from "@/components/_icons/success-icon";
+import VotingCardTitle from "@/components/_shared/vote-voting-card-title/voting-card-title";
 import DisconnectedState from "./disconnected-state";
-import LoadingState from "@components/_shared/vote-loading-state/vote-loading-state";
+import LoadingState from "@/components/_shared/vote-loading-state/vote-loading-state";
 import VotingButtons from "./voting-buttons";
 import LockedBalance from "./locked-balance";
 
 import HasVoted from "./has-voted";
 import VoteConfirmation from "./vote-confirmation";
-import useTokens from "@lib/contracts/useTokens";
-import useCastVote from "@lib/contracts/governor/useCastVote";
-import useVoteReceipt from "@lib/contracts/governor/useVoteReceipt";
+import useTokens from "@/lib/contracts/useTokens";
+import useCastVote from "@/lib/contracts/governor/useCastVote";
+import useVoteReceipt from "@/lib/contracts/governor/useVoteReceipt";
 
 export const VOTE_TYPES = {
   Against: 0,

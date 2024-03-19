@@ -1,8 +1,8 @@
-import WalletHelper from "@lib/helpers/wallet.helper";
-import { Card, Loader } from "@components/_shared";
-import VotingCardTitle from "@components/_shared/vote-voting-card-title/voting-card-title";
+import WalletHelper from "@/lib/helpers/wallet.helper";
+import { Card, Loader } from "@/components/_shared";
+import VotingCardTitle from "@/components/_shared/vote-voting-card-title/voting-card-title";
 import VoteTypePill from "./vote-type-pill";
-import { Proposal } from "@lib/graphql";
+import { Proposal } from "@/lib/graphql";
 
 const VoteConfirmation = ({
   voteType,

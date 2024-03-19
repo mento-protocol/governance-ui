@@ -2,8 +2,8 @@ import { useCallback, useEffect, useMemo } from "react";
 import { date, number, object, setLocale } from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
-import BaseComponentProps from "@interfaces/base-component-props.interface";
-import { Button, DatePicker, Input, Slider } from "@components/_shared";
+import BaseComponentProps from "@/interfaces/base-component-props.interface";
+import { Button, DatePicker, Input, Slider } from "@/components/_shared";
 import {
   addMonths,
   addYears,
@@ -12,11 +12,11 @@ import {
   nextWednesday,
   setISODay,
 } from "date-fns";
-import useModal from "@lib/providers/modal.provider";
+import useModal from "@/lib/providers/modal.provider";
 import { formatUnits } from "viem";
-import useTokens from "@lib/contracts/useTokens";
+import useTokens from "@/lib/contracts/useTokens";
 import { useAccount } from "wagmi";
-import useLockMento from "@lib/contracts/locking/useLockMento";
+import useLockMento from "@/lib/contracts/locking/useLockMento";
 
 interface MentoLockProps extends BaseComponentProps {}
 

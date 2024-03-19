@@ -1,7 +1,7 @@
 import { ReactNode } from "react";
 import classNames from "classnames";
-import BaseComponentProps from "@interfaces/base-component-props.interface";
-import BaseInputProps from "@interfaces/base-input-props.interface";
+import BaseComponentProps from "@/interfaces/base-component-props.interface";
+import BaseInputProps from "@/interfaces/base-input-props.interface";
 import styles from "./textarea.module.scss";
 
 interface TextAreaProps extends BaseComponentProps, BaseInputProps {

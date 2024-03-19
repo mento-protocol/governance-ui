@@ -1,7 +1,7 @@
 "use client";
 import { useMemo } from "react";
 import { usePathname } from "next/navigation";
-import { routingMap } from "@lib/helpers/routing.map";
+import { routingMap } from "@/lib/helpers/routing.map";
 import styles from "./breadcrumbs.module.scss";
 
 type CrumbProps = {

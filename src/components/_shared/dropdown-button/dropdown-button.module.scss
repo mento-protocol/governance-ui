@@ -1,4 +1,4 @@
-@import "@styles/brand";
+@import "@/styles/brand";
 
 @mixin branded-dropdown($border-color, $background-color, $foreground-color) {
   .dropdown {

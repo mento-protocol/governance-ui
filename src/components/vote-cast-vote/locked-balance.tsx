@@ -1,6 +1,6 @@
 import { formatUnits } from "viem";
-import useTokens from "@lib/contracts/useTokens";
-import NumbersService from "@lib/helpers/numbers.service";
+import useTokens from "@/lib/contracts/useTokens";
+import NumbersService from "@/lib/helpers/numbers.service";
 
 const LockedBalance = () => {
   const { veMentoBalance } = useTokens();

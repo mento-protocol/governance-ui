@@ -1,7 +1,7 @@
-import BaseComponentProps from "@interfaces/base-component-props.interface";
+import BaseComponentProps from "@/interfaces/base-component-props.interface";
 import classNames from "classnames";
 import { useEffect, useState } from "react";
-import { DarkModeIcon, LightModeIcon } from "@components/_icons";
+import { DarkModeIcon, LightModeIcon } from "@/components/_icons";
 import styles from "./theme-switch.module.scss";
 
 enum Mode {

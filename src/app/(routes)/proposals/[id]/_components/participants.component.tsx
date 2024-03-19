@@ -1,7 +1,7 @@
 import classNames from "classnames";
-import { Card, TabList } from "@components/_shared";
-import { VotesList } from "@components/votes-list/votes-list.component";
-import type { ProposalVotes } from "@lib/graphql";
+import { Card, TabList } from "@/components/_shared";
+import { VotesList } from "@/components/votes-list/votes-list.component";
+import type { ProposalVotes } from "@/lib/graphql";
 import styles from "../page.module.scss";
 
 type Props = {

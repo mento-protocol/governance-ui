@@ -1,7 +1,7 @@
 import { ReactNode } from "react";
 import classNames from "classnames";
-import BaseComponentProps from "@interfaces/base-component-props.interface";
-import { BadgeType } from "@lib/types";
+import BaseComponentProps from "@/interfaces/base-component-props.interface";
+import { BadgeType } from "@/lib/types";
 import styles from "./badge.module.scss";
 
 interface BadgeProps extends BaseComponentProps {

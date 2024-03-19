@@ -1,7 +1,7 @@
 import { addresses, ContractAddresses } from "@mento-protocol/mento-sdk";
 import { Address, defineChain } from "viem";
 import { celo, celoAlfajores } from "viem/chains";
-import { MentoChain, MentoChainContracts } from "@lib/types";
+import { MentoChain, MentoChainContracts } from "@/lib/types";
 
 export const Celo: MentoChain = defineChain({
   ...celo,

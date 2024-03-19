@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import { useChainId, useConfig } from "wagmi";
-import { MentoChain, MentoChainContracts } from "@lib/types";
-import { Celo } from "@config/chains";
+import { MentoChain, MentoChainContracts } from "@/lib/types";
+import { Celo } from "@/config/chains";
 
 export const useContracts = (): MentoChainContracts => {
   const config = useConfig();

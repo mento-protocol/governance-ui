@@ -7,7 +7,7 @@ import {
   ProposalVotes,
   VoteCast,
 } from "../generated/graphql";
-import { proposalToStateVar } from "@lib/contracts/governor/useProposalStates";
+import { proposalToStateVar } from "@/lib/contracts/governor/useProposalStates";
 
 export const ProposalPolicy: TypePolicy = {
   fields: {

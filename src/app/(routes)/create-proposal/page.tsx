@@ -5,9 +5,9 @@ import {
   CreateProposalContentStep,
   CreateProposalWalletStep,
   CreateProposalPreviewStep,
-} from "@components/create-proposal";
+} from "@/components/create-proposal";
 import styles from "./page.module.scss";
-import { CreateProposalProvider } from "@components/create-proposal/create-proposal-provider";
+import { CreateProposalProvider } from "@/components/create-proposal/create-proposal-provider";
 
 const Page = () => {
   return (

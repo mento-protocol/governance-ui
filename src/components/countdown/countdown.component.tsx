@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import classNames from "classnames";
-import BaseComponentProps from "@interfaces/base-component-props.interface";
+import BaseComponentProps from "@/interfaces/base-component-props.interface";
 import styles from "./countdown.module.scss";
 
 const getTimeLeftValues = (countDown: number) => {

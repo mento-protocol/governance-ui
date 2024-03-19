@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
 import classNames from "classnames";
-import BaseComponentProps from "@interfaces/base-component-props.interface";
+import BaseComponentProps from "@/interfaces/base-component-props.interface";
 import styles from "./card.module.scss";
 
 interface CardPartialProps extends BaseComponentProps {

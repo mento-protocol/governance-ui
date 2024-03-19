@@ -1,6 +1,6 @@
 import classNames from "classnames";
 import { usePathname } from "next/navigation";
-import BaseComponentProps from "@interfaces/base-component-props.interface";
+import BaseComponentProps from "@/interfaces/base-component-props.interface";
 import {
   ChevronIcon,
   DiscordIcon,
@@ -8,11 +8,11 @@ import {
   MentoLogoIcon,
   TwitterIcon,
   LearnMoreIcon,
-} from "@components/_icons";
+} from "@/components/_icons";
 import Link from "next/link";
-import { Button } from "@components/_shared";
-import exports from "@styles/exports.module.scss";
-import { ThemeSwitch } from "@components/theme-switch/theme-switch.component";
+import { Button } from "@/components/_shared";
+import exports from "@/styles/exports.module.scss";
+import { ThemeSwitch } from "@/components/theme-switch/theme-switch.component";
 import styles from "./footer.module.scss";
 
 interface FooterProps extends BaseComponentProps {}

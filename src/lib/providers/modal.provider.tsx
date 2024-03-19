@@ -1,6 +1,6 @@
 import { createContext, ReactNode, useContext, useState } from "react";
-import modalStyles from "@styles/modal.module.scss";
-import { Button, Card } from "@components/_shared";
+import modalStyles from "@/styles/modal.module.scss";
+import { Button, Card } from "@/components/_shared";
 import classNames from "classnames";
 
 interface ModalProviderProps {

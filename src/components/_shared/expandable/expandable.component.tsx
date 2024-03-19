@@ -1,8 +1,8 @@
 "use client";
 import { ReactNode, useState } from "react";
 import classNames from "classnames";
-import BaseComponentProps from "@interfaces/base-component-props.interface";
-import { ChevronIcon } from "@components/_icons";
+import BaseComponentProps from "@/interfaces/base-component-props.interface";
+import { ChevronIcon } from "@/components/_icons";
 import styles from "./expandable.module.scss";
 
 interface ExpandableProps extends BaseComponentProps {

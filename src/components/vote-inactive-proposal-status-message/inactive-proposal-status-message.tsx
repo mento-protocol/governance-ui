@@ -1,6 +1,6 @@
-import { ProposalState } from "@lib/graphql";
+import { ProposalState } from "@/lib/graphql";
 import React from "react";
-import { Card } from "@components/_shared";
+import { Card } from "@/components/_shared";
 
 const exploreLaterMessage =
   "Please explore other proposals to participate in the Mento ecosystem!";

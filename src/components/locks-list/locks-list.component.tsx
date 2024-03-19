@@ -1,9 +1,9 @@
-import { LockingABI } from "@lib/abi/Locking";
-import { GetLocksDocument, Lock } from "@lib/graphql";
-import { useContracts } from "@lib/contracts/useContracts";
-import useModal from "@lib/providers/modal.provider";
+import { LockingABI } from "@/lib/abi/Locking";
+import { GetLocksDocument, Lock } from "@/lib/graphql";
+import { useContracts } from "@/lib/contracts/useContracts";
+import useModal from "@/lib/providers/modal.provider";
 import { useSuspenseQuery } from "@apollo/client";
-import BaseComponentProps from "@interfaces/base-component-props.interface";
+import BaseComponentProps from "@/interfaces/base-component-props.interface";
 import classNames from "classnames";
 import { addWeeks, nextWednesday } from "date-fns";
 import { useCallback, useMemo } from "react";

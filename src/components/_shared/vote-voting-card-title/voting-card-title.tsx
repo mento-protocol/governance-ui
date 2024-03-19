@@ -1,5 +1,5 @@
 import React from "react";
-import { Card } from "@components/_shared";
+import { Card } from "@/components/_shared";
 
 const VotingCardTitle = ({
   children = "Cast Votes",

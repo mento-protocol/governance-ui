@@ -7,7 +7,7 @@ import {
   NextSSRInMemoryCache,
   SSRMultipartLink,
 } from "@apollo/experimental-nextjs-app-support/ssr";
-import loadEnvVar from "@lib/helpers/load-env-var";
+import loadEnvVar from "@/lib/helpers/load-env-var";
 import { ProposalPolicy } from "./subgraph/policies/Proposal";
 
 const CELO_EXPLORER_API_URL = loadEnvVar(

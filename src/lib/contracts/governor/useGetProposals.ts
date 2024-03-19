@@ -1,5 +1,5 @@
 import { useSuspenseQuery } from "@apollo/client";
-import { GetProposals, Proposal } from "@lib/graphql";
+import { GetProposals, Proposal } from "@/lib/graphql";
 import { useChainId } from "wagmi";
 
 const useGetProposals = () => {

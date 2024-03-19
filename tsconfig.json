@@ -27,25 +27,25 @@
       // "@/*": [
       //   "./*"
       // ],
-      "@app/*": [
+      "@/app/*": [
         "./src/app/*"
       ],
-      "@components/*": [
+      "@/components/*": [
         "./src/components/*"
       ],
-      "@config/*": [
+      "@/config/*": [
         "./src/config/*"
       ],
-      "@lib/*": [
+      "@/lib/*": [
         "./src/lib/*"
       ],
-      "@interfaces/*": [
+      "@/interfaces/*": [
         "./src/lib/interfaces/*"
       ],
-      "@types/*": [
+      "@/types/*": [
         "./src/lib/types/*"
       ],
-      "@styles/*": [
+      "@/styles/*": [
         "./src/styles/*"
       ]
     }

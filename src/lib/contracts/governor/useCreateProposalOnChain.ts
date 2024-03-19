@@ -1,5 +1,5 @@
-import { GovernorABI } from "@lib/abi/Governor";
-import { useContracts } from "@lib/contracts/useContracts";
+import { GovernorABI } from "@/lib/abi/Governor";
+import { useContracts } from "@/lib/contracts/useContracts";
 import { useCallback } from "react";
 import { Address, toBytes, toHex } from "viem";
 import { useWriteContract } from "wagmi";

@@ -1,9 +1,9 @@
 "use client";
 import { ReactNode, useEffect, useMemo, useState } from "react";
 import classNames from "classnames";
-import BaseComponentProps from "@interfaces/base-component-props.interface";
-import BaseInputProps from "@interfaces/base-input-props.interface";
-import exports from "@styles/exports.module.scss";
+import BaseComponentProps from "@/interfaces/base-component-props.interface";
+import BaseInputProps from "@/interfaces/base-input-props.interface";
+import exports from "@/styles/exports.module.scss";
 import styles from "./slider.module.scss";
 
 interface SliderProps extends BaseComponentProps, BaseInputProps {

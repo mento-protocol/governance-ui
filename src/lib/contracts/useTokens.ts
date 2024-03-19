@@ -1,5 +1,5 @@
 import { useAccount, useBalance, useCall } from "wagmi";
-import { useContracts } from "@lib/contracts/useContracts";
+import { useContracts } from "@/lib/contracts/useContracts";
 import { useCallback } from "react";
 
 export type TokenBalance = {

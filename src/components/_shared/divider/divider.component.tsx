@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import BaseComponentProps from "@interfaces/base-component-props.interface";
+import BaseComponentProps from "@/interfaces/base-component-props.interface";
 import styles from "./divider.module.scss";
 
 export const Divider = ({ className, style }: BaseComponentProps) => {

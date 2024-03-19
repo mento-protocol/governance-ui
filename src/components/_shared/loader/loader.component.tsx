@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import { MentoIcon } from "@components/_icons";
+import { MentoIcon } from "@/components/_icons";
 import styles from "./loader.module.scss";
 
 export const Loader = ({

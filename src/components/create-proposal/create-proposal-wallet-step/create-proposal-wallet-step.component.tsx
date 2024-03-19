@@ -1,12 +1,12 @@
-import { ConnectButton, MentoLock } from "@components/_shared";
+import { ConnectButton, MentoLock } from "@/components/_shared";
 import { useCallback, useState } from "react";
 import { useAccount } from "wagmi";
-import useTokens from "@lib/contracts/useTokens";
-import CreateProposalWrapper from "@components/create-proposal/create-proposal-wrapper/create-proposal-wrapper.component";
+import useTokens from "@/lib/contracts/useTokens";
+import CreateProposalWrapper from "@/components/create-proposal/create-proposal-wrapper/create-proposal-wrapper.component";
 import {
   CreateProposalStep,
   useCreateProposal,
-} from "@components/create-proposal/create-proposal-provider";
+} from "@/components/create-proposal/create-proposal-provider";
 import { parseUnits } from "viem";
 
 enum WalletStepEnum {

@@ -1,6 +1,6 @@
 import classNames from "classnames";
-import BaseComponentProps from "@interfaces/base-component-props.interface";
-import styles from "@components/_shared/dropdown-button/dropdown-button.module.scss";
+import BaseComponentProps from "@/interfaces/base-component-props.interface";
+import styles from "@/components/_shared/dropdown-button/dropdown-button.module.scss";
 
 export const Dropdown = ({
   children,

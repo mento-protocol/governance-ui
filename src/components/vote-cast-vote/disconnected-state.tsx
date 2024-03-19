@@ -1,5 +1,5 @@
-import { Card, ConnectButton } from "@components/_shared";
-import VotingCardTitle from "@components/_shared/vote-voting-card-title/voting-card-title";
+import { Card, ConnectButton } from "@/components/_shared";
+import VotingCardTitle from "@/components/_shared/vote-voting-card-title/voting-card-title";
 
 const DisconnectedState = () => {
   return (

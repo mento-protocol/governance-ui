@@ -1,8 +1,8 @@
-import { useContracts } from "@lib/contracts/useContracts";
+import { useContracts } from "@/lib/contracts/useContracts";
 import { useReadContract } from "wagmi";
-import { LockingABI } from "@lib/abi/Locking";
+import { LockingABI } from "@/lib/abi/Locking";
 import { useSuspenseQuery } from "@apollo/client";
-import { GetAllLocks, Lock } from "@lib/graphql";
+import { GetAllLocks, Lock } from "@/lib/graphql";
 
 const useLockingContract = () => {
   const contracts = useContracts();

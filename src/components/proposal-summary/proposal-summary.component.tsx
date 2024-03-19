@@ -1,9 +1,9 @@
 import { useMemo } from "react";
 import { formatUnits } from "viem";
 import { useBlockNumber } from "wagmi";
-import { Card } from "@components/_shared";
-import useLockingContract from "@lib/contracts/locking/useLockingContract";
-import useGetProposals from "@lib/contracts/governor/useGetProposals";
+import { Card } from "@/components/_shared";
+import useLockingContract from "@/lib/contracts/locking/useLockingContract";
+import useGetProposals from "@/lib/contracts/governor/useGetProposals";
 
 const ProposalSummaryComponent = () => {
   const { totalSupply, locks, currentWeek } = useLockingContract();

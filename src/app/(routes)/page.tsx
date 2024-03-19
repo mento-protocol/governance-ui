@@ -1,8 +1,8 @@
 "use client";
 import { Suspense } from "react";
 import { useRouter } from "next/navigation";
-import { MentoIcon } from "@components/_icons/mento.icon";
-import { MentoTextLogoIcon, CeloLogoIcon } from "@components/_icons";
+import { MentoIcon } from "@/components/_icons/mento.icon";
+import { MentoTextLogoIcon, CeloLogoIcon } from "@/components/_icons";
 import {
   Badge,
   Button,
@@ -10,11 +10,11 @@ import {
   Divider,
   DropdownButton,
   Expandable,
-} from "@components/_shared";
-import { ProposalsListComponent } from "@components/proposals-list/proposals-list.component";
-import { Loader } from "@components/_shared";
-import { ContractParams } from "@components/contract-params/contract-params.component";
-import ProposalSummaryComponent from "@components/proposal-summary/proposal-summary.component";
+} from "@/components/_shared";
+import { ProposalsListComponent } from "@/components/proposals-list/proposals-list.component";
+import { Loader } from "@/components/_shared";
+import { ContractParams } from "@/components/contract-params/contract-params.component";
+import ProposalSummaryComponent from "@/components/proposal-summary/proposal-summary.component";
 import { useAccount } from "wagmi";
 
 const Page = () => {

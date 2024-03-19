@@ -1,5 +1,5 @@
-import { Card } from "@components/_shared";
-import VotingCardTitle from "@components/_shared/vote-voting-card-title/voting-card-title";
+import { Card } from "@/components/_shared";
+import VotingCardTitle from "@/components/_shared/vote-voting-card-title/voting-card-title";
 import VoteTypePill from "./vote-type-pill";
 
 const HasVoted = ({ voteType }: { voteType: number }) => {

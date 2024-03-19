@@ -1,13 +1,13 @@
-import { Card } from "@components/_shared";
+import { Card } from "@/components/_shared";
 import {
   MultiProgressBar,
   MultiProgressBarValue,
-} from "@components/_shared/progress-bar/progress-bar.component";
-import BaseComponentProps from "@interfaces/base-component-props.interface";
+} from "@/components/_shared/progress-bar/progress-bar.component";
+import BaseComponentProps from "@/interfaces/base-component-props.interface";
 import classNames from "classnames";
 import styles from "./proposal-current-votes.module.scss";
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { IVote } from "@lib/interfaces/vote.interface";
+import { IVote } from "@/lib/interfaces/vote.interface";
 
 interface ProposalCurrentVotesProps extends BaseComponentProps {}
 

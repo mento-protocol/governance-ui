@@ -1,7 +1,7 @@
 import { useCallback } from "react";
-import { useContracts } from "@lib/contracts/useContracts";
+import { useContracts } from "@/lib/contracts/useContracts";
 import { useWaitForTransactionReceipt, useWriteContract } from "wagmi";
-import { LockingABI } from "@lib/abi/Locking";
+import { LockingABI } from "@/lib/abi/Locking";
 import { Address } from "viem";
 
 const useLockMento = () => {

@@ -1,4 +1,4 @@
-@import "@styles/brand";
+@import "@/styles/brand";
 
 @mixin branded-badge($border-color, $background-color, $foreground-color) {
   border: 1px solid $border-color;

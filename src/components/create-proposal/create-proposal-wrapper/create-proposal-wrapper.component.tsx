@@ -1,11 +1,11 @@
 import { ReactNode, useMemo } from "react";
 import classNames from "classnames";
-import { Button, Card, StepCounter } from "@components/_shared";
+import { Button, Card, StepCounter } from "@/components/_shared";
 import styles from "../create-proposal.module.scss";
 import {
   CreateProposalStep,
   useCreateProposal,
-} from "@components/create-proposal/create-proposal-provider";
+} from "@/components/create-proposal/create-proposal-provider";
 
 interface ICreateProposalWrapper {
   className?: string;

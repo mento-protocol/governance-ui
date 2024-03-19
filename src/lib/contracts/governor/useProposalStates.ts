@@ -18,12 +18,12 @@
  * See https://www.apollographql.com/docs/react/local-state/managing-state-with-field-policies/#storing-local-state-in-reactive-variables
  */
 
-import { GovernorABI } from "@lib/abi/Governor";
-import { Proposal, ProposalState, Scalars } from "@lib/graphql";
+import { GovernorABI } from "@/lib/abi/Governor";
+import { Proposal, ProposalState, Scalars } from "@/lib/graphql";
 import { makeVar } from "@apollo/client/cache";
 import { useEffect } from "react";
 import { useReadContracts } from "wagmi";
-import { useContracts } from "@lib/contracts/useContracts";
+import { useContracts } from "@/lib/contracts/useContracts";
 
 type ProposalID = Scalars["ID"]["output"];
 type ProposalToState = Record<ProposalID, ProposalState>;

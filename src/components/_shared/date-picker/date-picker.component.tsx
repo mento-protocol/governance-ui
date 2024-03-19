@@ -3,8 +3,8 @@ import { ReactNode, useEffect, useMemo, useRef, useState } from "react";
 import { isBefore, addDays } from "date-fns";
 import classNames from "classnames";
 import { DayPicker, SelectSingleEventHandler } from "react-day-picker";
-import BaseComponentProps from "@interfaces/base-component-props.interface";
-import useOutsideAlerter from "@lib/hooks/useOutsideAlerter";
+import BaseComponentProps from "@/interfaces/base-component-props.interface";
+import useOutsideAlerter from "@/lib/hooks/useOutsideAlerter";
 import "react-day-picker/dist/style.css";
 import styles from "./date-picker.module.scss";
 

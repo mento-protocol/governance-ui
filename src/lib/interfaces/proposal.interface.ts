@@ -1,5 +1,5 @@
-import { BadgeType } from "@lib/types";
-import { ProposalState } from "@lib/graphql";
+import { BadgeType } from "@/lib/types";
+import { ProposalState } from "@/lib/graphql";
 
 export const stateToBadgeColorMap: Record<ProposalState, BadgeType> = {
   [ProposalState.Active]: "primary",

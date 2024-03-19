@@ -1,7 +1,7 @@
 import { useCallback } from "react";
 import { useWaitForTransactionReceipt, useWriteContract } from "wagmi";
-import { useContracts } from "@lib/contracts/useContracts";
-import { GovernorABI } from "@lib/abi/Governor";
+import { useContracts } from "@/lib/contracts/useContracts";
+import { GovernorABI } from "@/lib/abi/Governor";
 
 const useCastVote = () => {
   const contracts = useContracts();

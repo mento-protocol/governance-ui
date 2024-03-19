@@ -1,8 +1,8 @@
 import { ReactNode } from "react";
 import classNames from "classnames";
 import Link from "next/link";
-import BaseComponentProps from "@interfaces/base-component-props.interface";
-import { ButtonType } from "@lib/types";
+import BaseComponentProps from "@/interfaces/base-component-props.interface";
+import { ButtonType } from "@/lib/types";
 import styles from "./button.module.scss";
 
 interface ButtonProps extends BaseComponentProps {

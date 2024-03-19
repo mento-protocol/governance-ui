@@ -1,4 +1,4 @@
-import BaseIconProps from "@interfaces/base-icon-props.interface";
+import BaseIconProps from "@/interfaces/base-icon-props.interface";
 
 export const LearnMoreIcon = ({ width = 397, height = 315 }: BaseIconProps) => {
   return (

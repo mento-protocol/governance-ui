@@ -2,12 +2,12 @@ import { useMemo } from "react";
 import { decodeFunctionData } from "viem";
 import { useChainId } from "wagmi";
 import { useQuery } from "@apollo/experimental-nextjs-app-support/ssr";
-import BlockExplorerLink from "@components/_shared/block-explorer-link/block-explorer-link.component";
+import BlockExplorerLink from "@/components/_shared/block-explorer-link/block-explorer-link.component";
 import {
   GetContractsInfo,
   type GetContractsInfoQuery,
   type ProposalCall,
-} from "@lib/graphql";
+} from "@/lib/graphql";
 
 type Props = {
   calls: ProposalCall[];

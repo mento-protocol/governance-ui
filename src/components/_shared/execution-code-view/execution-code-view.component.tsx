@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { SeeAll } from "@components/_shared";
+import { SeeAll } from "@/components/_shared";
 import styles from "./execution-code-view.module.scss";
 
 interface ExecutionCodeViewProps {

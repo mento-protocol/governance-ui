@@ -1,17 +1,17 @@
-import { GetProposals, Proposal } from "@lib/graphql";
-import NumbersService from "@lib/helpers/numbers.service";
-import StringService from "@lib/helpers/string.service";
+import { GetProposals, Proposal } from "@/lib/graphql";
+import NumbersService from "@/lib/helpers/numbers.service";
+import StringService from "@/lib/helpers/string.service";
 import { useSuspenseQuery } from "@apollo/experimental-nextjs-app-support/ssr";
-import { Card, ProgressBar } from "@components/_shared";
-import { Badge } from "@components/_shared/badge/badge.component";
-import BaseComponentProps from "@interfaces/base-component-props.interface";
-import { stateToBadgeColorMap } from "@interfaces/proposal.interface";
+import { Card, ProgressBar } from "@/components/_shared";
+import { Badge } from "@/components/_shared/badge/badge.component";
+import BaseComponentProps from "@/interfaces/base-component-props.interface";
+import { stateToBadgeColorMap } from "@/interfaces/proposal.interface";
 import classNames from "classnames";
 import Link from "next/link";
 import { formatUnits, numberToHex } from "viem";
 import { useChainId } from "wagmi";
 import styles from "./proposals-list.module.scss";
-import { useProposalStates } from "@lib/contracts/governor/useProposalStates";
+import { useProposalStates } from "@/lib/contracts/governor/useProposalStates";
 
 interface ProposalsListProps extends BaseComponentProps {}
 

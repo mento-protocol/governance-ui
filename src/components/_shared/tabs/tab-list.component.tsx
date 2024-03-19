@@ -1,7 +1,7 @@
 "use strict";
 import { Children, useState } from "react";
 import classNames from "classnames";
-import BaseComponentProps from "@interfaces/base-component-props.interface";
+import BaseComponentProps from "@/interfaces/base-component-props.interface";
 import styles from "./tabs.module.scss";
 
 export interface TabListProps extends BaseComponentProps {

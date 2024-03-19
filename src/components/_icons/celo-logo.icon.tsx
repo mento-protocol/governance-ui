@@ -1,5 +1,5 @@
-import BaseIconProps from "@interfaces/base-icon-props.interface";
-import exports from "@styles/exports.module.scss";
+import BaseIconProps from "@/interfaces/base-icon-props.interface";
+import exports from "@/styles/exports.module.scss";
 
 export const CeloLogoIcon = ({
   width = 23,

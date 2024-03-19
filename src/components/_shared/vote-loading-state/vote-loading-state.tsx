@@ -1,5 +1,5 @@
-import { Card, Loader } from "@components/_shared";
-import VotingCardTitle from "@components/_shared/vote-voting-card-title/voting-card-title";
+import { Card, Loader } from "@/components/_shared";
+import VotingCardTitle from "@/components/_shared/vote-voting-card-title/voting-card-title";
 
 const LoadingState = () => {
   return (

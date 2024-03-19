@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import classNames from "classnames";
-import BaseComponentProps from "@interfaces/base-component-props.interface";
-import NumbersService from "@lib/helpers/numbers.service";
+import BaseComponentProps from "@/interfaces/base-component-props.interface";
+import NumbersService from "@/lib/helpers/numbers.service";
 import styles from "./progress-bar.module.scss";
 
 interface ProgressBarProps extends BaseComponentProps {

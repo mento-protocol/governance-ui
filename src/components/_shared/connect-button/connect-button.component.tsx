@@ -6,13 +6,13 @@ import {
 } from "@rainbow-me/rainbowkit";
 import classNames from "classnames";
 import { formatUnits } from "viem";
-import { Avatar, Button, DropdownButton } from "@components/_shared";
-import { ChevronIcon } from "@components/_icons";
-import BaseComponentProps from "@interfaces/base-component-props.interface";
-import WalletHelper from "@lib/helpers/wallet.helper";
-import { ButtonType } from "@lib/types";
+import { Avatar, Button, DropdownButton } from "@/components/_shared";
+import { ChevronIcon } from "@/components/_icons";
+import BaseComponentProps from "@/interfaces/base-component-props.interface";
+import WalletHelper from "@/lib/helpers/wallet.helper";
+import { ButtonType } from "@/lib/types";
 import styles from "./connect-button.module.scss";
-import useTokens from "@lib/contracts/useTokens";
+import useTokens from "@/lib/contracts/useTokens";
 import { useAccount } from "wagmi";
 
 interface ConnectedDropdownProps extends BaseComponentProps {

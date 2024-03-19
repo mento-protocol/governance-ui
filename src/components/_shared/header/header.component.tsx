@@ -2,10 +2,10 @@
 import { useRef, useState } from "react";
 import classNames from "classnames";
 import Link from "next/link";
-import useOutsideAlerter from "@lib/hooks/useOutsideAlerter";
-import { ChevronIcon, MentoLogoIcon } from "@components/_icons";
-import { Button, ConnectButton } from "@components/_shared";
-import BaseComponentProps from "@interfaces/base-component-props.interface";
+import useOutsideAlerter from "@/lib/hooks/useOutsideAlerter";
+import { ChevronIcon, MentoLogoIcon } from "@/components/_icons";
+import { Button, ConnectButton } from "@/components/_shared";
+import BaseComponentProps from "@/interfaces/base-component-props.interface";
 import styles from "./header.module.scss";
 
 interface HeaderProps extends BaseComponentProps {}

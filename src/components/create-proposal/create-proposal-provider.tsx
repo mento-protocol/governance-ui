@@ -5,7 +5,7 @@ import {
   useContext,
   useState,
 } from "react";
-import useCreateProposalOnChain from "@lib/contracts/governor/useCreateProposalOnChain";
+import useCreateProposalOnChain from "@/lib/contracts/governor/useCreateProposalOnChain";
 
 export enum CreateProposalStep {
   wallet = 1,

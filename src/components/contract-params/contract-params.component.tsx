@@ -6,13 +6,13 @@ import CopyToClipboard from "react-copy-to-clipboard";
 import { formatUnits } from "viem";
 import { useAccount, useReadContracts } from "wagmi";
 
-import { Card } from "@components/_shared";
-import WalletHelper from "@lib/helpers/wallet.helper";
-import { CopyIcon } from "@components/_icons/copy.icon";
-import { TimelockControllerABI } from "@lib/abi/TimelockController";
-import { GovernorABI } from "@lib/abi/Governor";
-import { Celo } from "@config/chains";
-import { useContracts } from "@lib/contracts/useContracts";
+import { Card } from "@/components/_shared";
+import WalletHelper from "@/lib/helpers/wallet.helper";
+import { CopyIcon } from "@/components/_icons/copy.icon";
+import { TimelockControllerABI } from "@/lib/abi/TimelockController";
+import { GovernorABI } from "@/lib/abi/Governor";
+import { Celo } from "@/config/chains";
+import { useContracts } from "@/lib/contracts/useContracts";
 
 export const ContractParams = () => {
   const governanceDetails = useGovernanceDetails();

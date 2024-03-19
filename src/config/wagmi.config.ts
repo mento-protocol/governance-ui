@@ -1,4 +1,4 @@
-import { Alfajores, Celo } from "@config/chains";
+import { Alfajores, Celo } from "@/config/chains";
 import { connectorsForWallets } from "@rainbow-me/rainbowkit";
 import {
   metaMaskWallet,
@@ -7,7 +7,7 @@ import {
   walletConnectWallet,
 } from "@rainbow-me/rainbowkit/wallets";
 import { createConfig, http } from "wagmi";
-import { valora } from "@config/valora.wallet";
+import { valora } from "@/config/valora.wallet";
 
 const connectors = connectorsForWallets(
   [

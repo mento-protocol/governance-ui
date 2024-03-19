@@ -9,3 +9,7 @@ export { LightModeIcon } from "./light-mode.icon";
 export { DarkModeIcon } from "./dark-mode.icon";
 export { LearnMoreIcon } from "./learn-more.icon";
 export { CeloLogoIcon } from "./celo-logo.icon";
+export { MobileMenuX } from "./mobile-menu-x.icon";
+export { RightChevron } from "./right-chevron.icon";
+export { DownChevron } from "./down-chevron.icon";
+export { MobileMenuHamburger } from "./mobile-menu-hamburger";

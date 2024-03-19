@@ -22,9 +22,10 @@ const Page = () => {
   const router = useRouter();
   const { walletAddress } = useUserStore();
   const { chain } = useAccount();
+  console.log("chain", chain);
 
   const chainKind = chain?.testnet ? "Testnet" : "Mainnet";
-  const chainText = chain?.name ? chain.name : "CELO";
+  const chainText = chain?.name || "CELO";
 
   return (
     <main className="flex flex-col place-items-center mt-x11">
@@ -79,7 +80,8 @@ const Page = () => {
           <div className="flex flex-wrap flex-row gap-x3">
             <Badge rounded type="tertiary">
               <CeloLogoIcon />
-              &nbsp; {chainText} {chainKind}
+              &nbsp; <span className="uppercase">{chainText}</span>&nbsp;
+              {chainKind}
             </Badge>
             <Badge rounded type="secondary">
               MENTO {(1_000_000_000).toLocaleString()} Supply

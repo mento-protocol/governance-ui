@@ -48,7 +48,6 @@ export const Card = ({
         block && styles.block,
         transparent && styles.transparent,
         className,
-        "rounded-lg",
       )}
       style={style}
     >

@@ -78,7 +78,7 @@ const Page = () => {
           <div className="flex flex-wrap flex-row gap-x3">
             <Badge rounded type="tertiary">
               <CeloLogoIcon />
-              &nbsp;CELO
+              &nbsp;CELO {chainText}
             </Badge>
             <Badge rounded type="secondary">
               MENTO {(1_000_000_000).toLocaleString()} Supply

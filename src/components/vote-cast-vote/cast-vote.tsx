@@ -35,8 +35,8 @@ export const REVERSE_VOTE_TYPE_MAP = {
 } as const;
 
 const CastVote = ({ proposalId }: { proposalId: Proposal["proposalId"] }) => {
-  const { address, isConnected, isConnecting, isDisconnected } = useAccount();
-  const { mentoBalance, veMentoBalance } = useTokens();
+  const { address, isConnecting, isDisconnected } = useAccount();
+  const { veMentoBalance } = useTokens();
   const { data: voteReceipt, isLoading: isHasVotedStatusLoading } =
     useVoteReceipt({
       proposalId,

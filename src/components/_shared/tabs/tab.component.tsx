@@ -1,6 +1,5 @@
 import classNames from "classnames";
 import BaseComponentProps from "@/interfaces/base-component-props.interface";
-import styles from "./tabs.module.scss";
 
 interface TabProps extends BaseComponentProps {}
 

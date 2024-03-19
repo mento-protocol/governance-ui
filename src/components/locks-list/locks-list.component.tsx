@@ -1,19 +1,13 @@
 import { LockingABI } from "@/lib/abi/Locking";
 import { GetLocksDocument, Lock } from "@/lib/graphql";
 import { useContracts } from "@/lib/contracts/useContracts";
-import useModal from "@/lib/providers/modal.provider";
 import { useSuspenseQuery } from "@apollo/client";
 import BaseComponentProps from "@/interfaces/base-component-props.interface";
 import classNames from "classnames";
 import { addWeeks, nextWednesday } from "date-fns";
-import { useCallback, useMemo } from "react";
+import { useMemo } from "react";
 import { formatUnits } from "viem";
-import {
-  useAccount,
-  useChainId,
-  useReadContract,
-  useWriteContract,
-} from "wagmi";
+import { useChainId, useReadContract } from "wagmi";
 import styles from "./locks-list.module.scss";
 
 interface LocksListProps extends BaseComponentProps {
@@ -53,16 +47,12 @@ export const LocksList = ({ address }: LocksListProps) => {
 const LockEntry = ({
   lock,
   key,
-  onExtend,
 }: {
   lock: Lock;
   key: string | number;
   onExtend: () => void;
 }) => {
   const contracts = useContracts();
-  const { showConfirm } = useModal();
-  const { address } = useAccount();
-  const { error, writeContract } = useWriteContract();
 
   const { data: getLock } = useReadContract({
     address: contracts.Locking.address,
@@ -85,37 +75,37 @@ const LockEntry = ({
     return endDate.toLocaleDateString();
   }, [lock]);
 
-  const reLock = useCallback(async () => {
-    const res = await showConfirm(
-      `Are you sure you want to extend lock ${lock.lockId}?`,
-    );
+  // const reLock = useCallback(async () => {
+  //   const res = await showConfirm(
+  //     `Are you sure you want to extend lock ${lock.lockId}?`,
+  //   );
 
-    if (!res) return;
+  //   if (!res) return;
 
-    writeContract(
-      {
-        address: contracts.Locking.address,
-        abi: LockingABI,
-        functionName: "relock",
-        args: [lock.lockId, address!, lock.amount, lock.slope, lock.cliff],
-      },
-      {
-        onSuccess: () => {
-          onExtend();
-        },
-      },
-    );
-  }, [
-    showConfirm,
-    lock.lockId,
-    lock.amount,
-    lock.slope,
-    lock.cliff,
-    writeContract,
-    contracts.Locking.address,
-    address,
-    onExtend,
-  ]);
+  //   writeContract(
+  //     {
+  //       address: contracts.Locking.address,
+  //       abi: LockingABI,
+  //       functionName: "relock",
+  //       args: [lock.lockId, address!, lock.amount, lock.slope, lock.cliff],
+  //     },
+  //     {
+  //       onSuccess: () => {
+  //         onExtend();
+  //       },
+  //     },
+  //   );
+  // }, [
+  //   showConfirm,
+  //   lock.lockId,
+  //   lock.amount,
+  //   lock.slope,
+  //   lock.cliff,
+  //   writeContract,
+  //   contracts.Locking.address,
+  //   address,
+  //   onExtend,
+  // ]);
 
   return (
     <div className={styles.locksList__row} key={key}>

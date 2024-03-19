@@ -105,7 +105,7 @@ export const DropdownButton = ({
       <div
         ref={dropdownContentRef}
         style={{
-          top: !!dropdownPositionTopOffset
+          top: dropdownPositionTopOffset
             ? `-${dropdownPositionTopOffset}px`
             : "",
         }}

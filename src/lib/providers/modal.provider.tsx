@@ -89,7 +89,7 @@ const ModalWrapper = ({
         >
           <Card.Header className="relative !pb-x6">
             <div className="font-semibold">
-              {options?.title || (!!question ? "Confirm" : " ")}
+              {options?.title || (question ? "Confirm" : " ")}
             </div>
             <div className={modalStyles.modal__close} onClick={close}>
               X
@@ -135,7 +135,6 @@ export const ModalProvider = ({ children }: ModalProviderProps) => {
     isQuestion: boolean,
     options?: Partial<ModalOptions>,
   ) => {
-    const id = Math.random().toString(36).substring(7);
     return new Promise<boolean>((resolve) => {
       const confirm = () => {
         removeModal();

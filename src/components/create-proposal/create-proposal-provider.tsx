@@ -56,7 +56,9 @@ export const CreateProposalProvider = ({
     let transactions = [];
     try {
       transactions = JSON.parse(newProposal.code);
-    } catch (e) {}
+    } catch (e) {
+      /* empty */
+    }
 
     if (transactions.length === 0) {
       transactions = [

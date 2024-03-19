@@ -1,4 +1,4 @@
-import { useAccount, useBalance, useCall } from "wagmi";
+import { useAccount, useBalance } from "wagmi";
 import { useContracts } from "@/lib/contracts/useContracts";
 import { useCallback } from "react";
 

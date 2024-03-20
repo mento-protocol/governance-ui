@@ -1,12 +1,12 @@
 "use client";
-import React from "react";
+import React, { Suspense } from "react";
 import classNames from "classnames";
 import Link from "next/link";
 import CopyToClipboard from "react-copy-to-clipboard";
 import { formatUnits } from "viem";
 import { useAccount, useReadContracts } from "wagmi";
 
-import { Card } from "@components/_shared";
+import { Card, Expandable, Loader } from "@components/_shared";
 import WalletHelper from "@/app/helpers/wallet.helper";
 import { CopyIcon } from "../_icons/copy.icon";
 import { TimelockControllerABI } from "@/app/abis/TimelockController";
@@ -19,84 +19,94 @@ export const ContractParams = () => {
   const governorContractAddresses = useGovernanceContractAddresses();
 
   return (
-    <div className="grid grid-cols-1 gap-x2 md:grid-cols-7 pt-x4">
-      <Card noBorderMobile className="md:col-span-3 flex flex-col">
-        <Card.Header>
-          <div className="text-primary text-center md:text-left font-light mb-x6">
-            Parameters
-          </div>
-        </Card.Header>
-        <div className="flex flex-col flex-grow justify-between gap-x3">
-          <ParamDisplay
-            label="Proposal threshold"
-            value={governanceDetails?.proposalThreshold}
-          />
-          <ParamDisplay
-            label="Quorum needed"
-            value={governanceDetails?.quorumNeeded}
-          />
+    <Expandable
+      header={"Governance Parameters"}
+      className="font-medium font-size-x4"
+    >
+      <Suspense fallback={<Loader isCenter />}>
+        <div className="grid grid-cols-1 gap-x2 md:grid-cols-7 md:pt-x4">
+          <Card noBorderMobile className="md:col-span-3 flex flex-col">
+            <Card.Header>
+              <div className="text-primary text-center md:text-left font-light mb-x6">
+                Parameters
+              </div>
+            </Card.Header>
+            <div className="flex flex-col flex-grow justify-between gap-x3">
+              <ParamDisplay
+                label="Proposal threshold"
+                value={governanceDetails?.proposalThreshold}
+              />
+              <ParamDisplay
+                label="Quorum needed"
+                value={governanceDetails?.quorumNeeded}
+              />
 
-          <ParamDisplay
-            label="Voting period"
-            value={governanceDetails?.votingPeriod}
-          />
-          <ParamDisplay label="Timelock" value={governanceDetails?.timelock} />
+              <ParamDisplay
+                label="Voting period"
+                value={governanceDetails?.votingPeriod}
+              />
+              <ParamDisplay
+                label="Timelock"
+                value={governanceDetails?.timelock}
+              />
+            </div>
+          </Card>
+          <Card noBorderMobile className="md:col-span-4 flex flex-col">
+            <Card.Header>
+              <div className="text-primary text-center md:text-left font-light mb-[20px] md:mb-[30px]">
+                Contract addresses
+              </div>
+            </Card.Header>
+            <div className="flex flex-col flex-grow justify-between gap-[15px]">
+              <ParamDisplay
+                label="Governor"
+                vertical
+                value={
+                  governorContractAddresses.governor ? (
+                    <ContractAddressLinkWithCopy
+                      address={governorContractAddresses.governor}
+                    />
+                  ) : null
+                }
+              />
+              <ParamDisplay
+                label="Token"
+                vertical
+                value={
+                  governorContractAddresses.mento ? (
+                    <ContractAddressLinkWithCopy
+                      address={governorContractAddresses.mento}
+                    />
+                  ) : null
+                }
+              />
+              <ParamDisplay
+                label="Timelock"
+                vertical
+                value={
+                  governorContractAddresses.timelock ? (
+                    <ContractAddressLinkWithCopy
+                      address={governorContractAddresses.timelock}
+                    />
+                  ) : null
+                }
+              />
+              <ParamDisplay
+                label="Locker"
+                vertical
+                value={
+                  governorContractAddresses.locking ? (
+                    <ContractAddressLinkWithCopy
+                      address={governorContractAddresses.locking}
+                    />
+                  ) : null
+                }
+              />
+            </div>
+          </Card>
         </div>
-      </Card>
-      <Card noBorderMobile className="md:col-span-4 flex flex-col">
-        <Card.Header>
-          <div className="text-primary text-center md:text-left font-light mb-[20px] md:mb-[30px]">
-            Contract addresses
-          </div>
-        </Card.Header>
-        <div className="flex flex-col flex-grow justify-between gap-[15px]">
-          <ParamDisplay
-            label="Governor"
-            vertical
-            value={
-              governorContractAddresses.governor ? (
-                <ContractAddressLinkWithCopy
-                  address={governorContractAddresses.governor}
-                />
-              ) : null
-            }
-          />
-          <ParamDisplay
-            label="Token"
-            vertical
-            value={
-              governorContractAddresses.mento ? (
-                <ContractAddressLinkWithCopy
-                  address={governorContractAddresses.mento}
-                />
-              ) : null
-            }
-          />
-          <ParamDisplay
-            label="Timelock"
-            vertical
-            value={
-              governorContractAddresses.timelock ? (
-                <ContractAddressLinkWithCopy
-                  address={governorContractAddresses.timelock}
-                />
-              ) : null
-            }
-          />
-          <ParamDisplay
-            label="Locker"
-            vertical
-            value={
-              governorContractAddresses.locking ? (
-                <ContractAddressLinkWithCopy
-                  address={governorContractAddresses.locking}
-                />
-              ) : null
-            }
-          />
-        </div>
-      </Card>
-    </div>
+      </Suspense>
+    </Expandable>
   );
 };
 

@@ -1,13 +1,13 @@
 @import "@/app/brand";
 
-@mixin branded-badge($border-color, $background-color, $foreground-color) {
+@mixin branded-badge($border-color, $background-color) {
   border: 1px solid $border-color;
   background-color: $background-color;
 }
 
 .badge {
   height: 22px;
-  border-radius: $border-radius;
+  border-radius: 4px;
   padding-top: 6px;
   font-size: 16px;
   min-width: 100px;
@@ -23,28 +23,19 @@
   font-family: "Founders Grotesk";
   font-weight: 500;
 
-
-  &.primary {
-    @include branded-badge($c-primary, $c-primary, $c-white);
-  }
-
-  &.secondary {
-    @include branded-badge($c-secondary, $c-secondary, $c-black);
-  }
-
   &.success {
-    @include branded-badge($c-success, $c-success, $c-black);
+    @include branded-badge($c-success, $c-success);
   }
 
   &.danger {
-    @include branded-badge($c-error, $c-error, $c-white);
+    @include branded-badge($c-error, $c-error);
   }
 
   &.warning {
-    @include branded-badge($c-warning, $c-warning, $c-black);
+    @include branded-badge($c-black, $c-white);
   }
 
   &.info {
-    @include branded-badge($c-info, $c-info, $c-black);
+    @include branded-badge($c-info, $c-info);
   }
 }

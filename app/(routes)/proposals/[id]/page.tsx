@@ -14,7 +14,7 @@ import { MarkdownView } from "@/app/components/_shared/markdown-view/markdown-vi
 import { Countdown } from "@/app/components/countdown/countdown.component";
 import { Avatar, Status, WalletAddressWithCopy } from "@components/_shared";
 import { ProposalCurrentVotes } from "@components/proposal-current-votes/proposal-current-votes.component";
-import { stateToBadgeColorMap } from "@interfaces/proposal.interface";
+import { stateToStatusColorMap } from "@interfaces/proposal.interface";
 import ExecutionCode from "./_components/execution-code.component";
 import Participants from "./_components/participants.component";
 import Vote from "./_components/vote.component";
@@ -71,7 +71,7 @@ const Page = ({ params }: { params: { id: string } }) => {
           <div className="mb-x4 mt-x6">
             <Status
               text={status}
-              type={stateToBadgeColorMap[proposal.state as ProposalState]}
+              type={stateToStatusColorMap[proposal.state as ProposalState]}
             />
           </div>
           <div className="flex flex-col md:grid md:grid-cols-7 gap-x1 ">

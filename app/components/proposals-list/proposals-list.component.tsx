@@ -5,7 +5,7 @@ import { useProposalStates } from "@/app/hooks/useProposalStates";
 import { useSuspenseQuery } from "@apollo/experimental-nextjs-app-support/ssr";
 import { Card, ProgressBar, Status } from "@components/_shared";
 import BaseComponentProps from "@interfaces/base-component-props.interface";
-import { stateToBadgeColorMap } from "@interfaces/proposal.interface";
+import { stateToStatusColorMap } from "@interfaces/proposal.interface";
 import classNames from "classnames";
 import Link from "next/link";
 import { formatUnits, numberToHex } from "viem";
@@ -81,7 +81,7 @@ export const ProposalsListComponent = ({
                 </div>
                 <Status
                   text={state?.toString()}
-                  type={stateToBadgeColorMap[state]}
+                  type={stateToStatusColorMap[state]}
                 />
                 <div
                   className={classNames(styles.proposals_grid__row__element)}

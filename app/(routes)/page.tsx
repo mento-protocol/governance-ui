@@ -14,7 +14,7 @@ import { Loader } from "@components/_shared";
 import { ContractParams } from "@components/contract-params/contract-params.component";
 import { useRouter } from "next/navigation";
 import { useUserStore } from "@/app/store";
-import { Suspense } from "react";
+import { Suspense, useMemo } from "react";
 import ProposalSummaryComponent from "@components/proposal-summary/proposal-summary.component";
 import { useAccount } from "wagmi";
 
@@ -23,8 +23,11 @@ const Page = () => {
   const { walletAddress } = useUserStore();
   const { chain } = useAccount();
 
-  const chainKind = chain?.testnet ? "Testnet" : "Mainnet";
-  const chainText = chain?.name || "CELO";
+  const chainKind = useMemo(
+    () => (chain?.testnet ? "Testnet" : "Mainnet"),
+    [chain?.testnet],
+  );
+  const chainText = useMemo(() => chain?.name || "CELO", [chain?.name]);
 
   return (
     <main className="flex flex-col place-items-center mt-x11">

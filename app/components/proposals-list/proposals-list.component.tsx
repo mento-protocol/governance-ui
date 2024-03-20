@@ -29,21 +29,29 @@ export const ProposalsListComponent = ({
   useProposalStates(data?.proposals);
 
   return (
-    <div className={classNames(styles.wrapper, className)} style={style}>
+    <div
+      className={classNames(styles.wrapper, className, "font-fg")}
+      style={style}
+    >
       <h2 className="text-center mt-x11 mb-x6 font-medium">Proposals</h2>
       <Card block>
         <div className={classNames(styles.proposals_grid, "text_small")}>
           <div
-            className={classNames(styles.proposals_grid__row, styles.headers)}
+            className={classNames(
+              styles.proposals_grid__row,
+              styles.headers,
+              "font-inter",
+            )}
           >
-            <div className={styles.header}>Proposal name</div>
+            <div className={classNames(styles.header)}>Proposal name</div>
             <div className={styles.header}>Status</div>
             <div className={styles.header}>Votes in favor</div>
             <div className={styles.header}>Votes against</div>
             <div className={styles.header}>Total votes</div>
           </div>
-          {data?.proposals.map(
-            ({ proposalId, metadata, state, votes }, index) => (
+          {data?.proposals
+            .slice(0, 9)
+            .map(({ proposalId, metadata, state, votes }, index) => (
               <div
                 key={index}
                 className={classNames(styles.proposals_grid__row)}
@@ -109,8 +117,7 @@ export const ProposalsListComponent = ({
                   )}
                 </div>
               </div>
-            ),
-          )}
+            ))}
         </div>
       </Card>
     </div>

@@ -1,6 +1,6 @@
 # Wallet actions
 
-[Home](../README.md) / [Docs](../index.md) / [Actions](./index.md) / Wallet
+[Home](../../README.md) / [Docs](../index.md) / [Actions](./index.md) / Wallet
 
 ### Is Connected
 #### Mutations

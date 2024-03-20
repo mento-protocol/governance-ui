@@ -1,6 +1,6 @@
 # Actions overview
 
-[Home](../README.md) / [Docs](../index.md) / Actions 
+[Home](../../README.md) / [Docs](../index.md) / Actions 
 
 This section of the docs highlights the different actions, from a state read & state change perspective 
 

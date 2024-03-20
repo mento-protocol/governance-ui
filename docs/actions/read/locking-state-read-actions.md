@@ -1,5 +1,5 @@
 # State read actions
-[Home](../README.md) / [Docs](../index.md) / [Actions](./index.md) / Locking contract read state
+[Home](../../../README.md) / [Docs](../../index.md) / [Actions](../index.md) / Locking contract read state
 
 ## Locking
 

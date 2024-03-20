@@ -1,5 +1,5 @@
 # Mento Token state change actions
-[Home](../README.md) / [Docs](../index.md) / [Actions](./index.md) / Mento Token state change
+[Home](../../../README.md) / [Docs](../../index.md) / [Actions](../index.md) / Mento Token state change
 
 ### Approve
 

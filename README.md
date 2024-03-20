@@ -33,7 +33,7 @@ pnpm dev
 
 ## Project spec
 
-Please refer to our [spec documents by clicking here.](./docs/introduction.md)
+Please refer to our [spec documents by clicking here.](./docs/index.md)
  
 <!-- ## Credits
  

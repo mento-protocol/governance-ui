@@ -1,6 +1,6 @@
 # Data sources
 
-[Home](../README.md) / [Docs](../index.md) / Data Sources
+[Home](../../README.md) / [Docs](../index.md) / Data Sources
 
 These are all the data sources found in the app
 

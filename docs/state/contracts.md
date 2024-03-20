@@ -1,6 +1,6 @@
 # Contract state overview
 
-[Home](../README.md) / [Docs](../index.md) / Contract State
+[Home](../../README.md) / [Docs](../index.md) / Contract State
 
 
 # Mento 

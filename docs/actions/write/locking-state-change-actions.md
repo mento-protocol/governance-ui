@@ -1,5 +1,5 @@
 # Locking contract state change actions
-[Home](../README.md) / [Docs](../index.md) / [Actions](./index.md) / Locking contract state change
+[Home](../../../README.md) / [Docs](../../index.md) / [Actions](../index.md) / Locking contract state change
 
 ### Lock 
 #### Prerequisites

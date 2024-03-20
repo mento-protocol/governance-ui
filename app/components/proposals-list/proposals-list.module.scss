@@ -16,12 +16,12 @@
     &__row {
       display: grid;
       grid-template-columns: 350px 100px 150px 150px 150px;
-      gap: $theme-unit * 3;
+      gap: 21px;
       align-items: center;
       font-weight: 500;
 
       &:not(:first-child) {
-        margin-bottom: $theme-unit * 3;
+        margin-bottom: 19.7px;
       }
 
       &:last-child {
@@ -87,7 +87,7 @@
       }
 
       &.headers {
-        margin-bottom: 6 * $theme-unit;
+        margin-bottom: 38px;
 
         .header {
           border: none;

@@ -49,9 +49,8 @@ export const ProposalsListComponent = ({
             <div className={styles.header}>Votes against</div>
             <div className={styles.header}>Total votes</div>
           </div>
-          {data?.proposals
-            .slice(0, 9)
-            .map(({ proposalId, metadata, state, votes }, index) => (
+          {data?.proposals.map(
+            ({ proposalId, metadata, state, votes }, index) => (
               <div
                 key={index}
                 className={classNames(styles.proposals_grid__row)}
@@ -117,7 +116,8 @@ export const ProposalsListComponent = ({
                   )}
                 </div>
               </div>
-            ))}
+            ),
+          )}
         </div>
       </Card>
     </div>

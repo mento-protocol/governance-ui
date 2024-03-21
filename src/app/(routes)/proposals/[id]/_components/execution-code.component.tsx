@@ -55,7 +55,7 @@ export default function ExecutionCode({ calls }: Props) {
       </h3>
       <div className="rounded-[8px] border border-[#B3B3B3] p-4">
         {formattedCalls.map((call, index) => (
-          <div key={call.target + call.id} className="break-words">
+          <div key={`calls-${index}`} className="break-words">
             {index > 0 && <hr className="my-4" />}
             <h5 className="font-semibold mb-1">Target {index + 1}</h5>
             <pre className="text-wrap">

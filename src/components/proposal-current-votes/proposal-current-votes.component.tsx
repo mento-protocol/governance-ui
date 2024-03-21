@@ -1,13 +1,10 @@
-import { Card } from "@/components/_shared";
-import {
-  MultiProgressBar,
-  MultiProgressBarValue,
-} from "@/components/_shared/progress-bar/progress-bar.component";
+import { Card, ProgressBar, ProgressBarItem } from "@/components/_shared";
 import BaseComponentProps from "@/interfaces/base-component-props.interface";
 import classNames from "classnames";
 import styles from "./proposal-current-votes.module.scss";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useMemo } from "react";
 import { IVote } from "@/lib/interfaces/vote.interface";
+import { IProgressBarItem } from "@/components/_shared/progress-bar/progress-bar.component";
 
 interface ProposalCurrentVotesProps extends BaseComponentProps {}
 
@@ -19,47 +16,39 @@ export const ProposalCurrentVotes = ({
   // TODO: Replace with context fetch to api
   const votes: IVote[] = useMemo(() => [], []);
 
-  const forProposal = useMemo(
-    () => votes.filter((vote) => vote.type === "for"),
-    [votes],
+  const { forProposal, againstProposal, abstainProposal, total } =
+    useMemo(() => {
+      const forProposal = votes
+        .filter((vote) => vote.type === "for")
+        .reduce((acc, vote) => acc + vote.votes, 0);
+      const againstProposal = votes
+        .filter((vote) => vote.type === "against")
+        .reduce((acc, vote) => acc + vote.votes, 0);
+      const abstainProposal = votes
+        .filter((vote) => vote.type === "abstain")
+        .reduce((acc, vote) => acc + vote.votes, 0);
+      return {
+        forProposal,
+        againstProposal,
+        abstainProposal,
+        total: forProposal + againstProposal + abstainProposal,
+      };
+    }, [votes]);
+
+  const progressBars: IProgressBarItem[] = useMemo(
+    () =>
+      [
+        {
+          progress: Number((total * 100) / forProposal),
+          barColor: "bg-mento-mint",
+        },
+        {
+          progress: Number((total * 100) / againstProposal),
+          barColor: "bg-mento-red",
+        },
+      ].sort((item1, item2) => item2.progress - item1.progress),
+    [againstProposal, forProposal, total],
   );
-  const againstProposal = useMemo(
-    () => votes.filter((vote) => vote.type === "against"),
-    [votes],
-  );
-  const abstainProposal = useMemo(
-    () => votes.filter((vote) => vote.type === "abstain"),
-    [votes],
-  );
-
-  const parseVotes = useCallback(() => {
-    return [
-      {
-        value: forProposal.reduce((acc, vote) => acc + vote.votes, 0),
-        type: "success",
-      },
-      {
-        value: againstProposal.reduce((acc, vote) => acc + vote.votes, 0),
-        type: "danger",
-      },
-    ] as MultiProgressBarValue[];
-  }, [againstProposal, forProposal]);
-
-  const parseMax = useCallback(() => {
-    return (
-      forProposal.reduce((acc, vote) => acc + vote.votes, 0) +
-      againstProposal.reduce((acc, vote) => acc + vote.votes, 0) +
-      abstainProposal.reduce((acc, vote) => acc + vote.votes, 0)
-    );
-  }, [abstainProposal, againstProposal, forProposal]);
-
-  const [values, setValues] = useState(parseVotes());
-  const [max, setMax] = useState(parseMax());
-
-  useEffect(() => {
-    setValues(parseVotes());
-    setMax(parseMax());
-  }, [votes, parseVotes, parseMax]);
 
   return (
     <Card className={className} style={style}>
@@ -68,7 +57,15 @@ export const ProposalCurrentVotes = ({
           Current votes
         </h3>
       </Card.Header>
-      <MultiProgressBar className="mb-x3" values={values} max={max} />
+      <ProgressBar className="mb-x3" backgroundColor="bg-white">
+        {progressBars.map((bar, index) => (
+          <ProgressBarItem
+            key={`vote-bar-${index}`}
+            barColor={bar.barColor}
+            progress={bar.progress}
+          />
+        ))}
+      </ProgressBar>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-x6">
         <div>
           <div className="flex justify-between mb-x3">
@@ -76,33 +73,21 @@ export const ProposalCurrentVotes = ({
               <div className={classNames(styles.vote_tag, styles.success)} />
               <div>For</div>
             </div>
-            <div>
-              {forProposal
-                .reduce((acc, vote) => acc + vote.votes, 0)
-                .toLocaleString()}
-            </div>
+            <div>{forProposal.toLocaleString()}</div>
           </div>
           <div className="flex justify-between mb-x3">
             <div className="flex items-center gap-x3">
               <div className={classNames(styles.vote_tag, styles.error)} />
               <div>Against</div>
             </div>
-            <div>
-              {againstProposal
-                .reduce((acc, vote) => acc + vote.votes, 0)
-                .toLocaleString()}
-            </div>
+            <div>{againstProposal.toLocaleString()}</div>
           </div>
           <div className="flex justify-between mb-x3">
             <div className="flex items-center gap-x3">
               <div className={classNames(styles.vote_tag)} />
               <div>Abstain</div>
             </div>
-            <div>
-              {abstainProposal
-                .reduce((acc, vote) => acc + vote.votes, 0)
-                .toLocaleString()}
-            </div>
+            <div>{abstainProposal.toLocaleString()}</div>
           </div>
         </div>
         <div>
@@ -127,7 +112,7 @@ export const ProposalCurrentVotes = ({
                   styles.square,
                 )}
               />
-              <div>Quorum isn’t reached</div>
+              <div>Quorum isn&apos;t reached</div>
             </div>
           </div>
           <div className="mb-x3">

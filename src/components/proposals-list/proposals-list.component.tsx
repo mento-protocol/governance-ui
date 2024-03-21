@@ -7,7 +7,12 @@ import styles from "./proposals-list.module.scss";
 import { useProposalStates } from "@/lib/contracts/governor/useProposalStates";
 import BaseComponentProps from "@/lib/interfaces/base-component-props.interface";
 import classNames from "classnames";
-import { Card, ProgressBar, Status } from "@/components/_shared";
+import {
+  Card,
+  ProgressBar,
+  ProgressBarItem,
+  Status,
+} from "@/components/_shared";
 import Link from "next/link";
 import { stateToStatusColorMap } from "@/lib/interfaces/proposal.interface";
 import { formatUnits } from "viem";
@@ -27,7 +32,6 @@ export const ProposalsListComponent = ({
   });
 
   useProposalStates(data?.proposals);
-
   return (
     <div
       className={classNames(styles.wrapper, className, "font-fg")}
@@ -85,24 +89,32 @@ export const ProposalsListComponent = ({
                 <div
                   className={classNames(styles.proposals_grid__row__element)}
                 >
-                  <ProgressBar
-                    type="success"
-                    className={styles.progress_bar}
-                    current={Number(formatUnits(votes.for.total, 18))}
-                    max={Number(formatUnits(votes.total, 18))}
-                    valueFormat="alphabetic"
-                  />
+                  <ProgressBar className={styles.progress_bar}>
+                    <ProgressBarItem
+                      barColor="bg-mento-mint"
+                      progress={
+                        (votes.total !== 0n &&
+                          votes.for.total !== 0n &&
+                          Number((votes.total * 100n) / votes.for.total)) ||
+                        0
+                      }
+                    />
+                  </ProgressBar>
                 </div>
                 <div
                   className={classNames(styles.proposals_grid__row__element)}
                 >
-                  <ProgressBar
-                    type="danger"
-                    className={styles.progress_bar}
-                    current={Number(formatUnits(votes.against.total, 18))}
-                    max={Number(formatUnits(votes.total, 18))}
-                    valueFormat="alphabetic"
-                  />
+                  <ProgressBar className={styles.progress_bar}>
+                    <ProgressBarItem
+                      barColor="bg-mento-red"
+                      progress={
+                        (votes.total !== 0n &&
+                          votes.against.total !== 0n &&
+                          Number((votes.total * 100n) / votes.against.total)) ||
+                        0
+                      }
+                    />
+                  </ProgressBar>
                 </div>
                 <div
                   className={classNames(

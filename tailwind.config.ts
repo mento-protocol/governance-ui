@@ -3,7 +3,7 @@ import type { Config } from "tailwindcss";
 const config: Config = {
   content: [
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
-    "/src/components/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
     extend: {
@@ -15,9 +15,13 @@ const config: Config = {
       fontFamily: { fg: ["var(--font-fg)"], inter: ["var(--font-inter)"] },
     },
     colors: {
+      "transparent": "transparent",
       "primary-blue": "#4D62F0",
       "light-red": "#FF848A",
       "light-green": "#D2FCBF",
+      "mento-mint": "#D2FCBD",
+      "mento-red": "#FF848A",
+      "mento-blue": "#4D62F0"
     },
     keyframes: {
       "spin-slow": {

@@ -24,3 +24,4 @@ export { WalletAddressWithCopy } from "./wallet-address-with-copy/wallet-address
 export { MarkdownView } from "./markdown-view/markdown-view.component";
 export { SeeAll } from "./see-all/see-all.component";
 export { ExecutionCodeView } from "./execution-code-view/execution-code-view.component";
+export { Status } from "./status/status.component";

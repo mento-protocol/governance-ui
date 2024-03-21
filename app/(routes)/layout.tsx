@@ -8,8 +8,11 @@ import { Providers } from "@/app/(routes)/providers";
 import { ModalProvider } from "@/app/providers/modal.provider";
 import { usePathname } from "next/navigation";
 
-const inter = Inter({ subsets: ["latin"] });
-
+const inter = Inter({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-inter",
+});
 interface RootLayoutProps {
   children: ReactNode;
 }
@@ -19,8 +22,8 @@ export default function RootLayout({ children }: RootLayoutProps) {
   const homePage = path === "/";
 
   return (
-    <html lang="en">
-      <body className={inter.className} suppressHydrationWarning={true}>
+    <html className={inter.variable} lang="en">
+      <body suppressHydrationWarning={true}>
         <Providers>
           <ModalProvider>
             <div className="min-h-screen flex flex-col">

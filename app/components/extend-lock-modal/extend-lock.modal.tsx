@@ -114,6 +114,7 @@ export const ExtendLockModal = ({
     lock.cliff,
     lock.lockCreate,
     lock.lockId,
+    onSuccess,
     pickerDate,
     removeModal,
     writeContract,

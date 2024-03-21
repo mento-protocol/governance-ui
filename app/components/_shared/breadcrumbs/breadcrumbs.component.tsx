@@ -1,7 +1,8 @@
 "use client";
 import { routingMap } from "@/app/helpers/routing.map";
-import { usePathname } from "next/navigation";
+import { useParams, usePathname } from "next/navigation";
 import { useMemo } from "react";
+import Link from "next/link";
 import styles from "./breadcrumbs.module.scss";
 
 type CrumbProps = {
@@ -13,7 +14,7 @@ type CrumbProps = {
 const Crumb = ({ path, index, last }: CrumbProps) => {
   const crumbName = routingMap.get(path);
   const isProposalCrumb = crumbName === "Proposal";
-  const proposalId = getProposalIdFromPath(usePathname());
+  const proposalId = (useParams().id || "") as string;
 
   return (
     <li className={styles.crumb}>
@@ -26,9 +27,9 @@ const Crumb = ({ path, index, last }: CrumbProps) => {
           {isProposalCrumb && ` ${shortenProposalId(proposalId)}`}
         </span>
       ) : (
-        <a href={path || "/"} className={styles.crumb__clickable}>
+        <Link href={path || "/"} className={styles.crumb__clickable}>
           {crumbName}
-        </a>
+        </Link>
       )}
     </li>
   );
@@ -56,12 +57,6 @@ export const Breadcrumbs = () => {
     </nav>
   );
 };
-
-function getProposalIdFromPath(path: string): string {
-  const proposalPagePattern = /\/proposals\/(\d+)/;
-  const match = proposalPagePattern.exec(path)!;
-  return match ? match[1] : "";
-}
 
 function shortenProposalId(proposalId: string): string {
   return `${proposalId.slice(0, 8)}...${proposalId.slice(-4)}`;

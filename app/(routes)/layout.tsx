@@ -6,7 +6,7 @@ import { Footer, Header, Breadcrumbs } from "@components/_shared";
 import React, { ReactNode } from "react";
 import { Providers } from "@/app/(routes)/providers";
 import { ModalProvider } from "@/app/providers/modal.provider";
-import { usePathname } from "next/navigation";
+import { useParams, usePathname } from "next/navigation";
 
 const inter = Inter({ subsets: ["latin"] });
 

@@ -76,10 +76,7 @@ const Page = () => {
               &nbsp;CELO
             </Badge>
             <Badge rounded type="secondary">
-              ERC20
-            </Badge>
-            <Badge rounded type="secondary">
-              {(9999999998).toLocaleString()} Supply
+              MENTO {(1_000_000_000).toLocaleString()} Supply
             </Badge>
           </div>
         </div>

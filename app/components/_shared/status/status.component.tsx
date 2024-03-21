@@ -1,6 +1,6 @@
 import classNames from "classnames";
 import styles from "./status.module.scss";
-import { BadgeType } from "@/app/types";
+import { BadgeType } from "@/lib/types";
 
 interface StatusProps {
   text: string;

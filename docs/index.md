@@ -16,9 +16,9 @@ These documents provide an overview of the inner workings of the Governance app.
 
 | Contract | Network info | Read actions | Write actions | Interfaces |
 | --- | --- | --- | --- | --- | 
-| `Mento` | [Network Info](./state/contracts.md) | [Read](./actions/read/mento-state-read-actions.md) | [Write](./actions/write/mento-state-change-actions.md) | [Interfaces]() |
-| `Locking` | [Network Info](./state/contracts.md) | [Read](./actions/read/locking-state-read-actions.md) | [Write](./actions/write/locking-state-change-actions.md) | [Interfaces]() |
-| `Governor` | [Network Info](./state/contracts.md) | [Read](./actions/read/governor-state-read-actions.md) | [Write](./actions/write/governer-state-change-actions.md) | [Interfaces]() |
+| `Mento` | [Network Info](./state/contracts.md) | [Read](./actions/mento/reads.md) | [Write](./actions/mento/writes.md) | [Interfaces]() |
+| `Locking` | [Network Info](./state/contracts.md) | [Read](./actions/locking/reads.md) | [Write](./actions/locking/writes.md) | [Interfaces]() |
+| `Governor` | [Network Info](./state/contracts.md) | [Read](./actions/governor/reads.md) | [Write](./actions/governor/writes.md) | [Interfaces]() |
 
 
 ## Core concepts

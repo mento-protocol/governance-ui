@@ -2,16 +2,15 @@ import { GetProposals, Proposal } from "@/lib/graphql";
 import NumbersService from "@/lib/helpers/numbers.service";
 import StringService from "@/lib/helpers/string.service";
 import { useSuspenseQuery } from "@apollo/experimental-nextjs-app-support/ssr";
-import { Card, ProgressBar } from "@/components/_shared";
-import { Badge } from "@/components/_shared/badge/badge.component";
-import BaseComponentProps from "@/interfaces/base-component-props.interface";
-import { stateToBadgeColorMap } from "@/interfaces/proposal.interface";
-import classNames from "classnames";
-import Link from "next/link";
-import { formatUnits, numberToHex } from "viem";
 import { useChainId } from "wagmi";
 import styles from "./proposals-list.module.scss";
 import { useProposalStates } from "@/lib/contracts/governor/useProposalStates";
+import BaseComponentProps from "@/lib/interfaces/base-component-props.interface";
+import classNames from "classnames";
+import { Card, ProgressBar, Status } from "@/components/_shared";
+import Link from "next/link";
+import { stateToStatusColorMap } from "@/lib/interfaces/proposal.interface";
+import { formatUnits } from "viem";
 
 interface ProposalsListProps extends BaseComponentProps {}
 
@@ -30,14 +29,21 @@ export const ProposalsListComponent = ({
   useProposalStates(data?.proposals);
 
   return (
-    <div className={classNames(styles.wrapper, className)} style={style}>
+    <div
+      className={classNames(styles.wrapper, className, "font-fg")}
+      style={style}
+    >
       <h2 className="text-center mt-x11 mb-x6 font-medium">Proposals</h2>
       <Card block>
         <div className={classNames(styles.proposals_grid, "text_small")}>
           <div
-            className={classNames(styles.proposals_grid__row, styles.headers)}
+            className={classNames(
+              styles.proposals_grid__row,
+              styles.headers,
+              "font-inter",
+            )}
           >
-            <div className={styles.header}>Proposal name</div>
+            <div className={classNames(styles.header)}>Proposal name</div>
             <div className={styles.header}>Status</div>
             <div className={styles.header}>Votes in favor</div>
             <div className={styles.header}>Votes against</div>
@@ -57,11 +63,6 @@ export const ProposalsListComponent = ({
                   )}
                 >
                   <div className="flex gap-x3 place-items-center">
-                    <div className={styles.index}>
-                      <Link href={`/proposals/${proposalId}`}>
-                        {numberToHex(BigInt(proposalId)).slice(0, 10)}
-                      </Link>
-                    </div>
                     <Link
                       className="flex-1"
                       style={{ maxHeight: "3em" }}
@@ -77,22 +78,10 @@ export const ProposalsListComponent = ({
                     </Link>
                   </div>
                 </div>
-                <div
-                  className={classNames(
-                    styles.proposals_grid__row__element,
-                    "flex justify-center",
-                  )}
-                >
-                  <Badge
-                    className={classNames(
-                      styles.status,
-                      "uppercase font-medium",
-                    )}
-                    type={stateToBadgeColorMap[state]}
-                  >
-                    {state?.toString()}
-                  </Badge>
-                </div>
+                <Status
+                  text={state?.toString()}
+                  type={stateToStatusColorMap[state]}
+                />
                 <div
                   className={classNames(styles.proposals_grid__row__element)}
                 >

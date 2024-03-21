@@ -18,33 +18,9 @@
   display: flex;
   align-items: center;
 
-  &.primary {
-    @include branded-badge($c-primary, $c-primary, $c-white);
-  }
-
   &.secondary {
     @include branded-badge($c-secondary, $c-secondary, $c-black);
     font-weight: 500;
-  }
-
-  &.success {
-    @include branded-badge($c-success, $c-success, $c-black);
-  }
-
-  &.danger {
-    @include branded-badge($c-error, $c-error, $c-white);
-  }
-
-  &.warning {
-    @include branded-badge($c-warning, $c-warning, $c-black);
-  }
-
-  &.info {
-    @include branded-badge($c-info, $c-info, $c-black);
-  }
-
-  &.light {
-    @include branded-badge($c-lightGrey, $c-lightGrey, $c-black);
   }
 
   &.tertiary {

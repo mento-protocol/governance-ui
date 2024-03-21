@@ -16,12 +16,12 @@
     &__row {
       display: grid;
       grid-template-columns: 350px 100px 150px 150px 150px;
-      gap: $theme-unit * 3;
+      gap: 21px;
       align-items: center;
       font-weight: 500;
 
       &:not(:first-child) {
-        margin-bottom: $theme-unit * 3;
+        margin-bottom: 19.7px;
       }
 
       &:last-child {
@@ -29,7 +29,7 @@
       }
 
       @include media-md {
-        grid-template-columns: minmax(150px,2fr) 100px 150px 150px 150px;
+        grid-template-columns: minmax(150px, 2fr) 100px 150px 150px 150px;
       }
 
       @include row-divider;
@@ -49,11 +49,17 @@
           text-overflow: ellipsis;
           word-break: break-word;
           font-weight: 400;
+          font-size: 18px;
+          max-width: 340px;
         }
 
         &.last {
           text-align: right;
           margin-right: $theme-unit;
+          font-size: 22px;
+          font-style: normal;
+          font-weight: 400;
+          line-height: 22px;
         }
 
         .index {
@@ -63,32 +69,36 @@
           line-height: 5 * $theme-unit;
         }
         .status {
-          min-width: 95px;
+          min-width: 100px;
           display: flex;
           justify-content: center;
+          color: black;
         }
 
         .progress_bar {
           max-width: 110px;
           margin: 0 auto;
-          gap: $theme-unit * 2;
+          gap: 5px;
           width: 100%;
         }
       }
 
+      .badge {
+        height: 22px;
+      }
+
       &.headers {
-        margin-bottom: 6 * $theme-unit;
-        
+        margin-bottom: 38px;
+
         .header {
           border: none;
           font-weight: 500;
-          font-size: $theme-unit * 3;
+          font-size: 16px;
           text-align: center;
           overflow: hidden;
-          font-family: 'Inter';
           line-height: 5 * $theme-unit;
           letter-spacing: -0.304px;
-          
+
           &:first-child {
             text-align: left;
           }

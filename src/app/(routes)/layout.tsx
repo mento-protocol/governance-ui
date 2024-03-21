@@ -8,8 +8,11 @@ import { Footer, Header, Breadcrumbs } from "@/components/_shared";
 import "@rainbow-me/rainbowkit/styles.css";
 import "@/styles/globals.scss";
 
-const inter = Inter({ subsets: ["latin"] });
-
+const inter = Inter({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-inter",
+});
 interface RootLayoutProps {
   children: ReactNode;
 }
@@ -19,8 +22,8 @@ export default function RootLayout({ children }: RootLayoutProps) {
   const homePage = path === "/";
 
   return (
-    <html lang="en">
-      <body className={inter.className} suppressHydrationWarning={true}>
+    <html className={inter.variable} lang="en">
+      <body suppressHydrationWarning={true}>
         <Providers>
           <ModalProvider>
             <div className="min-h-screen flex flex-col">

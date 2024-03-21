@@ -29,7 +29,7 @@ const CurrentFormStep = ({ formStep }: { formStep: WalletStepEnum }) => {
       return (
         <>
           <p className="font-size-x4 line-height-x5 ml-x7 place-self-start">
-            To create new governance proposal you need to lock 2,500 veMENTO.
+            To create new governance proposal you need to lock 2,500 MENTO.
           </p>
           <p className="font-size-x4 line-height-x5 ml-x7 place-self-start">
             You can purchase MENTO{" "}
@@ -43,7 +43,7 @@ const CurrentFormStep = ({ formStep }: { formStep: WalletStepEnum }) => {
       return (
         <>
           <p className="font-size-x4 line-height-x5 ml-x7 place-self-start">
-            To create new governance proposal you need to lock 2,500 veMENTO.
+            To create new governance proposal you need to lock 2,500 MENTO.
           </p>
           <MentoLock />
         </>
@@ -63,7 +63,6 @@ const CurrentFormStep = ({ formStep }: { formStep: WalletStepEnum }) => {
 
 export const CreateProposalWalletStep = () => {
   const { veMento, mento } = useChainState((s) => s.tokens);
-  const [walletStepFinished, setWalletStepFinished] = useState(false);
   const { address } = useAccount();
   const {
     patchWalletStep,
@@ -76,15 +75,7 @@ export const CreateProposalWalletStep = () => {
   } = useCreateProposalStore();
   const { showConfirm } = useModal();
 
-  const finishWalletStep = useCallback(() => {
-    setWalletStepFinished(true);
-    next();
-  }, [next]);
-
   const validateCacheAndNavigate = useCallback(() => {
-    if (walletStepFinished) {
-      return;
-    }
     const cacheTitle = localStorage.getItem("proposalTitle");
     const cacheDescription = localStorage.getItem("proposalDescription");
     const cacheExecutionCode = localStorage.getItem("proposalExecutionCode");
@@ -103,18 +94,12 @@ export const CreateProposalWalletStep = () => {
             code: cacheExecutionCode || "",
           });
         }
-        finishWalletStep();
+        next();
       });
     } else {
-      finishWalletStep();
+      next();
     }
-  }, [
-    finishWalletStep,
-    patchContentStep,
-    patchExecutionStep,
-    showConfirm,
-    walletStepFinished,
-  ]);
+  }, [patchContentStep, patchExecutionStep, showConfirm]);
 
   const walletStep = useMemo((): WalletStepEnum => {
     if (!address) {
@@ -129,12 +114,6 @@ export const CreateProposalWalletStep = () => {
   }, [address, mento.balance, veMento.balance]);
 
   useEffect(() => {
-    if (
-      walletStep === WalletStepEnum.createProposal &&
-      openedForm === CreateProposalFormStepEnum.wallet
-    ) {
-      validateCacheAndNavigate();
-    }
     patchWalletStep({
       walletAddress: address || "",
       balanceMENTO: mento.balance,
@@ -156,7 +135,7 @@ export const CreateProposalWalletStep = () => {
       isOpened={form[CreateProposalFormStepEnum.wallet].isOpened}
       canGoNext={walletStep === WalletStepEnum.createProposal}
       canGoPrev={false}
-      next={finishWalletStep}
+      next={validateCacheAndNavigate}
       prev={prev}
       title="Connect your wallet & login"
     >

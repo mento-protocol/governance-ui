@@ -20,7 +20,7 @@ For more granular insight, refer to the contracts overview page
 | --- | --- | --- | --- | --- |
 | Mento | ERC20 |  Not deployed | 0xc88f553DC20fc78ce554bfF97C2F4a4E5BDB0134 | Not deployed |
 | Locking | ILocking | Not deployed | 0x8E1707307f04eC9742AD3d8e6D88AE5F506F83cA | Not deployed |
-| Governor | IGoverner | Not deployed | 0xc1d32e3bac67b28d31d7828c8ff160e44c37be1c | Not deployed |
+| Governor | IGovernor | Not deployed | 0xc1d32e3bac67b28d31d7828c8ff160e44c37be1c | Not deployed |
 
 ## GraphQL
 

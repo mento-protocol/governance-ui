@@ -6,11 +6,11 @@ This section of the docs highlights the different actions, from a state read & s
 
 - [Wallet Actions](./wallet.md)
 - Mento token actions
-  - [Read](./read/mento-state-read-actions.md)
-  - [Write](./write/mento-state-change-actions.md)
+  - [Read](./mento/reads.md)
+  - [Write](./mento/writes.md)
 - Locking contract actions
-  - [Read](./read/locking-state-read-actions.md)
-  - [Write](./write/locking-state-change-actions.md)
+  - [Read](./locking/reads.md)
+  - [Write](./locking/writes.md)
 - Governor contract actions
-  - [Read](./read/governor-state-read-actions.md)
-  - [Write](./write/governor-state-change-actions.md)
+  - [Read](./governor/reads.md)
+  - [Write](./governor/writes.md)

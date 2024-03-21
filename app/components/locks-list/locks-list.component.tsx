@@ -106,13 +106,15 @@ const LockEntry = ({
       },
     );
   }, [
-    writeContract,
-    contracts.Locking.address,
+    showConfirm,
     lock.lockId,
     lock.amount,
     lock.slope,
     lock.cliff,
+    writeContract,
+    contracts.Locking.address,
     address,
+    onExtend,
   ]);
 
   return (

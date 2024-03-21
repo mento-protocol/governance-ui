@@ -41,12 +41,12 @@ export const Slider = ({
   }, [value]);
 
   const activeBackground = useMemo(() => {
-    const progress = Math.floor((currentValue / (max || 100)) * 100);
+    const progress = Math.ceil((currentValue / (max || 100)) * 100);
     return `linear-gradient(90deg, ${exports.secondary} ${progress}%, transparent ${progress}%)`;
   }, [currentValue, max]);
 
   const bubblePosition = useMemo(() => {
-    const progress = Math.floor((currentValue / (max || 100)) * 100);
+    const progress = Math.ceil((currentValue / (max || 100)) * 100);
     return `calc(${progress - (100 - progress) / 100}% - ${(progress * 44) / 100}px)`;
   }, [currentValue, max]);
 

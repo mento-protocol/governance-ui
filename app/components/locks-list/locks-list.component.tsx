@@ -80,7 +80,7 @@ const LockEntry = ({
   }, [getLock]);
 
   const expirationDate = useMemo(() => {
-    const startDate = new Date(lock.lockCreate[0].timestamp * 1000);
+    const startDate = new Date(lock.lockCreate[0]?.timestamp * 1000);
     const endDate = nextWednesday(addWeeks(startDate, lock.slope + lock.cliff));
     return endDate.toLocaleDateString();
   }, [lock]);
@@ -106,13 +106,15 @@ const LockEntry = ({
       },
     );
   }, [
-    writeContract,
-    contracts.Locking.address,
+    showConfirm,
     lock.lockId,
     lock.amount,
     lock.slope,
     lock.cliff,
+    writeContract,
+    contracts.Locking.address,
     address,
+    onExtend,
   ]);
 
   return (

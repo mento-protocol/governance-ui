@@ -8,6 +8,7 @@ interface InputProps extends BaseComponentProps, BaseInputProps {
   type: "text" | "email" | "password" | "number" | "tel" | "url";
   addon?: ReactNode;
   compact?: boolean;
+  classNameInput?: string;
 }
 
 export const Input = ({
@@ -16,6 +17,7 @@ export const Input = ({
   type,
   placeholder,
   className,
+  classNameInput,
   form,
   addon,
   error,
@@ -32,7 +34,13 @@ export const Input = ({
       )}
     >
       {!!label && <label htmlFor={id}>{label}</label>}
-      <div className={classNames(styles.input, !!error && styles.error)}>
+      <div
+        className={classNames(
+          styles.input,
+          !!error && styles.error,
+          classNameInput,
+        )}
+      >
         <input
           id={id}
           placeholder={placeholder}

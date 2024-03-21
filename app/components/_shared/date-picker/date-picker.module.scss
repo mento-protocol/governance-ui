@@ -3,9 +3,26 @@
 .datePicker {
   position: relative;
   margin-top: $theme-unit * 3;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 18px;
+  width: 100%;
+
+  @media ( min-width: 370px ) {
+    width: 152;
+  }
+
+  @media ( min-width: 450px ) {
+    font-size: 22px;
+    line-height: 22px;
+    width: 204px;
+  }
 
   .input {
     @include default-input-style;
+    border-radius: 4px;
+    padding: $theme-unit * 2;
     cursor: pointer;
   }
 

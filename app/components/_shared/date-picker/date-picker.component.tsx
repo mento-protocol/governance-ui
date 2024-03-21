@@ -147,7 +147,7 @@ export const DatePicker = ({
           )}
           {!!selectedDate && (
             <div className={styles.selectedDate}>
-              {selectedDate.toLocaleDateString()}
+              {format(selectedDate, "dd.MM.yyyy")}
             </div>
           )}
         </div>

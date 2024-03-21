@@ -1,8 +1,8 @@
-import NumbersService from "@/lib/helpers/numbers.service";
 import BaseComponentProps from "@/lib/interfaces/base-component-props.interface";
 import classNames from "classnames";
 import { useMemo } from "react";
 import styles from "./progress-bar.module.scss";
+import NumbersService from "@/lib/helpers/numbers.service";
 
 type Type = "success" | "info" | "warning" | "danger";
 
@@ -56,7 +56,6 @@ export const ProgressBar = ({
 
   const barColorString = type ? barColor(type) : "";
 
-  console.log("progress", progress);
   const progressStyles: ProgressStyle = useMemo(() => {
     if (progress < 3) {
       return {

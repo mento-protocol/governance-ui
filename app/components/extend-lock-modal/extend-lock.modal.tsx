@@ -19,6 +19,7 @@ interface ExtendLockModalProps {
   minDate: Date;
   maxDate: Date;
   lock: Lock;
+  onSuccess: () => void;
 }
 
 const disallowedDays: DisallowedDay[] = [
@@ -34,6 +35,7 @@ export const ExtendLockModal = ({
   minDate,
   maxDate,
   lock,
+  onSuccess,
 }: ExtendLockModalProps) => {
   const [pickerDate, setPickerDate] = useState<Date | undefined>(minDate);
   const [isPending, setIsPending] = useState(false);
@@ -94,6 +96,7 @@ export const ExtendLockModal = ({
         onSuccess: () => {
           toast.success("Lock extended");
           setIsPending(false);
+          onSuccess();
           removeModal();
         },
         onError: (error) => {

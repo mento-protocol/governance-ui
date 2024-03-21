@@ -28,7 +28,6 @@ interface ModalOptions {
   confirmText?: string;
   cancelText?: string;
   modalType?: ModalType;
-  closeCallback?: () => void;
 }
 
 interface ModalInstance {
@@ -137,8 +136,6 @@ export const ModalProvider = ({ children }: ModalProviderProps) => {
   };
 
   const removeModal = () => {
-    const modal = modals[modals.length - 1];
-    modal.options?.closeCallback?.();
     modals.pop();
     setModalWrapperID(Math.random().toString(36).substring(7));
   };

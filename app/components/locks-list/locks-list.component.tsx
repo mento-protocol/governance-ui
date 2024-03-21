@@ -1,14 +1,14 @@
 import styles from "./locks-list.module.scss";
 import BaseComponentProps from "@interfaces/base-component-props.interface";
-import { Button } from "@components/_shared";
+import { Button, Loader } from "@components/_shared";
 import classNames from "classnames";
 import { GetMyLocksDocument, Lock } from "@/app/graphql";
 import { useSuspenseQuery } from "@apollo/client";
-import { useChainId, useReadContract } from "wagmi";
+import { useCall, useChainId, useReadContract } from "wagmi";
 import { LockingABI } from "@/app/abis/Locking";
 import { useContracts } from "@/app/hooks/useContracts";
-import { useMemo } from "react";
-import { addWeeks, addYears, nextWednesday } from "date-fns";
+import { useCallback, useMemo, useTransition } from "react";
+import { addWeeks, addYears, nextWednesday, setDay } from "date-fns";
 import { formatUnits } from "viem";
 import useModal from "@/app/providers/modal.provider";
 import { ExtendLockModal } from "@components/extend-lock-modal/extend-lock.modal";
@@ -19,6 +19,7 @@ interface LocksListProps extends BaseComponentProps {
 
 export const LocksList = ({ address }: LocksListProps) => {
   const chainId = useChainId();
+  const [isPending, startTransition] = useTransition();
   const { data, refetch } = useSuspenseQuery<{ locks: Lock[] }>(
     GetMyLocksDocument,
     {
@@ -26,8 +27,15 @@ export const LocksList = ({ address }: LocksListProps) => {
       context: {
         apiName: chainId === 44787 ? "subgraphAlfajores" : "subgraph",
       },
+      refetchWritePolicy: "overwrite",
     },
   );
+
+  const reload = useCallback(() => {
+    startTransition(async () => {
+      await refetch();
+    });
+  }, [refetch]);
 
   return (
     <div className={styles.locksList}>
@@ -40,26 +48,32 @@ export const LocksList = ({ address }: LocksListProps) => {
         </div>
         <div className={classNames(styles.title, styles.item)}>Expires on</div>
       </div>
-      {data?.locks?.map((lock) => (
-        <LockEntry onExtend={refetch} lock={lock} key={lock.lockId} />
-      ))}
+      {!isPending &&
+        data?.locks?.map((lock) => (
+          <div key={lock.lockId}>
+            <LockEntry onExtend={reload} lock={lock} />
+          </div>
+        ))}
+      {isPending && (
+        <div className="flex justify-center items-center">
+          <Loader />
+        </div>
+      )}
     </div>
   );
 };
 
 const LockEntry = ({
   lock,
-  key,
   onExtend,
 }: {
   lock: Lock;
-  key: string | number;
   onExtend: () => void;
 }) => {
   const contracts = useContracts();
   const { showModal } = useModal();
 
-  const { data: getLock, refetch } = useReadContract({
+  const { data: getLock } = useReadContract({
     address: contracts.Locking.address,
     abi: LockingABI,
     functionName: "getLock",
@@ -84,20 +98,24 @@ const LockEntry = ({
 
   const reLock = async () => {
     if (!expirationDate) return;
-    const minDate = addWeeks(expirationDate!, 4);
-    const maxDate = nextWednesday(addYears(expirationDate!, 2));
+    const minDate = addWeeks(expirationDate!, 1);
+    const maxDate = setDay(addYears(new Date(), 2), 3);
 
     await showModal(
-      <ExtendLockModal minDate={minDate} maxDate={maxDate} lock={lock} />,
+      <ExtendLockModal
+        minDate={minDate}
+        maxDate={maxDate}
+        lock={lock}
+        onSuccess={onExtend}
+      />,
       {
         hideTitle: true,
-        closeCallback: refetch,
       },
     );
   };
 
   return (
-    <div className={styles.locksList__row} key={key}>
+    <div className={styles.locksList__row}>
       <div className={styles.divider}></div>
       <div className={styles.item}>{mentoParsed}</div>
       <div className={styles.item}>{vementoParsed}</div>

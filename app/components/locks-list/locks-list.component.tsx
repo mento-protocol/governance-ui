@@ -4,7 +4,7 @@ import { Button, Loader } from "@components/_shared";
 import classNames from "classnames";
 import { GetMyLocksDocument, Lock } from "@/app/graphql";
 import { useSuspenseQuery } from "@apollo/client";
-import { useCall, useChainId, useReadContract } from "wagmi";
+import { useChainId, useReadContract } from "wagmi";
 import { LockingABI } from "@/app/abis/Locking";
 import { useContracts } from "@/app/hooks/useContracts";
 import { useCallback, useMemo, useTransition } from "react";
@@ -96,10 +96,20 @@ const LockEntry = ({
     return nextWednesday(addWeeks(startDate, lock.slope + lock.cliff));
   }, [lock]);
 
+  const canRelock = useMemo(() => {
+    if (!expirationDate) return false;
+    const minDate = addWeeks(expirationDate!, 1);
+    const maxDate = setDay(addYears(new Date(), 2), 3);
+
+    return minDate < maxDate;
+  }, [expirationDate]);
+
   const reLock = async () => {
     if (!expirationDate) return;
     const minDate = addWeeks(expirationDate!, 1);
     const maxDate = setDay(addYears(new Date(), 2), 3);
+
+    console.log(minDate.toDateString(), maxDate.toDateString());
 
     await showModal(
       <ExtendLockModal
@@ -133,7 +143,7 @@ const LockEntry = ({
         </div>
       </div>
       <div className={classNames(styles.item, "hidden md:block")}>
-        {!!expirationDate && (
+        {canRelock && (
           <Button className="md:static" block theme="clear" onClick={reLock}>
             Extend lock
           </Button>

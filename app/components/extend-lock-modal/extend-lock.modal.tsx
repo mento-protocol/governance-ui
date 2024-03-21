@@ -74,10 +74,12 @@ export const ExtendLockModal = ({
   }, [minDate, maxDate]);
 
   const save = useCallback(() => {
+    const createTimestamp =
+      lock.lockCreate[0]?.timestamp || lock.replaces?.relock[0]?.timestamp;
     setIsPending(true);
     const elapsedWeeks = differenceInCalendarWeeks(
       setDay(new Date(), 3),
-      setDay(new Date(lock.lockCreate[0].timestamp * 1000), 3),
+      setDay(new Date(createTimestamp * 1000), 3),
     );
     const newCliff =
       lock.cliff - elapsedWeeks < 0 ? 0 : lock.cliff - elapsedWeeks;
@@ -114,6 +116,7 @@ export const ExtendLockModal = ({
     lock.cliff,
     lock.lockCreate,
     lock.lockId,
+    lock.replaces?.relock,
     onSuccess,
     pickerDate,
     removeModal,

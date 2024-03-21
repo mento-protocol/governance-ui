@@ -71,5 +71,6 @@ export const useProposalStates = (
         return acc;
       }, {}),
     );
+    // @ts-ignore
   }, [data, isLoading, isError, proposals]);
 };

@@ -5,8 +5,8 @@
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     gap: $default-gap;
-    margin-bottom: 10px;
     align-items: flex-start;
+    min-height: 100px;
 
     @include media-md {
       grid-template-columns: 1fr 1fr 1fr 250px;

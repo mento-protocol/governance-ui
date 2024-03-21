@@ -2,27 +2,75 @@ import {
   CreateProposalForm,
   CreateProposalFormStepEnum,
   createProposalFormStepOrder,
-  initialCreateProposalForm,
-  WalletProposalForm,
+  getInitialCreateProposalForm,
 } from "@interfaces/create-proposal.interface";
 import { create } from "zustand";
+import StringService from "@/app/helpers/string.service";
+import { isAddress } from "viem";
+
+const validateIsJson = (value: string) => {
+  try {
+    return JSON.parse(value);
+  } catch (e) {
+    return false;
+  }
+};
+
+const validateCode = (code: string) => {
+  if (StringService.isNullOrEmpty(code)) {
+    return undefined;
+  }
+
+  const json = validateIsJson(code);
+
+  if (!validateIsJson(code)) {
+    return "Invalid JSON format";
+  }
+  if (!Array.isArray(json)) {
+    return "Value is not an array";
+  }
+
+  if (json.length === 0) {
+    return "Array is empty";
+  }
+  if (
+    !json.every((item) => {
+      return (
+        Object.hasOwn(item, "address") &&
+        Object.hasOwn(item, "value") &&
+        Object.hasOwn(item, "data") &&
+        typeof item.address === "string" &&
+        !isNaN(+item.value) &&
+        typeof item.data === "string"
+      );
+    })
+  ) {
+    return "Elements have invalid format";
+  }
+
+  const invalidAddresses = json
+    .map((item) => item.address)
+    .filter((address) => !isAddress(address));
+  if (invalidAddresses.length > 0) {
+    return `Invalid address: ${invalidAddresses.join(", ")}`;
+  }
+  return undefined;
+};
 
 interface CreateProposalStore {
   form: CreateProposalForm;
   navigateInForm: (direction: "next" | "prev") => void;
-  canGoNext: boolean;
-  canGoPrev: boolean;
   openedForm: CreateProposalFormStepEnum;
-
+  executeJsonError: string | undefined;
   next: () => void;
   prev: () => void;
-  save: () => void;
+  start: () => void;
+  validateExecuteJson: () => string | undefined;
   checkFormValidity: () => void;
-  checkNavigateValidity: () => void;
-  reset: () => void;
+  reset: (title: string, description: string, code: string) => void;
   patchWalletStep: (value: {
-    balanceVeMENTO: number;
-    balanceMENTO: number;
+    balanceVeMENTO: bigint;
+    balanceMENTO: bigint;
     walletAddress: string;
   }) => void;
   patchContentStep: (value: { title: string; description: string }) => void;
@@ -32,20 +80,17 @@ interface CreateProposalStore {
 export const useCreateProposalStore = create<CreateProposalStore>(
   (set, get) => {
     return {
-      form: initialCreateProposalForm,
+      form: getInitialCreateProposalForm(),
+      executeJsonError: undefined,
       next: () => {
-        if (!get().canGoNext || !get().form[get().openedForm].isValid) {
-          return;
-        }
         get().navigateInForm("next");
       },
       prev: () => {
-        if (!get().canGoPrev) {
-          return;
-        }
         get().navigateInForm("prev");
       },
-      save: () => {},
+      start: () => {
+        set({ openedForm: CreateProposalFormStepEnum.wallet });
+      },
       checkFormValidity: () => {
         const form = get().form[get().openedForm];
         const isValid = Object.values(form.value).every((field) =>
@@ -85,24 +130,13 @@ export const useCreateProposalStore = create<CreateProposalStore>(
           openedForm: nextFormKey,
         });
         get().checkFormValidity();
-        get().checkNavigateValidity();
       },
       canGoNext: false,
       canGoPrev: false,
       openedForm: CreateProposalFormStepEnum.wallet,
-      checkNavigateValidity: () => {
+      reset: (title: string, description: string, code: string) => {
         set({
-          canGoNext:
-            get().openedForm !== CreateProposalFormStepEnum.preview &&
-            get().form[get().openedForm].isValid,
-          canGoPrev: get().openedForm !== CreateProposalFormStepEnum.wallet,
-        });
-      },
-      reset: () => {
-        set({
-          form: initialCreateProposalForm,
-          canGoNext: false,
-          canGoPrev: false,
+          form: getInitialCreateProposalForm(title, description, code),
           openedForm: CreateProposalFormStepEnum.wallet,
         });
       },
@@ -134,9 +168,10 @@ export const useCreateProposalStore = create<CreateProposalStore>(
           },
         });
         get().checkFormValidity();
-        get().checkNavigateValidity();
       },
       patchContentStep: (value) => {
+        localStorage.setItem("proposalTitle", value.title);
+        localStorage.setItem("proposalDescription", value.description);
         set({
           form: {
             ...get().form,
@@ -159,9 +194,9 @@ export const useCreateProposalStore = create<CreateProposalStore>(
           },
         });
         get().checkFormValidity();
-        get().checkNavigateValidity();
       },
       patchExecutionStep: (value) => {
+        localStorage.setItem("proposalCode", value.code);
         set({
           form: {
             ...get().form,
@@ -178,9 +213,22 @@ export const useCreateProposalStore = create<CreateProposalStore>(
               },
             },
           },
+          executeJsonError: undefined,
         });
         get().checkFormValidity();
-        get().checkNavigateValidity();
+      },
+      validateExecuteJson: () => {
+        console.log("validateExecuteJson");
+        set({
+          executeJsonError: undefined,
+        });
+        const value =
+          get().form[CreateProposalFormStepEnum.execution].value.code.value;
+        const hasError = validateCode(value);
+        set({
+          executeJsonError: hasError,
+        });
+        return hasError;
       },
     };
   },

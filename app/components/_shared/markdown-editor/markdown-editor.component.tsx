@@ -39,7 +39,7 @@ export const MarkdownEditor = ({
   value,
   markdownChanged,
 }: MarkdownEditorProps) => {
-  const [markdown, setMarkdown] = useState("");
+  const [markdown, setMarkdown] = useState(value);
   const editorRef = useRef<MDXEditorMethods>(null);
 
   const [selectedView, setSelectedView] = useState(

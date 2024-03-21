@@ -8,4 +8,8 @@ export default abstract class StringService {
       ? `${value.substring(0, length)}${ellipsis && "..."}`
       : value;
   }
+
+  public static isNullOrEmpty(value: string): boolean {
+    return !value || value.trim() === "";
+  }
 }

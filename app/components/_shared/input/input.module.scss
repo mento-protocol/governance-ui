@@ -3,6 +3,10 @@
 .wrapper {
   margin-top: $theme-unit;
 
+  label {
+    font-weight: 600;
+  }
+
   .input {
     @include default-input-style;
   }

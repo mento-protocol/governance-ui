@@ -1,10 +1,11 @@
 import { ConnectButton, MentoLock } from "@components/_shared";
-import { CreateProposalFormStepEnum } from "@interfaces/create-proposal.interface";
 import Wrapper from "@components/create-proposal/wrapper/wrapper.component";
-import { useCreateProposalStore, useUserStore } from "@/app/store";
-import { useCallback, useEffect, useState } from "react";
-
-const formStep = CreateProposalFormStepEnum.wallet;
+import { useCreateProposalStore } from "@/app/store";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { useChainState } from "@/app/providers/chainState.provider";
+import { useAccount } from "wagmi";
+import useModal from "@/app/providers/modal.provider";
+import { CreateProposalFormStepEnum } from "@interfaces/create-proposal.interface";
 
 enum WalletStepEnum {
   connectWallet = "connectWallet",
@@ -28,7 +29,7 @@ const CurrentFormStep = ({ formStep }: { formStep: WalletStepEnum }) => {
       return (
         <>
           <p className="font-size-x4 line-height-x5 ml-x7 place-self-start">
-            To create new governance proposal you need to lock 2,500 veMENTO.
+            To create new governance proposal you need to lock 2,500 MENTO.
           </p>
           <p className="font-size-x4 line-height-x5 ml-x7 place-self-start">
             You can purchase MENTO{" "}
@@ -42,7 +43,7 @@ const CurrentFormStep = ({ formStep }: { formStep: WalletStepEnum }) => {
       return (
         <>
           <p className="font-size-x4 line-height-x5 ml-x7 place-self-start">
-            To create new governance proposal you need to lock 2,500 veMENTO.
+            To create new governance proposal you need to lock 2,500 MENTO.
           </p>
           <MentoLock />
         </>
@@ -61,41 +62,86 @@ const CurrentFormStep = ({ formStep }: { formStep: WalletStepEnum }) => {
 };
 
 export const CreateProposalWalletStep = () => {
-  const { walletAddress, balanceVeMENTO, balanceMENTO } = useUserStore();
-  const { form, patchWalletStep } = useCreateProposalStore();
+  const { veMento, mento } = useChainState((s) => s.tokens);
+  const { address } = useAccount();
+  const {
+    patchWalletStep,
+    form,
+    openedForm,
+    next,
+    prev,
+    patchContentStep,
+    patchExecutionStep,
+  } = useCreateProposalStore();
+  const { showConfirm } = useModal();
 
-  const getAndValidateStep = useCallback((): WalletStepEnum => {
-    if (!walletAddress) {
+  const validateCacheAndNavigate = useCallback(() => {
+    const cacheTitle = localStorage.getItem("proposalTitle");
+    const cacheDescription = localStorage.getItem("proposalDescription");
+    const cacheExecutionCode = localStorage.getItem("proposalExecutionCode");
+
+    if (cacheTitle || cacheDescription || cacheExecutionCode) {
+      localStorage.removeItem("proposalTitle");
+      localStorage.removeItem("proposalDescription");
+      localStorage.removeItem("proposalExecutionCode");
+      showConfirm("Do you want to load the cached proposal?").then((res) => {
+        if (res) {
+          patchContentStep({
+            title: cacheTitle || "",
+            description: cacheDescription || "",
+          });
+          patchExecutionStep({
+            code: cacheExecutionCode || "",
+          });
+        }
+        next();
+      });
+    } else {
+      next();
+    }
+  }, [patchContentStep, patchExecutionStep, showConfirm]);
+
+  const walletStep = useMemo((): WalletStepEnum => {
+    if (!address) {
       return WalletStepEnum.connectWallet;
-    } else if (balanceMENTO <= 10) {
+    } else if (mento.balance <= 0) {
       return WalletStepEnum.buyMento;
-    } else if (balanceVeMENTO < 2500) {
+    } else if (veMento.balance < 2500) {
       return WalletStepEnum.lockMento;
     } else {
       return WalletStepEnum.createProposal;
     }
-  }, [walletAddress, balanceVeMENTO, balanceMENTO]);
-
-  const [walletFormStep, setFormStep] = useState(getAndValidateStep());
+  }, [address, mento.balance, veMento.balance]);
 
   useEffect(() => {
-    setFormStep(getAndValidateStep());
     patchWalletStep({
-      walletAddress: walletAddress || "",
-      balanceVeMENTO,
-      balanceMENTO,
+      walletAddress: address || "",
+      balanceMENTO: mento.balance,
+      balanceVeMENTO: veMento.balance,
     });
   }, [
-    walletAddress,
-    balanceVeMENTO,
-    balanceMENTO,
-    getAndValidateStep,
+    address,
+    mento.balance,
+    walletStep,
     patchWalletStep,
+    veMento.balance,
+    openedForm,
+    validateCacheAndNavigate,
   ]);
 
   return (
-    <Wrapper step={formStep} title="Connect your wallet & login">
-      <CurrentFormStep formStep={walletFormStep} />
+    <Wrapper
+      step={CreateProposalFormStepEnum.wallet}
+      isOpened={form[CreateProposalFormStepEnum.wallet].isOpened}
+      canGoNext={walletStep === WalletStepEnum.createProposal}
+      canGoPrev={false}
+      next={validateCacheAndNavigate}
+      prev={prev}
+      title="Connect your wallet & login"
+    >
+      {form[CreateProposalFormStepEnum.wallet].isOpened && (
+        <CurrentFormStep formStep={walletStep} />
+      )}
     </Wrapper>
   );
 };

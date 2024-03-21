@@ -1,0 +1,21 @@
+@import "@/app/brand";
+
+.executionInput {
+  &::-webkit-input-placeholder {
+    color: transparent;
+  }
+
+  &::-moz-placeholder {
+    color: transparent;
+  }
+
+  &::-webkit-input-placeholder::before {
+    color: #666;
+    content: "Line 1\A Line 2\A Line 3\A";
+  }
+
+  &::-moz-placeholder::before {
+    color: #666;
+    content: "Line 1\A Line 2\A Line 3\A";
+  }
+}

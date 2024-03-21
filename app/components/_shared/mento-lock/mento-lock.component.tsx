@@ -15,6 +15,8 @@ import { useUserStore } from "@/app/store";
 import { useEffect } from "react";
 import { ILock } from "@interfaces/lock.interface";
 import useModal from "@/app/providers/modal.provider";
+import { useChainState } from "@/app/providers/chainState.provider";
+import { useAccount } from "wagmi";
 
 interface MentoLockProps extends BaseComponentProps {}
 
@@ -34,12 +36,17 @@ let validationSchema = object({
 type FormData = InferType<typeof validationSchema>;
 
 export const MentoLock = ({ className, style }: MentoLockProps) => {
-  const { walletAddress, balanceMENTO, lock } = useUserStore();
+  const { lock } = useUserStore();
+  const { address } = useAccount();
+  const { veMento, mento } = useChainState((s) => s.tokens);
   const { showConfirm } = useModal();
 
-  const patchValidationSchema = (value: number) => {
+  const patchValidationSchema = (value: bigint) => {
     validationSchema = object({
-      toLock: number().required().typeError("Invalid number").max(value),
+      toLock: number()
+        .required()
+        .typeError("Invalid number")
+        .max(Number(value)),
       expiration: date()
         .required()
         .typeError("Invalid Date")
@@ -53,8 +60,8 @@ export const MentoLock = ({ className, style }: MentoLockProps) => {
   };
 
   useEffect(() => {
-    patchValidationSchema(balanceMENTO);
-  }, [balanceMENTO]);
+    patchValidationSchema(mento.balance);
+  }, [mento.balance]);
 
   setLocale({
     mixed: {
@@ -128,7 +135,7 @@ export const MentoLock = ({ className, style }: MentoLockProps) => {
       ).then((confirmed) => {
         if (confirmed) {
           lock({
-            owner: walletAddress,
+            owner: address,
             amountMNTO: getValues("toLock"),
             amountsVeMNTO: Math.round(
               getValues("toLock") * 100 * (getValues("expirationMonths") / 12),
@@ -149,7 +156,7 @@ export const MentoLock = ({ className, style }: MentoLockProps) => {
     trigger("expiration");
   };
 
-  patchValidationSchema(balanceMENTO);
+  patchValidationSchema(mento.balance);
 
   return (
     <div className={className} style={style}>
@@ -167,7 +174,7 @@ export const MentoLock = ({ className, style }: MentoLockProps) => {
                 <div className="flex justify-between gap-x3">
                   <div className="whitespace-nowrap">Max</div>
                   <div className="whitespace-nowrap">
-                    {balanceMENTO.toLocaleString()} MENTO
+                    {mento.balance.toString()} MENTO
                   </div>
                 </div>
               </div>

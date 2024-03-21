@@ -14,7 +14,7 @@ export const ProgressBarItem = ({
       style={{
         width: `${Math.round(progress)}%`,
       }}
-      className={`${barColor} shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center`}
+      className={`${barColor} shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center rounded-xl`}
     />
   );
 };
@@ -31,7 +31,7 @@ export const ProgressBar = ({
   return (
     <div className={`${className} relative`}>
       <div
-        className={`${backgroundColor} overflow-hidden h-5 text-xs flex rounded-xl border-solid border`}
+        className={`${backgroundColor} overflow-hidden h-2 text-xs flex rounded-xl border-solid border`}
       >
         {children}
       </div>

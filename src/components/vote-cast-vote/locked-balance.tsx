@@ -1,6 +1,6 @@
 import { formatUnits } from "viem";
 import useTokens from "@/lib/contracts/useTokens";
-import NumbersService from "@/lib/helpers/numbers.service";
+import { numberSuffixFormat } from "@/lib/helpers/numbers.service";
 
 const LockedBalance = () => {
   const { veMentoBalance } = useTokens();
@@ -9,7 +9,7 @@ const LockedBalance = () => {
       <div className="text-[1.125rem] text-[#A8A8A8] dark:text-[#AAB3B6]">
         Your voting power
       </div>
-      <div className="text-[2rem] animate-[pulse] leading-[2rem]">{`${NumbersService.parseNumericValue(formatUnits(veMentoBalance.value, veMentoBalance.decimal))} veMENTO`}</div>
+      <div className="text-[2rem] animate-[pulse] leading-[2rem]">{`${numberSuffixFormat(Number(formatUnits(veMentoBalance.value, veMentoBalance.decimal)), 2)} veMENTO`}</div>
     </div>
   );
 };

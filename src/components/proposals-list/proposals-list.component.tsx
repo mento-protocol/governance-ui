@@ -1,5 +1,5 @@
 import { GetProposals, Proposal } from "@/lib/graphql";
-import NumbersService from "@/lib/helpers/numbers.service";
+import { numberSuffixFormat } from "@/lib/helpers/numbers.service";
 import StringService from "@/lib/helpers/string.service";
 import { useSuspenseQuery } from "@apollo/experimental-nextjs-app-support/ssr";
 import { useChainId } from "wagmi";
@@ -61,15 +61,13 @@ export const ProposalsListComponent = ({
               >
                 {!!index && <div className={styles.divider} />}
                 <div
-                  className={classNames(
-                    styles.proposals_grid__row__element,
-                    styles.first,
-                  )}
+                  className={
+                    "text-left overflow-hidden text-ellipsis break-words font-normal text-lg max-w-[340px]"
+                  }
                 >
                   <div className="flex gap-x3 place-items-center">
                     <Link
-                      className="flex-1"
-                      style={{ maxHeight: "3em" }}
+                      className="flex-1 max-h-[3em]"
                       href={`/proposals/${proposalId}`}
                     >
                       <p>
@@ -86,9 +84,13 @@ export const ProposalsListComponent = ({
                   text={state?.toString()}
                   type={stateToStatusColorMap[state]}
                 />
-                <div
-                  className={classNames(styles.proposals_grid__row__element)}
-                >
+                <div className={"text-right text-2xl"}>
+                  <span>
+                    {numberSuffixFormat(
+                      Number(formatUnits(votes.for.total, 18)),
+                      2,
+                    )}
+                  </span>
                   <ProgressBar className={styles.progress_bar}>
                     <ProgressBarItem
                       barColor="bg-mento-mint"
@@ -101,9 +103,13 @@ export const ProposalsListComponent = ({
                     />
                   </ProgressBar>
                 </div>
-                <div
-                  className={classNames(styles.proposals_grid__row__element)}
-                >
+                <div className={"text-right text-2xl"}>
+                  <span>
+                    {numberSuffixFormat(
+                      Number(formatUnits(votes.against.total, 18)),
+                      2,
+                    )}
+                  </span>
                   <ProgressBar className={styles.progress_bar}>
                     <ProgressBarItem
                       barColor="bg-mento-red"
@@ -117,15 +123,11 @@ export const ProposalsListComponent = ({
                   </ProgressBar>
                 </div>
                 <div
-                  className={classNames(
-                    styles.proposals_grid__row__element,
-                    styles.last,
-                    "mb-3",
-                  )}
+                  className={
+                    "text-right overflow-hidden font-normal text-2xl mr-1 mb-1"
+                  }
                 >
-                  {NumbersService.parseNumericValue(
-                    formatUnits(votes.total, 18),
-                  )}
+                  {numberSuffixFormat(Number(formatUnits(votes.total, 18)), 2)}
                 </div>
               </div>
             ),

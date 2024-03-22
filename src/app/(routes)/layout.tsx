@@ -1,12 +1,12 @@
 "use client";
 import React, { ReactNode } from "react";
-import { usePathname } from "next/navigation";
 import { Inter } from "next/font/google";
-import { Providers } from "@/app/(routes)/providers";
-import { ModalProvider } from "@/lib/providers/modal.provider";
 import { Footer, Header, Breadcrumbs } from "@/components/_shared";
 import "@rainbow-me/rainbowkit/styles.css";
 import "@/styles/globals.scss";
+import { Providers } from "@/app/(routes)/providers";
+import { usePathname } from "next/navigation";
+import { ModalProvider } from "@/lib/providers/modal.provider";
 
 const inter = Inter({
   subsets: ["latin"],

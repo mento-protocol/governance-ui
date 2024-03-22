@@ -1,0 +1,41 @@
+@import "@/styles/brand";
+
+@mixin branded-badge($border-color, $background-color) {
+  border: 1px solid $border-color;
+  background-color: $background-color;
+}
+
+.badge {
+  height: 22px;
+  border-radius: 4px;
+  padding-top: 6px;
+  font-size: 16px;
+  min-width: 100px;
+  text-align: center;
+  width: min-content;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-style: normal;
+  text-transform: uppercase;
+  color: $c-black;
+  font-family: "Founders Grotesk";
+  font-weight: 500;
+
+  &.success {
+    @include branded-badge($c-success, $c-success);
+  }
+
+  &.danger {
+    @include branded-badge($c-error, $c-error);
+  }
+
+  &.warning {
+    @include branded-badge($c-black, $c-white);
+  }
+
+  &.info {
+    @include branded-badge($c-info, $c-info);
+  }
+}

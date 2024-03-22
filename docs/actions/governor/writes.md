@@ -1,5 +1,9 @@
 # Governor state change actions
+<<<<<<< HEAD
+[Home](../../../README.md) / [Docs](../../index.md) / [Actions](../index.md) / Governor contract state change
+=======
 [Home](../README.md) / [Docs](../index.md) / [Actions](./index.md) / Governor contract state change
+>>>>>>> develop
 
 ### Propose
 #### Prerequisites

@@ -1,0 +1,86 @@
+@import "@/styles/brand";
+
+.sliderWrapper {
+  margin-top: 6 * $theme-unit;
+  width: 100%;
+
+  .slider {
+
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 35px;
+    background: var(--theme-background-color);
+    outline: none;
+    -webkit-transition: .2s;
+    transition: opacity .2s;
+    border-radius: $border-radius;
+    box-shadow: 0 0 0 1px $c-lightGrey;
+
+    &::-webkit-slider-thumb {
+      position: relative;
+      -webkit-appearance: none;
+      appearance: none;
+      width: 44px;
+      height: 44px;
+      background: var(--theme-foreground-color);
+      border: 1px solid var(--theme-foreground-color);
+      cursor: pointer;
+      border-radius: 8px;
+
+      &:before {
+        content: 'xD';
+        position: absolute;
+
+        top: -10px;
+      }
+    }
+
+    &::-moz-range-thumb {
+      position: relative;
+      -webkit-appearance: none;
+      appearance: none;
+      width: 44px;
+      height: 44px;
+      background: var(--theme-foreground-color);
+      border: 1px solid var(--theme-foreground-color);
+      cursor: pointer;
+      border-radius: 8px;
+
+      &:before {
+        content: 'xD';
+        position: absolute;
+
+        top: -10px;
+      }
+    }
+  }
+
+  .errorMessage {
+    @include default-input-error-message;
+  }
+
+  .labels {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: $theme-unit;
+    font-size: 16px;
+    font-weight: 300;
+  }
+
+  .bubbleTrack {
+    position: relative;
+    height: 20px;
+
+    .bubble {
+      position: absolute;
+      top: 0px;
+      width: 176px;
+      text-align: center;
+      transform: translateX(-66px);
+      white-space: nowrap;
+      font-size: 16px;
+      font-weight: 300;
+    }
+  }
+}

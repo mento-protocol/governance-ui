@@ -1,4 +1,5 @@
 # Mento Token state change actions
+
 [Home](../../../README.md) / [Docs](../../index.md) / [Actions](../index.md) / Mento Token state change
 
 ### Approve
@@ -12,4 +13,4 @@
 #### Mutations
 
 - **Success**
-    - Locking features are now accessible  
+  - Locking features are now accessible

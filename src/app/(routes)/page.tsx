@@ -1,5 +1,5 @@
 "use client";
-import { Suspense } from "react";
+import { Suspense, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import { MentoIcon } from "@/components/_icons/mento.icon";
 import { MentoTextLogoIcon, CeloLogoIcon } from "@/components/_icons";
@@ -20,6 +20,13 @@ import { useAccount } from "wagmi";
 const Page = () => {
   const router = useRouter();
   const { address } = useAccount();
+  const { chain } = useAccount();
+
+  const chainKind = useMemo(
+    () => (chain?.testnet ? "Testnet" : "Mainnet"),
+    [chain?.testnet],
+  );
+  const chainText = useMemo(() => chain?.name || "Celo", [chain?.name]);
 
   return (
     <main className="flex flex-col place-items-center mt-x11">
@@ -70,7 +77,8 @@ const Page = () => {
           <div className="flex flex-wrap flex-row gap-x3">
             <Badge rounded type="tertiary">
               <CeloLogoIcon />
-              &nbsp;CELO
+              &nbsp; {chainText}&nbsp;
+              {chainKind}
             </Badge>
             <Badge rounded type="secondary">
               MENTO {(1_000_000_000).toLocaleString()} Supply

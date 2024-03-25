@@ -18,26 +18,36 @@
     "isolatedModules": true,
     "jsx": "preserve",
     "incremental": true,
+    "noUnusedLocals": true,
     "plugins": [
       {
         "name": "next"
       }
     ],
     "paths": {
-      "@/*": [
-        "./*"
+      // "@/*": [
+      //   "./*"
+      // ],
+      "@/app/*": [
+        "./src/app/*"
       ],
-      "@components/*": [
-        "./app/components/*"
+      "@/components/*": [
+        "./src/components/*"
       ],
-      "@interfaces/*": [
-        "./app/interfaces/*"
+      "@/config/*": [
+        "./src/config/*"
       ],
-      "@types/*": [
-        "./app/types/*"
+      "@/lib/*": [
+        "./src/lib/*"
       ],
-      "@styles/*": [
-        "./app/styles/*"
+      "@/interfaces/*": [
+        "./src/lib/interfaces/*"
+      ],
+      "@/types/*": [
+        "./src/lib/types/*"
+      ],
+      "@/styles/*": [
+        "./src/styles/*"
       ]
     }
   },

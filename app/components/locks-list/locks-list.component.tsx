@@ -7,11 +7,12 @@ import { useSuspenseQuery } from "@apollo/client";
 import { useChainId, useReadContract } from "wagmi";
 import { LockingABI } from "@/app/abis/Locking";
 import { useContracts } from "@/app/hooks/useContracts";
-import { useCallback, useMemo, useTransition } from "react";
+import { useCallback, useMemo, useState, useTransition } from "react";
 import { addWeeks, addYears, nextWednesday, setDay } from "date-fns";
 import { formatUnits } from "viem";
 import useModal from "@/app/providers/modal.provider";
 import { ExtendLockModal } from "@components/extend-lock-modal/extend-lock.modal";
+import { toast } from "sonner";
 
 interface LocksListProps extends BaseComponentProps {
   address: string;
@@ -20,6 +21,7 @@ interface LocksListProps extends BaseComponentProps {
 export const LocksList = ({ address }: LocksListProps) => {
   const chainId = useChainId();
   const [isPending, startTransition] = useTransition();
+  const [isRefetchPending, setIsRefetchPending] = useState(false);
   const { data, refetch } = useSuspenseQuery<{ locks: Lock[] }>(
     GetMyLocksDocument,
     {
@@ -31,11 +33,34 @@ export const LocksList = ({ address }: LocksListProps) => {
     },
   );
 
-  const reload = useCallback(() => {
-    startTransition(async () => {
-      await refetch();
-    });
-  }, [refetch]);
+  const reload = useCallback(
+    (lockId: string) => {
+      setIsRefetchPending(true);
+      let intervalCounter = 0;
+      startTransition(async () => {
+        const interval = setInterval(() => {
+          refetch().then((data) => {
+            if (
+              data?.data?.locks?.some(
+                (lock) => lock.replaces?.lockId === lockId,
+              )
+            ) {
+              clearInterval(interval);
+              setIsRefetchPending(false);
+            } else {
+              if (intervalCounter > 20) {
+                clearInterval(interval);
+                setIsRefetchPending(false);
+                toast.error("Unable to refetch data, please refresh the page.");
+              }
+              intervalCounter++;
+            }
+          });
+        }, 500);
+      });
+    },
+    [refetch],
+  );
 
   return (
     <div className={styles.locksList}>
@@ -49,12 +74,13 @@ export const LocksList = ({ address }: LocksListProps) => {
         <div className={classNames(styles.title, styles.item)}>Expires on</div>
       </div>
       {!isPending &&
+        !isRefetchPending &&
         data?.locks?.map((lock) => (
           <div key={lock.lockId}>
             <LockEntry onExtend={reload} lock={lock} />
           </div>
         ))}
-      {isPending && (
+      {(isPending || isRefetchPending) && (
         <div className="flex justify-center items-center">
           <Loader />
         </div>
@@ -68,7 +94,7 @@ const LockEntry = ({
   onExtend,
 }: {
   lock: Lock;
-  onExtend: () => void;
+  onExtend: (lockId: string) => void;
 }) => {
   const contracts = useContracts();
   const { showModal } = useModal();
@@ -116,7 +142,7 @@ const LockEntry = ({
         minDate={minDate}
         maxDate={maxDate}
         lock={lock}
-        onSuccess={onExtend}
+        onSuccess={() => onExtend(lock.lockId)}
       />,
       {
         hideTitle: true,

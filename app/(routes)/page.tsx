@@ -27,7 +27,7 @@ const Page = () => {
     () => (chain?.testnet ? "Testnet" : "Mainnet"),
     [chain?.testnet],
   );
-  const chainText = useMemo(() => chain?.name || "CELO", [chain?.name]);
+  const chainText = useMemo(() => chain?.name || "Celo", [chain?.name]);
 
   return (
     <main className="flex flex-col place-items-center mt-x11">
@@ -82,7 +82,7 @@ const Page = () => {
           <div className="flex flex-wrap flex-row gap-x3">
             <Badge rounded type="tertiary">
               <CeloLogoIcon />
-              &nbsp; <span className="uppercase">{chainText}</span>&nbsp;
+              &nbsp; {chainText}&nbsp;
               {chainKind}
             </Badge>
             <Badge rounded type="secondary">

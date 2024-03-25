@@ -9,11 +9,8 @@
 .badge {
   border-radius: $border-radius;
   padding: 6px 10px;
-  font-family: "Inter";
-  font-size: 18px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 18px;
+  font-size: 16px;
+  line-height: 1em;
   min-width: 70px;
   text-align: center;
   width: min-content;
@@ -23,6 +20,7 @@
 
   &.secondary {
     @include branded-badge($c-secondary, $c-secondary, $c-black);
+    font-weight: 500;
   }
 
   &.tertiary {

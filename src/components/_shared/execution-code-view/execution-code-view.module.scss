@@ -1,0 +1,18 @@
+@import "@/styles/brand";
+
+.container {
+  .form_data_title {
+    margin: 5 * $theme-unit 0;
+    display: flex;
+    justify-content: center;
+    font-size: 6 * $theme-unit;
+    line-height: 6 * $theme-unit;
+    font-weight: 500
+  }
+
+  .execution {
+    border-radius: 8px;
+    border: 1px solid $c-lightGrey;
+    padding: 4 * $theme-unit;
+  }
+}

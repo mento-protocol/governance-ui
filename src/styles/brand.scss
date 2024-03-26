@@ -1,0 +1,283 @@
+@import "@/styles/variables.module";
+@import "@/styles/easing.module";
+
+$brandColors: (
+  'black': $c-black,
+  'white': $c-white,
+  'lightGrey': $c-lightGrey,
+  'grey': $c-grey,
+  'primary': $c-primary,
+  'secondary': $c-secondary,
+  'success': $c-success,
+  'error': $c-error,
+  'warning': $c-warning,
+  'info': $c-info,
+  'transparent': transparent,
+);
+
+$brandSizes: (
+  '0x': 0,
+  '0-5x': $theme-unit * 0.5,
+  'x1': $theme-unit,
+  'x1-5': $theme-unit * 1.5,
+  'x2': $theme-unit * 2,
+  'x2-5': $theme-unit * 2.5,
+  'x3': $theme-unit * 3,
+  'x3-5': $theme-unit * 3.5,
+  'x4': $theme-unit * 4,
+  'x4-5': $theme-unit * 4.5,
+  'x5': $theme-unit * 5,
+  'x5-5': $theme-unit * 5.5,
+  'x6': $theme-unit * 6,
+  'x6-5': $theme-unit * 6.5,
+  'x7': $theme-unit * 7,
+  'x7-5': $theme-unit * 7.5,
+  'x8': $theme-unit * 8,
+  'x8-5': $theme-unit * 8.5,
+  'x9': $theme-unit * 9,
+  'x9-5': $theme-unit * 9.5,
+  'x10': $theme-unit * 10,
+  'x10-5': $theme-unit * 10.5,
+  'x11': $theme-unit * 11,
+  'x11-5': $theme-unit * 11.5,
+  'x12': $theme-unit * 12,
+  'x12-5': $theme-unit * 12.5,
+  'x13': $theme-unit * 13,
+  'x13-5': $theme-unit * 13.5,
+  'x14': $theme-unit * 14,
+  'x14-5': $theme-unit * 14.5,
+  'x15': $theme-unit * 15,
+  'x15-5': $theme-unit * 15.5,
+  'x16': $theme-unit * 16,
+  'x16-5': $theme-unit * 16.5,
+  'x17': $theme-unit * 17,
+  'x17-5': $theme-unit * 17.5,
+  'x18': $theme-unit * 18,
+  'x18-5': $theme-unit * 18.5,
+  'x19': $theme-unit * 19,
+  'x19-5': $theme-unit * 19.5,
+  'x20': $theme-unit * 20,
+);
+
+$themes: (
+  'light': (
+    'foreground-color': $c-black,
+    'background-color': $c-white,
+    'secondary-color': $c-grey,
+    'card-background': $c-white,
+    'card-border': #B3B3B3,
+    'header-hover': #{$c-grey}22,
+    'button-background': #cccfde,
+    'date-picker-box': rgba(0, 0, 0, 0.25),
+    'progress-border': $c-black,
+    'card-table-gradient': rgba(0, 0, 0, .15),
+    'footer-color': #636768,
+  ),
+  'dark': (
+    'foreground-color': $c-white,
+    'background-color': $c-black,
+    'secondary-color': $c-white,
+    'card-background': #121316,
+    'card-border': $c-white,
+    'button-background': $c-grey,
+    'header-hover': #{$c-grey}88,
+    'date-picker-box': rgba(255, 255, 255, 0.25),
+    'progress-border': $c-grey,
+    'card-table-gradient': rgba(156, 156, 156, .25),
+    'footer-color': #8F9394,
+  )
+);
+
+@mixin theme-class($class-name, $properties, $value) {
+  .#{$class-name} {
+    @each $property in $properties {
+      #{$property}: $value;
+    }
+  }
+
+  .\!#{$class-name} {
+    @each $property in $properties {
+      #{$property}: $value !important;
+    }
+  }
+
+  .hover\:#{$class-name}:hover {
+    @each $property in $properties {
+      #{$property}: $value;
+    }
+  }
+
+  .focus\:#{$class-name}:focus {
+    @each $property in $properties {
+      #{$property}: $value;
+    }
+  }
+
+  .active\:#{$class-name}:active {
+    @each $property in $properties {
+      #{$property}: $value;
+    }
+  }
+
+  .disabled\:#{$class-name}:disabled {
+    @each $property in $properties {
+      #{$property}: $value;
+    }
+  }
+
+  .sm\:#{$class-name} {
+    @include media-sm {
+      @each $property in $properties {
+        #{$property}: $value;
+      }
+    }
+  }
+
+  .md\:#{$class-name} {
+    @include media-md {
+      @each $property in $properties {
+        #{$property}: $value;
+      }
+    }
+  }
+
+  .lg\:#{$class-name} {
+    @include media-lg {
+      @each $property in $properties {
+        #{$property}: $value;
+      }
+    }
+  }
+
+  .xl\:#{$class-name} {
+    @include media-xl {
+      @each $property in $properties {
+        #{$property}: $value;
+      }
+    }
+  }
+
+  .xxl\:#{$class-name} {
+    @include media-2xl {
+      @each $property in $properties {
+        #{$property}: $value;
+      }
+    }
+  }
+}
+
+@mixin media-sm {
+  @media (min-width: $breakpoint-sm) {
+    @content;
+  }
+}
+
+@mixin media-md {
+  @media (min-width: $breakpoint-md) {
+    @content;
+  }
+}
+
+@mixin media-lg {
+  @media (min-width: $breakpoint-lg) {
+    @content;
+  }
+}
+
+@mixin media-xl {
+  @media (min-width: $breakpoint-xl) {
+    @content;
+  }
+}
+
+@mixin media-2xl {
+  @media (min-width: $breakpoint-2xl) {
+    @content;
+  }
+}
+
+@mixin card-table-overflow-shadows {
+  background-image: linear-gradient(to right, var(--theme-card-background), var(--theme-card-background)),
+  linear-gradient(to right, var(--theme-card-background), var(--theme-card-background)),
+  linear-gradient(to right, var(--theme-card-table-gradient), transparent),
+  linear-gradient(to left, var(--theme-card-table-gradient), transparent);
+
+  background-position: left center, right center, left center, right;
+  background-repeat: no-repeat;
+  background-size: 20px 100%, 20px 100%, 10px 100%, 10px 100%;
+  background-color: transparent;
+  background-attachment: local, local, scroll, scroll;
+}
+
+@mixin row-divider {
+  .divider {
+    grid-column: 1 / -1;
+    border-bottom: 1px solid #b3b3b3;
+  }
+}
+
+@mixin default-input-style {
+  width: 100%;
+  padding: 18px 32px;
+  border-radius: 8px;
+  border: 1px solid $c-lightGrey;
+  gap: 8px;
+
+  margin-top: $theme-unit;
+
+  transition: all 0.2s $ease-out-circ;
+
+  &:focus-within,
+  &.focused {
+    border: 1px solid $c-primary;
+    box-shadow: 0 0 0 2px $c-primary;
+  }
+
+  &.error {
+    border: 1px solid $c-error !important;
+    box-shadow: 0 0 0 2px $c-error !important;
+  }
+
+  input, textarea {
+    width: 100%;
+    border: none;
+    outline: none;
+    font-size: 18px;
+    font-weight: 400;
+    color: var(--theme-foreground-color);
+    background-color: transparent;
+    caret-color: $c-primary;
+
+    &:placeholder {
+      color: $c-lightGrey;
+    }
+  }
+}
+
+@mixin default-input-error-message {
+  color: $c-error-dark;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 4px;
+}
+
+@mixin default-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  backdrop-filter: blur(2px);
+  background-color: #{$c-black}22;
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s $ease-out-circ, z-index 0.1s 0.3s linear;
+
+  &.opened {
+    z-index: 1000;
+    pointer-events: all;
+    opacity: 1;
+    transition: opacity 0.2s $ease-out-circ, z-index 0.01s linear;
+  }
+}

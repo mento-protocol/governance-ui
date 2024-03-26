@@ -1,0 +1,190 @@
+@import "@/styles/brand";
+
+@keyframes button-click-animation {
+  0% {
+    margin-top: -3px;
+  }
+
+  25% {
+    margin-top: -7px;
+  }
+
+  75% {
+    margin-top: -1px;
+  }
+
+  100% {
+    margin-top: -3px;
+  }
+}
+
+@mixin branded-button($shadow-color, $background-color, $foreground-color) {
+  background-color: $shadow-color;
+
+  button {
+    color: $foreground-color;
+    background-color: $background-color;
+    border-color: $c-black;
+    margin-top: -4px;
+
+    svg {
+      path {
+        fill: $foreground-color;
+      }
+    }
+
+    @media (hover: hover) {
+      &:hover {
+        margin-top: -8px;
+        color: $foreground-color;
+      }
+
+      &:active {
+        margin-top: -2px;
+        color: $foreground-color;
+      }
+    }
+
+    @media (hover: none) {
+
+      &:active,
+      &:focus {
+        animation: button-click-animation 0.45s $ease-out-back;
+      }
+    }
+  }
+}
+
+.wrapper {
+  height: 56px;
+  width: 100%;
+  border-radius: $border-radius;
+  background-color: transparent;
+  border-bottom: 1px solid $c-black;
+
+  .button {
+    min-width: inherit;
+    width: 100%;
+    height: 56px;
+    border-radius: $border-radius;
+    border: 1px solid var(--theme-foreground-color);
+    color: var(--theme-foreground-color);
+
+    .inner {
+      padding: 2 * $theme-unit 4 * $theme-unit;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 1ch;
+      white-space: nowrap;
+      font-size: 15px;
+      font-weight: 500;
+      line-height: 20px;
+      letter-spacing: 0em;
+
+
+      * {
+        white-space: nowrap;
+      }
+    }
+
+    transition: margin-top 0.2s ease-out;
+
+    &:hover {
+      transition: margin-top 0.2s cubic-bezier(.19, .69, .84, 1.76);
+      color: var(--theme-foreground-color);
+
+    }
+  }
+
+  &.primary {
+    @include branded-button($c-primary-dark, $c-primary, $c-white);
+  }
+
+  &.secondary {
+    @include branded-button($c-secondary-dark, $c-secondary, $c-black);
+  }
+
+  &.success {
+    @include branded-button($c-success-dark, $c-success, $c-black);
+  }
+
+  &.danger {
+    @include branded-button($c-error-dark, $c-error, $c-black);
+  }
+
+  &.warning {
+    @include branded-button($c-warning-dark, $c-warning, $c-black);
+  }
+
+  &.info {
+    @include branded-button($c-info-dark, $c-info, $c-black);
+  }
+
+  &.tertiary {
+    @include branded-button($c-grey, $c-white, $c-black);
+  }
+
+  &.clear {
+    border-bottom: 1px solid transparent;
+
+    .button {
+      transition: background-color 0.2s ease-out;
+
+      &:hover {
+        transition: background-color 0.2s ease-out;
+        background-color: var(--theme-button-background);
+      }
+
+      &:active {
+        background-color: #bdc3e1;
+      }
+    }
+  }
+
+  &.link {
+    border-bottom: 1px solid transparent;
+
+    .button {
+      transition: color 0.2s ease-out;
+      border: none;
+      color: var(--theme-foreground-color);
+      text-decoration: underline;
+
+      &:hover {
+        transition: color 0.2s ease-out;
+        color: $c-primary;
+      }
+
+      &:active,
+      &:visited {
+        color: $c-primary-dark;
+      }
+    }
+  }
+
+  &.disabled {
+    cursor: not-allowed;
+    pointer-events: none;
+
+    .button {
+      transition: margin-top 0.2s cubic-bezier(.19, .69, .84, 1.76);
+      opacity: 0.6;
+      background-color: $c-grey;
+      margin-top: 0px !important;
+    }
+  }
+}
+
+.disabled {
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.block {
+  width: 100%;
+
+  .button {
+    width: 100%;
+  }
+}

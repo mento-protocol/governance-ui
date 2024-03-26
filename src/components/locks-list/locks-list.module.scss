@@ -1,0 +1,29 @@
+@import "@/styles/brand";
+
+.locksList {
+  &__row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: $default-gap;
+    align-items: flex-start;
+    min-height: 100px;
+
+    @include media-md {
+      grid-template-columns: 1fr 1fr 1fr 250px;
+      align-items: center;
+    }
+
+    .title {
+      font-size: 16px;
+    }
+
+    .item {
+      font-weight: 500;
+      font-style: normal;
+    }
+
+    padding: 2 * $theme-unit $theme-unit;
+
+    @include row-divider;
+  }
+}

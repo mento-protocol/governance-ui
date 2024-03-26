@@ -12,15 +12,21 @@
   font-size: 16px;
   line-height: 1em;
   min-width: 70px;
+  min-height: 40px;
   text-align: center;
   width: min-content;
   white-space: nowrap;
   display: flex;
   align-items: center;
+  font-family: Inter, sans-serif;
+  font-weight: 400;
+
+  @include media-md {
+    font-size: 18px;
+  }
 
   &.secondary {
     @include branded-badge($c-secondary, $c-secondary, $c-black);
-    font-weight: 500;
   }
 
   &.tertiary {

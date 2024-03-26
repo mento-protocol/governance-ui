@@ -5,52 +5,66 @@
   border: 1px solid var(--theme-card-border);
   border-radius: $border-radius;
 
-  &__header {
-    padding: 2 * $theme-unit;
-    position: relative;
-    background-color: inherit;
-    border-radius: 8.5px 8.5px 0 0;
+  &.noBorderMobile {
+    border: none;
+    &__header {
+      padding: 2 * $theme-unit;
+      position: relative;
+      background-color: inherit;
+      border-radius: 8.5px 8.5px 0 0;
 
-    @include media-md {
-      padding: 4 * $theme-unit;
-      padding-bottom: 2 * $theme-unit;
-    }
-  }
-
-  &__footer,
-  &>div {
-    padding: 0 2 * $theme-unit;
-
-    &:last-child {
-      padding-bottom: 2 * $theme-unit;
-    }
-
-    @include media-md {
-      padding: 0 4 * $theme-unit;
-
-      &:last-child {
-        padding-bottom: 4 * $theme-unit;
+      @include media-md {
+        border: 1px solid var(--theme-card-border);
       }
     }
-  }
 
-  &>div {
-    border-radius: 8.5px;
-  }
+    &__header {
+      padding: 16px;
+      position: relative;
+      background-color: inherit;
+      border-radius: $border-radius $border-radius 0 0;
 
-  &>div:first-child {
-    padding-top: 2 * $theme-unit;
-
-    @include media-md {
-      padding-top: 4 * $theme-unit;
+      @include media-md {
+        padding: 20px;
+        padding-bottom: 2 * $theme-unit;
+      }
     }
-  }
 
-  &.block {
-    width: 100%;
-  }
+    &__footer,
+    & > div {
+      padding: 0 16px;
 
-  &.transparent {
-    background-color: transparent;
+      &:last-child {
+        padding-bottom: 2 * $theme-unit;
+      }
+
+      @include media-md {
+        padding: 0 20px;
+
+        &:last-child {
+          padding-bottom: 4 * $theme-unit;
+        }
+      }
+    }
+
+    & > div {
+      border-radius: 8.5px;
+    }
+
+    & > div:first-child {
+      padding-top: 2 * $theme-unit;
+
+      @include media-md {
+        padding-top: 4 * $theme-unit;
+      }
+    }
+
+    &.block {
+      width: 100%;
+    }
+
+    &.transparent {
+      background-color: transparent;
+    }
   }
 }

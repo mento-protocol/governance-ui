@@ -1,13 +1,12 @@
 "use client";
-import React from "react";
+import React, { Suspense } from "react";
 import classNames from "classnames";
 import Link from "next/link";
 import CopyToClipboard from "react-copy-to-clipboard";
 import { formatUnits } from "viem";
 import { useAccount, useReadContracts } from "wagmi";
 
-import { Card } from "@/components/_shared";
-import WalletHelper from "@/lib/helpers/wallet.helper";
+import { Card, Expandable, Loader } from "@/components/_shared";
 import { CopyIcon } from "@/components/_icons/copy.icon";
 import { TimelockControllerABI } from "@/lib/abi/TimelockController";
 import { GovernorABI } from "@/lib/abi/Governor";
@@ -16,83 +15,101 @@ import { useContracts } from "@/lib/contracts/useContracts";
 
 export const ContractParams = () => {
   const governanceDetails = useGovernanceDetails();
-  const governorContractAddresses = useGovernanceContractAddresses();
+  const governorContractAddresses = useContracts();
 
   return (
-    <div className="grid grid-cols-1 gap-x1 md:grid-cols-7 px-x4 pt-x4">
-      <Card className="md:col-span-3 flex flex-col">
-        <Card.Header>
-          <div className="color-primary text-x4 font-medium mb-x6">
-            Parameters
-          </div>
-        </Card.Header>
-        <div className="flex flex-col flex-grow justify-between gap-[15px]">
-          <ParamDisplay
-            label="Proposal threshold"
-            value={governanceDetails?.proposalThreshold}
-          />
-          <ParamDisplay
-            label="Quorum needed"
-            value={governanceDetails?.quorumNeeded}
-          />
+    <Expandable
+      header={"Governance Parameters"}
+      className="font-medium font-size-x4"
+    >
+      <Suspense fallback={<Loader isCenter />}>
+        <div className="grid grid-cols-1 gap-x2 md:grid-cols-7 md:pt-x4">
+          <Card
+            noBorderMobile
+            className="md:col-span-3 flex flex-col gap-x4 md:gap-x6"
+          >
+            <Card.Header>
+              <div className="text-primary text-center md:text-left">
+                Parameters
+              </div>
+            </Card.Header>
+            <div className="flex flex-col flex-grow justify-between gap-x3">
+              <ParamDisplay
+                label="Proposal threshold"
+                value={governanceDetails?.proposalThreshold}
+              />
+              <ParamDisplay
+                label="Quorum needed"
+                value={governanceDetails?.quorumNeeded}
+              />
 
-          <ParamDisplay
-            label="Voting period"
-            value={governanceDetails?.votingPeriod}
-          />
-          <ParamDisplay label="Timelock" value={governanceDetails?.timelock} />
+              <ParamDisplay
+                label="Voting period"
+                value={governanceDetails?.votingPeriod}
+              />
+              <ParamDisplay
+                label="Timelock"
+                value={governanceDetails?.timelock}
+              />
+            </div>
+          </Card>
+          <Card
+            noBorderMobile
+            className="md:col-span-4 flex flex-col gap-x4 md:gap-x6"
+          >
+            <Card.Header>
+              <div className="text-primary text-center md:text-left">
+                Contract addresses
+              </div>
+            </Card.Header>
+            <div className="flex flex-col flex-grow justify-between gap-[15px]">
+              <ParamDisplay
+                label="Governor"
+                value={
+                  governorContractAddresses.MentoGovernor.address ? (
+                    <ContractAddressLinkWithCopy
+                      address={governorContractAddresses.MentoGovernor.address}
+                    />
+                  ) : null
+                }
+              />
+              <ParamDisplay
+                label="MENTO"
+                value={
+                  governorContractAddresses.MentoToken.address ? (
+                    <ContractAddressLinkWithCopy
+                      address={governorContractAddresses.MentoToken.address}
+                    />
+                  ) : null
+                }
+              />
+              <ParamDisplay
+                label="Timelock"
+                value={
+                  governorContractAddresses.TimelockController.address ? (
+                    <ContractAddressLinkWithCopy
+                      address={
+                        governorContractAddresses.TimelockController.address
+                      }
+                    />
+                  ) : null
+                }
+              />
+              <ParamDisplay
+                label="veMENTO"
+                value={
+                  governorContractAddresses.Locking.address ? (
+                    <ContractAddressLinkWithCopy
+                      address={governorContractAddresses.Locking.address}
+                    />
+                  ) : null
+                }
+              />
+            </div>
+          </Card>
         </div>
-      </Card>
-      <Card className="md:col-span-4 flex flex-col">
-        <Card.Header>
-          <div className="color-primary text-x4 font-medium mb-x6">
-            Contract addresses
-          </div>
-        </Card.Header>
-        <div className="flex flex-col flex-grow justify-between gap-[15px]">
-          <ParamDisplay
-            label="Governor"
-            value={
-              governorContractAddresses.governor ? (
-                <ContractAddressLinkWithCopy
-                  address={governorContractAddresses.governor}
-                />
-              ) : null
-            }
-          />
-          <ParamDisplay
-            label="Token"
-            value={
-              governorContractAddresses.mento ? (
-                <ContractAddressLinkWithCopy
-                  address={governorContractAddresses.mento}
-                />
-              ) : null
-            }
-          />
-          <ParamDisplay
-            label="Timelock"
-            value={
-              governorContractAddresses.timelock ? (
-                <ContractAddressLinkWithCopy
-                  address={governorContractAddresses.timelock}
-                />
-              ) : null
-            }
-          />
-          <ParamDisplay
-            label="Locker"
-            value={
-              governorContractAddresses.locking ? (
-                <ContractAddressLinkWithCopy
-                  address={governorContractAddresses.locking}
-                />
-              ) : null
-            }
-          />
-        </div>
-      </Card>
-    </div>
+      </Suspense>
+    </Expandable>
   );
 };
 
@@ -104,9 +121,21 @@ const ParamDisplay = ({
   value: React.ReactNode | undefined;
 }) => {
   return (
-    <div className="flex gap-8 justify-between items-center">
-      <div className="font-semibold">{label}</div>
-      <div className="text-right col-span-2 break-all">{value ?? "-"}</div>
+    <div
+      className={classNames(
+        "flex gap-2 justify-between items-center w-full flex-wrap md:flex-nowrap",
+      )}
+    >
+      <div className="text-[16px] leading-[19px] md:text-[22px] md:leading-[22px]">
+        {label}
+      </div>
+      <div
+        className={classNames(
+          "font-normal text-[16px] leading-[19px] md:text-[22px] md:leading-[22px] flex-grow text-right",
+        )}
+      >
+        {value ?? "-"}
+      </div>
     </div>
   );
 };
@@ -123,50 +152,46 @@ const ContractAddressLinkWithCopy = ({
   const connectedChainOrMainnet = chain ?? Celo;
   const blockExplorerUrl = connectedChainOrMainnet.blockExplorers?.default.url;
   const blockExplorerContractUrl = `${blockExplorerUrl}/address/${address}`;
-  const windowWidth = useWindowWidth();
-  let addressLength = 30;
 
   if (!address) {
     return;
   }
 
-  if (windowWidth <= 600) {
-    addressLength = 15;
-  } else if (windowWidth <= 1200) {
-    addressLength = 20;
-  }
-
   return (
     <div
       {...restProps}
-      className={classNames(className, "flex items-center gap-8")}
+      className={classNames(
+        className,
+        "flex items-center gap-4 w-full justify-end h-[22px]",
+      )}
     >
       <Link
         target="_blank"
         rel="nooppener noreferrer"
         href={blockExplorerContractUrl}
+        className="text-primary overflow-visible gap-8 font-normal text-[16px] leading-[19px] md:text-[22px] md:leading-[22px]"
       >
-        {WalletHelper.getShortAddress(address, addressLength)}
+        <AddressComponent address={address} />
       </Link>
       <CopyToClipboard text={address}>
-        <div className="cursor-pointer">
-          <CopyIcon />
-        </div>
+        <span className="h-[29px] shrink-0 mb-2">
+          <CopyIcon className="h-full" />
+        </span>
       </CopyToClipboard>
     </div>
   );
 };
 
 function useGovernanceDetails() {
-  const governanceContractAddresses = useGovernanceContractAddresses();
+  const governanceContractAddresses = useContracts();
 
   const governorContact = {
-    address: governanceContractAddresses.governor,
+    address: governanceContractAddresses.MentoGovernor.address,
     abi: GovernorABI,
   } as const;
 
   const timeLockContract = {
-    address: governanceContractAddresses.timelock,
+    address: governanceContractAddresses.TimelockController.address,
     abi: TimelockControllerABI,
   } as const;
 
@@ -227,22 +252,6 @@ function useGovernanceDetails() {
   };
 }
 
-function useGovernanceContractAddresses() {
-  const contracts = useContracts();
-
-  const governor = contracts.MentoGovernor.address;
-  const timelock = contracts.TimelockController.address;
-  const locking = contracts.Locking.address;
-  const mento = contracts.MentoToken.address;
-
-  return {
-    governor,
-    timelock,
-    locking,
-    mento,
-  };
-}
-
 function convertCeloBlocksToSeconds(
   numBlocks: string | bigint | number,
 ): number {
@@ -270,16 +279,17 @@ function formatParam(
   return null;
 }
 
-function useWindowWidth(): number {
-  const [windowWidth, setWindowWidth] = React.useState<number>(
-    window.innerWidth,
+const AddressComponent = ({ address }: { address: string }) => {
+  // Assuming the requirement is to always show the last 4 characters of the address
+  const start = address.toUpperCase().slice(0, -4);
+  const end = address.toUpperCase().slice(-4);
+
+  return (
+    <div className="flex items-center justify-start shrink max-w-[300px] md:max-w-[350px]  lg:max-w-[400px]">
+      <span className="text-ellipsis whitespace-nowrap shrink overflow-x-clip m-0 p-0">
+        {start}
+      </span>
+      <span className="shrink-0">{end}</span>
+    </div>
   );
-
-  React.useEffect(() => {
-    const handleResize = () => setWindowWidth(window.innerWidth);
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
-
-  return windowWidth;
-}
+};

@@ -6,11 +6,12 @@ import { format } from "date-fns";
 import styles from "./page.module.scss";
 
 // Components
-import ExecutionCode from "./_components/execution-code.component";
+
 import Participants from "./_components/participants.component";
 import Vote from "./_components/vote.component";
 import {
   Avatar,
+  ExecutionCodeView,
   Loader,
   MarkdownView,
   Status,
@@ -126,7 +127,7 @@ const Page = ({ params }: { params: { id: string } }) => {
                 Description
               </h3>
               <MarkdownView markdown={proposal.metadata.description} />
-              <ExecutionCode calls={proposal.calls} />
+              {proposal.calls && <ExecutionCodeView code={proposal.calls} />}
             </div>
             <div className="md:max-w-[350px] flex flex-col gap-x11">
               <div className="hidden md:block">

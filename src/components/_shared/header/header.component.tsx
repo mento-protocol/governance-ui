@@ -1,9 +1,10 @@
 "use client";
+
 import { useRef, useState } from "react";
 import classNames from "classnames";
 import Link from "next/link";
 import useOutsideAlerter from "@/lib/hooks/useOutsideAlerter";
-import { ChevronIcon, MentoLogoIcon } from "@/components/_icons";
+import { ChevronIcon, MentoLogoIcon, MenuIcon } from "@/components/_icons";
 import { Button, ConnectButton } from "@/components/_shared";
 import BaseComponentProps from "@/interfaces/base-component-props.interface";
 import styles from "./header.module.scss";
@@ -111,11 +112,8 @@ export const Header = ({ className, style }: HeaderProps) => {
         <Link href={"/"}>
           <MentoLogoIcon useThemeColor />
         </Link>
-        <Button
-          theme="secondary"
-          onClick={() => setDrawerOpened(!drawerOpened)}
-        >
-          menu
+        <Button theme="link" onClick={() => setDrawerOpened(!drawerOpened)}>
+          <MenuIcon opened={drawerOpened} />
         </Button>
       </div>
     </header>

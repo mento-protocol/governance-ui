@@ -175,16 +175,3 @@
     }
   }
 }
-
-.disabled {
-  cursor: not-allowed;
-  pointer-events: none;
-}
-
-.block {
-  width: 100%;
-
-  .button {
-    width: 100%;
-  }
-}

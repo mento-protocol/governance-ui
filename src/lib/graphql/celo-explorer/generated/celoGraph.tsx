@@ -1,5 +1,6 @@
 /* eslint-disable */
-import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/core';
+import { gql } from '@apollo/client';
+import * as Apollo from '@apollo/client';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
@@ -7,6 +8,7 @@ export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: 
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
 export type MakeEmpty<T extends { [key: string]: unknown }, K extends keyof T> = { [_ in K]?: never };
 export type Incremental<T> = T | { [P in keyof T]?: P extends ' $fragmentName' | '__typename' ? T[P] : never };
+const defaultOptions = {} as const;
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: { input: string; output: string; }
@@ -14,52 +16,13 @@ export type Scalars = {
   Boolean: { input: boolean; output: boolean; }
   Int: { input: number; output: number; }
   Float: { input: number; output: number; }
-  /**
-   * The address (40 (hex) characters / 160 bits / 20 bytes) is derived from the public key (128 (hex) characters /
-   * 512 bits / 64 bytes) which is derived from the private key (64 (hex) characters / 256 bits / 32 bytes).
-   *
-   * The address is actually the last 40 characters of the keccak-256 hash of the public key with `0x` appended.
-   */
   AddressHash: { input: any; output: any; }
-  /**
-   * An unpadded hexadecimal number with 0 or more digits. Each pair of digits
-   * maps directly to a byte in the underlying binary representation. When
-   * interpreted as a number, it should be treated as big-endian.
-   */
   Data: { input: any; output: any; }
-  /**
-   * The `DateTime` scalar type represents a date and time in the UTC
-   * timezone. The DateTime appears in a JSON response as an ISO8601 formatted
-   * string, including UTC timezone ("Z"). The parsed date and time string will
-   * be converted to UTC if there is an offset.
-   */
   DateTime: { input: any; output: any; }
-  /**
-   * The `Decimal` scalar type represents signed double-precision fractional
-   * values parsed by the `Decimal` library.  The Decimal appears in a JSON
-   * response as a string to preserve precision.
-   */
   Decimal: { input: any; output: any; }
-  /** A 32-byte [KECCAK-256](https://en.wikipedia.org/wiki/SHA-3) hash. */
   FullHash: { input: any; output: any; }
-  /**
-   * The `JSON` scalar type represents arbitrary JSON string data, represented as UTF-8
-   * character sequences. The JSON type is most often used to represent a free-form
-   * human-readable JSON string.
-   */
   Json: { input: any; output: any; }
-  /** The nonce (16 (hex) characters / 128 bits / 8 bytes) is derived from the Proof-of-Work. */
   NonceHash: { input: any; output: any; }
-  /**
-   * The smallest fractional unit of Ether. Using wei instead of ether allows code to do integer match instead of using
-   * floats.
-   *
-   * See [Ethereum Homestead Documentation](http://ethdocs.org/en/latest/ether.html) for examples of various denominations of wei.
-   *
-   * Etymology of "wei" comes from [Wei Dai (戴維)](https://en.wikipedia.org/wiki/Wei_Dai), a
-   * [cypherpunk](https://en.wikipedia.org/wiki/Cypherpunk) who came up with b-money, which outlined modern
-   * cryptocurrencies.
-   */
   Wei: { input: any; output: any; }
 };
 
@@ -784,4 +747,47 @@ export type GetContractsInfoQueryVariables = Exact<{
 export type GetContractsInfoQuery = { __typename?: 'RootQueryType', addresses?: Array<{ __typename?: 'Address', hash?: any | null, smartContract?: { __typename?: 'SmartContract', name?: string | null, abi?: any | null } | null } | null> | null };
 
 
-export const GetContractsInfoDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getContractsInfo"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"addresses"}},"type":{"kind":"NonNullType","type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"AddressHash"}}}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"addresses"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"hashes"},"value":{"kind":"Variable","name":{"kind":"Name","value":"addresses"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"hash"}},{"kind":"Field","name":{"kind":"Name","value":"smartContract"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"abi"}}]}}]}}]}}]} as unknown as DocumentNode<GetContractsInfoQuery, GetContractsInfoQueryVariables>;
+export const GetContractsInfoDocument = gql`
+    query getContractsInfo($addresses: [AddressHash!]!) {
+  addresses(hashes: $addresses) {
+    hash
+    smartContract {
+      name
+      abi
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetContractsInfoQuery__
+ *
+ * To run a query within a React component, call `useGetContractsInfoQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetContractsInfoQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetContractsInfoQuery({
+ *   variables: {
+ *      addresses: // value for 'addresses'
+ *   },
+ * });
+ */
+export function useGetContractsInfoQuery(baseOptions: Apollo.QueryHookOptions<GetContractsInfoQuery, GetContractsInfoQueryVariables> & ({ variables: GetContractsInfoQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetContractsInfoQuery, GetContractsInfoQueryVariables>(GetContractsInfoDocument, options);
+      }
+export function useGetContractsInfoLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetContractsInfoQuery, GetContractsInfoQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetContractsInfoQuery, GetContractsInfoQueryVariables>(GetContractsInfoDocument, options);
+        }
+export function useGetContractsInfoSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetContractsInfoQuery, GetContractsInfoQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetContractsInfoQuery, GetContractsInfoQueryVariables>(GetContractsInfoDocument, options);
+        }
+export type GetContractsInfoQueryHookResult = ReturnType<typeof useGetContractsInfoQuery>;
+export type GetContractsInfoLazyQueryHookResult = ReturnType<typeof useGetContractsInfoLazyQuery>;
+export type GetContractsInfoSuspenseQueryHookResult = ReturnType<typeof useGetContractsInfoSuspenseQuery>;
+export type GetContractsInfoQueryResult = Apollo.QueryResult<GetContractsInfoQuery, GetContractsInfoQueryVariables>;

@@ -1,4 +1,4 @@
-import BaseIconProps from "@interfaces/base-icon-props.interface";
+import BaseIconProps from "@/interfaces/base-icon-props.interface";
 import classNames from "classnames";
 
 interface MenuIconProps extends BaseIconProps {

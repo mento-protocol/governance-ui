@@ -20,12 +20,12 @@ export const Expandable = ({
 
   return (
     <div className={classNames(styles.expandable, className)} style={style}>
-      <header className={styles.expandable__header}>
+      <header
+        onClick={() => setOpened(!opened)}
+        className={styles.expandable__header}
+      >
         <div>{header}</div>
-        <div
-          className={classNames(styles.toggle, opened && styles.opened)}
-          onClick={() => setOpened(!opened)}
-        >
+        <div className={classNames(styles.toggle, opened && styles.opened)}>
           <ChevronIcon direction="down" width={25} height={20} useThemeColor />
         </div>
       </header>

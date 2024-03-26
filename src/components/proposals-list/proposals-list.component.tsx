@@ -1,7 +1,6 @@
 import NumbersService from "@/lib/helpers/numbers.service";
 import StringService from "@/lib/helpers/string.service";
 import styles from "./proposals-list.module.scss";
-import { useProposalStates } from "@/lib/contracts/governor/useProposalStates";
 import BaseComponentProps from "@/lib/interfaces/base-component-props.interface";
 import classNames from "classnames";
 import { Card, ProgressBar, Status } from "@/components/_shared";
@@ -17,8 +16,6 @@ export const ProposalsListComponent = ({
   style,
 }: ProposalsListProps) => {
   const { proposals } = useGetProposals();
-
-  useProposalStates(proposals);
 
   return (
     <div

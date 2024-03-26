@@ -1,14 +1,19 @@
 import { useContracts } from "@/lib/contracts/useContracts";
 import { useReadContract } from "wagmi";
 import { LockingABI } from "@/lib/abi/Locking";
-import { useSuspenseQuery } from "@apollo/client";
-import { GetAllLocks, Lock } from "@/lib/graphql";
+import { useGetAllLocksSuspenseQuery } from "@/lib/graphql/subgraph/generated/subgraph";
 
 const useLockingContract = () => {
   const contracts = useContracts();
+  // const {
+  //   data: { locks },
+  // } = useSuspenseQuery<{ locks: Lock[] }>(GetAllLocks, {
+  //   queryKey: "locking-contract-hook",
+  //   refetchWritePolicy: "overwrite",
+  // });
   const {
     data: { locks },
-  } = useSuspenseQuery<{ locks: Lock[] }>(GetAllLocks, {
+  } = useGetAllLocksSuspenseQuery({
     queryKey: "locking-contract-hook",
     refetchWritePolicy: "overwrite",
   });

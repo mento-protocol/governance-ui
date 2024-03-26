@@ -1,5 +1,5 @@
+import { ProposalState } from "@/lib/graphql/subgraph/generated/subgraph";
 import { BadgeType } from "@/lib/types";
-import { ProposalState } from "@/lib/graphql";
 
 export const stateToStatusColorMap: Record<ProposalState, BadgeType> = {
   [ProposalState.Active]: "info",

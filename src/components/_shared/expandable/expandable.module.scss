@@ -1,0 +1,36 @@
+@import '@/styles/brand';
+
+.expandable {
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 15px;
+    padding-bottom: 15px;
+
+    @include media-md {
+      padding-top: 0px;
+      padding-bottom: 0px;
+    }
+
+    .toggle {
+      transition: transform 0.3s $ease-out-back;
+      cursor: pointer;
+
+      &.opened {
+        transform: rotate(180deg);
+      }
+    }
+  }
+
+  &__body {
+    overflow: hidden;
+    max-height: 0;
+    height: 100%;
+    transition: max-height 0.3s ease-in-out;
+
+    &.opened {
+      max-height: 1300px;
+    }
+  }
+}

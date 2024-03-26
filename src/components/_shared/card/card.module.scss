@@ -1,0 +1,70 @@
+@import "@/styles/brand";
+
+.card {
+  background-color: var(--theme-card-background);
+  border: 1px solid var(--theme-card-border);
+  border-radius: $border-radius;
+
+  &.noBorderMobile {
+    border: none;
+    &__header {
+      padding: 2 * $theme-unit;
+      position: relative;
+      background-color: inherit;
+      border-radius: 8.5px 8.5px 0 0;
+
+      @include media-md {
+        border: 1px solid var(--theme-card-border);
+      }
+    }
+
+    &__header {
+      padding: 16px;
+      position: relative;
+      background-color: inherit;
+      border-radius: $border-radius $border-radius 0 0;
+
+      @include media-md {
+        padding: 20px;
+        padding-bottom: 2 * $theme-unit;
+      }
+    }
+
+    &__footer,
+    & > div {
+      padding: 0 16px;
+
+      &:last-child {
+        padding-bottom: 2 * $theme-unit;
+      }
+
+      @include media-md {
+        padding: 0 20px;
+
+        &:last-child {
+          padding-bottom: 4 * $theme-unit;
+        }
+      }
+    }
+
+    & > div {
+      border-radius: 8.5px;
+    }
+
+    & > div:first-child {
+      padding-top: 2 * $theme-unit;
+
+      @include media-md {
+        padding-top: 4 * $theme-unit;
+      }
+    }
+
+    &.block {
+      width: 100%;
+    }
+
+    &.transparent {
+      background-color: transparent;
+    }
+  }
+}

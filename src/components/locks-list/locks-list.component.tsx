@@ -1,8 +1,6 @@
 import { LockingABI } from "@/lib/abi/Locking";
-import { GetLocksDocument, Lock } from "@/lib/graphql";
 import { useContracts } from "@/lib/contracts/useContracts";
 import { useSuspenseQuery } from "@apollo/client";
-import BaseComponentProps from "@/interfaces/base-component-props.interface";
 import classNames from "classnames";
 import { addWeeks, nextWednesday } from "date-fns";
 import { useCallback, useMemo } from "react";
@@ -13,12 +11,9 @@ import useRelockMento from "@/lib/contracts/locking/useRelockMento";
 import useModal from "@/lib/providers/modal.provider";
 import { Button, DropdownButton } from "@/components/_shared";
 
-interface LocksListProps extends BaseComponentProps {
-  address: string;
-}
-
-export const LocksList = ({ address }: LocksListProps) => {
+export const LocksList = () => {
   const chainId = useChainId();
+  const { address } = useAccount();
   const { data, refetch } = useSuspenseQuery<{ locks: Lock[] }>(
     GetLocksDocument,
     {

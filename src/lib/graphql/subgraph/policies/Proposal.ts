@@ -1,12 +1,16 @@
 import type { Account, Address } from "viem";
-import type { TypePolicy } from "@apollo/client/cache";
-import { proposalToStateVar } from "@/lib/contracts/governor/useProposalStates";
+import { makeVar, type TypePolicy } from "@apollo/client/cache";
 import {
   ProposalState,
   ProposalSupport,
   ProposalVotes,
+  Scalars,
   VoteCast,
 } from "@/lib/graphql/subgraph/generated/subgraph";
+
+type ProposalID = Scalars["ID"]["output"];
+type ProposalToState = Record<ProposalID, ProposalState>;
+export const proposalToStateVar = makeVar<ProposalToState>({});
 
 export const ProposalPolicy: TypePolicy = {
   fields: {

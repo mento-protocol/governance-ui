@@ -2,6 +2,7 @@
 
 .wrapper {
   width: 100%;
+  font-family: "Founders Grotesk";
 
   h2 {
     font-size: $theme-unit * 6;
@@ -59,7 +60,7 @@
           font-size: 22px;
           font-style: normal;
           font-weight: 400;
-          line-height: 22px;
+          line-height: 23px;
         }
 
         .index {
@@ -96,6 +97,7 @@
           font-size: 16px;
           text-align: center;
           overflow: hidden;
+          font-family: "Inter", sans-serif;
           line-height: 5 * $theme-unit;
           letter-spacing: -0.304px;
 

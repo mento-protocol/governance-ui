@@ -6,12 +6,14 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
+    "lint": "pnpm lint:js && pnpm lint:secrets",
+    "lint:js": "next lint",
     "lint:fix": "next lint --fix",
+    "lint:secrets": "npx secretlint \"**/*\"",
     "codegen": "graphql-codegen",
     "todo": "npx leasot '**/*.{ts,tsx,scss,gql}' --ignore 'node_modules/**/*','.git/**/*','app/graphql/generated' || true",
     "prepare": "husky",
-    "depcheck": "npx depcheck --skip-missing --ignores=\"@types/node,@types/react-dom,autoprefixer,@graphql-codegen/*\""
+    "depcheck": "npx depcheck --skip-missing --ignores=\"@types/node,@types/react-dom,@secretlint/*autoprefixer,@graphql-codegen/*\""
   },
   "dependencies": {
     "@apollo/client": "^3.8.9",
@@ -45,6 +47,12 @@
     "@graphql-codegen/cli": "^5",
     "@graphql-codegen/typescript-apollo-client-helpers": "^3.0.0",
     "@graphql-codegen/typescript-react-apollo": "^4.3.0",
+    "@graphql-typed-document-node/core": "^3.2.0",
+    "@secretlint/secretlint-rule-no-homedir": "^8.1.2",
+    "@secretlint/secretlint-rule-npm": "^8.1.2",
+    "@secretlint/secretlint-rule-pattern": "^8.1.2",
+    "@secretlint/secretlint-rule-preset-recommend": "^8.1.2",
+    "@secretlint/secretlint-rule-secp256k1-privatekey": "^8.1.2",
     "@tailwindcss/typography": "^0.5.10",
     "@types/ethereum-blockies": "^0.1.1",
     "@types/node": "^20",
@@ -60,6 +68,7 @@
     "eslint-plugin-prettier": "^5.1.3",
     "husky": "^9.0.10",
     "prettier": "^3.2.1",
+    "secretlint": "^8.1.2",
     "tailwindcss": "^3",
     "typescript": "^5.3.3"
   }

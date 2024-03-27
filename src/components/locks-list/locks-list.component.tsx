@@ -1,28 +1,23 @@
-import { LockingABI } from "@/lib/abi/Locking";
-import { useContracts } from "@/lib/contracts/useContracts";
-import { useSuspenseQuery } from "@apollo/client";
 import classNames from "classnames";
 import { addWeeks, nextWednesday } from "date-fns";
 import { useCallback, useMemo } from "react";
-import { formatUnits } from "viem";
-import { useAccount, useChainId, useReadContract } from "wagmi";
+import { Address, formatUnits } from "viem";
+import { useAccount } from "wagmi";
 import styles from "./locks-list.module.scss";
 import useRelockMento from "@/lib/contracts/locking/useRelockMento";
 import useModal from "@/lib/providers/modal.provider";
 import { Button, DropdownButton } from "@/components/_shared";
+import useGetLocksByAccount from "@/lib/contracts/locking/useGetLocksByAccount";
+import { Lock } from "@/lib/graphql/subgraph/generated/subgraph";
+import useGetLock from "@/lib/contracts/locking/useGetLock";
 
-export const LocksList = () => {
-  const chainId = useChainId();
+interface ILocksList {
+  account: Address;
+}
+
+export const LocksList = ({ account }: ILocksList) => {
   const { address } = useAccount();
-  const { data, refetch } = useSuspenseQuery<{ locks: Lock[] }>(
-    GetLocksDocument,
-    {
-      variables: { address },
-      context: {
-        apiName: chainId === 44787 ? "subgraphAlfajores" : "subgraph",
-      },
-    },
-  );
+  const { locks, refetch } = useGetLocksByAccount({ account });
 
   return (
     <div className={styles.locksList}>
@@ -35,9 +30,15 @@ export const LocksList = () => {
         </div>
         <div className={classNames(styles.title, styles.item)}>Expires on</div>
       </div>
-      {data?.locks?.map((lock) => (
-        <LockEntry onExtend={refetch} lock={lock} key={lock.lockId} />
-      ))}
+      {address &&
+        locks.map((lock) => (
+          <LockEntry
+            account={address}
+            onExtend={refetch}
+            lock={lock}
+            key={lock.lockId}
+          />
+        ))}
     </div>
   );
 };
@@ -49,19 +50,16 @@ const LockEntry = ({
 }: {
   lock: Lock;
   key: string | number;
+  account: Address;
   onExtend: () => void;
 }) => {
-  const contracts = useContracts();
   const { address } = useAccount();
   const { showConfirm } = useModal();
 
   const { relockMento } = useRelockMento();
 
-  const { data: getLock } = useReadContract({
-    address: contracts.Locking.address,
-    abi: LockingABI,
-    functionName: "getLock",
-    args: [lock.amount, lock.slope, lock.cliff],
+  const { lockData } = useGetLock({
+    lock,
   });
 
   const mentoParsed = useMemo(() => {
@@ -69,8 +67,8 @@ const LockEntry = ({
   }, [lock.amount]);
 
   const veMentoParsed = useMemo(() => {
-    return Number(formatUnits(getLock?.[0] || 0n, 18)).toLocaleString();
-  }, [getLock]);
+    return Number(formatUnits(lockData?.[0] || 0n, 18)).toLocaleString();
+  }, [lockData]);
 
   const expirationDate = useMemo(() => {
     const startDate = new Date(lock.lockCreate[0].timestamp * 1000);

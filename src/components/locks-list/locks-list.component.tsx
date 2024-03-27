@@ -45,12 +45,10 @@ export const LocksList = ({ account }: ILocksList) => {
 
 const LockEntry = ({
   lock,
-  key,
   account,
   onExtend,
 }: {
   lock: Lock;
-  key: string | number;
   account: Address;
   onExtend: () => void;
 }) => {
@@ -71,7 +69,8 @@ const LockEntry = ({
   }, [lockData]);
 
   const expirationDate = useMemo(() => {
-    const startDate = new Date(lock.lockCreate[0].timestamp * 1000);
+    if (lock.lockCreate.length === 0) return "Expiration date not set";
+    const startDate = new Date(lock.lockCreate[0]?.timestamp * 1000);
     const endDate = nextWednesday(addWeeks(startDate, lock.slope + lock.cliff));
     return endDate.toLocaleDateString();
   }, [lock]);
@@ -103,7 +102,7 @@ const LockEntry = ({
   ]);
 
   return (
-    <div className={styles.locksList__row} key={key}>
+    <div className={styles.locksList__row}>
       <div className={styles.divider}></div>
       <div className={styles.item}>{mentoParsed}</div>
       <div className={styles.item}>{veMentoParsed}</div>

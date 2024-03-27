@@ -4,7 +4,7 @@ import { useWaitForTransactionReceipt, useWriteContract } from "wagmi";
 import { LockingABI } from "@/lib/abi/Locking";
 import { Address } from "viem";
 
-const useLockMento = () => {
+const useRelockMento = () => {
   const contracts = useContracts();
   const {
     writeContract,
@@ -18,20 +18,20 @@ const useLockMento = () => {
       hash: data,
     });
 
-  const lockMento = useCallback(
+  const relockMento = useCallback(
     (
-      account: Address,
-      delegate: Address,
-      amount: number,
-      slope: number,
-      cliff: number,
+      id: bigint,
+      newDelegate: Address,
+      newAmount: bigint,
+      newSlope: number,
+      newCliff: number,
       onSuccess?: () => void,
     ) => {
       writeContract({
         address: contracts.Locking.address,
         abi: LockingABI,
-        functionName: "lock",
-        args: [account, delegate, BigInt(amount), slope, cliff],
+        functionName: "relock",
+        args: [id, newDelegate, newAmount, newSlope, newCliff],
       });
     },
     [contracts.Locking.address, writeContract],
@@ -39,7 +39,7 @@ const useLockMento = () => {
 
   return {
     hash: data,
-    lockMento,
+    relockMento,
     isAwaitingUserSignature,
     isConfirming,
     isConfirmed,
@@ -47,4 +47,4 @@ const useLockMento = () => {
   };
 };
 
-export default useLockMento;
+export default useRelockMento;

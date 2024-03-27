@@ -1,8 +1,6 @@
-import classNames from "classnames";
 import { Card, TabList } from "@/components/_shared";
 import { VotesList } from "@/components/votes-list/votes-list.component";
 import type { ProposalVotes } from "@/lib/graphql";
-import styles from "../page.module.scss";
 
 type Props = {
   votes: ProposalVotes;
@@ -11,7 +9,8 @@ type Props = {
 export default function Participants({ votes }: Props) {
   return (
     <Card
-      className={classNames(styles.proposal_addon, styles.participantsList)}
+      // Was originally z-49
+      className="sticky grow bottom-0 w-full z-40"
     >
       <Card.Header className="text-center text-2xl">
         <strong>Participants</strong>

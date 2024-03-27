@@ -3,10 +3,8 @@ import { useMemo } from "react";
 import { celoAlfajores } from "viem/chains";
 import { useBlock, useBlockNumber } from "wagmi";
 import { useSuspenseQuery } from "@apollo/experimental-nextjs-app-support/ssr";
-import classNames from "classnames";
 import { format } from "date-fns";
 import { GetProposal, Proposal, ProposalState } from "@/lib/graphql";
-import styles from "./page.module.scss";
 
 // Components
 
@@ -122,7 +120,7 @@ const Page = ({ params }: { params: { id: string } }) => {
             </div>
           </div>
           <div className="mt-x6 flex flex-col md:flex-row md:justify-between place-items-start gap-x6 md:gap-x1">
-            <div className={classNames(styles.details, "flex-1")}>
+            <div className="flex-1 max-w-2xl w-full">
               <ProposalCurrentVotes className="md:mb-x6" />
               <div className="md:hidden my-x6">
                 <Vote proposal={proposal} />

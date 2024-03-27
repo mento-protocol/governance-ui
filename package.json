@@ -11,7 +11,7 @@
     "codegen": "graphql-codegen",
     "todo": "npx leasot '**/*.{ts,tsx,scss,gql}' --ignore 'node_modules/**/*','.git/**/*','app/graphql/generated' || true",
     "prepare": "husky",
-    "depcheck": "npx depcheck --skip-missing --ignores=\"@types/node,@types/react-dom,autoprefixer\""
+    "depcheck": "npx depcheck --skip-missing --ignores=\"@types/node,@types/react-dom,autoprefixer,@graphql-codegen/*\""
   },
   "dependencies": {
     "@apollo/client": "^3.8.9",
@@ -43,6 +43,8 @@
   },
   "devDependencies": {
     "@graphql-codegen/cli": "^5",
+    "@graphql-codegen/typescript-apollo-client-helpers": "^3.0.0",
+    "@graphql-codegen/typescript-react-apollo": "^4.3.0",
     "@tailwindcss/typography": "^0.5.10",
     "@types/ethereum-blockies": "^0.1.1",
     "@types/node": "^20",

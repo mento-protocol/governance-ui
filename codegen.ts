@@ -33,6 +33,7 @@ const config: CodegenConfig = {
       config: {
         reactApolloVersion: 3,
         withHooks: true,
+        withReturnType: true,
         avoidOptionals: true,
       },
     },
@@ -53,6 +54,7 @@ const config: CodegenConfig = {
       config: {
         reactApolloVersion: 3,
         withHooks: true,
+        withReturnType: true,
       },
     },
   },

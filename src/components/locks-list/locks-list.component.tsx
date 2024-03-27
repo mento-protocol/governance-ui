@@ -1,21 +1,16 @@
 import { LockingABI } from "@/lib/abi/Locking";
-import { GetLocksDocument, Lock } from "@/lib/graphql";
 import { useContracts } from "@/lib/contracts/useContracts";
 import { useSuspenseQuery } from "@apollo/client";
-import BaseComponentProps from "@/interfaces/base-component-props.interface";
 import classNames from "classnames";
 import { addWeeks, nextWednesday } from "date-fns";
 import { useMemo } from "react";
 import { formatUnits } from "viem";
-import { useChainId, useReadContract } from "wagmi";
+import { useAccount, useChainId, useReadContract } from "wagmi";
 import styles from "./locks-list.module.scss";
 
-interface LocksListProps extends BaseComponentProps {
-  address: string;
-}
-
-export const LocksList = ({ address }: LocksListProps) => {
+export const LocksList = () => {
   const chainId = useChainId();
+  const { address } = useAccount();
   const { data, refetch } = useSuspenseQuery<{ locks: Lock[] }>(
     GetLocksDocument,
     {

@@ -28,7 +28,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
           <ModalProvider>
             <div className="min-h-screen flex flex-col">
               <Header />
-              <div className="main-container px-x4 md:px-x6 min-[1178px]:px-0 mt-x10 md:mt-0 flex-1">
+              <div className="md:px-[30px] px-5 flex-1 mx-auto w-full max-w-[1120px] mt-[50px]">
                 {!homePage && <Breadcrumbs />}
                 {children}
               </div>

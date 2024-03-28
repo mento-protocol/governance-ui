@@ -7,22 +7,10 @@ import BaseComponentProps from "@/interfaces/base-component-props.interface";
 import useOutsideAlerter from "@/lib/hooks/useOutsideAlerter";
 import "react-day-picker/dist/style.css";
 import styles from "./date-picker.module.scss";
-
-type DisallowedDay =
-  | "sun"
-  | "mon"
-  | "tue"
-  | "wed"
-  | "thu"
-  | "fri"
-  | "sat"
-  | 0
-  | 1
-  | 2
-  | 3
-  | 4
-  | 5
-  | 6;
+import {
+  dayToNumberMap,
+  DisallowedDay,
+} from "@/interfaces/date-picker.interface";
 
 interface DatePickerProps extends BaseComponentProps {
   compact?: boolean;
@@ -38,23 +26,6 @@ interface DatePickerProps extends BaseComponentProps {
   placeholder?: string;
   onChange?: (date: Date) => void;
 }
-
-const dayToNumberMap: Record<DisallowedDay, number> = {
-  sun: 0,
-  mon: 1,
-  tue: 2,
-  wed: 3,
-  thu: 4,
-  fri: 5,
-  sat: 6,
-  0: 0,
-  1: 1,
-  2: 2,
-  3: 3,
-  4: 4,
-  5: 5,
-  6: 6,
-};
 
 export const DatePicker = ({
   id,

@@ -34,7 +34,9 @@ const Wrapper = ({
   disabled,
 }: WrapperProps) => {
   return (
-    <div className={classNames(disabled && styles.disabled)}>
+    <div
+      className={`${block && "block"} ${disabled && "cursor-not-allowed  pointer-events-none"}`}
+    >
       {href ? (
         <Link
           href={href}

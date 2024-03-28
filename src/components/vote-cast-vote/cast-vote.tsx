@@ -138,7 +138,7 @@ const VotingError = ({ error }: { error: Error }) => {
     return null;
   }
   return (
-    <div className="text-light-red flex flex-col gap-1 items-center justify-center text-sm w-full">
+    <div className="text-error flex flex-col gap-1 items-center justify-center text-sm w-full">
       <span>Error casting vote</span>
       <span>{ErrorHelper.processWagmiErrorMessage(error)}</span>
     </div>

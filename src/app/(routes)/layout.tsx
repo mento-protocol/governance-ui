@@ -6,6 +6,7 @@ import "@rainbow-me/rainbowkit/styles.css";
 import "@/styles/globals.scss";
 import { Providers } from "@/app/(routes)/providers";
 import { usePathname } from "next/navigation";
+import { Toaster } from "sonner";
 import { ModalProvider } from "@/lib/providers/modal.provider";
 
 const inter = Inter({
@@ -24,6 +25,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <html className={inter.variable} lang="en">
       <body suppressHydrationWarning={true}>
+        <Toaster richColors position="bottom-right" />
         <Providers>
           <ModalProvider>
             <div className="min-h-screen flex flex-col">

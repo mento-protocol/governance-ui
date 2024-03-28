@@ -164,14 +164,6 @@
     }
   }
 
-  &.block {
-    width: 100%;
-
-    .button {
-      width: 100%;
-    }
-  }
-
   &.disabled {
     cursor: not-allowed;
     pointer-events: none;
@@ -183,9 +175,4 @@
       margin-top: 0px !important;
     }
   }
-}
-
-.disabled {
-  cursor: not-allowed;
-  pointer-events: none;
 }

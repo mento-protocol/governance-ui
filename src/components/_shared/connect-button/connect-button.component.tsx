@@ -5,7 +5,6 @@ import {
   useChainModal,
 } from "@rainbow-me/rainbowkit";
 import classNames from "classnames";
-import { formatUnits } from "viem";
 import { Avatar, Button, DropdownButton } from "@/components/_shared";
 import { ChevronIcon } from "@/components/_icons";
 import BaseComponentProps from "@/interfaces/base-component-props.interface";
@@ -27,7 +26,6 @@ interface ConnectedDropdownProps extends BaseComponentProps {
 export const ConnectedDropdown = ({
   block,
   account,
-  chain,
 }: ConnectedDropdownProps) => {
   const { openChainModal } = useChainModal();
   const { openAccountModal } = useAccountModal();
@@ -48,13 +46,13 @@ export const ConnectedDropdown = ({
             <div className={styles.addon}>
               <div className={styles.addon__title}>{mentoBalance.symbol}</div>
               <div className={styles.addon__value}>
-                {formatUnits(mentoBalance.value, mentoBalance.decimal)}
+                {mentoBalance.formatted}
               </div>
             </div>
             <div className={styles.addon}>
               <div className={styles.addon__title}>{veMentoBalance.symbol}</div>
               <div className={styles.addon__value}>
-                {formatUnits(veMentoBalance.value, veMentoBalance.decimal)}
+                {veMentoBalance.formatted}
               </div>
             </div>
           </div>

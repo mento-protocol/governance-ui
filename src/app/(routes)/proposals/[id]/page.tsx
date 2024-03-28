@@ -1,19 +1,16 @@
 "use client";
-import { useMemo } from "react";
-import { celoAlfajores } from "viem/chains";
+import { Suspense, useMemo } from "react";
 import { useBlock, useBlockNumber } from "wagmi";
-import { useSuspenseQuery } from "@apollo/experimental-nextjs-app-support/ssr";
 import { format } from "date-fns";
-import { GetProposal, Proposal, ProposalState } from "@/lib/graphql";
 
 // Components
 
 import Participants from "./_components/participants.component";
 import Vote from "./_components/vote.component";
-import { useProposalStates } from "@/lib/contracts/governor/useProposalStates";
 import {
   Avatar,
   ExecutionCodeView,
+  Loader,
   MarkdownView,
   Status,
   WalletAddressWithCopy,
@@ -22,36 +19,29 @@ import { stateToStatusColorMap } from "@/lib/interfaces/proposal.interface";
 import { Countdown } from "@/components/countdown/countdown.component";
 import BlockExplorerLink from "@/components/_shared/block-explorer-link/block-explorer-link.component";
 import { ProposalCurrentVotes } from "@/components/proposal-current-votes/proposal-current-votes.component";
+import useProposal from "@/lib/contracts/governor/useProposal";
 
 const Page = ({ params }: { params: { id: string } }) => {
-  /**
-   * FIXME: The return type definition is a bit hacky and ideally shouldn't be needed.
-   * It's likely fragments-related. If we inline the ProposalFields fragment into the
-   * GetProposal query, then it works without an explicit return type definition 🤷‍♂️
-   */
-  const { data } = useSuspenseQuery<{ proposals: Proposal[] }>(GetProposal, {
-    variables: { id: params.id },
-    context: {
-      apiName: celoAlfajores.id ? "subgraphAlfajores" : "subgraph",
+  // TODO: return loading states
+  const { proposal } = useProposal(BigInt(params.id));
+  const currentBlock = useBlockNumber();
+
+  const endBlock = useBlock({
+    blockNumber: BigInt(proposal?.endBlock),
+    query: {
+      enabled: proposal !== undefined,
     },
   });
 
-  useProposalStates(data.proposals);
-
-  const proposal = data.proposals[0];
-
-  const { title, description } = proposal.metadata;
-  const currentBlock = useBlockNumber();
-  const endBlock = useBlock({ blockNumber: BigInt(proposal.endBlock) });
-  const proposerId = proposal.proposer?.id;
-  const status = proposal.state?.toString();
   // There should really ever be 1 ProposalCreated event per proposal so we just take the first one
-  const proposedOn = new Date(proposal.proposalCreated[0].timestamp * 1000);
+  const proposedOn = useMemo(() => {
+    return proposal && new Date(proposal.proposalCreated[0].timestamp * 1000);
+  }, [proposal]);
 
   const votingDeadline = useMemo(() => {
     const CELO_BLOCK_TIME = 5000; // 5 seconds
 
-    if (currentBlock.data) {
+    if (proposal && currentBlock.data) {
       // If the end block is already mined, we can fetch the timestamp
       if (Number(currentBlock.data) >= proposal.endBlock && endBlock.data) {
         return new Date(Number(endBlock.data.timestamp) * 1000);
@@ -64,7 +54,7 @@ const Page = ({ params }: { params: { id: string } }) => {
         );
       }
     }
-  }, [currentBlock, endBlock, proposal.endBlock]);
+  }, [currentBlock.data, endBlock.data, proposal]);
 
   return (
     <main className="flex flex-col">
@@ -73,14 +63,14 @@ const Page = ({ params }: { params: { id: string } }) => {
         <>
           <div className="mb-x4 mt-x6">
             <Status
-              text={status}
-              type={stateToStatusColorMap[proposal.state as ProposalState]}
+              text={proposal.state.toString()}
+              type={stateToStatusColorMap[proposal.state]}
             />
           </div>
           <div className="flex flex-col md:grid md:grid-cols-7 gap-x1 ">
             <div className="md:col-start-1 md:col-span-4">
               <h1 className="text-xl md:font-size-x11 md:line-height-x11 font-medium">
-                {title}
+                {proposal.metadata.title}
               </h1>
             </div>
             <div className="md:col-start-5 md:col-span-3">
@@ -94,18 +84,24 @@ const Page = ({ params }: { params: { id: string } }) => {
           </div>
           <div className="flex flex-wrap place-items-center justify-start mt-8 gap-x6 ">
             <div className="flex place-items-center gap-x2">
-              <Avatar address={proposerId} />
-              by{" "}
-              <span className="font-medium">
-                <WalletAddressWithCopy address={proposerId} />
-              </span>
+              <Suspense fallback={<Loader isCenter />}>
+                <Avatar address={proposal.proposer.id} />
+                by{" "}
+                <span className="font-medium">
+                  <WalletAddressWithCopy address={proposal.proposer.id} />
+                </span>
+              </Suspense>
             </div>
             <div className="flex place-items-center gap-x2">
               <span>Proposed on:</span>
               <span className="font-medium">
-                <BlockExplorerLink type="block" item={proposal.startBlock}>
-                  {format(proposedOn, "MMMM do, yyyy 'at' hh:mm a")}
-                </BlockExplorerLink>
+                <Suspense fallback={<Loader isCenter />}>
+                  {proposedOn && (
+                    <BlockExplorerLink type="block" item={proposal.startBlock}>
+                      {format(proposedOn, "MMMM do, yyyy 'at' hh:mm a")}
+                    </BlockExplorerLink>
+                  )}
+                </Suspense>
               </span>
             </div>
             <div className="flex place-items-center gap-x2">
@@ -128,7 +124,7 @@ const Page = ({ params }: { params: { id: string } }) => {
               <h3 className="flex justify-center font-size-x6 line-height-x6 font-medium mb-x6">
                 Description
               </h3>
-              <MarkdownView markdown={description} />
+              <MarkdownView markdown={proposal.metadata.description} />
               {proposal.calls && <ExecutionCodeView code={proposal.calls} />}
             </div>
             <div className="md:max-w-[350px] flex flex-col gap-x11">

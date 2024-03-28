@@ -1,10 +1,10 @@
 import { useCallback } from "react";
-import { useWaitForTransactionReceipt, useWriteContract } from "wagmi";
 import { useContracts } from "@/lib/contracts/useContracts";
-import { GovernorABI } from "@/lib/abi/Governor";
+import { useWaitForTransactionReceipt, useWriteContract } from "wagmi";
+import { Address, erc20Abi } from "viem";
 import { WriteContractErrorType } from "wagmi/actions";
 
-const useCastVote = () => {
+const useApprove = () => {
   const contracts = useContracts();
   const {
     writeContract,
@@ -12,24 +12,25 @@ const useCastVote = () => {
     data,
     ...restWrite
   } = useWriteContract();
+
   const { isLoading: isConfirming, isSuccess: isConfirmed } =
     useWaitForTransactionReceipt({
       hash: data,
     });
 
-  const castVote = useCallback(
+  const approveMento = useCallback(
     (
-      proposalId: number,
-      support: number,
+      target: Address,
+      amount: bigint,
       onSuccess?: () => void,
       onError?: (error?: WriteContractErrorType) => void,
     ) => {
       writeContract(
         {
-          address: contracts.MentoGovernor.address,
-          abi: GovernorABI,
-          functionName: "castVote",
-          args: [BigInt(proposalId).valueOf(), support],
+          address: contracts.MentoToken.address,
+          abi: erc20Abi,
+          functionName: "approve",
+          args: [target, amount],
         },
         {
           onSuccess,
@@ -37,12 +38,12 @@ const useCastVote = () => {
         },
       );
     },
-    [contracts.MentoGovernor.address, writeContract],
+    [contracts.MentoToken.address, writeContract],
   );
 
   return {
     hash: data,
-    castVote,
+    approveMento,
     isAwaitingUserSignature,
     isConfirming,
     isConfirmed,
@@ -50,4 +51,4 @@ const useCastVote = () => {
   };
 };
 
-export default useCastVote;
+export default useApprove;

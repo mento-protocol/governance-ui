@@ -1,14 +1,13 @@
 import NumbersService from "@/lib/helpers/numbers.service";
 import StringService from "@/lib/helpers/string.service";
 import styles from "./proposals-list.module.scss";
-import { useProposalStates } from "@/lib/contracts/governor/useProposalStates";
 import BaseComponentProps from "@/lib/interfaces/base-component-props.interface";
 import classNames from "classnames";
 import { Card, ProgressBar, Status } from "@/components/_shared";
 import Link from "next/link";
 import { stateToStatusColorMap } from "@/lib/interfaces/proposal.interface";
 import { formatUnits } from "viem";
-import useGetProposals from "@/lib/contracts/governor/useGetProposals";
+import useProposals from "@/lib/contracts/governor/useProposals";
 
 interface ProposalsListProps extends BaseComponentProps {}
 
@@ -16,9 +15,7 @@ export const ProposalsListComponent = ({
   className,
   style,
 }: ProposalsListProps) => {
-  const { proposals } = useGetProposals();
-
-  useProposalStates(proposals);
+  const { proposals } = useProposals();
 
   return (
     <div

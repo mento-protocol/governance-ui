@@ -48,13 +48,13 @@ export const ConnectedDropdown = ({
             <div className={styles.addon}>
               <div className={styles.addon__title}>{mentoBalance.symbol}</div>
               <div className={styles.addon__value}>
-                {formatUnits(mentoBalance.value, mentoBalance.decimal)}
+                {formatUnits(mentoBalance.value, mentoBalance.decimals)}
               </div>
             </div>
             <div className={styles.addon}>
               <div className={styles.addon__title}>{veMentoBalance.symbol}</div>
               <div className={styles.addon__value}>
-                {formatUnits(veMentoBalance.value, veMentoBalance.decimal)}
+                {formatUnits(veMentoBalance.value, veMentoBalance.decimals)}
               </div>
             </div>
           </div>

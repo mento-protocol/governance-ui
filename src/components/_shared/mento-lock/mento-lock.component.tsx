@@ -44,7 +44,7 @@ export const MentoLock = ({ className, style }: MentoLockProps) => {
       toLock: number()
         .required()
         .typeError("Invalid number")
-        .max(parseInt(formatUnits(mentoBalance.value, mentoBalance.decimal))),
+        .max(parseInt(formatUnits(mentoBalance.value, mentoBalance.decimals))),
       expiration: date()
         .required()
         .typeError("Invalid Date")
@@ -192,7 +192,7 @@ export const MentoLock = ({ className, style }: MentoLockProps) => {
                 <div className="flex justify-between gap-x3">
                   <div className="whitespace-nowrap">Max</div>
                   <div className="whitespace-nowrap">
-                    {`${formatUnits(mentoBalance.value, mentoBalance.decimal)} ${mentoBalance.symbol}`}
+                    {`${formatUnits(mentoBalance.value, mentoBalance.decimals)} ${mentoBalance.symbol}`}
                   </div>
                 </div>
               </div>

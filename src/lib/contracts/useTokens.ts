@@ -1,58 +1,202 @@
-import { useAccount, useBalance } from "wagmi";
+import { useAccount, useBlockNumber, useReadContracts } from "wagmi";
 import { useContracts } from "@/lib/contracts/useContracts";
-import { useCallback } from "react";
+import { useEffect, useMemo } from "react";
+import { erc20Abi, formatUnits } from "viem";
+import { useQueryClient } from "@tanstack/react-query";
 
 export type TokenBalance = {
-  decimal: number;
+  decimals: number;
   value: bigint;
   symbol: string;
   formatted: string;
 };
 
 export const useTokens = () => {
-  const { Locking, MentoToken } = useContracts();
-  const { isConnected } = useAccount();
+  const {
+    Locking: { address: veTokenAddress },
+    MentoToken: { address: mentoAddress },
+  } = useContracts();
+  const { isConnected, address } = useAccount();
+  const queryClient = useQueryClient();
+  const { data: blockNumber } = useBlockNumber({ watch: true });
 
-  const { data: veMentoBalance, refetch: veMentoRefetch } = useBalance({
-    address: Locking.address,
+  const { data: tokenData, isSuccess } = useReadContracts({
+    allowFailure: false,
+    contracts: [
+      // mento
+      {
+        address: mentoAddress,
+        abi: erc20Abi,
+        functionName: "decimals",
+      },
+      {
+        address: mentoAddress,
+        abi: erc20Abi,
+        functionName: "name",
+      },
+      {
+        address: mentoAddress,
+        abi: erc20Abi,
+        functionName: "symbol",
+      },
+      {
+        address: mentoAddress,
+        abi: erc20Abi,
+        functionName: "totalSupply",
+      },
+      // veMento
+      {
+        address: veTokenAddress,
+        abi: erc20Abi,
+        functionName: "decimals",
+      },
+      {
+        address: veTokenAddress,
+        abi: erc20Abi,
+        functionName: "name",
+      },
+      {
+        address: veTokenAddress,
+        abi: erc20Abi,
+        functionName: "symbol",
+      },
+      {
+        address: veTokenAddress,
+        abi: erc20Abi,
+        functionName: "totalSupply",
+      },
+    ],
+  });
+
+  const { mentoContractData, veMentoContractData } = useMemo(() => {
+    // TODO: consider if fetch is valid since we know this should never change, total supply is nice though
+    if (isSuccess) {
+      const [
+        mentoDecimal,
+        mentoName,
+        mentoSymbol,
+        mentoTotalSupply,
+        veMentoDecimal,
+        veMentoName,
+        veMentoSymbol,
+        veMentoTotalSupply,
+      ] = tokenData;
+      return {
+        mentoContractData: {
+          decimals: mentoDecimal,
+          name: mentoName,
+          symbol: mentoSymbol,
+          totalSupply: mentoTotalSupply,
+        },
+        veMentoContractData: {
+          decimals: veMentoDecimal,
+          name: veMentoName,
+          symbol: veMentoSymbol,
+          totalSupply: veMentoTotalSupply,
+        },
+      };
+    } else {
+      return {
+        mentoContractData: {
+          decimals: 18,
+          symbol: "MENTO",
+          totalSupply: 0n,
+          name: "MENTO",
+        },
+        veMentoContractData: {
+          decimals: 18,
+          symbol: "veMENTO",
+          totalSupply: 0n,
+          name: "veMENTO",
+        },
+      };
+    }
+  }, [isSuccess, tokenData]);
+
+  const {
+    data: balanceData,
+    isSuccess: balanceFetchSuccess,
+    queryKey,
+  } = useReadContracts({
+    allowFailure: false,
+    contracts: [
+      {
+        abi: erc20Abi,
+        address: mentoAddress,
+        functionName: "balanceOf",
+        args: [address!],
+      },
+      {
+        abi: erc20Abi,
+        address: veTokenAddress,
+        functionName: "balanceOf",
+        args: [address!],
+      },
+    ],
     scopeKey: "token-hook",
     query: {
       refetchInterval: 5000,
-      enabled: isConnected,
-      initialData: {
-        decimals: 18,
-        formatted: "0",
-        symbol: "veMENTO",
-        value: 0n,
-      },
+      enabled: isConnected && !!address,
+      initialData: [0n, 0n],
     },
   });
 
-  const { data: mentoBalance, refetch: mentoRefetch } = useBalance({
-    address: MentoToken.address,
-    scopeKey: "token-hook",
-    query: {
-      refetchInterval: 5000,
-      enabled: isConnected,
-      initialData: {
-        decimals: 18,
-        formatted: "0",
-        symbol: "MENTO",
-        value: 0n,
-      },
-    },
-  });
+  const {
+    mentoBalance,
+    veMentoBalance,
+  }: {
+    mentoBalance: TokenBalance;
+    veMentoBalance: TokenBalance;
+  } = useMemo(() => {
+    if (balanceFetchSuccess) {
+      const [mentoData, veMentoData] = balanceData;
+      return {
+        mentoBalance: {
+          decimals: mentoContractData.decimals,
+          symbol: mentoContractData.symbol,
+          value: mentoData,
+          formatted: formatUnits(mentoData, mentoContractData.decimals),
+        },
+        veMentoBalance: {
+          decimals: veMentoContractData.decimals,
+          symbol: veMentoContractData.symbol,
+          value: veMentoData,
+          formatted: formatUnits(veMentoData, veMentoContractData.decimals),
+        },
+      };
+    } else {
+      return {
+        mentoBalance: {
+          decimals: mentoContractData.decimals,
+          symbol: mentoContractData.symbol,
+          value: 0n,
+          formatted: "0",
+        },
+        veMentoBalance: {
+          decimals: veMentoContractData.decimals,
+          symbol: veMentoContractData.symbol,
+          value: 0n,
+          formatted: "0",
+        },
+      };
+    }
+  }, [
+    balanceData,
+    balanceFetchSuccess,
+    mentoContractData.decimals,
+    mentoContractData.symbol,
+    veMentoContractData.decimals,
+    veMentoContractData.symbol,
+  ]);
 
-  const refreshTokens = useCallback(() => {
-    veMentoRefetch();
-    mentoRefetch();
-  }, [mentoRefetch, veMentoRefetch]);
+  useEffect(() => {
+    queryClient.invalidateQueries({ queryKey });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [blockNumber, queryClient]);
 
-  // This type conversion is needed for TS, but due to the initial data settings, this should never be undefined
   return {
-    veMentoBalance: veMentoBalance as unknown as TokenBalance,
-    mentoBalance: mentoBalance as unknown as TokenBalance,
-    refreshTokens,
+    veMentoBalance: veMentoBalance,
+    mentoBalance: mentoBalance,
   };
 };
 

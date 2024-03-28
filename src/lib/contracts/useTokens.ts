@@ -11,10 +11,11 @@ export type TokenBalance = {
 
 export const useTokens = () => {
   const { Locking, MentoToken } = useContracts();
-  const { isConnected } = useAccount();
+  const { isConnected, address } = useAccount();
 
   const { data: veMentoBalance, refetch: veMentoRefetch } = useBalance({
-    address: Locking.address,
+    token: Locking.address,
+    address,
     scopeKey: "token-hook",
     query: {
       refetchInterval: 5000,
@@ -29,7 +30,8 @@ export const useTokens = () => {
   });
 
   const { data: mentoBalance, refetch: mentoRefetch } = useBalance({
-    address: MentoToken.address,
+    address,
+    token: MentoToken.address,
     scopeKey: "token-hook",
     query: {
       refetchInterval: 5000,

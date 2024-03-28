@@ -9,7 +9,7 @@ const LockedBalance = () => {
       <div className="text-[1.125rem] text-[#A8A8A8] dark:text-[#AAB3B6]">
         Your voting power
       </div>
-      <div className="text-[2rem] animate-[pulse] leading-[2rem]">{`${NumbersService.parseNumericValue(formatUnits(veMentoBalance.value, veMentoBalance.decimal))} veMENTO`}</div>
+      <div className="text-[2rem] animate-[pulse] leading-[2rem]">{`${NumbersService.parseNumericValue(formatUnits(veMentoBalance.value, veMentoBalance.decimals))} veMENTO`}</div>
     </div>
   );
 };

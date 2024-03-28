@@ -71,10 +71,10 @@ export const CreateProposalWalletStep = () => {
   const getAndValidateStep = useCallback((): WalletStepEnum => {
     if (!address) {
       return WalletStepEnum.connectWallet;
-    } else if (mentoBalance.value <= parseUnits("10", mentoBalance.decimal)) {
+    } else if (mentoBalance.value <= parseUnits("10", mentoBalance.decimals)) {
       return WalletStepEnum.buyMento;
     } else if (
-      veMentoBalance.value < parseUnits("2500", veMentoBalance.decimal)
+      veMentoBalance.value < parseUnits("2500", veMentoBalance.decimals)
     ) {
       return WalletStepEnum.lockMento;
     } else {
@@ -82,9 +82,9 @@ export const CreateProposalWalletStep = () => {
     }
   }, [
     address,
-    mentoBalance.decimal,
+    mentoBalance.decimals,
     mentoBalance.value,
-    veMentoBalance.decimal,
+    veMentoBalance.decimals,
     veMentoBalance.value,
   ]);
 

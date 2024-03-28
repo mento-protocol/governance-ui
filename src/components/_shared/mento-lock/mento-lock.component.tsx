@@ -1,5 +1,9 @@
+import { LockingABI } from "@/lib/abi/Locking";
 import useLockMento from "@/lib/contracts/locking/useLockMento";
+import { useContracts } from "@/lib/contracts/useContracts";
 import useTokens from "@/lib/contracts/useTokens";
+import BaseComponentProps from "@/lib/interfaces/base-component-props.interface";
+import useModal from "@/lib/providers/modal.provider";
 import { yupResolver } from "@hookform/resolvers/yup";
 import classNames from "classnames";
 import {
@@ -16,14 +20,10 @@ import "react-day-picker/dist/style.css";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { formatUnits } from "viem";
-import { useAccount, useReadContract, useWriteContract } from "wagmi";
+import { useAccount, useReadContract } from "wagmi";
 import { date, number, object, setLocale } from "yup";
-import styles from "./mento-lock.module.scss";
-import BaseComponentProps from "@/lib/interfaces/base-component-props.interface";
-import useModal from "@/lib/providers/modal.provider";
-import { useContracts } from "@/lib/contracts/useContracts";
-import { LockingABI } from "@/lib/abi/Locking";
 import { Button, DatePicker, Input, Loader, Slider } from "..";
+import styles from "./mento-lock.module.scss";
 
 interface MentoLockProps extends BaseComponentProps {
   className?: string;
@@ -118,8 +118,6 @@ export const MentoLock = ({ className = "" }: MentoLockProps) => {
     functionName: "getLock",
     args: [BigInt(debouncedToLock * Math.pow(10, 18)), debouncedWeeks, 0],
   });
-
-  const { writeContract } = useWriteContract();
 
   const vementoParsed = useMemo(() => {
     if (!getLock) return;

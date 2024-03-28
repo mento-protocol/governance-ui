@@ -2,7 +2,7 @@ import { useReadContract } from "wagmi";
 import { Address, erc20Abi } from "viem";
 import { useContracts } from "@/lib/contracts/useContracts";
 
-const useGetAllowance = ({
+const useAllowance = ({
   owner,
   spender,
 }: {
@@ -20,4 +20,4 @@ const useGetAllowance = ({
   });
 };
 
-export default useGetAllowance;
+export default useAllowance;

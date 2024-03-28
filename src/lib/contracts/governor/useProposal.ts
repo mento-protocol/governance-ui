@@ -12,7 +12,7 @@ import { NetworkStatus } from "@apollo/client";
 import { useMemo } from "react";
 import { useChainId, useReadContract } from "wagmi";
 
-const useGetProposal = (proposalId: bigint) => {
+const useProposal = (proposalId: bigint) => {
   const chainId = useChainId();
   const contracts = useContracts();
 
@@ -61,4 +61,4 @@ const useGetProposal = (proposalId: bigint) => {
   };
 };
 
-export default useGetProposal;
+export default useProposal;

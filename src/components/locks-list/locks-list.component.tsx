@@ -5,11 +5,11 @@ import { Address, formatUnits } from "viem";
 import { useAccount } from "wagmi";
 import styles from "./locks-list.module.scss";
 import useRelockMento from "@/lib/contracts/locking/useRelockMento";
+import useLocksByAccount from "@/lib/contracts/locking/useLocksByAccount";
+import useLock from "@/lib/contracts/locking/useLock";
 import useModal from "@/lib/providers/modal.provider";
 import { Button, DropdownButton } from "@/components/_shared";
-import useGetLocksByAccount from "@/lib/contracts/locking/useGetLocksByAccount";
 import { Lock } from "@/lib/graphql/subgraph/generated/subgraph";
-import useGetLock from "@/lib/contracts/locking/useGetLock";
 
 interface ILocksList {
   account: Address;
@@ -17,7 +17,7 @@ interface ILocksList {
 
 export const LocksList = ({ account }: ILocksList) => {
   const { address } = useAccount();
-  const { locks, refetch } = useGetLocksByAccount({ account });
+  const { locks, refetch } = useLocksByAccount({ account });
 
   return (
     <div className={styles.locksList}>
@@ -57,7 +57,7 @@ const LockEntry = ({
 
   const { relockMento } = useRelockMento();
 
-  const { lockData } = useGetLock({
+  const { lockData } = useLock({
     lock,
   });
 

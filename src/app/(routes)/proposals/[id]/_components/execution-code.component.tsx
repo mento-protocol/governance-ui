@@ -1,5 +1,5 @@
 import BlockExplorerLink from "@/components/_shared/block-explorer-link/block-explorer-link.component";
-import useGetContractsInfo from "@/lib/contracts/useGetContractsInfo";
+import useContractsInfo from "@/lib/contracts/useContractsInfo";
 import { ProposalCall } from "@/lib/graphql";
 
 type Props = {
@@ -7,7 +7,7 @@ type Props = {
 };
 
 export default function ExecutionCode({ calls }: Props) {
-  const { formattedCalls } = useGetContractsInfo({ calls });
+  const { formattedCalls } = useContractsInfo({ calls });
 
   return (
     <div>

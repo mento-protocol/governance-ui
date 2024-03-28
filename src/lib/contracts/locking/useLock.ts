@@ -3,11 +3,11 @@ import { useContracts } from "@/lib/contracts/useContracts";
 import { Lock } from "@/lib/graphql/subgraph/generated/subgraph";
 import { useReadContract } from "wagmi";
 
-interface IGetLock {
+interface ILockHook {
   lock: Lock;
 }
 
-const useGetLock = ({ lock }: IGetLock) => {
+const useLock = ({ lock }: ILockHook) => {
   const { Locking } = useContracts();
 
   const { data: lockData } = useReadContract({
@@ -22,4 +22,4 @@ const useGetLock = ({ lock }: IGetLock) => {
   };
 };
 
-export default useGetLock;
+export default useLock;

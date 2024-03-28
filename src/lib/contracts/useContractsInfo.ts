@@ -94,18 +94,8 @@ type ContractInfo = {
   };
 };
 
-const useGetContractsInfo = ({ calls }: Props) => {
+const useContractsInfo = ({ calls }: Props) => {
   const chainId = useChainId();
-
-  //   const { data, error: apolloError } = useQuery(GetContractsInfo, {
-  //     variables: {
-  //       addresses: calls.map((call) => call.target.id),
-  //     },
-  //     context: {
-  //       apiName: chainId === 44787 ? "celoExplorerAlfajores" : "celoExplorer",
-  //     },
-  //     skip: !calls.length,
-  //   });
 
   const { data, error: apolloError } = useGetContractsInfoQuery({
     variables: {
@@ -136,4 +126,4 @@ const useGetContractsInfo = ({ calls }: Props) => {
   };
 };
 
-export default useGetContractsInfo;
+export default useContractsInfo;

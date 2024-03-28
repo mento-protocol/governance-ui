@@ -28,7 +28,6 @@
     "date-fns": "^2.30.0",
     "ethereum-blockies": "^0.1.1",
     "graphql": "^16.8.1",
-    "immer": "^10.0.3",
     "lodash": "^4.17.21",
     "graphql-tag": "^2.12.6",
     "next": "^14.0.4",

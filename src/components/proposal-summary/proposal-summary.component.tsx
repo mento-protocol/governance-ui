@@ -3,12 +3,14 @@ import { formatUnits } from "viem";
 import { useBlockNumber } from "wagmi";
 import { Card } from "@/components/_shared";
 import useProposals from "@/lib/contracts/governor/useProposals";
-import useLockingTotalSupply from "@/lib/contracts/locking/useLockingTotalSupply";
 import useLockingWeek from "@/lib/contracts/locking/useLockingWeek";
 import useAllLocks from "@/lib/contracts/locking/useAllLocks";
+import useTokens from "@/lib/contracts/useTokens";
 
 const ProposalSummaryComponent = () => {
-  const { totalSupply } = useLockingTotalSupply();
+  const {
+    veMentoContractData: { totalSupply },
+  } = useTokens();
   const { currentWeek } = useLockingWeek();
   const { locks } = useAllLocks();
   const { proposals } = useProposals();

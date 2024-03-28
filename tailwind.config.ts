@@ -1,5 +1,13 @@
 import type { Config } from "tailwindcss";
 
+function generateCustomSpacing() {
+  const spacing: { [key: string]: string } = {};
+  for (let i = 1; i <= 20; i++) {
+    spacing[`x${i}`] = `${5 * i}px`;
+  }
+  return spacing;
+}
+
 const config: Config = {
   darkMode: ["class"],
   content: [
@@ -43,6 +51,7 @@ const config: Config = {
         "0%": { transform: "rotate(0deg)" },
         "100%": { transform: "rotate(360deg)" },
       },
+      spacing: generateCustomSpacing(),
     },
   },
   plugins: [require("@tailwindcss/typography")],

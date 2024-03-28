@@ -17,7 +17,7 @@ import { formatUnits, parseUnits } from "viem";
 import useTokens from "@/lib/contracts/useTokens";
 import { useAccount } from "wagmi";
 import useLockMento from "@/lib/contracts/locking/useLockMento";
-import useGetAllowance from "@/lib/contracts/mento/useGetAllowance";
+import useAllowance from "@/lib/contracts/mento/useAllowance";
 import { useContracts } from "@/lib/contracts/useContracts";
 import useApprove from "@/lib/contracts/mento/useApprove";
 
@@ -31,7 +31,7 @@ export const MentoLock = ({ className, style }: MentoLockProps) => {
     Locking: { address: lockingAddress },
   } = useContracts();
 
-  const { data: allowance } = useGetAllowance({
+  const { data: allowance } = useAllowance({
     spender: lockingAddress,
     owner: address,
   });
@@ -130,7 +130,7 @@ export const MentoLock = ({ className, style }: MentoLockProps) => {
         if (confirmed) {
           const toLock = parseUnits(
             `${getValues("toLock")}`,
-            mentoBalance.decimal,
+            mentoBalance.decimals,
           );
           if (allowance < toLock) {
             // On success trigger lock
@@ -156,7 +156,7 @@ export const MentoLock = ({ className, style }: MentoLockProps) => {
     isValid,
     lockMento,
     lockingAddress,
-    mentoBalance.decimal,
+    mentoBalance.decimals,
     resetApprove,
     resetLockHook,
     showConfirm,

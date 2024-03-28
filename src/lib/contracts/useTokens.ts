@@ -1,7 +1,7 @@
 import { useAccount, useBlockNumber, useReadContracts } from "wagmi";
 import { useContracts } from "@/lib/contracts/useContracts";
 import { useEffect, useMemo } from "react";
-import { erc20Abi, formatUnits } from "viem";
+import { erc20Abi } from "viem";
 import { useQueryClient } from "@tanstack/react-query";
 import { formatUnitsWithRadix } from "@/lib/helpers/numbers.service";
 

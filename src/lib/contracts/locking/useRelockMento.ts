@@ -1,10 +1,11 @@
 import { useCallback } from "react";
-import { useWaitForTransactionReceipt, useWriteContract } from "wagmi";
 import { useContracts } from "@/lib/contracts/useContracts";
-import { GovernorABI } from "@/lib/abi/Governor";
+import { useWaitForTransactionReceipt, useWriteContract } from "wagmi";
+import { LockingABI } from "@/lib/abi/Locking";
+import { Address } from "viem";
 import { WriteContractErrorType } from "wagmi/actions";
 
-const useCastVote = () => {
+const useRelockMento = () => {
   const contracts = useContracts();
   const {
     writeContract,
@@ -12,24 +13,28 @@ const useCastVote = () => {
     data,
     ...restWrite
   } = useWriteContract();
+
   const { isLoading: isConfirming, isSuccess: isConfirmed } =
     useWaitForTransactionReceipt({
       hash: data,
     });
 
-  const castVote = useCallback(
+  const relockMento = useCallback(
     (
-      proposalId: number,
-      support: number,
+      id: bigint,
+      newDelegate: Address,
+      newAmount: bigint,
+      newSlope: number,
+      newCliff: number,
       onSuccess?: () => void,
       onError?: (error?: WriteContractErrorType) => void,
     ) => {
       writeContract(
         {
-          address: contracts.MentoGovernor.address,
-          abi: GovernorABI,
-          functionName: "castVote",
-          args: [BigInt(proposalId).valueOf(), support],
+          address: contracts.Locking.address,
+          abi: LockingABI,
+          functionName: "relock",
+          args: [id, newDelegate, newAmount, newSlope, newCliff],
         },
         {
           onSuccess,
@@ -37,12 +42,12 @@ const useCastVote = () => {
         },
       );
     },
-    [contracts.MentoGovernor.address, writeContract],
+    [contracts.Locking.address, writeContract],
   );
 
   return {
     hash: data,
-    castVote,
+    relockMento,
     isAwaitingUserSignature,
     isConfirming,
     isConfirmed,
@@ -50,4 +55,4 @@ const useCastVote = () => {
   };
 };
 
-export default useCastVote;
+export default useRelockMento;

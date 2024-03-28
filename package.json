@@ -13,7 +13,7 @@
     "codegen": "graphql-codegen",
     "todo": "npx leasot '**/*.{ts,tsx,scss,gql}' --ignore 'node_modules/**/*','.git/**/*','app/graphql/generated' || true",
     "prepare": "husky",
-    "depcheck": "npx depcheck --skip-missing --ignores=\"@types/node,@types/react-dom,@secretlint/*,autoprefixer\""
+    "depcheck": "npx depcheck --skip-missing --ignores=\"@types/node,@types/react-dom,@secretlint/*,autoprefixer,@graphql-codegen/*\""
   },
   "dependencies": {
     "@apollo/client": "^3.8.9",
@@ -45,7 +45,8 @@
   },
   "devDependencies": {
     "@graphql-codegen/cli": "^5",
-    "@graphql-typed-document-node/core": "^3.2.0",
+    "@graphql-codegen/typescript-apollo-client-helpers": "^3.0.0",
+    "@graphql-codegen/typescript-react-apollo": "^4.3.0",
     "@secretlint/secretlint-rule-no-homedir": "^8.1.2",
     "@secretlint/secretlint-rule-npm": "^8.1.2",
     "@secretlint/secretlint-rule-pattern": "^8.1.2",

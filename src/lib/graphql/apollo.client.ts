@@ -8,7 +8,7 @@ import {
   SSRMultipartLink,
 } from "@apollo/experimental-nextjs-app-support/ssr";
 import loadEnvVar from "@/lib/helpers/load-env-var";
-import { ProposalPolicy } from "./subgraph/policies/Proposal";
+import { ProposalPolicy } from "@/lib/graphql/subgraph/policies/Proposal";
 
 const CELO_EXPLORER_API_URL = loadEnvVar(
   process.env.NEXT_PUBLIC_CELO_EXPLORER_API_URL,

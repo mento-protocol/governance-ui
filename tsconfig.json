@@ -1,12 +1,7 @@
 {
   "compilerOptions": {
     "target": "es2020",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext",
-      "es2020"
-    ],
+    "lib": ["dom", "dom.iterable", "esnext", "es2020"],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
@@ -28,36 +23,15 @@
       // "@/*": [
       //   "./*"
       // ],
-      "@/app/*": [
-        "./src/app/*"
-      ],
-      "@/components/*": [
-        "./src/components/*"
-      ],
-      "@/config/*": [
-        "./src/config/*"
-      ],
-      "@/lib/*": [
-        "./src/lib/*"
-      ],
-      "@/interfaces/*": [
-        "./src/lib/interfaces/*"
-      ],
-      "@/types/*": [
-        "./src/lib/types/*"
-      ],
-      "@/styles/*": [
-        "./src/styles/*"
-      ]
+      "@/app/*": ["./src/app/*"],
+      "@/components/*": ["./src/components/*"],
+      "@/config/*": ["./src/config/*"],
+      "@/lib/*": ["./src/lib/*"],
+      "@/interfaces/*": ["./src/lib/interfaces/*"],
+      "@/types/*": ["./src/lib/types/*"],
+      "@/styles/*": ["./src/styles/*"]
     }
   },
-  "include": [
-    "next-env.d.ts",
-    "**/*.ts",
-    "**/*.tsx",
-    ".next/types/**/*.ts"
-  ],
-  "exclude": [
-    "node_modules"
-  ]
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "exclude": ["node_modules"]
 }

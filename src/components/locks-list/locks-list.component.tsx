@@ -1,30 +1,23 @@
-import { LockingABI } from "@/lib/abi/Locking";
-import { GetLocksDocument, Lock } from "@/lib/graphql";
-import { useContracts } from "@/lib/contracts/useContracts";
-import { useSuspenseQuery } from "@apollo/client";
-import BaseComponentProps from "@/interfaces/base-component-props.interface";
 import classNames from "classnames";
 import { addWeeks, nextWednesday } from "date-fns";
-import { useMemo } from "react";
-import { formatUnits } from "viem";
-import { useChainId, useReadContract } from "wagmi";
+import { useCallback, useMemo } from "react";
+import { Address, formatUnits } from "viem";
+import { useAccount } from "wagmi";
 import styles from "./locks-list.module.scss";
+import useRelockMento from "@/lib/contracts/locking/useRelockMento";
+import { Lock } from "@/lib/graphql/subgraph/generated/subgraph";
+import useLocksByAccount from "@/lib/contracts/locking/useLocksByAccount";
+import { Button, DropdownButton } from "@/components/_shared";
+import useLock from "@/lib/contracts/locking/useLock";
+import useModal from "@/lib/providers/modal.provider";
 
-interface LocksListProps extends BaseComponentProps {
-  address: string;
+interface ILocksList {
+  account: Address;
 }
 
-export const LocksList = ({ address }: LocksListProps) => {
-  const chainId = useChainId();
-  const { data, refetch } = useSuspenseQuery<{ locks: Lock[] }>(
-    GetLocksDocument,
-    {
-      variables: { address },
-      context: {
-        apiName: chainId === 44787 ? "subgraphAlfajores" : "subgraph",
-      },
-    },
-  );
+export const LocksList = ({ account }: ILocksList) => {
+  const { address } = useAccount();
+  const { locks, refetch } = useLocksByAccount({ account });
 
   return (
     <div className={styles.locksList}>
@@ -37,28 +30,34 @@ export const LocksList = ({ address }: LocksListProps) => {
         </div>
         <div className={classNames(styles.title, styles.item)}>Expires on</div>
       </div>
-      {data?.locks?.map((lock) => (
-        <LockEntry onExtend={refetch} lock={lock} key={lock.lockId} />
-      ))}
+      {address &&
+        locks.map((lock) => (
+          <LockEntry
+            account={address}
+            onExtend={refetch}
+            lock={lock}
+            key={lock.lockId}
+          />
+        ))}
     </div>
   );
 };
 
 const LockEntry = ({
   lock,
-  key,
+  account,
+  onExtend,
 }: {
   lock: Lock;
-  key: string | number;
+  account: Address;
   onExtend: () => void;
 }) => {
-  const contracts = useContracts();
+  const { showConfirm } = useModal();
 
-  const { data: getLock } = useReadContract({
-    address: contracts.Locking.address,
-    abi: LockingABI,
-    functionName: "getLock",
-    args: [lock.amount, lock.slope, lock.cliff],
+  const { relockMento } = useRelockMento();
+
+  const { lockData } = useLock({
+    lock,
   });
 
   const mentoParsed = useMemo(() => {
@@ -66,65 +65,60 @@ const LockEntry = ({
   }, [lock.amount]);
 
   const veMentoParsed = useMemo(() => {
-    return Number(formatUnits(getLock?.[0] || 0n, 18)).toLocaleString();
-  }, [getLock]);
+    return Number(formatUnits(lockData?.[0] || 0n, 18)).toLocaleString();
+  }, [lockData]);
 
   const expirationDate = useMemo(() => {
-    const startDate = new Date(lock.lockCreate[0].timestamp * 1000);
+    if (lock.lockCreate.length === 0) return "Expiration date not set";
+    const startDate = new Date(lock.lockCreate[0]?.timestamp * 1000);
     const endDate = nextWednesday(addWeeks(startDate, lock.slope + lock.cliff));
     return endDate.toLocaleDateString();
   }, [lock]);
 
-  // const reLock = useCallback(async () => {
-  //   const res = await showConfirm(
-  //     `Are you sure you want to extend lock ${lock.lockId}?`,
-  //   );
+  const relock = useCallback(async () => {
+    const res = await showConfirm(
+      `Are you sure you want to extend lock ${lock.lockId}?`,
+    );
 
-  //   if (!res) return;
+    if (!res) return;
 
-  //   writeContract(
-  //     {
-  //       address: contracts.Locking.address,
-  //       abi: LockingABI,
-  //       functionName: "relock",
-  //       args: [lock.lockId, address!, lock.amount, lock.slope, lock.cliff],
-  //     },
-  //     {
-  //       onSuccess: () => {
-  //         onExtend();
-  //       },
-  //     },
-  //   );
-  // }, [
-  //   showConfirm,
-  //   lock.lockId,
-  //   lock.amount,
-  //   lock.slope,
-  //   lock.cliff,
-  //   writeContract,
-  //   contracts.Locking.address,
-  //   address,
-  //   onExtend,
-  // ]);
+    relockMento(
+      lock.lockId,
+      account!,
+      lock.amount,
+      lock.slope,
+      lock.cliff,
+      onExtend,
+    );
+  }, [
+    showConfirm,
+    lock.lockId,
+    lock.amount,
+    lock.slope,
+    lock.cliff,
+    relockMento,
+    account,
+    onExtend,
+  ]);
 
   return (
-    <div className={styles.locksList__row} key={key}>
+    <div className={styles.locksList__row}>
       <div className={styles.divider}></div>
       <div className={styles.item}>{mentoParsed}</div>
       <div className={styles.item}>{veMentoParsed}</div>
       <div className={styles.item}>{expirationDate}</div>
-      {/*<div>*/}
-      {/*  <DropdownButton className="md:hidden" theme="clear">*/}
-      {/*    <DropdownButton.Dropdown>*/}
-      {/*      <DropdownButton.Element onClick={reLock}>*/}
-      {/*        Extend lock*/}
-      {/*      </DropdownButton.Element>*/}
-      {/*    </DropdownButton.Dropdown>*/}
-      {/*  </DropdownButton>*/}
-      {/*  <Button className="md:static" block theme="clear" onClick={reLock}>*/}
-      {/*    Extend lock*/}
-      {/*  </Button>*/}
-      {/*</div>*/}
+      <div>
+        <DropdownButton className="md:hidden" theme="clear">
+          <DropdownButton.Dropdown>
+            <DropdownButton.Element onClick={relock}>
+              Extend lock
+            </DropdownButton.Element>
+          </DropdownButton.Dropdown>
+        </DropdownButton>
+        <Button className="md:static" block theme="clear" onClick={relock}>
+          Extend lock
+        </Button>
+      </div>
     </div>
   );
 };

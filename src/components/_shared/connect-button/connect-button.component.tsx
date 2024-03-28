@@ -5,7 +5,6 @@ import {
   useChainModal,
 } from "@rainbow-me/rainbowkit";
 import classNames from "classnames";
-import { formatUnits } from "viem";
 import { Avatar, Button, DropdownButton } from "@/components/_shared";
 import { ChevronIcon } from "@/components/_icons";
 import BaseComponentProps from "@/interfaces/base-component-props.interface";

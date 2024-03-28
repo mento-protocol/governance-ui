@@ -25,3 +25,4 @@ export { MarkdownView } from "./markdown-view/markdown-view.component";
 export { SeeAll } from "./see-all/see-all.component";
 export { ExecutionCodeView } from "./execution-code-view/execution-code-view.component";
 export { Status } from "./status/status.component";
+export { Spacer } from "./spacer/spacer.component";

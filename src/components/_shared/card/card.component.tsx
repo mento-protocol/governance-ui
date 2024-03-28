@@ -10,6 +10,7 @@ interface CardPartialProps extends BaseComponentProps {
 interface CardProps extends CardPartialProps {
   block?: boolean;
   transparent?: boolean;
+  noBorderMobile?: boolean;
 }
 
 const CardHeader = ({ children, className, style }: CardPartialProps) => {
@@ -39,6 +40,7 @@ export const Card = ({
   className,
   block,
   style,
+  noBorderMobile,
   transparent,
 }: CardProps) => {
   return (
@@ -47,6 +49,7 @@ export const Card = ({
         styles.card,
         block && styles.block,
         transparent && styles.transparent,
+        noBorderMobile && styles.noBorderMobile,
         className,
       )}
       style={style}

@@ -20,9 +20,22 @@ body {
   color: var(--theme-foreground-color);
   font-size: 18px;
   font-weight: 400;
-  line-height: 18px;
+  line-height: 1;
   background-color: var(--theme-background-color);
+  font-family: var(--font-fg);
+
+  @include media-md {
+    font-size: 22px;
+  }
 }
+
+@font-face {
+  font-family: "Founders Grotesk";
+  src: url("/fonts/FoundersGrotesk-Light.otf") format("opentype");
+  font-weight: 300;
+  font-style: normal;
+}
+
 @font-face {
   font-family: "Founders Grotesk";
   src: url("/fonts/FoundersGrotesk-Regular.otf") format("opentype");
@@ -42,6 +55,85 @@ body {
   src: url("/fonts/FoundersGrotesk-Semibold.otf") format("opentype");
   font-weight: 600;
   font-style: normal;
+}
+
+@font-face {
+  font-family: "Founders Grotesk";
+  src: url("/fonts/FoundersGrotesk-Bold.otf") format("opentype");
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Inter";
+  src: url("/fonts/Inter-Thin.ttf") format("truetype");
+  font-weight: 100;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Inter";
+  src: url("/fonts/Inter-ExtraLight.ttf") format("truetype");
+  font-weight: 200;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Inter";
+  src: url("/fonts/Inter-Light.ttf") format("truetype");
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Inter";
+  src: url("/fonts/Inter-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Inter";
+  src: url("/fonts/Inter-Medium.ttf") format("truetype");
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Inter";
+  src: url("/fonts/Inter-SemiBold.ttf") format("truetype");
+  font-weight: 600;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Inter";
+  src: url("/fonts/Inter-Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Inter";
+  src: url("/fonts/Inter-ExtraBold.ttf") format("truetype");
+  font-weight: 800;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Inter";
+  src: url("/fonts/Inter-Black.ttf") format("truetype");
+  font-weight: 900;
+  font-style: normal;
+}
+
+
+.font-fg {
+  font-family: var(--font-fg);
+}
+
+.font-inter {
+  font-family: "Inter", sans-serif;
 }
 
 @include media-md {
@@ -71,6 +163,11 @@ body {
   margin-right: auto;
 }
 
+.header_text {
+  -webkit-text-stroke-width: 1.2px;
+  -webkit-text-stroke-color: var(--theme-foreground-color);
+}
+
 svg.branded-icon path {
   fill: var(--theme-foreground-color) !important;
 }
@@ -85,10 +182,6 @@ a:hover,
   flex: 0;
 }
 
-.full-w {
-  width: 100%;
-}
-
 .prose:not(.prose-editor) {
   * {
     color: var(--theme-foreground-color);
@@ -99,12 +192,49 @@ a:hover,
   max-width: 100%;
 }
 
-.rdp-day_outside:not(.rdp-day_disabled) {
-  opacity: 1;
-}
+.hamburger {
+  position: relative;
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
 
-.rdp-button:hover:not([disabled]):not(.rdp-day_selected) {
-  color: $c-black;
+  span {
+    position: absolute;
+    width: 100%;
+    height: 2px;
+    background-color: var(--theme-foreground-color);
+    transition: 0.3s;
+  }
+
+  span:nth-child(1) {
+    top: 0;
+  }
+
+  span:nth-child(2) {
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  span:nth-child(3) {
+    bottom: 0;
+  }
+
+    &.opened {
+        span:nth-child(1) {
+        top: 50%;
+        transform: translateY(-50%) rotate(45deg);
+        }
+
+        span:nth-child(2) {
+        opacity: 0;
+        }
+
+        span:nth-child(3) {
+        top: 50%;
+        transform: translateY(-50%) rotate(-45deg);
+        }
+    }
 }
 
 @each $color, $value in $brandColors {

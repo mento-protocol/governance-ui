@@ -8,15 +8,6 @@
   font-weight: 400;
   font-size: 16px;
   color: var(--theme-foreground-color);
-  padding: 0 4 * $theme-unit;
-
-  @include media-md {
-    padding: 0 6 * $theme-unit;
-  }
-
-  @media (min-width: calc($breakpoint-lx + 60px)) {
-    padding: 0;
-  }
 
   strong {
     color: var(--theme-footer-color);

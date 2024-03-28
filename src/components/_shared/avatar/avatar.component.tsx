@@ -1,17 +1,17 @@
 /* eslint-disable @next/next/no-img-element */
-import classNames from "classnames";
 import { create } from "ethereum-blockies";
 import BaseComponentProps from "@/interfaces/base-component-props.interface";
 import BlockExplorerLink from "@/components/_shared/block-explorer-link/block-explorer-link.component";
-import styles from "./avatar.module.scss";
-
 interface AvatarProps extends BaseComponentProps {
   address: string;
 }
 
-export const Avatar = ({ className, style, address }: AvatarProps) => {
+export const Avatar = ({ className, address }: AvatarProps) => {
   return (
-    <div className={classNames(styles.avatar, className)} style={style}>
+    <div
+      // TODO: border radius is 50%
+      className={`h-[35px] w-[35px] rounded-full ${className}`}
+    >
       <BlockExplorerLink type="address" item={address}>
         <img
           src={create({

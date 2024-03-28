@@ -62,6 +62,8 @@ const Wrapper = ({
   );
 };
 
+// TODO: Button needs to be completely redone styling wise
+
 export const Button = ({
   children,
   theme = "primary",
@@ -95,10 +97,32 @@ export const Button = ({
       >
         <button
           type={type}
+          // TODO: Button styles to be fixed
+          // color: $foreground-color;
+          // background-color: $background-color;
+          // border-color: $c-black;
+
+          // &:hover {
+          //   margin-top: -8px;
+          //   color: $foreground-color;
+          // }
+
+          // &:active {
+          //   margin-top: -2px;
+          //   color: $foreground-color;
+          // }
+
+          // @media (hover: none) {
+          //   &:active,
+          //   &:focus {
+          //     animation: button-click-animation 0.45s $ease-out-back;
+          //   }
+          // }
           className={classNames(styles.button)}
           onClick={onClick}
         >
           <span className={styles.inner}>{children}</span>
+          {/* <span className="flex justify-center items-center whitespace-nowrap">{children}</span> */}
         </button>
       </div>
     </Wrapper>

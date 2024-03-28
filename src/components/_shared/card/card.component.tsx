@@ -1,7 +1,7 @@
-import { ReactNode } from "react";
-import classNames from "classnames";
+import { ReactNode, useMemo } from "react";
 import BaseComponentProps from "@/interfaces/base-component-props.interface";
-import styles from "./card.module.scss";
+import { prefixStyles } from "@/styles/helpers";
+import classNames from "classnames";
 
 interface CardPartialProps extends BaseComponentProps {
   children: ReactNode;
@@ -13,11 +13,13 @@ interface CardProps extends CardPartialProps {
   noBorderMobile?: boolean;
 }
 
-const CardHeader = ({ children, className, style }: CardPartialProps) => {
+// TODO: sibling selectors, immediate child selectors, grouping
+
+const CardHeader = ({ children, className }: CardPartialProps) => {
   return (
     <header
-      className={classNames(styles.card__header, className)}
-      style={style}
+      // TODO: padding was 10, now 12
+      className={`${prefixStyles("relative rounded-t-lg rounded-r-lg bg-[inherit] p-3 md:p-5 md:pb-3", "group/no-mobile")} ${className}`}
     >
       {children}
     </header>
@@ -27,7 +29,7 @@ const CardHeader = ({ children, className, style }: CardPartialProps) => {
 const CardFooter = ({ children, className, style }: CardPartialProps) => {
   return (
     <footer
-      className={classNames(styles.card__footer, className)}
+      className={classNames("styles.card__footer", className)}
       style={style}
     >
       {children}
@@ -43,15 +45,15 @@ export const Card = ({
   noBorderMobile,
   transparent,
 }: CardProps) => {
+  const noBorderMobileStyling = useMemo(() => {
+    return noBorderMobile ? "group/no-mobile border-none" : "";
+  }, [noBorderMobile]);
   return (
     <div
-      className={classNames(
-        styles.card,
-        block && styles.block,
-        transparent && styles.transparent,
-        noBorderMobile && styles.noBorderMobile,
-        className,
-      )}
+      // TODO: Fix classes
+      // background-color: var(--theme-card-background);
+      // Border color --theme-card
+      className={`rounded-lg border-l border-r border-t border-b border-solid border  ${noBorderMobileStyling} ${block && "w-full"} ${transparent && "bg-transparent"} ${className}`}
       style={style}
     >
       {children}

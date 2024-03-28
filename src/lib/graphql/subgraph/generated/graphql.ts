@@ -22,6 +22,11 @@ export type Scalars = {
    *
    */
   Int8: { input: any; output: any; }
+  /**
+   * A string representation of microseconds UNIX timestamp (16 digits)
+   *
+   */
+  Timestamp: { input: any; output: any; }
 };
 
 export type AccessControl = {
@@ -7104,7 +7109,6 @@ export type Withdraw = Event & {
   amount: Scalars['BigInt']['output'];
   emitter: Account;
   id: Scalars['ID']['output'];
-  lock: Lock;
   locking: Locking;
   owner: Account;
   timestamp: Scalars['BigInt']['output'];
@@ -7152,27 +7156,6 @@ export type Withdraw_Filter = {
   id_lte?: InputMaybe<Scalars['ID']['input']>;
   id_not?: InputMaybe<Scalars['ID']['input']>;
   id_not_in?: InputMaybe<Array<Scalars['ID']['input']>>;
-  lock?: InputMaybe<Scalars['String']['input']>;
-  lock_?: InputMaybe<Lock_Filter>;
-  lock_contains?: InputMaybe<Scalars['String']['input']>;
-  lock_contains_nocase?: InputMaybe<Scalars['String']['input']>;
-  lock_ends_with?: InputMaybe<Scalars['String']['input']>;
-  lock_ends_with_nocase?: InputMaybe<Scalars['String']['input']>;
-  lock_gt?: InputMaybe<Scalars['String']['input']>;
-  lock_gte?: InputMaybe<Scalars['String']['input']>;
-  lock_in?: InputMaybe<Array<Scalars['String']['input']>>;
-  lock_lt?: InputMaybe<Scalars['String']['input']>;
-  lock_lte?: InputMaybe<Scalars['String']['input']>;
-  lock_not?: InputMaybe<Scalars['String']['input']>;
-  lock_not_contains?: InputMaybe<Scalars['String']['input']>;
-  lock_not_contains_nocase?: InputMaybe<Scalars['String']['input']>;
-  lock_not_ends_with?: InputMaybe<Scalars['String']['input']>;
-  lock_not_ends_with_nocase?: InputMaybe<Scalars['String']['input']>;
-  lock_not_in?: InputMaybe<Array<Scalars['String']['input']>>;
-  lock_not_starts_with?: InputMaybe<Scalars['String']['input']>;
-  lock_not_starts_with_nocase?: InputMaybe<Scalars['String']['input']>;
-  lock_starts_with?: InputMaybe<Scalars['String']['input']>;
-  lock_starts_with_nocase?: InputMaybe<Scalars['String']['input']>;
   locking?: InputMaybe<Scalars['String']['input']>;
   locking_?: InputMaybe<Locking_Filter>;
   locking_contains?: InputMaybe<Scalars['String']['input']>;
@@ -7252,14 +7235,6 @@ export enum Withdraw_OrderBy {
   Emitter = 'emitter',
   EmitterId = 'emitter__id',
   Id = 'id',
-  Lock = 'lock',
-  LockAmount = 'lock__amount',
-  LockCliff = 'lock__cliff',
-  LockId = 'lock__id',
-  LockLockId = 'lock__lockId',
-  LockRelocked = 'lock__relocked',
-  LockSlope = 'lock__slope',
-  LockTime = 'lock__time',
   Locking = 'locking',
   LockingId = 'locking__id',
   LockingMode = 'locking__mode',

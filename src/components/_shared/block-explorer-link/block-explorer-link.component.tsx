@@ -1,6 +1,4 @@
-import classNames from "classnames";
 import { useAccount } from "wagmi";
-import styles from "./block-explorer-link.module.scss";
 
 type Props = {
   children: React.ReactNode;
@@ -13,7 +11,8 @@ function BlockExplorerLink({ children, type, item }: Props) {
   const blockExplorerUrl = chain?.blockExplorers?.default.url;
   return blockExplorerUrl ? (
     <a
-      className={classNames("underline", "decoration-from-font", styles.link)}
+      // TODO: offset set to 0.25em
+      className="underline decoration-from-font underline-offset-4"
       href={`${blockExplorerUrl}/${type}/${item}`}
       target="_blank"
       rel="noopener noreferrer"

@@ -22,7 +22,7 @@ const useLockMento = () => {
     (
       account: Address,
       delegate: Address,
-      amount: number,
+      amount: bigint,
       slope: number,
       cliff: number,
       onSuccess?: () => void,
@@ -32,7 +32,7 @@ const useLockMento = () => {
           address: contracts.Locking.address,
           abi: LockingABI,
           functionName: "lock",
-          args: [account, delegate, BigInt(amount), slope, cliff],
+          args: [account, delegate, amount, slope, cliff],
         },
         {
           onSuccess,

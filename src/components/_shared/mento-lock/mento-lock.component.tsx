@@ -13,10 +13,13 @@ import {
   setISODay,
 } from "date-fns";
 import useModal from "@/lib/providers/modal.provider";
-import { formatUnits } from "viem";
+import { formatUnits, parseUnits } from "viem";
 import useTokens from "@/lib/contracts/useTokens";
 import { useAccount } from "wagmi";
 import useLockMento from "@/lib/contracts/locking/useLockMento";
+import useGetAllowance from "@/lib/contracts/mento/useGetAllowance";
+import { useContracts } from "@/lib/contracts/useContracts";
+import useApprove from "@/lib/contracts/mento/useApprove";
 
 interface MentoLockProps extends BaseComponentProps {}
 
@@ -24,7 +27,17 @@ export const MentoLock = ({ className, style }: MentoLockProps) => {
   const { mentoBalance } = useTokens();
   const { address } = useAccount();
   const { showConfirm } = useModal();
-  const { lockMento, isConfirmed, reset: resetHook } = useLockMento();
+  const {
+    Locking: { address: lockingAddress },
+  } = useContracts();
+
+  const { data: allowance } = useGetAllowance({
+    spender: lockingAddress,
+    owner: address,
+  });
+
+  const { approveMento, reset: resetApprove } = useApprove();
+  const { lockMento, isConfirmed, reset: resetLockHook } = useLockMento();
 
   const validationSchema = useMemo(() => {
     return object({
@@ -101,7 +114,7 @@ export const MentoLock = ({ className, style }: MentoLockProps) => {
   };
 
   const performLock = useCallback(() => {
-    if (isValid && address) {
+    if (isValid && address && allowance) {
       showConfirm(
         `Do you want to lock ${getValues("toLock")} MENTO for ${[
           getYears(),
@@ -115,36 +128,46 @@ export const MentoLock = ({ className, style }: MentoLockProps) => {
         },
       ).then((confirmed) => {
         if (confirmed) {
-          lockMento(address, address, getValues("toLock"), 10, 10);
-          // lockMento({
-          //   owner: address,
-          //   amountMNTO: getValues("toLock"),
-          //   amountsVeMNTO: Math.round(
-          //     getValues("toLock") * 100 * (getValues("expirationMonths") / 12),
-          //   ),
-          //   expireDate: getValues("expiration"),
-          // } as ILock).then(() => {
-          //   reset();
-          // });
+          const toLock = parseUnits(
+            `${getValues("toLock")}`,
+            mentoBalance.decimal,
+          );
+          if (allowance < toLock) {
+            // On success trigger lock
+            approveMento(lockingAddress, toLock, () => {
+              lockMento(address, address, toLock, 10, 10, () => {
+                resetApprove();
+                resetLockHook();
+              });
+            });
+          } else {
+            lockMento(address, address, toLock, 10, 10, resetLockHook);
+          }
         }
       });
     }
   }, [
     address,
+    allowance,
+    approveMento,
     getMonths,
     getValues,
     getYears,
     isValid,
     lockMento,
+    lockingAddress,
+    mentoBalance.decimal,
+    resetApprove,
+    resetLockHook,
     showConfirm,
   ]);
 
   useEffect(() => {
     if (isConfirmed) {
       reset();
-      resetHook();
+      resetLockHook();
     }
-  }, [isConfirmed, reset, resetHook]);
+  }, [isConfirmed, reset, resetLockHook]);
 
   const monthSelected = (months: number | string) => {
     const newDate = nextWednesday(addMonths(new Date(), +months));

@@ -1,7 +1,6 @@
 "use client";
 import { useMemo } from "react";
 import Link from "next/link";
-import styles from "./breadcrumbs.module.scss";
 import { routingMap } from "@/lib/helpers/routing.map";
 import { useParams, usePathname } from "next/navigation";
 
@@ -17,17 +16,18 @@ const Crumb = ({ path, index, last }: CrumbProps) => {
   const proposalId = (useParams().id || "") as string;
 
   return (
-    <li className={styles.crumb}>
-      {index > 0 && crumbName && (
-        <span className={styles.crumb__separator}>{">"}</span>
-      )}
+    // TODO: Line height used here for 20px, adjust using padding
+    // TODO: color: foreground color
+    <li className="text-xl">
+      {index > 0 && crumbName && <span className="my-2.5">{">"}</span>}
       {last ? (
         <span>
           {crumbName}
           {isProposalCrumb && ` ${shortenProposalId(proposalId)}`}
         </span>
       ) : (
-        <Link href={path || "/"} className={styles.crumb__clickable}>
+        // TODO: text color $c-primary
+        <Link href={path || "/"} className="">
           {crumbName}
         </Link>
       )}
@@ -43,7 +43,7 @@ export const Breadcrumbs = () => {
   );
 
   return (
-    <nav className={styles.container} aria-label="Breadcrumb">
+    <nav className="w-full" aria-label="Breadcrumb">
       <ol>
         {crumbsPath.map((path, index) => (
           <Crumb

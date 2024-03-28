@@ -3,6 +3,7 @@ import { useContracts } from "@/lib/contracts/useContracts";
 import { useWaitForTransactionReceipt, useWriteContract } from "wagmi";
 import { LockingABI } from "@/lib/abi/Locking";
 import { Address } from "viem";
+import { WriteContractErrorType } from "wagmi/actions";
 
 const useLockMento = () => {
   const contracts = useContracts();
@@ -26,6 +27,7 @@ const useLockMento = () => {
       slope: number,
       cliff: number,
       onSuccess?: () => void,
+      onError?: (error?: WriteContractErrorType) => void,
     ) => {
       writeContract(
         {
@@ -36,6 +38,7 @@ const useLockMento = () => {
         },
         {
           onSuccess,
+          onError,
         },
       );
     },

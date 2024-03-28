@@ -3,6 +3,7 @@ import { useContracts } from "@/lib/contracts/useContracts";
 import { useCallback } from "react";
 import { Address, toHex } from "viem";
 import { useWriteContract } from "wagmi";
+import { WriteContractErrorType } from "wagmi/actions";
 
 export type ProposalCreateParams = {
   metadata: { title: string; description: string };
@@ -18,20 +19,32 @@ const useCreateProposalOnChain = () => {
   const { MentoGovernor } = useContracts();
 
   const createProposal = useCallback(
-    (proposal: ProposalCreateParams) => {
-      writeContract({
-        address: MentoGovernor.address as Address,
-        abi: GovernorABI,
-        functionName: "propose",
-        args: [
-          proposal.transactions.map(
-            (transaction) => transaction.address as Address,
-          ),
-          proposal.transactions.map((transaction) => BigInt(transaction.value)),
-          proposal.transactions.map((transaction) => toHex(transaction.data)), // TODO: Confirm this doesn't need toBytes first
-          JSON.stringify(proposal.metadata),
-        ],
-      });
+    (
+      proposal: ProposalCreateParams,
+      onSuccess?: () => void,
+      onError?: (error?: WriteContractErrorType) => void,
+    ) => {
+      writeContract(
+        {
+          address: MentoGovernor.address as Address,
+          abi: GovernorABI,
+          functionName: "propose",
+          args: [
+            proposal.transactions.map(
+              (transaction) => transaction.address as Address,
+            ),
+            proposal.transactions.map((transaction) =>
+              BigInt(transaction.value),
+            ),
+            proposal.transactions.map((transaction) => toHex(transaction.data)), // TODO: Confirm this doesn't need toBytes first
+            JSON.stringify(proposal.metadata),
+          ],
+        },
+        {
+          onSuccess,
+          onError,
+        },
+      );
     },
     [writeContract, MentoGovernor.address],
   );

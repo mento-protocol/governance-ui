@@ -1,6 +1,5 @@
-import { ReactNode, useMemo } from "react";
+import { ReactNode } from "react";
 import BaseComponentProps from "@/interfaces/base-component-props.interface";
-import { prefixStyles } from "@/styles/helpers";
 import classNames from "classnames";
 
 interface CardPartialProps extends BaseComponentProps {
@@ -19,7 +18,7 @@ const CardHeader = ({ children, className }: CardPartialProps) => {
   return (
     <header
       // TODO: padding was 10, now 12
-      className={`${prefixStyles("relative rounded-t-lg rounded-r-lg bg-[inherit] p-3 md:p-5 md:pb-3", "group/no-mobile")} ${className}`}
+      className={classNames("rounded-lg rounded-r-lg bg-[inherit]", className)}
     >
       {children}
     </header>
@@ -28,10 +27,7 @@ const CardHeader = ({ children, className }: CardPartialProps) => {
 
 const CardFooter = ({ children, className, style }: CardPartialProps) => {
   return (
-    <footer
-      className={classNames("styles.card__footer", className)}
-      style={style}
-    >
+    <footer className={classNames(className)} style={style}>
       {children}
     </footer>
   );
@@ -41,20 +37,16 @@ export const Card = ({
   children,
   className,
   block,
-  style,
-  noBorderMobile,
   transparent,
 }: CardProps) => {
-  const noBorderMobileStyling = useMemo(() => {
-    return noBorderMobile ? "group/no-mobile border-none" : "";
-  }, [noBorderMobile]);
   return (
     <div
-      // TODO: Fix classes
-      // background-color: var(--theme-card-background);
-      // Border color --theme-card
-      className={`rounded-lg border-l border-r border-t border-b border-solid border  ${noBorderMobileStyling} ${block && "w-full"} ${transparent && "bg-transparent"} ${className}`}
-      style={style}
+      className={classNames(
+        `p-5 rounded-lg border border-light-gray bg-white dark:bg-primary-dark`,
+        block && "w-full",
+        transparent && "bg-transparent",
+        className,
+      )}
     >
       {children}
     </div>

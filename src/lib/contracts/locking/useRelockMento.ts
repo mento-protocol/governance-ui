@@ -27,12 +27,17 @@ const useRelockMento = () => {
       newCliff: number,
       onSuccess?: () => void,
     ) => {
-      writeContract({
-        address: contracts.Locking.address,
-        abi: LockingABI,
-        functionName: "relock",
-        args: [id, newDelegate, newAmount, newSlope, newCliff],
-      });
+      writeContract(
+        {
+          address: contracts.Locking.address,
+          abi: LockingABI,
+          functionName: "relock",
+          args: [id, newDelegate, newAmount, newSlope, newCliff],
+        },
+        {
+          onSuccess,
+        },
+      );
     },
     [contracts.Locking.address, writeContract],
   );

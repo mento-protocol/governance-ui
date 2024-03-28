@@ -1,10 +1,9 @@
 import { useCallback } from "react";
 import { useContracts } from "@/lib/contracts/useContracts";
 import { useWaitForTransactionReceipt, useWriteContract } from "wagmi";
-import { LockingABI } from "@/lib/abi/Locking";
-import { Address } from "viem";
+import { Address, erc20Abi } from "viem";
 
-const useLockMento = () => {
+const useApprove = () => {
   const contracts = useContracts();
   const {
     writeContract,
@@ -18,33 +17,26 @@ const useLockMento = () => {
       hash: data,
     });
 
-  const lockMento = useCallback(
-    (
-      account: Address,
-      delegate: Address,
-      amount: number,
-      slope: number,
-      cliff: number,
-      onSuccess?: () => void,
-    ) => {
+  const approveMento = useCallback(
+    (target: Address, amount: bigint, onSuccess?: () => void) => {
       writeContract(
         {
-          address: contracts.Locking.address,
-          abi: LockingABI,
-          functionName: "lock",
-          args: [account, delegate, BigInt(amount), slope, cliff],
+          address: contracts.MentoToken.address,
+          abi: erc20Abi,
+          functionName: "approve",
+          args: [target, amount],
         },
         {
           onSuccess,
         },
       );
     },
-    [contracts.Locking.address, writeContract],
+    [contracts.MentoToken.address, writeContract],
   );
 
   return {
     hash: data,
-    lockMento,
+    approveMento,
     isAwaitingUserSignature,
     isConfirming,
     isConfirmed,
@@ -52,4 +44,4 @@ const useLockMento = () => {
   };
 };
 
-export default useLockMento;
+export default useApprove;

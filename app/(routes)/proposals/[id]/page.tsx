@@ -12,9 +12,9 @@ import styles from "./page.module.scss";
 import BlockExplorerLink from "@/app/components/_shared/block-explorer-link/block-explorer-link.component";
 import { MarkdownView } from "@/app/components/_shared/markdown-view/markdown-view.component";
 import { Countdown } from "@/app/components/countdown/countdown.component";
-import { Avatar, Badge, WalletAddressWithCopy } from "@components/_shared";
+import { Avatar, Status, WalletAddressWithCopy } from "@components/_shared";
 import { ProposalCurrentVotes } from "@components/proposal-current-votes/proposal-current-votes.component";
-import { stateToBadgeColorMap } from "@interfaces/proposal.interface";
+import { stateToStatusColorMap } from "@interfaces/proposal.interface";
 import ExecutionCode from "./_components/execution-code.component";
 import Participants from "./_components/participants.component";
 import Vote from "./_components/vote.component";
@@ -68,12 +68,12 @@ const Page = ({ params }: { params: { id: string } }) => {
       {!proposal && <div>Proposal not found</div>}
       {proposal && (
         <>
-          <Badge
-            className="uppercase mt-x6 mb-3 font-medium"
-            type={stateToBadgeColorMap[proposal.state as ProposalState]}
-          >
-            {status}
-          </Badge>
+          <div className="mb-x4 mt-x6">
+            <Status
+              text={status}
+              type={stateToStatusColorMap[proposal.state as ProposalState]}
+            />
+          </div>
           <div className="flex flex-col md:grid md:grid-cols-7 gap-x1 ">
             <div className="md:col-start-1 md:col-span-4">
               <h1 className="text-xl md:font-size-x11 md:line-height-x11 font-medium">

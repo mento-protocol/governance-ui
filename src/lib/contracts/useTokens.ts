@@ -197,6 +197,8 @@ export const useTokens = () => {
   return {
     veMentoBalance: veMentoBalance,
     mentoBalance: mentoBalance,
+    mentoContractData,
+    veMentoContractData,
   };
 };
 

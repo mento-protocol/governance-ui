@@ -1,16 +1,24 @@
 import {
+  useGetLocksSuspenseQuery,
   Lock,
-  useGetAllLocksSuspenseQuery,
 } from "@/lib/graphql/subgraph/generated/subgraph";
 import { useChainId } from "wagmi";
 
-const useGetAllLocks = () => {
+interface UseLocksProps {
+  account: string;
+}
+
+const useLocksByAccount = ({ account }: UseLocksProps) => {
   const chainId = useChainId();
   const {
     data: { locks },
-  } = useGetAllLocksSuspenseQuery({
+    ...rest
+  } = useGetLocksSuspenseQuery({
     queryKey: "locking-contract-hook",
     refetchWritePolicy: "overwrite",
+    variables: {
+      address: account,
+    },
     context: {
       apiName: chainId === 44787 ? "subgraphAlfajores" : "subgraph",
     },
@@ -18,7 +26,8 @@ const useGetAllLocks = () => {
 
   return {
     locks: locks as Lock[],
+    ...rest,
   };
 };
 
-export default useGetAllLocks;
+export default useLocksByAccount;

@@ -2,7 +2,7 @@ import { useContracts } from "@/lib/contracts/useContracts";
 import { useReadContract } from "wagmi";
 import { LockingABI } from "@/lib/abi/Locking";
 
-const useLockingGetWeek = () => {
+const useLockingWeek = () => {
   const { Locking } = useContracts();
   const { data: currentWeek } = useReadContract({
     address: Locking.address,
@@ -21,4 +21,4 @@ const useLockingGetWeek = () => {
   };
 };
 
-export default useLockingGetWeek;
+export default useLockingWeek;

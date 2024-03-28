@@ -6,9 +6,9 @@ import { useAccount } from "wagmi";
 import styles from "./locks-list.module.scss";
 import useRelockMento from "@/lib/contracts/locking/useRelockMento";
 import { Lock } from "@/lib/graphql/subgraph/generated/subgraph";
-import useGetLocksByAccount from "@/lib/contracts/locking/useGetLocksByAccount";
+import useLocksByAccount from "@/lib/contracts/locking/useLocksByAccount";
 import { Button, DropdownButton } from "@/components/_shared";
-import useGetLock from "@/lib/contracts/locking/useGetLock";
+import useLock from "@/lib/contracts/locking/useLock";
 import useModal from "@/lib/providers/modal.provider";
 
 interface ILocksList {
@@ -17,7 +17,7 @@ interface ILocksList {
 
 export const LocksList = ({ account }: ILocksList) => {
   const { address } = useAccount();
-  const { locks, refetch } = useGetLocksByAccount({ account });
+  const { locks, refetch } = useLocksByAccount({ account });
 
   return (
     <div className={styles.locksList}>
@@ -56,7 +56,7 @@ const LockEntry = ({
 
   const { relockMento } = useRelockMento();
 
-  const { lockData } = useGetLock({
+  const { lockData } = useLock({
     lock,
   });
 

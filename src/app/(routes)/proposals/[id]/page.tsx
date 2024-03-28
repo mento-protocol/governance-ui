@@ -21,11 +21,11 @@ import { stateToStatusColorMap } from "@/lib/interfaces/proposal.interface";
 import { Countdown } from "@/components/countdown/countdown.component";
 import BlockExplorerLink from "@/components/_shared/block-explorer-link/block-explorer-link.component";
 import { ProposalCurrentVotes } from "@/components/proposal-current-votes/proposal-current-votes.component";
-import useGetProposal from "@/lib/contracts/governor/useGetProposal";
+import useProposal from "@/lib/contracts/governor/useProposal";
 
 const Page = ({ params }: { params: { id: string } }) => {
   // TODO: return loading states
-  const { proposal } = useGetProposal(BigInt(params.id));
+  const { proposal } = useProposal(BigInt(params.id));
   const currentBlock = useBlockNumber();
 
   const endBlock = useBlock({

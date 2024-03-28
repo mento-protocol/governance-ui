@@ -7,7 +7,7 @@ import { Card, ProgressBar, Status } from "@/components/_shared";
 import Link from "next/link";
 import { stateToStatusColorMap } from "@/lib/interfaces/proposal.interface";
 import { formatUnits } from "viem";
-import useGetProposals from "@/lib/contracts/governor/useGetProposals";
+import useProposals from "@/lib/contracts/governor/useProposals";
 
 interface ProposalsListProps extends BaseComponentProps {}
 
@@ -15,7 +15,7 @@ export const ProposalsListComponent = ({
   className,
   style,
 }: ProposalsListProps) => {
-  const { proposals } = useGetProposals();
+  const { proposals } = useProposals();
 
   return (
     <div

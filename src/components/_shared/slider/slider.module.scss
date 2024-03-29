@@ -26,7 +26,7 @@
       background: var(--theme-foreground-color);
       border: 1px solid var(--theme-foreground-color);
       cursor: pointer;
-      border-radius: 8px;
+      border-radius: $border-radius;
 
       &:before {
         content: 'xD';
@@ -45,7 +45,7 @@
       background: var(--theme-foreground-color);
       border: 1px solid var(--theme-foreground-color);
       cursor: pointer;
-      border-radius: 8px;
+      border-radius: $border-radius;
 
       &:before {
         content: 'xD';

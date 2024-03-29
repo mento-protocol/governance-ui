@@ -39,7 +39,7 @@ export const MentoLock = ({ className = "" }: MentoLockProps) => {
   const { mentoBalance } = useTokens();
   const { lockMento, isConfirmed, reset: resetHook } = useLockMento();
   const balanceMENTO = parseInt(
-    formatUnits(mentoBalance.value, mentoBalance.decimal),
+    formatUnits(mentoBalance.value, mentoBalance.decimals),
   );
 
   const patchValidationSchema = useMemo(() => {

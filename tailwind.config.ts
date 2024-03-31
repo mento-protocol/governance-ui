@@ -15,9 +15,26 @@ const config: Config = {
       fontFamily: { fg: ["var(--font-fg)"], inter: ["var(--font-inter)"] },
     },
     colors: {
-      "primary-blue": "#4D62F0",
+      primary: "#4D62F0",
+      "primary-dark": "#2A326A",
+      secondary: "#FCD7FC",
+      "secondary-dark": "#845F84",
       "light-red": "#FF848A",
       "light-green": "#D2FCBF",
+
+      success: "#d2fcbd",
+      "success-dark": "#64805d",
+      error: "#ff848a",
+      "error-dark": "#893e43",
+      warning: "#f9fa96",
+      "warning-dark": "#878751",
+      info: "#d5f0f6",
+      "info-dark": "#5c6c74",
+
+      black: "#02010A",
+      white: "#FFFFFF",
+      "light-gray": "#B3B3B3",
+      grey: "#808080",
     },
     keyframes: {
       "spin-slow": {

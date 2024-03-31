@@ -45,6 +45,8 @@ const config: Config = {
       white: "#FFFFFF",
       "light-gray": "#B3B3B3",
       gray: "#808080",
+
+      transparent: "transparent",
     },
     keyframes: {
       "spin-slow": {

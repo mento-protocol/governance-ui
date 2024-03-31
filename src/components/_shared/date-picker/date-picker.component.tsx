@@ -170,8 +170,9 @@ export const DatePicker = ({
           ref={datePicker}
           className="fixed rounded-tl-lg rounded-tr-lg bottom-0 left-0 right-0 p-4 flex-col items-center justify-center min-[350px] h-[50vh] :"
         >
+          {/* TODO: Inner not found in styles. Only found in create proposal & button */}
           {/* <div className={styles.inner}> */}
-          <div className="">
+          <div>
             <DayPicker
               mode="single"
               fromDate={minDate}

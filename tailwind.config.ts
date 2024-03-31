@@ -23,23 +23,41 @@ const config: Config = {
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       },
       fontFamily: { fg: ["var(--font-fg)"], inter: ["var(--font-inter)"] },
+      spacing: generateCustomSpacing(),
     },
     colors: {
-      primary: "#4D62F0",
-      "primary-dark": "#2A326A",
-      secondary: "#FCD7FC",
-      "secondary-dark": "#845F84",
+      primary: {
+        light: "#4D62F0",
+        DEFAULT: "#4D62F0",
+        dark: "#2A326A",
+      },
+      secondary: {
+        light: "#FCD7FC",
+        DEFAULT: "#FCD7FC",
+        dark: "#845F84",
+      },
       "light-red": "#FF848A",
       "light-green": "#D2FCBF",
-
-      success: "#d2fcbd",
-      "success-dark": "#64805d",
-      error: "#ff848a",
-      "error-dark": "#893e43",
-      warning: "#f9fa96",
-      "warning-dark": "#878751",
-      info: "#d5f0f6",
-      "info-dark": "#5c6c74",
+      success: {
+        light: "#d2fcbd",
+        DEFAULT: "#d2fcbd",
+        dark: "#64805d",
+      },
+      error: {
+        light: "#ff848a",
+        DEFAULT: "#ff848a",
+        dark: "#893e43",
+      },
+      warning: {
+        light: "#f9fa96",
+        DEFAULT: "#f9fa96",
+        dark: "#878751",
+      },
+      info: {
+        light: "#d5f0f6",
+        DEFAULT: "#d5f0f6",
+        dark: "#5c6c74",
+      },
 
       black: "#02010A",
       white: "#FFFFFF",
@@ -47,13 +65,13 @@ const config: Config = {
       gray: "#808080",
 
       transparent: "transparent",
+      current: "currentColor",
     },
     keyframes: {
       "spin-slow": {
         "0%": { transform: "rotate(0deg)" },
         "100%": { transform: "rotate(360deg)" },
       },
-      spacing: generateCustomSpacing(),
     },
   },
   plugins: [require("@tailwindcss/typography")],

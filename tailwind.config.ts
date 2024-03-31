@@ -34,7 +34,7 @@ const config: Config = {
       black: "#02010A",
       white: "#FFFFFF",
       "light-gray": "#B3B3B3",
-      grey: "#808080",
+      gray: "#808080",
     },
     keyframes: {
       "spin-slow": {

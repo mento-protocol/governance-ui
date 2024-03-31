@@ -1,9 +1,13 @@
 import classNames from "classnames";
 import BaseComponentProps from "@/interfaces/base-component-props.interface";
-import styles from "./divider.module.scss";
 
-export const Divider = ({ className, style }: BaseComponentProps) => {
+export const Divider = ({ className }: BaseComponentProps) => {
   return (
-    <div className={classNames(styles.divider, className)} style={style} />
+    <hr
+      className={classNames(
+        "h-px border-0 bg-light-gray mt-4 mb-5 md:mt-5",
+        className,
+      )}
+    />
   );
 };

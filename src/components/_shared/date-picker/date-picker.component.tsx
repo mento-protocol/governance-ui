@@ -127,8 +127,8 @@ export const DatePicker = ({
       {!!label && <label htmlFor={id}>{label}</label>}
       <div
         // TODO: box-shadow: 0 0 0 2px $c-primary
-        className={`cursor-pointer group/compact-input:py-3 group/compact-input:px-4 group/compact-input:[& input]:text-sm ${
-          datePickerOpened && "border border-solid border-primary-blue"
+        className={`group/compact-input:py-3 group/compact-input:px-4 group/compact-input:[& input]:text-sm cursor-pointer ${
+          datePickerOpened && "border-primary-blue border border-solid"
         } ${
           // TODO: box-shadow: 0 0 0 2px $c-error
           !!error && "border border-solid border-light-red"
@@ -150,17 +150,17 @@ export const DatePicker = ({
         {addon}
       </div>
       {!!error && (
-        <div className="text-sm p-1 font-semibold text-error-dark">{error}</div>
+        <div className="p-1 text-sm font-semibold text-error-dark">{error}</div>
       )}
 
       <div
         className={classNames(
           // styles.backdrop
-          "fixed top-0 left-0 right-0 bottom-0 backdrop-blur-[2px] z-[-1] pointer-events-none opacity-0",
+          "pointer-events-none fixed bottom-0 left-0 right-0 top-0 z-[-1] opacity-0 backdrop-blur-[2px]",
           datePickerOpened &&
             // TODO: Confirm this works
             // Figure out default-backdrop transition field
-            "z-[1000] pointer-events-[all] opacity-100 group/picker-open",
+            "pointer-events-[all] group/picker-open z-[1000] opacity-100",
         )}
       >
         {/* <div ref={datePicker} className={classNames(styles.pickerDropdown)}> */}
@@ -168,7 +168,7 @@ export const DatePicker = ({
         {/* TODO: Box shadow, transform & transition */}
         <div
           ref={datePicker}
-          className="fixed rounded-tl-lg rounded-tr-lg bottom-0 left-0 right-0 p-4 flex-col items-center justify-center min-[350px] h-[50vh] :"
+          className="min-[350px] : fixed bottom-0 left-0 right-0 h-[50vh] flex-col items-center justify-center rounded-tl-lg rounded-tr-lg p-4"
         >
           {/* TODO: Inner not found in styles. Only found in create proposal & button */}
           {/* <div className={styles.inner}> */}

@@ -47,7 +47,7 @@ export const ThemeSwitch = ({ className, style }: BaseComponentProps) => {
             styles[`circle__${selectedMode || defaultMode}`],
           )}
         />
-        <div className="flex justify-between w-full">
+        <div className="flex w-full justify-between">
           <LightModeIcon />
           <DarkModeIcon />
         </div>

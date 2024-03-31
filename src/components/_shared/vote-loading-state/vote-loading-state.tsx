@@ -5,7 +5,7 @@ const LoadingState = () => {
   return (
     <Card>
       <VotingCardTitle />
-      <div className="flex flex-col gap-x3 mt-x2 text-center">
+      <div className="gap-x3 mt-x2 flex flex-col text-center">
         <br />
         <Loader isCenter />
         <br />

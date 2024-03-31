@@ -178,8 +178,8 @@ export const MentoLock = ({ className, style }: MentoLockProps) => {
 
   return (
     <div className={className} style={style}>
-      <div className="flex flex-col lg:flex-row justify-between md:place-items-baseline gap-1 md:gap-5">
-        <div className="text-lg flex-1 whitespace-nowrap">MENTO to lock:</div>
+      <div className="flex flex-col justify-between gap-1 md:place-items-baseline md:gap-5 lg:flex-row">
+        <div className="flex-1 whitespace-nowrap text-lg">MENTO to lock:</div>
         <div className="flex-1">
           <Input
             id="toLock"
@@ -189,7 +189,7 @@ export const MentoLock = ({ className, style }: MentoLockProps) => {
             error={errors.toLock?.message}
             addon={
               <div className="text-xs opacity-50">
-                <div className="flex justify-between gap-x3">
+                <div className="gap-x3 flex justify-between">
                   <div className="whitespace-nowrap">Max</div>
                   <div className="whitespace-nowrap">
                     {`${formatUnits(mentoBalance.value, mentoBalance.decimals)} ${mentoBalance.symbol}`}
@@ -201,8 +201,8 @@ export const MentoLock = ({ className, style }: MentoLockProps) => {
         </div>
       </div>
 
-      <div className="flex flex-col lg:flex-row justify-between md:place-items-baseline gap-1 md:gap-5">
-        <div className="text-lg flex-1 whitespace-nowrap">Lock expires:</div>
+      <div className="flex flex-col justify-between gap-1 md:place-items-baseline md:gap-5 lg:flex-row">
+        <div className="flex-1 whitespace-nowrap text-lg">Lock expires:</div>
         <div className="flex-1">
           <DatePicker
             id="expiration"
@@ -222,8 +222,8 @@ export const MentoLock = ({ className, style }: MentoLockProps) => {
         </div>
       </div>
 
-      <div className="flex flex-col mt-x6 lg:flex-row justify-between md:place-items-baseline gap-1 md:gap-5">
-        <div className="text-lg flex-1 whitespace-nowrap">
+      <div className="mt-x6 flex flex-col justify-between gap-1 md:place-items-baseline md:gap-5 lg:flex-row">
+        <div className="flex-1 whitespace-nowrap text-lg">
           You receive veMENTO:
         </div>
         <div className="flex-1">

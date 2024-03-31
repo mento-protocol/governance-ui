@@ -67,13 +67,13 @@ const Page = ({ params }: { params: { id: string } }) => {
               type={stateToStatusColorMap[proposal.state]}
             />
           </div>
-          <div className="flex flex-col md:grid md:grid-cols-7 gap-x1 ">
-            <div className="md:col-start-1 md:col-span-4">
-              <h1 className="text-xl md:font-size-x11 md:line-height-x11 font-medium">
+          <div className="gap-x1 flex flex-col md:grid md:grid-cols-7 ">
+            <div className="md:col-span-4 md:col-start-1">
+              <h1 className="md:font-size-x11 md:line-height-x11 text-xl font-medium">
                 {proposal.metadata.title}
               </h1>
             </div>
-            <div className="md:col-start-5 md:col-span-3">
+            <div className="md:col-span-3 md:col-start-5">
               {proposal.state === "Active" && votingDeadline && (
                 <Countdown
                   endTimestamp={votingDeadline.getTime()}
@@ -82,8 +82,8 @@ const Page = ({ params }: { params: { id: string } }) => {
               )}
             </div>
           </div>
-          <div className="flex flex-wrap place-items-center justify-start mt-8 gap-x6 ">
-            <div className="flex place-items-center gap-x2">
+          <div className="gap-x6 mt-8 flex flex-wrap place-items-center justify-start ">
+            <div className="gap-x2 flex place-items-center">
               <Suspense fallback={<Loader isCenter />}>
                 <Avatar address={proposal.proposer.id} />
                 by{" "}
@@ -92,7 +92,7 @@ const Page = ({ params }: { params: { id: string } }) => {
                 </span>
               </Suspense>
             </div>
-            <div className="flex place-items-center gap-x2">
+            <div className="gap-x2 flex place-items-center">
               <span>Proposed on:</span>
               <span className="font-medium">
                 <Suspense fallback={<Loader isCenter />}>
@@ -104,7 +104,7 @@ const Page = ({ params }: { params: { id: string } }) => {
                 </Suspense>
               </span>
             </div>
-            <div className="flex place-items-center gap-x2">
+            <div className="gap-x2 flex place-items-center">
               <span>Voting deadline:</span>
               <span className="font-medium">
                 {votingDeadline && (
@@ -115,19 +115,19 @@ const Page = ({ params }: { params: { id: string } }) => {
               </span>
             </div>
           </div>
-          <div className="mt-x6 flex flex-col md:flex-row md:justify-between place-items-start gap-x6 md:gap-x1">
-            <div className="flex-1 max-w-2xl w-full">
+          <div className="mt-x6 gap-x6 md:gap-x1 flex flex-col place-items-start md:flex-row md:justify-between">
+            <div className="w-full max-w-2xl flex-1">
               <ProposalCurrentVotes className="md:mb-x6" />
-              <div className="md:hidden my-x6">
+              <div className="my-x6 md:hidden">
                 <Vote proposal={proposal} />
               </div>
-              <h3 className="flex justify-center font-size-x6 line-height-x6 font-medium mb-x6">
+              <h3 className="font-size-x6 line-height-x6 mb-x6 flex justify-center font-medium">
                 Description
               </h3>
               <MarkdownView markdown={proposal.metadata.description} />
               {proposal.calls && <ExecutionCodeView code={proposal.calls} />}
             </div>
-            <div className="md:max-w-[350px] flex flex-col gap-x11">
+            <div className="gap-x11 flex flex-col md:max-w-[350px]">
               <div className="hidden md:block">
                 <Vote proposal={proposal} />
               </div>

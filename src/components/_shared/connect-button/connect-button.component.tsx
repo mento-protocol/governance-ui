@@ -93,7 +93,7 @@ export const ConnectButton = ({
             >
               {!connected ? (
                 <Button theme={theme || "secondary"} onClick={openConnectModal}>
-                  <div className="flex flex-row justify-center place-items-center gap-2">
+                  <div className="flex flex-row place-items-center justify-center gap-2">
                     <div>Connect wallet</div>
                     <ChevronIcon direction={"right"} />
                   </div>

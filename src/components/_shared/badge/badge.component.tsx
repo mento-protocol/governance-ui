@@ -44,7 +44,7 @@ export const Badge = ({
       className={
         // TODO: border radius was set to 40, 5 * border radius var (8px)
         // TODO: font size 16 with 1em height
-        `${brandedStyles} ${roundedStyles} rounded-lg text-base items-center text-center w-min whitespace-nowrap flex min-w-[70px] min-h-[50px] md:text-lg ${block && "w-full"} ${className}`
+        `${brandedStyles} ${roundedStyles} flex min-h-[50px] w-min min-w-[70px] items-center whitespace-nowrap rounded-lg text-center text-base md:text-lg ${block && "w-full"} ${className}`
       }
     >
       {children}

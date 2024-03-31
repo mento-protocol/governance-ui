@@ -15,7 +15,7 @@ export const WalletAddressWithCopy = ({
 }: WalletAddressWithCopyProps) => {
   return (
     <div
-      className={classNames(className, "flex items-center gap-x2")}
+      className={classNames(className, "gap-x2 flex items-center")}
       style={style}
     >
       <WalletAddress address={address} />

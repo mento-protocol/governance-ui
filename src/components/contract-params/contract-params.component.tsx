@@ -23,20 +23,20 @@ export const ContractParams = () => {
   return (
     <Expandable
       header={"Governance Parameters"}
-      className="font-medium font-size-x4"
+      className="font-size-x4 font-medium"
     >
       <Suspense fallback={<Loader isCenter />}>
-        <div className="grid grid-cols-1 gap-x2 md:grid-cols-7 md:pt-x4">
+        <div className="gap-x2 md:pt-x4 grid grid-cols-1 md:grid-cols-7">
           <Card
             noBorderMobile
-            className="md:col-span-3 flex flex-col gap-x4 md:gap-x6"
+            className="gap-x4 md:gap-x6 flex flex-col md:col-span-3"
           >
             <Card.Header>
-              <div className="text-primary text-center md:text-left">
+              <div className="text-center text-primary md:text-left">
                 Parameters
               </div>
             </Card.Header>
-            <div className="flex flex-col flex-grow justify-between gap-x3">
+            <div className="gap-x3 flex flex-grow flex-col justify-between">
               <ParamDisplay
                 label="Proposal threshold"
                 value={governanceDetails?.proposalThreshold}
@@ -58,14 +58,14 @@ export const ContractParams = () => {
           </Card>
           <Card
             noBorderMobile
-            className="md:col-span-4 flex flex-col gap-x4 md:gap-x6"
+            className="gap-x4 md:gap-x6 flex flex-col md:col-span-4"
           >
             <Card.Header>
-              <div className="text-primary text-center md:text-left">
+              <div className="text-center text-primary md:text-left">
                 Contract addresses
               </div>
             </Card.Header>
-            <div className="flex flex-col flex-grow justify-between gap-[15px]">
+            <div className="flex flex-grow flex-col justify-between gap-[15px]">
               <ParamDisplay
                 label="Governor"
                 value={
@@ -116,7 +116,7 @@ const ParamDisplay = ({
   return (
     <div
       className={classNames(
-        "flex gap-2 justify-between items-center w-full flex-wrap md:flex-nowrap",
+        "flex w-full flex-wrap items-center justify-between gap-2 md:flex-nowrap",
       )}
     >
       <div className="text-[16px] leading-[19px] md:text-[22px] md:leading-[22px]">
@@ -124,7 +124,7 @@ const ParamDisplay = ({
       </div>
       <div
         className={classNames(
-          "font-normal text-[16px] leading-[19px] md:text-[22px] md:leading-[22px] flex-grow text-right",
+          "flex-grow text-right text-[16px] font-normal leading-[19px] md:text-[22px] md:leading-[22px]",
         )}
       >
         {value ?? "-"}
@@ -155,19 +155,19 @@ const ContractAddressLinkWithCopy = ({
       {...restProps}
       className={classNames(
         className,
-        "flex items-center gap-4 w-full justify-end h-[22px]",
+        "flex h-[22px] w-full items-center justify-end gap-4",
       )}
     >
       <Link
         target="_blank"
         rel="nooppener noreferrer"
         href={blockExplorerContractUrl}
-        className="text-primary overflow-visible gap-8 font-normal text-[16px] leading-[19px] md:text-[22px] md:leading-[22px]"
+        className="gap-8 overflow-visible text-[16px] font-normal leading-[19px] text-primary md:text-[22px] md:leading-[22px]"
       >
         <AddressComponent address={address} />
       </Link>
       <CopyToClipboard text={address}>
-        <span className="h-[29px] shrink-0 mb-2">
+        <span className="mb-2 h-[29px] shrink-0">
           <CopyIcon className="h-full" />
         </span>
       </CopyToClipboard>
@@ -181,8 +181,8 @@ const AddressComponent = ({ address }: { address: string }) => {
   const end = address.toUpperCase().slice(-4);
 
   return (
-    <div className="flex items-center justify-start shrink max-w-[300px] md:max-w-[350px]  lg:max-w-[400px]">
-      <span className="text-ellipsis whitespace-nowrap shrink overflow-x-clip m-0 p-0">
+    <div className="flex max-w-[300px] shrink items-center justify-start md:max-w-[350px]  lg:max-w-[400px]">
+      <span className="m-0 shrink overflow-x-clip text-ellipsis whitespace-nowrap p-0">
         {start}
       </span>
       <span className="shrink-0">{end}</span>

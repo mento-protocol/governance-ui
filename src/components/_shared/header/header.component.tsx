@@ -107,7 +107,7 @@ export const Header = ({ className, style }: HeaderProps) => {
         <ConnectButton />
       </div>
       <div
-        className={classNames(styles.mobile_inner, "flex pa-x z-50 md:hidden")}
+        className={classNames(styles.mobile_inner, "pa-x z-50 flex md:hidden")}
       >
         <Link href={"/"}>
           <MentoLogoIcon useThemeColor />

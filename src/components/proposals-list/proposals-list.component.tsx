@@ -22,7 +22,7 @@ export const ProposalsListComponent = ({
       className={classNames(styles.wrapper, className, "font-fg")}
       style={style}
     >
-      <h2 className="text-center mt-x11 mb-x6 font-medium">Proposals</h2>
+      <h2 className="mt-x11 mb-x6 text-center font-medium">Proposals</h2>
       <Card block>
         <div className={classNames(styles.proposals_grid, "text_small")}>
           <div
@@ -47,7 +47,7 @@ export const ProposalsListComponent = ({
                   styles.first,
                 )}
               >
-                <div className="flex gap-x3 place-items-center">
+                <div className="gap-x3 flex place-items-center">
                   <Link
                     className="flex-1"
                     style={{ maxHeight: "3em" }}

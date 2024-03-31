@@ -86,10 +86,10 @@ const CastVote = ({ proposalId }: { proposalId: Proposal["proposalId"] }) => {
     return (
       <Card>
         <VotingCardTitle />
-        <div className="flex flex-col gap-x3 mt-x2 text-center">
+        <div className="gap-x3 mt-x2 flex flex-col text-center">
           <span className="text-md">Vote submitted</span>
-          <SuccessIcon className="w-20 h-20 mx-auto" />
-          <span className="text-[#A8A8A8] dark:text-[#AAB3B6] text-sm">
+          <SuccessIcon className="mx-auto h-20 w-20" />
+          <span className="text-sm text-[#A8A8A8] dark:text-[#AAB3B6]">
             Your vote is being processed
           </span>
           {vote.hash && (
@@ -106,9 +106,9 @@ const CastVote = ({ proposalId }: { proposalId: Proposal["proposalId"] }) => {
     return (
       <Card>
         <VotingCardTitle />
-        <div className="flex flex-col gap-x3 mt-x2 text-center">
+        <div className="gap-x3 mt-x2 flex flex-col text-center">
           <span className="text-md">Vote success</span>
-          <SuccessIcon className="w-20 h-20 mx-auto" />
+          <SuccessIcon className="mx-auto h-20 w-20" />
           {vote.hash && (
             <BlockExplorerLink type="tx" item={vote.hash}>
               View on explorer
@@ -122,7 +122,7 @@ const CastVote = ({ proposalId }: { proposalId: Proposal["proposalId"] }) => {
   return (
     <Card>
       <VotingCardTitle />
-      <div className="flex flex-col gap-x5 mt-x3">
+      <div className="gap-x5 mt-x3 flex flex-col">
         <LockedBalance />
         <div className="flex flex-col gap-2">
           <VotingButtons onSubmit={handleCastVote} />
@@ -138,7 +138,7 @@ const VotingError = ({ error }: { error: Error }) => {
     return null;
   }
   return (
-    <div className="text-light-red flex flex-col gap-1 items-center justify-center text-sm w-full">
+    <div className="flex w-full flex-col items-center justify-center gap-1 text-sm text-light-red">
       <span>Error casting vote</span>
       <span>{ErrorHelper.processWagmiErrorMessage(error)}</span>
     </div>
@@ -149,7 +149,7 @@ const DirectToLockMento = () => {
   return (
     <Card>
       <VotingCardTitle />
-      <div className="flex flex-col gap-x5">
+      <div className="gap-x5 flex flex-col">
         <LockedBalance />
         <span>You need to lock your MENTO to vote</span>
         <Button href="/my-voting-power" theme="primary">

@@ -28,7 +28,7 @@ export const Footer = ({ className, style }: FooterProps) => {
         {pathname === "/" && (
           <div className={classNames(styles.learn_more)}>
             <div className={classNames(styles.content)}>
-              <h2 className="text-6xl font-semibold my-x1">Learn more</h2>
+              <h2 className="my-x1 text-6xl font-semibold">Learn more</h2>
               <p className={styles.description}>
                 If you&apos;re interested in learning more about Mento, finding
                 out what the team is working on now, or would like to
@@ -57,7 +57,7 @@ export const Footer = ({ className, style }: FooterProps) => {
         )}
         <div
           className={classNames(
-            "pb-20 mt-20 border-t border-gray",
+            "mt-20 border-t border-gray pb-20",
             styles.footer,
           )}
         >
@@ -101,7 +101,7 @@ export const Footer = ({ className, style }: FooterProps) => {
           <div
             className={classNames(styles.footer__element, "justify-between")}
           >
-            <div className="flex gap-x3 place-items-center">
+            <div className="gap-x3 flex place-items-center">
               <Link href="#">
                 <TwitterIcon useThemeColor />
               </Link>

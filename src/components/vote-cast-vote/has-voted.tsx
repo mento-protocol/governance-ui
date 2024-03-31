@@ -6,7 +6,7 @@ const HasVoted = ({ voteType }: { voteType: number }) => {
   return (
     <Card>
       <VotingCardTitle />
-      <div className="flex flex-col min-h-[163px] justify-between text-[22px] leading-[22px] font-fg">
+      <div className="flex min-h-[163px] flex-col justify-between font-fg text-[22px] leading-[22px]">
         <div className="flex-grow" />
         <div>
           <span>{`You already voted `}</span>

@@ -52,26 +52,26 @@ const ProposalSummaryComponent = () => {
 
   return (
     <Card className="mt-8" block>
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-x6 justify-between">
-        <div className="flex flex-col justify-center place-items-center">
+      <div className="gap-x6 grid grid-cols-2 justify-between md:grid-cols-4">
+        <div className="flex flex-col place-items-center justify-center">
           <div className="font-size-x6 line-height-x6 font-medium">
             {proposalCount}
           </div>
           <div className="font-size-x3">Total proposals</div>
         </div>
-        <div className="flex flex-col justify-center place-items-center">
+        <div className="flex flex-col place-items-center justify-center">
           <div className="font-size-x6 line-height-x6 font-medium">
             {activeProposalCount}
           </div>
           <div className="font-size-x3">Active proposals</div>
         </div>
-        <div className="flex flex-col justify-center place-items-center">
+        <div className="flex flex-col place-items-center justify-center">
           <div className="font-size-x6 line-height-x6 font-medium">
             {getActiveVoters}
           </div>
           <div className="font-size-x3">Voters</div>
         </div>
-        <div className="flex flex-col justify-center place-items-center">
+        <div className="flex flex-col place-items-center justify-center">
           <div className="font-size-x6 line-height-x6 font-medium">
             {getTotalSupplyParsed}
           </div>

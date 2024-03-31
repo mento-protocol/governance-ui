@@ -87,7 +87,7 @@ const ModalWrapper = ({
             modalStyles[options?.modalType || ""],
           )}
         >
-          <Card.Header className="relative !pb-x6">
+          <Card.Header className="!pb-x6 relative">
             <div className="font-semibold">
               {options?.title || (question ? "Confirm" : " ")}
             </div>
@@ -97,7 +97,7 @@ const ModalWrapper = ({
           </Card.Header>
           <div className="ma-x4">{children}</div>
           {question && (
-            <Card.Footer className="flex justify-end gap-x2 mt-x4">
+            <Card.Footer className="gap-x2 mt-x4 flex justify-end">
               <Button theme="tertiary" onClick={cancel}>
                 {options?.cancelText || "Cancel"}
               </Button>

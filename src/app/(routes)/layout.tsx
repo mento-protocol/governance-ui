@@ -26,9 +26,9 @@ export default function RootLayout({ children }: RootLayoutProps) {
       <body suppressHydrationWarning={true}>
         <Providers>
           <ModalProvider>
-            <div className="min-h-screen flex flex-col">
+            <div className="flex min-h-screen flex-col">
               <Header />
-              <div className="md:px-[30px] px-5 flex-1 mx-auto w-full max-w-[1120px] mt-[50px]">
+              <div className="mx-auto mt-[50px] w-full max-w-[1120px] flex-1 px-5 md:px-[30px]">
                 {!homePage && <Breadcrumbs />}
                 {children}
               </div>

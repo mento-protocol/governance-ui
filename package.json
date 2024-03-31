@@ -13,7 +13,7 @@
     "codegen": "graphql-codegen",
     "todo": "npx leasot '**/*.{ts,tsx,scss,gql}' --ignore 'node_modules/**/*','.git/**/*','app/graphql/generated' || true",
     "prepare": "husky",
-    "depcheck": "npx depcheck --skip-missing --ignores=\"@types/node,@types/react-dom,@secretlint/*,autoprefixer,@graphql-codegen/*\""
+    "depcheck": "npx depcheck --skip-missing --ignores=\"@types/node,@types/react-dom,@secretlint/*,autoprefixer,@graphql-codegen/*,prettier-plugin-tailwindcss\""
   },
   "dependencies": {
     "@apollo/client": "^3.8.9",

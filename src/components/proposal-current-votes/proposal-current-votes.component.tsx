@@ -5,7 +5,6 @@ import {
 } from "@/components/_shared/progress-bar/progress-bar.component";
 import BaseComponentProps from "@/interfaces/base-component-props.interface";
 import classNames from "classnames";
-import styles from "./proposal-current-votes.module.scss";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { IVote } from "@/lib/interfaces/vote.interface";
 
@@ -73,7 +72,12 @@ export const ProposalCurrentVotes = ({
         <div>
           <div className="mb-x3 flex justify-between">
             <div className="flex items-center gap-x3">
-              <div className={classNames(styles.vote_tag, styles.success)} />
+              <div
+                className={classNames(
+                  "h-x3 w-x3 rounded-[50%] border border-solid border-black bg-white content-['']",
+                  "bg-success",
+                )}
+              />
               <div>For</div>
             </div>
             <div>
@@ -84,7 +88,12 @@ export const ProposalCurrentVotes = ({
           </div>
           <div className="mb-x3 flex justify-between">
             <div className="flex items-center gap-x3">
-              <div className={classNames(styles.vote_tag, styles.error)} />
+              <div
+                className={classNames(
+                  "h-x3 w-x3 rounded-[50%] border border-solid border-black bg-white content-['']",
+                  "bg-error",
+                )}
+              />
               <div>Against</div>
             </div>
             <div>
@@ -95,7 +104,7 @@ export const ProposalCurrentVotes = ({
           </div>
           <div className="mb-x3 flex justify-between">
             <div className="flex items-center gap-x3">
-              <div className={classNames(styles.vote_tag)} />
+              <div className="h-x3 w-x3 rounded-[50%] border border-solid border-black bg-white content-['']" />
               <div>Abstain</div>
             </div>
             <div>
@@ -110,9 +119,9 @@ export const ProposalCurrentVotes = ({
             <div className="flex items-center gap-x3">
               <div
                 className={classNames(
-                  styles.vote_tag,
-                  styles.primary,
-                  styles.square,
+                  "h-x3 w-x3 rounded-[50%] border border-solid border-black bg-white content-['']",
+                  "bg-primary",
+                  "rounded-[8px]",
                 )}
               />
               <div>Majority supports</div>
@@ -122,21 +131,21 @@ export const ProposalCurrentVotes = ({
             <div className="flex items-center gap-x3">
               <div
                 className={classNames(
-                  styles.vote_tag,
-                  styles.black,
-                  styles.square,
+                  "h-x3 w-x3 rounded-[50%] border border-solid border-black bg-white content-['']",
+                  "bg-black",
+                  "rounded-[8px]",
                 )}
               />
-              <div>Quorum isn’t reached</div>
+              <div>Quorum isn&apos;t reached</div>
             </div>
           </div>
           <div className="mb-x3">
             <div className="flex items-center gap-x3">
               <div
                 className={classNames(
-                  styles.vote_tag,
-                  styles.invisible,
-                  styles.square,
+                  "h-x3 w-x3 rounded-[50%] border border-solid border-black bg-white content-['']",
+                  "opacity-0",
+                  "rounded-[8px]",
                 )}
               />
               <div>270K of 999K</div>

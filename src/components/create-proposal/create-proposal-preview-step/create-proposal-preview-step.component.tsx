@@ -1,7 +1,6 @@
 "use client";
 import { useState } from "react";
 import { ExecutionCodeView, MarkdownView, SeeAll } from "@/components/_shared";
-import styles from "./create-proposal-preview-step.module.scss";
 import CreateProposalWrapper from "@/components/create-proposal/create-proposal-wrapper/create-proposal-wrapper.component";
 import {
   CreateProposalStep,
@@ -19,7 +18,6 @@ export const CreateProposalPreviewStep = () => {
       componentStep={CreateProposalStep.preview}
       title="Preview your proposal"
       onPrev={() => setStep(CreateProposalStep.execution)}
-      className={styles.container}
       onSave={submitProposal}
     >
       <pre>{JSON.stringify(createTx, null, 2)}</pre>
@@ -29,9 +27,14 @@ export const CreateProposalPreviewStep = () => {
           You&apos;ve successfully finished all the steps. Now, take a moment to
           go over your proposal and then submit it.
         </p>
-        <div className={styles.title}>{newProposal.title}</div>
+        {/* TODO: Font size 40 but closest is 4xl = 36px */}
+        <div className="text-x8 mt-x5 text-center font-medium leading-none">
+          {newProposal.title}
+        </div>
         <div>
-          <h3 className={styles.form_data_title}>Proposal Description</h3>
+          <h3 className="text-x6 mx-0 my-x5 flex justify-center font-medium leading-none">
+            Proposal Description
+          </h3>
           <SeeAll
             height="315"
             isOpen={isProposalPreviewOpen}

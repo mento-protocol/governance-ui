@@ -1,15 +1,14 @@
-import classNames from "classnames";
 import { addWeeks, nextWednesday } from "date-fns";
 import { useCallback, useMemo } from "react";
 import { Address, formatUnits } from "viem";
 import { useAccount } from "wagmi";
-import styles from "./locks-list.module.scss";
 import useRelockMento from "@/lib/contracts/locking/useRelockMento";
 import useLocksByAccount from "@/lib/contracts/locking/useLocksByAccount";
 import useLock from "@/lib/contracts/locking/useLock";
 import useModal from "@/lib/providers/modal.provider";
 import { Button, DropdownButton } from "@/components/_shared";
 import { Lock } from "@/lib/graphql/subgraph/generated/subgraph";
+import styles from "./locks-list.module.scss";
 
 interface ILocksList {
   account: Address;
@@ -20,15 +19,17 @@ export const LocksList = ({ account }: ILocksList) => {
   const { locks, refetch } = useLocksByAccount({ account });
 
   return (
-    <div className={styles.locksList}>
-      <div className={styles.locksList__row}>
-        <div className={classNames(styles.title, styles.item)}>
+    <div className={`${styles.locksList} overflow-auto`}>
+      <div className="mb-x2 grid grid-cols-3 items-center gap-[18px] px-x1 py-x2">
+        <div className="min-w-[150px] text-base font-medium not-italic">
           Amount MENTO
         </div>
-        <div className={classNames(styles.title, styles.item)}>
+        <div className="min-w-[150px] text-base font-medium not-italic">
           Amount veMENTO
         </div>
-        <div className={classNames(styles.title, styles.item)}>Expires on</div>
+        <div className="min-w-[150px] text-base font-medium not-italic">
+          Expires on
+        </div>
       </div>
       {address &&
         locks.map((lock) => (
@@ -103,11 +104,15 @@ const LockEntry = ({
   ]);
 
   return (
-    <div className={styles.locksList__row}>
-      <div className={styles.divider}></div>
-      <div className={styles.item}>{mentoParsed}</div>
-      <div className={styles.item}>{veMentoParsed}</div>
-      <div className={styles.item}>{expirationDate}</div>
+    <div className="mb-x2 grid grid-cols-3 items-center gap-[18px] px-x1 py-x2">
+      <div className="grid-span-[1 / -1] border-b border-solid border-gray"></div>
+      <div className="min-w-[150px] font-medium not-italic">{mentoParsed}</div>
+      <div className="min-w-[150px] font-medium not-italic">
+        {veMentoParsed}
+      </div>
+      <div className="min-w-[150px] font-medium not-italic">
+        {expirationDate}
+      </div>
       <div>
         <DropdownButton className="md:hidden" theme="clear">
           <DropdownButton.Dropdown>

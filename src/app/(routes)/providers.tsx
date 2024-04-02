@@ -6,6 +6,7 @@ import { ApolloNextAppProvider } from "@apollo/experimental-nextjs-app-support/s
 import { makeClient } from "@/lib/graphql/apollo.client";
 import { wagmiConfig } from "@/config/wagmi.config";
 import { Celo } from "@/config/chains";
+import { ThemeProvider } from "next-themes";
 
 const queryClient = new QueryClient();
 
@@ -17,7 +18,9 @@ export function Providers({ children }: { children: ReactNode }) {
       <WagmiProvider config={wagmiConfig}>
         <QueryClientProvider client={queryClient}>
           <RainbowKitProvider initialChain={Celo}>
-            {mounted && children}
+            {mounted && (
+              <ThemeProvider attribute="class">{children}</ThemeProvider>
+            )}
           </RainbowKitProvider>
         </QueryClientProvider>
       </WagmiProvider>

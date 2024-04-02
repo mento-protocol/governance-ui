@@ -17,11 +17,9 @@
 }
 
 body {
-  color: var(--theme-foreground-color);
   font-size: 18px;
   font-weight: 400;
   line-height: 1;
-  background-color: var(--theme-background-color);
   font-family: var(--font-fg);
 
   @include media-md {
@@ -31,11 +29,9 @@ body {
 
 @layer base {
   html {
-    color: var(--theme-foreground-color);
     font-size: 18px;
     font-weight: 400;
     line-height: 1;
-    background-color: var(--theme-background-color);
     font-family: var(--font-fg);
 
     @include media-md {

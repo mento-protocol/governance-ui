@@ -107,7 +107,12 @@ const Title = () => (
   <h1 className="text-center text-[32px] font-bold leading-[32px] md:text-[56px] md:leading-[56px]">
     MENTO
     <br className="md:hidden" />
-    <span className="header_text text-transparent md:pl-3">GOVERNANCE</span>
+    <span
+      style={{ WebkitTextStroke: "1.2px black" }}
+      className="text-transparent"
+    >
+      GOVERNANCE
+    </span>
   </h1>
 );
 

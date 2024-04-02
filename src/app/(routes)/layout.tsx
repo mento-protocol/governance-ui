@@ -13,6 +13,7 @@ const inter = Inter({
   display: "swap",
   variable: "--font-inter",
 });
+
 interface RootLayoutProps {
   children: ReactNode;
 }
@@ -23,7 +24,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
 
   return (
     <html className={inter.variable} lang="en">
-      <body suppressHydrationWarning={true}>
+      <body className="bg-white dark:bg-black" suppressHydrationWarning={true}>
         <Providers>
           <ModalProvider>
             <div className="flex min-h-screen flex-col">

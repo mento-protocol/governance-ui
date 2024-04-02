@@ -68,51 +68,48 @@ const config: Config = {
         "ease-out-bounce": "cubic-bezier(0.12, 0.84, 0.29, 1.16)",
         "ease-in-out-bounce": "cubic-bezier(0.81, -0.44, 0.19, 1.44)",
       },
-    },
-    colors: {
-      primary: {
-        light: "#4D62F0",
-        DEFAULT: "#4D62F0",
-        dark: "#2A326A",
+      colors: {
+        primary: {
+          light: "#4D62F0",
+          DEFAULT: "#4D62F0",
+          dark: "#2A326A",
+        },
+        secondary: {
+          light: "#FCD7FC",
+          DEFAULT: "#FCD7FC",
+          dark: "#845F84",
+        },
+        "light-red": "#FF848A",
+        "light-green": "#D2FCBF",
+        success: {
+          light: "#d2fcbd",
+          DEFAULT: "#d2fcbd",
+          dark: "#64805d",
+        },
+        error: {
+          light: "#ff848a",
+          DEFAULT: "#ff848a",
+          dark: "#893e43",
+        },
+        warning: {
+          light: "#f9fa96",
+          DEFAULT: "#f9fa96",
+          dark: "#878751",
+        },
+        info: {
+          light: "#d5f0f6",
+          DEFAULT: "#d5f0f6",
+          dark: "#5c6c74",
+        },
+        "off-black": "#121316",
+        black: "#02010A",
+        white: "#FFFFFF",
+        gray: {
+          light: "#B3B3B3",
+          DEFAULT: "#808080",
+          regular: "#808080",
+        },
       },
-      secondary: {
-        light: "#FCD7FC",
-        DEFAULT: "#FCD7FC",
-        dark: "#845F84",
-      },
-      "light-red": "#FF848A",
-      "light-green": "#D2FCBF",
-      success: {
-        light: "#d2fcbd",
-        DEFAULT: "#d2fcbd",
-        dark: "#64805d",
-      },
-      error: {
-        light: "#ff848a",
-        DEFAULT: "#ff848a",
-        dark: "#893e43",
-      },
-      warning: {
-        light: "#f9fa96",
-        DEFAULT: "#f9fa96",
-        dark: "#878751",
-      },
-      info: {
-        light: "#d5f0f6",
-        DEFAULT: "#d5f0f6",
-        dark: "#5c6c74",
-      },
-
-      black: "#02010A",
-      white: "#FFFFFF",
-      gray: {
-        light: "#B3B3B3",
-        DEFAULT: "#808080",
-        regular: "#808080",
-      },
-      transparent: "transparent",
-      current: "currentColor",
-      inherit: "inherit",
     },
     keyframes: {
       "spin-slow": {

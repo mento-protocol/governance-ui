@@ -6,25 +6,20 @@
       color: var(--theme-foreground-color);
     }
 
-    &.day {
-      color: $c-primary;
-      margin-right: $theme-unit;
-    }
-
-    &.time {
-      &:not(:last-child) {
-        .value {
-          &:after {
-            content: ":";
-            position: absolute;
-            right: -1 * $theme-unit;
-            top: 0px;
-            font-size: 32px;
-            line-height: 32px;
-            font-weight: 500;
-          }
-        }
-      }
-    }
+    // &.time {
+    //   &:not(:last-child) {
+    //     .value {
+    //       &:after {
+    //         content: ":";
+    //         position: absolute;
+    //         right: -1 * $theme-unit;
+    //         top: 0px;
+    //         font-size: 32px;
+    //         line-height: 32px;
+    //         font-weight: 500;
+    //       }
+    //     }
+    //   }
+    // }
   }
 }

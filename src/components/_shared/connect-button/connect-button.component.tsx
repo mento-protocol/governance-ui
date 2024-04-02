@@ -42,16 +42,21 @@ export const ConnectedDropdown = ({
     >
       <DropdownButton.Dropdown>
         {isConnected ? (
+          // TODO: fix colors
           <div className={styles.wallet_addons}>
             <div className={styles.addon}>
-              <div className={styles.addon__title}>{mentoBalance.symbol}</div>
-              <div className={styles.addon__value}>
+              <div className="flex flex-row items-center justify-center p-x1 font-semibold">
+                {mentoBalance.symbol}
+              </div>
+              <div className="flex flex-row items-center justify-center p-x1 font-semibold">
                 {mentoBalance.formatted}
               </div>
             </div>
             <div className={styles.addon}>
-              <div className={styles.addon__title}>{veMentoBalance.symbol}</div>
-              <div className={styles.addon__value}>
+              <div className="flex flex-row items-center justify-center p-x1 font-semibold">
+                {veMentoBalance.symbol}
+              </div>
+              <div className="flex flex-row items-center justify-center p-x1 font-semibold">
                 {veMentoBalance.formatted}
               </div>
             </div>
@@ -88,7 +93,10 @@ export const ConnectButton = ({
         return (
           <>
             <div
-              className={classNames(className, block ? "" : styles.container)}
+              className={classNames(
+                className,
+                block ? "" : "flex w-auto justify-center",
+              )}
               style={style}
             >
               {!connected ? (

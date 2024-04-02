@@ -49,22 +49,76 @@ export const Countdown = ({
   );
 
   return (
-    <div className={classNames(styles.countdown, className)} style={style}>
-      <div className={classNames(styles.item, styles.day)}>
-        <div className={styles.value}>{days}</div>
-        <div className={styles.label}>days</div>
+    <div
+      className={classNames(
+        "mt-x3 flex flex-row items-center justify-center gap-x1 md:mt-0 md:justify-end ",
+        className,
+      )}
+      style={style}
+    >
+      <div
+        className={classNames(
+          "flex min-w-x11 flex-col items-center justify-center gap-x2 md:min-w-x16 md:gap-x3",
+          "mr-x1 text-primary",
+        )}
+      >
+        <div className="text-x5 md:text-x6 relative w-full text-center font-medium leading-none">
+          {days}
+        </div>
+        {/* TODO: --theme-foreground-color not found */}
+        <div
+          className={`${styles.label} text-x3 md:text-x4 w-full text-center font-normal leading-none`}
+        >
+          days
+        </div>
       </div>
-      <div className={classNames(styles.item, styles.time)}>
-        <div className={styles.value}>{hours}</div>
-        <div className={styles.label}>hours</div>
+      <div
+        className={classNames(
+          "flex min-w-x11 flex-col items-center justify-center gap-x2 md:min-w-x16 md:gap-x3",
+          // Time selector complicated
+          "[:not(:last-child)>*:first-child:after]:content-[':'] [:not(:last-child)>*:first-child:after]:absolute [:not(:last-child)>*:first-child:after]:top-0 [:not(:last-child)>*:first-child:after]:leading-none [:not(:last-child)>*:first-child:after]:font-medium [:not(:last-child)>*:first-child:after]:-right-x1 [:not(:last-child)>*:first-child:after]:text-[32px]",
+        )}
+      >
+        <div className="text-x5 md:text-x6 relative w-full text-center font-medium leading-none">
+          {hours}
+        </div>
+        <div
+          className={`${styles.label} text-x3 md:text-x4 w-full text-center font-normal leading-none`}
+        >
+          hours
+        </div>
       </div>
-      <div className={classNames(styles.item, styles.time)}>
-        <div className={styles.value}>{minutes}</div>
-        <div className={styles.label}>minutes</div>
+      <div
+        className={classNames(
+          "flex min-w-x11 flex-col items-center justify-center gap-x2 md:min-w-x16 md:gap-x3",
+          // Time selector complicated
+          "[:not(:last-child)>*:first-child:after]:content-[':'] [:not(:last-child)>*:first-child:after]:absolute [:not(:last-child)>*:first-child:after]:top-0 [:not(:last-child)>*:first-child:after]:leading-none [:not(:last-child)>*:first-child:after]:font-medium [:not(:last-child)>*:first-child:after]:-right-x1 [:not(:last-child)>*:first-child:after]:text-[32px]",
+        )}
+      >
+        <div className="text-x5 md:text-x6 relative w-full text-center font-medium leading-none">
+          {minutes}
+        </div>
+        <div
+          className={`${styles.label} text-x3 md:text-x4 w-full text-center font-normal leading-none`}
+        >
+          minutes
+        </div>
       </div>
-      <div className={classNames(styles.item, styles.time)}>
-        <div className={styles.value}>{seconds}</div>
-        <div className={styles.label}>seconds</div>
+      <div
+        className={classNames(
+          "flex min-w-x11 flex-col items-center justify-center gap-x2 md:min-w-x16 md:gap-x3",
+          // Time selector complicated
+          "[:not(:last-child)>*:first-child:after]:content-[':'] [:not(:last-child)>*:first-child:after]:absolute [:not(:last-child)>*:first-child:after]:top-0 [:not(:last-child)>*:first-child:after]:leading-none [:not(:last-child)>*:first-child:after]:font-medium [:not(:last-child)>*:first-child:after]:-right-x1 [:not(:last-child)>*:first-child:after]:text-[32px]",
+        )}
+      >
+        <div className="text-x5 md:text-x6 relative w-full text-center font-medium leading-none">
+          {seconds}
+        </div>
+        <div
+          className={`${styles.label} text-x3 md:text-x4 w-full text-center font-normal leading-none`}
+        >
+          seconds
+        </div>
       </div>
     </div>
   );

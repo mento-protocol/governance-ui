@@ -18,13 +18,15 @@ export const ProposalsListComponent = ({
   const { proposals } = useProposals();
 
   return (
-    <div
-      className={classNames(styles.wrapper, className, "font-fg")}
-      style={style}
-    >
+    <div className={classNames("w-full font-fg", className)} style={style}>
       <h2 className="mb-x6 mt-x11 text-center font-medium">Proposals</h2>
       <Card block>
-        <div className={classNames(styles.proposals_grid, "text_small")}>
+        <div
+          className={classNames(
+            styles.proposals_grid,
+            "text_small overflow-auto ",
+          )}
+        >
           <div
             className={classNames(
               styles.proposals_grid__row,

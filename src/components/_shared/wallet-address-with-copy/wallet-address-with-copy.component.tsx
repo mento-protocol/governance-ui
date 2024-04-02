@@ -10,14 +10,10 @@ interface WalletAddressWithCopyProps extends BaseComponentProps {
 
 export const WalletAddressWithCopy = ({
   className,
-  style,
   address,
 }: WalletAddressWithCopyProps) => {
   return (
-    <div
-      className={classNames(className, "flex items-center gap-x2")}
-      style={style}
-    >
+    <div className={classNames(className, "flex items-center gap-x2")}>
       <WalletAddress address={address} />
       <CopyToClipboard text={address}>
         <div className="cursor-pointer">

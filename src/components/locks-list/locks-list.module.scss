@@ -2,33 +2,4 @@
 
 .locksList {
   @include card-table-overflow-shadows;
-  overflow: auto;
-
-  &__row {
-    // mb-x2 grid grid-cols-3 items-center gap-[18px] px-x1 py-x2
-    display: grid;
-    //grid-template-columns: 1fr 1fr 1fr 100px;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: $default-gap;
-    margin-bottom: 10px;
-    align-items: center;
-    padding: 2 * $theme-unit $theme-unit;
-
-    @include media-md {
-      //grid-template-columns: 1fr 1fr 1fr 250px;
-    }
-
-    .title {
-      font-size: 16px;
-    }
-
-    .item {
-      // min-w-[150px] font-medium not-italic
-      min-width: 150px;
-      font-weight: 500;
-      font-style: normal;
-    }
-
-    @include row-divider;
-  }
 }

@@ -5,15 +5,14 @@
   width: 100%;
 
   .slider {
-
     -webkit-appearance: none;
     appearance: none;
     width: 100%;
     height: 35px;
     background: var(--theme-background-color);
     outline: none;
-    -webkit-transition: .2s;
-    transition: opacity .2s;
+    -webkit-transition: 0.2s;
+    transition: opacity 0.2s;
     border-radius: $border-radius;
     box-shadow: 0 0 0 1px $c-lightGrey;
 
@@ -29,7 +28,7 @@
       border-radius: $border-radius;
 
       &:before {
-        content: 'xD';
+        content: "xD";
         position: absolute;
 
         top: -10px;
@@ -48,7 +47,7 @@
       border-radius: $border-radius;
 
       &:before {
-        content: 'xD';
+        content: "xD";
         position: absolute;
 
         top: -10px;

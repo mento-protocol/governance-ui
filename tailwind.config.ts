@@ -61,9 +61,11 @@ const config: Config = {
 
       black: "#02010A",
       white: "#FFFFFF",
-      "light-gray": "#B3B3B3",
-      gray: "#808080",
-
+      gray: {
+        light: "#B3B3B3",
+        DEFAULT: "#808080",
+        regular: "#808080",
+      },
       transparent: "transparent",
       current: "currentColor",
     },

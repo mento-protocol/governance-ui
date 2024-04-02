@@ -1,5 +1,7 @@
 @import "@/styles/brand";
 
+// TODO: Refactor to use positioning/transforms instead of margining.
+// Element animations should use self variables, where as margin & padding is relational
 @keyframes button-click-animation {
   0% {
     margin-top: -3px;

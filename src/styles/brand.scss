@@ -199,7 +199,7 @@ $themes: (
 }
 
 @mixin card-table-overflow-shadows {
-  @apply bg-[linear-gradient(to_right,var(--theme-card-background),var(--theme-card-background)),linear-gradient(to_right,var(--theme-card-background),var(--theme-card-background)),linear-gradient(to_right,var(--theme-card-table-gradient),transparent),linear-gradient(to_left,var(--theme-card-table-gradient),transparent)] bg-[left_center,right_center,left_center,right] bg-no-repeat bg-[20px_100%,20px_100%,10px_100%,10px_100%] bg-transparent [background-attachment:local,local,scroll,scroll];
+  @apply bg-[left_center,right_center,left_center,right] bg-transparent bg-[linear-gradient(to_right,var(--theme-card-background),var(--theme-card-background)),linear-gradient(to_right,var(--theme-card-background),var(--theme-card-background)),linear-gradient(to_right,var(--theme-card-table-gradient),transparent),linear-gradient(to_left,var(--theme-card-table-gradient),transparent)] bg-[20px_100%,20px_100%,10px_100%,10px_100%] bg-no-repeat [background-attachment:local,local,scroll,scroll];
   //   background-image: linear-gradient(to right, var(--theme-card-background), var(--theme-card-background)),
   //   linear-gradient(to right, var(--theme-card-background), var(--theme-card-background)),
   //   linear-gradient(to right, var(--theme-card-table-gradient), transparent),
@@ -243,7 +243,7 @@ $themes: (
 
   input,
   textarea {
-    @apply w-full [outline:none] text-lg font-normal text-[color:var(--theme-foreground-color)] bg-transparent caret-[$c-primary] border-[none];
+    @apply w-full border-[none] bg-transparent text-lg font-normal text-[color:var(--theme-foreground-color)] caret-[$c-primary] [outline:none];
 
     // width: 100%;
     // border: none;
@@ -262,7 +262,7 @@ $themes: (
 }
 
 @mixin default-input-error-message {
-  @apply text-[$c-error-dark] text-sm font-semibold p-1;
+  @apply p-1 text-sm font-semibold text-[$c-error-dark];
 
   // color: $c-error-dark;
   // font-size: 14px;
@@ -271,7 +271,7 @@ $themes: (
 }
 
 @mixin default-backdrop {
-  @apply fixed backdrop-blur-[2px] bg-[$c-black] z-[-1] pointer-events-none opacity-0 [transition:opacity_0.2s_$ease-out-circ,z-index_0.1s_0.3s_linear] inset-0;
+  @apply pointer-events-none fixed inset-0 z-[-1] bg-[$c-black] opacity-0 backdrop-blur-[2px] [transition:opacity_0.2s_$ease-out-circ,z-index_0.1s_0.3s_linear];
 
   // position: fixed;
   // top: 0;
@@ -288,7 +288,7 @@ $themes: (
   //   z-index 0.1s 0.3s linear;
 
   &.opened {
-    @apply z-[1000] [pointer-events:all] opacity-100 [transition:opacity_0.2s_$ease-out-circ,z-index_0.01s_linear];
+    @apply z-[1000] opacity-100 [pointer-events:all] [transition:opacity_0.2s_$ease-out-circ,z-index_0.01s_linear];
 
     // z-index: 1000;
     // pointer-events: all;

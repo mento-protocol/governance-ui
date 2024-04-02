@@ -13,4 +13,4 @@ _An explanation of how the changes were tested or an explanation as to why they 
 
 ### Related issues
 
--  Fixes #[issue number here]
+- Fixes #[issue number here]

@@ -189,7 +189,7 @@ export const MentoLock = ({ className, style }: MentoLockProps) => {
             error={errors.toLock?.message}
             addon={
               <div className="text-xs opacity-50">
-                <div className="gap-x3 flex justify-between">
+                <div className="flex justify-between gap-x3">
                   <div className="whitespace-nowrap">Max</div>
                   <div className="whitespace-nowrap">
                     {`${formatUnits(mentoBalance.value, mentoBalance.decimals)} ${mentoBalance.symbol}`}

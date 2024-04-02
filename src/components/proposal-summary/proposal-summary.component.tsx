@@ -52,7 +52,7 @@ const ProposalSummaryComponent = () => {
 
   return (
     <Card className="mt-8" block>
-      <div className="gap-x6 grid grid-cols-2 justify-between md:grid-cols-4">
+      <div className="grid grid-cols-2 justify-between gap-x6 md:grid-cols-4">
         <div className="flex flex-col place-items-center justify-center">
           <div className="font-size-x6 line-height-x6 font-medium">
             {proposalCount}

@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { SeeAll } from "@/components/_shared";
-import styles from "./execution-code-view.module.scss";
 
 interface ExecutionCodeViewProps {
   code: unknown;
@@ -10,9 +9,9 @@ export const ExecutionCodeView = ({ code }: ExecutionCodeViewProps) => {
   const [isExecutionViewOpen, setIsExecutionViewOpen] = useState(false);
 
   return (
-    <div className={styles.container}>
-      <h3 className={styles.form_data_title}>Execution Code</h3>
-      <div className={styles.execution}>
+    <div>
+      <h3 className="my-x3 flex justify-center text-4xl">Execution Code</h3>
+      <div className="rounded-lg border border-solid border-gray-light p-5">
         <SeeAll
           height="210"
           isOpen={isExecutionViewOpen}

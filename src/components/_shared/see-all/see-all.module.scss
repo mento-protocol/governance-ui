@@ -8,12 +8,16 @@
     position: relative;
     z-index: 1;
     width: 100%;
-    
+
     .shadow {
       position: absolute;
       bottom: 0;
       width: 100%;
-      background: linear-gradient(0deg, var(--theme-card-background) 0%, rgba(255, 255, 255, 0.00) 100%);
+      background: linear-gradient(
+        0deg,
+        var(--theme-card-background) 0%,
+        rgba(255, 255, 255, 0) 100%
+      );
     }
 
     &__opened {
@@ -24,7 +28,7 @@
   .button_wrapper {
     width: 100%;
     text-align: center;
-    
+
     button {
       margin-top: 3 * $theme-unit;
       color: $c-primary;
@@ -32,7 +36,7 @@
       font-size: 4 * $theme-unit;
       font-style: normal;
       font-weight: 400;
-      line-height: 100%; 
+      line-height: 100%;
       text-align: center;
     }
   }

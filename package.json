@@ -10,6 +10,8 @@
     "lint:js": "next lint",
     "lint:fix": "next lint --fix",
     "lint:secrets": "npx secretlint \"**/*\"",
+    "format": "prettier --check --ignore-path .gitignore .",
+    "format:fix": "prettier --write --ignore-path .gitignore .",
     "codegen": "graphql-codegen",
     "todo": "npx leasot '**/*.{ts,tsx,scss,gql}' --ignore 'node_modules/**/*','.git/**/*','app/graphql/generated' || true",
     "prepare": "husky",

@@ -64,7 +64,7 @@ const Badges = () => (
       &nbsp;CELO Mainnet
     </Badge>
     <Spacer className="h-x3 md:hidden" />
-    <Spacer axis="vertical" className="w-x3 hidden md:block" />
+    <Spacer axis="vertical" className="hidden w-x3 md:block" />
     <Badge rounded type="secondary">
       MENTO {(1_000_000_000).toLocaleString()} Supply
     </Badge>
@@ -76,7 +76,7 @@ const DesktopTagline = () => (
 );
 
 const MentoIconWithLogo = () => (
-  <div className="font-size-x6 sm:font-size-x11 gap-x3 flex flex-row place-items-center justify-start">
+  <div className="font-size-x6 sm:font-size-x11 flex flex-row place-items-center justify-start gap-x3">
     <MentoIcon
       className="w-[35px] md:w-[62px]"
       shouldChangeWithTheme={false}
@@ -93,7 +93,7 @@ const DesktopNavigationButtons = ({
 }: {
   disabled?: boolean;
 }) => (
-  <div className="gap-x3 hidden md:flex">
+  <div className="hidden gap-x3 md:flex">
     <Button theme="clear" href="/create-proposal">
       Create new proposal
     </Button>
@@ -112,7 +112,7 @@ const Title = () => (
 );
 
 const Subtitle = () => (
-  <h2 className="mt-x3 md:mt-x6 max-w-[300px] text-center text-[22px] font-medium leading-[22px] md:max-w-[17em] md:text-[32px]  md:leading-[32px]">
+  <h2 className="mt-x3 max-w-[300px] text-center text-[22px] font-medium leading-[22px] md:mt-x6 md:max-w-[17em] md:text-[32px]  md:leading-[32px]">
     Participate in the governance process of Mento stablecoin platform
   </h2>
 );

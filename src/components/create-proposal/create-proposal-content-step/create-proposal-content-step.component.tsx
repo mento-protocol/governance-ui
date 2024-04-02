@@ -53,7 +53,7 @@ export const CreateProposalContentStep = () => {
       onNext={isValid ? () => setStep(CreateProposalStep.execution) : undefined}
     >
       <div>
-        <p className="font-size-x4 line-height-x5 ml-x7 mb-4">
+        <p className="font-size-x4 line-height-x5 mb-4 ml-x7">
           Give your proposal a title and a description. They will be public when
           your proposal goes live.
         </p>

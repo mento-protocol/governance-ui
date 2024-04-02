@@ -69,10 +69,10 @@ export const ProposalCurrentVotes = ({
         </h3>
       </Card.Header>
       <MultiProgressBar className="mb-x3" values={values} max={max} />
-      <div className="gap-x6 grid grid-cols-1 md:grid-cols-2">
+      <div className="grid grid-cols-1 gap-x6 md:grid-cols-2">
         <div>
           <div className="mb-x3 flex justify-between">
-            <div className="gap-x3 flex items-center">
+            <div className="flex items-center gap-x3">
               <div className={classNames(styles.vote_tag, styles.success)} />
               <div>For</div>
             </div>
@@ -83,7 +83,7 @@ export const ProposalCurrentVotes = ({
             </div>
           </div>
           <div className="mb-x3 flex justify-between">
-            <div className="gap-x3 flex items-center">
+            <div className="flex items-center gap-x3">
               <div className={classNames(styles.vote_tag, styles.error)} />
               <div>Against</div>
             </div>
@@ -94,7 +94,7 @@ export const ProposalCurrentVotes = ({
             </div>
           </div>
           <div className="mb-x3 flex justify-between">
-            <div className="gap-x3 flex items-center">
+            <div className="flex items-center gap-x3">
               <div className={classNames(styles.vote_tag)} />
               <div>Abstain</div>
             </div>
@@ -107,7 +107,7 @@ export const ProposalCurrentVotes = ({
         </div>
         <div>
           <div className="mb-x3">
-            <div className="gap-x3 flex items-center">
+            <div className="flex items-center gap-x3">
               <div
                 className={classNames(
                   styles.vote_tag,
@@ -119,7 +119,7 @@ export const ProposalCurrentVotes = ({
             </div>
           </div>
           <div className="mb-x3">
-            <div className="gap-x3 flex items-center">
+            <div className="flex items-center gap-x3">
               <div
                 className={classNames(
                   styles.vote_tag,
@@ -131,7 +131,7 @@ export const ProposalCurrentVotes = ({
             </div>
           </div>
           <div className="mb-x3">
-            <div className="gap-x3 flex items-center">
+            <div className="flex items-center gap-x3">
               <div
                 className={classNames(
                   styles.vote_tag,

@@ -7,7 +7,7 @@ const VotingButtons = ({
   onSubmit: (voteType: (typeof VOTE_TYPES)[keyof typeof VOTE_TYPES]) => void;
 }) => {
   return (
-    <div className="gap-x3 flex flex-col">
+    <div className="flex flex-col gap-x3">
       <Button theme="success" block onClick={() => onSubmit(VOTE_TYPES.For)}>
         For
       </Button>

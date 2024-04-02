@@ -14,7 +14,7 @@ const VoteConfirmation = ({
   return (
     <Card>
       <VotingCardTitle />
-      <div className="gap-x3 mt-x2 flex flex-col text-center">
+      <div className="mt-x2 flex flex-col gap-x3 text-center">
         <span className="text-md">Confirm your vote</span>
         <Loader isCenter />
         <>

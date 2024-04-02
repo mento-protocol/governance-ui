@@ -26,17 +26,17 @@ export const ContractParams = () => {
       className="font-size-x4 font-medium"
     >
       <Suspense fallback={<Loader isCenter />}>
-        <div className="gap-x2 md:pt-x4 grid grid-cols-1 md:grid-cols-7">
+        <div className="grid grid-cols-1 gap-x2 md:grid-cols-7 md:pt-x4">
           <Card
             noBorderMobile
-            className="gap-x4 md:gap-x6 flex flex-col md:col-span-3"
+            className="flex flex-col gap-x4 md:col-span-3 md:gap-x6"
           >
             <Card.Header>
               <div className="text-center text-primary md:text-left">
                 Parameters
               </div>
             </Card.Header>
-            <div className="gap-x3 flex flex-grow flex-col justify-between">
+            <div className="flex flex-grow flex-col justify-between gap-x3">
               <ParamDisplay
                 label="Proposal threshold"
                 value={governanceDetails?.proposalThreshold}
@@ -58,7 +58,7 @@ export const ContractParams = () => {
           </Card>
           <Card
             noBorderMobile
-            className="gap-x4 md:gap-x6 flex flex-col md:col-span-4"
+            className="flex flex-col gap-x4 md:col-span-4 md:gap-x6"
           >
             <Card.Header>
               <div className="text-center text-primary md:text-left">

@@ -86,7 +86,7 @@ const CastVote = ({ proposalId }: { proposalId: Proposal["proposalId"] }) => {
     return (
       <Card>
         <VotingCardTitle />
-        <div className="gap-x3 mt-x2 flex flex-col text-center">
+        <div className="mt-x2 flex flex-col gap-x3 text-center">
           <span className="text-md">Vote submitted</span>
           <SuccessIcon className="mx-auto h-20 w-20" />
           <span className="text-sm text-[#A8A8A8] dark:text-[#AAB3B6]">
@@ -106,7 +106,7 @@ const CastVote = ({ proposalId }: { proposalId: Proposal["proposalId"] }) => {
     return (
       <Card>
         <VotingCardTitle />
-        <div className="gap-x3 mt-x2 flex flex-col text-center">
+        <div className="mt-x2 flex flex-col gap-x3 text-center">
           <span className="text-md">Vote success</span>
           <SuccessIcon className="mx-auto h-20 w-20" />
           {vote.hash && (
@@ -122,7 +122,7 @@ const CastVote = ({ proposalId }: { proposalId: Proposal["proposalId"] }) => {
   return (
     <Card>
       <VotingCardTitle />
-      <div className="gap-x5 mt-x3 flex flex-col">
+      <div className="mt-x3 flex flex-col gap-x5">
         <LockedBalance />
         <div className="flex flex-col gap-2">
           <VotingButtons onSubmit={handleCastVote} />
@@ -149,7 +149,7 @@ const DirectToLockMento = () => {
   return (
     <Card>
       <VotingCardTitle />
-      <div className="gap-x5 flex flex-col">
+      <div className="flex flex-col gap-x5">
         <LockedBalance />
         <span>You need to lock your MENTO to vote</span>
         <Button href="/my-voting-power" theme="primary">

@@ -67,7 +67,7 @@ const Page = ({ params }: { params: { id: string } }) => {
               type={stateToStatusColorMap[proposal.state]}
             />
           </div>
-          <div className="gap-x1 flex flex-col md:grid md:grid-cols-7 ">
+          <div className="flex flex-col gap-x1 md:grid md:grid-cols-7 ">
             <div className="md:col-span-4 md:col-start-1">
               <h1 className="md:font-size-x11 md:line-height-x11 text-xl font-medium">
                 {proposal.metadata.title}
@@ -82,8 +82,8 @@ const Page = ({ params }: { params: { id: string } }) => {
               )}
             </div>
           </div>
-          <div className="gap-x6 mt-8 flex flex-wrap place-items-center justify-start ">
-            <div className="gap-x2 flex place-items-center">
+          <div className="mt-8 flex flex-wrap place-items-center justify-start gap-x6 ">
+            <div className="flex place-items-center gap-x2">
               <Suspense fallback={<Loader isCenter />}>
                 <Avatar address={proposal.proposer.id} />
                 by{" "}
@@ -92,7 +92,7 @@ const Page = ({ params }: { params: { id: string } }) => {
                 </span>
               </Suspense>
             </div>
-            <div className="gap-x2 flex place-items-center">
+            <div className="flex place-items-center gap-x2">
               <span>Proposed on:</span>
               <span className="font-medium">
                 <Suspense fallback={<Loader isCenter />}>
@@ -104,7 +104,7 @@ const Page = ({ params }: { params: { id: string } }) => {
                 </Suspense>
               </span>
             </div>
-            <div className="gap-x2 flex place-items-center">
+            <div className="flex place-items-center gap-x2">
               <span>Voting deadline:</span>
               <span className="font-medium">
                 {votingDeadline && (
@@ -115,7 +115,7 @@ const Page = ({ params }: { params: { id: string } }) => {
               </span>
             </div>
           </div>
-          <div className="mt-x6 gap-x6 md:gap-x1 flex flex-col place-items-start md:flex-row md:justify-between">
+          <div className="mt-x6 flex flex-col place-items-start gap-x6 md:flex-row md:justify-between md:gap-x1">
             <div className="w-full max-w-2xl flex-1">
               <ProposalCurrentVotes className="md:mb-x6" />
               <div className="my-x6 md:hidden">
@@ -127,7 +127,7 @@ const Page = ({ params }: { params: { id: string } }) => {
               <MarkdownView markdown={proposal.metadata.description} />
               {proposal.calls && <ExecutionCodeView code={proposal.calls} />}
             </div>
-            <div className="gap-x11 flex flex-col md:max-w-[350px]">
+            <div className="flex flex-col gap-x11 md:max-w-[350px]">
               <div className="hidden md:block">
                 <Vote proposal={proposal} />
               </div>

@@ -9,7 +9,7 @@ const Page = () => {
     <main className="flex flex-col place-items-center">
       <h2 className="mb-4 mt-8 text-2xl">My Voting Power</h2>
       <Card block>
-        <div className="gap-x3 flex min-w-full flex-col md:flex-row">
+        <div className="flex min-w-full flex-col gap-x3 md:flex-row">
           <MentoLock className="max-w-[428px]" />
           <div>TODO: Chart</div>
         </div>

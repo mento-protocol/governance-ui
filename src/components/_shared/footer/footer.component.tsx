@@ -101,7 +101,7 @@ export const Footer = ({ className, style }: FooterProps) => {
           <div
             className={classNames(styles.footer__element, "justify-between")}
           >
-            <div className="gap-x3 flex place-items-center">
+            <div className="flex place-items-center gap-x3">
               <Link href="#">
                 <TwitterIcon useThemeColor />
               </Link>

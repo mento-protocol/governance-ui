@@ -67,7 +67,7 @@ export const CreateProposalExecutionStep = () => {
           format in the field below:
         </p>
         <Textarea
-          className="mt-x5 mb-x5 min-h-[266px]"
+          className="mb-x5 mt-x5 min-h-[266px]"
           form={{ ...register("code") }}
           id="code"
           error={errors.code?.message}

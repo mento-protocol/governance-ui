@@ -51,7 +51,7 @@ const CreateProposalWrapper = ({
       <div className={classNames(styles.form_element, isOpen && styles.opened)}>
         <div className={styles.inner}>{children}</div>
         <Card.Footer>
-          <div className="full-w gap-x3 flex items-center justify-start">
+          <div className="full-w flex items-center justify-start gap-x3">
             <Button
               className="min-w-x20"
               onClick={onPrev}

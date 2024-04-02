@@ -127,7 +127,6 @@ body {
   font-style: normal;
 }
 
-
 .font-fg {
   font-family: var(--font-fg);
 }
@@ -220,21 +219,21 @@ a:hover,
     bottom: 0;
   }
 
-    &.opened {
-        span:nth-child(1) {
-        top: 50%;
-        transform: translateY(-50%) rotate(45deg);
-        }
-
-        span:nth-child(2) {
-        opacity: 0;
-        }
-
-        span:nth-child(3) {
-        top: 50%;
-        transform: translateY(-50%) rotate(-45deg);
-        }
+  &.opened {
+    span:nth-child(1) {
+      top: 50%;
+      transform: translateY(-50%) rotate(45deg);
     }
+
+    span:nth-child(2) {
+      opacity: 0;
+    }
+
+    span:nth-child(3) {
+      top: 50%;
+      transform: translateY(-50%) rotate(-45deg);
+    }
+  }
 }
 
 @each $color, $value in $brandColors {

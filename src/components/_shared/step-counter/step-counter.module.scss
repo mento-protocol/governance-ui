@@ -9,13 +9,13 @@ $box-size: 4px;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-top-right-radius: $border-radius * .5;
-  border-bottom-left-radius: $border-radius * .5;
+  border-top-right-radius: $border-radius * 0.5;
+  border-bottom-left-radius: $border-radius * 0.5;
   position: relative;
   background-color: inherit;
 
   &:before,
-  &:after{
+  &:after {
     position: absolute;
     content: "";
     width: $box-size;
@@ -24,11 +24,11 @@ $box-size: 4px;
     z-index: 1;
   }
 
-  &:before{
+  &:before {
     left: $box-size * -1;
     top: $box-size * -1;
   }
-  &:after{
+  &:after {
     right: $box-size * -1;
     bottom: $box-size * -1;
   }

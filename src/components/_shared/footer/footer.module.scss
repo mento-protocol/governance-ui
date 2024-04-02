@@ -26,7 +26,7 @@
     }
   }
 
-  &__mento{
+  &__mento {
     color: var(--theme-footer-color);
   }
 }
@@ -39,7 +39,7 @@
   flex-direction: column;
   gap: 3 * $theme-unit;
   padding: 0 5 * $theme-unit 0 5 * $theme-unit;
-  
+
   @media (min-width: $breakpoint-lg) {
     flex-direction: row;
     padding: 0 11 * $theme-unit 0 13 * $theme-unit;
@@ -55,7 +55,7 @@
   .content {
     color: $c-white;
     max-width: 500px;
-    
+
     h2 {
       font-size: 11 * $theme-unit;
       margin-bottom: 5 * $theme-unit;
@@ -78,7 +78,7 @@
 
     .button {
       width: 100%;
-      
+
       @media (min-width: $breakpoint-lg) {
         width: fit-content;
       }

@@ -15,7 +15,6 @@
 }
 
 .wrapper {
-
   position: relative;
 
   .button {
@@ -39,7 +38,10 @@
     top: 70px;
     opacity: 0;
     pointer-events: none;
-    transition: opacity 0.3s, transform 0.3s 0.1s ease-in, z-index 0.1s 1s;
+    transition:
+      opacity 0.3s,
+      transform 0.3s 0.1s ease-in,
+      z-index 0.1s 1s;
     transform: translateY(-50px);
     z-index: -1;
     overflow: hidden;
@@ -113,7 +115,11 @@
     &.tertiary,
     &.clear,
     &.link {
-      @include branded-dropdown(var(--theme-secondary-color), var(--theme-background-color), var(--theme-foreground-color));
+      @include branded-dropdown(
+        var(--theme-secondary-color),
+        var(--theme-background-color),
+        var(--theme-foreground-color)
+      );
     }
   }
 
@@ -123,12 +129,13 @@
 }
 
 .opened {
-
   .dropdown_wrapper {
     opacity: 1;
     z-index: 2;
     pointer-events: auto;
-    transition: opacity 0.3s, transform 0.3s $ease-out-back;
+    transition:
+      opacity 0.3s,
+      transform 0.3s $ease-out-back;
     transform: translateY(0px);
   }
 

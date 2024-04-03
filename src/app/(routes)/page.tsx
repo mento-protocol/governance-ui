@@ -16,7 +16,6 @@ import {
 import { ProposalsListComponent } from "@/components/proposals-list/proposals-list.component";
 import { ContractParams } from "@/components/contract-params/contract-params.component";
 import ProposalSummaryComponent from "@/components/proposal-summary/proposal-summary.component";
-import { useTheme } from "next-themes";
 
 const Page = () => {
   const { address } = useAccount();
@@ -76,7 +75,7 @@ const DesktopTagline = () => (
 
 const MentoIconWithLogo = () => (
   <div className="font-size-x6 sm:font-size-x11 flex flex-row place-items-center justify-start gap-x3">
-    <MentoIcon className="w-[35px] md:w-[62px]" backgroundColor="#A5E5F7" />
+    <MentoIcon className="w-[35px] md:w-[62px]" backgroundColor="cyan" />
     <span className="pt-[9px] text-[32px] font-medium md:pt-[18px] md:text-[56px]">
       Mento
     </span>
@@ -99,16 +98,12 @@ const DesktopNavigationButtons = ({
 );
 
 const Title = () => {
-  const { resolvedTheme: theme } = useTheme();
   return (
     <h1 className="text-center text-[32px] font-bold leading-[32px] md:flex md:gap-1 md:text-[56px] md:leading-[56px]">
       MENTO
       <br className="md:hidden" />
       <span
-        style={{
-          WebkitTextStroke: `1.2px ${theme === "light" ? "black" : "white"}`,
-          color: "transparent",
-        }}
+        className={`text-transparent [-webkit-text-stroke:1.2px_black] dark:[-webkit-text-stroke:1.2px_white]`}
       >
         GOVERNANCE
       </span>

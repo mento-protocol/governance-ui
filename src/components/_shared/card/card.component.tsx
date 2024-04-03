@@ -42,7 +42,7 @@ export const Card = ({
   return (
     <div
       className={classNames(
-        `rounded-lg border border-gray-light bg-white p-5 dark:bg-off-black`,
+        `rounded-lg border border-gray-light bg-white p-5 dark:bg-black-off`,
         block && "w-full",
         transparent && "bg-transparent",
         className,

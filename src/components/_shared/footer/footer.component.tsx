@@ -14,6 +14,7 @@ import { Button } from "@/components/_shared";
 import exports from "@/styles/exports.module.scss";
 import { ThemeSwitch } from "@/components/theme-switch/theme-switch.component";
 import styles from "./footer.module.scss";
+import { cn } from "@/styles/helpers";
 
 interface FooterProps extends BaseComponentProps {}
 
@@ -23,7 +24,7 @@ export const Footer = ({ className, style }: FooterProps) => {
   const pathname = usePathname();
 
   return (
-    <footer className={classNames("mt-x4", className)} style={style}>
+    <footer className={cn("mt-x4", className)} style={style}>
       <div className="main-container">
         {pathname === "/" && (
           <div className={classNames(styles.learn_more)}>
@@ -61,7 +62,7 @@ export const Footer = ({ className, style }: FooterProps) => {
             className={classNames(styles.footer__element, styles.footer__mento)}
           >
             <MentoLogoIcon className="mb-x1" />
-            <div> Mento © {year}2023.</div>
+            <div> Mento © {year}.</div>
             <div>All right reserved.</div>
           </div>
           <div className={classNames(styles.footer__element)}>

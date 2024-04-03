@@ -54,12 +54,6 @@
 
     .dropdown_element {
       button {
-        border: none;
-        background-color: transparent;
-        width: 100%;
-        padding: 2 * $theme-unit 2 * $theme-unit;
-        white-space: nowrap;
-
         &:hover {
           background-color: #88888866;
         }

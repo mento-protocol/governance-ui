@@ -46,7 +46,6 @@ export const LocksList = ({ account }: ILocksList) => {
 
 const LockEntry = ({
   lock,
-  account,
   onExtend,
 }: {
   lock: Lock;

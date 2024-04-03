@@ -29,7 +29,13 @@ export const DropdownElement = ({
       className={classNames(styles.dropdown_element, className)}
       style={style}
     >
-      <button onClick={onClick}>{children}</button>
+      {/* TODO: no idea where this color came from hover:bg-[#88888866] */}
+      <button
+        className="w-full whitespace-nowrap border-none bg-transparent p-x2"
+        onClick={onClick}
+      >
+        {children}
+      </button>
     </div>
   );
 };

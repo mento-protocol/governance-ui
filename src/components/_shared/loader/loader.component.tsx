@@ -1,14 +1,13 @@
 import classNames from "classnames";
 import { MentoIcon } from "@/components/_icons";
 import styles from "./loader.module.scss";
+import { IMentoIcon } from "@/components/_icons/mento.icon";
 
-export const Loader = ({
-  isCenter,
-  backgroundColor = "none",
-}: {
+interface ILoader extends IMentoIcon {
   isCenter?: boolean;
-  backgroundColor?: string;
-}) => {
+}
+
+export const Loader = ({ isCenter, backgroundColor }: ILoader) => {
   return (
     <div className={classNames(isCenter && "flex justify-center")}>
       <div className={styles.container}>

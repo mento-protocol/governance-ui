@@ -195,11 +195,12 @@ $themes: (
     @content;
   }
 }
-.random {
-}
 
 @mixin card-table-overflow-shadows {
-  @apply bg-[left_center,right_center,left_center,right] bg-transparent bg-[linear-gradient(to_right,var(--theme-card-background),var(--theme-card-background)),linear-gradient(to_right,var(--theme-card-background),var(--theme-card-background)),linear-gradient(to_right,var(--theme-card-table-gradient),transparent),linear-gradient(to_left,var(--theme-card-table-gradient),transparent)] bg-[20px_100%,20px_100%,10px_100%,10px_100%] bg-no-repeat [background-attachment:local,local,scroll,scroll];
+  // "bg-transparent bg-[20px_100%,20px_100%,10px_100%,10px_100%] bg-no-repeat  [background-attachment:local,local,scroll,scroll] [background-position:left_center,right_center,left_center,right]",
+  //           `[background-image:linear-gradient(to_right,#FFFFFF,#FFFFFF),linear-gradient(to_right,#FFFFFF,#FFFFFF),linear-gradient(to_right,rgba(0,_0,_0,_0.15),transparent),linear-gradient(to_left,rgba(0,_0,_0,_0.15),transparent)]`,
+  //           `dark:[background-image:linear-gradient(to_right,#121316,#121316),linear-gradient(to_right,#121316,#121316),linear-gradient(to_right,rgba(156,_156,_156,_0.25),transparent),linear-gradient(to_left,rgba(156,_156,_156,_0.25),transparent)]`,
+  // @apply bg-[left_center,right_center,left_center,right] bg-transparent bg-[linear-gradient(to_right,var(--theme-card-background),var(--theme-card-background)),linear-gradient(to_right,var(--theme-card-background),var(--theme-card-background)),linear-gradient(to_right,var(--theme-card-table-gradient),transparent),linear-gradient(to_left,var(--theme-card-table-gradient),transparent)] bg-[20px_100%,20px_100%,10px_100%,10px_100%] bg-no-repeat [background-attachment:local,local,scroll,scroll];
   //   background-image: linear-gradient(to right, var(--theme-card-background), var(--theme-card-background)),
   //   linear-gradient(to right, var(--theme-card-background), var(--theme-card-background)),
   //   linear-gradient(to right, var(--theme-card-table-gradient), transparent),
@@ -210,14 +211,6 @@ $themes: (
   //   background-size: 20px 100%, 20px 100%, 10px 100%, 10px 100%;
   //   background-color: transparent;
   //   background-attachment: local, local, scroll, scroll;
-}
-
-@mixin row-divider {
-  .divider {
-    // grid-span-[1 / -1] border-b border-solid border-gray
-    grid-column: 1 / -1;
-    border-bottom: 1px solid #b3b3b3;
-  }
 }
 
 @mixin default-input-style {

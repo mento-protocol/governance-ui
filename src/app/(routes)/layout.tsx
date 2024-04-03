@@ -23,7 +23,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
   const homePage = path === "/";
 
   return (
-    <html className={inter.variable} lang="en">
+    <html className={`${inter.variable} font-fg text-lg md:text-xl`} lang="en">
       <body className="bg-white dark:bg-black" suppressHydrationWarning={true}>
         <Providers>
           <ModalProvider>

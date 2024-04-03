@@ -4,28 +4,28 @@ import { cn } from "@/styles/helpers";
 import { ComponentProps } from "react";
 
 const variants = cva(
-  "relative w-full rounded-lg border border-solid border-black font-inter text-black transition",
+  "relative mb-[8px] w-full rounded-md border border-solid border-black px-x4 py-x2 font-inter text-sm text-black transition hover:no-underline hover:[&>span]:text-[inherit]",
   {
     variants: {
       disabled: { true: "group/button-disabled w-full cursor-not-allowed" },
       fullwidth: { true: "", false: "max-w-[200px]" },
       theme: {
         primary:
-          "ease-out-back text-white after:relative after:-bottom-[4px] after:h-[4px] after:w-full after:rounded-b-lg after:bg-primary-dark hover:top-[8px] active:top-[2px] [&_path]:fill-white",
+          "ease-out-back text-white after:relative after:-bottom-[4px] after:h-[4px] after:w-full after:rounded-b-lg after:bg-primary-dark hover:top-[8px] hover:text-white active:top-[2px] [&_path]:fill-white",
         secondary:
-          "ease-out-back text-black after:relative after:-bottom-[4px] after:h-[4px] after:w-full after:rounded-b-lg after:bg-secondary-dark hover:top-[8px] active:top-[2px] [&_path]:fill-black",
+          "ease-out-back text-black after:relative after:-bottom-[4px] after:h-[4px] after:w-full after:rounded-b-lg after:bg-secondary-dark hover:top-[8px] hover:text-black active:top-[2px] [&_path]:fill-black",
         tertiary:
-          "ease-out-back text-black after:relative after:-bottom-[4px] after:h-[4px] after:w-full after:rounded-b-lg after:bg-gray hover:top-[8px] active:top-[2px] [&_path]:fill-black",
+          "ease-out-back text-black after:relative after:-bottom-[4px] after:h-[4px] after:w-full after:rounded-b-lg after:bg-gray hover:top-[8px] hover:text-black active:top-[2px] [&_path]:fill-black",
         danger:
-          "ease-out-back text-black after:relative after:-bottom-[4px] after:h-[4px] after:w-full after:rounded-b-lg after:bg-error-dark hover:top-[8px] active:top-[2px] [&_path]:fill-black",
+          "ease-out-back text-black after:relative after:-bottom-[4px] after:h-[4px] after:w-full after:rounded-b-lg after:bg-error-dark hover:top-[8px] hover:text-black active:top-[2px] [&_path]:fill-black",
         warning:
-          "ease-out-back text-black after:relative after:-bottom-[4px] after:h-[4px] after:w-full after:rounded-b-lg after:bg-warning-dark hover:top-[8px] active:top-[2px] [&_path]:fill-black",
+          "ease-out-back text-black after:relative after:-bottom-[4px] after:h-[4px] after:w-full after:rounded-b-lg after:bg-warning-dark hover:top-[8px] hover:text-black active:top-[2px] [&_path]:fill-black",
         success:
-          "ease-out-back text-black after:relative after:-bottom-[4px] after:h-[4px] after:w-full after:rounded-b-lg after:bg-success-dark active:top-[2px] [&_path]:fill-black",
+          "ease-out-back text-black after:relative after:-bottom-[4px] after:h-[4px] after:w-full after:rounded-b-lg after:bg-success-dark hover:text-black active:top-[2px] [&_path]:fill-black",
         info: "rounded-b-lg after:relative after:-bottom-[4px] after:h-[4px] after:w-full after:bg-info-dark",
-        link: "color border-none border-b-transparent text-black underline transition-[color] duration-200 ease-out visited:text-primary-dark hover:text-primary active:text-primary-dark dark:text-white",
+        link: "color border-none text-black underline transition-[color] duration-200 ease-out visited:text-primary-dark hover:text-primary active:text-primary-dark dark:text-white",
         clear:
-          "border-b-transparent transition-[background-color] duration-200 ease-out hover:bg-gray-lighter dark:hover:bg-gray",
+          "transition-[background-color] duration-200 ease-out hover:bg-gray-lighter hover:text-black dark:border-white dark:bg-transparent dark:text-white dark:hover:bg-gray dark:hover:text-white",
       },
     },
     defaultVariants: {
@@ -67,7 +67,7 @@ export const Button = ({
           )}
         >
           {/* Transition east out 0.2 */}
-          <span className="flex items-center justify-center gap-[1ch] whitespace-nowrap px-x4 py-x2 text-sm font-medium tracking-normal [&_*]:whitespace-nowrap">
+          <span className="flex items-center justify-center gap-[1ch] whitespace-nowrap font-medium tracking-normal no-underline [&_*]:whitespace-nowrap">
             {children}
           </span>
         </Link>
@@ -84,7 +84,7 @@ export const Button = ({
           )}
           onClick={onClick}
         >
-          <span className="flex items-center justify-center gap-[1ch] whitespace-nowrap px-x4 py-x2 text-sm font-medium tracking-normal [&_*]:whitespace-nowrap">
+          <span className="flex items-center justify-center gap-[1ch] whitespace-nowrap font-medium tracking-normal [&_*]:whitespace-nowrap">
             {children}
           </span>
         </button>

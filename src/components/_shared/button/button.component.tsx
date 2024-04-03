@@ -4,25 +4,25 @@ import { cn } from "@/styles/helpers";
 import { ComponentProps } from "react";
 
 const variants = cva(
-  "relative mb-[8px] w-full rounded-md border border-solid border-black px-x4 py-x2 font-inter text-sm text-black transition hover:no-underline hover:[&>span]:text-[inherit]",
+  "relative mb-[8px] block w-full  rounded-md border border-solid border-black px-x4 py-x2 font-inter text-sm text-black transition [transform-style:preserve-3d] hover:no-underline hover:[&>span]:text-[inherit]",
   {
     variants: {
       disabled: { true: "group/button-disabled w-full cursor-not-allowed" },
       fullwidth: { true: "", false: "max-w-[200px]" },
       theme: {
         primary:
-          "ease-out-back text-white after:relative after:-bottom-[4px] after:h-[4px] after:w-full after:rounded-b-lg after:bg-primary-dark hover:top-[8px] hover:text-white active:top-[2px] [&_path]:fill-white",
+          "ease-out-back before:ease-out-back top-[-3px] bg-primary text-white transition-all duration-200 before:absolute before:left-[50%] before:top-[calc(50%_+_4px)] before:block before:h-[50%] before:w-[calc(100%_+_1.1px)] before:rounded-md before:border before:border-solid before:border-black before:bg-primary-dark before:transition-all before:duration-200 before:[border-style:inset] before:[transform:translateX(-50%)_translateZ(-1px)] hover:top-0 hover:text-white hover:before:top-[calc(50%_+_1px)] active:top-[1px] active:before:top-[calc(50%_+_2px)] [&_path]:fill-white",
         secondary:
-          "ease-out-back text-black after:relative after:-bottom-[4px] after:h-[4px] after:w-full after:rounded-b-lg after:bg-secondary-dark hover:top-[8px] hover:text-black active:top-[2px] [&_path]:fill-black",
+          "ease-out-back before:ease-out-back top-[-3px] bg-secondary text-black transition-all duration-200 before:absolute before:left-[50%] before:top-[calc(50%_+_4px)] before:block before:h-[50%] before:w-[calc(100%_+_1.1px)] before:rounded-md before:border before:border-solid before:border-black before:bg-secondary-dark before:transition-all before:duration-200 before:[border-style:inset] before:[transform:translateX(-50%)_translateZ(-1px)] hover:top-0 hover:text-black hover:before:top-[calc(50%_+_1px)] active:top-[1px] active:top-[2px] active:before:top-[calc(50%_+_2px)] [&_path]:fill-black ",
         tertiary:
-          "ease-out-back text-black after:relative after:-bottom-[4px] after:h-[4px] after:w-full after:rounded-b-lg after:bg-gray hover:top-[8px] hover:text-black active:top-[2px] [&_path]:fill-black",
+          "ease-out-back before:ease-out-back bg-danger top-[-3px] top-[-3px] text-black transition-all duration-200 before:absolute before:left-[50%] before:top-[calc(50%_+_4px)] before:block before:h-[50%] before:w-[calc(100%_+_1.1px)] before:rounded-md before:border before:border-solid before:border-black before:bg-primary-dark before:transition-all before:duration-200 before:[border-style:inset] before:[transform:translateX(-50%)_translateZ(-1px)] hover:top-0 hover:text-black hover:before:top-[calc(50%_+_1px)] active:top-[1px] active:top-[2px] active:before:top-[calc(50%_+_2px)] [&_path]:fill-black ",
         danger:
-          "ease-out-back text-black after:relative after:-bottom-[4px] after:h-[4px] after:w-full after:rounded-b-lg after:bg-error-dark hover:top-[8px] hover:text-black active:top-[2px] [&_path]:fill-black",
+          "ease-out-back before:ease-out-back top-[-3px] bg-error text-black transition-all duration-200 before:absolute before:left-[50%] before:top-[calc(50%_+_4px)] before:block before:h-[50%] before:w-[calc(100%_+_1.1px)] before:rounded-md before:border before:border-solid before:border-black before:bg-error-dark before:transition-all before:duration-200 before:[border-style:inset] before:[transform:translateX(-50%)_translateZ(-1px)] hover:top-0 hover:text-black hover:before:top-[calc(50%_+_1px)] active:top-[1px] active:top-[2px] active:before:top-[calc(50%_+_2px)] [&_path]:fill-black ",
         warning:
-          "ease-out-back text-black after:relative after:-bottom-[4px] after:h-[4px] after:w-full after:rounded-b-lg after:bg-warning-dark hover:top-[8px] hover:text-black active:top-[2px] [&_path]:fill-black",
+          "ease-out-back before:ease-out-back top-[-3px] bg-warning text-black transition-all duration-200 before:absolute before:left-[50%] before:top-[calc(50%_+_4px)] before:block before:h-[50%] before:w-[calc(100%_+_1.1px)] before:rounded-md before:border before:border-solid before:border-black before:bg-warning-dark before:transition-all before:duration-200 before:[border-style:inset] before:[transform:translateX(-50%)_translateZ(-1px)] hover:top-0 hover:text-black hover:before:top-[calc(50%_+_1px)] active:top-[1px] active:top-[2px] active:before:top-[calc(50%_+_2px)] [&_path]:fill-black ",
         success:
-          "ease-out-back text-black after:relative after:-bottom-[4px] after:h-[4px] after:w-full after:rounded-b-lg after:bg-success-dark hover:text-black active:top-[2px] [&_path]:fill-black",
-        info: "rounded-b-lg after:relative after:-bottom-[4px] after:h-[4px] after:w-full after:bg-info-dark",
+          "ease-out-back before:ease-out-back top-[-3px] bg-success text-black transition-all duration-200 before:absolute before:left-[50%] before:top-[calc(50%_+_4px)] before:block before:h-[50%] before:w-[calc(100%_+_1.1px)] before:rounded-md before:border before:border-solid before:border-black before:bg-success-dark before:transition-all before:duration-200 before:[border-style:inset] before:[transform:translateX(-50%)_translateZ(-1px)] hover:top-0 hover:text-black hover:before:top-[calc(50%_+_1px)] active:top-[1px] active:top-[2px] active:before:top-[calc(50%_+_2px)] [&_path]:fill-black ",
+        info: "ease-out-back before:ease-out-back top-[-3px] rounded-b-lg bg-info transition-all duration-200 before:absolute before:left-[50%] before:top-[calc(50%_+_4px)] before:block before:h-[50%] before:w-[calc(100%_+_1.1px)] before:rounded-md before:border before:border-solid before:border-black before:bg-info-dark before:transition-all before:duration-200 before:[border-style:inset] before:[transform:translateX(-50%)_translateZ(-1px)] hover:top-0 hover:text-black hover:before:top-[calc(50%_+_1px)] active:top-[1px] active:top-[2px] active:before:top-[calc(50%_+_2px)] [&_path]:fill-black",
         link: "color border-none text-black underline transition-[color] duration-200 ease-out visited:text-primary-dark hover:text-primary active:text-primary-dark dark:text-white",
         clear:
           "transition-[background-color] duration-200 ease-out hover:bg-gray-lighter hover:text-black dark:border-white dark:bg-transparent dark:text-white dark:hover:bg-gray dark:hover:text-white",

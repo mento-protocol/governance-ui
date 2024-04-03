@@ -7,7 +7,7 @@ const enum Mode {
 }
 
 export const ThemeSwitch = () => {
-  const { theme, setTheme } = useTheme();
+  const { resolvedTheme: theme, setTheme } = useTheme();
 
   const onToggleSwitch = () => {
     setTheme(theme === Mode.DARK ? Mode.LIGHT : Mode.DARK);
@@ -18,7 +18,7 @@ export const ThemeSwitch = () => {
       onClick={onToggleSwitch}
       className={classNames(
         "relative flex h-[24px] w-[44px] items-center justify-between rounded-[32px] px-x1 py-[3px]",
-        theme === Mode.LIGHT ? "bg-white" : "bg-secondary",
+        theme === Mode.LIGHT ? "border border-black bg-white" : "bg-secondary",
       )}
     >
       <div className="flex w-full items-center justify-between gap-x1">

@@ -19,7 +19,14 @@ export function Providers({ children }: { children: ReactNode }) {
         <QueryClientProvider client={queryClient}>
           <RainbowKitProvider initialChain={Celo}>
             {mounted && (
-              <ThemeProvider attribute="class">{children}</ThemeProvider>
+              <ThemeProvider
+                enableSystem
+                enableColorScheme
+                defaultTheme="system"
+                attribute="class"
+              >
+                {children}
+              </ThemeProvider>
             )}
           </RainbowKitProvider>
         </QueryClientProvider>

@@ -94,12 +94,7 @@ export const DropdownButton = ({
         <span
           className={classNames(styles.toggle, dropdownOpened && styles.opened)}
         >
-          <ChevronIcon
-            width={15}
-            height={10}
-            useThemeColor
-            direction={"down"}
-          />
+          <ChevronIcon width={15} height={10} direction={"down"} />
         </span>
       </Button>
       <div

@@ -25,7 +25,7 @@ export const Expandable = ({
       >
         <div>{header}</div>
         <div className={classNames(styles.toggle, opened && styles.opened)}>
-          <ChevronIcon direction="down" width={25} height={20} useThemeColor />
+          <ChevronIcon direction="down" width={25} height={20} />
         </div>
       </header>
       <div

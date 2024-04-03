@@ -38,7 +38,7 @@ export const Header = ({ className, style }: HeaderProps) => {
         )}
       >
         <Link href={"/"}>
-          <MentoLogoIcon className="hidden md:block" useThemeColor />
+          <MentoLogoIcon className="hidden md:block" />
         </Link>
         <ul ref={menuRef} className={styles.header__nav}>
           <li
@@ -51,7 +51,7 @@ export const Header = ({ className, style }: HeaderProps) => {
             <p onClick={(e) => toggleMenu(e, "developers")}>
               <span>Developers</span>
               <span className={styles.dropdown__indicator}>
-                <ChevronIcon useThemeColor direction={"down"} />
+                <ChevronIcon direction={"down"} />
               </span>
             </p>
             <ul>
@@ -77,7 +77,7 @@ export const Header = ({ className, style }: HeaderProps) => {
             <p onClick={(e) => toggleMenu(e, "community")}>
               <span>Community</span>
               <span className={styles.dropdown__indicator}>
-                <ChevronIcon useThemeColor direction={"down"} />
+                <ChevronIcon direction={"down"} />
               </span>
             </p>
             <ul>
@@ -110,7 +110,7 @@ export const Header = ({ className, style }: HeaderProps) => {
         className={classNames(styles.mobile_inner, "pa-x z-50 flex md:hidden")}
       >
         <Link href={"/"}>
-          <MentoLogoIcon useThemeColor />
+          <MentoLogoIcon />
         </Link>
         <Button theme="link" onClick={() => setDrawerOpened(!drawerOpened)}>
           <MenuIcon opened={drawerOpened} />

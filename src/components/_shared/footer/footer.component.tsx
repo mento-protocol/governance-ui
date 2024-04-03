@@ -40,13 +40,9 @@ export const Footer = ({ className, style }: FooterProps) => {
                 target="_blank"
               >
                 <div className={styles.button__content}>
-                  <DiscordIcon useThemeColor={false} color={exports.white} />
+                  <DiscordIcon color={exports.white} />
                   <span>Join the community</span>
-                  <ChevronIcon
-                    direction="right"
-                    useThemeColor={false}
-                    color={exports.white}
-                  />
+                  <ChevronIcon direction="right" color={exports.white} />
                 </div>
               </Button>
             </div>
@@ -64,7 +60,7 @@ export const Footer = ({ className, style }: FooterProps) => {
           <div
             className={classNames(styles.footer__element, styles.footer__mento)}
           >
-            <MentoLogoIcon className="mb-x1" useThemeColor />
+            <MentoLogoIcon className="mb-x1" />
             <div> Mento © {year}2023.</div>
             <div>All right reserved.</div>
           </div>
@@ -103,13 +99,13 @@ export const Footer = ({ className, style }: FooterProps) => {
           >
             <div className="flex place-items-center gap-x3">
               <Link href="#">
-                <TwitterIcon useThemeColor />
+                <TwitterIcon />
               </Link>
               <Link href="#" className="p-x2">
-                <DiscordIcon useThemeColor />
+                <DiscordIcon />
               </Link>
               <Link href="#" className="p-x2">
-                <GithubIcon useThemeColor />
+                <GithubIcon />
               </Link>
             </div>
             <div className={classNames("flex", styles.theme)}>

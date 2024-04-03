@@ -3,11 +3,11 @@ import { useCallback, useMemo } from "react";
 import { Address, formatUnits } from "viem";
 import { useAccount } from "wagmi";
 import useRelockMento from "@/lib/contracts/locking/useRelockMento";
+import { Lock } from "@/lib/graphql/subgraph/generated/subgraph";
 import useLocksByAccount from "@/lib/contracts/locking/useLocksByAccount";
+import { Button, DropdownButton } from "@/components/_shared";
 import useLock from "@/lib/contracts/locking/useLock";
 import useModal from "@/lib/providers/modal.provider";
-import { Button, DropdownButton } from "@/components/_shared";
-import { Lock } from "@/lib/graphql/subgraph/generated/subgraph";
 import styles from "./locks-list.module.scss";
 
 interface ILocksList {
@@ -76,7 +76,7 @@ const LockEntry = ({
     return endDate.toLocaleDateString();
   }, [lock]);
 
-  const reLock = useCallback(async () => {
+  const relock = useCallback(async () => {
     const res = await showConfirm(
       `Are you sure you want to extend lock ${lock.lockId}?`,
     );
@@ -115,12 +115,12 @@ const LockEntry = ({
       <div>
         <DropdownButton className="md:hidden" theme="clear">
           <DropdownButton.Dropdown>
-            <DropdownButton.Element onClick={reLock}>
+            <DropdownButton.Element onClick={relock}>
               Extend lock
             </DropdownButton.Element>
           </DropdownButton.Dropdown>
         </DropdownButton>
-        <Button className="md:static" fullwidth theme="clear" onClick={reLock}>
+        <Button className="md:static" fullwidth theme="clear" onClick={relock}>
           Extend lock
         </Button>
       </div>

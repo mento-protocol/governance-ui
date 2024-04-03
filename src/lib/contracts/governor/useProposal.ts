@@ -27,7 +27,7 @@ const useProposal = (proposalId: bigint) => {
     errorPolicy: "ignore",
     queryKey: "get-proposal-hook",
     variables: {
-      id: proposalId,
+      id: proposalId.toString(),
     },
   });
 
@@ -51,7 +51,7 @@ const useProposal = (proposalId: bigint) => {
       return graphProposal as Proposal;
 
     return {
-      ...(proposal as Proposal),
+      ...(graphProposal as Proposal),
       state: STATE_FROM_NUMBER[chainData],
     };
   }, [chainData, graphProposals]);

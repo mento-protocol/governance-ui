@@ -1,53 +1,32 @@
-import { ReactNode, useMemo } from "react";
-import BaseComponentProps from "@/interfaces/base-component-props.interface";
-import { BadgeType } from "@/lib/types";
+import React from "react";
+import { cn } from "@/styles/helpers";
+import { VariantProps, cva } from "class-variance-authority";
 
-interface BadgeProps extends BaseComponentProps {
-  children: ReactNode;
-  type: BadgeType;
-  rounded?: boolean;
-  block?: boolean;
-}
+const variants = cva(
+  "flex min-h-[36px] min-w-[70px] items-center justify-center whitespace-nowrap rounded-[40px] p-2.5 font-inter text-base/4 md:text-lg/[18px]",
+  {
+    variants: {
+      type: {
+        default: "bg-primary",
+        outline: "border border-black",
+        secondary: "bg-secondary",
+      },
+      block: { true: "w-full" },
+    },
+    defaultVariants: {
+      type: "default",
+      block: false,
+    },
+  },
+);
 
 export const Badge = ({
   children,
-  type,
+  type = "default",
   block = false,
-  rounded = false,
   className,
-  style,
-}: BadgeProps) => {
-  const brandedStyles = useMemo(() => {
-    switch (type) {
-      case "secondary":
-        // border: 1px solid $c-secondary;
-        // background-color: $c-secondary;
-        // color: $c-black);
-        return ""; // TODO
-      case "tertiary":
-        // border: 1px solid var(--theme-foreground-color);
-        // background-color: transparent;
-        // color:var(--theme-foreground-color);
-        // border: 1px solid var(--theme-foreground-color);
-        return ""; // TODO
-      default:
-        return "";
-    }
-  }, [type]);
-
-  const roundedStyles = useMemo(() => {
-    return rounded ? "px-2 py-2.5 rounded-bl-3xl" : "py-1.5 px-2.5";
-  }, [rounded]);
-
+}: React.HTMLAttributes<HTMLDivElement> & VariantProps<typeof variants>) => {
   return (
-    <div
-      className={
-        // TODO: border radius was set to 40, 5 * border radius var (8px)
-        // TODO: font size 16 with 1em height
-        `${brandedStyles} ${roundedStyles} flex min-h-[50px] w-min min-w-[70px] items-center whitespace-nowrap rounded-lg text-center text-base md:text-lg ${block && "w-full"} ${className}`
-      }
-    >
-      {children}
-    </div>
+    <div className={cn(variants({ type, block, className }))}>{children}</div>
   );
 };

@@ -59,17 +59,15 @@ const MobileNavigationLinks = () => (
 );
 
 const Badges = () => (
-  <>
-    <Badge rounded type="tertiary">
+  <div className="flex gap-x3">
+    <Badge type="outline">
       <CeloLogoIcon />
       &nbsp;CELO Mainnet
     </Badge>
-    <Spacer className="h-x3 md:hidden" />
-    <Spacer axis="vertical" className="hidden w-x3 md:block" />
-    <Badge rounded type="secondary">
+    <Badge type="secondary">
       MENTO {(1_000_000_000).toLocaleString()} Supply
     </Badge>
-  </>
+  </div>
 );
 
 const DesktopTagline = () => (
@@ -78,11 +76,7 @@ const DesktopTagline = () => (
 
 const MentoIconWithLogo = () => (
   <div className="font-size-x6 sm:font-size-x11 flex flex-row place-items-center justify-start gap-x3">
-    <MentoIcon
-      className="w-[35px] md:w-[62px]"
-      shouldChangeWithTheme={false}
-      backgroundColor="#A5E5F7"
-    />
+    <MentoIcon className="w-[35px] md:w-[62px]" backgroundColor="#A5E5F7" />
     <span className="pt-[9px] text-[32px] font-medium md:pt-[18px] md:text-[56px]">
       Mento
     </span>

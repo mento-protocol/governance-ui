@@ -19,6 +19,23 @@ This is the UI repo for Mento Governance.
 <!-- - [npm](https://nodejs.org/en) >= 10.2.4 -->
 - [pnpm](https://pnpm.io/) >= 8.15.0
 
+## VS Code recommendations
+
+It's recommended to install:
+
+- prettier
+- Tailwind CSS Intellisense
+- Eslint
+
+For the Tailwind intellisense, please add the following to your `settings.json`
+
+```json
+"tailwindCSS.experimental.classRegex": [
+    ["cva\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]"],
+    ["cx\\(([^)]*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)"]
+]
+```
+
 ## Installation
 
 ```bash

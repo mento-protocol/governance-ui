@@ -2,7 +2,6 @@
 import { useEffect, useRef, useState } from "react";
 import classNames from "classnames";
 import useOutsideAlerter from "@/lib/hooks/useOutsideAlerter";
-import { ButtonType } from "@/lib/types";
 import BaseComponentProps from "@/interfaces/base-component-props.interface";
 import { Button } from "@/components/_shared";
 import { ChevronIcon } from "@/components/_icons";
@@ -13,7 +12,7 @@ import {
 import styles from "./dropdown-button.module.scss";
 
 interface DropdownButtonProps extends BaseComponentProps {
-  theme?: ButtonType;
+  theme?: string;
   title?: string;
   block?: boolean;
   avatar?: JSX.Element;

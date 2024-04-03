@@ -11,17 +11,6 @@ export type BadgeType =
   | "success"
   | "info";
 
-export type ButtonType =
-  | "primary"
-  | "secondary"
-  | "tertiary"
-  | "danger"
-  | "warning"
-  | "success"
-  | "info"
-  | "link"
-  | "clear";
-
 export type MentoChainContracts = {
   [K in keyof ContractAddresses]: ChainContract;
 };

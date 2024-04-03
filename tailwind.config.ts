@@ -107,6 +107,7 @@ const config: Config = {
         },
         white: "#FFFFFF",
         gray: {
+          lighter: "#CCCFDE",
           light: "#B3B3B3",
           DEFAULT: "#808080",
           regular: "#808080",

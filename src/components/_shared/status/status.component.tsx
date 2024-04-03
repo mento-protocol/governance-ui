@@ -1,15 +1,13 @@
-import { BadgeType } from "@/lib/types";
 import { VariantProps, cva } from "class-variance-authority";
 import { cn } from "@/styles/helpers";
 
 interface StatusProps {
   text: string;
-  type: BadgeType;
   className?: string;
 }
 
 const variants = cva(
-  "border border-solid color-black flex h-[22px] w-min min-w-full items-center justify-center whitespace-nowrap rounded-lg pt-[6px] text-center font-fg text-[16px]/[1] font-medium py-[6.5px] uppercase not-italic",
+  "color-black flex h-[22px] w-min min-w-full items-center justify-center whitespace-nowrap rounded-lg border border-solid py-[6.5px] pt-[6px] text-center font-fg text-[16px]/[1] font-medium uppercase not-italic",
   {
     variants: {
       type: {

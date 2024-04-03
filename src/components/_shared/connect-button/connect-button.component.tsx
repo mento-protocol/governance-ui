@@ -9,7 +9,6 @@ import { Avatar, Button, DropdownButton } from "@/components/_shared";
 import { ChevronIcon } from "@/components/_icons";
 import BaseComponentProps from "@/interfaces/base-component-props.interface";
 import WalletHelper from "@/lib/helpers/wallet.helper";
-import { ButtonType } from "@/lib/types";
 import styles from "./connect-button.module.scss";
 import useTokens from "@/lib/contracts/useTokens";
 import { useAccount } from "wagmi";
@@ -74,7 +73,7 @@ export const ConnectedDropdown = ({
 };
 
 interface ConnectButtonProps extends BaseComponentProps {
-  theme?: ButtonType;
+  theme?: string;
   block?: boolean;
 }
 

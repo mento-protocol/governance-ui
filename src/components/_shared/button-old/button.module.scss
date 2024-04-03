@@ -57,40 +57,7 @@
 }
 
 .wrapper {
-  height: 56px;
-  width: 100%;
-  border-radius: $border-radius;
-  background-color: transparent;
-  border-bottom: 1px solid $c-black;
-  font-family: Inter, sans-serif;
-
   .button {
-    min-width: inherit;
-    width: 100%;
-    height: 56px;
-    border-radius: $border-radius;
-    border: 1px solid var(--theme-foreground-color);
-    color: var(--theme-foreground-color);
-
-    .inner {
-      padding: 2 * $theme-unit 4 * $theme-unit;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 1ch;
-      white-space: nowrap;
-      font-size: 15px;
-      font-weight: 500;
-      line-height: 20px;
-      letter-spacing: 0em;
-
-      * {
-        white-space: nowrap;
-      }
-    }
-
-    transition: margin-top 0.2s ease-out;
-
     &:hover {
       transition: margin-top 0.2s cubic-bezier(0.19, 0.69, 0.84, 1.76);
       color: var(--theme-foreground-color);
@@ -143,8 +110,6 @@
   }
 
   &.link {
-    border-bottom: 1px solid transparent;
-
     .button {
       transition: color 0.2s ease-out;
       border: none;

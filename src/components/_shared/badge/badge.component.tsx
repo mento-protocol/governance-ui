@@ -11,11 +11,11 @@ const variants = cva(
         outline: "border border-black dark:border-white",
         secondary: "bg-secondary dark:text-black",
       },
-      block: { true: "w-full" },
+      fullwidth: { true: "w-full" },
     },
     defaultVariants: {
       type: "default",
-      block: false,
+      fullwidth: false,
     },
   },
 );
@@ -23,10 +23,12 @@ const variants = cva(
 export const Badge = ({
   children,
   type = "default",
-  block = false,
+  fullwidth = false,
   className,
 }: React.HTMLAttributes<HTMLDivElement> & VariantProps<typeof variants>) => {
   return (
-    <div className={cn(variants({ type, block, className }))}>{children}</div>
+    <div className={cn(variants({ type, fullwidth, className }))}>
+      {children}
+    </div>
   );
 };

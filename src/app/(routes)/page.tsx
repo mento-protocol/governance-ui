@@ -16,6 +16,7 @@ import {
 import { ProposalsListComponent } from "@/components/proposals-list/proposals-list.component";
 import { ContractParams } from "@/components/contract-params/contract-params.component";
 import ProposalSummaryComponent from "@/components/proposal-summary/proposal-summary.component";
+import { useTheme } from "next-themes";
 
 const Page = () => {
   const { address } = useAccount();
@@ -103,18 +104,23 @@ const DesktopNavigationButtons = ({
   </div>
 );
 
-const Title = () => (
-  <h1 className="text-center text-[32px] font-bold leading-[32px] md:text-[56px] md:leading-[56px]">
-    MENTO
-    <br className="md:hidden" />
-    <span
-      style={{ WebkitTextStroke: "1.2px black" }}
-      className="text-transparent"
-    >
-      GOVERNANCE
-    </span>
-  </h1>
-);
+const Title = () => {
+  const { resolvedTheme: theme } = useTheme();
+  return (
+    <h1 className="text-center text-[32px] font-bold leading-[32px] md:flex md:gap-1 md:text-[56px] md:leading-[56px]">
+      MENTO
+      <br className="md:hidden" />
+      <span
+        style={{
+          WebkitTextStroke: `1.2px ${theme === "light" ? "black" : "white"}`,
+          color: "transparent",
+        }}
+      >
+        GOVERNANCE
+      </span>
+    </h1>
+  );
+};
 
 const Subtitle = () => (
   <h2 className="mt-x3 max-w-[300px] text-center text-[22px] font-medium leading-[22px] md:mt-x6 md:max-w-[17em] md:text-[32px]  md:leading-[32px]">

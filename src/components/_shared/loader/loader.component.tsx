@@ -5,11 +5,12 @@ import { IMentoIcon } from "@/components/_icons/mento.icon";
 
 interface ILoader extends IMentoIcon {
   isCenter?: boolean;
+  className?: string;
 }
 
-export const Loader = ({ isCenter, backgroundColor }: ILoader) => {
+export const Loader = ({ className, isCenter, backgroundColor }: ILoader) => {
   return (
-    <div className={classNames(isCenter && "flex justify-center")}>
+    <div className={classNames(className, isCenter && "flex justify-center")}>
       <div className={styles.container}>
         <div className={styles.icon}>
           <MentoIcon backgroundColor={backgroundColor} />

@@ -8,8 +8,8 @@ const variants = cva(
     variants: {
       type: {
         default: "bg-primary",
-        outline: "border border-black",
-        secondary: "bg-secondary",
+        outline: "border border-black dark:border-white",
+        secondary: "bg-secondary dark:text-black",
       },
       block: { true: "w-full" },
     },

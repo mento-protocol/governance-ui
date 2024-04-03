@@ -16,6 +16,9 @@ import {
 import { ProposalsListComponent } from "@/components/proposals-list/proposals-list.component";
 import { ContractParams } from "@/components/contract-params/contract-params.component";
 import ProposalSummaryComponent from "@/components/proposal-summary/proposal-summary.component";
+import useTokens from "@/lib/contracts/useTokens";
+import NumbersService from "@/lib/helpers/numbers.service";
+import { formatUnits } from "viem";
 
 const Page = () => {
   const { address } = useAccount();
@@ -39,10 +42,8 @@ const Page = () => {
         <Divider />
         <ContractParams />
       </Card>
-      <Suspense fallback={<Loader isCenter />}>
+      <Suspense fallback={<Loader className="mt-7" isCenter />}>
         <ProposalSummaryComponent />
-      </Suspense>
-      <Suspense fallback={<Loader isCenter />}>
         <ProposalsListComponent />
       </Suspense>
     </main>
@@ -57,17 +58,24 @@ const MobileNavigationLinks = () => (
   </>
 );
 
-const Badges = () => (
-  <div className="flex gap-x3">
-    <Badge type="outline">
-      <CeloLogoIcon />
-      &nbsp;CELO Mainnet
-    </Badge>
-    <Badge type="secondary">
-      MENTO {(1_000_000_000).toLocaleString()} Supply
-    </Badge>
-  </div>
-);
+const Badges = () => {
+  const {
+    mentoContractData: { totalSupply, decimals },
+  } = useTokens();
+  return (
+    <div className="flex gap-x3">
+      <Badge type="outline">
+        <CeloLogoIcon />
+        &nbsp;CELO Mainnet
+      </Badge>
+      <Badge type="secondary">
+        MENTO{" "}
+        {NumbersService.parseNumericValue(formatUnits(totalSupply, decimals))}{" "}
+        Supply
+      </Badge>
+    </div>
+  );
+};
 
 const DesktopTagline = () => (
   <p className="mb-[20px] md:mb-[30px]">Transparent Digital Asset Solutions</p>

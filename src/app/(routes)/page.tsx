@@ -20,17 +20,17 @@ import ProposalSummaryComponent from "@/components/proposal-summary/proposal-sum
 const Page = () => {
   const { address } = useAccount();
   return (
-    <main className="flex flex-col place-items-center mt-x11 font-fg">
+    <main className="mt-x11 flex flex-col place-items-center font-fg">
       <Title />
       <Subtitle />
       <Card className="mt-[10px] md:mt-[55px]" block>
-        <Card.Header className="!pb-0 flex flex-row justify-between items-center">
+        <Card.Header className="flex flex-row items-center justify-between !pb-0">
           <MentoIconWithLogo />
           <DesktopNavigationButtons disabled={!address} />
         </Card.Header>
         <div className="my-[20px] md:my-[30px]">
           <DesktopTagline />
-          <div className="flex items-start flex-col md:flex-row flex-wrap md:items-stretch">
+          <div className="flex flex-col flex-wrap items-start md:flex-row md:items-stretch">
             <MobileNavigationLinks />
             <Spacer className="h-x4 md:hidden" />
             <Badges />
@@ -51,7 +51,7 @@ const Page = () => {
 
 const MobileNavigationLinks = () => (
   <>
-    <Link className="md:hidden text-primary underline" href="/my-voting-power">
+    <Link className="text-primary underline md:hidden" href="/my-voting-power">
       My voting power
     </Link>
   </>
@@ -64,7 +64,7 @@ const Badges = () => (
       &nbsp;CELO Mainnet
     </Badge>
     <Spacer className="h-x3 md:hidden" />
-    <Spacer axis="vertical" className="w-x3 hidden md:block" />
+    <Spacer axis="vertical" className="hidden w-x3 md:block" />
     <Badge rounded type="secondary">
       MENTO {(1_000_000_000).toLocaleString()} Supply
     </Badge>
@@ -76,13 +76,13 @@ const DesktopTagline = () => (
 );
 
 const MentoIconWithLogo = () => (
-  <div className="flex flex-row justify-start place-items-center gap-x3 font-size-x6 sm:font-size-x11">
+  <div className="font-size-x6 sm:font-size-x11 flex flex-row place-items-center justify-start gap-x3">
     <MentoIcon
       className="w-[35px] md:w-[62px]"
       shouldChangeWithTheme={false}
       backgroundColor="#A5E5F7"
     />
-    <span className="font-medium text-[32px] md:text-[56px] pt-[9px] md:pt-[18px]">
+    <span className="pt-[9px] text-[32px] font-medium md:pt-[18px] md:text-[56px]">
       Mento
     </span>
   </div>
@@ -104,7 +104,7 @@ const DesktopNavigationButtons = ({
 );
 
 const Title = () => (
-  <h1 className="text-[32px] leading-[32px] text-center md:text-[56px] md:leading-[56px] font-bold">
+  <h1 className="text-center text-[32px] font-bold leading-[32px] md:text-[56px] md:leading-[56px]">
     MENTO
     <br className="md:hidden" />
     <span className="header_text text-transparent md:pl-3">GOVERNANCE</span>
@@ -112,7 +112,7 @@ const Title = () => (
 );
 
 const Subtitle = () => (
-  <h2 className="text-[22px] leading-[22px] md:text-[32px] md:leading-[32px] mt-x3 md:mt-x6 font-medium text-center max-w-[300px]  md:max-w-[17em]">
+  <h2 className="mt-x3 max-w-[300px] text-center text-[22px] font-medium leading-[22px] md:mt-x6 md:max-w-[17em] md:text-[32px]  md:leading-[32px]">
     Participate in the governance process of Mento stablecoin platform
   </h2>
 );

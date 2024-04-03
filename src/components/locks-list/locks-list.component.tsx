@@ -5,11 +5,11 @@ import { Address, formatUnits } from "viem";
 import { useAccount } from "wagmi";
 import styles from "./locks-list.module.scss";
 import useRelockMento from "@/lib/contracts/locking/useRelockMento";
+import { Lock } from "@/lib/graphql/subgraph/generated/subgraph";
 import useLocksByAccount from "@/lib/contracts/locking/useLocksByAccount";
+import { Button, DropdownButton } from "@/components/_shared";
 import useLock from "@/lib/contracts/locking/useLock";
 import useModal from "@/lib/providers/modal.provider";
-import { Button, DropdownButton } from "@/components/_shared";
-import { Lock } from "@/lib/graphql/subgraph/generated/subgraph";
 
 interface ILocksList {
   account: Address;
@@ -45,7 +45,6 @@ export const LocksList = ({ account }: ILocksList) => {
 
 const LockEntry = ({
   lock,
-  account,
   onExtend,
 }: {
   lock: Lock;
@@ -76,7 +75,7 @@ const LockEntry = ({
     return endDate.toLocaleDateString();
   }, [lock]);
 
-  const reLock = useCallback(async () => {
+  const relock = useCallback(async () => {
     const res = await showConfirm(
       `Are you sure you want to extend lock ${lock.lockId}?`,
     );
@@ -111,12 +110,12 @@ const LockEntry = ({
       <div>
         <DropdownButton className="md:hidden" theme="clear">
           <DropdownButton.Dropdown>
-            <DropdownButton.Element onClick={reLock}>
+            <DropdownButton.Element onClick={relock}>
               Extend lock
             </DropdownButton.Element>
           </DropdownButton.Dropdown>
         </DropdownButton>
-        <Button className="md:static" block theme="clear" onClick={reLock}>
+        <Button className="md:static" block theme="clear" onClick={relock}>
           Extend lock
         </Button>
       </div>

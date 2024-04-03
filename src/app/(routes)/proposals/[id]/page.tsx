@@ -11,6 +11,7 @@ import Participants from "./_components/participants.component";
 import Vote from "./_components/vote.component";
 import {
   Avatar,
+  Loader,
   ExecutionCodeView,
   Loader,
   MarkdownView,

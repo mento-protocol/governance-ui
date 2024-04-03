@@ -2,7 +2,6 @@
 import { useEffect, useRef, useState } from "react";
 import classNames from "classnames";
 import useOutsideAlerter from "@/lib/hooks/useOutsideAlerter";
-import BaseComponentProps from "@/interfaces/base-component-props.interface";
 import { Button } from "@/components/_shared";
 import { ChevronIcon } from "@/components/_icons";
 import {
@@ -10,11 +9,10 @@ import {
   DropdownElement,
 } from "@/components/_shared/dropdown-button/dropdown-button.addons";
 import styles from "./dropdown-button.module.scss";
+import { ButtonProps } from "@/components/_shared/button/button.component";
 
-interface DropdownButtonProps extends BaseComponentProps {
-  theme?: string;
+interface DropdownButtonProps extends ButtonProps {
   title?: string;
-  block?: boolean;
   avatar?: JSX.Element;
 }
 
@@ -24,7 +22,7 @@ export const DropdownButton = ({
   children,
   style,
   title,
-  block,
+  fullwidth,
   avatar,
 }: DropdownButtonProps) => {
   const [dropdownPositionHorizontal, setDropdownPositionHorizontal] = useState(
@@ -75,15 +73,15 @@ export const DropdownButton = ({
       ref={dropdownRef}
       className={classNames(
         styles.wrapper,
-        styles[theme],
-        block && styles.block,
+        styles[`${theme}`],
+        fullwidth && styles.block,
         dropdownOpened && styles.opened,
         className,
       )}
       style={style}
     >
       <Button
-        block={block}
+        fullwidth={fullwidth}
         theme={theme}
         className={styles.button}
         onClick={() => setDropdownOpened(!dropdownOpened)}
@@ -105,7 +103,7 @@ export const DropdownButton = ({
         }}
         className={classNames(
           styles.dropdown_wrapper,
-          styles[theme],
+          styles[`${theme}`],
           styles[dropdownPositionHorizontal],
         )}
       >

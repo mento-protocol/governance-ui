@@ -12,9 +12,10 @@ import WalletHelper from "@/lib/helpers/wallet.helper";
 import styles from "./connect-button.module.scss";
 import useTokens from "@/lib/contracts/useTokens";
 import { useAccount } from "wagmi";
+import { ButtonProps } from "@/components/_shared/button/button.component";
 
 interface ConnectedDropdownProps extends BaseComponentProps {
-  block?: boolean;
+  fullwidth?: boolean;
   account: {
     address: string;
     displayBalance?: string;
@@ -23,7 +24,7 @@ interface ConnectedDropdownProps extends BaseComponentProps {
 }
 
 export const ConnectedDropdown = ({
-  block,
+  fullwidth,
   account,
 }: ConnectedDropdownProps) => {
   const { openChainModal } = useChainModal();
@@ -35,7 +36,7 @@ export const ConnectedDropdown = ({
   return (
     <DropdownButton
       theme={"clear"}
-      block={block}
+      fullwidth={fullwidth}
       title={WalletHelper.getShortAddress(account.address)}
       avatar={<Avatar address={account.address || ""} />}
     >
@@ -72,16 +73,13 @@ export const ConnectedDropdown = ({
   );
 };
 
-interface ConnectButtonProps extends BaseComponentProps {
-  theme?: string;
-  block?: boolean;
-}
+type ConnectButtonProps = ButtonProps;
 
 export const ConnectButton = ({
   className,
   style,
   theme,
-  block,
+  fullwidth,
 }: ConnectButtonProps) => {
   return (
     <RainbowConnectButton.Custom>
@@ -94,7 +92,7 @@ export const ConnectButton = ({
             <div
               className={classNames(
                 className,
-                block ? "" : "flex w-auto justify-center",
+                fullwidth ? "" : "flex w-auto justify-center",
               )}
               style={style}
             >
@@ -108,7 +106,7 @@ export const ConnectButton = ({
               ) : (
                 <ConnectedDropdown
                   account={account}
-                  block={block}
+                  fullwidth={!!fullwidth}
                   chain={chain}
                 />
               )}

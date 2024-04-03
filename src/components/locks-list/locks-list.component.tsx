@@ -120,7 +120,7 @@ const LockEntry = ({
             </DropdownButton.Element>
           </DropdownButton.Dropdown>
         </DropdownButton>
-        <Button className="md:static" block theme="clear" onClick={reLock}>
+        <Button className="md:static" fullwidth theme="clear" onClick={reLock}>
           Extend lock
         </Button>
       </div>

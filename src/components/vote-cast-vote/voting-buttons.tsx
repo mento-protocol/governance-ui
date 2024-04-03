@@ -8,13 +8,17 @@ const VotingButtons = ({
 }) => {
   return (
     <div className="flex flex-col gap-x3">
-      <Button theme="success" block onClick={() => onSubmit(VOTE_TYPES.For)}>
+      <Button
+        theme="success"
+        fullwidth
+        onClick={() => onSubmit(VOTE_TYPES.For)}
+      >
         For
       </Button>
       <Button
         type="submit"
         theme="danger"
-        block
+        fullwidth
         onClick={() => onSubmit(VOTE_TYPES.Against)}
       >
         Against
@@ -22,7 +26,7 @@ const VotingButtons = ({
       <Button
         type="submit"
         theme="tertiary"
-        block
+        fullwidth
         onClick={() => onSubmit(VOTE_TYPES.Abstain)}
       >
         Abstain

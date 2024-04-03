@@ -7,7 +7,7 @@ const DisconnectedState = () => {
       <div className="flex flex-col gap-[25px] ">
         <VotingCardTitle />
         <span>Please connect your wallet to vote</span>
-        <ConnectButton block theme="primary" />
+        <ConnectButton fullwidth theme="primary" />
       </div>
     </Card>
   );

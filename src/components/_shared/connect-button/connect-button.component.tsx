@@ -5,14 +5,14 @@ import {
   useChainModal,
 } from "@rainbow-me/rainbowkit";
 import { Avatar, Button, DropdownButton } from "@/components/_shared";
-import { ChevronIcon } from "@/components/_icons";
+import { ChevronIcon, MentoIcon } from "@/components/_icons";
 import BaseComponentProps from "@/interfaces/base-component-props.interface";
 import WalletHelper from "@/lib/helpers/wallet.helper";
-import styles from "./connect-button.module.scss";
 import useTokens from "@/lib/contracts/useTokens";
 import { useAccount } from "wagmi";
 import { ButtonProps } from "@/components/_shared/button/button.component";
 import { cn } from "@/styles/helpers";
+import NumbersService from "@/lib/helpers/numbers.service";
 
 interface ConnectedDropdownProps extends BaseComponentProps {
   fullwidth?: boolean;
@@ -40,24 +40,36 @@ export const ConnectedDropdown = ({
       title={WalletHelper.getShortAddress(account.address)}
       avatar={<Avatar address={account.address || ""} />}
     >
-      <DropdownButton.Dropdown>
+      <DropdownButton.Dropdown className="border border-solid border-black bg-white text-black dark:border-white dark:bg-black dark:text-white">
         {isConnected ? (
           // TODO: fix colors
-          <div className={styles.wallet_addons}>
-            <div className={styles.addon}>
-              <div className="flex flex-row items-center justify-center p-x1 font-semibold">
-                {mentoBalance.symbol}
+          <div className="flex w-full flex-col items-center border-b border-solid border-black dark:border-white">
+            <div className="flex w-full flex-row justify-between px-x1 py-x2">
+              <div className="flex flex-row items-center p-x1 font-semibold">
+                <MentoIcon
+                  className="mr-x1"
+                  height={32}
+                  width={32}
+                  backgroundColor={"cyan"}
+                />
+                <span>{mentoBalance.symbol}</span>
               </div>
               <div className="flex flex-row items-center justify-center p-x1 font-semibold">
-                {mentoBalance.formatted}
+                {NumbersService.parseNumericValue(mentoBalance.formatted, 1)}
               </div>
             </div>
-            <div className={styles.addon}>
-              <div className="flex flex-row items-center justify-center p-x1 font-semibold">
-                {veMentoBalance.symbol}
+            <div className="flex w-full flex-row justify-between px-x1 py-x2">
+              <div className="flex flex-shrink flex-grow flex-row items-center p-x1 font-semibold">
+                <MentoIcon
+                  className="mr-x1"
+                  height={32}
+                  width={32}
+                  backgroundColor={"blush"}
+                />
+                <span>{veMentoBalance.symbol}</span>
               </div>
               <div className="flex flex-row items-center justify-center p-x1 font-semibold">
-                {veMentoBalance.formatted}
+                {NumbersService.parseNumericValue(veMentoBalance.formatted, 1)}
               </div>
             </div>
           </div>

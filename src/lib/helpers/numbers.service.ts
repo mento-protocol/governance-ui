@@ -1,3 +1,5 @@
+import { formatUnits } from "viem";
+
 export const TRILLION = 1000000000000000;
 export const BILLION = 1000000000;
 export const MILLION = 1000000;
@@ -38,3 +40,9 @@ export default abstract class NumbersService {
     return (+value).toFixed(0);
   }
 }
+
+export const formatUnitsWithRadix = (
+  value: bigint,
+  decimals: number,
+  radix: number,
+) => parseFloat(formatUnits(value, decimals)).toFixed(radix);

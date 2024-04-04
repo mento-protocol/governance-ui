@@ -3,19 +3,22 @@ import React, { Suspense } from "react";
 import classNames from "classnames";
 import Link from "next/link";
 import CopyToClipboard from "react-copy-to-clipboard";
-import { formatUnits } from "viem";
-import { useAccount, useReadContracts } from "wagmi";
+import { useAccount } from "wagmi";
 
 import { Card, Expandable, Loader } from "@/components/_shared";
 import { CopyIcon } from "@/components/_icons/copy.icon";
-import { TimelockControllerABI } from "@/lib/abi/TimelockController";
-import { GovernorABI } from "@/lib/abi/Governor";
 import { Celo } from "@/config/chains";
 import { useContracts } from "@/lib/contracts/useContracts";
+import useGovernanceDetails from "@/lib/contracts/governor/useGovernanceDetails";
 
 export const ContractParams = () => {
   const governanceDetails = useGovernanceDetails();
-  const governorContractAddresses = useContracts();
+  const {
+    MentoToken: { address: mentoAddress },
+    TimelockController: { address: timelockAddress },
+    MentoGovernor: { address: governorAddress },
+    Locking: { address: lockingAddress },
+  } = useContracts();
 
   return (
     <Expandable
@@ -66,43 +69,33 @@ export const ContractParams = () => {
               <ParamDisplay
                 label="Governor"
                 value={
-                  governorContractAddresses.MentoGovernor.address ? (
-                    <ContractAddressLinkWithCopy
-                      address={governorContractAddresses.MentoGovernor.address}
-                    />
-                  ) : null
+                  governorAddress && (
+                    <ContractAddressLinkWithCopy address={governorAddress} />
+                  )
                 }
               />
               <ParamDisplay
                 label="MENTO"
                 value={
-                  governorContractAddresses.MentoToken.address ? (
-                    <ContractAddressLinkWithCopy
-                      address={governorContractAddresses.MentoToken.address}
-                    />
-                  ) : null
+                  mentoAddress && (
+                    <ContractAddressLinkWithCopy address={mentoAddress} />
+                  )
                 }
               />
               <ParamDisplay
                 label="Timelock"
                 value={
-                  governorContractAddresses.TimelockController.address ? (
-                    <ContractAddressLinkWithCopy
-                      address={
-                        governorContractAddresses.TimelockController.address
-                      }
-                    />
-                  ) : null
+                  timelockAddress && (
+                    <ContractAddressLinkWithCopy address={timelockAddress} />
+                  )
                 }
               />
               <ParamDisplay
                 label="veMENTO"
                 value={
-                  governorContractAddresses.Locking.address ? (
-                    <ContractAddressLinkWithCopy
-                      address={governorContractAddresses.Locking.address}
-                    />
-                  ) : null
+                  lockingAddress && (
+                    <ContractAddressLinkWithCopy address={lockingAddress} />
+                  )
                 }
               />
             </div>
@@ -181,103 +174,6 @@ const ContractAddressLinkWithCopy = ({
     </div>
   );
 };
-
-function useGovernanceDetails() {
-  const governanceContractAddresses = useContracts();
-
-  const governorContact = {
-    address: governanceContractAddresses.MentoGovernor.address,
-    abi: GovernorABI,
-  } as const;
-
-  const timeLockContract = {
-    address: governanceContractAddresses.TimelockController.address,
-    abi: TimelockControllerABI,
-  } as const;
-
-  const result = useReadContracts({
-    contracts: [
-      {
-        ...governorContact,
-        functionName: "votingPeriod",
-      },
-      {
-        ...governorContact,
-        functionName: "proposalThreshold",
-      },
-      {
-        ...governorContact,
-        functionName: "quorumVotes",
-      },
-      {
-        ...timeLockContract,
-        functionName: "getMinDelay",
-      },
-    ],
-  });
-
-  if (!result.data) {
-    return null;
-  }
-
-  const [
-    votingPeriodData,
-    proposalThresholdData,
-    quorumNeededData,
-    timeLockDurationData,
-  ] = result.data;
-
-  const votingPeriod = formatParam(votingPeriodData, (value) => {
-    const votingPeriodInSeconds = convertCeloBlocksToSeconds(value);
-    return `${convertSecondsToDays(votingPeriodInSeconds)} days`;
-  });
-
-  const timelock = formatParam(timeLockDurationData, (value) => {
-    return `${convertSecondsToDays(value)} days`;
-  });
-
-  const proposalThreshold = formatParam(proposalThresholdData, (value) => {
-    return formatUnits(BigInt(value), 18);
-  });
-
-  const quorumNeeded = formatParam(quorumNeededData, (value) => {
-    return Math.round(Number(formatUnits(BigInt(value), 18))).toString();
-  });
-
-  return {
-    votingPeriod,
-    timelock,
-    proposalThreshold,
-    quorumNeeded,
-  };
-}
-
-function convertCeloBlocksToSeconds(
-  numBlocks: string | bigint | number,
-): number {
-  // Based on the 120960 blocks per week calulation used in governance contracts
-  const CELO_SECONDS_PER_BLOCK = 5;
-  return Number(numBlocks) * CELO_SECONDS_PER_BLOCK;
-}
-
-function convertSecondsToDays(
-  durationInSeconds: string | bigint | number,
-): number {
-  const secondsPerDay = 24 * 60 * 60;
-  const days = Number(durationInSeconds) / secondsPerDay;
-  return Math.floor(days);
-}
-
-function formatParam(
-  data: any,
-  formatter: (value: string | number | bigint) => string,
-) {
-  if (data.result !== undefined) {
-    return formatter(data.result);
-  }
-
-  return null;
-}
 
 const AddressComponent = ({ address }: { address: string }) => {
   // Assuming the requirement is to always show the last 4 characters of the address

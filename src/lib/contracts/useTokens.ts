@@ -1,8 +1,9 @@
 import { useAccount, useBlockNumber, useReadContracts } from "wagmi";
 import { useContracts } from "@/lib/contracts/useContracts";
 import { useEffect, useMemo } from "react";
-import { erc20Abi, formatUnits } from "viem";
+import { erc20Abi } from "viem";
 import { useQueryClient } from "@tanstack/react-query";
+import { formatUnitsWithRadix } from "@/lib/helpers/numbers.service";
 
 export type TokenBalance = {
   decimals: number;
@@ -155,13 +156,21 @@ export const useTokens = () => {
           decimals: mentoContractData.decimals,
           symbol: mentoContractData.symbol,
           value: mentoData,
-          formatted: formatUnits(mentoData, mentoContractData.decimals),
+          formatted: formatUnitsWithRadix(
+            mentoData,
+            mentoContractData.decimals,
+            2,
+          ),
         },
         veMentoBalance: {
           decimals: veMentoContractData.decimals,
           symbol: veMentoContractData.symbol,
           value: veMentoData,
-          formatted: formatUnits(veMentoData, veMentoContractData.decimals),
+          formatted: formatUnitsWithRadix(
+            veMentoData,
+            veMentoContractData.decimals,
+            2,
+          ),
         },
       };
     } else {
@@ -195,8 +204,10 @@ export const useTokens = () => {
   }, [blockNumber, queryClient]);
 
   return {
-    veMentoBalance: veMentoBalance,
-    mentoBalance: mentoBalance,
+    veMentoBalance,
+    mentoBalance,
+    mentoContractData,
+    veMentoContractData,
   };
 };
 

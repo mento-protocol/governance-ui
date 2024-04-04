@@ -6,22 +6,21 @@ import { format } from "date-fns";
 import styles from "./page.module.scss";
 
 // Components
-
-import Participants from "./_components/participants.component";
-import Vote from "./_components/vote.component";
+import useProposal from "@/lib/contracts/governor/useProposal";
+import { stateToStatusColorMap } from "@/lib/interfaces/proposal.interface";
 import {
   Avatar,
-  ExecutionCodeView,
   Loader,
   MarkdownView,
   Status,
   WalletAddressWithCopy,
 } from "@/components/_shared";
-import { stateToStatusColorMap } from "@/lib/interfaces/proposal.interface";
-import { Countdown } from "@/components/countdown/countdown.component";
 import BlockExplorerLink from "@/components/_shared/block-explorer-link/block-explorer-link.component";
+import { Countdown } from "@/components/countdown/countdown.component";
 import { ProposalCurrentVotes } from "@/components/proposal-current-votes/proposal-current-votes.component";
-import useProposal from "@/lib/contracts/governor/useProposal";
+import Vote from "@/app/(routes)/proposals/[id]/_components/vote.component";
+import ExecutionCode from "@/app/(routes)/proposals/[id]/_components/execution-code.component";
+import Participants from "@/app/(routes)/proposals/[id]/_components/participants.component";
 
 const Page = ({ params }: { params: { id: string } }) => {
   // TODO: return loading states
@@ -127,7 +126,7 @@ const Page = ({ params }: { params: { id: string } }) => {
                 Description
               </h3>
               <MarkdownView markdown={proposal.metadata.description} />
-              {proposal.calls && <ExecutionCodeView code={proposal.calls} />}
+              {proposal.calls && <ExecutionCode calls={proposal.calls} />}
             </div>
             <div className="flex flex-col gap-x11 md:max-w-[350px]">
               <div className="hidden md:block">

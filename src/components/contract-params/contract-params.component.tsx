@@ -1,5 +1,5 @@
 "use client";
-import React, { ComponentProps, Suspense, useMemo } from "react";
+import React, { Suspense } from "react";
 import classNames from "classnames";
 import Link from "next/link";
 import CopyToClipboard from "react-copy-to-clipboard";
@@ -12,6 +12,7 @@ import { useContracts } from "@/lib/contracts/useContracts";
 import useGovernanceDetails from "@/lib/contracts/governor/useGovernanceDetails";
 import NumbersService from "@/lib/helpers/numbers.service";
 import { Address } from "viem";
+import { centerEllipsis } from "@/lib/helpers/string.service";
 
 export const ContractParams = () => {
   const governanceDetails = useGovernanceDetails();
@@ -39,7 +40,37 @@ export const ContractParams = () => {
               </div>
             </Card.Header>
             <div className="flex flex-grow flex-col justify-between gap-x3">
-              <ParamDisplay
+              <ParamsDisplay
+                items={[
+                  {
+                    label: "Proposal threshold",
+                    value: NumbersService.parseNumericValue(
+                      governanceDetails?.proposalThreshold
+                        ? governanceDetails.proposalThreshold
+                        : 0,
+                      2,
+                    ),
+                  },
+                  {
+                    label: "Quorum needed",
+                    value: NumbersService.parseNumericValue(
+                      governanceDetails?.quorumNeeded
+                        ? governanceDetails.quorumNeeded
+                        : 0,
+                      2,
+                    ),
+                  },
+                  {
+                    label: "Voting period",
+                    value: governanceDetails?.votingPeriod,
+                  },
+                  {
+                    label: "Timelock",
+                    value: governanceDetails?.timelock,
+                  },
+                ]}
+              />
+              {/* <ParamDisplay
                 label="Proposal threshold"
                 value={NumbersService.parseNumericValue(
                   governanceDetails?.proposalThreshold
@@ -47,8 +78,8 @@ export const ContractParams = () => {
                     : 0,
                   2,
                 )}
-              />
-              <ParamDisplay
+              /> */}
+              {/* <ParamDisplay
                 label="Quorum needed"
                 value={NumbersService.parseNumericValue(
                   governanceDetails?.quorumNeeded
@@ -56,16 +87,16 @@ export const ContractParams = () => {
                     : 0,
                   2,
                 )}
-              />
+              /> */}
 
-              <ParamDisplay
+              {/* <ParamDisplay
                 label="Voting period"
                 value={governanceDetails?.votingPeriod}
-              />
-              <ParamDisplay
+              /> */}
+              {/* <ParamDisplay
                 label="Timelock"
                 value={governanceDetails?.timelock}
-              />
+              /> */}
             </div>
           </Card>
           <Card
@@ -78,43 +109,91 @@ export const ContractParams = () => {
               </div>
             </Card.Header>
             <div className="flex flex-grow flex-col justify-between gap-[15px]">
-              <ParamDisplay
+              <ParamsDisplay
+                items={[
+                  {
+                    label: "Governor",
+                    value: governorAddress && (
+                      <ContractAddressLinkWithCopy address={governorAddress} />
+                    ),
+                  },
+                  {
+                    label: "MENTO",
+                    value: mentoAddress && (
+                      <ContractAddressLinkWithCopy address={mentoAddress} />
+                    ),
+                  },
+                  {
+                    label: "Timelock",
+                    value: timelockAddress && (
+                      <ContractAddressLinkWithCopy address={timelockAddress} />
+                    ),
+                  },
+                  {
+                    label: "veMENTO",
+                    value: lockingAddress && (
+                      <ContractAddressLinkWithCopy address={lockingAddress} />
+                    ),
+                  },
+                ]}
+              />
+              {/* <ParamDisplay
                 label="Governor"
                 value={
                   governorAddress && (
                     <ContractAddressLinkWithCopy address={governorAddress} />
                   )
                 }
-              />
-              <ParamDisplay
+              /> */}
+              {/* <ParamDisplay
                 label="MENTO"
                 value={
                   mentoAddress && (
                     <ContractAddressLinkWithCopy address={mentoAddress} />
                   )
                 }
-              />
-              <ParamDisplay
+              /> */}
+              {/* <ParamDisplay
                 label="Timelock"
                 value={
                   timelockAddress && (
                     <ContractAddressLinkWithCopy address={timelockAddress} />
                   )
                 }
-              />
-              <ParamDisplay
+              /> */}
+              {/* <ParamDisplay
                 label="veMENTO"
                 value={
                   lockingAddress && (
                     <ContractAddressLinkWithCopy address={lockingAddress} />
                   )
                 }
-              />
+              /> */}
             </div>
           </Card>
         </div>
       </Suspense>
     </Expandable>
+  );
+};
+
+const ParamsDisplay = ({
+  items,
+}: {
+  items: {
+    label: string;
+    value: React.ReactNode | undefined;
+  }[];
+}) => {
+  return (
+    <div
+      className="grid grid-cols-[max-content_1fr] justify-items-stretch gap-x-3 gap-y-2 md:flex-nowrap"
+      // className="flex w-full flex-wrap items-center justify-between gap-2 md:flex-nowrap"
+    >
+      {items.map((item, index) => (
+        <ParamDisplay key={index} label={item.label} value={item.value} />
+      ))}
+    </div>
   );
 };
 
@@ -126,22 +205,18 @@ const ParamDisplay = ({
   value: React.ReactNode | undefined;
 }) => {
   return (
-    <div
-      className={classNames(
-        "flex w-full flex-wrap items-center justify-between gap-2 md:flex-nowrap",
-      )}
-    >
+    <>
       <div className="text-[16px] leading-[19px] md:text-[22px] md:leading-[22px]">
         {label}
       </div>
       <div
         className={classNames(
-          "flex-grow text-right text-[16px] font-normal leading-[19px] md:text-[22px] md:leading-[22px]",
+          "text-right text-base/[19px] font-normal md:text-[22px]/[22px]",
         )}
       >
         {value ?? "-"}
       </div>
-    </div>
+    </>
   );
 };
 
@@ -166,40 +241,41 @@ const ContractAddressLinkWithCopy = ({
       target="_blank"
       rel="nooppener noreferrer"
       href={blockExplorerContractUrl}
-      className={`${className} relative inline-block pr-x5`}
+      className={`${className} relative block max-w-[42ch] pr-x6`}
     >
-      <AddressComponent address={address} />
+      <span>{centerEllipsis(address, 15)}</span>
       <CopyToClipboard text={address}>
         <CopyIcon
           height={20}
           width={20}
-          className="absolute right-0 top-[50%] translate-y-[-50%]"
+          className="absolute right-0 top-[calc(50%_-_4px)] block translate-y-[-50%]"
         />
       </CopyToClipboard>
     </Link>
   );
 };
 
-const AddressComponent = ({
-  address,
-  className,
-}: ComponentProps<"span"> & { address: Address }) => {
-  const { left, right } = useMemo(() => {
-    const splitIndex = 32; // Round(42 / 0.75)
-    return {
-      left: address.slice(0, splitIndex),
-      right: address.slice(-splitIndex),
-    };
-  }, [address]);
+// Parking this in place of explicit trimming
+// const AddressComponent = ({
+//   address,
+//   className,
+// }: ComponentProps<"span"> & { address: Address }) => {
+//   const { left, right } = useMemo(() => {
+//     const splitIndex = 21;
+//     return {
+//       left: address.slice(0, splitIndex),
+//       right: address.slice(-splitIndex),
+//     };
+//   }, [address]);
 
-  return (
-    <span className={`${className} inline-flex`}>
-      <span className="max-w-[21ch] flex-[0_1_auto] overflow-hidden text-ellipsis whitespace-pre">
-        {left}
-      </span>
-      <span className="max-w-[21ch] flex-[1_0_auto] overflow-hidden whitespace-pre">
-        {right}
-      </span>
-    </span>
-  );
-};
+//   return (
+//     <span className={`${className} flex`}>
+//       <span className="flex-[1_1_auto] overflow-hidden text-ellipsis whitespace-pre">
+//         {left}
+//       </span>
+//       <span className="flex-[1_1_auto] overflow-hidden whitespace-pre text-right [direction:rtl]">
+//         {right}
+//       </span>
+//     </span>
+//   );
+// };

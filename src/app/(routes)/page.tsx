@@ -19,11 +19,15 @@ import ProposalSummaryComponent from "@/components/proposal-summary/proposal-sum
 import useTokens from "@/lib/contracts/useTokens";
 import NumbersService from "@/lib/helpers/numbers.service";
 import { formatUnits } from "viem";
+import Head from "next/head";
 
 const Page = () => {
   const { address } = useAccount();
   return (
     <main className="mt-x11 flex flex-col place-items-center font-fg">
+      <Head>
+        <title>Mento Governance</title>
+      </Head>
       <Title />
       <Subtitle />
       <Card className="mt-[10px] md:mt-[55px]" block>
@@ -99,7 +103,7 @@ const DesktopNavigationButtons = ({
     <Button theme="clear" href="/create-proposal">
       Create new proposal
     </Button>
-    <Button theme="primary" href="/my-voting-power" disabled={disabled}>
+    <Button theme="clear" href="/my-voting-power" disabled={disabled}>
       My voting power
     </Button>
   </div>

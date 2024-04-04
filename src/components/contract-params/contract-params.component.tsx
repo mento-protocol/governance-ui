@@ -1,5 +1,5 @@
 "use client";
-import React, { Suspense } from "react";
+import React, { ComponentProps, Suspense, useMemo } from "react";
 import classNames from "classnames";
 import Link from "next/link";
 import CopyToClipboard from "react-copy-to-clipboard";
@@ -10,6 +10,8 @@ import { CopyIcon } from "@/components/_icons/copy.icon";
 import { Celo } from "@/config/chains";
 import { useContracts } from "@/lib/contracts/useContracts";
 import useGovernanceDetails from "@/lib/contracts/governor/useGovernanceDetails";
+import NumbersService from "@/lib/helpers/numbers.service";
+import { Address } from "viem";
 
 export const ContractParams = () => {
   const governanceDetails = useGovernanceDetails();
@@ -22,8 +24,8 @@ export const ContractParams = () => {
 
   return (
     <Expandable
-      header={"Governance Parameters"}
-      className="font-size-x4 font-medium"
+      title={"Governance Parameters"}
+      className="font-size-x4 items-start font-medium md:pt-x4"
     >
       <Suspense fallback={<Loader isCenter />}>
         <div className="grid grid-cols-1 gap-x2 md:grid-cols-7 md:pt-x4">
@@ -39,11 +41,21 @@ export const ContractParams = () => {
             <div className="flex flex-grow flex-col justify-between gap-x3">
               <ParamDisplay
                 label="Proposal threshold"
-                value={governanceDetails?.proposalThreshold}
+                value={NumbersService.parseNumericValue(
+                  governanceDetails?.proposalThreshold
+                    ? governanceDetails.proposalThreshold
+                    : 0,
+                  2,
+                )}
               />
               <ParamDisplay
                 label="Quorum needed"
-                value={governanceDetails?.quorumNeeded}
+                value={NumbersService.parseNumericValue(
+                  governanceDetails?.quorumNeeded
+                    ? governanceDetails.quorumNeeded
+                    : 0,
+                  2,
+                )}
               />
 
               <ParamDisplay
@@ -136,9 +148,8 @@ const ParamDisplay = ({
 const ContractAddressLinkWithCopy = ({
   address,
   className,
-  ...restProps
 }: {
-  address: string | undefined;
+  address: Address | undefined;
   className?: string;
 }) => {
   const { chain } = useAccount();
@@ -151,41 +162,44 @@ const ContractAddressLinkWithCopy = ({
   }
 
   return (
-    <div
-      {...restProps}
-      className={classNames(
-        className,
-        "flex h-[22px] w-full items-center justify-end gap-4",
-      )}
+    <Link
+      target="_blank"
+      rel="nooppener noreferrer"
+      href={blockExplorerContractUrl}
+      className={`${className} relative inline-block pr-x5`}
     >
-      <Link
-        target="_blank"
-        rel="nooppener noreferrer"
-        href={blockExplorerContractUrl}
-        className="gap-8 overflow-visible text-[16px] font-normal leading-[19px] text-primary md:text-[22px] md:leading-[22px]"
-      >
-        <AddressComponent address={address} />
-      </Link>
+      <AddressComponent address={address} />
       <CopyToClipboard text={address}>
-        <span className="mb-2 h-[29px] shrink-0">
-          <CopyIcon className="h-full" />
-        </span>
+        <CopyIcon
+          height={20}
+          width={20}
+          className="absolute right-0 top-[50%] translate-y-[-50%]"
+        />
       </CopyToClipboard>
-    </div>
+    </Link>
   );
 };
 
-const AddressComponent = ({ address }: { address: string }) => {
-  // Assuming the requirement is to always show the last 4 characters of the address
-  const start = address.toUpperCase().slice(0, -4);
-  const end = address.toUpperCase().slice(-4);
+const AddressComponent = ({
+  address,
+  className,
+}: ComponentProps<"span"> & { address: Address }) => {
+  const { left, right } = useMemo(() => {
+    const splitIndex = 32; // Round(42 / 0.75)
+    return {
+      left: address.slice(0, splitIndex),
+      right: address.slice(-splitIndex),
+    };
+  }, [address]);
 
   return (
-    <div className="flex max-w-[300px] shrink items-center justify-start md:max-w-[350px]  lg:max-w-[400px]">
-      <span className="m-0 shrink overflow-x-clip text-ellipsis whitespace-nowrap p-0">
-        {start}
+    <span className={`${className} inline-flex`}>
+      <span className="max-w-[21ch] flex-[0_1_auto] overflow-hidden text-ellipsis whitespace-pre">
+        {left}
       </span>
-      <span className="shrink-0">{end}</span>
-    </div>
+      <span className="max-w-[21ch] flex-[1_0_auto] overflow-hidden whitespace-pre">
+        {right}
+      </span>
+    </span>
   );
 };

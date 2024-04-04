@@ -50,10 +50,10 @@ const CreateProposalWrapper = ({
         className={classNames(
           "max-h-0 overflow-hidden !pb-0",
           isOpen &&
-            "group/wrapper-open transition-max-h ease-in-cubic max-h-full p-initial duration-300",
+            "group/wrapper-open transition-max-h max-h-full p-initial duration-300 ease-in-cubic",
         )}
       >
-        <div className="group/wrapper-open:opacity-100 group/wrapper-open:translate-y-0 group/wrapper-open:transition-all group/wrapper-open:duration-300 group/wrapper-open:ease-out-back group/wrapper-open:break-all ease-in-cubic -translate-y-x5 overflow-hidden px-x2 pb-x3 pt-0 opacity-0 transition-all duration-0 md:px-x4 md:pb-x5">
+        <div className="group/wrapper-open:opacity-100 group/wrapper-open:translate-y-0 group/wrapper-open:transition-all group/wrapper-open:duration-300 group/wrapper-open:ease-out-back group/wrapper-open:break-all -translate-y-x5 overflow-hidden px-x2 pb-x3 pt-0 opacity-0 transition-all duration-0 ease-in-cubic md:px-x4 md:pb-x5">
           {children}
         </div>
         <Card.Footer>

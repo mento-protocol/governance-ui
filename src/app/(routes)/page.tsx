@@ -99,7 +99,7 @@ const DesktopNavigationButtons = ({
     <Button theme="clear" href="/create-proposal">
       Create new proposal
     </Button>
-    <Button theme="clear" href="/my-voting-power" disabled={disabled}>
+    <Button theme="primary" href="/my-voting-power" disabled={disabled}>
       My voting power
     </Button>
   </div>

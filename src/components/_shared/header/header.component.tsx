@@ -1,114 +1,180 @@
 "use client";
 
-import { useRef, useState } from "react";
-import classNames from "classnames";
+import { useCallback, useRef, useState } from "react";
 import Link from "next/link";
 import useOutsideAlerter from "@/lib/hooks/useOutsideAlerter";
 import { ChevronIcon, MentoLogoIcon, MenuIcon } from "@/components/_icons";
 import { Button, ConnectButton } from "@/components/_shared";
 import BaseComponentProps from "@/interfaces/base-component-props.interface";
-import styles from "./header.module.scss";
+import { cn } from "@/styles/helpers";
 
 interface HeaderProps extends BaseComponentProps {}
 
+const enum MenuState {
+  CLOSED,
+  DEV,
+  COM,
+}
+
 export const Header = ({ className, style }: HeaderProps) => {
   const menuRef = useRef(null);
-  useOutsideAlerter(menuRef, () => {
-    setMenuOpened("");
-  });
 
-  const [menuOpened, setMenuOpened] = useState("");
+  const [menuState, setMenuState] = useState<MenuState>(MenuState.CLOSED);
   const [drawerOpened, setDrawerOpened] = useState(false);
 
-  const toggleMenu = (event: any, name: string) => {
-    event.stopPropagation();
-    setMenuOpened(name === menuOpened ? "" : name);
-  };
+  useOutsideAlerter(menuRef, () => {
+    setMenuState(MenuState.CLOSED);
+  });
+
+  const toggleMenu = useCallback(
+    (menu: MenuState) => {
+      setMenuState(menu !== menuState ? menu : MenuState.CLOSED);
+    },
+    [menuState],
+  );
 
   return (
     <header
-      className={classNames(styles.header, className)}
+      className={cn(
+        className,
+        "sticky top-0 z-50 bg-white px-x5 py-x6 dark:bg-black",
+      )}
       style={style}
-      onClick={() => setMenuOpened("")}
+      // onClick={() => setMenuState(MenuState.CLOSED)}
     >
       <div
-        className={classNames(
-          styles.header__inner,
-          drawerOpened && styles.opened,
+        className={cn(
+          drawerOpened && "duration-500 ease-out-circ",
+          "pt-0 md:static md:translate-x-0 md:flex-row md:items-center md:justify-between md:gap-[18px]",
+          "fixed bottom-0 left-0 right-0 top-0 z-40 mx-auto my-0 flex w-full max-w-[1120px] translate-x-[100%] flex-col items-start justify-start gap-[18px] transition-[transform] duration-[400ms]",
         )}
       >
-        <Link href={"/"}>
-          <MentoLogoIcon className="hidden md:block" />
+        <Link
+          className="absolute left-0 top-[50%] hidden h-full translate-y-[-50%] flex-col justify-center md:flex"
+          href={"/"}
+        >
+          <MentoLogoIcon />
         </Link>
-        <ul ref={menuRef} className={styles.header__nav}>
-          <li
-            className={classNames(
-              styles.item,
-              styles.dropdown,
-              menuOpened === "developers" && styles.opened,
+        <nav
+          ref={menuRef}
+          className={cn(
+            "flex flex-1 flex-col gap-[18px] md:flex-row md:items-center md:justify-center md:gap-[16px]",
+          )}
+        >
+          <div
+            onClick={() => toggleMenu(MenuState.DEV)}
+            className={cn(
+              "group relative flex cursor-pointer flex-row items-center justify-start gap-x1 px-x1 py-x2",
+              menuState === MenuState.DEV && "open",
             )}
           >
-            <p onClick={(e) => toggleMenu(e, "developers")}>
-              <span>Developers</span>
-              <span className={styles.dropdown__indicator}>
-                <ChevronIcon direction={"down"} />
-              </span>
-            </p>
-            <ul>
-              <li className={classNames(styles.item)}>
-                <Link href="#">
-                  <p>Docs</p>
-                </Link>
-              </li>
-              <li className={classNames(styles.item)}>
-                <Link href="#">
-                  <p>Github</p>
-                </Link>
-              </li>
-            </ul>
-          </li>
-          <li
-            className={classNames(
-              styles.item,
-              styles.dropdown,
-              menuOpened === "community" && styles.opened,
+            <span>Developers</span>
+            <span
+              className={cn(
+                "relative top-[-2px] transition-all duration-300 ease-out-back group-[&.open]:rotate-180",
+              )}
+            >
+              <ChevronIcon direction={"down"} />
+            </span>
+            <div
+              className={cn(
+                "absolute top-[100%] flex flex-col items-center justify-center overflow-hidden",
+                "text-lg font-normal",
+                "rounded-lg border border-solid border-black",
+                "bg-white  dark:bg-black",
+                "max-h-0 opacity-0 transition-[opacity] duration-300 ease-out-back",
+                "group-[&.open]:max-h-[20vh] group-[&.open]:opacity-100",
+              )}
+            >
+              <Link
+                className={cn(
+                  "block p-x3",
+                  "w-full text-center",
+                  "md:hover:bg-[#80808022] dark:md:hover:bg-[#80808088]",
+                  "transition-[background-color_color] duration-300",
+                  "no-underline hover:text-black hover:no-underline dark:hover:text-white",
+                )}
+                href="#"
+              >
+                Docs
+              </Link>
+              <Link
+                className={cn(
+                  "block p-x3",
+                  "w-full text-center",
+                  "md:hover:bg-[#80808022] dark:md:hover:bg-[#80808088]",
+                  "transition-[background-color_color] duration-300",
+                  "no-underline hover:text-black hover:no-underline dark:hover:text-white",
+                )}
+                href="#"
+              >
+                Github
+              </Link>
+            </div>
+          </div>
+          <div
+            onClick={(e) => toggleMenu(MenuState.COM)}
+            className={cn(
+              "group relative flex cursor-pointer flex-row items-center justify-start gap-x1 px-x1 py-x2",
+              menuState === MenuState.COM && "open",
             )}
           >
-            <p onClick={(e) => toggleMenu(e, "community")}>
-              <span>Community</span>
-              <span className={styles.dropdown__indicator}>
-                <ChevronIcon direction={"down"} />
-              </span>
-            </p>
-            <ul>
-              <li className={classNames(styles.item)}>
-                <Link href="#">
-                  <p>Forum</p>
-                </Link>
-              </li>
-              <li className={classNames(styles.item)}>
-                <Link href="#">
-                  <p>Discord</p>
-                </Link>
-              </li>
-              <li className={classNames(styles.item)}>
-                <Link href="#">
-                  <p>Twitter</p>
-                </Link>
-              </li>
-            </ul>
-          </li>
-          <li className={classNames(styles.item)}>
-            <Link href="#">
-              <p>Team</p>
+            <span>Community</span>
+            <span
+              className={cn(
+                "relative top-[-2px] transition-all duration-300 ease-out-back group-[&.open]:rotate-180",
+              )}
+            >
+              <ChevronIcon direction={"down"} />
+            </span>
+            <div
+              className={cn(
+                "absolute top-[100%] flex flex-col items-center justify-center overflow-hidden",
+                "text-lg font-normal",
+                "rounded-lg border border-solid border-black",
+                "bg-white  dark:bg-black",
+                "max-h-0 opacity-0 transition-[opacity] duration-300 ease-out-back",
+                "group-[&.open]:max-h-[20vh] group-[&.open]:opacity-100",
+              )}
+            >
+              <Link
+                className={cn(
+                  "block p-x3",
+                  "w-full text-center",
+                  "md:hover:bg-[#80808022] dark:md:hover:bg-[#80808088]",
+                  "transition-[background-color_color] duration-300",
+                  "no-underline hover:text-black hover:no-underline dark:hover:text-white",
+                )}
+                href="#"
+              >
+                Forum
+              </Link>
+              <Link
+                className={cn(
+                  "block p-x3",
+                  "w-full text-center",
+                  "md:hover:bg-[#80808022] dark:md:hover:bg-[#80808088]",
+                  "transition-[background-color_color] duration-300",
+                  "no-underline hover:text-black hover:no-underline dark:hover:text-white",
+                )}
+                href="#"
+              >
+                Twitter
+              </Link>
+            </div>
+          </div>
+          <div className="relative md:pb-0">
+            <Link
+              className="block h-full p-x2 no-underline hover:text-inherit hover:no-underline md:hover:text-black dark:md:hover:text-white"
+              href="#"
+            >
+              Docs
             </Link>
-          </li>
-        </ul>
-        <ConnectButton />
+          </div>
+        </nav>
+        <ConnectButton className="absolute right-0 top-[50%] translate-y-[-50%]" />
       </div>
-      <div
-        className={classNames(styles.mobile_inner, "pa-x z-50 flex md:hidden")}
-      >
+      <div className="absolute left-0 right-0 top-0 z-50 mx-x2 flex items-center justify-between border-b border-solid border-black px-x1 py-x2 dark:border-white md:hidden">
         <Link href={"/"}>
           <MentoLogoIcon />
         </Link>

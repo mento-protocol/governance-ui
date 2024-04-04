@@ -4,7 +4,6 @@ import {
   useAccountModal,
   useChainModal,
 } from "@rainbow-me/rainbowkit";
-import classNames from "classnames";
 import { Avatar, Button, DropdownButton } from "@/components/_shared";
 import { ChevronIcon } from "@/components/_icons";
 import BaseComponentProps from "@/interfaces/base-component-props.interface";
@@ -13,6 +12,7 @@ import styles from "./connect-button.module.scss";
 import useTokens from "@/lib/contracts/useTokens";
 import { useAccount } from "wagmi";
 import { ButtonProps } from "@/components/_shared/button/button.component";
+import { cn } from "@/styles/helpers";
 
 interface ConnectedDropdownProps extends BaseComponentProps {
   fullwidth?: boolean;
@@ -90,14 +90,18 @@ export const ConnectButton = ({
         return (
           <>
             <div
-              className={classNames(
+              className={cn(
                 className,
                 fullwidth ? "" : "flex w-auto justify-center",
               )}
               style={style}
             >
               {!connected ? (
-                <Button theme={theme || "secondary"} onClick={openConnectModal}>
+                <Button
+                  className="pb-0"
+                  theme={theme || "secondary"}
+                  onClick={openConnectModal}
+                >
                   <div className="flex flex-row place-items-center justify-center gap-2">
                     <div>Connect wallet</div>
                     <ChevronIcon direction={"right"} />

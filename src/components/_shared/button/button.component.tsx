@@ -4,7 +4,7 @@ import { cn } from "@/styles/helpers";
 import { ComponentProps } from "react";
 
 const variants = cva(
-  "relative mb-[8px] block w-full  rounded-md border border-solid border-black px-x4 py-x2 font-inter text-sm text-black transition [transform-style:preserve-3d] hover:no-underline hover:[&>span]:text-[inherit]",
+  "relative block w-full  rounded-md border border-solid border-black px-x4 py-x2 font-inter text-sm text-black transition [transform-style:preserve-3d] hover:no-underline hover:[&>span]:text-[inherit]",
   {
     variants: {
       disabled: { true: "group/button-disabled w-full cursor-not-allowed" },
@@ -58,12 +58,12 @@ export const Button = ({
           href={href}
           target={target}
           className={cn(
-            className,
             variants({
               fullwidth,
               disabled,
               theme,
             }),
+            className,
           )}
         >
           {/* Transition east out 0.2 */}

@@ -37,7 +37,7 @@ const HeaderNav = () => {
       {headerMenuItems.map(({ name, items, href }) => {
         if (!items) {
           return (
-            <Link key={name} href={href}>
+            <Link className="hover:no-underline" key={name} href={href}>
               {name}
             </Link>
           );
@@ -48,7 +48,7 @@ const HeaderNav = () => {
             <Menu>
               {({ open }) => (
                 <>
-                  <Menu.Button className="outline-primary-blue flex items-center justify-center gap-1 outline-offset-4 transition duration-150 ease-in-out hover:text-primary">
+                  <Menu.Button className="flex items-center justify-center gap-1 outline-offset-4 outline-primary transition duration-150 ease-in-out hover:text-primary">
                     {name}
                     <motion.div
                       animate={{ rotate: open ? 180 : 0 }}
@@ -64,19 +64,17 @@ const HeaderNav = () => {
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
                       transition={{ duration: 0.2 }}
-                      className="absolute right-0 z-10 mt-1 flex flex-col items-center justify-center rounded border border-primary-dark bg-white focus:outline-none dark:border-white dark:bg-primary-dark"
+                      className="absolute left-1/2 z-10 mt-1 flex -translate-x-1/2 transform flex-col items-center justify-center rounded border border-black bg-white focus:outline-none dark:border-white dark:bg-black"
                     >
                       {items.map(({ name, href }, index) => (
                         <Menu.Item key={name}>
                           {({ active }) => (
                             <Link
-                              className={`${
-                                active ? "bg-primary-blue text-white" : ""
-                              }  ${
+                              className={`${active ? " text-primary" : ""}  ${
                                 index === items.length - 1
                                   ? ""
-                                  : "border-b border-b-primary-dark dark:border-b-white"
-                              }  block w-full px-8 py-2  text-center`}
+                                  : "border-b border-b-black dark:border-b-white"
+                              }  block w-full px-8 py-2 text-center hover:no-underline`}
                               href={href}
                               target="_blank"
                               rel="noopener noreferrer"

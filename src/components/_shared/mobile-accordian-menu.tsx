@@ -38,16 +38,14 @@ const MobileAccordianMenu = () => {
           return (
             <Disclosure
               as="div"
-              className=" mt-4 border-b border-primary-dark pb-4 leading-[118%] dark:border-white"
+              className=" mt-4 border-b border-black pb-4 leading-[118%] dark:border-white"
               key={headingName}
             >
               {({ open }) => (
                 <>
                   <Disclosure.Button
                     className={`${
-                      open
-                        ? "text-primary-blue dark:text-primary-blush pb-4"
-                        : ""
+                      open ? "pb-4 text-primary dark:text-secondary" : ""
                     }  text-fg flex w-full justify-between text-left text-[17px] font-medium`}
                   >
                     {headingName}
@@ -64,7 +62,7 @@ const MobileAccordianMenu = () => {
                       <Link
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="active:text-primary-blue dark:active:text-primary-blush "
+                        className="active:text-primary dark:active:text-secondary"
                         key={name}
                         href={href}
                       >

@@ -9,6 +9,7 @@ import { usePathname } from "next/navigation";
 import { ModalProvider } from "@/lib/providers/modal.provider";
 import { MaxWidthWrapper } from "@/components/_shared/max-width-wrapper";
 import Footer from "@/components/_shared/footer/footer.component";
+import { cn } from "@/styles/helpers";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -25,11 +26,18 @@ export default function RootLayout({ children }: RootLayoutProps) {
   const homePage = path === "/";
 
   return (
-    <html className={`${inter.variable} w-full font-fg text-base`} lang="en">
-      <body
-        className="overscroll-none bg-white dark:bg-black"
-        suppressHydrationWarning={true}
-      >
+    <html
+      className={cn(
+        `${inter.variable} w-full overscroll-none bg-white font-fg text-base dark:bg-black`,
+        "[background-origin:border-box,_border-box]",
+        "[background-position:_0_0,_0_0]",
+        "[background-repeat:_repeat]",
+        "[background-size:_100vw_200vh]",
+        "[background-image:radial-gradient(circle_at_calc(100%+210px)_37.5%,_#4D62F0_0%,_transparent_540px),radial-gradient(circle_at_calc(0%-210px)_75%,_#4D62F0_0%,_transparent_540px)]",
+      )}
+      lang="en"
+    >
+      <body className="overscroll-none" suppressHydrationWarning={true}>
         <Providers>
           <ModalProvider>
             <Header />

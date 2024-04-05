@@ -6,6 +6,7 @@ import useProposals from "@/lib/contracts/governor/useProposals";
 import useLockingWeek from "@/lib/contracts/locking/useLockingWeek";
 import useAllLocks from "@/lib/contracts/locking/useAllLocks";
 import useTokens from "@/lib/contracts/useTokens";
+import NumbersService from "@/lib/helpers/numbers.service";
 
 const ProposalSummaryComponent = () => {
   const {
@@ -34,7 +35,8 @@ const ProposalSummaryComponent = () => {
   }, [proposalsEndBlocks, currentBlockNumber]);
 
   const getTotalSupplyParsed = useMemo(() => {
-    return Number(formatUnits(totalSupply || BigInt(0), 18)).toLocaleString();
+    const totalSupplyNumber = Number(formatUnits(totalSupply || BigInt(0), 18));
+    return NumbersService.parseNumericValue(Math.floor(totalSupplyNumber));
   }, [totalSupply]);
 
   const getActiveVoters = useMemo(() => {
@@ -52,33 +54,31 @@ const ProposalSummaryComponent = () => {
 
   return (
     <Card className="mt-8" block>
-      <div className="grid grid-cols-2 justify-between gap-x6 md:grid-cols-4">
-        <div className="flex flex-col place-items-center justify-center">
-          <div className="font-size-x6 line-height-x6 font-medium">
-            {proposalCount}
-          </div>
-          <div className="font-size-x3">Total proposals</div>
-        </div>
-        <div className="flex flex-col place-items-center justify-center">
-          <div className="font-size-x6 line-height-x6 font-medium">
-            {activeProposalCount}
-          </div>
-          <div className="font-size-x3">Active proposals</div>
-        </div>
-        <div className="flex flex-col place-items-center justify-center">
-          <div className="font-size-x6 line-height-x6 font-medium">
-            {getActiveVoters}
-          </div>
-          <div className="font-size-x3">Voters</div>
-        </div>
-        <div className="flex flex-col place-items-center justify-center">
-          <div className="font-size-x6 line-height-x6 font-medium">
-            {getTotalSupplyParsed}
-          </div>
-          <div className="font-size-x3">Total Supply</div>
-        </div>
+      <div className="grid grid-cols-2 items-start justify-between gap-x6 pb-5 pt-4 md:grid-cols-4 md:pb-8">
+        <ContractData value={proposalCount} label="Total Proposals" />
+        <ContractData value={activeProposalCount} label="Active Proposals" />
+        <ContractData value={getActiveVoters} label="Voters" />
+        <ContractData
+          value={getTotalSupplyParsed}
+          label="Total veMento Voting Power"
+        />
       </div>
     </Card>
+  );
+};
+
+const ContractData = ({
+  value,
+  label,
+}: {
+  value: number | string;
+  label: string;
+}) => {
+  return (
+    <div className="flex flex-col items-center justify-center gap-2 text-center md:gap-4">
+      <div className="text-[22px] font-medium md:text-[32px]">{value}</div>
+      <div className="max-w-32 text-[18px]">{label}</div>
+    </div>
   );
 };
 

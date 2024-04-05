@@ -14,7 +14,7 @@ export const Expandable = ({ children, className, title }: ExpandableProps) => {
     <div className={className}>
       <header
         onClick={() => setOpened(!opened)}
-        className="flex cursor-pointer flex-row items-center justify-between py-x3 md:py-0"
+        className="flex cursor-pointer flex-row items-center justify-between pt-x3 md:pt-0"
       >
         <div>{title}</div>
         <div
@@ -28,7 +28,6 @@ export const Expandable = ({ children, className, title }: ExpandableProps) => {
       </header>
       <div
         className={`h-full max-h-0 overflow-hidden transition-[max-height] duration-300 ease-in-out ${opened && "max-h-[1300px]"}`}
-        // className={classNames(styles.expandable__body, opened && styles.opened)}
       >
         {children}
       </div>

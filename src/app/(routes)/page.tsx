@@ -67,7 +67,7 @@ const Badges = () => {
     mentoContractData: { totalSupply, decimals },
   } = useTokens();
   return (
-    <div className="flex gap-x3">
+    <div className="flex flex-col gap-x3 md:flex-row">
       <Badge type="outline">
         <CeloLogoIcon />
         &nbsp;CELO Mainnet

@@ -1,13 +1,14 @@
 "use client";
 import React, { ReactNode } from "react";
 import { Inter } from "next/font/google";
-import { Footer, Header, Breadcrumbs } from "@/components/_shared";
+import { LearnMore, Header, Breadcrumbs } from "@/components/_shared";
 import "@rainbow-me/rainbowkit/styles.css";
 import "@/styles/globals.scss";
 import { Providers } from "@/app/(routes)/providers";
 import { usePathname } from "next/navigation";
 import { ModalProvider } from "@/lib/providers/modal.provider";
 import { MaxWidthWrapper } from "@/components/_shared/max-width-wrapper";
+import Footer from "@/components/_shared/footer/footer.component";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -39,7 +40,8 @@ export default function RootLayout({ children }: RootLayoutProps) {
               {!homePage && <Breadcrumbs />}
               {children}
             </MaxWidthWrapper>
-            <Footer className="pt-x5" />
+            <LearnMore className="pt-x5" />
+            <Footer />
           </ModalProvider>
         </Providers>
       </body>

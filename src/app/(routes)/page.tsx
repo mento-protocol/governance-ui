@@ -48,8 +48,8 @@ const Page = () => {
         <Divider />
         <ContractParams />
       </Card>
+      <ProposalSummaryComponent />
       <Suspense fallback={<Loader className="mt-7" isCenter />}>
-        <ProposalSummaryComponent />
         <ProposalsListComponent />
       </Suspense>
     </main>

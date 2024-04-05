@@ -121,11 +121,11 @@ const config: Config = {
           dark: "#02010A",
         },
       },
-    },
-    keyframes: {
-      "spin-slow": {
-        "0%": { transform: "rotate(0deg)" },
-        "100%": { transform: "rotate(360deg)" },
+      keyframes: {
+        "spin-slow": {
+          "0%": { transform: "rotate(0deg)" },
+          "100%": { transform: "rotate(360deg)" },
+        },
       },
     },
   },

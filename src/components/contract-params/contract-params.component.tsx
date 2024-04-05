@@ -26,7 +26,7 @@ export const ContractParams = () => {
   return (
     <Expandable
       title={"Governance Parameters"}
-      className="font-size-x4 items-start font-medium md:pt-x4"
+      className="items-start text-[22px] font-medium md:pt-x4"
     >
       <Suspense fallback={<Loader isCenter />}>
         <div className="grid grid-cols-1 gap-x2 pt-x3 md:grid-cols-7 md:pt-x4 ">

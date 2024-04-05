@@ -82,15 +82,15 @@ const Badges = () => {
 };
 
 const DesktopTagline = () => (
-  <p className="mb-[20px] md:mb-[30px]">Transparent Digital Asset Solutions</p>
+  <p className="mb-[20px] text-[22px] md:mb-[30px]">
+    Transparent Digital Asset Solutions
+  </p>
 );
 
 const MentoIconWithLogo = () => (
   <div className="font-size-x6 sm:font-size-x11 flex flex-row place-items-center justify-start gap-x3">
     <MentoIcon className="w-[35px] md:w-[62px]" backgroundColor="cyan" />
-    <span className="pt-[9px] text-[32px] font-medium md:pt-[18px] md:text-[56px]">
-      Mento
-    </span>
+    <span className="text-[32px] font-medium  md:text-[56px]">Mento</span>
   </div>
 );
 

@@ -75,7 +75,7 @@ const FooterNav = () => {
       {Object.entries(footerMenuItems).map(([heading, links]) => {
         return (
           <div key={heading}>
-            <h4 className="text-body-light mb-[10px] font-fg text-[20px] font-medium leading-none text-[#636768]">
+            <h4 className="text-body-light mb-[10px] font-fg text-[20px] font-medium leading-none text-[#636768] dark:text-[#8F9394]">
               {heading}
             </h4>
             <ul className=" flex flex-col font-inter text-[15px]">

@@ -1,16 +1,15 @@
 import Link from "next/link";
 
-import { ThemeSwitch } from "@/components/_shared/theme-switch/theme-switch.component";
 import {
   DiscordIcon,
   GithubIcon,
   MentoLogoIcon,
   TwitterIcon,
 } from "@/components/_icons";
-import MobileAccordianMenu from "../mobile-accordian-menu";
 import { links } from "@/lib/constants/links";
+import { MobileAccordionMenu, ThemeSwitch } from "@/components/_shared";
 
-const Footer = () => {
+export const Footer = () => {
   return (
     <>
       <DesktopFooter />
@@ -18,8 +17,6 @@ const Footer = () => {
     </>
   );
 };
-
-export default Footer;
 
 const DesktopFooter = () => {
   return (
@@ -47,7 +44,7 @@ const MobileFooter = () => {
   return (
     <footer className="mt-10 px-4 pb-8 lg:hidden">
       <div className="border-t border-black dark:border-gray-light">
-        <MobileAccordianMenu />
+        <MobileAccordionMenu />
         <div className="flex justify-between">
           <div className="flex flex-col">
             <MentoLogoIcon className="h-5 w-[90px]" />

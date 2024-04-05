@@ -1,7 +1,7 @@
 import React from "react";
 import { Card } from "@/components/_shared";
 
-const VotingCardTitle = ({
+export const VotingCardTitle = ({
   children = "Cast Votes",
 }: React.PropsWithChildren) => {
   return (
@@ -12,5 +12,3 @@ const VotingCardTitle = ({
     </Card.Header>
   );
 };
-
-export default VotingCardTitle;

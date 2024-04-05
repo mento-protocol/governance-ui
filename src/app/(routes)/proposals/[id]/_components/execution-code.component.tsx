@@ -1,4 +1,4 @@
-import BlockExplorerLink from "@/components/_shared/block-explorer-link/block-explorer-link.component";
+import { BlockExplorerLink } from "@/components/_shared";
 import useContractsInfo from "@/lib/contracts/useContractsInfo";
 import { ProposalCall } from "@/lib/graphql";
 

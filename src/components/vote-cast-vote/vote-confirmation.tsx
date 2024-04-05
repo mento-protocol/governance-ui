@@ -1,10 +1,9 @@
 import WalletHelper from "@/lib/helpers/wallet.helper";
-import { Card, Loader } from "@/components/_shared";
-import VotingCardTitle from "@/components/_shared/vote-voting-card-title/voting-card-title";
-import VoteTypePill from "./vote-type-pill";
+import { Card, Loader, VotingCardTitle } from "@/components/_shared";
 import { Proposal } from "@/lib/graphql";
+import { VoteTypePill } from "../vote-cast-vote";
 
-const VoteConfirmation = ({
+export const VoteConfirmation = ({
   voteType,
   proposalId,
 }: {
@@ -41,5 +40,3 @@ const VoteConfirmation = ({
     </Card>
   );
 };
-
-export default VoteConfirmation;

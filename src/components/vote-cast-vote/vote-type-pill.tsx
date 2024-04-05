@@ -1,7 +1,7 @@
 import classNames from "classnames";
 import { REVERSE_VOTE_TYPE_MAP, VOTE_TYPES } from "./cast-vote";
 
-const VoteTypePill = ({ voteType }: { voteType: number }) => {
+export const VoteTypePill = ({ voteType }: { voteType: number }) => {
   return (
     <span
       className={classNames(
@@ -15,5 +15,3 @@ const VoteTypePill = ({ voteType }: { voteType: number }) => {
     </span>
   );
 };
-
-export default VoteTypePill;

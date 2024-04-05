@@ -1,7 +1,7 @@
 import { Button } from "../_shared";
 import { VOTE_TYPES } from "./cast-vote";
 
-const VotingButtons = ({
+export const VotingButtons = ({
   onSubmit,
 }: {
   onSubmit: (voteType: (typeof VOTE_TYPES)[keyof typeof VOTE_TYPES]) => void;
@@ -34,5 +34,3 @@ const VotingButtons = ({
     </div>
   );
 };
-
-export default VotingButtons;

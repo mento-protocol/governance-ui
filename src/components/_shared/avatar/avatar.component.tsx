@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import { create } from "ethereum-blockies";
 import BaseComponentProps from "@/interfaces/base-component-props.interface";
-import BlockExplorerLink from "@/components/_shared/block-explorer-link/block-explorer-link.component";
+import { BlockExplorerLink } from "@/components/_shared";
 interface AvatarProps extends BaseComponentProps {
   address: string;
 }

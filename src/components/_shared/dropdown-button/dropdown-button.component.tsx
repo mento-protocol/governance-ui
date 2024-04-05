@@ -2,14 +2,10 @@
 import { useEffect, useRef, useState } from "react";
 import classNames from "classnames";
 import useOutsideAlerter from "@/lib/hooks/useOutsideAlerter";
-import { Button } from "@/components/_shared";
+import { Button, ButtonProps } from "@/components/_shared";
 import { ChevronIcon } from "@/components/_icons";
-import {
-  Dropdown,
-  DropdownElement,
-} from "@/components/_shared/dropdown-button/dropdown-button.addons";
+import { Dropdown, DropdownElement } from "./dropdown-button.addons";
 import styles from "./dropdown-button.module.scss";
-import { ButtonProps } from "@/components/_shared/button/button.component";
 
 interface DropdownButtonProps extends ButtonProps {
   title?: string;

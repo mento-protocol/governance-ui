@@ -4,13 +4,17 @@ import {
   useAccountModal,
   useChainModal,
 } from "@rainbow-me/rainbowkit";
-import { Avatar, Button, DropdownButton } from "@/components/_shared";
+import {
+  Avatar,
+  Button,
+  ButtonProps,
+  DropdownButton,
+} from "@/components/_shared";
 import { ChevronIcon, MentoIcon } from "@/components/_icons";
 import BaseComponentProps from "@/interfaces/base-component-props.interface";
 import WalletHelper from "@/lib/helpers/wallet.helper";
 import useTokens from "@/lib/contracts/useTokens";
 import { useAccount } from "wagmi";
-import { ButtonProps } from "@/components/_shared/button/button.component";
 import { cn } from "@/styles/helpers";
 import NumbersService from "@/lib/helpers/numbers.service";
 

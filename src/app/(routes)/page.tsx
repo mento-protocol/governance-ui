@@ -13,13 +13,15 @@ import {
   Loader,
   Spacer,
 } from "@/components/_shared";
-import { ProposalsListComponent } from "@/components/proposals-list/proposals-list.component";
-import { ContractParams } from "@/components/contract-params/contract-params.component";
-import ProposalSummaryComponent from "@/components/proposal-summary/proposal-summary.component";
 import useTokens from "@/lib/contracts/useTokens";
 import NumbersService from "@/lib/helpers/numbers.service";
 import { formatUnits } from "viem";
 import Head from "next/head";
+import {
+  ContractParams,
+  ProposalSummaryComponent,
+  ProposalsListComponent,
+} from "@/components/index";
 
 const Page = () => {
   const { address } = useAccount();

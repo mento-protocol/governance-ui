@@ -6,7 +6,7 @@ type Props = {
   item: string;
 };
 
-function BlockExplorerLink({ children, type, item }: Props) {
+export const BlockExplorerLink = ({ children, type, item }: Props) => {
   const { chain } = useAccount();
   const blockExplorerUrl = chain?.blockExplorers?.default.url;
   return blockExplorerUrl ? (
@@ -22,6 +22,4 @@ function BlockExplorerLink({ children, type, item }: Props) {
   ) : (
     children
   );
-}
-
-export default BlockExplorerLink;
+};

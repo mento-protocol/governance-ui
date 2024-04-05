@@ -1,7 +1,6 @@
-import { Card, Loader } from "@/components/_shared";
-import VotingCardTitle from "@/components/_shared/vote-voting-card-title/voting-card-title";
+import { Card, Loader, VotingCardTitle } from "@/components/_shared";
 
-const LoadingState = () => {
+export const LoadingState = () => {
   return (
     <Card>
       <VotingCardTitle />
@@ -13,5 +12,3 @@ const LoadingState = () => {
     </Card>
   );
 };
-
-export default LoadingState;

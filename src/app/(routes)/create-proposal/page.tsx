@@ -4,8 +4,8 @@ import {
   CreateProposalContentStep,
   CreateProposalWalletStep,
   CreateProposalPreviewStep,
-} from "@/components/create-proposal";
-import { CreateProposalProvider } from "@/components/create-proposal/create-proposal-provider";
+  CreateProposalProvider,
+} from "@/components/index";
 
 const Page = () => {
   return (

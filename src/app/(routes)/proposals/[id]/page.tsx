@@ -8,17 +8,16 @@ import useProposal from "@/lib/contracts/governor/useProposal";
 import { stateToStatusColorMap } from "@/lib/interfaces/proposal.interface";
 import {
   Avatar,
+  BlockExplorerLink,
   Loader,
   MarkdownView,
   Status,
   WalletAddressWithCopy,
 } from "@/components/_shared";
-import BlockExplorerLink from "@/components/_shared/block-explorer-link/block-explorer-link.component";
-import { Countdown } from "@/components/countdown/countdown.component";
-import { ProposalCurrentVotes } from "@/components/proposal-current-votes/proposal-current-votes.component";
 import Vote from "@/app/(routes)/proposals/[id]/_components/vote.component";
 import ExecutionCode from "@/app/(routes)/proposals/[id]/_components/execution-code.component";
 import Participants from "@/app/(routes)/proposals/[id]/_components/participants.component";
+import { Countdown, ProposalCurrentVotes } from "@/components/index";
 
 const Page = ({ params }: { params: { id: string } }) => {
   // TODO: return loading states

@@ -1,14 +1,18 @@
 "use client";
 import React, { ReactNode } from "react";
 import { Inter } from "next/font/google";
-import { LearnMore, Header, Breadcrumbs } from "@/components/_shared";
+import {
+  LearnMore,
+  Header,
+  Breadcrumbs,
+  Footer,
+  MaxWidthWrapper,
+} from "@/components/_shared";
 import "@rainbow-me/rainbowkit/styles.css";
 import "@/styles/globals.scss";
 import { Providers } from "@/app/(routes)/providers";
 import { usePathname } from "next/navigation";
 import { ModalProvider } from "@/lib/providers/modal.provider";
-import { MaxWidthWrapper } from "@/components/_shared/max-width-wrapper";
-import Footer from "@/components/_shared/footer/footer.component";
 import { cn } from "@/styles/helpers";
 
 const inter = Inter({

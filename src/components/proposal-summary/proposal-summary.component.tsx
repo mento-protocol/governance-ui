@@ -8,7 +8,7 @@ import useAllLocks from "@/lib/contracts/locking/useAllLocks";
 import useTokens from "@/lib/contracts/useTokens";
 import NumbersService from "@/lib/helpers/numbers.service";
 
-const ProposalSummaryComponent = () => {
+export const ProposalSummaryComponent = () => {
   const {
     veMentoContractData: { totalSupply },
   } = useTokens();
@@ -81,5 +81,3 @@ const ContractData = ({
     </div>
   );
 };
-
-export default ProposalSummaryComponent;

@@ -4,7 +4,7 @@ import { Button, Card, StepCounter } from "@/components/_shared";
 import {
   CreateProposalStep,
   useCreateProposal,
-} from "@/components/create-proposal/create-proposal-provider";
+} from "../create-proposal-provider";
 
 interface ICreateProposalWrapper {
   className?: string;
@@ -16,7 +16,7 @@ interface ICreateProposalWrapper {
   onSave?: () => void;
 }
 
-const CreateProposalWrapper = ({
+export const CreateProposalWrapper = ({
   children,
   className,
   componentStep,
@@ -82,5 +82,3 @@ const CreateProposalWrapper = ({
     </Card>
   );
 };
-
-export default CreateProposalWrapper;

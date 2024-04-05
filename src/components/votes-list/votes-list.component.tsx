@@ -1,9 +1,9 @@
 import type { Participant, ProposalVotes } from "@/lib/graphql";
 import { Avatar } from "@/components/_shared";
-import { WalletAddress } from "@/components/wallet-address/wallet-address.component";
 import BaseComponentProps from "@/interfaces/base-component-props.interface";
 import type { IVoteType } from "@/interfaces/vote.interface";
 import { formatUnits } from "viem";
+import { WalletAddress } from "@/components/index";
 
 interface VotesListProps extends BaseComponentProps {
   voteType: IVoteType;

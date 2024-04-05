@@ -1,5 +1,5 @@
 import { Card, TabList } from "@/components/_shared";
-import { VotesList } from "@/components/votes-list/votes-list.component";
+import { VotesList } from "@/components/index";
 import type { ProposalVotes } from "@/lib/graphql";
 
 type Props = {

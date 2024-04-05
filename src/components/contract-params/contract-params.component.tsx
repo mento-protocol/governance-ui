@@ -6,13 +6,13 @@ import CopyToClipboard from "react-copy-to-clipboard";
 import { useAccount } from "wagmi";
 
 import { Card, Expandable, Loader } from "@/components/_shared";
-import { CopyIcon } from "@/components/_icons/copy.icon";
 import { Celo } from "@/config/chains";
 import { useContracts } from "@/lib/contracts/useContracts";
 import useGovernanceDetails from "@/lib/contracts/governor/useGovernanceDetails";
 import NumbersService from "@/lib/helpers/numbers.service";
 import { Address } from "viem";
 import { centerEllipsis } from "@/lib/helpers/string.service";
+import { CopyIcon } from "@/components/_icons";
 
 export const ContractParams = () => {
   const governanceDetails = useGovernanceDetails();
@@ -70,33 +70,6 @@ export const ContractParams = () => {
                   },
                 ]}
               />
-              {/* <ParamDisplay
-                label="Proposal threshold"
-                value={NumbersService.parseNumericValue(
-                  governanceDetails?.proposalThreshold
-                    ? governanceDetails.proposalThreshold
-                    : 0,
-                  2,
-                )}
-              /> */}
-              {/* <ParamDisplay
-                label="Quorum needed"
-                value={NumbersService.parseNumericValue(
-                  governanceDetails?.quorumNeeded
-                    ? governanceDetails.quorumNeeded
-                    : 0,
-                  2,
-                )}
-              /> */}
-
-              {/* <ParamDisplay
-                label="Voting period"
-                value={governanceDetails?.votingPeriod}
-              /> */}
-              {/* <ParamDisplay
-                label="Timelock"
-                value={governanceDetails?.timelock}
-              /> */}
             </div>
           </Card>
           <Card
@@ -137,38 +110,6 @@ export const ContractParams = () => {
                   },
                 ]}
               />
-              {/* <ParamDisplay
-                label="Governor"
-                value={
-                  governorAddress && (
-                    <ContractAddressLinkWithCopy address={governorAddress} />
-                  )
-                }
-              /> */}
-              {/* <ParamDisplay
-                label="MENTO"
-                value={
-                  mentoAddress && (
-                    <ContractAddressLinkWithCopy address={mentoAddress} />
-                  )
-                }
-              /> */}
-              {/* <ParamDisplay
-                label="Timelock"
-                value={
-                  timelockAddress && (
-                    <ContractAddressLinkWithCopy address={timelockAddress} />
-                  )
-                }
-              /> */}
-              {/* <ParamDisplay
-                label="veMENTO"
-                value={
-                  lockingAddress && (
-                    <ContractAddressLinkWithCopy address={lockingAddress} />
-                  )
-                }
-              /> */}
             </div>
           </Card>
         </div>

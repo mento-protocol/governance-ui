@@ -7,7 +7,7 @@ import Link from "next/link";
 import { links } from "@/lib/constants/links";
 import { ChevronIcon } from "@/components/_icons";
 
-const mobileMenuAccordianMenuItems = [
+const mobileMenuAccordionMenuItems = [
   {
     name: "Developers",
     items: [
@@ -29,10 +29,10 @@ const mobileMenuAccordianMenuItems = [
   },
 ];
 
-const MobileAccordianMenu = () => {
+export const MobileAccordionMenu = () => {
   return (
     <div className="mb-8 flex flex-col bg-white dark:bg-black">
-      {mobileMenuAccordianMenuItems
+      {mobileMenuAccordionMenuItems
         .filter(({ items }) => !!items)
         .map(({ name: headingName, items }) => {
           return (
@@ -78,5 +78,3 @@ const MobileAccordianMenu = () => {
     </div>
   );
 };
-
-export default MobileAccordianMenu;

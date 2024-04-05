@@ -1,7 +1,7 @@
 "use client";
 import { useAccount } from "wagmi";
 import { Card, Loader, MentoLock } from "@/components/_shared";
-import { LocksList } from "@/components/locks-list/locks-list.component";
+import { LocksList } from "@/components/index";
 
 const Page = () => {
   const { address, isConnecting, isDisconnected } = useAccount();

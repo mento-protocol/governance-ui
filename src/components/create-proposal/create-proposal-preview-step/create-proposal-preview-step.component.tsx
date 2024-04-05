@@ -1,12 +1,12 @@
 "use client";
 import { useState } from "react";
 import { ExecutionCodeView, MarkdownView, SeeAll } from "@/components/_shared";
-import CreateProposalWrapper from "@/components/create-proposal/create-proposal-wrapper/create-proposal-wrapper.component";
 import {
   CreateProposalStep,
   useCreateProposal,
-} from "@/components/create-proposal/create-proposal-provider";
+} from "../create-proposal-provider";
 import useCreateProposalOnChain from "@/lib/contracts/governor/useCreateProposalOnChain";
+import { CreateProposalWrapper } from "../create-proposal-wrapper/create-proposal-wrapper.component";
 
 export const CreateProposalPreviewStep = () => {
   const [isProposalPreviewOpen, setIsProposalPreviewOpen] = useState(false);

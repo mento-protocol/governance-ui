@@ -3,8 +3,8 @@ import { MentoLogoIcon } from "@/components/_icons";
 import HeaderNav from "./header-nav";
 
 import Link from "next/link";
-import { ConnectButton } from "@/components/_shared/connect-button/connect-button.component";
 import { MaxWidthWrapper } from "../max-width-wrapper";
+import { ConnectButton } from "@/components/_shared";
 
 export const Header = () => {
   return (

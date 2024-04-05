@@ -1,7 +1,6 @@
 import classNames from "classnames";
-import { MentoIcon } from "@/components/_icons";
+import { IMentoIcon, MentoIcon } from "@/components/_icons";
 import styles from "./loader.module.scss";
-import { IMentoIcon } from "@/components/_icons/mento.icon";
 
 interface ILoader extends IMentoIcon {
   isCenter?: boolean;

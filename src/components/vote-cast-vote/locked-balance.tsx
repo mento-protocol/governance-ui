@@ -2,7 +2,7 @@ import { formatUnits } from "viem";
 import useTokens from "@/lib/contracts/useTokens";
 import NumbersService from "@/lib/helpers/numbers.service";
 
-const LockedBalance = () => {
+export const LockedBalance = () => {
   const { veMentoBalance } = useTokens();
   return (
     <div className="flex flex-col items-center gap-x2 font-fg">
@@ -13,5 +13,3 @@ const LockedBalance = () => {
     </div>
   );
 };
-
-export default LockedBalance;

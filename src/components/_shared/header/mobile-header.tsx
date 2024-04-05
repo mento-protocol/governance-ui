@@ -6,7 +6,6 @@ import { MotionConfig, motion } from "framer-motion";
 
 import { links } from "@/lib/constants/links";
 import Link from "next/link";
-import MobileAccordianMenu from "../mobile-accordian-menu";
 
 import { useAccount } from "wagmi";
 
@@ -16,8 +15,11 @@ import {
   MentoLogoIcon,
   TwitterIcon,
 } from "@/components/_icons";
-import { ThemeSwitch } from "@/components/_shared";
-import { DisconnectButton } from "@/components/_shared/disconnect-button";
+import {
+  DisconnectButton,
+  MobileAccordionMenu,
+  ThemeSwitch,
+} from "@/components/_shared";
 import { cn } from "@/styles/helpers";
 import { ConnectButton } from "@/components/_shared";
 
@@ -75,7 +77,7 @@ const DropDownMenuOverlay = ({
         variants={variants}
         transition={{ duration: 0.8 }}
       >
-        <MobileAccordianMenu />
+        <MobileAccordionMenu />
         <div className="flex w-full flex-col items-center justify-center">
           {address ? (
             <div className="mt-5 flex w-full flex-col items-center justify-center">

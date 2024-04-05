@@ -1,8 +1,7 @@
-import { Card } from "@/components/_shared";
-import VotingCardTitle from "@/components/_shared/vote-voting-card-title/voting-card-title";
-import VoteTypePill from "./vote-type-pill";
+import { Card, VotingCardTitle } from "@/components/_shared";
+import { VoteTypePill } from "./vote-type-pill";
 
-const HasVoted = ({ voteType }: { voteType: number }) => {
+export const HasVoted = ({ voteType }: { voteType: number }) => {
   return (
     <Card>
       <VotingCardTitle />
@@ -20,5 +19,3 @@ const HasVoted = ({ voteType }: { voteType: number }) => {
     </Card>
   );
 };
-
-export default HasVoted;

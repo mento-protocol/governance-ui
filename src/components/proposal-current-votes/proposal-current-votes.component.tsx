@@ -1,8 +1,9 @@
-import { Card } from "@/components/_shared";
 import {
+  Card,
   MultiProgressBar,
   MultiProgressBarValue,
-} from "@/components/_shared/progress-bar/progress-bar.component";
+} from "@/components/_shared";
+
 import BaseComponentProps from "@/interfaces/base-component-props.interface";
 import classNames from "classnames";
 import { useCallback, useEffect, useMemo, useState } from "react";

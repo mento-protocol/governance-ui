@@ -19,6 +19,7 @@ export const ProposalsListComponent = ({ className }: ProposalsListProps) => {
       <Card block>
         <div
           className={classNames(
+            "overflow-x-hidden",
             "bg-transparent bg-[20px_100%,20px_100%,10px_100%,10px_100%] bg-no-repeat  [background-attachment:local,local,scroll,scroll] [background-position:left_center,right_center,left_center,right]",
             "text_small",
             `[background-image:linear-gradient(to_right,#FFFFFF,#FFFFFF),linear-gradient(to_right,#FFFFFF,#FFFFFF),linear-gradient(to_right,rgba(0,_0,_0,_0.15),transparent),linear-gradient(to_left,rgba(0,_0,_0,_0.15),transparent)]`,

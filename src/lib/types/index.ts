@@ -9,7 +9,8 @@ export type BadgeType =
   | "danger"
   | "warning"
   | "success"
-  | "info";
+  | "info"
+  | "outline";
 
 export type MentoChainContracts = {
   [K in keyof ContractAddresses]: ChainContract;

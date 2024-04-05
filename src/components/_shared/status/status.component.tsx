@@ -7,7 +7,7 @@ interface StatusProps {
 }
 
 const variants = cva(
-  "color-black flex h-[22px] w-min min-w-full items-center justify-center whitespace-nowrap rounded-lg border border-solid py-[6.5px] pt-[6px] text-center font-fg text-[16px]/[1] font-medium uppercase not-italic",
+  "flex h-[22px] w-min min-w-full items-center justify-center whitespace-nowrap rounded-[4px] border py-[6.5px] pt-[6px] text-center font-fg text-[16px]/[1] font-medium uppercase not-italic",
   {
     variants: {
       type: {
@@ -18,6 +18,7 @@ const variants = cva(
         danger: "border-error bg-error",
         warning: "border-warning bg-warning",
         info: "border-info bg-info",
+        outline: "border-black bg-transparent dark:border-white",
       },
     },
     defaultVariants: {
@@ -33,7 +34,7 @@ export const Status = ({
 }: StatusProps & VariantProps<typeof variants>) => {
   return (
     <div className={cn(variants({ type }), className)}>
-      <span className="relative bottom-[-2px] dark:text-black">{text}</span>
+      <span className="relative dark:text-black">{text}</span>
     </div>
   );
 };

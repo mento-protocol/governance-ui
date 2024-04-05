@@ -15,7 +15,9 @@ export const ProposalsListComponent = ({ className }: ProposalsListProps) => {
 
   return (
     <div className={`w-full font-fg ${className}`}>
-      <h2 className="mb-x6 mt-x11 text-center font-medium">Proposals</h2>
+      <h2 className="mb-x6 mt-x11 text-center text-[32px] font-medium">
+        Proposals
+      </h2>
       <Card block>
         <div
           className={classNames(

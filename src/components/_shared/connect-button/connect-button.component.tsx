@@ -39,7 +39,7 @@ export const ConnectedDropdown = ({
 
   return (
     <DropdownButton
-      theme={"secondary"}
+      theme={"clear"}
       fullwidth={fullwidth}
       title={WalletHelper.getShortAddress(account.address)}
       avatar={<Avatar address={account.address || ""} />}
@@ -93,7 +93,6 @@ type ConnectButtonProps = ButtonProps;
 
 export const ConnectButton = ({
   className,
-  style,
   theme,
   fullwidth,
 }: ConnectButtonProps) => {
@@ -110,7 +109,6 @@ export const ConnectButton = ({
                 className,
                 fullwidth ? "" : "flex w-auto justify-center",
               )}
-              style={style}
             >
               {!connected ? (
                 <Button

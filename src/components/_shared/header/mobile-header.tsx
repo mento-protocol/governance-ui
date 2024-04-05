@@ -6,20 +6,20 @@ import { MotionConfig, motion } from "framer-motion";
 
 import { links } from "@/lib/constants/links";
 import Link from "next/link";
-import { Button } from "@/components/_shared/button/button.component";
 import MobileAccordianMenu from "../mobile-accordian-menu";
 
 import { useAccount } from "wagmi";
-// import ClientOnly from "./client-only";
+
 import {
   DiscordIcon,
   GithubIcon,
   MentoLogoIcon,
   TwitterIcon,
 } from "@/components/_icons";
-import { ThemeSwitch } from "../../theme-switch/theme-switch.component";
-import { DisconnectButton } from "../disconnect-button";
+import { ThemeSwitch } from "@/components/_shared";
+import { DisconnectButton } from "@/components/_shared/disconnect-button";
 import { cn } from "@/styles/helpers";
+import { ConnectButton } from "@/components/_shared";
 
 const variants = {
   open: { opacity: 1, x: 0, y: 21 },
@@ -34,7 +34,7 @@ export const MobileHeader = () => {
 
   return (
     <header className="w-full lg:hidden">
-      <div className="flex items-center justify-between border-b border-b-primary-dark p-4">
+      <div className="flex items-center justify-between border-b border-black p-4">
         <MentoLogoIcon className="h-5 w-[90px]" />
         <AnimatedHamburgerButton
           className="pr-4"
@@ -54,10 +54,22 @@ const DropDownMenuOverlay = ({
   isOpen: boolean;
   address?: string;
 }) => {
+  React.useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "auto";
+    }
+
+    return () => {
+      document.body.style.overflow = "auto";
+    };
+  }, [isOpen]);
+
   return (
     <>
       <motion.div
-        className="fixed left-0 top-5 z-50 flex h-full w-full flex-col bg-white p-4 dark:bg-primary-dark"
+        className="fixed bottom-0 left-0 right-0 top-5 z-50 flex h-screen w-screen flex-col bg-white p-4 dark:bg-black"
         initial="closed"
         animate={isOpen ? "open" : "closed"}
         variants={variants}
@@ -65,27 +77,18 @@ const DropDownMenuOverlay = ({
       >
         <MobileAccordianMenu />
         <div className="flex w-full flex-col items-center justify-center">
-          <Button
-            href={links.app}
-            // icon={<ChevronRight />}
-            // fullWidth
-            // noFlexZone={true}
-            // width="w-[340px] sm:w-[260px] md:w-[260px]"
-          >
-            Open app
-          </Button>
-
           {address ? (
             <div className="mt-5 flex w-full flex-col items-center justify-center">
               <DisconnectButton>Disconnect Wallet</DisconnectButton>
             </div>
-          ) : null}
+          ) : (
+            <ConnectButton theme="primary" />
+          )}
 
-          <div className="flex flex-col items-center ">
-            <SocialLinks className="mt-[20%]" />
-            <div className="grow"> </div>
+          <div className="mt-8 flex flex-col items-center">
+            <SocialLinks />
             <div>
-              <span className="dark:text-body-dark text-[15px]">Theme</span>
+              <span className="text-[15px]">Theme</span>
               <ThemeSwitch />
             </div>
           </div>
@@ -95,16 +98,16 @@ const DropDownMenuOverlay = ({
   );
 };
 
-const SocialLinks = ({ className = "" }: { className?: string }) => {
+const SocialLinks = () => {
   return (
-    <nav className={`${className} items-center-justify-center mx-auto flex`}>
+    <nav className="items-center-justify-center mx-auto flex">
       <Link
         className="p-2.5"
         target="_blank"
         rel="noopener noreferrer"
         href={links.twitter}
       >
-        <TwitterIcon />
+        <TwitterIcon height={41} width={41} />
       </Link>
       <Link
         className="p-2.5"
@@ -147,21 +150,21 @@ const AnimatedHamburgerButton = ({
         animate={isOpen ? "open" : "closed"}
         onClick={onClick}
         className={cn(
-          "relative h-[20px] w-5  rounded-full bg-white/0 transition-colors hover:bg-white/20",
+          "relative h-[20px] w-5  rounded-full transition-colors ",
           className,
         )}
       >
         <motion.span
           variants={VARIANTS.top}
-          className="absolute top-0 h-[2px] w-full -translate-y-1/2 translate-x-1/2 transform bg-black"
+          className="absolute top-0 h-[2px] w-full -translate-y-1/2 translate-x-1/2 transform bg-black dark:bg-white"
         />
         <motion.span
           variants={VARIANTS.middle}
-          className="absolute top-1/2 h-[2px] w-full -translate-y-1/2 translate-x-1/2 transform bg-black"
+          className="absolute top-1/2 h-[2px] w-full -translate-y-1/2 translate-x-1/2 transform bg-black dark:bg-white"
         />
         <motion.span
           variants={VARIANTS.bottom}
-          className="absolute top-full h-[2px] w-full -translate-y-1/2 translate-x-1/2 transform bg-black"
+          className="absolute top-full h-[2px] w-full -translate-y-1/2 translate-x-1/2 transform bg-black dark:bg-white"
         />
       </motion.button>
     </MotionConfig>

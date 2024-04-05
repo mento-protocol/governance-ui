@@ -31,7 +31,7 @@ const mobileMenuAccordianMenuItems = [
 
 const MobileAccordianMenu = () => {
   return (
-    <div className="mb-8 flex flex-col dark:bg-primary-dark">
+    <div className="mb-8 flex flex-col bg-white dark:bg-black">
       {mobileMenuAccordianMenuItems
         .filter(({ items }) => !!items)
         .map(({ name: headingName, items }) => {

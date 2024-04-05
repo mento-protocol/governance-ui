@@ -22,8 +22,6 @@
   "dependencies": {
     "@apollo/client": "^3.8.9",
     "@apollo/experimental-nextjs-app-support": "^0.8.0",
-    "@apollo/server": "^4.10.1",
-    "@as-integrations/next": "^3.0.0",
     "@headlessui/react": "^1.7.18",
     "@hookform/resolvers": "^3.3.2",
     "@mdxeditor/editor": "^1.11.2",
@@ -37,7 +35,6 @@
     "ethereum-blockies": "^0.1.1",
     "framer-motion": "^11.0.24",
     "graphql": "^16.8.1",
-    "graphql-tag": "^2.12.6",
     "next": "^14.0.4",
     "next-themes": "^0.3.0",
     "react": "^18.2.0",

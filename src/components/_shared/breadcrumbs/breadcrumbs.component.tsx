@@ -16,18 +16,15 @@ const Crumb = ({ path, index, last }: CrumbProps) => {
   const proposalId = (useParams().id || "") as string;
 
   return (
-    // TODO: Line height used here for 20px, adjust using padding
-    // TODO: color: foreground color
-    <li className="text-xl">
-      {index > 0 && crumbName && <span className="my-2.5">{">"}</span>}
+    <li className="flex gap-2">
+      {index > 0 && crumbName && <span>{">"}</span>}
       {last ? (
         <span>
           {crumbName}
           {isProposalCrumb && ` ${shortenProposalId(proposalId)}`}
         </span>
       ) : (
-        // TODO: text color $c-primary
-        <Link href={path || "/"} className="">
+        <Link href={path || "/"} className="text-primary">
           {crumbName}
         </Link>
       )}
@@ -43,8 +40,8 @@ export const Breadcrumbs = () => {
   );
 
   return (
-    <nav className="w-full" aria-label="Breadcrumb">
-      <ol>
+    <nav className="mt-[60px] w-full" aria-label="Breadcrumb">
+      <ol className="flex gap-2 font-inter text-[18px]">
         {crumbsPath.map((path, index) => (
           <Crumb
             key={index}

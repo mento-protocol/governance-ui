@@ -23,10 +23,10 @@ export default Footer;
 
 const DesktopFooter = () => {
   return (
-    <footer className="mx-auto mt-36 hidden justify-between border-t border-black px-4 pb-20 pt-20 dark:border-[#343437] lg:mx-10 lg:flex lg:gap-16 xl:mx-auto xl:max-w-[1120px] xl:gap-36">
-      <div className="-mt-2">
+    <footer className="mx-auto mt-36 hidden items-start justify-between gap-16 border-t border-black px-4 pb-20 pt-20 dark:border-[#343437] lg:mx-10 lg:flex xl:mx-auto xl:max-w-[1120px] xl:gap-36">
+      <div>
         <MentoLogoIcon />
-        <p className="text-body-light pt-3">
+        <p className="pt-3 font-inter text-[#636768] ">
           Mento © 2024. <br />
           All rights reserved.
         </p>
@@ -71,14 +71,14 @@ const MobileFooter = () => {
 
 const FooterNav = () => {
   return (
-    <nav className="flex flex-1 justify-between ">
+    <nav className="flex flex-1 justify-between">
       {Object.entries(footerMenuItems).map(([heading, links]) => {
         return (
           <div key={heading}>
-            <h3 className="text-body-light mb-3 font-fg font-medium">
+            <h4 className="text-body-light mb-[10px] font-fg text-[20px] font-medium leading-none text-[#636768]">
               {heading}
-            </h3>
-            <ul className="flex flex-col gap-3">
+            </h4>
+            <ul className=" flex flex-col font-inter text-[15px]">
               {links.map(({ title, href, isDownload }) => {
                 return (
                   <Link
@@ -103,12 +103,7 @@ const FooterNav = () => {
 const SocialLinks = () => {
   return (
     <nav className="dark:text-clean-white -mt-[10px] flex">
-      <Link
-        className="p-2.5"
-        target="_blank"
-        rel="noopener noreferrer"
-        href={links.twitter}
-      >
+      <Link target="_blank" rel="noopener noreferrer" href={links.twitter}>
         <TwitterIcon className="text-black dark:text-white" />
       </Link>
       <Link

@@ -37,7 +37,12 @@ const HeaderNav = () => {
       {headerMenuItems.map(({ name, items, href }) => {
         if (!items) {
           return (
-            <Link className="hover:no-underline" key={name} href={href}>
+            <Link
+              className="hover:no-underline"
+              key={name}
+              href={href}
+              target="_blank"
+            >
               {name}
             </Link>
           );

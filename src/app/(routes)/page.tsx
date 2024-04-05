@@ -30,7 +30,7 @@ const Page = () => {
       </Head>
       <Title />
       <Subtitle />
-      <Card className="mt-[10px] md:mt-[55px]" block>
+      <Card className="mt-8 md:mt-[55px]" block>
         <Card.Header className="flex flex-row items-center justify-between !pb-0">
           <MentoIconWithLogo />
           <DesktopNavigationButtons disabled={!address} />
@@ -124,7 +124,7 @@ const Title = () => {
 };
 
 const Subtitle = () => (
-  <h2 className="mt-x3 max-w-[300px] text-center text-[22px] font-medium leading-[22px] md:mt-x6 md:max-w-[17em] md:text-[32px]  md:leading-[32px]">
+  <h2 className="mt-x3  max-w-[300px] text-center text-[22px] font-medium leading-[22px] md:mt-x6 md:max-w-[17em] md:text-[32px]  md:leading-[32px]">
     Participate in the governance process of Mento stablecoin platform
   </h2>
 );

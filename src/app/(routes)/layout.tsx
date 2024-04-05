@@ -26,11 +26,11 @@ export default function RootLayout({ children }: RootLayoutProps) {
 
   return (
     <html
-      className={`${inter.variable} w-full font-fg text-lg md:text-xl`}
+      className={`${inter.variable} overscroll-none font-fg text-lg md:text-xl`}
       lang="en"
     >
       <body
-        className="w-full bg-white dark:bg-black"
+        className="overscroll-none bg-white dark:bg-black"
         suppressHydrationWarning={true}
       >
         <Providers>

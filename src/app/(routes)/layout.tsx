@@ -25,10 +25,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
   const homePage = path === "/";
 
   return (
-    <html
-      className={`${inter.variable} overscroll-none font-fg text-lg md:text-xl`}
-      lang="en"
-    >
+    <html className={`${inter.variable} w-full font-fg text-base`} lang="en">
       <body
         className="overscroll-none bg-white dark:bg-black"
         suppressHydrationWarning={true}

@@ -51,16 +51,6 @@
     font-weight: 700;
     font-style: normal;
   }
-  html {
-    font-size: 18px;
-    font-weight: 400;
-    line-height: 1;
-    font-family: var(--font-fg);
-
-    @include media-md {
-      font-size: 22px;
-    }
-  }
 }
 
 @include media-md {

@@ -1,9 +1,0 @@
-@import "@/styles/brand";
-
-.header {
-  @include media-md {
-    &__side {
-      width: 200px;
-    }
-  }
-}

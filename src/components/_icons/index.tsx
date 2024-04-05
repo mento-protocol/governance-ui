@@ -8,4 +8,3 @@ export { LightModeIcon } from "./light-mode.icon";
 export { DarkModeIcon } from "./dark-mode.icon";
 export { LearnMoreIcon } from "./learn-more.icon";
 export { CeloLogoIcon } from "./celo-logo.icon";
-export { MenuIcon } from "./menu.icon";

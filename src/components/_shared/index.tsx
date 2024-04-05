@@ -1,6 +1,8 @@
 export { Avatar } from "./avatar/avatar.component";
 export { Badge } from "./badge/badge.component";
 export { Breadcrumbs } from "./breadcrumbs/breadcrumbs.component";
+export { Header } from "./header/index";
+export { Footer } from "./footer/footer.component";
 export { Button } from "./button/button.component";
 export { Card } from "./card/card.component";
 export { ConnectButton } from "./connect-button/connect-button.component";
@@ -9,8 +11,6 @@ export { Divider } from "./divider/divider.component";
 export { DropdownButton } from "./dropdown-button/dropdown-button.component";
 export { ExecutionCodeView } from "./execution-code-view/execution-code-view.component";
 export { Expandable } from "./expandable/expandable.component";
-export { Footer } from "./footer/footer.component";
-export { Header } from "./header/header.component";
 export { Input } from "./input/input.component";
 export { Loader } from "./loader/loader.component";
 export { MarkdownEditor } from "./markdown-editor/markdown-editor.component";

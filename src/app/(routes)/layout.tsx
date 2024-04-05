@@ -7,6 +7,7 @@ import "@/styles/globals.scss";
 import { Providers } from "@/app/(routes)/providers";
 import { usePathname } from "next/navigation";
 import { ModalProvider } from "@/lib/providers/modal.provider";
+import { MaxWidthWrapper } from "@/components/_shared/max-width-wrapper";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -23,18 +24,22 @@ export default function RootLayout({ children }: RootLayoutProps) {
   const homePage = path === "/";
 
   return (
-    <html className={`${inter.variable} font-fg text-base`} lang="en">
-      <body className="bg-white dark:bg-black" suppressHydrationWarning={true}>
+    <html
+      className={`${inter.variable} w-full font-fg text-lg md:text-xl`}
+      lang="en"
+    >
+      <body
+        className="w-full bg-white dark:bg-black"
+        suppressHydrationWarning={true}
+      >
         <Providers>
           <ModalProvider>
-            <div className="flex min-h-screen flex-col">
-              <Header />
-              <div className="mx-auto mt-[50px] w-full max-w-[1120px] flex-1 px-5 md:px-[30px]">
-                {!homePage && <Breadcrumbs />}
-                {children}
-              </div>
-              <Footer className="pt-x5" />
-            </div>
+            <Header />
+            <MaxWidthWrapper>
+              {!homePage && <Breadcrumbs />}
+              {children}
+            </MaxWidthWrapper>
+            <Footer className="pt-x5" />
           </ModalProvider>
         </Providers>
       </body>

@@ -35,7 +35,7 @@ export const ConnectedDropdown = ({
 
   return (
     <DropdownButton
-      theme={"clear"}
+      theme={"secondary"}
       fullwidth={fullwidth}
       title={WalletHelper.getShortAddress(account.address)}
       avatar={<Avatar address={account.address || ""} />}

@@ -1,7 +1,9 @@
 export { CeloLogoIcon } from "./celo-logo.icon";
+export { ChangeNetworkIcon } from "./change-network.icon";
 export { ChevronIcon } from "./chevron.icon";
 export { CopyIcon } from "./copy.icon";
 export { DarkModeIcon } from "./dark-mode.icon";
+export { DisconnectIcon } from "./disconnect.icon";
 export { DiscordIcon } from "./discord.icon";
 export { GithubIcon } from "./github.icon";
 export { LearnMoreIcon } from "./learn-more.icon";

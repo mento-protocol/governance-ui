@@ -17,6 +17,38 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      animation: {
+        loaderPulseBorder: "loaderPulseBorder 2s linear infinite",
+        altSpin: "altSpin 1s linear infinite",
+      },
+      keyframes: {
+        altSpin: {
+          "100%": {
+            transform: "rotate(360deg)",
+          },
+        },
+        loaderPulseBorder: {
+          "0%": {
+            "clip-path": "polygon(50% 50%, 0 0, 0 0, 0 0, 0 0, 0 0)",
+          },
+          "25%": {
+            "clip-path":
+              "polygon(50% 50%, 0 0, 100% 0, 100% 0, 100% 0, 100% 0)",
+          },
+          "50%": {
+            "clip-path":
+              "polygon(50% 50%, 0 0, 100% 0, 100% 100%, 100% 100%, 100% 100%)",
+          },
+          "75%": {
+            "clip-path":
+              "polygon(50% 50%, 0 0, 100% 0, 100% 100%, 0 100%, 0 100%)",
+          },
+          "100%": {
+            "clip-path":
+              "polygon(50% 50%, 0 0, 100% 0, 100% 100%, 0 100%, 0 0)",
+          },
+        },
+      },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
         "gradient-conic":
@@ -107,6 +139,7 @@ const config: Config = {
         },
         white: "#FFFFFF",
         gray: {
+          alt66: "#88888866", // Need to confirm where these 8 style ones came from
           lighter: "#CCCFDE",
           light: "#B3B3B3",
           DEFAULT: "#808080",

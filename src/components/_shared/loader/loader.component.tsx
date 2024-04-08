@@ -1,6 +1,5 @@
-import classNames from "classnames";
 import { IMentoIcon, MentoIcon } from "@/components/_icons";
-import styles from "./loader.module.scss";
+import { cn } from "@/styles/helpers";
 
 interface ILoader extends IMentoIcon {
   isCenter?: boolean;
@@ -9,12 +8,17 @@ interface ILoader extends IMentoIcon {
 
 export const Loader = ({ className, isCenter, backgroundColor }: ILoader) => {
   return (
-    <div className={classNames(className, isCenter && "flex justify-center")}>
-      <div className={styles.container}>
-        <div className={styles.icon}>
+    <div className={cn(isCenter && "flex justify-center", className)}>
+      <div className="relative h-x12 w-x12">
+        <div className="absolute left-[50%] top-[50%] translate-x-[-50%] translate-y-[-50%]">
           <MentoIcon backgroundColor={backgroundColor} />
         </div>
-        <div className={styles.loader} />
+        <div
+          className={cn(
+            "relative h-x12 w-x12 animate-altSpin rounded-[50%] [animation-fill-mode:forwards]",
+            "before:absolute before:inset-0 before:animate-loaderPulseBorder before:rounded-[50%] before:border-[5px] before:border-primary",
+          )}
+        />
       </div>
     </div>
   );

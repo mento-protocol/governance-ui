@@ -127,7 +127,7 @@ export const DatePicker = ({
       {!!label && <label htmlFor={id}>{label}</label>}
       <div
         // TODO: box-shadow: 0 0 0 2px $c-primary
-        className={`group/compact-input:py-3 group/compact-input:px-4 group/compact-input:[& input]:text-sm cursor-pointer ${
+        className={`group/compact-input:py-3 group/compact-input:px-4 group/compact-input:[&_input]:text-sm cursor-pointer ${
           datePickerOpened && "border-primary-blue border border-solid"
         } ${
           // TODO: box-shadow: 0 0 0 2px $c-error

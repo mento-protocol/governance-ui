@@ -80,8 +80,8 @@ export const Button = ({
               fullwidth,
               disabled,
               theme,
+              className,
             }),
-            className,
           )}
         >
           {/* Transition east out 0.2 */}
@@ -93,11 +93,11 @@ export const Button = ({
         <button
           type={type}
           className={cn(
-            className,
             variants({
               fullwidth,
               disabled,
               theme,
+              className,
             }),
           )}
           onClick={onClick}

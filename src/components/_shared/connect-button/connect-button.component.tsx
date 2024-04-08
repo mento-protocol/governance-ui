@@ -10,7 +10,7 @@ import {
   ButtonProps,
   DropdownButton,
 } from "@/components/_shared";
-import { ChevronIcon, MentoIcon } from "@/components/_icons";
+import { ChevronIcon, DisconnectIcon, MentoIcon } from "@/components/_icons";
 import BaseComponentProps from "@/interfaces/base-component-props.interface";
 import WalletHelper from "@/lib/helpers/wallet.helper";
 import useTokens from "@/lib/contracts/useTokens";
@@ -42,7 +42,12 @@ export const ConnectedDropdown = ({
       theme={"clear"}
       fullwidth={fullwidth}
       title={WalletHelper.getShortAddress(account.address)}
-      avatar={<Avatar address={account.address || ""} />}
+      avatar={
+        <Avatar
+          className="flex flex-row items-center"
+          address={account.address || ""}
+        />
+      }
     >
       <DropdownButton.Dropdown className="border border-solid border-black bg-white text-black dark:border-white dark:bg-black dark:text-white">
         {isConnected ? (
@@ -79,10 +84,18 @@ export const ConnectedDropdown = ({
           </div>
         ) : null}
         <DropdownButton.Element onClick={openAccountModal}>
-          Account settings
+          {/* TODO: Need account icon */}
+          <span>Account settings</span>
         </DropdownButton.Element>
         <DropdownButton.Element onClick={openChainModal}>
-          Chain settings
+          <span>Chain settings</span>
+        </DropdownButton.Element>
+        <DropdownButton.Element
+          className="*:flex *:items-center *:justify-center"
+          onClick={openChainModal}
+        >
+          <DisconnectIcon />
+          <span>Disconnect</span>
         </DropdownButton.Element>
       </DropdownButton.Dropdown>
     </DropdownButton>
@@ -106,8 +119,8 @@ export const ConnectButton = ({
           <>
             <div
               className={cn(
-                className,
                 fullwidth ? "" : "flex w-auto justify-center",
+                className,
               )}
             >
               {!connected ? (

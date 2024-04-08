@@ -33,7 +33,7 @@ const headerMenuItems = [
 
 const HeaderNav = () => {
   return (
-    <div className="flex gap-9 font-inter text-[15px] dark:text-white">
+    <nav className="flex gap-9 font-inter text-[15px] dark:text-white">
       {headerMenuItems.map(({ name, items, href }) => {
         if (!items) {
           return (
@@ -97,7 +97,7 @@ const HeaderNav = () => {
           </div>
         );
       })}
-    </div>
+    </nav>
   );
 };
 

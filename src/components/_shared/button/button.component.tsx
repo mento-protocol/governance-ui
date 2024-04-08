@@ -9,7 +9,7 @@ const variants = cva(
   {
     variants: {
       disabled: {
-        true: "w-full cursor-not-allowed bg-gray-lighter",
+        true: "pointer-events-none w-full cursor-not-allowed bg-gray-lighter",
       },
       fullwidth: { true: "", false: "max-w-[200px]" },
       theme: {
@@ -73,7 +73,7 @@ export const Button = ({
     <>
       {href ? (
         <Link
-          href={disabled ? "#" : href}
+          href={href}
           target={target}
           className={cn(
             variants({

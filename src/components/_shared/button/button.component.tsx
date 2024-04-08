@@ -5,10 +5,12 @@ import { ComponentProps } from "react";
 
 // TODO: group style types in cn combiner for readability
 const variants = cva(
-  "relative block w-full  rounded-md border border-solid border-black px-x4 py-x2 font-inter text-sm text-black transition [transform-style:preserve-3d] hover:no-underline hover:[&>span]:text-[inherit]",
+  "relative block w-full rounded-md border border-solid border-black px-x4 py-x2 font-inter text-sm text-black transition [transform-style:preserve-3d] hover:no-underline hover:[&>span]:text-[inherit]",
   {
     variants: {
-      disabled: { true: "group/button-disabled w-full cursor-not-allowed" },
+      disabled: {
+        true: "w-full cursor-not-allowed bg-gray-lighter",
+      },
       fullwidth: { true: "", false: "max-w-[200px]" },
       theme: {
         primary: cn(
@@ -71,7 +73,7 @@ export const Button = ({
     <>
       {href ? (
         <Link
-          href={href}
+          href={disabled ? "#" : href}
           target={target}
           className={cn(
             variants({

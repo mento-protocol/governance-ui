@@ -1,6 +1,5 @@
 "use client";
 import { ComponentProps, ReactNode, useEffect, useRef, useState } from "react";
-import classNames from "classnames";
 import useOutsideAlerter from "@/lib/hooks/useOutsideAlerter";
 import { Button } from "@/components/_shared";
 import { ChevronIcon } from "@/components/_icons";
@@ -139,7 +138,7 @@ export const DropdownButton = ({
   return (
     <div
       ref={dropdownRef}
-      className={classNames(
+      className={cn(
         "relative",
         fullwidth && "w-full",
         dropdownOpened && "opened",
@@ -170,7 +169,7 @@ export const DropdownButton = ({
             ? `-${dropdownPositionTopOffset}px`
             : "",
         }}
-        className={classNames(
+        className={cn(
           variants({
             align: alignment,
             theme,

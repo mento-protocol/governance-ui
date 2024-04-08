@@ -1,4 +1,3 @@
-import classNames from "classnames";
 import { usePathname } from "next/navigation";
 import BaseComponentProps from "@/interfaces/base-component-props.interface";
 import { ChevronIcon, DiscordIcon, LearnMoreIcon } from "@/components/_icons";
@@ -18,8 +17,8 @@ export const LearnMore = ({ className, style }: LearnMoreProps) => {
     <div className={cn("mt-x4", className)} style={style}>
       <div className="main-container">
         {pathname === "/" && (
-          <div className={classNames(styles.learn_more)}>
-            <div className={classNames(styles.content)}>
+          <div className={cn(styles.learn_more)}>
+            <div className={cn(styles.content)}>
               <h2 className="my-x1 text-6xl font-semibold">Learn more</h2>
               <p className={styles.description}>
                 If you&apos;re interested in learning more about Mento, finding
@@ -27,7 +26,7 @@ export const LearnMore = ({ className, style }: LearnMoreProps) => {
                 contribute, please join our discord server.
               </p>
               <Button
-                className={classNames(styles.button, "mt-x4")}
+                className={cn(styles.button, "mt-x4")}
                 href="https://discord.gg"
                 target="_blank"
               >

@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { remark } from "remark";
 import html from "remark-html";
-import classNames from "classnames";
 import styles from "./markdown-view.module.scss";
+import { cn } from "@/styles/helpers";
 
 type MarkdownViewProps = {
   markdown: string;
@@ -24,11 +24,7 @@ export const MarkdownView = ({ markdown }: MarkdownViewProps) => {
 
   return (
     <div
-      className={classNames(
-        "prose",
-        styles.container,
-        "max-w-none dark:prose-invert",
-      )}
+      className={cn("prose", styles.container, "max-w-none dark:prose-invert")}
     >
       {markdownParsed && (
         <div dangerouslySetInnerHTML={{ __html: markdownParsed }} />

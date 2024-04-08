@@ -1,6 +1,5 @@
 "use client";
 import React, { Suspense } from "react";
-import classNames from "classnames";
 import Link from "next/link";
 import CopyToClipboard from "react-copy-to-clipboard";
 import { useAccount } from "wagmi";
@@ -150,11 +149,7 @@ const ParamDisplay = ({
       <div className="text-[16px] leading-[19px] md:text-[22px] md:leading-[22px]">
         {label}
       </div>
-      <div
-        className={classNames(
-          "text-right text-base/[19px] font-normal md:text-[22px]/[22px]",
-        )}
-      >
+      <div className="text-right text-base/[19px] font-normal md:text-[22px]/[22px]">
         {value ?? "-"}
       </div>
     </>

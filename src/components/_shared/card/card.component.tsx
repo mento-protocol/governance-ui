@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
 import BaseComponentProps from "@/interfaces/base-component-props.interface";
-import classNames from "classnames";
+import { cn } from "@/styles/helpers";
 
 interface CardPartialProps extends BaseComponentProps {
   children: ReactNode;
@@ -18,7 +18,7 @@ const CardHeader = ({ children, className }: CardPartialProps) => {
   return (
     <header
       // TODO: padding was 10, now 12
-      className={classNames("rounded-lg rounded-r-lg bg-[inherit]", className)}
+      className={cn("rounded-lg rounded-r-lg bg-[inherit]", className)}
     >
       {children}
     </header>
@@ -27,7 +27,7 @@ const CardHeader = ({ children, className }: CardPartialProps) => {
 
 const CardFooter = ({ children, className, style }: CardPartialProps) => {
   return (
-    <footer className={classNames(className)} style={style}>
+    <footer className={className} style={style}>
       {children}
     </footer>
   );
@@ -41,7 +41,7 @@ export const Card = ({
 }: CardProps) => {
   return (
     <div
-      className={classNames(
+      className={cn(
         `rounded-lg border border-gray-light bg-white p-5 dark:bg-black-off`,
         block && "w-full",
         transparent && "bg-transparent",

@@ -5,9 +5,9 @@ import {
 } from "@/components/_shared";
 
 import BaseComponentProps from "@/interfaces/base-component-props.interface";
-import classNames from "classnames";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { IVote } from "@/lib/interfaces/vote.interface";
+import { cn } from "@/styles/helpers";
 
 interface ProposalCurrentVotesProps extends BaseComponentProps {}
 
@@ -74,7 +74,7 @@ export const ProposalCurrentVotes = ({
           <div className="mb-x3 flex justify-between">
             <div className="flex items-center gap-x3">
               <div
-                className={classNames(
+                className={cn(
                   "h-x3 w-x3 rounded-[50%] border border-solid border-black bg-white content-['']",
                   "bg-success",
                 )}
@@ -90,7 +90,7 @@ export const ProposalCurrentVotes = ({
           <div className="mb-x3 flex justify-between">
             <div className="flex items-center gap-x3">
               <div
-                className={classNames(
+                className={cn(
                   "h-x3 w-x3 rounded-[50%] border border-solid border-black bg-white content-['']",
                   "bg-error",
                 )}
@@ -119,7 +119,7 @@ export const ProposalCurrentVotes = ({
           <div className="mb-x3">
             <div className="flex items-center gap-x3">
               <div
-                className={classNames(
+                className={cn(
                   "h-x3 w-x3 rounded-[50%] border border-solid border-black bg-white content-['']",
                   "bg-primary",
                   "rounded-[8px]",
@@ -131,7 +131,7 @@ export const ProposalCurrentVotes = ({
           <div className="mb-x3">
             <div className="flex items-center gap-x3">
               <div
-                className={classNames(
+                className={cn(
                   "h-x3 w-x3 rounded-[50%] border border-solid border-black bg-white content-['']",
                   "bg-black",
                   "rounded-[8px]",
@@ -143,7 +143,7 @@ export const ProposalCurrentVotes = ({
           <div className="mb-x3">
             <div className="flex items-center gap-x3">
               <div
-                className={classNames(
+                className={cn(
                   "h-x3 w-x3 rounded-[50%] border border-solid border-black bg-white content-['']",
                   "opacity-0",
                   "rounded-[8px]",

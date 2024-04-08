@@ -32,7 +32,8 @@ For the Tailwind intellisense, please add the following to your `settings.json`
 ```json
 "tailwindCSS.experimental.classRegex": [
     ["cva\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]"],
-    ["cx\\(([^)]*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)"]
+    ["cx\\(([^)]*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)"],
+    ["cn\\(([^)]*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)"],
 ]
 ```
 
@@ -51,6 +52,12 @@ pnpm dev
 ## Project spec
 
 Please refer to our [spec documents by clicking here.](./docs/index.md)
+
+## Troubleshooting
+
+### No item imported in barrel file optimization
+
+This is due to the optimizer caching the results, simply delete the `.next` folder and restart your dev environment.
 
 <!-- ## Credits
 

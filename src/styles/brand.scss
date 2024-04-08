@@ -214,6 +214,7 @@ $themes: (
 }
 
 @mixin default-input-style {
+  // "mt-x1 w-full gap-[8px] rounded-[8px] border border-solid border-gray-light px-[18px] py-[32px] transition-all duration-200 ease-out-circ",
   width: 100%;
   padding: 18px 32px;
   border-radius: $border-radius;

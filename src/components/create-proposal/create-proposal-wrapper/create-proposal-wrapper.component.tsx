@@ -1,10 +1,10 @@
 import { ReactNode, useMemo } from "react";
-import classNames from "classnames";
 import { Button, Card, StepCounter } from "@/components/_shared";
 import {
   CreateProposalStep,
   useCreateProposal,
 } from "../create-proposal-provider";
+import { cn } from "@/styles/helpers";
 
 interface ICreateProposalWrapper {
   className?: string;
@@ -32,10 +32,7 @@ export const CreateProposalWrapper = ({
   }, [componentStep, step]);
 
   return (
-    <Card
-      block
-      className={classNames("p-x4 pb-0", className, !isOpen && "opacity-50")}
-    >
+    <Card block className={cn("p-x4 pb-0", !isOpen && "opacity-50", className)}>
       <Card.Header>
         <div
           className={
@@ -47,7 +44,8 @@ export const CreateProposalWrapper = ({
         </div>
       </Card.Header>
       <div
-        className={classNames(
+        // TODO: change to CVA
+        className={cn(
           "max-h-0 overflow-hidden !pb-0",
           isOpen &&
             "group/wrapper-open transition-max-h max-h-full p-initial duration-300 ease-in-cubic",

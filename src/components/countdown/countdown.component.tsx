@@ -1,8 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
-import classNames from "classnames";
 import BaseComponentProps from "@/interfaces/base-component-props.interface";
-import styles from "./countdown.module.scss";
+import { cn } from "@/styles/helpers";
 
 const getTimeLeftValues = (countDown: number) => {
   const days = Math.floor(countDown / (1000 * 60 * 60 * 24));
@@ -50,14 +49,14 @@ export const Countdown = ({
 
   return (
     <div
-      className={classNames(
+      className={cn(
         "mt-x3 flex flex-row items-center justify-center gap-x1 md:mt-0 md:justify-end ",
         className,
       )}
       style={style}
     >
       <div
-        className={classNames(
+        className={cn(
           "flex min-w-x11 flex-col items-center justify-center gap-x2 md:min-w-x16 md:gap-x3",
           "mr-x1 text-primary",
         )}
@@ -67,13 +66,13 @@ export const Countdown = ({
         </div>
         {/* TODO: --theme-foreground-color not found */}
         <div
-          className={`${styles.label} text-x3 md:text-x4 w-full text-center font-normal leading-none`}
+          className={`text-x3 md:text-x4 w-full text-center font-normal leading-none text-black dark:text-white`}
         >
           days
         </div>
       </div>
       <div
-        className={classNames(
+        className={cn(
           "flex min-w-x11 flex-col items-center justify-center gap-x2 md:min-w-x16 md:gap-x3",
           // Time selector complicated
           "[:not(:last-child)>*:first-child:after]:content-[':'] [:not(:last-child)>*:first-child:after]:absolute [:not(:last-child)>*:first-child:after]:top-0 [:not(:last-child)>*:first-child:after]:leading-none [:not(:last-child)>*:first-child:after]:font-medium [:not(:last-child)>*:first-child:after]:-right-x1 [:not(:last-child)>*:first-child:after]:text-[32px]",
@@ -83,13 +82,13 @@ export const Countdown = ({
           {hours}
         </div>
         <div
-          className={`${styles.label} text-x3 md:text-x4 w-full text-center font-normal leading-none`}
+          className={`text-x3 md:text-x4 w-full text-center font-normal leading-none text-black dark:text-white`}
         >
           hours
         </div>
       </div>
       <div
-        className={classNames(
+        className={cn(
           "flex min-w-x11 flex-col items-center justify-center gap-x2 md:min-w-x16 md:gap-x3",
           // Time selector complicated
           "[:not(:last-child)>*:first-child:after]:content-[':'] [:not(:last-child)>*:first-child:after]:absolute [:not(:last-child)>*:first-child:after]:top-0 [:not(:last-child)>*:first-child:after]:leading-none [:not(:last-child)>*:first-child:after]:font-medium [:not(:last-child)>*:first-child:after]:-right-x1 [:not(:last-child)>*:first-child:after]:text-[32px]",
@@ -99,13 +98,13 @@ export const Countdown = ({
           {minutes}
         </div>
         <div
-          className={`${styles.label} text-x3 md:text-x4 w-full text-center font-normal leading-none`}
+          className={`text-x3 md:text-x4 w-full text-center font-normal leading-none text-black dark:text-white`}
         >
           minutes
         </div>
       </div>
       <div
-        className={classNames(
+        className={cn(
           "flex min-w-x11 flex-col items-center justify-center gap-x2 md:min-w-x16 md:gap-x3",
           // Time selector complicated
           "[:not(:last-child)>*:first-child:after]:content-[':'] [:not(:last-child)>*:first-child:after]:absolute [:not(:last-child)>*:first-child:after]:top-0 [:not(:last-child)>*:first-child:after]:leading-none [:not(:last-child)>*:first-child:after]:font-medium [:not(:last-child)>*:first-child:after]:-right-x1 [:not(:last-child)>*:first-child:after]:text-[32px]",
@@ -115,7 +114,7 @@ export const Countdown = ({
           {seconds}
         </div>
         <div
-          className={`${styles.label} text-x3 md:text-x4 w-full text-center font-normal leading-none`}
+          className={`text-x3 md:text-x4 w-full text-center font-normal leading-none text-black dark:text-white`}
         >
           seconds
         </div>

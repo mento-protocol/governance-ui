@@ -1,4 +1,3 @@
-import classNames from "classnames";
 import { useEffect, useRef, useState } from "react";
 import {
   BlockTypeSelect,
@@ -29,6 +28,7 @@ import "@mdxeditor/editor/style.css";
 import BaseComponentProps from "@/interfaces/base-component-props.interface";
 import { MarkdownView } from "@/components/_shared";
 import styles from "./markdown-editor.module.scss";
+import { cn } from "@/styles/helpers";
 
 interface MarkdownEditorProps extends BaseComponentProps {
   value: string;
@@ -58,10 +58,10 @@ export const MarkdownEditor = ({
   };
 
   return (
-    <div className={classNames(className)} style={style}>
+    <div className={cn(className)} style={style}>
       <div>
         <button
-          className={classNames(
+          className={cn(
             styles.editor_button,
             selectedView === "editor" && styles.active,
           )}
@@ -70,7 +70,7 @@ export const MarkdownEditor = ({
           Editor
         </button>
         <button
-          className={classNames(
+          className={cn(
             styles.editor_button,
             selectedView === "preview" && styles.active,
           )}
@@ -83,8 +83,8 @@ export const MarkdownEditor = ({
             <MDXEditor
               ref={editorRef}
               className={styles.editor}
-              contentEditableClassName={classNames(
-                "prose prose-editor",
+              contentEditableClassName={cn(
+                "prose-editor prose",
                 styles.editor__contentEditable,
               )}
               markdown={markdown}

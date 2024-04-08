@@ -1,10 +1,10 @@
 "use client";
 import { ReactNode, useEffect, useMemo, useState } from "react";
-import classNames from "classnames";
 import BaseComponentProps from "@/interfaces/base-component-props.interface";
 import BaseInputProps from "@/interfaces/base-input-props.interface";
 import exports from "@/styles/exports.module.scss";
 import styles from "./slider.module.scss";
+import { cn } from "@/styles/helpers";
 
 interface SliderProps extends BaseComponentProps, BaseInputProps {
   compact?: boolean;
@@ -58,11 +58,7 @@ export const Slider = ({
 
   return (
     <div
-      className={classNames(
-        styles.sliderWrapper,
-        compact && styles.compact,
-        className,
-      )}
+      className={cn(styles.sliderWrapper, compact && styles.compact, className)}
     >
       {!!label && <label htmlFor={id}>{label}</label>}
       <div className={styles.bubbleTrack}>
@@ -77,7 +73,7 @@ export const Slider = ({
       <input
         id={id}
         step={step}
-        className={classNames(styles.slider)}
+        className={cn(styles.slider)}
         onChange={onValueChange}
         onBlur={onBlur}
         ref={ref}

@@ -1,7 +1,7 @@
 import { createContext, ReactNode, useContext, useState } from "react";
 import modalStyles from "@/styles/modal.module.scss";
 import { Button, Card } from "@/components/_shared";
-import classNames from "classnames";
+import { cn } from "@/styles/helpers";
 
 interface ModalProviderProps {
   children: ReactNode;
@@ -77,12 +77,12 @@ const ModalWrapper = ({
   return (
     <div
       key={index}
-      className={classNames(modalStyles.modal, modalStyles.opened)}
+      className={cn(modalStyles.modal, modalStyles.opened)}
       style={{ zIndex: 1000 + index }}
     >
       <div className={modalStyles.modal__content}>
         <Card
-          className={classNames(
+          className={cn(
             modalStyles.modal__content__inner,
             modalStyles[options?.modalType || ""],
           )}

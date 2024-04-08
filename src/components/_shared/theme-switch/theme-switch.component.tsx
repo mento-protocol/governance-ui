@@ -1,6 +1,7 @@
-import classNames from "classnames";
 import { DarkModeIcon, LightModeIcon } from "@/components/_icons";
 import { useTheme } from "next-themes";
+import { cn } from "@/styles/helpers";
+
 const enum Mode {
   LIGHT = "light",
   DARK = "dark",
@@ -16,14 +17,14 @@ export const ThemeSwitch = () => {
   return (
     <button
       onClick={onToggleSwitch}
-      className={classNames(
+      className={cn(
         "relative flex h-[24px] w-[44px] items-center justify-between rounded-[32px] px-x1 py-[3px]",
         theme === Mode.LIGHT ? "border border-black bg-white" : "bg-secondary",
       )}
     >
       <div className="flex w-full items-center justify-between gap-x1">
         <div
-          className={classNames(
+          className={cn(
             "ease absolute h-[18px] w-[18px] rounded-[9px] bg-black transition-all duration-[400ms]",
             theme === Mode.LIGHT ? "left-[3px]" : "left-[21px]",
           )}

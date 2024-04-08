@@ -1,11 +1,11 @@
 "use client";
 import { ReactNode, useEffect, useMemo, useRef, useState } from "react";
 import { isBefore, addDays } from "date-fns";
-import classNames from "classnames";
 import { DayPicker, SelectSingleEventHandler } from "react-day-picker";
 import BaseComponentProps from "@/interfaces/base-component-props.interface";
 import useOutsideAlerter from "@/lib/hooks/useOutsideAlerter";
 import "react-day-picker/dist/style.css";
+import { cn } from "@/styles/helpers";
 
 type DisallowedDay =
   | "sun"
@@ -154,7 +154,7 @@ export const DatePicker = ({
       )}
 
       <div
-        className={classNames(
+        className={cn(
           // styles.backdrop
           "pointer-events-none fixed bottom-0 left-0 right-0 top-0 z-[-1] opacity-0 backdrop-blur-[2px]",
           datePickerOpened &&

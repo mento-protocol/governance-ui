@@ -1,7 +1,7 @@
 import BaseComponentProps from "@/lib/interfaces/base-component-props.interface";
-import classNames from "classnames";
 import { useMemo } from "react";
 import NumbersService from "@/lib/helpers/numbers.service";
+import { cn } from "@/styles/helpers";
 
 type Type = "success" | "info" | "warning" | "danger";
 
@@ -90,7 +90,7 @@ export const ProgressBar = ({
 
   return (
     <div
-      className={classNames(
+      className={cn(
         "flex flex-col items-end justify-center text-right font-fg text-[22px]/[22px] font-normal",
         className,
       )}
@@ -106,7 +106,7 @@ export const ProgressBar = ({
         }}
       >
         <div
-          className={classNames(
+          className={cn(
             "h-full rounded-3xl bg-gray shadow-[0.5px_0_0] shadow-black dark:shadow-gray [&:not(:first-child)]:-ml-x1 [&:not(:first-child)]:rounded-bl-none [&:not(:first-child)]:rounded-tl-none",
           )}
           style={{
@@ -128,7 +128,7 @@ export const MultiProgressBar = ({
 }: MultiProgressBarProps) => {
   return (
     <div
-      className={classNames(
+      className={cn(
         "flex flex-col items-end justify-center text-right font-fg text-[22px]/[22px] font-normal",
         className,
       )}
@@ -139,7 +139,7 @@ export const MultiProgressBar = ({
           return (
             <div
               key={index}
-              className={classNames(
+              className={cn(
                 "h-full rounded-3xl bg-gray shadow-[0.5px_0_0] shadow-black dark:shadow-gray [&:not(:first-child)]:-ml-x1 [&:not(:first-child)]:rounded-bl-none [&:not(:first-child)]:rounded-tl-none",
               )}
               style={{

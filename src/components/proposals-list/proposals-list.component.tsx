@@ -1,12 +1,12 @@
 import NumbersService from "@/lib/helpers/numbers.service";
 import StringService from "@/lib/helpers/string.service";
 import BaseComponentProps from "@/lib/interfaces/base-component-props.interface";
-import classNames from "classnames";
 import { Card, ProgressBar, Status } from "@/components/_shared";
 import Link from "next/link";
 import { stateToStatusColorMap } from "@/lib/interfaces/proposal.interface";
 import { formatUnits } from "viem";
 import useProposals from "@/lib/contracts/governor/useProposals";
+import { cn } from "@/styles/helpers";
 
 interface ProposalsListProps extends BaseComponentProps {}
 
@@ -20,7 +20,7 @@ export const ProposalsListComponent = ({ className }: ProposalsListProps) => {
       </h2>
       <Card block>
         <div
-          className={classNames(
+          className={cn(
             "overflow-x-hidden",
             "bg-transparent bg-[20px_100%,20px_100%,10px_100%,10px_100%] bg-no-repeat  [background-attachment:local,local,scroll,scroll] [background-position:left_center,right_center,left_center,right]",
             "text_small",

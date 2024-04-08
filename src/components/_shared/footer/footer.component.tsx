@@ -44,7 +44,7 @@ const MobileFooter = () => {
   return (
     <footer className="mt-10 px-4 pb-8 lg:hidden">
       <div className="border-t border-black dark:border-gray-light">
-        <MobileAccordionMenu />
+        <MobileAccordionMenu classNames="bg-transparent" />
         <div className="flex justify-between">
           <div className="flex flex-col">
             <MentoLogoIcon className="h-5 w-[90px]" />

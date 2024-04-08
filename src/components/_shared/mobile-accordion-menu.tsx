@@ -6,6 +6,7 @@ import Link from "next/link";
 
 import { links } from "@/lib/constants/links";
 import { ChevronIcon } from "@/components/_icons";
+import { cn } from "@/styles/helpers";
 
 const mobileMenuAccordionMenuItems = [
   {
@@ -29,9 +30,15 @@ const mobileMenuAccordionMenuItems = [
   },
 ];
 
-export const MobileAccordionMenu = () => {
+export const MobileAccordionMenu = ({
+  classNames,
+}: {
+  classNames?: string;
+}) => {
   return (
-    <div className="mb-8 flex flex-col bg-white dark:bg-black">
+    <div
+      className={cn("mb-8 flex flex-col bg-white dark:bg-black", classNames)}
+    >
       {mobileMenuAccordionMenuItems
         .filter(({ items }) => !!items)
         .map(({ name: headingName, items }) => {

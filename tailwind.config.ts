@@ -22,6 +22,11 @@ const config: Config = {
         altSpin: "altSpin 1s linear infinite",
       },
       keyframes: {
+        "spin-slow": {
+          // TODO: Cant find usage of this
+          "0%": { transform: "rotate(0deg)" },
+          "100%": { transform: "rotate(360deg)" },
+        },
         altSpin: {
           "100%": {
             transform: "rotate(360deg)",
@@ -152,12 +157,6 @@ const config: Config = {
           mint: "#D2FCBD",
           blush: "#FCD7FC",
           dark: "#02010A",
-        },
-      },
-      keyframes: {
-        "spin-slow": {
-          "0%": { transform: "rotate(0deg)" },
-          "100%": { transform: "rotate(360deg)" },
         },
       },
     },

@@ -68,7 +68,7 @@ const variants = cva(
         opened: true,
         theme: "clear",
         className:
-          "[&_button:hover]:bg-gray-lighter [&_button:hover]:!text-black [&_button:hover]:!text-black dark:[&_button:hover]:bg-gray",
+          "[&_button:hover]:bg-gray-lighter [&_button:hover]:!text-black [&_button:hover]:!text-black dark:[&_button:hover]:!text-black [&_button:hover_path]:stroke-black",
       },
     ],
     defaultVariants: {

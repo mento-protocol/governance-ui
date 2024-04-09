@@ -36,7 +36,7 @@ export const MentoLock = ({ className, style }: MentoLockProps) => {
     owner: address,
   });
 
-  const { approveMento, reset: resetApprove } = useApprove();
+  const { approveMento, reset: resetApproveHook } = useApprove();
   const { lockMento, isConfirmed, reset: resetLockHook } = useLockMento();
 
   const validationSchema = useMemo(() => {
@@ -136,7 +136,7 @@ export const MentoLock = ({ className, style }: MentoLockProps) => {
             // On success trigger lock
             approveMento(lockingAddress, toLock, () => {
               lockMento(address, address, toLock, 10, 10, () => {
-                resetApprove();
+                resetApproveHook();
                 resetLockHook();
               });
             });
@@ -157,7 +157,7 @@ export const MentoLock = ({ className, style }: MentoLockProps) => {
     lockMento,
     lockingAddress,
     mentoBalance.decimals,
-    resetApprove,
+    resetApproveHook,
     resetLockHook,
     showConfirm,
   ]);

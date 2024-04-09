@@ -14,7 +14,7 @@ import { ChevronIcon, DisconnectIcon, MentoIcon } from "@/components/_icons";
 import BaseComponentProps from "@/interfaces/base-component-props.interface";
 import WalletHelper from "@/lib/helpers/wallet.helper";
 import useTokens from "@/lib/contracts/useTokens";
-import { useAccount } from "wagmi";
+import { useAccount, useDisconnect } from "wagmi";
 import { cn } from "@/styles/helpers";
 import NumbersService from "@/lib/helpers/numbers.service";
 
@@ -34,6 +34,7 @@ export const ConnectedDropdown = ({
   const { openChainModal } = useChainModal();
   const { openAccountModal } = useAccountModal();
   const { isConnected } = useAccount();
+  const { disconnect } = useDisconnect();
 
   const { mentoBalance, veMentoBalance } = useTokens();
 
@@ -92,7 +93,7 @@ export const ConnectedDropdown = ({
         </DropdownButton.Element>
         <DropdownButton.Element
           className="*:flex *:items-center *:justify-center"
-          onClick={openChainModal}
+          onClick={() => disconnect()}
         >
           <DisconnectIcon />
           <span>Disconnect</span>
@@ -124,11 +125,7 @@ export const ConnectButton = ({
               )}
             >
               {!connected ? (
-                <Button
-                  className="pb-0"
-                  theme={theme || "secondary"}
-                  onClick={openConnectModal}
-                >
+                <Button theme={theme || "secondary"} onClick={openConnectModal}>
                   <div className="flex flex-row place-items-center justify-center gap-2">
                     <div>Connect wallet</div>
                     <ChevronIcon direction={"right"} />

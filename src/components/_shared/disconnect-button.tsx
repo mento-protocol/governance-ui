@@ -5,9 +5,5 @@ import { useDisconnect } from "wagmi";
 
 export const DisconnectButton = (props: ButtonProps) => {
   const { disconnect } = useDisconnect();
-  return (
-    // <ClientOnly>
-    <Button {...props} onClick={() => disconnect()} />
-    // </ClientOnly>
-  );
+  return <Button {...props} onClick={() => disconnect()} />;
 };

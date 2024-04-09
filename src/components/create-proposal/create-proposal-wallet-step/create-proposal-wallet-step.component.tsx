@@ -31,7 +31,7 @@ const CurrentFormStep = ({ formStep }: { formStep: WalletStepEnum }) => {
       return (
         <>
           <p className="font-size-x4 line-height-x5 ml-x7 place-self-start">
-            To create new governance proposal you need to lock 2,500 veMENTO.
+            To create new governance proposal you need to lock 2,500 MENTO.
           </p>
           <p className="font-size-x4 line-height-x5 ml-x7 place-self-start">
             You can purchase MENTO{" "}

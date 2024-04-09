@@ -44,15 +44,18 @@ export const MentoLock = ({ className, style }: MentoLockProps) => {
       toLock: number()
         .required()
         .typeError("Invalid number")
+        .default(0)
         .max(parseInt(formatUnits(mentoBalance.value, mentoBalance.decimals))),
       expiration: date()
         .required()
         .typeError("Invalid Date")
         .min(addYears(new Date(), 1))
+        .default(nextWednesday(addMonths(new Date(), 1)))
         .max(addYears(new Date(), 4)),
       expirationMonths: number()
         .required()
         .typeError("Invalid number")
+        .default(1)
         .max(4 * 52),
     });
   }, [mentoBalance]);

@@ -43,7 +43,7 @@ export const CreateProposalPreviewStep = () => {
             <MarkdownView markdown={newProposal.description} />
           </SeeAll>
           {newProposal.code != "" && (
-            <ExecutionCodeView code={newProposal.code} />
+            <ExecutionCodeView code={newProposal.code} title="Execution code" />
           )}
         </div>
       </div>

@@ -126,10 +126,7 @@ const ParamsDisplay = ({
   }[];
 }) => {
   return (
-    <div
-      className="grid grid-cols-[max-content_1fr] justify-items-stretch gap-x-3 gap-y-2 md:flex-nowrap"
-      // className="flex w-full flex-wrap items-center justify-between gap-2 md:flex-nowrap"
-    >
+    <div className="grid grid-cols-[max-content_1fr] justify-items-stretch gap-x-8 gap-y-4 md:flex-nowrap">
       {items.map((item, index) => (
         <ParamDisplay key={index} label={item.label} value={item.value} />
       ))}
@@ -179,12 +176,13 @@ const ContractAddressLinkWithCopy = ({
       href={blockExplorerContractUrl}
       className={`${className} relative block max-w-[42ch] pr-x6`}
     >
-      <span>{centerEllipsis(address, 15)}</span>
+      <span className="hidden md:block">{centerEllipsis(address, 15)}</span>
+      <span className="block md:hidden">{centerEllipsis(address, 8)}</span>
       <CopyToClipboard text={address}>
         <CopyIcon
           height={20}
           width={20}
-          className="absolute right-0 top-[calc(50%_-_4px)] block translate-y-[-50%]"
+          className="absolute right-0 top-[50%] block translate-y-[-50%]"
         />
       </CopyToClipboard>
     </Link>

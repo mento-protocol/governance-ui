@@ -1,17 +1,16 @@
 "use client";
 
 import { Suspense } from "react";
-import Link from "next/link";
 import { useAccount } from "wagmi";
 
 import { CeloLogoIcon, MentoIcon } from "@/components/_icons";
 import {
   Badge,
   Button,
+  ButtonProps,
   Card,
   Divider,
   Loader,
-  Spacer,
 } from "@/components/_shared";
 import useTokens from "@/lib/contracts/useTokens";
 import NumbersService from "@/lib/helpers/numbers.service";
@@ -24,7 +23,6 @@ import {
 } from "@/components/index";
 
 const Page = () => {
-  const { address } = useAccount();
   return (
     <main className="mt-x11 flex flex-col place-items-center font-fg">
       <Head>
@@ -35,13 +33,12 @@ const Page = () => {
       <Card className="mt-8 md:mt-[55px]" block>
         <Card.Header className="flex flex-row items-center justify-between !pb-0">
           <MentoIconWithLogo />
-          <DesktopNavigationButtons disabled={!address} />
+          <DesktopNavigationButtons />
         </Card.Header>
         <div className="my-[20px] md:my-[30px]">
           <DesktopTagline />
           <div className="flex flex-col flex-wrap items-start md:flex-row md:items-stretch">
-            <MobileNavigationLinks />
-            <Spacer className="h-x4 md:hidden" />
+            <MobileNavigationLinks className="mb-5 md:hidden" />
             <Badges />
           </div>
         </div>
@@ -56,23 +53,34 @@ const Page = () => {
   );
 };
 
-const MobileNavigationLinks = () => (
-  <>
-    <Link className="text-primary underline md:hidden" href="/my-voting-power">
+const MobileNavigationLinks = ({ className }: ButtonProps) => {
+  const { address } = useAccount();
+
+  return (
+    <Button
+      className={className}
+      theme="clear"
+      fullwidth
+      href="/my-voting-power"
+      disabled={!address}
+    >
       My voting power
-    </Link>
-  </>
-);
+    </Button>
+  );
+};
 
 const Badges = () => {
   const {
     mentoContractData: { totalSupply, decimals },
   } = useTokens();
+
+  const { chain } = useAccount();
+
   return (
     <div className="flex flex-col gap-x3 md:flex-row">
       <Badge type="outline">
         <CeloLogoIcon />
-        &nbsp;CELO Mainnet
+        &nbsp;{chain?.name}&nbsp;{chain?.testnet ? "Testnet" : "Mainnet"}
       </Badge>
       <Badge type="secondary">
         MENTO{" "}
@@ -96,20 +104,20 @@ const MentoIconWithLogo = () => (
   </div>
 );
 
-const DesktopNavigationButtons = ({
-  disabled = false,
-}: {
-  disabled?: boolean;
-}) => (
-  <div className="hidden gap-x3 md:flex">
-    <Button theme="clear" href="/create-proposal">
-      Create new proposal
-    </Button>
-    <Button theme="clear" href="/my-voting-power" disabled={disabled}>
-      My voting power
-    </Button>
-  </div>
-);
+const DesktopNavigationButtons = () => {
+  const { address } = useAccount();
+
+  return (
+    <div className="hidden gap-x3 md:flex">
+      <Button theme="clear" href="/create-proposal">
+        Create new proposal
+      </Button>
+      <Button theme="clear" href="/my-voting-power" disabled={!address}>
+        My voting power
+      </Button>
+    </div>
+  );
+};
 
 const Title = () => {
   return (

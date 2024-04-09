@@ -84,8 +84,7 @@ export const Button = ({
             }),
           )}
         >
-          {/* Transition east out 0.2 */}
-          <span className="flex items-center justify-center gap-[1ch] whitespace-nowrap font-medium tracking-normal no-underline [&_*]:whitespace-nowrap">
+          <span className="flex items-center justify-center gap-[1ch] whitespace-nowrap font-medium tracking-normal no-underline transition duration-200 ease-out [&_*]:whitespace-nowrap">
             {children}
           </span>
         </Link>

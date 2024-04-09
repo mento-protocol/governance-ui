@@ -3,6 +3,7 @@ import { useContracts } from "@/lib/contracts/useContracts";
 import { useWaitForTransactionReceipt, useWriteContract } from "wagmi";
 import { LockingABI } from "@/lib/abi/Locking";
 import { Address } from "viem";
+import { WriteContractErrorType } from "wagmi/actions";
 
 const useRelockMento = () => {
   const contracts = useContracts();
@@ -21,21 +22,23 @@ const useRelockMento = () => {
   const relockMento = useCallback(
     (
       id: bigint,
-      delegate: Address,
-      amount: number,
-      slope: number,
-      cliff: number,
+      newDelegate: Address,
+      newAmount: bigint,
+      newSlope: number,
+      newCliff: number,
       onSuccess?: () => void,
+      onError?: (error?: WriteContractErrorType) => void,
     ) => {
       writeContract(
         {
           address: contracts.Locking.address,
           abi: LockingABI,
           functionName: "relock",
-          args: [id, delegate, BigInt(amount), slope, cliff],
+          args: [id, newDelegate, newAmount, newSlope, newCliff],
         },
         {
           onSuccess,
+          onError,
         },
       );
     },

@@ -1,13 +1,13 @@
 "use client";
-import useProposal from "@/lib/contracts/governor/useProposal";
-import { stateToStatusColorMap } from "@/lib/interfaces/proposal.interface";
-import classNames from "classnames";
-import { format } from "date-fns";
 import { Suspense, useMemo } from "react";
 import { useBlock, useBlockNumber } from "wagmi";
+import classNames from "classnames";
+import { format } from "date-fns";
 import styles from "./page.module.scss";
 
 // Components
+import useProposal from "@/lib/contracts/governor/useProposal";
+import { stateToStatusColorMap } from "@/lib/interfaces/proposal.interface";
 import {
   Avatar,
   Loader,
@@ -18,9 +18,9 @@ import {
 import BlockExplorerLink from "@/components/_shared/block-explorer-link/block-explorer-link.component";
 import { Countdown } from "@/components/countdown/countdown.component";
 import { ProposalCurrentVotes } from "@/components/proposal-current-votes/proposal-current-votes.component";
-import ExecutionCode from "./_components/execution-code.component";
-import Participants from "./_components/participants.component";
-import Vote from "./_components/vote.component";
+import Vote from "@/app/(routes)/proposals/[id]/_components/vote.component";
+import ExecutionCode from "@/app/(routes)/proposals/[id]/_components/execution-code.component";
+import Participants from "@/app/(routes)/proposals/[id]/_components/participants.component";
 
 const Page = ({ params }: { params: { id: string } }) => {
   // TODO: return loading states
@@ -68,13 +68,13 @@ const Page = ({ params }: { params: { id: string } }) => {
               type={stateToStatusColorMap[proposal.state]}
             />
           </div>
-          <div className="flex flex-col md:grid md:grid-cols-7 gap-x1 ">
-            <div className="md:col-start-1 md:col-span-4">
-              <h1 className="text-xl md:font-size-x11 md:line-height-x11 font-medium">
+          <div className="flex flex-col gap-x1 md:grid md:grid-cols-7 ">
+            <div className="md:col-span-4 md:col-start-1">
+              <h1 className="md:font-size-x11 md:line-height-x11 text-xl font-medium">
                 {proposal.metadata.title}
               </h1>
             </div>
-            <div className="md:col-start-5 md:col-span-3">
+            <div className="md:col-span-3 md:col-start-5">
               {proposal.state === "Active" && votingDeadline && (
                 <Countdown
                   endTimestamp={votingDeadline.getTime()}
@@ -83,7 +83,7 @@ const Page = ({ params }: { params: { id: string } }) => {
               )}
             </div>
           </div>
-          <div className="flex flex-wrap place-items-center justify-start mt-8 gap-x6 ">
+          <div className="mt-8 flex flex-wrap place-items-center justify-start gap-x6 ">
             <div className="flex place-items-center gap-x2">
               <Suspense fallback={<Loader isCenter />}>
                 <Avatar address={proposal.proposer.id} />
@@ -116,19 +116,19 @@ const Page = ({ params }: { params: { id: string } }) => {
               </span>
             </div>
           </div>
-          <div className="mt-x6 flex flex-col md:flex-row md:justify-between place-items-start gap-x6 md:gap-x1">
+          <div className="mt-x6 flex flex-col place-items-start gap-x6 md:flex-row md:justify-between md:gap-x1">
             <div className={classNames(styles.details, "flex-1")}>
               <ProposalCurrentVotes className="md:mb-x6" />
-              <div className="md:hidden my-x6">
+              <div className="my-x6 md:hidden">
                 <Vote proposal={proposal} />
               </div>
-              <h3 className="flex justify-center font-size-x6 line-height-x6 font-medium mb-x6">
+              <h3 className="font-size-x6 line-height-x6 mb-x6 flex justify-center font-medium">
                 Description
               </h3>
               <MarkdownView markdown={proposal.metadata.description} />
               {proposal.calls && <ExecutionCode calls={proposal.calls} />}
             </div>
-            <div className="md:max-w-[350px] flex flex-col gap-x11">
+            <div className="flex flex-col gap-x11 md:max-w-[350px]">
               <div className="hidden md:block">
                 <Vote proposal={proposal} />
               </div>

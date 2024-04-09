@@ -13,10 +13,13 @@ import {
   setISODay,
 } from "date-fns";
 import useModal from "@/lib/providers/modal.provider";
-import { formatUnits } from "viem";
+import { formatUnits, parseUnits } from "viem";
 import useTokens from "@/lib/contracts/useTokens";
 import { useAccount } from "wagmi";
 import useLockMento from "@/lib/contracts/locking/useLockMento";
+import useAllowance from "@/lib/contracts/mento/useAllowance";
+import { useContracts } from "@/lib/contracts/useContracts";
+import useApprove from "@/lib/contracts/mento/useApprove";
 
 interface MentoLockProps extends BaseComponentProps {}
 
@@ -24,7 +27,17 @@ export const MentoLock = ({ className, style }: MentoLockProps) => {
   const { mentoBalance } = useTokens();
   const { address } = useAccount();
   const { showConfirm } = useModal();
-  const { lockMento, isConfirmed, reset: resetHook } = useLockMento();
+  const {
+    Locking: { address: lockingAddress },
+  } = useContracts();
+
+  const { data: allowance } = useAllowance({
+    spender: lockingAddress,
+    owner: address,
+  });
+
+  const { approveMento, reset: resetApproveHook } = useApprove();
+  const { lockMento, isConfirmed, reset: resetLockHook } = useLockMento();
 
   const validationSchema = useMemo(() => {
     return object({
@@ -101,7 +114,7 @@ export const MentoLock = ({ className, style }: MentoLockProps) => {
   };
 
   const performLock = useCallback(() => {
-    if (isValid && address) {
+    if (isValid && address && allowance) {
       showConfirm(
         `Do you want to lock ${getValues("toLock")} MENTO for ${[
           getYears(),
@@ -115,36 +128,46 @@ export const MentoLock = ({ className, style }: MentoLockProps) => {
         },
       ).then((confirmed) => {
         if (confirmed) {
-          lockMento(address, address, getValues("toLock"), 10, 10);
-          // lockMento({
-          //   owner: address,
-          //   amountMNTO: getValues("toLock"),
-          //   amountsVeMNTO: Math.round(
-          //     getValues("toLock") * 100 * (getValues("expirationMonths") / 12),
-          //   ),
-          //   expireDate: getValues("expiration"),
-          // } as ILock).then(() => {
-          //   reset();
-          // });
+          const toLock = parseUnits(
+            `${getValues("toLock")}`,
+            mentoBalance.decimals,
+          );
+          if (allowance < toLock) {
+            // On success trigger lock
+            approveMento(lockingAddress, toLock, () => {
+              lockMento(address, address, toLock, 10, 10, () => {
+                resetApproveHook();
+                resetLockHook();
+              });
+            });
+          } else {
+            lockMento(address, address, toLock, 10, 10, resetLockHook);
+          }
         }
       });
     }
   }, [
     address,
+    allowance,
+    approveMento,
     getMonths,
     getValues,
     getYears,
     isValid,
     lockMento,
+    lockingAddress,
+    mentoBalance.decimals,
+    resetApproveHook,
+    resetLockHook,
     showConfirm,
   ]);
 
   useEffect(() => {
     if (isConfirmed) {
       reset();
-      resetHook();
+      resetLockHook();
     }
-  }, [isConfirmed, reset, resetHook]);
+  }, [isConfirmed, reset, resetLockHook]);
 
   const monthSelected = (months: number | string) => {
     const newDate = nextWednesday(addMonths(new Date(), +months));
@@ -155,8 +178,8 @@ export const MentoLock = ({ className, style }: MentoLockProps) => {
 
   return (
     <div className={className} style={style}>
-      <div className="flex flex-col lg:flex-row justify-between md:place-items-baseline gap-1 md:gap-5">
-        <div className="text-lg flex-1 whitespace-nowrap">MENTO to lock:</div>
+      <div className="flex flex-col justify-between gap-1 md:place-items-baseline md:gap-5 lg:flex-row">
+        <div className="flex-1 whitespace-nowrap text-lg">MENTO to lock:</div>
         <div className="flex-1">
           <Input
             id="toLock"
@@ -178,8 +201,8 @@ export const MentoLock = ({ className, style }: MentoLockProps) => {
         </div>
       </div>
 
-      <div className="flex flex-col lg:flex-row justify-between md:place-items-baseline gap-1 md:gap-5">
-        <div className="text-lg flex-1 whitespace-nowrap">Lock expires:</div>
+      <div className="flex flex-col justify-between gap-1 md:place-items-baseline md:gap-5 lg:flex-row">
+        <div className="flex-1 whitespace-nowrap text-lg">Lock expires:</div>
         <div className="flex-1">
           <DatePicker
             id="expiration"
@@ -199,8 +222,8 @@ export const MentoLock = ({ className, style }: MentoLockProps) => {
         </div>
       </div>
 
-      <div className="flex flex-col mt-x6 lg:flex-row justify-between md:place-items-baseline gap-1 md:gap-5">
-        <div className="text-lg flex-1 whitespace-nowrap">
+      <div className="mt-x6 flex flex-col justify-between gap-1 md:place-items-baseline md:gap-5 lg:flex-row">
+        <div className="flex-1 whitespace-nowrap text-lg">
           You receive veMENTO:
         </div>
         <div className="flex-1">

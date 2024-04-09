@@ -45,13 +45,13 @@ export const LocksList = ({ account }: ILocksList) => {
 
 const LockEntry = ({
   lock,
-  account,
   onExtend,
 }: {
   lock: Lock;
   account: Address;
   onExtend: () => void;
 }) => {
+  const { address } = useAccount();
   const { showConfirm } = useModal();
 
   const { relockMento } = useRelockMento();
@@ -84,7 +84,7 @@ const LockEntry = ({
 
     relockMento(
       lock.lockId,
-      account!,
+      address!,
       lock.amount,
       lock.slope,
       lock.cliff,
@@ -97,7 +97,7 @@ const LockEntry = ({
     lock.slope,
     lock.cliff,
     relockMento,
-    account,
+    address,
     onExtend,
   ]);
 

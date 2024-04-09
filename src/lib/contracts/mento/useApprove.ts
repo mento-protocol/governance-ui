@@ -2,6 +2,7 @@ import { useCallback } from "react";
 import { useContracts } from "@/lib/contracts/useContracts";
 import { useWaitForTransactionReceipt, useWriteContract } from "wagmi";
 import { Address, erc20Abi } from "viem";
+import { WriteContractErrorType } from "wagmi/actions";
 
 const useApprove = () => {
   const contracts = useContracts();
@@ -18,7 +19,12 @@ const useApprove = () => {
     });
 
   const approveMento = useCallback(
-    (target: Address, amount: bigint, onSuccess?: () => void) => {
+    (
+      target: Address,
+      amount: bigint,
+      onSuccess?: () => void,
+      onError?: (error?: WriteContractErrorType) => void,
+    ) => {
       writeContract(
         {
           address: contracts.MentoToken.address,
@@ -28,6 +34,7 @@ const useApprove = () => {
         },
         {
           onSuccess,
+          onError,
         },
       );
     },

@@ -80,7 +80,8 @@ const Badges = () => {
     <div className="flex flex-col gap-x3 md:flex-row">
       <Badge type="outline">
         <CeloLogoIcon />
-        &nbsp;{chain?.name}&nbsp;{chain?.testnet ? "Testnet" : "Mainnet"}
+        &nbsp;{chain?.name || "Celo"}&nbsp;
+        {chain?.testnet ? "Testnet" : "Mainnet"}
       </Badge>
       <Badge type="secondary">
         MENTO{" "}

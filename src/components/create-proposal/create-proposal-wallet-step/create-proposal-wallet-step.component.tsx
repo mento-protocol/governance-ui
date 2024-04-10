@@ -83,12 +83,14 @@ export const CreateProposalWalletStep = () => {
     } else if (mentoBalance.value < parseUnits("2500", mentoBalance.decimals)) {
       return setWalletStep(WalletStepEnum.buyMento);
     } else {
+      setStep(CreateProposalStep.content);
       return setWalletStep(WalletStepEnum.createProposal);
     }
   }, [
     address,
     mentoBalance.decimals,
     mentoBalance.value,
+    setStep,
     veMentoBalance.decimals,
     veMentoBalance.value,
   ]);

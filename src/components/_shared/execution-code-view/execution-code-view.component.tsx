@@ -2,7 +2,7 @@ import { useCallback, useMemo, useState } from "react";
 import { SeeAll } from "@/components/_shared";
 
 interface ExecutionCodeViewProps {
-  title: string;
+  title?: string;
   code: string;
 }
 

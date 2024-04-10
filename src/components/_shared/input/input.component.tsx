@@ -13,8 +13,8 @@ interface InputProps extends BaseComponentProps, BaseInputProps {
 const inputWrapperVariant = cva(
   cn(
     "mt-x1 w-full gap-2 rounded-lg border border-solid border-gray-light transition-all duration-200 ease-out-circ",
-    "focus-within:border focus-within:border-solid focus-within:border-primary focus-within:shadow-[0_0_0_2px] focus-within:shadow-primary",
-    "focus:border focus:border-solid focus:border-primary focus:shadow-[0_0_0_2px] focus:shadow-primary",
+    "focus-within:border focus-within:border-solid focus-within:shadow-[0_0_0_2px]",
+    "focus:border focus:border-solid focus:shadow-[0_0_0_2px]",
   ),
   {
     variants: {
@@ -26,7 +26,16 @@ const inputWrapperVariant = cva(
         true: "cursor-not-allowed",
       },
       error: {
-        true: "border border-solid border-error focus:shadow-[0_0_0_2px] focus:shadow-error",
+        true: cn(
+          "border-error",
+          "focus:border-error focus:shadow-error",
+          "focus-within:border-error focus-within:shadow-error",
+        ),
+        false: cn(
+          "border-gray-light",
+          "focus:border-primary focus:shadow-primary",
+          "focus-within:border-primary focus-within:shadow-primary",
+        ),
       },
     },
     defaultVariants: {
@@ -50,14 +59,10 @@ const inputVariant = cva(
       disabled: {
         true: "cursor-not-allowed",
       },
-      error: {
-        true: "border border-solid border-error focus:shadow-[0_0_0_2px] focus:shadow-error",
-      },
     },
     defaultVariants: {
       compact: false,
       disabled: false,
-      error: false,
     },
   },
 );
@@ -90,7 +95,6 @@ export const Input = ({
           className={inputVariant({
             compact,
             disabled,
-            error: !!error,
           })}
           placeholder={placeholder}
           disabled={disabled}

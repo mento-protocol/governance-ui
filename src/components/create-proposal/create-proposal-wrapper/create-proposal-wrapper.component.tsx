@@ -10,7 +10,7 @@ import { cva } from "class-variance-authority";
 interface ICreateProposalWrapper {
   className?: string;
   componentStep: CreateProposalStep;
-  title: string;
+  title: string | ReactNode;
   children: ReactNode | ReactNode[];
   onPrev?: () => void;
   onNext?: () => void;

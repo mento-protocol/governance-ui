@@ -5,7 +5,7 @@ export const HelpIcon = ({
   height = 24,
   colorClass = "fill-primary",
 }: ComponentProps<"svg"> & {
-  colorClass: string;
+  colorClass?: string;
 }) => {
   return (
     <svg

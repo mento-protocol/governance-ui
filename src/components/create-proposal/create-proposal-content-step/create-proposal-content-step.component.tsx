@@ -10,22 +10,30 @@ import {
 } from "../create-proposal-provider";
 import { CreateProposalWrapper } from "../create-proposal-wrapper/create-proposal-wrapper.component";
 
-const validationSchema = object().shape({
-  title: string().required().typeError("Invalid title"),
-  content: string().required().typeError("Invalid description"),
-});
-
 export const CreateProposalContentStep = () => {
   const { setStep, updateProposal, newProposal } = useCreateProposal();
+
+  const validationSchema = object().shape({
+    title: string().required("Please add a title").typeError("Invalid title"),
+    description: string()
+      .required("Please add a description")
+      .typeError("Invalid description"),
+  });
 
   const {
     register,
     watch,
+    trigger,
     setValue,
     formState: { errors, isValid },
   } = useForm({
+    shouldFocusError: true,
     resolver: yupResolver(validationSchema),
     mode: "onChange",
+    defaultValues: {
+      title: newProposal.title,
+      description: newProposal.title,
+    },
   });
 
   setLocale({
@@ -38,7 +46,7 @@ export const CreateProposalContentStep = () => {
     const subscription = watch((value) => {
       updateProposal({
         title: value.title || "",
-        description: value.content || "",
+        description: value.description || "",
         code: newProposal.code,
       });
     });
@@ -65,10 +73,19 @@ export const CreateProposalContentStep = () => {
           error={errors.title?.message}
           placeholder="Enter a title for your proposal"
         />
+        <p className="mt-4 font-semibold">Description</p>
+        <p className="mt-4">
+          Proposal description can be written as plain text or formatted with{" "}
+          <span className="font-semibold">Markdown.</span>
+        </p>
         <MarkdownEditor
           className="mt-4"
-          value={watch("content")}
-          markdownChanged={(value) => setValue("content", value)}
+          value={watch("description", newProposal.description)}
+          error={errors.title?.message}
+          markdownChanged={(value) => {
+            setValue("description", value);
+            trigger("description");
+          }}
         />
       </div>
     </CreateProposalWrapper>

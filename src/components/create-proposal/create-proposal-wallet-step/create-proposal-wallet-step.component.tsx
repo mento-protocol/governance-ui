@@ -68,15 +68,16 @@ export const CreateProposalWalletStep = () => {
   const { mentoBalance, veMentoBalance } = useTokens();
   const { setStep } = useCreateProposal();
 
+  // TODO: Check if veMento + mento balance >= 2500 ? lock || buy mento
   const getAndValidateStep = useCallback((): WalletStepEnum => {
     if (!address) {
       return WalletStepEnum.connectWallet;
-    } else if (mentoBalance.value <= parseUnits("10", mentoBalance.decimals)) {
-      return WalletStepEnum.buyMento;
     } else if (
-      veMentoBalance.value < parseUnits("2500", veMentoBalance.decimals)
+      veMentoBalance.value <= parseUnits("2500", veMentoBalance.decimals)
     ) {
       return WalletStepEnum.lockMento;
+    } else if (mentoBalance.value < parseUnits("2500", mentoBalance.decimals)) {
+      return WalletStepEnum.buyMento;
     } else {
       return WalletStepEnum.createProposal;
     }

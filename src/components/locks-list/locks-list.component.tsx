@@ -20,7 +20,7 @@ export const LocksList = ({ account }: ILocksList) => {
 
   return (
     <div className={`${styles.locksList} overflow-auto`}>
-      <div className="mb-x2 grid grid-cols-3 items-center gap-[18px] px-x1 py-x2">
+      <div className="mb-x2 grid grid-cols-4 items-center gap-[18px] px-x1 py-x2">
         <div className="min-w-[150px] text-base font-medium not-italic">
           Amount MENTO
         </div>
@@ -103,8 +103,8 @@ const LockEntry = ({
   ]);
 
   return (
-    <div className="mb-x2 grid grid-cols-3 items-center gap-[18px] px-x1 py-x2">
-      <div className="grid-span-[1 / -1] border-b border-solid border-gray"></div>
+    <div className="mb-x2 grid grid-cols-4 items-center gap-[18px] border-b border-solid border-gray px-x1 py-x2 last:mb-0 last:border-none">
+      {/* <div className="grid-span-[1 / -1] border-b border-solid border-gray"></div> */}
       <div className="min-w-[150px] font-medium not-italic">{mentoParsed}</div>
       <div className="min-w-[150px] font-medium not-italic">
         {veMentoParsed}

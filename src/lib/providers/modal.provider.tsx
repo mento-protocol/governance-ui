@@ -65,6 +65,7 @@ const useModal = () => {
   return { showModal, showConfirm };
 };
 
+// TODO: tailwind conversion ignored, modal overcomplicated
 const ModalWrapper = ({
   children,
   index,
@@ -83,11 +84,12 @@ const ModalWrapper = ({
       <div className={modalStyles.modal__content}>
         <Card
           className={cn(
+            "relative",
             modalStyles.modal__content__inner,
             modalStyles[options?.modalType || ""],
           )}
         >
-          <Card.Header className="relative !pb-x6">
+          <Card.Header className="!pb-x6">
             <div className="font-semibold">
               {options?.title || (question ? "Confirm" : " ")}
             </div>
@@ -98,7 +100,7 @@ const ModalWrapper = ({
           <div className="ma-x4">{children}</div>
           {question && (
             <Card.Footer className="mt-x4 flex justify-end gap-x2">
-              <Button theme="tertiary" onClick={cancel}>
+              <Button theme="info" onClick={cancel}>
                 {options?.cancelText || "Cancel"}
               </Button>
               <Button

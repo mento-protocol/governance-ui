@@ -59,15 +59,15 @@ const Page = ({ params }: { params: { id: string } }) => {
       {!proposal && <div>Proposal not found</div>}
       {proposal && (
         <>
-          <div className="mb-x4 mt-x6">
+          <div className="mb-1 mt-x6">
             <Status
               text={proposal.state.toString()}
               type={stateToStatusColorMap[proposal.state]}
             />
           </div>
-          <div className="flex flex-col gap-x1 md:grid md:grid-cols-7 ">
+          <div className="flex flex-col gap-x1 md:grid md:grid-cols-7">
             <div className="md:col-span-4 md:col-start-1">
-              <h1 className="md:font-size-x11 md:line-height-x11 text-xl font-medium">
+              <h1 className="text-[56px]/none font-medium">
                 {proposal.metadata.title}
               </h1>
             </div>
@@ -80,7 +80,7 @@ const Page = ({ params }: { params: { id: string } }) => {
               )}
             </div>
           </div>
-          <div className="mt-8 flex flex-wrap place-items-center justify-start gap-x6 ">
+          <div className="mt-12 flex flex-wrap place-items-center justify-start gap-x6 font-inter ">
             <div className="flex place-items-center gap-x2">
               <Suspense fallback={<Loader isCenter />}>
                 <Avatar address={proposal.proposer.id} />
@@ -91,11 +91,15 @@ const Page = ({ params }: { params: { id: string } }) => {
               </Suspense>
             </div>
             <div className="flex place-items-center gap-x2">
-              <span>Proposed on:</span>
-              <span className="font-medium">
+              <span className="font-light">Proposed on:</span>
+              <span className="">
                 <Suspense fallback={<Loader isCenter />}>
                   {proposedOn && (
-                    <BlockExplorerLink type="block" item={proposal.startBlock}>
+                    <BlockExplorerLink
+                      className=" no-underline "
+                      type="block"
+                      item={proposal.startBlock}
+                    >
                       {format(proposedOn, "MMMM do, yyyy 'at' hh:mm a")}
                     </BlockExplorerLink>
                   )}
@@ -103,10 +107,14 @@ const Page = ({ params }: { params: { id: string } }) => {
               </span>
             </div>
             <div className="flex place-items-center gap-x2">
-              <span>Voting deadline:</span>
-              <span className="font-medium">
+              <span className="font-light">Voting deadline:</span>
+              <span className="">
                 {votingDeadline && (
-                  <BlockExplorerLink type="block" item={proposal.endBlock}>
+                  <BlockExplorerLink
+                    className=" no-underline"
+                    type="block"
+                    item={proposal.endBlock}
+                  >
                     {format(votingDeadline, "MMMM do, yyyy 'at' hh:mm a")}{" "}
                   </BlockExplorerLink>
                 )}
@@ -119,8 +127,8 @@ const Page = ({ params }: { params: { id: string } }) => {
               <div className="my-x6 md:hidden">
                 <Vote proposal={proposal} />
               </div>
-              <h3 className="font-size-x6 line-height-x6 mb-x6 flex justify-center font-medium">
-                Description
+              <h3 className="line-height-x6 mb-x6 flex justify-center text-[32px]/none font-medium">
+                Proposal Description
               </h3>
               <MarkdownView markdown={proposal.metadata.description} />
               {proposal.calls && <ExecutionCode calls={proposal.calls} />}

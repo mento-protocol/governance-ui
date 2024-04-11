@@ -10,10 +10,10 @@ export default function Participants({ votes }: Props) {
   return (
     <Card
       // Was originally z-49
-      className="sticky bottom-0 z-40 w-full grow"
+      className="sticky bottom-0 z-40 flex w-full grow flex-col gap-6"
     >
-      <Card.Header className="text-center text-2xl">
-        <strong>Participants</strong>
+      <Card.Header className="text-center text-[32px]/none font-medium">
+        Participants
       </Card.Header>
       <TabList tabs={["For", "Against", "Abstain"]}>
         <VotesList voteType="for" votes={votes} />

@@ -9,7 +9,7 @@ interface WalletAddressProps extends BaseComponentProps {
 export const WalletAddress = ({ address, className }: WalletAddressProps) => {
   return (
     <div className={className}>
-      <BlockExplorerLink type="address" item={address}>
+      <BlockExplorerLink className="no-underline" type="address" item={address}>
         {centerEllipsis(address)}
       </BlockExplorerLink>
     </div>

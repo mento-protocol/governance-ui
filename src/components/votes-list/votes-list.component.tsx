@@ -18,7 +18,7 @@ export const VotesList = ({
 }: VotesListProps) => {
   return (
     <div className={className} style={style}>
-      <div className="flex flex-row items-center justify-between pb-x2 text-sm font-light text-gray">
+      <div className="text-[18px]/1 flex flex-row items-center justify-between pb-x2">
         <div>{votes[voteType].participants.length} Addresses</div>
         <div>
           {Number(formatUnits(votes[voteType].total, 18)).toLocaleString()}{" "}

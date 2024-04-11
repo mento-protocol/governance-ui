@@ -6,9 +6,7 @@ export const VotingCardTitle = ({
 }: React.PropsWithChildren) => {
   return (
     <Card.Header className="text-center">
-      <h2 className="font-fg text-[2rem] font-medium leading-[2rem]">
-        {children}
-      </h2>
+      <h2 className="font-fg text-[32px]/none font-medium">{children}</h2>
     </Card.Header>
   );
 };

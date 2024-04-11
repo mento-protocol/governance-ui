@@ -22,21 +22,21 @@ export const CreateProposalPreviewStep = () => {
     >
       <pre>{JSON.stringify(createTx, null, 2)}</pre>
       <pre>{createError ? createError.message : null}</pre>
-      <div className="ml-x7">
-        <p className="font-size-x4 line-height-x5">
+      <div>
+        <p className="ml-4 text-xl">
           You&apos;ve successfully finished all the steps. Now, take a moment to
           go over your proposal and then submit it.
         </p>
         {/* TODO: Font size 40 but closest is 4xl = 36px */}
-        <div className="text-x8 mt-x5 text-center font-medium leading-none">
+        <div className="mt-x5 text-center text-4xl font-medium leading-none">
           {newProposal.title}
         </div>
         <div>
-          <h3 className="text-x6 mx-0 my-x5 flex justify-center font-medium leading-none">
+          <h3 className="mx-0 my-x5 flex justify-center text-3xl font-medium">
             Proposal Description
           </h3>
           <SeeAll
-            height="315"
+            height={315}
             isOpen={isProposalPreviewOpen}
             setIsOpen={setIsProposalPreviewOpen}
           >

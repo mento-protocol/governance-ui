@@ -14,35 +14,34 @@ import { ExecutionExplanationModal } from "@/components/create-proposal/explaine
 import useModal from "@/lib/providers/modal.provider";
 import { isTransactionItem } from "@/lib/contracts/governor/useCreateProposalOnChain";
 
-const validationSchema = object().shape({
-  code: string()
-    .test(
-      "json",
-      "Invalid JSON format, click the info icon for an example:",
-      (value) => {
-        if (!value) return true;
-        try {
-          const parsedValue = JSON.parse(value);
-          if (Array.isArray(parsedValue)) {
-            return (
-              parsedValue.filter((item) => !isTransactionItem(item)).length ===
-              0
-            );
-          } else {
-            return false;
-          }
-        } catch (error) {
-          console.log(error);
-          return false;
-        }
-      },
-    )
-    .typeError("Invalid code"),
-});
-
 export const CreateProposalExecutionStep = () => {
   const { setStep, newProposal, updateProposal } = useCreateProposal();
   const { showModal } = useModal();
+
+  const validationSchema = object().shape({
+    code: string()
+      .test(
+        "json",
+        "Invalid JSON format, click the info icon for an example:",
+        (value) => {
+          if (!value) return true;
+          try {
+            const parsedValue = JSON.parse(value);
+            if (Array.isArray(parsedValue)) {
+              return (
+                parsedValue.filter((item) => !isTransactionItem(item))
+                  .length === 0
+              );
+            } else {
+              return false;
+            }
+          } catch (error) {
+            return false;
+          }
+        },
+      )
+      .typeError("Invalid code"),
+  });
 
   const {
     register,
@@ -50,6 +49,12 @@ export const CreateProposalExecutionStep = () => {
     formState: { errors, isValid },
   } = useForm({
     resolver: yupResolver(validationSchema),
+    defaultValues: {
+      code: '[\n  {\n    "address": "0x0000000000000000000000000000000000000000",\n    "value": 0,\n    "data": "0x"\n  }\n]',
+    },
+    values: {
+      code: newProposal.code,
+    },
     mode: "onChange",
   });
 

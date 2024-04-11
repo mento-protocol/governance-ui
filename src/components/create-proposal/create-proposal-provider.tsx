@@ -66,7 +66,7 @@ export const CreateProposalProvider = ({
   const [newProposal, updateProposalInternal] = useState({
     description: "",
     title: "",
-    code: "",
+    code: '[\n  {\n    "address": "0x0000000000000000000000000000000000000000",\n    "value": 0,\n    "data": "0x"\n  }\n]',
   });
 
   const [creationState, setCreationState] = useState<"mounting" | "ready">(

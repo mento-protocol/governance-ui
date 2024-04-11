@@ -1,12 +1,18 @@
 import { useCallback, useMemo, useState } from "react";
 import { SeeAll } from "@/components/_shared";
+import { TransactionItem } from "@/lib/contracts/governor/useCreateProposalOnChain";
 
 interface ExecutionCodeViewProps {
   title?: string;
-  code: string;
+  code: TransactionItem[] | string;
+  overflowHeight?: number;
 }
 
-export const ExecutionCodeView = ({ code, title }: ExecutionCodeViewProps) => {
+export const ExecutionCodeView = ({
+  code,
+  title,
+  overflowHeight = 210,
+}: ExecutionCodeViewProps) => {
   const [isExecutionViewOpen, setIsExecutionViewOpen] = useState(false);
 
   const isJSON = useCallback((input: string) => {
@@ -20,7 +26,11 @@ export const ExecutionCodeView = ({ code, title }: ExecutionCodeViewProps) => {
 
   const parsedCode = useMemo(() => {
     try {
-      if (isJSON(code)) return JSON.stringify(code, null, 2);
+      if (typeof code === "string") {
+        if (isJSON(code)) return JSON.stringify(JSON.parse(code), null, 2);
+      } else {
+        return JSON.stringify(code, null, 2);
+      }
     } catch {
       console.error("Parse error", code);
     }
@@ -30,18 +40,15 @@ export const ExecutionCodeView = ({ code, title }: ExecutionCodeViewProps) => {
     <div>
       {title && <h3 className="my-x3 flex justify-center text-4xl">{title}</h3>}
 
-      <div className="rounded-lg border border-solid border-gray-light p-5">
-        <SeeAll
-          height="210"
-          isOpen={isExecutionViewOpen}
-          setIsOpen={setIsExecutionViewOpen}
-        >
-          <div>
-            {/* <pre>{JSON.stringify(code, null, 2)}</pre> */}
-            {!!parsedCode && <div>{parsedCode}</div>}
-          </div>
-        </SeeAll>
-      </div>
+      <SeeAll
+        height={overflowHeight}
+        isOpen={isExecutionViewOpen}
+        setIsOpen={setIsExecutionViewOpen}
+      >
+        <div className="rounded-lg border border-solid border-gray-light p-5">
+          {!!parsedCode && <pre>{parsedCode}</pre>}
+        </div>
+      </SeeAll>
     </div>
   );
 };

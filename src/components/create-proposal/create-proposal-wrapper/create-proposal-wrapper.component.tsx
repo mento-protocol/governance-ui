@@ -1,11 +1,10 @@
 import { ReactNode, useMemo } from "react";
-import classNames from "classnames";
 import { Button, Card, StepCounter } from "@/components/_shared";
-import styles from "../create-proposal.module.scss";
 import {
   CreateProposalStep,
   useCreateProposal,
-} from "@/components/create-proposal/create-proposal-provider";
+} from "../create-proposal-provider";
+import { cn } from "@/styles/helpers";
 
 interface ICreateProposalWrapper {
   className?: string;
@@ -17,7 +16,7 @@ interface ICreateProposalWrapper {
   onSave?: () => void;
 }
 
-const CreateProposalWrapper = ({
+export const CreateProposalWrapper = ({
   children,
   className,
   componentStep,
@@ -33,25 +32,30 @@ const CreateProposalWrapper = ({
   }, [componentStep, step]);
 
   return (
-    <Card
-      block
-      className={classNames(
-        "pb-0",
-        styles.wrapper,
-        className,
-        !isOpen && "opacity-50",
-      )}
-    >
+    <Card block className={cn("p-x4 pb-0", !isOpen && "opacity-50", className)}>
       <Card.Header>
-        <div className={styles.title}>
+        <div
+          className={
+            "flex items-center gap-x2 bg-inherit pb-x2 text-xl font-medium"
+          }
+        >
           <StepCounter>{componentStep}</StepCounter>
           {title}
         </div>
       </Card.Header>
-      <div className={classNames(styles.form_element, isOpen && styles.opened)}>
-        <div className={styles.inner}>{children}</div>
+      <div
+        // TODO: change to CVA
+        className={cn(
+          "max-h-0 overflow-hidden !pb-0",
+          isOpen &&
+            "group/wrapper-open transition-max-h max-h-full p-initial duration-300 ease-in-cubic",
+        )}
+      >
+        <div className="group/wrapper-open:opacity-100 group/wrapper-open:translate-y-0 group/wrapper-open:transition-all group/wrapper-open:duration-300 group/wrapper-open:ease-out-back group/wrapper-open:break-all -translate-y-x5 overflow-hidden px-x2 pb-x3 pt-0 opacity-0 transition-all duration-0 ease-in-cubic md:px-x4 md:pb-x5">
+          {children}
+        </div>
         <Card.Footer>
-          <div className="flex full-w justify-start items-center gap-x3">
+          <div className="full-w flex items-center justify-start gap-x3">
             <Button
               className="min-w-x20"
               onClick={onPrev}
@@ -76,5 +80,3 @@ const CreateProposalWrapper = ({
     </Card>
   );
 };
-
-export default CreateProposalWrapper;

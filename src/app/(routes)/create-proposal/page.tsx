@@ -4,16 +4,15 @@ import {
   CreateProposalContentStep,
   CreateProposalWalletStep,
   CreateProposalPreviewStep,
-} from "@/components/create-proposal";
-import styles from "./page.module.scss";
-import { CreateProposalProvider } from "@/components/create-proposal/create-proposal-provider";
+  CreateProposalProvider,
+} from "@/components/index";
 
 const Page = () => {
   return (
     <CreateProposalProvider>
       <main className="flex flex-col place-items-center">
-        <h2 className="text-2xl font-bold mb-5">Create a Proposal</h2>
-        <div className={styles.form_wrapper}>
+        <h2 className="mb-5 text-2xl font-bold">Create a Proposal</h2>
+        <div className="flex w-full max-w-4xl flex-col items-center justify-center gap-5">
           <CreateProposalWalletStep />
           <CreateProposalContentStep />
           <CreateProposalExecutionStep />

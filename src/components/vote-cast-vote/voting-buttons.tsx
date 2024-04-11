@@ -1,28 +1,32 @@
 import { Button } from "../_shared";
 import { VOTE_TYPES } from "./cast-vote";
 
-const VotingButtons = ({
+export const VotingButtons = ({
   onSubmit,
 }: {
   onSubmit: (voteType: (typeof VOTE_TYPES)[keyof typeof VOTE_TYPES]) => void;
 }) => {
   return (
     <div className="flex flex-col gap-x3">
-      <Button theme="success" block onClick={() => onSubmit(VOTE_TYPES.For)}>
+      <Button
+        theme="success"
+        fullwidth
+        onClick={() => onSubmit(VOTE_TYPES.For)}
+      >
         For
       </Button>
       <Button
         type="submit"
         theme="danger"
-        block
+        fullwidth
         onClick={() => onSubmit(VOTE_TYPES.Against)}
       >
         Against
       </Button>
       <Button
         type="submit"
-        theme="tertiary"
-        block
+        theme="white"
+        fullwidth
         onClick={() => onSubmit(VOTE_TYPES.Abstain)}
       >
         Abstain
@@ -30,5 +34,3 @@ const VotingButtons = ({
     </div>
   );
 };
-
-export default VotingButtons;

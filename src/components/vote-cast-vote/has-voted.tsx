@@ -1,12 +1,11 @@
-import { Card } from "@/components/_shared";
-import VotingCardTitle from "@/components/_shared/vote-voting-card-title/voting-card-title";
-import VoteTypePill from "./vote-type-pill";
+import { Card, VotingCardTitle } from "@/components/_shared";
+import { VoteTypePill } from "./vote-type-pill";
 
-const HasVoted = ({ voteType }: { voteType: number }) => {
+export const HasVoted = ({ voteType }: { voteType: number }) => {
   return (
     <Card>
       <VotingCardTitle />
-      <div className="flex flex-col min-h-[163px] justify-between text-[22px] leading-[22px] font-fg">
+      <div className="flex min-h-[163px] flex-col justify-between font-fg text-[22px] leading-[22px]">
         <div className="flex-grow" />
         <div>
           <span>{`You already voted `}</span>
@@ -20,5 +19,3 @@ const HasVoted = ({ voteType }: { voteType: number }) => {
     </Card>
   );
 };
-
-export default HasVoted;

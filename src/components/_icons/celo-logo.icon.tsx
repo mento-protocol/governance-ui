@@ -1,10 +1,9 @@
 import BaseIconProps from "@/interfaces/base-icon-props.interface";
-import exports from "@/styles/exports.module.scss";
 
 export const CeloLogoIcon = ({
   width = 23,
   height = 23,
-  color = exports.black,
+  color = "#02010A",
   backgroundColor = "#FCFF52",
 }: BaseIconProps) => {
   return (
@@ -12,29 +11,23 @@ export const CeloLogoIcon = ({
       xmlns="http://www.w3.org/2000/svg"
       width={width}
       height={height}
-      viewBox="0 0 23 23"
       fill="none"
     >
-      <g clipPath="url(#clip0_5629_3299)">
+      <g clipPath="url(#da0yg)">
         <path
-          d="M11.832 22.2246C17.9072 22.2246 22.832 17.2997 22.832 11.2246C22.832 5.14948 17.9072 0.224609 11.832 0.224609C5.7569 0.224609 0.832031 5.14948 0.832031 11.2246C0.832031 17.2997 5.7569 22.2246 11.832 22.2246Z"
           fill={backgroundColor}
+          d="M11.563 22.164c6.075 0 11-4.925 11-11s-4.925-11-11-11c-6.076 0-11 4.925-11 11s4.924 11 11 11Z"
         />
         <path
-          fillRule="evenodd"
-          clipRule="evenodd"
-          d="M17.9854 5.03125H5.67773V17.419H17.9863V13.0947H15.9438C15.2398 14.6725 13.6549 15.7708 11.8413 15.7708C9.34117 15.7708 7.31629 13.7151 7.31629 11.2168C7.31629 8.71757 9.34117 6.67949 11.8413 6.67949C13.6901 6.67949 15.275 7.81381 15.979 9.42597H17.9863V5.03125H17.9854Z"
           fill={color}
+          fillRule="evenodd"
+          d="M17.716 4.97H5.408v12.388h12.309v-4.324h-2.043c-.704 1.578-2.289 2.676-4.102 2.676-2.5 0-4.525-2.056-4.525-4.554 0-2.499 2.025-4.537 4.525-4.537 1.849 0 3.434 1.134 4.138 2.746h2.007V4.971h-.001Z"
+          clipRule="evenodd"
         />
       </g>
       <defs>
-        <clipPath id="clip0_5629_3299">
-          <rect
-            width="22"
-            height="22"
-            fill="white"
-            transform="translate(0.832031 0.224609)"
-          />
+        <clipPath id="da0yg">
+          <path fill="#fff" d="M.563.164h22v22h-22z" />
         </clipPath>
       </defs>
     </svg>

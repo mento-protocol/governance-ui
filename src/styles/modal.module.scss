@@ -39,10 +39,9 @@
   }
 
   &__close {
-
     position: absolute;
-    right: $theme-unit * .5;
-    top: $theme-unit * .5;
+    right: $theme-unit * 0.5;
+    top: $theme-unit * 0.5;
     width: $theme-unit * 8;
     height: $theme-unit * 8;
     background-color: transparent;

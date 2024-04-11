@@ -1,12 +1,11 @@
 "use client";
 import { ReactNode, useEffect, useMemo, useRef, useState } from "react";
 import { isBefore, addDays } from "date-fns";
-import classNames from "classnames";
 import { DayPicker, SelectSingleEventHandler } from "react-day-picker";
 import BaseComponentProps from "@/interfaces/base-component-props.interface";
 import useOutsideAlerter from "@/lib/hooks/useOutsideAlerter";
 import "react-day-picker/dist/style.css";
-import styles from "./date-picker.module.scss";
+import { cn } from "@/styles/helpers";
 
 type DisallowedDay =
   | "sun"
@@ -65,7 +64,6 @@ export const DatePicker = ({
   maxDate,
   compact,
   className,
-  style,
   disallowedDays,
   onChange,
   value,
@@ -124,44 +122,57 @@ export const DatePicker = ({
 
   return (
     <div
-      className={classNames(
-        styles.datePicker,
-        compact && styles.compact,
-        className,
-      )}
-      style={style}
+      className={`relative mt-4 ${compact && "group/compact-input"} ${className}`}
     >
       {!!label && <label htmlFor={id}>{label}</label>}
       <div
-        className={classNames(
-          styles.input,
-          datePickerOpened && styles.focused,
-          !!error && styles.error,
-        )}
+        // TODO: box-shadow: 0 0 0 2px $c-primary
+        className={`group/compact-input:py-3 group/compact-input:px-4 group/compact-input:[&_input]:text-sm cursor-pointer ${
+          datePickerOpened && "border-primary-blue border border-solid"
+        } ${
+          // TODO: box-shadow: 0 0 0 2px $c-error
+          !!error && "border border-solid border-light-red"
+        }`}
         onClick={() => setDatePickerOpened(true)}
       >
         <div id={id}>
           {!selectedDate && (
-            <div className={styles.placeholder}>{placeholder}</div>
+            // TODO: class "placeholder" not found only pseudo selector found
+            // <div className={styles.placeholder}>{placeholder}</div>
+            <div>{placeholder}</div>
           )}
           {!!selectedDate && (
-            <div className={styles.selectedDate}>
-              {selectedDate.toLocaleDateString()}
-            </div>
+            // TODO: class "selectedDate"
+            // <div className={styles.selectedDate}>
+            <div>{selectedDate.toLocaleDateString()}</div>
           )}
         </div>
         {addon}
       </div>
-      {!!error && <div className={styles.errorMessage}>{error}</div>}
+      {!!error && (
+        <div className="p-1 text-sm font-semibold text-error-dark">{error}</div>
+      )}
 
       <div
-        className={classNames(
-          styles.backdrop,
-          datePickerOpened && styles.opened,
+        className={cn(
+          // styles.backdrop
+          "pointer-events-none fixed bottom-0 left-0 right-0 top-0 z-[-1] opacity-0 backdrop-blur-[2px]",
+          datePickerOpened &&
+            // TODO: Confirm this works
+            // Figure out default-backdrop transition field
+            "pointer-events-[all] group/picker-open z-[1000] opacity-100",
         )}
       >
-        <div ref={datePicker} className={classNames(styles.pickerDropdown)}>
-          <div className={styles.inner}>
+        {/* <div ref={datePicker} className={classNames(styles.pickerDropdown)}> */}
+        {/* TODO: padding is 16 not 15 */}
+        {/* TODO: Box shadow, transform & transition */}
+        <div
+          ref={datePicker}
+          className="min-[350px] : fixed bottom-0 left-0 right-0 h-[50vh] flex-col items-center justify-center rounded-tl-lg rounded-tr-lg p-4"
+        >
+          {/* TODO: Inner not found in styles. Only found in create proposal & button */}
+          {/* <div className={styles.inner}> */}
+          <div>
             <DayPicker
               mode="single"
               fromDate={minDate}
@@ -173,7 +184,8 @@ export const DatePicker = ({
               fixedWeeks
               disabled={disabledDays}
               modifiersClassNames={{
-                selected: styles.selected,
+                // selected: styles.selected,
+                selected: "bg-primary text-white",
               }}
               onSelect={handleDayClick}
               onMonthChange={onMonthChange}

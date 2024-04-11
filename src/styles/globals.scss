@@ -4,136 +4,45 @@
 
 @import "brand";
 
-@each $theme, $value in $themes {
-  .#{$theme} {
-    @each $color, $colorValue in $value {
-      --theme-#{$color}: #{$colorValue};
-    }
-  }
-}
-
 :root {
   --font-fg: "Founders Grotesk", sans-serif;
 }
 
-body {
-  color: var(--theme-foreground-color);
-  font-size: 18px;
-  font-weight: 400;
-  line-height: 1;
-  background-color: var(--theme-background-color);
-  font-family: var(--font-fg);
-
-  @include media-md {
-    font-size: 22px;
+@layer base {
+  @font-face {
+    font-family: "Founders Grotesk";
+    src: url("/fonts/founders-grotesk-light.woff2") format("woff2");
+    font-weight: 300;
+    font-style: normal;
   }
-}
 
-@font-face {
-  font-family: "Founders Grotesk";
-  src: url("/fonts/FoundersGrotesk-Light.otf") format("opentype");
-  font-weight: 300;
-  font-style: normal;
-}
+  @font-face {
+    font-family: "Founders Grotesk";
+    src: url("/fonts/founders-grotesk-regular.woff2") format("woff2");
+    font-weight: 400;
+    font-style: normal;
+  }
 
-@font-face {
-  font-family: "Founders Grotesk";
-  src: url("/fonts/FoundersGrotesk-Regular.otf") format("opentype");
-  font-weight: 400;
-  font-style: normal;
-}
+  @font-face {
+    font-family: "Founders Grotesk";
+    src: url("/fonts/founders-grotesk-medium.woff2") format("woff2");
+    font-weight: 500;
+    font-style: normal;
+  }
 
-@font-face {
-  font-family: "Founders Grotesk";
-  src: url("/fonts/FoundersGrotesk-Medium.otf") format("opentype");
-  font-weight: 500;
-  font-style: normal;
-}
+  @font-face {
+    font-family: "Founders Grotesk";
+    src: url("/fonts/founders-grotesk-semibold.woff2") format("woff2");
+    font-weight: 600;
+    font-style: normal;
+  }
 
-@font-face {
-  font-family: "Founders Grotesk";
-  src: url("/fonts/FoundersGrotesk-Semibold.otf") format("opentype");
-  font-weight: 600;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: "Founders Grotesk";
-  src: url("/fonts/FoundersGrotesk-Bold.otf") format("opentype");
-  font-weight: 700;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: "Inter";
-  src: url("/fonts/Inter-Thin.ttf") format("truetype");
-  font-weight: 100;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: "Inter";
-  src: url("/fonts/Inter-ExtraLight.ttf") format("truetype");
-  font-weight: 200;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: "Inter";
-  src: url("/fonts/Inter-Light.ttf") format("truetype");
-  font-weight: 300;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: "Inter";
-  src: url("/fonts/Inter-Regular.ttf") format("truetype");
-  font-weight: 400;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: "Inter";
-  src: url("/fonts/Inter-Medium.ttf") format("truetype");
-  font-weight: 500;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: "Inter";
-  src: url("/fonts/Inter-SemiBold.ttf") format("truetype");
-  font-weight: 600;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: "Inter";
-  src: url("/fonts/Inter-Bold.ttf") format("truetype");
-  font-weight: 700;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: "Inter";
-  src: url("/fonts/Inter-ExtraBold.ttf") format("truetype");
-  font-weight: 800;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: "Inter";
-  src: url("/fonts/Inter-Black.ttf") format("truetype");
-  font-weight: 900;
-  font-style: normal;
-}
-
-
-.font-fg {
-  font-family: var(--font-fg);
-}
-
-.font-inter {
-  font-family: "Inter", sans-serif;
+  @font-face {
+    font-family: "Founders Grotesk";
+    src: url("/fonts/founders-grotesk-bold.woff2") format("woff2");
+    font-weight: 700;
+    font-style: normal;
+  }
 }
 
 @include media-md {
@@ -191,186 +100,3 @@ a:hover,
 .prose-editor {
   max-width: 100%;
 }
-
-.hamburger {
-  position: relative;
-  display: inline-block;
-  width: 24px;
-  height: 24px;
-  cursor: pointer;
-
-  span {
-    position: absolute;
-    width: 100%;
-    height: 2px;
-    background-color: var(--theme-foreground-color);
-    transition: 0.3s;
-  }
-
-  span:nth-child(1) {
-    top: 0;
-  }
-
-  span:nth-child(2) {
-    top: 50%;
-    transform: translateY(-50%);
-  }
-
-  span:nth-child(3) {
-    bottom: 0;
-  }
-
-    &.opened {
-        span:nth-child(1) {
-        top: 50%;
-        transform: translateY(-50%) rotate(45deg);
-        }
-
-        span:nth-child(2) {
-        opacity: 0;
-        }
-
-        span:nth-child(3) {
-        top: 50%;
-        transform: translateY(-50%) rotate(-45deg);
-        }
-    }
-}
-
-@each $color, $value in $brandColors {
-  @include theme-class(bg-#{$color}, (background-color), $value);
-  @include theme-class(text-#{$color}, (color), $value);
-  @include theme-class(border-#{$color}, (border-color), $value);
-  @include theme-class(border-t-#{$color}, (border-top-color), $value);
-  @include theme-class(border-b-#{$color}, (border-bottom-color), $value);
-  @include theme-class(border-l-#{$color}, (border-left-color), $value);
-  @include theme-class(border-r-#{$color}, (border-right-color), $value);
-  @include theme-class(
-    border-y-#{$color},
-    (border-top-color, border-bottom-color),
-    $value
-  );
-  @include theme-class(
-    border-x-#{$color},
-    (border-left-color, border-right-color),
-    $value
-  );
-}
-
-@each $size, $value in $brandSizes {
-  @include theme-class(gap-#{$size}, (gap), $value);
-  @include theme-class(gap-column-#{$size}, (column-gap), $value);
-  @include theme-class(gap-row-#{$size}, (row-gap), $value);
-
-  @include theme-class(m-#{$size}, (margin), $value);
-  @include theme-class(mt-#{$size}, (margin-top), $value);
-  @include theme-class(mb-#{$size}, (margin-bottom), $value);
-  @include theme-class(ml-#{$size}, (margin-left), $value);
-  @include theme-class(mr-#{$size}, (margin-right), $value);
-  @include theme-class(my-#{$size}, (margin-top, margin-bottom), $value);
-  @include theme-class(mx-#{$size}, (margin-left, margin-right), $value);
-
-  @include theme-class(p-#{$size}, (padding), $value);
-  @include theme-class(pt-#{$size}, (padding-top), $value);
-  @include theme-class(pb-#{$size}, (padding-bottom), $value);
-  @include theme-class(pl-#{$size}, (padding-left), $value);
-  @include theme-class(pr-#{$size}, (padding-right), $value);
-  @include theme-class(py-#{$size}, (padding-top, padding-bottom), $value);
-  @include theme-class(px-#{$size}, (padding-left, padding-right), $value);
-
-  @include theme-class(w-#{$size}, (width), $value);
-  @include theme-class(h-#{$size}, (height), $value);
-  @include theme-class(min-w-#{$size}, (min-width), $value);
-  @include theme-class(min-h-#{$size}, (min-height), $value);
-  @include theme-class(max-w-#{$size}, (max-width), $value);
-  @include theme-class(max-h-#{$size}, (max-height), $value);
-
-  @include theme-class(font-size-#{$size}, (font-size), $value);
-  @include theme-class(line-height-#{$size}, (line-height), $value);
-
-  @include theme-class(rounded-#{$size}, (border-radius), $value);
-  @include theme-class(
-    rounded-t-#{$size},
-    (border-top-left-radius, border-top-right-radius),
-    $value
-  );
-  @include theme-class(
-    rounded-b-#{$size},
-    (border-bottom-left-radius, border-bottom-right-radius),
-    $value
-  );
-  @include theme-class(
-    rounded-l-#{$size},
-    (border-top-left-radius, border-bottom-left-radius),
-    $value
-  );
-  @include theme-class(
-    rounded-r-#{$size},
-    (border-top-right-radius, border-bottom-right-radius),
-    $value
-  );
-  @include theme-class(rounded-tl-#{$size}, (border-top-left-radius), $value);
-  @include theme-class(rounded-tr-#{$size}, (border-top-right-radius), $value);
-  @include theme-class(
-    rounded-bl-#{$size},
-    (border-bottom-left-radius),
-    $value
-  );
-  @include theme-class(
-    rounded-br-#{$size},
-    (border-bottom-right-radius),
-    $value
-  );
-}
-
-@include theme-class(rounded-full, (border-radius), 50%);
-@include theme-class(
-  rounded-t-full,
-  (border-top-left-radius, border-top-right-radius),
-  50%
-);
-@include theme-class(
-  rounded-b-full,
-  (border-bottom-left-radius, border-bottom-right-radius),
-  50%
-);
-@include theme-class(
-  rounded-l-full,
-  (border-top-left-radius, border-bottom-left-radius),
-  50%
-);
-@include theme-class(
-  rounded-r-full,
-  (border-top-right-radius, border-bottom-right-radius),
-  50%
-);
-@include theme-class(rounded-tl-full, (border-top-left-radius), 50%);
-@include theme-class(rounded-tr-full, (border-top-right-radius), 50%);
-@include theme-class(rounded-bl-full, (border-bottom-left-radius), 50%);
-@include theme-class(rounded-br-full, (border-bottom-right-radius), 50%);
-
-@include theme-class(rounded-half, (border-radius), 25%);
-@include theme-class(
-  rounded-t-half,
-  (border-top-left-radius, border-top-right-radius),
-  25%
-);
-@include theme-class(
-  rounded-b-half,
-  (border-bottom-left-radius, border-bottom-right-radius),
-  25%
-);
-@include theme-class(
-  rounded-l-half,
-  (border-top-left-radius, border-bottom-left-radius),
-  25%
-);
-@include theme-class(
-  rounded-r-half,
-  (border-top-right-radius, border-bottom-right-radius),
-  25%
-);
-@include theme-class(rounded-tl-half, (border-top-left-radius), 25%);
-@include theme-class(rounded-tr-half, (border-top-right-radius), 25%);
-@include theme-class(rounded-bl-half, (border-bottom-left-radius), 25%);
-@include theme-class(rounded-br-half, (border-bottom-right-radius), 25%);

@@ -1,8 +1,8 @@
 import { ReactNode } from "react";
-import classNames from "classnames";
 import BaseComponentProps from "@/interfaces/base-component-props.interface";
 import BaseInputProps from "@/interfaces/base-input-props.interface";
 import styles from "./input.module.scss";
+import { cn } from "@/styles/helpers";
 
 interface InputProps extends BaseComponentProps, BaseInputProps {
   type: "text" | "email" | "password" | "number" | "tel" | "url";
@@ -24,7 +24,7 @@ export const Input = ({
 }: InputProps) => {
   return (
     <div
-      className={classNames(
+      className={cn(
         styles.wrapper,
         compact && styles.compact,
         disabled && styles.disabled,
@@ -32,7 +32,7 @@ export const Input = ({
       )}
     >
       {!!label && <label htmlFor={id}>{label}</label>}
-      <div className={classNames(styles.input, !!error && styles.error)}>
+      <div className={cn(styles.input, !!error && styles.error)}>
         <input
           id={id}
           placeholder={placeholder}

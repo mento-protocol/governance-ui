@@ -1,14 +1,17 @@
 import BaseIconProps from "@/interfaces/base-icon-props.interface";
 import exports from "@/styles/exports.module.scss";
-import classNames from "classnames";
 
 export const CopyIcon = ({
   color = exports.lightGrey,
+  height = 24,
+  width = 29,
   className,
 }: BaseIconProps) => {
   return (
     <svg
-      className={classNames("h-[24px] w-[29px]", className)}
+      height={height}
+      width={width}
+      className={className}
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 24 29"
       fill="none"

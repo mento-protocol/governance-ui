@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
-import classNames from "classnames";
 import styles from "./see-all.module.scss";
+import { cn } from "@/styles/helpers";
 
 interface SeeAllProps {
   isOpen: boolean;
@@ -22,12 +22,12 @@ export const SeeAll = ({
           maxHeight: isOpen ? "max-content" : `${height}px`,
           height: isOpen ? "max-content" : "auto",
         }}
-        className={classNames(styles.see_all, isOpen && styles.see_all__opened)}
+        className={cn(styles.see_all, isOpen && styles.see_all__opened)}
       >
         {children}
         {!isOpen && (
           <div
-            className={classNames(styles.shadow)}
+            className={cn(styles.shadow)}
             style={{ height: `${height}px` }}
           />
         )}

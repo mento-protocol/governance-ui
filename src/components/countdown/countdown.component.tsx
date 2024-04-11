@@ -1,8 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
-import classNames from "classnames";
 import BaseComponentProps from "@/interfaces/base-component-props.interface";
-import styles from "./countdown.module.scss";
+import { cn } from "@/styles/helpers";
 
 const getTimeLeftValues = (countDown: number) => {
   const days = Math.floor(countDown / (1000 * 60 * 60 * 24));
@@ -49,23 +48,70 @@ export const Countdown = ({
   );
 
   return (
-    <div className={classNames(styles.countdown, className)} style={style}>
-      <div className={classNames(styles.item, styles.day)}>
-        <div className={styles.value}>{days}</div>
-        <div className={styles.label}>days</div>
+    <div
+      className={cn(
+        "mt-x3 flex items-center justify-center gap-x1 md:mt-0 md:justify-end ",
+        className,
+      )}
+      style={style}
+    >
+      <div
+        className={cn(
+          "flex min-w-x11 flex-col items-center justify-center gap-x2 md:min-w-x16 md:gap-x3",
+          "mr-x1 text-primary",
+        )}
+      >
+        <CountdownNumber>{days}</CountdownNumber>
+        <CountdownLabel>days</CountdownLabel>
       </div>
-      <div className={classNames(styles.item, styles.time)}>
-        <div className={styles.value}>{hours}</div>
-        <div className={styles.label}>hours</div>
+      <div className="flex items-start">
+        <div
+          className={cn(
+            "flex min-w-x11 flex-col items-center justify-center gap-x2 md:min-w-x16 md:gap-x3",
+          )}
+        >
+          <CountdownNumber>{hours}</CountdownNumber>
+          <CountdownLabel>hours</CountdownLabel>
+        </div>
+        <TimerSeparator />
+        <div
+          className={cn(
+            "flex min-w-x11 flex-col items-center justify-center gap-x2 md:min-w-x16 md:gap-x3",
+          )}
+        >
+          <CountdownNumber>{minutes}</CountdownNumber>
+          <CountdownLabel>minutes</CountdownLabel>
+        </div>
+        <TimerSeparator />
+        <div
+          className={cn(
+            "flex min-w-x11 flex-col items-center justify-center gap-x2 md:min-w-x16 md:gap-x3",
+          )}
+        >
+          <CountdownNumber>{seconds}</CountdownNumber>
+          <CountdownLabel>seconds</CountdownLabel>
+        </div>
       </div>
-      <div className={classNames(styles.item, styles.time)}>
-        <div className={styles.value}>{minutes}</div>
-        <div className={styles.label}>minutes</div>
-      </div>
-      <div className={classNames(styles.item, styles.time)}>
-        <div className={styles.value}>{seconds}</div>
-        <div className={styles.label}>seconds</div>
-      </div>
+    </div>
+  );
+};
+
+const TimerSeparator = () => {
+  return <span className="flex h-auto p-0 text-[32px]/[0.75]">:</span>;
+};
+
+const CountdownNumber = ({ children }: { children: React.ReactNode }) => {
+  return (
+    <div className="md:text-x6 relative w-full text-center text-[32px]/none font-medium">
+      {children}
+    </div>
+  );
+};
+
+const CountdownLabel = ({ children }: { children: React.ReactNode }) => {
+  return (
+    <div className="md:text-x4  w-full text-center text-[18px]/none  dark:text-white">
+      {children}
     </div>
   );
 };

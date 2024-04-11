@@ -1,17 +1,22 @@
 {
-  "plugins": [
-    "@typescript-eslint"
-  ],
+  "root": true,
+  "plugins": ["@typescript-eslint"],
   "extends": [
     "next/core-web-vitals",
-    "plugin:prettier/recommended",
     "eslint:recommended",
     "plugin:@typescript-eslint/eslint-recommended",
-    "plugin:@typescript-eslint/recommended"
+    "plugin:@typescript-eslint/recommended",
+    "plugin:prettier/recommended",
+    "prettier"
   ],
   "rules": {
-    "prettier/prettier": ["error",{
-      "endOfLine": "auto"}],
+    "prettier/prettier": [
+      "error",
+      {
+        "endOfLine": "auto"
+      }
+    ],
+    "tailwindcss/classnames-order": "off",
     "@typescript-eslint/array-type": "off",
     "@typescript-eslint/ban-ts-comment": "off",
     "@typescript-eslint/ban-tslint-comment": "off",

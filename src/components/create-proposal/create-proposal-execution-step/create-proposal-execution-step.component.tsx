@@ -4,11 +4,11 @@ import { object, setLocale, string } from "yup";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Textarea } from "@/components/_shared";
-import CreateProposalWrapper from "@/components/create-proposal/create-proposal-wrapper/create-proposal-wrapper.component";
 import {
   CreateProposalStep,
   useCreateProposal,
-} from "@/components/create-proposal/create-proposal-provider";
+} from "../create-proposal-provider";
+import { CreateProposalWrapper } from "../create-proposal-wrapper/create-proposal-wrapper.component";
 
 const validationSchema = object().shape({
   code: string()
@@ -67,7 +67,7 @@ export const CreateProposalExecutionStep = () => {
           format in the field below:
         </p>
         <Textarea
-          className="mt-x5 mb-x5 min-h-[266px]"
+          className="mb-x5 mt-x5 min-h-[266px]"
           form={{ ...register("code") }}
           id="code"
           error={errors.code?.message}

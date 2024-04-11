@@ -2,22 +2,24 @@ import { useAccount } from "wagmi";
 
 import { UserRejectedRequestError } from "viem";
 
-import { Button, Card } from "@/components/_shared";
-import { ChevronIcon } from "@/components/_icons";
-import BlockExplorerLink from "@/components/_shared/block-explorer-link/block-explorer-link.component";
+import {
+  BlockExplorerLink,
+  Button,
+  Card,
+  LoadingState,
+  VotingCardTitle,
+} from "@/components/_shared";
+import { ChevronIcon, SuccessIcon } from "@/components/_icons";
 
 import { Proposal } from "@/lib/graphql";
 
 import ErrorHelper from "@/lib/helpers/error.helper";
-import { SuccessIcon } from "@/components/_icons/success-icon";
-import VotingCardTitle from "@/components/_shared/vote-voting-card-title/voting-card-title";
-import DisconnectedState from "./disconnected-state";
-import LoadingState from "@/components/_shared/vote-loading-state/vote-loading-state";
-import VotingButtons from "./voting-buttons";
-import LockedBalance from "./locked-balance";
+import { DisconnectedState } from "./disconnected-state";
+import { VotingButtons } from "./voting-buttons";
+import { LockedBalance } from "./locked-balance";
 
-import HasVoted from "./has-voted";
-import VoteConfirmation from "./vote-confirmation";
+import { HasVoted } from "./has-voted";
+import { VoteConfirmation } from "./vote-confirmation";
 import useTokens from "@/lib/contracts/useTokens";
 import useCastVote from "@/lib/contracts/governor/useCastVote";
 import useVoteReceipt from "@/lib/contracts/governor/useVoteReceipt";
@@ -34,7 +36,11 @@ export const REVERSE_VOTE_TYPE_MAP = {
   [VOTE_TYPES.Abstain]: "Abstain",
 } as const;
 
-const CastVote = ({ proposalId }: { proposalId: Proposal["proposalId"] }) => {
+export const CastVote = ({
+  proposalId,
+}: {
+  proposalId: Proposal["proposalId"];
+}) => {
   const { address, isConnecting, isDisconnected } = useAccount();
   const { veMentoBalance } = useTokens();
   const { data: voteReceipt, isLoading: isHasVotedStatusLoading } =
@@ -86,10 +92,10 @@ const CastVote = ({ proposalId }: { proposalId: Proposal["proposalId"] }) => {
     return (
       <Card>
         <VotingCardTitle />
-        <div className="flex flex-col gap-x3 mt-x2 text-center">
+        <div className="mt-x2 flex flex-col gap-x3 text-center">
           <span className="text-md">Vote submitted</span>
-          <SuccessIcon className="w-20 h-20 mx-auto" />
-          <span className="text-[#A8A8A8] dark:text-[#AAB3B6] text-sm">
+          <SuccessIcon className="mx-auto h-20 w-20" />
+          <span className="text-sm text-[#A8A8A8] dark:text-[#AAB3B6]">
             Your vote is being processed
           </span>
           {vote.hash && (
@@ -106,9 +112,9 @@ const CastVote = ({ proposalId }: { proposalId: Proposal["proposalId"] }) => {
     return (
       <Card>
         <VotingCardTitle />
-        <div className="flex flex-col gap-x3 mt-x2 text-center">
+        <div className="mt-x2 flex flex-col gap-x3 text-center">
           <span className="text-md">Vote success</span>
-          <SuccessIcon className="w-20 h-20 mx-auto" />
+          <SuccessIcon className="mx-auto h-20 w-20" />
           {vote.hash && (
             <BlockExplorerLink type="tx" item={vote.hash}>
               View on explorer
@@ -122,7 +128,7 @@ const CastVote = ({ proposalId }: { proposalId: Proposal["proposalId"] }) => {
   return (
     <Card>
       <VotingCardTitle />
-      <div className="flex flex-col gap-x5 mt-x3">
+      <div className="mt-x3 flex flex-col gap-x5">
         <LockedBalance />
         <div className="flex flex-col gap-2">
           <VotingButtons onSubmit={handleCastVote} />
@@ -138,7 +144,7 @@ const VotingError = ({ error }: { error: Error }) => {
     return null;
   }
   return (
-    <div className="text-light-red flex flex-col gap-1 items-center justify-center text-sm w-full">
+    <div className="flex w-full flex-col items-center justify-center gap-1 text-sm text-light-red">
       <span>Error casting vote</span>
       <span>{ErrorHelper.processWagmiErrorMessage(error)}</span>
     </div>
@@ -159,5 +165,3 @@ const DirectToLockMento = () => {
     </Card>
   );
 };
-
-export default CastVote;

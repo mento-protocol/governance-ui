@@ -1,7 +1,6 @@
 import { ReactNode } from "react";
-import classNames from "classnames";
 import BaseComponentProps from "@/interfaces/base-component-props.interface";
-import styles from "./card.module.scss";
+import { cn } from "@/styles/helpers";
 
 interface CardPartialProps extends BaseComponentProps {
   children: ReactNode;
@@ -13,11 +12,13 @@ interface CardProps extends CardPartialProps {
   noBorderMobile?: boolean;
 }
 
-const CardHeader = ({ children, className, style }: CardPartialProps) => {
+// TODO: sibling selectors, immediate child selectors, grouping
+
+const CardHeader = ({ children, className }: CardPartialProps) => {
   return (
     <header
-      className={classNames(styles.card__header, className)}
-      style={style}
+      // TODO: padding was 10, now 12
+      className={cn("rounded-lg rounded-r-lg bg-[inherit]", className)}
     >
       {children}
     </header>
@@ -26,10 +27,7 @@ const CardHeader = ({ children, className, style }: CardPartialProps) => {
 
 const CardFooter = ({ children, className, style }: CardPartialProps) => {
   return (
-    <footer
-      className={classNames(styles.card__footer, className)}
-      style={style}
-    >
+    <footer className={className} style={style}>
       {children}
     </footer>
   );
@@ -39,20 +37,16 @@ export const Card = ({
   children,
   className,
   block,
-  style,
-  noBorderMobile,
   transparent,
 }: CardProps) => {
   return (
     <div
-      className={classNames(
-        styles.card,
-        block && styles.block,
-        transparent && styles.transparent,
-        noBorderMobile && styles.noBorderMobile,
+      className={cn(
+        `rounded-lg border border-gray-light bg-white p-5 dark:bg-black-off`,
+        block && "w-full",
+        transparent && "bg-transparent",
         className,
       )}
-      style={style}
     >
       {children}
     </div>

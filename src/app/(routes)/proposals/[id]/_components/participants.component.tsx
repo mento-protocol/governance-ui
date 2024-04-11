@@ -1,8 +1,6 @@
-import classNames from "classnames";
 import { Card, TabList } from "@/components/_shared";
-import { VotesList } from "@/components/votes-list/votes-list.component";
+import { VotesList } from "@/components/index";
 import type { ProposalVotes } from "@/lib/graphql";
-import styles from "../page.module.scss";
 
 type Props = {
   votes: ProposalVotes;
@@ -11,10 +9,11 @@ type Props = {
 export default function Participants({ votes }: Props) {
   return (
     <Card
-      className={classNames(styles.proposal_addon, styles.participantsList)}
+      // Was originally z-49
+      className="sticky bottom-0 z-40 flex w-full grow flex-col gap-6"
     >
-      <Card.Header className="text-center text-2xl">
-        <strong>Participants</strong>
+      <Card.Header className="text-center text-[32px]/none font-medium">
+        Participants
       </Card.Header>
       <TabList tabs={["For", "Against", "Abstain"]}>
         <VotesList voteType="for" votes={votes} />

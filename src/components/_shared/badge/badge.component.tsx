@@ -1,35 +1,33 @@
-import { ReactNode } from "react";
-import classNames from "classnames";
-import BaseComponentProps from "@/interfaces/base-component-props.interface";
-import { BadgeType } from "@/lib/types";
-import styles from "./badge.module.scss";
+import React from "react";
+import { cn } from "@/styles/helpers";
+import { VariantProps, cva } from "class-variance-authority";
 
-interface BadgeProps extends BaseComponentProps {
-  children: ReactNode;
-  type: BadgeType;
-  rounded?: boolean;
-  block?: boolean;
-}
+const variants = cva(
+  "flex min-h-[36px] min-w-[70px] items-center justify-center whitespace-nowrap rounded-[40px] p-2.5 font-inter text-base/4 md:text-lg/[18px]",
+  {
+    variants: {
+      type: {
+        default: "bg-primary",
+        outline: "border border-black dark:border-white",
+        secondary: "bg-secondary dark:text-black",
+      },
+      fullwidth: { true: "w-full" },
+    },
+    defaultVariants: {
+      type: "default",
+      fullwidth: false,
+    },
+  },
+);
 
 export const Badge = ({
   children,
-  type,
-  block = false,
-  rounded = false,
+  type = "default",
+  fullwidth = false,
   className,
-  style,
-}: BadgeProps) => {
+}: React.HTMLAttributes<HTMLDivElement> & VariantProps<typeof variants>) => {
   return (
-    <div
-      className={classNames(
-        styles.badge,
-        styles[type],
-        block && styles.block,
-        rounded && styles.rounded,
-        className,
-      )}
-      style={style}
-    >
+    <div className={cn(variants({ type, fullwidth, className }))}>
       {children}
     </div>
   );

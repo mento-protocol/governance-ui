@@ -1,8 +1,7 @@
 import BaseComponentProps from "@/lib/interfaces/base-component-props.interface";
-import classNames from "classnames";
 import { useMemo } from "react";
-import styles from "./progress-bar.module.scss";
 import NumbersService from "@/lib/helpers/numbers.service";
+import { cn } from "@/styles/helpers";
 
 type Type = "success" | "info" | "warning" | "danger";
 
@@ -43,7 +42,6 @@ const barColor = (type: Type) => {
 
 export const ProgressBar = ({
   className,
-  style,
   current = 0,
   max,
   type,
@@ -92,12 +90,14 @@ export const ProgressBar = ({
 
   return (
     <div
-      className={classNames(styles.progress_bar_wrapper, className)}
-      style={style}
+      className={cn(
+        "flex flex-col items-end justify-center text-right font-fg text-[22px]/[22px] font-normal",
+        className,
+      )}
     >
       <div>{parsedValue}</div>
       <div
-        className={styles.progress_bar}
+        className="flex h-[8px] w-full rounded-3xl border-[0.5px] border-solid border-black dark:border-gray"
         style={{
           background:
             progress < 6
@@ -106,7 +106,9 @@ export const ProgressBar = ({
         }}
       >
         <div
-          className={classNames(styles.value, styles[type || ""])}
+          className={cn(
+            "h-full rounded-3xl bg-gray shadow-[0.5px_0_0] shadow-black dark:shadow-gray [&:not(:first-child)]:-ml-x1 [&:not(:first-child)]:rounded-bl-none [&:not(:first-child)]:rounded-tl-none",
+          )}
           style={{
             width: `${progress}%`,
             color,
@@ -123,20 +125,23 @@ export const MultiProgressBar = ({
   values,
   max,
   color,
-  style,
 }: MultiProgressBarProps) => {
   return (
     <div
-      className={classNames(styles.progress_bar_wrapper, className)}
-      style={style}
+      className={cn(
+        "flex flex-col items-end justify-center text-right font-fg text-[22px]/[22px] font-normal",
+        className,
+      )}
     >
-      <div className={styles.progress_bar}>
+      <div className="flex h-[8px] w-full rounded-3xl border-[0.5px] border-solid border-black dark:border-gray">
         {values.map((value, index) => {
           const progress = Math.floor((value.value / max) * 100);
           return (
             <div
               key={index}
-              className={classNames(styles.value, styles[value.type || ""])}
+              className={cn(
+                "h-full rounded-3xl bg-gray shadow-[0.5px_0_0] shadow-black dark:shadow-gray [&:not(:first-child)]:-ml-x1 [&:not(:first-child)]:rounded-bl-none [&:not(:first-child)]:rounded-tl-none",
+              )}
               style={{
                 width: `${progress}%`,
                 color,

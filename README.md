@@ -19,6 +19,24 @@ This is the UI repo for Mento Governance.
 <!-- - [npm](https://nodejs.org/en) >= 10.2.4 -->
 - [pnpm](https://pnpm.io/) >= 8.15.0
 
+## VS Code recommendations
+
+It's recommended to install:
+
+- prettier
+- Tailwind CSS Intellisense
+- Eslint
+
+For the Tailwind intellisense, please add the following to your `settings.json`
+
+```json
+"tailwindCSS.experimental.classRegex": [
+    ["cva\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]"],
+    ["cx\\(([^)]*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)"],
+    ["cn\\(([^)]*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)"],
+]
+```
+
 ## Installation
 
 ```bash
@@ -34,6 +52,12 @@ pnpm dev
 ## Project spec
 
 Please refer to our [spec documents by clicking here.](./docs/index.md)
+
+## Troubleshooting
+
+### No item imported in barrel file optimization
+
+This is due to the optimizer caching the results, simply delete the `.next` folder and restart your dev environment.
 
 <!-- ## Credits
 

@@ -1,8 +1,8 @@
-import classNames from "classnames";
 import CopyToClipboard from "react-copy-to-clipboard";
 import BaseComponentProps from "@/interfaces/base-component-props.interface";
+import { WalletAddress } from "@/components/index";
 import { CopyIcon } from "@/components/_icons/copy.icon";
-import { WalletAddress } from "@/components/wallet-address/wallet-address.component";
+import { cn } from "@/styles/helpers";
 
 interface WalletAddressWithCopyProps extends BaseComponentProps {
   address: string;
@@ -10,14 +10,10 @@ interface WalletAddressWithCopyProps extends BaseComponentProps {
 
 export const WalletAddressWithCopy = ({
   className,
-  style,
   address,
 }: WalletAddressWithCopyProps) => {
   return (
-    <div
-      className={classNames(className, "flex items-center gap-x2")}
-      style={style}
-    >
+    <div className={cn("flex items-center gap-x2", className)}>
       <WalletAddress address={address} />
       <CopyToClipboard text={address}>
         <div className="cursor-pointer">

@@ -1,119 +1,62 @@
-import classNames from "classnames";
-import { usePathname } from "next/navigation";
-import BaseComponentProps from "@/interfaces/base-component-props.interface";
+import Link from "next/link";
+
 import {
-  ChevronIcon,
   DiscordIcon,
   GithubIcon,
   MentoLogoIcon,
   TwitterIcon,
-  LearnMoreIcon,
 } from "@/components/_icons";
-import Link from "next/link";
-import { Button } from "@/components/_shared";
-import exports from "@/styles/exports.module.scss";
-import { ThemeSwitch } from "@/components/theme-switch/theme-switch.component";
-import styles from "./footer.module.scss";
+import { links } from "@/lib/constants/links";
+import { MobileAccordionMenu, ThemeSwitch } from "@/components/_shared";
 
-interface FooterProps extends BaseComponentProps {}
-
-export const Footer = ({ className, style }: FooterProps) => {
-  const year = new Date().getFullYear();
-
-  const pathname = usePathname();
-
+export const Footer = () => {
   return (
-    <footer className={classNames("mt-x4", className)} style={style}>
-      <div className="main-container">
-        {pathname === "/" && (
-          <div className={classNames(styles.learn_more)}>
-            <div className={classNames(styles.content)}>
-              <h2 className="text-6xl font-semibold my-x1">Learn more</h2>
-              <p className={styles.description}>
-                If you&apos;re interested in learning more about Mento, finding
-                out what the team is working on now, or would like to
-                contribute, please join our discord server.
-              </p>
-              <Button
-                className={classNames(styles.button, "mt-x4")}
-                href="https://discord.gg"
-                target="_blank"
-              >
-                <div className={styles.button__content}>
-                  <DiscordIcon useThemeColor={false} color={exports.white} />
-                  <span>Join the community</span>
-                  <ChevronIcon
-                    direction="right"
-                    useThemeColor={false}
-                    color={exports.white}
-                  />
-                </div>
-              </Button>
-            </div>
-            <div className={styles.learn_more__icon}>
-              <LearnMoreIcon />
-            </div>
+    <>
+      <DesktopFooter />
+      <MobileFooter />
+    </>
+  );
+};
+
+const DesktopFooter = () => {
+  return (
+    <footer className="mx-auto mt-36 hidden items-start justify-between gap-16 border-t border-black px-4 pb-20 pt-20 dark:border-[#343437] lg:mx-10 lg:flex xl:mx-auto xl:max-w-[1120px] xl:gap-36">
+      <div>
+        <MentoLogoIcon />
+        <p className="pt-3 font-inter text-[#636768] ">
+          Mento © 2024. <br />
+          All rights reserved.
+        </p>
+      </div>
+      <FooterNav />
+      <div className="flex flex-col gap-8">
+        <SocialLinks />
+        <div className="flex justify-between">
+          <span className="dark:text-body-dark">Theme</span>
+          <ThemeSwitch />
+        </div>
+      </div>
+    </footer>
+  );
+};
+
+const MobileFooter = () => {
+  return (
+    <footer className="mt-10 px-4 pb-8 lg:hidden">
+      <div className="border-t border-black dark:border-gray-light">
+        <MobileAccordionMenu classNames="bg-transparent" />
+        <div className="flex justify-between">
+          <div className="flex flex-col">
+            <MentoLogoIcon className="h-5 w-[90px]" />
+            <p className="text-body-light pt-4">
+              Mento © 2024. <br />
+              All rights reserved.
+            </p>
           </div>
-        )}
-        <div
-          className={classNames(
-            "pb-20 mt-20 border-t border-gray",
-            styles.footer,
-          )}
-        >
-          <div
-            className={classNames(styles.footer__element, styles.footer__mento)}
-          >
-            <MentoLogoIcon className="mb-x1" useThemeColor />
-            <div> Mento © {year}2023.</div>
-            <div>All right reserved.</div>
-          </div>
-          <div className={classNames(styles.footer__element)}>
-            <strong>Developers</strong>
-            <Link href="#">
-              <p>Docs</p>
-            </Link>
-            <Link href="#">
-              <p>Github</p>
-            </Link>
-          </div>
-          <div className={classNames(styles.footer__element)}>
-            <strong>Community</strong>
-            <Link href="#">
-              <p>Forum</p>
-            </Link>
-            <Link href="#">
-              <p>Discord</p>
-            </Link>
-            <Link href="#">
-              <p>Twitter</p>
-            </Link>
-          </div>
-          <div className={styles.footer__element}>
-            <strong>Other</strong>
-            <Link href="#">
-              <p>Team</p>
-            </Link>
-            <Link href="#">
-              <p>Roadmap</p>
-            </Link>
-          </div>
-          <div
-            className={classNames(styles.footer__element, "justify-between")}
-          >
-            <div className="flex gap-x3 place-items-center">
-              <Link href="#">
-                <TwitterIcon useThemeColor />
-              </Link>
-              <Link href="#" className="p-x2">
-                <DiscordIcon useThemeColor />
-              </Link>
-              <Link href="#" className="p-x2">
-                <GithubIcon useThemeColor />
-              </Link>
-            </div>
-            <div className={classNames("flex", styles.theme)}>
-              <span className="mr-x3">Theme</span>
+          <div className="flex flex-col gap-8">
+            <SocialLinks />
+            <div className="flex justify-between">
+              <span className="dark:text-body-dark">Theme</span>
               <ThemeSwitch />
             </div>
           </div>
@@ -121,4 +64,77 @@ export const Footer = ({ className, style }: FooterProps) => {
       </div>
     </footer>
   );
+};
+
+const FooterNav = () => {
+  return (
+    <nav className="flex flex-1 justify-between">
+      {Object.entries(footerMenuItems).map(([heading, links]) => {
+        return (
+          <div key={heading}>
+            <h4 className="text-body-light mb-[10px] font-fg text-[20px] font-medium leading-none text-[#636768] dark:text-[#8F9394]">
+              {heading}
+            </h4>
+            <ul className=" flex flex-col font-inter text-[15px]">
+              {links.map(({ title, href, isDownload }) => {
+                return (
+                  <Link
+                    key={title}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    href={href}
+                    download={isDownload}
+                  >
+                    {title}
+                  </Link>
+                );
+              })}
+            </ul>
+          </div>
+        );
+      })}
+    </nav>
+  );
+};
+
+const SocialLinks = () => {
+  return (
+    <nav className="dark:text-clean-white -mt-[10px] flex">
+      <Link target="_blank" rel="noopener noreferrer" href={links.twitter}>
+        <TwitterIcon className="text-black dark:text-white" />
+      </Link>
+      <Link
+        className="p-2.5"
+        target="_blank"
+        rel="noopener noreferrer"
+        href={links.github}
+      >
+        <GithubIcon className="dark:text-clean-white" />
+      </Link>
+      <Link
+        className="p-2.5"
+        target="_blank"
+        rel="noopener noreferrer"
+        href={links.discord}
+      >
+        <DiscordIcon className="dark:text-clean-white" />
+      </Link>
+    </nav>
+  );
+};
+
+const footerMenuItems = {
+  Developers: [
+    { title: "Docs", href: links.docs, isDownload: false },
+    { title: "Github", href: links.github, isDownload: false },
+  ],
+  Community: [
+    { title: "Forum", href: links.forum, isDownload: false },
+    { title: "Discord", href: links.discord, isDownload: false },
+    { title: "Twitter", href: links.twitter, isDownload: false },
+  ],
+  Other: [
+    { title: "Team", href: links.mentolabs, isDownload: false },
+    { title: "Cookie Policy", href: links.cookiePolicy, isDownload: true },
+  ],
 };

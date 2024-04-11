@@ -1,6 +1,5 @@
-import LoadingState from "@/components/_shared/vote-loading-state/vote-loading-state";
-import CastVote from "@/components/vote-cast-vote/cast-vote";
-import InactiveProposalStatusMessage from "@/components/vote-inactive-proposal-status-message/inactive-proposal-status-message";
+import { LoadingState } from "@/components/_shared";
+import { CastVote, InactiveProposalStatusMessage } from "@/components/index";
 import { Proposal, ProposalState } from "@/lib/graphql";
 
 export default function Vote({ proposal }: { proposal: Proposal }) {

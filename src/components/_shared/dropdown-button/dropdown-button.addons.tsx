@@ -1,6 +1,5 @@
-import classNames from "classnames";
 import BaseComponentProps from "@/interfaces/base-component-props.interface";
-import styles from "@/components/_shared/dropdown-button/dropdown-button.module.scss";
+import { cn } from "@/styles/helpers";
 
 export const Dropdown = ({
   children,
@@ -8,7 +7,7 @@ export const Dropdown = ({
   style,
 }: BaseComponentProps) => {
   return (
-    <div className={classNames(styles.dropdown, className)} style={style}>
+    <div className={cn("w-full rounded-lg", className)} style={style}>
       {children}
     </div>
   );
@@ -26,10 +25,18 @@ export const DropdownElement = ({
 }: ElementProps) => {
   return (
     <div
-      className={classNames(styles.dropdown_element, className)}
+      className={cn("dropdown_element group last:border-b-0", className)}
       style={style}
     >
-      <button onClick={onClick}>{children}</button>
+      <button
+        className={cn(
+          "w-full whitespace-nowrap border-none bg-transparent p-x2",
+          "group-first:rounded-t-lg group-last:rounded-b-lg group-hover:text-gray-alt66",
+        )}
+        onClick={onClick}
+      >
+        {children}
+      </button>
     </div>
   );
 };

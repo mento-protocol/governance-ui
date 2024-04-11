@@ -1,11 +1,9 @@
 import type { Participant, ProposalVotes } from "@/lib/graphql";
 import { Avatar } from "@/components/_shared";
-import { WalletAddress } from "@/components/wallet-address/wallet-address.component";
 import BaseComponentProps from "@/interfaces/base-component-props.interface";
 import type { IVoteType } from "@/interfaces/vote.interface";
-import classNames from "classnames";
 import { formatUnits } from "viem";
-import styles from "./votes-list.module.scss";
+import { WalletAddress } from "@/components/index";
 
 interface VotesListProps extends BaseComponentProps {
   voteType: IVoteType;
@@ -19,8 +17,8 @@ export const VotesList = ({
   style,
 }: VotesListProps) => {
   return (
-    <div className={classNames(styles.list, className)} style={style}>
-      <div className={styles.header}>
+    <div className={className} style={style}>
+      <div className="text-[18px]/1 flex flex-row items-center justify-between pb-x2">
         <div>{votes[voteType].participants.length} Addresses</div>
         <div>
           {Number(formatUnits(votes[voteType].total, 18)).toLocaleString()}{" "}
@@ -28,12 +26,17 @@ export const VotesList = ({
         </div>
       </div>
       {votes[voteType].participants.map((participant: Participant, index) => (
-        <div key={index} className={styles.vote}>
-          <div>
+        <div
+          key={index}
+          className="flex flex-row items-center justify-between p-x1 [&:not(:last-child)]:border-b [&:not(:last-child)]:border-solid [&:not(:last-child)]:border-gray-light"
+        >
+          <div className="flex flex-row items-center gap-x1">
             <Avatar address={participant.address} />
             <WalletAddress address={participant.address} />
           </div>
-          <div>{getParticipantPercentage(participant, votes.total)}</div>
+          <div className="flex flex-row items-center gap-x1">
+            {getParticipantPercentage(participant, votes.total)}
+          </div>
         </div>
       ))}
     </div>

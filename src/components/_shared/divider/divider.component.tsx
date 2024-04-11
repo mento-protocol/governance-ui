@@ -1,9 +1,6 @@
-import classNames from "classnames";
 import BaseComponentProps from "@/interfaces/base-component-props.interface";
-import styles from "./divider.module.scss";
+import { cn } from "@/styles/helpers";
 
-export const Divider = ({ className, style }: BaseComponentProps) => {
-  return (
-    <div className={classNames(styles.divider, className)} style={style} />
-  );
+export const Divider = ({ className }: BaseComponentProps) => {
+  return <div className={cn("border-b border-gray-light", className)} />;
 };

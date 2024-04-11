@@ -4,18 +4,22 @@ import {
   useAccountModal,
   useChainModal,
 } from "@rainbow-me/rainbowkit";
-import classNames from "classnames";
-import { Avatar, Button, DropdownButton } from "@/components/_shared";
-import { ChevronIcon } from "@/components/_icons";
+import {
+  Avatar,
+  Button,
+  ButtonProps,
+  DropdownButton,
+} from "@/components/_shared";
+import { ChevronIcon, DisconnectIcon, MentoIcon } from "@/components/_icons";
 import BaseComponentProps from "@/interfaces/base-component-props.interface";
 import WalletHelper from "@/lib/helpers/wallet.helper";
-import { ButtonType } from "@/lib/types";
-import styles from "./connect-button.module.scss";
 import useTokens from "@/lib/contracts/useTokens";
-import { useAccount } from "wagmi";
+import { useAccount, useDisconnect } from "wagmi";
+import { cn } from "@/styles/helpers";
+import NumbersService from "@/lib/helpers/numbers.service";
 
 interface ConnectedDropdownProps extends BaseComponentProps {
-  block?: boolean;
+  fullwidth?: boolean;
   account: {
     address: string;
     displayBalance?: string;
@@ -24,60 +28,87 @@ interface ConnectedDropdownProps extends BaseComponentProps {
 }
 
 export const ConnectedDropdown = ({
-  block,
+  fullwidth,
   account,
 }: ConnectedDropdownProps) => {
   const { openChainModal } = useChainModal();
   const { openAccountModal } = useAccountModal();
   const { isConnected } = useAccount();
+  const { disconnect } = useDisconnect();
 
   const { mentoBalance, veMentoBalance } = useTokens();
 
   return (
     <DropdownButton
       theme={"clear"}
-      block={block}
+      fullwidth={fullwidth}
       title={WalletHelper.getShortAddress(account.address)}
-      avatar={<Avatar address={account.address || ""} />}
+      avatar={
+        <Avatar
+          className="flex flex-row items-center"
+          address={account.address || ""}
+        />
+      }
     >
-      <DropdownButton.Dropdown>
+      <DropdownButton.Dropdown className="border border-solid border-black bg-white text-black dark:border-white dark:bg-black dark:text-white">
         {isConnected ? (
-          <div className={styles.wallet_addons}>
-            <div className={styles.addon}>
-              <div className={styles.addon__title}>{mentoBalance.symbol}</div>
-              <div className={styles.addon__value}>
-                {mentoBalance.formatted}
+          // TODO: fix colors
+          <div className="flex w-full flex-col items-center border-b border-solid border-black dark:border-white">
+            <div className="flex w-full flex-row justify-between px-x1 py-x2">
+              <div className="flex flex-row items-center p-x1 font-semibold">
+                <MentoIcon
+                  className="mr-x1"
+                  height={32}
+                  width={32}
+                  backgroundColor={"cyan"}
+                />
+                <span>{mentoBalance.symbol}</span>
+              </div>
+              <div className="flex flex-row items-center justify-center p-x1 font-semibold">
+                {NumbersService.parseNumericValue(mentoBalance.formatted, 1)}
               </div>
             </div>
-            <div className={styles.addon}>
-              <div className={styles.addon__title}>{veMentoBalance.symbol}</div>
-              <div className={styles.addon__value}>
-                {veMentoBalance.formatted}
+            <div className="flex w-full flex-row justify-between px-x1 py-x2">
+              <div className="flex flex-shrink flex-grow flex-row items-center p-x1 font-semibold">
+                <MentoIcon
+                  className="mr-x1"
+                  height={32}
+                  width={32}
+                  backgroundColor={"blush"}
+                />
+                <span>{veMentoBalance.symbol}</span>
+              </div>
+              <div className="flex flex-row items-center justify-center p-x1 font-semibold">
+                {NumbersService.parseNumericValue(veMentoBalance.formatted, 1)}
               </div>
             </div>
           </div>
         ) : null}
         <DropdownButton.Element onClick={openAccountModal}>
-          Account settings
+          {/* TODO: Need account icon */}
+          <span>Account settings</span>
         </DropdownButton.Element>
         <DropdownButton.Element onClick={openChainModal}>
-          Chain settings
+          <span>Chain settings</span>
+        </DropdownButton.Element>
+        <DropdownButton.Element
+          className="*:flex *:items-center *:justify-center"
+          onClick={() => disconnect()}
+        >
+          <DisconnectIcon />
+          <span>Disconnect</span>
         </DropdownButton.Element>
       </DropdownButton.Dropdown>
     </DropdownButton>
   );
 };
 
-interface ConnectButtonProps extends BaseComponentProps {
-  theme?: ButtonType;
-  block?: boolean;
-}
+type ConnectButtonProps = ButtonProps;
 
 export const ConnectButton = ({
   className,
-  style,
   theme,
-  block,
+  fullwidth,
 }: ConnectButtonProps) => {
   return (
     <RainbowConnectButton.Custom>
@@ -88,12 +119,14 @@ export const ConnectButton = ({
         return (
           <>
             <div
-              className={classNames(className, block ? "" : styles.container)}
-              style={style}
+              className={cn(
+                fullwidth ? "" : "flex w-auto justify-center",
+                className,
+              )}
             >
               {!connected ? (
                 <Button theme={theme || "secondary"} onClick={openConnectModal}>
-                  <div className="flex flex-row justify-center place-items-center gap-2">
+                  <div className="flex flex-row place-items-center justify-center gap-2">
                     <div>Connect wallet</div>
                     <ChevronIcon direction={"right"} />
                   </div>
@@ -101,7 +134,7 @@ export const ConnectButton = ({
               ) : (
                 <ConnectedDropdown
                   account={account}
-                  block={block}
+                  fullwidth={!!fullwidth}
                   chain={chain}
                 />
               )}

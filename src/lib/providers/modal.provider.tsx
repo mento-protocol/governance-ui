@@ -1,7 +1,7 @@
 import { createContext, ReactNode, useContext, useState } from "react";
 import modalStyles from "@/styles/modal.module.scss";
 import { Button, Card } from "@/components/_shared";
-import classNames from "classnames";
+import { cn } from "@/styles/helpers";
 
 interface ModalProviderProps {
   children: ReactNode;
@@ -77,12 +77,12 @@ const ModalWrapper = ({
   return (
     <div
       key={index}
-      className={classNames(modalStyles.modal, modalStyles.opened)}
+      className={cn(modalStyles.modal, modalStyles.opened)}
       style={{ zIndex: 1000 + index }}
     >
       <div className={modalStyles.modal__content}>
         <Card
-          className={classNames(
+          className={cn(
             modalStyles.modal__content__inner,
             modalStyles[options?.modalType || ""],
           )}
@@ -97,7 +97,7 @@ const ModalWrapper = ({
           </Card.Header>
           <div className="ma-x4">{children}</div>
           {question && (
-            <Card.Footer className="flex justify-end gap-x2 mt-x4">
+            <Card.Footer className="mt-x4 flex justify-end gap-x2">
               <Button theme="tertiary" onClick={cancel}>
                 {options?.cancelText || "Cancel"}
               </Button>

@@ -1,13 +1,13 @@
-import { Card } from "@/components/_shared";
 import {
+  Card,
   MultiProgressBar,
   MultiProgressBarValue,
-} from "@/components/_shared/progress-bar/progress-bar.component";
+} from "@/components/_shared";
+
 import BaseComponentProps from "@/interfaces/base-component-props.interface";
-import classNames from "classnames";
-import styles from "./proposal-current-votes.module.scss";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { SVGProps, useCallback, useEffect, useMemo, useState } from "react";
 import { IVote } from "@/lib/interfaces/vote.interface";
+import { cn } from "@/styles/helpers";
 
 interface ProposalCurrentVotesProps extends BaseComponentProps {}
 
@@ -64,16 +64,21 @@ export const ProposalCurrentVotes = ({
   return (
     <Card className={className} style={style}>
       <Card.Header>
-        <h3 className="flex justify-center font-size-x6 line-height-x6 font-medium mb-x3">
+        <h3 className="mb-x3 flex justify-center text-[32px]/none font-medium">
           Current votes
         </h3>
       </Card.Header>
       <MultiProgressBar className="mb-x3" values={values} max={max} />
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-x6">
+      <div className="grid grid-cols-1 gap-x6 text-[22px]/none md:grid-cols-2">
         <div>
-          <div className="flex justify-between mb-x3">
+          <div className="mb-x3 flex justify-between">
             <div className="flex items-center gap-x3">
-              <div className={classNames(styles.vote_tag, styles.success)} />
+              <div
+                className={cn(
+                  "h-x3 w-x3 rounded-[50%] border border-solid border-black bg-white content-['']",
+                  "bg-success",
+                )}
+              />
               <div>For</div>
             </div>
             <div>
@@ -82,9 +87,14 @@ export const ProposalCurrentVotes = ({
                 .toLocaleString()}
             </div>
           </div>
-          <div className="flex justify-between mb-x3">
+          <div className="mb-x3 flex justify-between">
             <div className="flex items-center gap-x3">
-              <div className={classNames(styles.vote_tag, styles.error)} />
+              <div
+                className={cn(
+                  "h-x3 w-x3 rounded-[50%] border border-solid border-black bg-white content-['']",
+                  "bg-error",
+                )}
+              />
               <div>Against</div>
             </div>
             <div>
@@ -93,9 +103,9 @@ export const ProposalCurrentVotes = ({
                 .toLocaleString()}
             </div>
           </div>
-          <div className="flex justify-between mb-x3">
+          <div className="mb-x3 flex justify-between">
             <div className="flex items-center gap-x3">
-              <div className={classNames(styles.vote_tag)} />
+              <div className="h-x3 w-x3 rounded-[50%] border border-solid border-black bg-white content-['']" />
               <div>Abstain</div>
             </div>
             <div>
@@ -109,42 +119,80 @@ export const ProposalCurrentVotes = ({
           <div className="mb-x3">
             <div className="flex items-center gap-x3">
               <div
-                className={classNames(
-                  styles.vote_tag,
-                  styles.primary,
-                  styles.square,
+                className={cn(
+                  "flex h-x3 w-x3 items-center justify-center border  border-black bg-white text-white",
+                  "bg-primary",
+                  "rounded-[4px]",
                 )}
-              />
+              >
+                <TickMark />
+              </div>
               <div>Majority supports</div>
             </div>
           </div>
           <div className="mb-x3">
-            <div className="flex items-center gap-x3">
+            <div className="flex justify-start gap-x3">
               <div
-                className={classNames(
-                  styles.vote_tag,
-                  styles.black,
-                  styles.square,
+                className={cn(
+                  "flex h-x3 w-x3 items-center justify-center border border-black text-white",
+                  "bg-black",
+                  "rounded-[4px]",
                 )}
-              />
-              <div>Quorum isn’t reached</div>
-            </div>
-          </div>
-          <div className="mb-x3">
-            <div className="flex items-center gap-x3">
-              <div
-                className={classNames(
-                  styles.vote_tag,
-                  styles.invisible,
-                  styles.square,
-                )}
-              />
-              <div>270K of 999K</div>
+              >
+                <XMark />
+              </div>
+              <div>
+                Quorum isn&apos;t reached <br /> 270K of 999K
+              </div>
             </div>
           </div>
         </div>
         <div></div>
       </div>
     </Card>
+  );
+};
+
+const TickMark = () => {
+  return (
+    <svg
+      className="h-2.5 w-2.5" // Width and height class from TailwindCSS (3rem by 3rem)
+      viewBox="0 0 50 50" // ViewBox to control the scaling of the SVG contents
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M5 25 L20 40 L45 5"
+        stroke="white" // Stroke color
+        strokeWidth="6" // Stroke width
+        fill="none" // No fill color
+        strokeLinecap="round" // Rounded line caps
+        // TailwindCSS classes for animation and hover effect
+      />
+    </svg>
+  );
+};
+
+const XMark = (props: SVGProps<SVGSVGElement>) => {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 10 10"
+      fill="none"
+      className={cn("h-2.5 w-2.5", props.className)}
+      {...props}
+    >
+      <path
+        fill="#fff"
+        fillRule="evenodd"
+        d="M8.74.624c.241.241.241.632 0 .872l-7.398 7.4a.617.617 0 1 1-.872-.873L7.87.624c.24-.24.63-.24.872 0Z"
+        clipRule="evenodd"
+      />
+      <path
+        fill="#fff"
+        fillRule="evenodd"
+        d="M8.74 8.895a.617.617 0 0 1-.872 0L.469 1.496a.617.617 0 0 1 .872-.872L8.74 8.023c.24.24.24.631 0 .872Z"
+        clipRule="evenodd"
+      />
+    </svg>
   );
 };

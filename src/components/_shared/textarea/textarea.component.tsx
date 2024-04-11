@@ -1,8 +1,8 @@
 import { ReactNode } from "react";
-import classNames from "classnames";
 import BaseComponentProps from "@/interfaces/base-component-props.interface";
 import BaseInputProps from "@/interfaces/base-input-props.interface";
 import styles from "./textarea.module.scss";
+import { cn } from "@/styles/helpers";
 
 interface TextAreaProps extends BaseComponentProps, BaseInputProps {
   addon?: ReactNode;
@@ -20,15 +20,9 @@ export const Textarea = ({
   compact,
 }: TextAreaProps) => {
   return (
-    <div
-      className={classNames(
-        styles.wrapper,
-        compact && styles.compact,
-        className,
-      )}
-    >
+    <div className={cn(styles.wrapper, compact && styles.compact, className)}>
       {!!label && <label htmlFor={id}>{label}</label>}
-      <div className={classNames(styles.textarea, !!error && styles.error)}>
+      <div className={cn(styles.textarea, !!error && styles.error)}>
         <textarea id={id} placeholder={placeholder} {...form} />
         {addon}
       </div>

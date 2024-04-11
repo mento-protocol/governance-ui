@@ -1,36 +1,100 @@
 "use client";
-import { useEffect, useRef, useState } from "react";
-import classNames from "classnames";
+import { ComponentProps, ReactNode, useEffect, useRef, useState } from "react";
 import useOutsideAlerter from "@/lib/hooks/useOutsideAlerter";
-import { ButtonType } from "@/lib/types";
-import BaseComponentProps from "@/interfaces/base-component-props.interface";
 import { Button } from "@/components/_shared";
 import { ChevronIcon } from "@/components/_icons";
-import {
-  Dropdown,
-  DropdownElement,
-} from "@/components/_shared/dropdown-button/dropdown-button.addons";
-import styles from "./dropdown-button.module.scss";
+import { Dropdown, DropdownElement } from "./dropdown-button.addons";
+import { VariantProps, cva } from "class-variance-authority";
+import { cn } from "@/styles/helpers";
 
-interface DropdownButtonProps extends BaseComponentProps {
-  theme?: ButtonType;
-  title?: string;
-  block?: boolean;
-  avatar?: JSX.Element;
-}
+const variants = cva(
+  "[transition:opacity_0.3s,_transform 0.3s_0.1s_ease-in,_z-index_0.1s_1s] pointer-events-none absolute top-x14 z-[-1] min-w-full -translate-y-x10 overflow-hidden opacity-0",
+  {
+    variants: {
+      align: {
+        left: "left-0",
+        right: "right-0",
+      },
+      fullwidth: { true: "", false: "max-w-[200px]" },
+      opened: {
+        true: "pointer-events-auto z-10 translate-y-0 opacity-100",
+        false: "",
+      },
+      theme: {
+        primary: cn(
+          "border-primary-dark bg-primary text-white",
+          "[&_.dropdown_element]:border-primary-dark",
+        ),
+        secondary: cn(
+          "border-secondary-dark bg-secondary text-black",
+          "[&_.dropdown_element]:border-secondary-dark",
+        ),
+        success: cn(
+          "border-success-dark bg-success text-black",
+          "[&_.dropdown_element]:border-success-dark",
+        ),
+        danger: cn(
+          "border-error-dark bg-error text-white",
+          "[&_.dropdown_element]:border-error-dark",
+        ),
+        warning: cn(
+          "border-warning-dark bg-warning text-black",
+          "[&_.dropdown_element]:border-warning-dark",
+        ),
+        info: cn(
+          "border-info-dark bg-info text-black",
+          "[&_.dropdown_element]:border-info-dark",
+        ),
+        tertiary: cn(
+          "border-gray bg-white text-black",
+          "dark:border-white dark:bg-black dark:text-white",
+          "[&_.dropdown_element]:border-gray dark:[&_.dropdown_element]:border-white",
+        ),
+        link: cn(
+          "border-gray bg-white text-black",
+          "dark:border-white dark:bg-black dark:text-white",
+          "[&_.dropdown_element]:border-gray dark:[&_.dropdown_element]:border-white",
+        ),
+        clear: cn(
+          "border-gray bg-white text-black",
+          "dark:border-white dark:bg-black dark:text-white",
+          "[&_.dropdown_element]:border-gray dark:[&_.dropdown_element]:border-white",
+        ),
+      },
+    },
+    compoundVariants: [
+      {
+        opened: true,
+        theme: "clear",
+        className:
+          "[&_button:hover]:bg-gray-lighter [&_button:hover]:!text-black [&_button:hover]:!text-black dark:[&_button:hover]:!text-black [&_button:hover_path]:stroke-black",
+      },
+    ],
+    defaultVariants: {
+      align: "left",
+      fullwidth: false,
+      opened: false,
+      theme: "primary",
+    },
+  },
+);
+
+type DropdownButtonProps = ComponentProps<"button"> &
+  ComponentProps<"a"> &
+  VariantProps<typeof variants> & {
+    title?: string;
+    avatar?: ReactNode;
+  };
 
 export const DropdownButton = ({
   theme = "primary",
   className,
   children,
-  style,
   title,
-  block,
+  fullwidth,
   avatar,
 }: DropdownButtonProps) => {
-  const [dropdownPositionHorizontal, setDropdownPositionHorizontal] = useState(
-    "right" as "left" | "right",
-  );
+  const [alignment, setAlignment] = useState<"left" | "right">("right");
   const [dropdownPositionTopOffset, setDropdownPositionTopOffset] = useState(0);
   const [dropdownOpened, setDropdownOpened] = useState(false);
 
@@ -46,7 +110,7 @@ export const DropdownButton = ({
     const elementWidth = (dropdownRef?.current as any).getBoundingClientRect()
       .width;
     if (elementRect.left - elementWidth < 0) {
-      setDropdownPositionHorizontal("left");
+      setAlignment("left");
     }
   }, []);
 
@@ -74,32 +138,28 @@ export const DropdownButton = ({
   return (
     <div
       ref={dropdownRef}
-      className={classNames(
-        styles.wrapper,
-        styles[theme],
-        block && styles.block,
-        dropdownOpened && styles.opened,
+      className={cn(
+        "relative",
+        fullwidth && "w-full",
+        dropdownOpened && "opened",
         className,
       )}
-      style={style}
     >
       <Button
-        block={block}
+        fullwidth={fullwidth}
         theme={theme}
-        className={styles.button}
+        className="min-w-x12 [&_button]:min-w-x12"
         onClick={() => setDropdownOpened(!dropdownOpened)}
       >
         {!!avatar && avatar}
         {title}
         <span
-          className={classNames(styles.toggle, dropdownOpened && styles.opened)}
+          className={cn(
+            "transition-[transform] duration-300 ease-out-back",
+            dropdownOpened && "rotate-180",
+          )}
         >
-          <ChevronIcon
-            width={15}
-            height={10}
-            useThemeColor
-            direction={"down"}
-          />
+          <ChevronIcon width={15} height={10} direction={"down"} />
         </span>
       </Button>
       <div
@@ -109,10 +169,13 @@ export const DropdownButton = ({
             ? `-${dropdownPositionTopOffset}px`
             : "",
         }}
-        className={classNames(
-          styles.dropdown_wrapper,
-          styles[theme],
-          styles[dropdownPositionHorizontal],
+        className={cn(
+          variants({
+            align: alignment,
+            theme,
+            opened: dropdownOpened,
+            className,
+          }),
         )}
       >
         {children}

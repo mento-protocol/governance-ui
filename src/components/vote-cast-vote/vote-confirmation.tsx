@@ -1,10 +1,9 @@
 import WalletHelper from "@/lib/helpers/wallet.helper";
-import { Card, Loader } from "@/components/_shared";
-import VotingCardTitle from "@/components/_shared/vote-voting-card-title/voting-card-title";
-import VoteTypePill from "./vote-type-pill";
+import { Card, Loader, VotingCardTitle } from "@/components/_shared";
 import { Proposal } from "@/lib/graphql";
+import { VoteTypePill } from "../vote-cast-vote";
 
-const VoteConfirmation = ({
+export const VoteConfirmation = ({
   voteType,
   proposalId,
 }: {
@@ -14,12 +13,12 @@ const VoteConfirmation = ({
   return (
     <Card>
       <VotingCardTitle />
-      <div className="flex flex-col gap-x3 mt-x2 text-center">
+      <div className="mt-x2 flex flex-col gap-x3 text-center">
         <span className="text-md">Confirm your vote</span>
         <Loader isCenter />
         <>
           {voteType && (
-            <div className="flex flex-col items-center justify-center text-[0.875rem] gap-1">
+            <div className="flex flex-col items-center justify-center gap-1 text-[0.875rem]">
               <div className="flex items-center justify-center gap-1">
                 <span>{`Voting `}</span>
                 <span className="flex items-center justify-center">
@@ -34,12 +33,10 @@ const VoteConfirmation = ({
             </div>
           )}
         </>
-        <span className="text-[#A8A8A8] text-sm dark:text-[#AAB3B6]">
+        <span className="text-sm text-[#A8A8A8] dark:text-[#AAB3B6]">
           Proceed in your wallet
         </span>
       </div>
     </Card>
   );
 };
-
-export default VoteConfirmation;

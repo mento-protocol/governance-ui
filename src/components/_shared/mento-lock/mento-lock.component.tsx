@@ -256,7 +256,7 @@ export const MentoLock = ({ className, style }: MentoLockProps) => {
         }}
       />
       <Button
-        block
+        fullwidth
         className="!mt-x6"
         onClick={handleSubmit(performLock)}
         disabled={!isValid}

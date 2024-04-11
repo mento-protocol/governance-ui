@@ -64,7 +64,7 @@ export const ProposalCurrentVotes = ({
   return (
     <Card className={className} style={style}>
       <Card.Header>
-        <h3 className="font-size-x6 line-height-x6 mb-x3 flex justify-center font-medium">
+        <h3 className="mb-x3 flex justify-center text-[32px]/none font-medium">
           Current votes
         </h3>
       </Card.Header>

@@ -34,7 +34,13 @@ export type ProposalCreateParams = {
 };
 
 const useCreateProposalOnChain = () => {
-  const { data, error, writeContract, isSuccess } = useWriteContract();
+  const {
+    data,
+    error,
+    writeContract,
+    isSuccess,
+    reset: resetCreateProposalHook,
+  } = useWriteContract();
   const { MentoGovernor } = useContracts();
 
   const createProposal = useCallback(
@@ -73,6 +79,7 @@ const useCreateProposalOnChain = () => {
     createError: error,
     createTx: data,
     isSuccess,
+    resetCreateProposalHook,
   };
 };
 

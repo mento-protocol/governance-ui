@@ -50,6 +50,7 @@ export const SeeAll = ({
       {children}
       <button
         className={cn(
+          "flex items-end justify-center",
           "absolute bottom-0 left-0 !h-[40%] w-full text-primary transition-all duration-100",
           "bg-gradient-to-t from-white to-transparent dark:from-black-off",
           "group-[.open]/see-all:!h-x6 group-[.open]/see-all:bg-none",
@@ -57,7 +58,7 @@ export const SeeAll = ({
         )}
         onClick={() => setIsOpen(!isOpen)}
       >
-        {isOpen ? "Hide" : "Show more"}
+        <span>{isOpen ? "Hide" : "Show more"}</span>
       </button>
     </div>
   );

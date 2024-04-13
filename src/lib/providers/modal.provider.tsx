@@ -117,6 +117,7 @@ const ModalWrapper = ({
   );
 };
 
+// TODO: Provider redundant, modal is a wrapper, no need for this.
 export const ModalProvider = ({ children }: ModalProviderProps) => {
   const [modalWrapperID, setModalWrapperID] = useState<string>(
     Math.random().toString(36).substring(7),

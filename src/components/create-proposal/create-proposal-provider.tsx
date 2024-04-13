@@ -6,10 +6,13 @@ import {
   useEffect,
   useState,
 } from "react";
-import useCreateProposalOnChain from "@/lib/contracts/governor/useCreateProposalOnChain";
+import useCreateProposalOnChain, {
+  TransactionItem,
+} from "@/lib/contracts/governor/useCreateProposalOnChain";
 import { LocalStorageKeys, useLocalStorage } from "@/lib/hooks/useStorage";
 import { useChainId } from "wagmi";
 import { Loader } from "@/components/_shared";
+import { CreateProposalTxModal } from "@/components/create-proposal/create-proposal-transaction.model";
 
 export enum CreateProposalStep {
   wallet = 1,
@@ -53,6 +56,7 @@ export const CreateProposalProvider = ({
   children,
 }: ICreateProposalProvider) => {
   const chainId = useChainId();
+  const [isOpen, setOpen] = useState(false);
 
   const { canUseLocalStorage, getItem, setItem, removeItem } = useLocalStorage(
     LocalStorageKeys.CreateProposal,
@@ -61,7 +65,8 @@ export const CreateProposalProvider = ({
   const [step, setStep] = useState<CreateProposalStep>(
     CreateProposalStep.wallet,
   );
-  const { createProposal } = useCreateProposalOnChain();
+  const { createProposal, resetCreateProposalHook, createError } =
+    useCreateProposalOnChain();
 
   const [newProposal, updateProposalInternal] = useState({
     description: "",
@@ -90,7 +95,7 @@ export const CreateProposalProvider = ({
   );
 
   const submitProposal = useCallback(() => {
-    let transactions = [];
+    let transactions: TransactionItem[] = [];
     try {
       transactions = JSON.parse(newProposal.code);
     } catch (e) {
@@ -120,7 +125,11 @@ export const CreateProposalProvider = ({
           removeCacheItem(CreateProposalCacheEntry.description);
           removeCacheItem(CreateProposalCacheEntry.code);
         }
+        setOpen(false);
+        resetCreateProposalHook();
+        // TODO: redirect
       },
+      (error) => {},
     );
   }, [
     canUseLocalStorage,
@@ -129,6 +138,7 @@ export const CreateProposalProvider = ({
     newProposal.description,
     newProposal.title,
     removeCacheItem,
+    resetCreateProposalHook,
   ]);
 
   useEffect(() => {
@@ -148,6 +158,7 @@ export const CreateProposalProvider = ({
         description: description || "",
         code: code || "",
       });
+
       setCreationState("ready");
     }
   }, [canUseLocalStorage, creationState, getCacheItem]);
@@ -168,6 +179,11 @@ export const CreateProposalProvider = ({
     [canUseLocalStorage, setCacheItem],
   );
 
+  const retry = useCallback(() => {
+    resetCreateProposalHook();
+    submitProposal();
+  }, [resetCreateProposalHook, submitProposal]);
+
   return (
     <CreateProposalContext.Provider
       value={{
@@ -182,6 +198,12 @@ export const CreateProposalProvider = ({
       }}
     >
       {creationState === "ready" ? children : <Loader />}
+      <CreateProposalTxModal
+        isOpen={isOpen}
+        setOpen={setOpen}
+        retry={retry}
+        error={!!createError}
+      />
     </CreateProposalContext.Provider>
   );
 };

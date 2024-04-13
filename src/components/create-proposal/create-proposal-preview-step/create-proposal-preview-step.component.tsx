@@ -5,12 +5,10 @@ import {
   CreateProposalStep,
   useCreateProposal,
 } from "../create-proposal-provider";
-import useCreateProposalOnChain from "@/lib/contracts/governor/useCreateProposalOnChain";
 import { CreateProposalWrapper } from "../create-proposal-wrapper/create-proposal-wrapper.component";
 
 export const CreateProposalPreviewStep = () => {
   const [isProposalPreviewOpen, setIsProposalPreviewOpen] = useState(false);
-  const { createError, createTx } = useCreateProposalOnChain();
   const { setStep, newProposal, submitProposal } = useCreateProposal();
 
   return (
@@ -20,8 +18,8 @@ export const CreateProposalPreviewStep = () => {
       onPrev={() => setStep(CreateProposalStep.execution)}
       onSave={submitProposal}
     >
-      <pre>{JSON.stringify(createTx, null, 2)}</pre>
-      <pre>{createError ? createError.message : null}</pre>
+      {/* <pre>{JSON.stringify(createTx, null, 2)}</pre>
+      <pre>{createError ? createError.message : null}</pre> */}
       <div>
         <p className="ml-4 text-xl">
           You&apos;ve successfully finished all the steps. Now, take a moment to

@@ -59,7 +59,6 @@ export const CreateProposalWrapper = ({
         </div>
       </Card.Header>
       <div
-        // TODO: change to CVA
         className={variants({
           open: isOpen,
         })}
@@ -93,7 +92,7 @@ export const CreateProposalWrapper = ({
             )}
             {onSave !== undefined && (
               <Button className="min-w-x20" onClick={onSave} theme="primary">
-                Save
+                Create Proposal
               </Button>
             )}
           </div>

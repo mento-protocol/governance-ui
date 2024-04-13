@@ -40,15 +40,15 @@ export const ExecutionCodeView = ({
     <div>
       {title && <h3 className="my-x3 flex justify-center text-4xl">{title}</h3>}
 
-      <SeeAll
-        height={overflowHeight}
-        isOpen={isExecutionViewOpen}
-        setIsOpen={setIsExecutionViewOpen}
-      >
-        <div className="rounded-lg border border-solid border-gray-light p-5">
+      <div className="rounded-lg border border-solid border-gray-light p-5">
+        <SeeAll
+          height={overflowHeight}
+          isOpen={isExecutionViewOpen}
+          setIsOpen={setIsExecutionViewOpen}
+        >
           {!!parsedCode && <pre>{parsedCode}</pre>}
-        </div>
-      </SeeAll>
+        </SeeAll>
+      </div>
     </div>
   );
 };

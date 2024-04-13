@@ -59,11 +59,11 @@ export const InactiveProposalStatusMessage = ({
   return (
     <Card>
       <Card.Header className="text-center">
-        <h2 className="font-fg text-[2rem] font-medium leading-[2rem]">
+        <h2 className="font-fg text-[32px]/none font-medium">
           {INACTIVE_PROPOSAL_MESSAGE_MAP[proposalState].header}
         </h2>
       </Card.Header>
-      <div className="flex min-h-[163px] flex-col justify-between font-fg text-[22px] leading-[22px]">
+      <div className="flex min-h-[163px] flex-col justify-between font-fg text-[22px]/none">
         <div className="flex-grow" />
         <span>
           {INACTIVE_PROPOSAL_MESSAGE_MAP[proposalState].statusMessage}

@@ -25,7 +25,7 @@ const Crumb = ({ path, index, last }: CrumbProps) => {
         </span>
       ) : (
         <Link href={path || "/"} className="text-primary">
-          {crumbName}
+          {index === 0 ? "Home" : crumbName}
         </Link>
       )}
     </li>

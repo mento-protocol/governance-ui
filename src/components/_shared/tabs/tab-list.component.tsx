@@ -3,21 +3,18 @@ import { Children, ComponentProps, useState } from "react";
 import { VariantProps, cva } from "class-variance-authority";
 import { cn } from "@/styles/helpers";
 
-const variants = cva(
-  "sticky top-0 z-10 flex flex-row gap-x2 bg-inherit px-0 py-x1",
-  {
-    variants: {
-      headerAlignment: {
-        default: "",
-        left: "justify-start",
-        right: "justify-end",
-      },
-    },
-    defaultVariants: {
-      headerAlignment: "default",
+const variants = cva("sticky top-0 z-10 flex bg-inherit px-0 py-x1", {
+  variants: {
+    headerAlignment: {
+      default: "justify-between",
+      left: "justify-start",
+      right: "justify-end",
     },
   },
-);
+  defaultVariants: {
+    headerAlignment: "default",
+  },
+});
 
 export interface TabListProps
   extends ComponentProps<"div">,
@@ -34,7 +31,7 @@ export const TabList = ({
   const [selectedTab, setSelectedTab] = useState(0);
 
   return (
-    <div className={cn("bg-inherit", className)}>
+    <div className={cn("flex flex-col gap-6 bg-inherit", className)}>
       <div
         className={variants({
           headerAlignment,
@@ -44,8 +41,9 @@ export const TabList = ({
           <button
             key={index}
             className={cn(
-              "m-0 cursor-pointer border-none bg-none p-0 hover:text-primary",
-              index === selectedTab && "text-primary",
+              // TODO: CVA
+              "m-0 cursor-pointer border-none bg-none p-0 text-gray-light hover:text-primary",
+              index === selectedTab && "font-medium text-primary",
             )}
             onClick={() => setSelectedTab(index)}
           >

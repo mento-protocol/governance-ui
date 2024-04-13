@@ -25,7 +25,7 @@ export const VotingButtons = ({
       </Button>
       <Button
         type="submit"
-        theme="tertiary"
+        theme="white"
         fullwidth
         onClick={() => onSubmit(VOTE_TYPES.Abstain)}
       >

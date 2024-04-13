@@ -2,7 +2,6 @@
 import { useAccount } from "wagmi";
 import { Card, Loader, MentoLock } from "@/components/_shared";
 import { LocksList } from "@/components/index";
-import { Suspense } from "react";
 
 const Page = () => {
   const { address, isConnecting, isDisconnected } = useAccount();
@@ -18,11 +17,10 @@ const Page = () => {
       {!isDisconnected && (
         <>
           <h2 className="mb-4 mt-8 text-2xl">My Locks</h2>
-          <Suspense fallback={<Loader isCenter />}>
-            <Card block>
-              {address && !isConnecting && <LocksList account={address} />}
-            </Card>
-          </Suspense>
+          <Card block>
+            {address && !isConnecting && <LocksList account={address} />}
+            {isConnecting && <Loader isCenter />}
+          </Card>
         </>
       )}
     </main>

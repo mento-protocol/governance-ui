@@ -7,7 +7,7 @@ interface StatusProps {
 }
 
 const variants = cva(
-  "flex h-[22px] w-min min-w-full items-center justify-center whitespace-nowrap rounded-[4px] border py-[6.5px] pt-[6px] text-center font-fg text-[16px]/[1] font-medium uppercase not-italic",
+  "flex h-[22px] w-min items-center justify-center whitespace-nowrap rounded-[4px] border  px-6 py-[6.5px] text-center font-fg text-[16px]/[1] font-medium uppercase",
   {
     variants: {
       type: {

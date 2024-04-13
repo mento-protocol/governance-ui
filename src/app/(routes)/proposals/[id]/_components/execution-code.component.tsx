@@ -1,4 +1,4 @@
-import { BlockExplorerLink } from "@/components/_shared";
+import { BlockExplorerLink, Card } from "@/components/_shared";
 import useContractsInfo from "@/lib/contracts/useContractsInfo";
 import { ProposalCall } from "@/lib/graphql";
 
@@ -14,7 +14,7 @@ export default function ExecutionCode({ calls }: Props) {
       <h3 className="font-size-x6 line-height-x6 mb-x6 flex justify-center font-medium">
         Execution Code
       </h3>
-      <div className="rounded-[8px] border border-[#B3B3B3] p-4">
+      <Card>
         {formattedCalls.map((call, index) => (
           <div key={call.target + call.id} className="break-words">
             {index > 0 && <hr className="my-4" />}
@@ -32,7 +32,7 @@ export default function ExecutionCode({ calls }: Props) {
             <pre className="text-wrap">{call.value}</pre>
           </div>
         ))}
-      </div>
+      </Card>
     </div>
   );
 }

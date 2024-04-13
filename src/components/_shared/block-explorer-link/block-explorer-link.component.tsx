@@ -4,6 +4,7 @@ type Props = {
   children: React.ReactNode;
   type: "address" | "tx" | "block";
   item: string;
+  className?: string;
 };
 
 export const BlockExplorerLink = ({ children, type, item }: Props) => {

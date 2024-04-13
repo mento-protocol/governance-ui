@@ -92,7 +92,7 @@ export const ProposalsListComponent = ({ className }: ProposalsListProps) => {
                 </div>
               </div>
               <Status
-                className="self-center"
+                className="w-full self-center"
                 text={state?.toString()}
                 type={stateToStatusColorMap[state]}
               />

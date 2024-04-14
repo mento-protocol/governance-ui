@@ -2,7 +2,7 @@ import { GovernorABI } from "@/lib/abi/Governor";
 import { useContracts } from "@/lib/contracts/useContracts";
 import { useCallback } from "react";
 import { Address, Hex, isAddress, isHex, toHex } from "viem";
-import { useChainId, useWriteContract } from "wagmi";
+import { useAccount, useChainId, useConfig, useWriteContract } from "wagmi";
 import { WriteContractErrorType } from "wagmi/actions";
 
 export type TransactionItem = {
@@ -40,11 +40,14 @@ const useCreateProposalOnChain = () => {
     writeContract,
     isSuccess,
     reset: resetCreateProposalHook,
+    ...rest
   } = useWriteContract();
   const { MentoGovernor } = useContracts();
+  const { address } = useAccount();
   const chainId = useChainId();
+  const config = useConfig();
 
-  console.log(chainId);
+  console.log(config);
   const createProposal = useCallback(
     (
       proposal: ProposalCreateParams,
@@ -61,6 +64,7 @@ const useCreateProposalOnChain = () => {
       ]);
       writeContract(
         {
+          account: address,
           chainId: chainId,
           address: MentoGovernor.address as Address,
           abi: GovernorABI,

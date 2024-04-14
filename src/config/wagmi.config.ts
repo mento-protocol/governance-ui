@@ -32,8 +32,8 @@ const connectors = connectorsForWallets(
 export const wagmiConfig = createConfig({
   chains: [Alfajores, Celo],
   transports: {
-    [Alfajores.id]: http(),
-    [Celo.id]: http(),
+    [Alfajores.id]: http(Alfajores.rpcUrls.default.http[0]),
+    [Celo.id]: http(Celo.rpcUrls.default.http[0]),
   },
   connectors,
 });

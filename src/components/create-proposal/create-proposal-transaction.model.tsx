@@ -26,7 +26,6 @@ export const CreateProposalTxModal = ({
         className="relative z-50"
         onClose={() => {
           // Can't dismiss typically
-          console.log("trying to close");
         }}
       >
         <Transition.Child

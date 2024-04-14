@@ -2,7 +2,7 @@ import { GovernorABI } from "@/lib/abi/Governor";
 import { useContracts } from "@/lib/contracts/useContracts";
 import { useCallback } from "react";
 import { Address, Hex, isAddress, isHex, toHex } from "viem";
-import { useAccount, useChainId, useConfig, useWriteContract } from "wagmi";
+import { useWriteContract } from "wagmi";
 import { WriteContractErrorType } from "wagmi/actions";
 
 export type TransactionItem = {
@@ -40,32 +40,20 @@ const useCreateProposalOnChain = () => {
     writeContract,
     isSuccess,
     reset: resetCreateProposalHook,
-    ...rest
   } = useWriteContract();
   const { MentoGovernor } = useContracts();
-  const { address } = useAccount();
-  const chainId = useChainId();
-  const config = useConfig();
 
-  console.log(config);
+  console.log("data", data);
+  console.log("isSuccess", isSuccess);
+
   const createProposal = useCallback(
     (
       proposal: ProposalCreateParams,
       onSuccess?: () => void,
       onError?: (error?: WriteContractErrorType) => void,
     ) => {
-      console.log("args", [
-        proposal.transactions.map(
-          (transaction) => transaction.address as Address,
-        ),
-        proposal.transactions.map((transaction) => BigInt(transaction.value)),
-        proposal.transactions.map((transaction) => toHex(transaction.data)), // TODO: Confirm this doesn't need toBytes first
-        JSON.stringify(proposal.metadata),
-      ]);
       writeContract(
         {
-          account: address,
-          chainId: chainId,
           address: MentoGovernor.address as Address,
           abi: GovernorABI,
           functionName: "propose",
@@ -76,7 +64,11 @@ const useCreateProposalOnChain = () => {
             proposal.transactions.map((transaction) =>
               BigInt(transaction.value),
             ),
-            proposal.transactions.map((transaction) => toHex(transaction.data)), // TODO: Confirm this doesn't need toBytes first
+            proposal.transactions.map((transaction) =>
+              isHex(transaction.data)
+                ? transaction.data
+                : toHex(transaction.data),
+            ),
             JSON.stringify(proposal.metadata),
           ],
         },
@@ -86,7 +78,7 @@ const useCreateProposalOnChain = () => {
         },
       );
     },
-    [writeContract, chainId, MentoGovernor.address],
+    [writeContract, MentoGovernor.address],
   );
 
   return {

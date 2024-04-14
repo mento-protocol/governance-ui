@@ -27,7 +27,7 @@ const useProposals = () => {
     errorPolicy: "ignore",
   });
 
-  const { data: chainData } = useReadContracts({
+  const { data: chainData, dataUpdatedAt } = useReadContracts({
     contracts: (graphProposals as Proposal[]).map(
       (proposal: Proposal) =>
         ({
@@ -66,6 +66,8 @@ const useProposals = () => {
     return proposalBuild;
   }, [chainData, graphProposals]);
 
+  console.log(graphProposals.length);
+  console.log(dataUpdatedAt);
   return {
     proposals,
   };

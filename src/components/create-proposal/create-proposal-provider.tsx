@@ -13,6 +13,8 @@ import { LocalStorageKeys, useLocalStorage } from "@/lib/hooks/useStorage";
 import { useChainId } from "wagmi";
 import { Loader } from "@/components/_shared";
 import { CreateProposalTxModal } from "@/components/create-proposal/create-proposal-transaction.model";
+// import { useRouter } from "next/navigation";
+import { formatUnits } from "viem";
 
 export enum CreateProposalStep {
   wallet = 1,
@@ -56,6 +58,8 @@ export const CreateProposalProvider = ({
   children,
 }: ICreateProposalProvider) => {
   const chainId = useChainId();
+  // const router = useRouter();
+
   const [isOpen, setOpen] = useState(false);
 
   const { canUseLocalStorage, getItem, setItem, removeItem } = useLocalStorage(
@@ -65,8 +69,13 @@ export const CreateProposalProvider = ({
   const [step, setStep] = useState<CreateProposalStep>(
     CreateProposalStep.wallet,
   );
-  const { createProposal, resetCreateProposalHook, createError } =
-    useCreateProposalOnChain();
+  const {
+    createProposal,
+    resetCreateProposalHook,
+    createError,
+    createTx,
+    isSuccess,
+  } = useCreateProposalOnChain();
 
   const [newProposal, updateProposalInternal] = useState({
     description: "",
@@ -120,27 +129,39 @@ export const CreateProposalProvider = ({
         },
         transactions,
       },
-      () => {
-        if (canUseLocalStorage) {
-          removeCacheItem(CreateProposalCacheEntry.title);
-          removeCacheItem(CreateProposalCacheEntry.description);
-          removeCacheItem(CreateProposalCacheEntry.code);
-        }
-        setOpen(false);
-        resetCreateProposalHook();
-        // TODO: redirect
-      },
+      undefined,
       (error) => {
         // TODO: Sentrify.
         console.error(error);
       },
     );
   }, [
-    canUseLocalStorage,
     createProposal,
     newProposal.code,
     newProposal.description,
     newProposal.title,
+  ]);
+
+  useEffect(() => {
+    if (!isOpen) return;
+    if (createTx && isSuccess) {
+      console.log(isSuccess);
+      console.log(createTx);
+
+      if (canUseLocalStorage) {
+        removeCacheItem(CreateProposalCacheEntry.title);
+        removeCacheItem(CreateProposalCacheEntry.description);
+        removeCacheItem(CreateProposalCacheEntry.code);
+      }
+      setOpen(false);
+      resetCreateProposalHook();
+      // router.push(`/proposals/${createTx}`)
+    }
+  }, [
+    canUseLocalStorage,
+    createTx,
+    isOpen,
+    isSuccess,
     removeCacheItem,
     resetCreateProposalHook,
   ]);

@@ -64,13 +64,15 @@ const CurrentFormStep = ({ formStep }: { formStep: WalletStepEnum }) => {
 };
 
 export const CreateProposalWalletStep = () => {
-  const { address } = useAccount();
+  const { address, isConnected } = useAccount();
   const { mentoBalance, veMentoBalance } = useTokens();
   const { setStep } = useCreateProposal();
 
   const [walletFormStep, setWalletStep] = useState(
     WalletStepEnum.connectWallet,
   );
+
+  console.log(isConnected);
 
   useEffect(() => {
     // TODO: Check if veMento + mento balance >= 2500 ? lock || buy mento

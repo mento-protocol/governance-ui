@@ -2,7 +2,7 @@ import { GovernorABI } from "@/lib/abi/Governor";
 import { useContracts } from "@/lib/contracts/useContracts";
 import { useCallback } from "react";
 import { Address, Hex, isAddress, isHex, toHex } from "viem";
-import { useWriteContract } from "wagmi";
+import { useChainId, useWriteContract } from "wagmi";
 import { WriteContractErrorType } from "wagmi/actions";
 
 export type TransactionItem = {
@@ -42,15 +42,26 @@ const useCreateProposalOnChain = () => {
     reset: resetCreateProposalHook,
   } = useWriteContract();
   const { MentoGovernor } = useContracts();
+  const chainId = useChainId();
 
+  console.log(chainId);
   const createProposal = useCallback(
     (
       proposal: ProposalCreateParams,
       onSuccess?: () => void,
       onError?: (error?: WriteContractErrorType) => void,
     ) => {
+      console.log("args", [
+        proposal.transactions.map(
+          (transaction) => transaction.address as Address,
+        ),
+        proposal.transactions.map((transaction) => BigInt(transaction.value)),
+        proposal.transactions.map((transaction) => toHex(transaction.data)), // TODO: Confirm this doesn't need toBytes first
+        JSON.stringify(proposal.metadata),
+      ]);
       writeContract(
         {
+          chainId: chainId,
           address: MentoGovernor.address as Address,
           abi: GovernorABI,
           functionName: "propose",
@@ -71,7 +82,7 @@ const useCreateProposalOnChain = () => {
         },
       );
     },
-    [writeContract, MentoGovernor.address],
+    [writeContract, chainId, MentoGovernor.address],
   );
 
   return {

@@ -95,6 +95,7 @@ export const CreateProposalProvider = ({
   );
 
   const submitProposal = useCallback(() => {
+    setOpen(true);
     let transactions: TransactionItem[] = [];
     try {
       transactions = JSON.parse(newProposal.code);
@@ -129,7 +130,10 @@ export const CreateProposalProvider = ({
         resetCreateProposalHook();
         // TODO: redirect
       },
-      (error) => {},
+      (error) => {
+        // TODO: Sentrify.
+        console.error(error);
+      },
     );
   }, [
     canUseLocalStorage,

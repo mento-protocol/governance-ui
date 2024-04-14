@@ -100,7 +100,9 @@ export const CreateProposalExecutionStep = () => {
       <div>
         <p className="font-size-x4 line-height-x5 ml-x7">
           Paste your governance proposal&apos;s execution code in the json
-          format in the field below:
+          formatting the field below. If the proposal has no required execution,
+          an empty array or no input is valid. A default, empty transaction will
+          be used.
         </p>
         <Textarea
           className="mb-x5 mt-x5 min-h-[266px]"

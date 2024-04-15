@@ -9,25 +9,30 @@ import {
   useGetProposalsSuspenseQuery,
 } from "@/lib/graphql/subgraph/generated/subgraph";
 import { NetworkStatus } from "@apollo/client";
-import { useMemo } from "react";
-import { useChainId, useReadContracts } from "wagmi";
+import { useCallback, useEffect, useMemo } from "react";
+import { useBlockNumber, useChainId, useReadContracts } from "wagmi";
+
+const GraphProposalsQueryKey = ["proposals-graph-query"];
 
 const useProposals = () => {
   const chainId = useChainId();
   const contracts = useContracts();
+  const { data: blockNumber } = useBlockNumber({ watch: true });
 
   const {
     data: { proposals: graphProposals },
     networkStatus: graphNetworkStatus,
+    refetch,
   } = useGetProposalsSuspenseQuery({
     context: {
       apiName: chainId === 44787 ? "subgraphAlfajores" : "subgraph",
     },
     refetchWritePolicy: "overwrite",
     errorPolicy: "ignore",
+    queryKey: GraphProposalsQueryKey,
   });
 
-  const { data: chainData, dataUpdatedAt } = useReadContracts({
+  const { data: chainData } = useReadContracts({
     contracts: (graphProposals as Proposal[]).map(
       (proposal: Proposal) =>
         ({
@@ -66,10 +71,24 @@ const useProposals = () => {
     return proposalBuild;
   }, [chainData, graphProposals]);
 
-  console.log(graphProposals.length);
-  console.log(dataUpdatedAt);
+  const proposalExists = useCallback(
+    (id: string) => {
+      return (
+        proposals.filter((proposal) => proposal.proposalId === id).length === 1
+      );
+    },
+    [proposals],
+  );
+
+  useEffect(() => {
+    refetch();
+    // Only needed on block changes
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [blockNumber]);
+
   return {
     proposals,
+    proposalExists,
   };
 };
 

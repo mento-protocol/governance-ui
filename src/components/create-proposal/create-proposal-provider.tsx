@@ -13,8 +13,8 @@ import { LocalStorageKeys, useLocalStorage } from "@/lib/hooks/useStorage";
 import { useChainId } from "wagmi";
 import { Loader } from "@/components/_shared";
 import { CreateProposalTxModal } from "@/components/create-proposal/create-proposal-transaction.model";
-// import { useRouter } from "next/navigation";
-import { formatUnits } from "viem";
+import { useRouter } from "next/navigation";
+import useProposals from "@/lib/contracts/governor/useProposals";
 
 export enum CreateProposalStep {
   wallet = 1,
@@ -58,9 +58,11 @@ export const CreateProposalProvider = ({
   children,
 }: ICreateProposalProvider) => {
   const chainId = useChainId();
-  // const router = useRouter();
+  const router = useRouter();
+  const { proposalExists } = useProposals();
 
   const [isOpen, setOpen] = useState(false);
+  const [expectingId, setExpectingId] = useState<string | undefined>();
 
   const { canUseLocalStorage, getItem, setItem, removeItem } = useLocalStorage(
     LocalStorageKeys.CreateProposal,
@@ -69,11 +71,12 @@ export const CreateProposalProvider = ({
   const [step, setStep] = useState<CreateProposalStep>(
     CreateProposalStep.wallet,
   );
+
   const {
     createProposal,
     resetCreateProposalHook,
     createError,
-    createTx,
+    createProposalID,
     isSuccess,
   } = useCreateProposalOnChain();
 
@@ -121,22 +124,23 @@ export const CreateProposalProvider = ({
         },
       ];
     }
-    createProposal(
-      {
-        metadata: {
-          title: newProposal.title,
-          description: newProposal.description,
-        },
-        transactions,
+    const structuredProposal = {
+      metadata: {
+        title: newProposal.title,
+        description: newProposal.description,
       },
-      undefined,
-      (error) => {
-        // TODO: Sentrify.
-        console.error(error);
-      },
-    );
+      transactions,
+    };
+
+    setExpectingId(createProposalID(structuredProposal));
+
+    createProposal(structuredProposal, undefined, (error) => {
+      // TODO: Sentrify.
+      console.error(error);
+    });
   }, [
     createProposal,
+    createProposalID,
     newProposal.code,
     newProposal.description,
     newProposal.title,
@@ -144,26 +148,23 @@ export const CreateProposalProvider = ({
 
   useEffect(() => {
     if (!isOpen) return;
-    if (createTx && isSuccess) {
-      console.log(isSuccess);
-      console.log(createTx);
-
+    if (isSuccess && expectingId && proposalExists(expectingId)) {
       if (canUseLocalStorage) {
         removeCacheItem(CreateProposalCacheEntry.title);
         removeCacheItem(CreateProposalCacheEntry.description);
         removeCacheItem(CreateProposalCacheEntry.code);
       }
-      setOpen(false);
-      resetCreateProposalHook();
-      // router.push(`/proposals/${createTx}`)
+      router.push(`/proposals/${expectingId.toString()}`);
     }
   }, [
     canUseLocalStorage,
-    createTx,
+    expectingId,
     isOpen,
     isSuccess,
+    proposalExists,
     removeCacheItem,
     resetCreateProposalHook,
+    router,
   ]);
 
   useEffect(() => {

@@ -1,7 +1,18 @@
 import { GovernorABI } from "@/lib/abi/Governor";
 import { useContracts } from "@/lib/contracts/useContracts";
 import { useCallback } from "react";
-import { Address, Hex, isAddress, isHex, toHex } from "viem";
+import {
+  Address,
+  Hex,
+  encodeAbiParameters,
+  hexToBigInt,
+  isAddress,
+  isHex,
+  keccak256,
+  parseAbiParameters,
+  stringToBytes,
+  toHex,
+} from "viem";
 import { useWriteContract } from "wagmi";
 import { WriteContractErrorType } from "wagmi/actions";
 
@@ -43,8 +54,37 @@ const useCreateProposalOnChain = () => {
   } = useWriteContract();
   const { MentoGovernor } = useContracts();
 
-  console.log("data", data);
-  console.log("isSuccess", isSuccess);
+  const createProposalID = useCallback(
+    (proposal: ProposalCreateParams) =>
+      hexToBigInt(
+        keccak256(
+          encodeAbiParameters(
+            parseAbiParameters(
+              "address[] targets, uint256[] values, bytes[] calldatas, bytes32 descriptionHash",
+            ),
+            [
+              proposal.transactions.map(
+                (transaction) => transaction.address as Address,
+              ),
+              proposal.transactions.map((transaction) =>
+                BigInt(transaction.value),
+              ),
+              proposal.transactions.map((transaction) =>
+                isHex(transaction.data)
+                  ? transaction.data
+                  : toHex(transaction.data),
+              ),
+              keccak256(stringToBytes(JSON.stringify(proposal.metadata))),
+            ],
+          ),
+        ),
+        {
+          signed: false,
+          size: 256,
+        },
+      ).toString(),
+    [],
+  );
 
   const createProposal = useCallback(
     (
@@ -86,6 +126,7 @@ const useCreateProposalOnChain = () => {
     createError: error,
     createTx: data,
     isSuccess,
+    createProposalID,
     resetCreateProposalHook,
   };
 };

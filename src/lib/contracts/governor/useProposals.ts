@@ -9,15 +9,15 @@ import {
   useGetProposalsSuspenseQuery,
 } from "@/lib/graphql/subgraph/generated/subgraph";
 import { NetworkStatus } from "@apollo/client";
-import { useCallback, useEffect, useMemo } from "react";
-import { useBlockNumber, useChainId, useReadContracts } from "wagmi";
+import { useCallback, useMemo } from "react";
+import { useChainId, useReadContracts } from "wagmi";
 
 const GraphProposalsQueryKey = ["proposals-graph-query"];
 
 const useProposals = () => {
   const chainId = useChainId();
   const contracts = useContracts();
-  const { data: blockNumber } = useBlockNumber({ watch: true });
+  // const { data: blockNumber } = useBlockNumber({ watch: true });
 
   const {
     data: { proposals: graphProposals },
@@ -27,7 +27,7 @@ const useProposals = () => {
     context: {
       apiName: chainId === 44787 ? "subgraphAlfajores" : "subgraph",
     },
-    refetchWritePolicy: "overwrite",
+    refetchWritePolicy: "merge",
     errorPolicy: "ignore",
     queryKey: GraphProposalsQueryKey,
   });
@@ -80,15 +80,18 @@ const useProposals = () => {
     [proposals],
   );
 
-  useEffect(() => {
-    refetch();
-    // Only needed on block changes
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [blockNumber]);
+  // useEffect(() => {
+  //   if (blockNumber && blockNumber % 4n === 0n) {
+  //     refetch();
+  //   }
+  //   // Only needed on block changes
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [blockNumber]);
 
   return {
     proposals,
     proposalExists,
+    refetchProposals: refetch,
   };
 };
 

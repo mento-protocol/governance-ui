@@ -10,7 +10,7 @@ import useCreateProposalOnChain, {
   TransactionItem,
 } from "@/lib/contracts/governor/useCreateProposalOnChain";
 import { LocalStorageKeys, useLocalStorage } from "@/lib/hooks/useStorage";
-import { useChainId } from "wagmi";
+import { useBlockNumber, useChainId } from "wagmi";
 import { Loader } from "@/components/_shared";
 import { CreateProposalTxModal } from "@/components/create-proposal/create-proposal-transaction.model";
 import { useRouter } from "next/navigation";
@@ -59,10 +59,17 @@ export const CreateProposalProvider = ({
 }: ICreateProposalProvider) => {
   const chainId = useChainId();
   const router = useRouter();
-  const { proposalExists } = useProposals();
+  const { proposalExists, refetchProposals } = useProposals();
 
   const [isOpen, setOpen] = useState(false);
   const [expectingId, setExpectingId] = useState<string | undefined>();
+
+  const { data: blockNumber } = useBlockNumber({
+    watch: true,
+    query: {
+      enabled: !!expectingId,
+    },
+  });
 
   const { canUseLocalStorage, getItem, setItem, removeItem } = useLocalStorage(
     LocalStorageKeys.CreateProposal,
@@ -145,6 +152,14 @@ export const CreateProposalProvider = ({
     newProposal.description,
     newProposal.title,
   ]);
+
+  // Triggering fetches by block
+  useEffect(() => {
+    // TODO: if blocknumber only active when expecting is set, might be redundant
+    if (!!expectingId && blockNumber) {
+      refetchProposals();
+    }
+  }, [blockNumber, expectingId, refetchProposals]);
 
   useEffect(() => {
     if (!isOpen) return;

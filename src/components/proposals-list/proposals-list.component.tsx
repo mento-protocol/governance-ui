@@ -1,3 +1,4 @@
+"use client";
 import NumbersService from "@/lib/helpers/numbers.service";
 import StringService from "@/lib/helpers/string.service";
 import BaseComponentProps from "@/lib/interfaces/base-component-props.interface";

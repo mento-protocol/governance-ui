@@ -21,7 +21,7 @@ export const CreateProposalPreviewStep = () => {
       {/* <pre>{JSON.stringify(createTx, null, 2)}</pre>
       <pre>{createError ? createError.message : null}</pre> */}
       <div>
-        <p className="ml-4 text-xl">
+        <p className="text-xl">
           You&apos;ve successfully finished all the steps. Now, take a moment to
           go over your proposal and then submit it.
         </p>

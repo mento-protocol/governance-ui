@@ -1,8 +1,8 @@
 import BaseIconProps from "@/interfaces/base-icon-props.interface";
 
 export const CheckMarkIcon = ({
-  height = 10,
-  width = 10,
+  height = 17,
+  width = 17,
   className,
 }: BaseIconProps) => {
   return (

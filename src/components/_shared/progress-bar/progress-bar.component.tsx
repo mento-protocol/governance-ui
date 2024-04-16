@@ -26,7 +26,6 @@ export interface MultiProgressBarValue {
 
 interface MultiProgressBarProps extends BaseComponentProps {
   values: MultiProgressBarValue[];
-  max: number;
 }
 
 const barColor = (type: Type) => {
@@ -120,6 +119,7 @@ export const ProgressBar = ({
   );
 };
 
+// Cases where percent is larger than 100 does not affect appearance, can Math.min vs 100 if needed
 export const MultiProgressBar = ({
   className,
   values,
@@ -173,7 +173,8 @@ export const MultiProgressBar = ({
         className,
       )}
     >
-      <div className="flex h-4 w-full overflow-hidden rounded-3xl  border-[0.5px] border-solid border-black dark:border-gray">
+      {/* <div className="flex h-4 w-full overflow-hidden rounded-3xl  border-[0.5px] border-solid border-black dark:border-gray"> */}
+      <div className="relative h-4 w-full overflow-hidden rounded-3xl border-[0.5px] border-solid border-black dark:border-gray">
         {progressBars
           .sort((a, b) => b.progress - a.progress)
           .map(({ progress, barColorString }, index) => {
@@ -181,12 +182,11 @@ export const MultiProgressBar = ({
               <div
                 key={index}
                 className={cn(
-                  "h-full  bg-gray shadow-[0.5px_0_0] shadow-black dark:shadow-gray",
+                  "absolute left-[-1px] top-[-1px] h-[calc(100%_+_2px)] rounded-r-3xl border-[0.5px] border-black bg-gray dark:border-gray",
                 )}
                 style={{
                   width: `${progress}%`,
                   backgroundColor: barColorString,
-                  zIndex: 10 - index,
                 }}
               ></div>
             );

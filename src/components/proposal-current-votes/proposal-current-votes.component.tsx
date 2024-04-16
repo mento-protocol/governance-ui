@@ -1,5 +1,6 @@
 import {
   Card,
+  Loader,
   MultiProgressBar,
   MultiProgressBarValue,
 } from "@/components/_shared";
@@ -28,24 +29,19 @@ export const ProposalCurrentVotes = ({
   const values = useMemo(() => {
     return [
       {
-        progress: Math.floor(
-          (Number(proposal.votes.total / 2n) / Number(proposal.votes.total)) *
-            100,
+        progress: Number(
+          (proposal.votes.for.total * 100n) / (quorumNeeded || 1n),
         ),
-        // value: Number(proposal.votes.total / 2n),
-        // value: Number(proposal.votes.for.total),
         type: "success",
       },
       {
-        progress: Math.floor(
-          (Number(proposal.votes.total / 2n) / Number(proposal.votes.total)) *
-            100,
+        progress: Number(
+          (proposal.votes.against.total * 100n) / (quorumNeeded || 1n),
         ),
-        // value: Number(proposal.votes.against.total),
         type: "danger",
       },
     ] as MultiProgressBarValue[];
-  }, [proposal.votes.total]);
+  }, [proposal.votes.against.total, proposal.votes.for.total, quorumNeeded]);
 
   const majoritySupport = useMemo(() => {
     if (proposal.votes.total === 0n || proposal.votes.for.total === 0n)
@@ -64,11 +60,7 @@ export const ProposalCurrentVotes = ({
           Current votes
         </h3>
       </Card.Header>
-      <MultiProgressBar
-        className="mb-8"
-        values={values}
-        max={Number(proposal.votes.total)}
-      />
+      <MultiProgressBar className="mb-8" values={values} />
       <div className="grid grid-cols-1 gap-x-12 text-[22px]/none md:grid-cols-2">
         <div className="flex flex-col gap-y-6">
           <div className="flex justify-between">
@@ -115,7 +107,7 @@ export const ProposalCurrentVotes = ({
             </div>
           </div>
         </div>
-        <div className="flex flex-col gap-y-6">
+        <div className="mt-6 flex flex-col gap-y-6 md:mt-0">
           <div>
             <div className="flex items-center gap-x3">
               {majoritySupport && <CheckMarkIcon />}
@@ -125,15 +117,36 @@ export const ProposalCurrentVotes = ({
           </div>
           <div>
             <div className="flex items-center justify-start gap-x3">
-              <CrossMarkIcon />
+              {!!quorumNeeded &&
+                quorumNeeded > BigInt(proposal.votes.for.total) && (
+                  <CrossMarkIcon />
+                )}
+              {!!quorumNeeded &&
+                quorumNeeded <= BigInt(proposal.votes.for.total) && (
+                  <CheckMarkIcon />
+                )}
+
               <div>
-                Quorum isn&apos;t reached <br />{" "}
-                {NumbersService.parseNumericValue(
-                  formatUnits(proposal.votes.for.total, 18),
-                )}{" "}
-                of{" "}
-                {NumbersService.parseNumericValue(
-                  formatUnits(quorumNeeded || 0n, 18),
+                {!quorumNeeded ? (
+                  <Loader />
+                ) : (
+                  <>
+                    {quorumNeeded > BigInt(proposal.votes.for.total) && (
+                      <>
+                        Quorum isn&apos;t reached <br />{" "}
+                        {NumbersService.parseNumericValue(
+                          formatUnits(proposal.votes.for.total, 18),
+                        )}{" "}
+                        of{" "}
+                        {NumbersService.parseNumericValue(
+                          formatUnits(quorumNeeded || 0n, 18),
+                        )}
+                      </>
+                    )}
+                    {quorumNeeded <= BigInt(proposal.votes.for.total) && (
+                      <>Quorum reached.</>
+                    )}
+                  </>
                 )}
               </div>
             </div>

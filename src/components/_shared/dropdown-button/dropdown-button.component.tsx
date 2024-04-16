@@ -8,14 +8,14 @@ import { VariantProps, cva } from "class-variance-authority";
 import { cn } from "@/styles/helpers";
 
 const variants = cva(
-  "[transition:opacity_0.3s,_transform 0.3s_0.1s_ease-in,_z-index_0.1s_1s] pointer-events-none absolute top-x14 z-[-1] min-w-full -translate-y-x10 overflow-hidden opacity-0",
+  "[transition:opacity_0.3s,_transform 0.3s_0.1s_ease-in,_z-index_0.1s_1s] pointer-events-none absolute top-x14 z-[-1] min-w-full -translate-y-x10 overflow-hidden opacity-0 md:w-64",
   {
     variants: {
       align: {
         left: "left-0",
         right: "right-0",
       },
-      fullwidth: { true: "", false: "max-w-[200px]" },
+      fullwidth: { true: "", false: "max-w-64" },
       opened: {
         true: "pointer-events-auto z-10 translate-y-0 opacity-100",
         false: "",
@@ -148,7 +148,7 @@ export const DropdownButton = ({
       <Button
         fullwidth={fullwidth}
         theme={theme}
-        className="min-w-x12 [&_button]:min-w-x12"
+        className="min-w-x12"
         onClick={() => setDropdownOpened(!dropdownOpened)}
       >
         {!!avatar && avatar}
@@ -173,6 +173,7 @@ export const DropdownButton = ({
           variants({
             align: alignment,
             theme,
+            fullwidth,
             opened: dropdownOpened,
             className,
           }),

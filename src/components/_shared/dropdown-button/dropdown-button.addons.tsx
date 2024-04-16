@@ -30,7 +30,8 @@ export const DropdownElement = ({
     >
       <button
         className={cn(
-          "w-full whitespace-nowrap border-none bg-transparent p-x2",
+          "w-full whitespace-nowrap border-none bg-transparent px-5 py-3",
+          "text-left",
           "group-first:rounded-t-lg group-last:rounded-b-lg group-hover:text-gray-alt66",
         )}
         onClick={onClick}

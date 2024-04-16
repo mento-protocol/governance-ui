@@ -68,6 +68,7 @@ export const ConnectedDropdown = ({
                 {NumbersService.parseNumericValue(mentoBalance.formatted, 1)}
               </div>
             </div>
+            <hr />
             <div className="flex w-full flex-row justify-between px-x1 py-x2">
               <div className="flex flex-shrink flex-grow flex-row items-center p-x1 font-semibold">
                 <MentoIcon
@@ -92,7 +93,7 @@ export const ConnectedDropdown = ({
           <span>Chain settings</span>
         </DropdownButton.Element>
         <DropdownButton.Element
-          className="*:flex *:items-center *:justify-center"
+          className="*:flex *:items-center *:justify-start"
           onClick={() => disconnect()}
         >
           <DisconnectIcon />

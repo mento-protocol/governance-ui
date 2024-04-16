@@ -33,6 +33,7 @@ function decodeCalldata(
   const address = call.target.id;
   const abiRaw = contractMetadata?.[address]?.abi;
 
+  if (!address || !abiRaw) return call.calldata;
   if (typeof abiRaw === "string") {
     let abi;
 

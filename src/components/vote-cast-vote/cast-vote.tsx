@@ -49,14 +49,22 @@ export const CastVote = ({
       address,
     });
 
-  const vote = useCastVote();
+  const {
+    hash,
+    castVote,
+    variables,
+    isAwaitingUserSignature,
+    isConfirming,
+    isConfirmed,
+    error,
+  } = useCastVote();
 
   const hasEnoughLockedMentoToVote = veMentoBalance.value > 0;
   const isInitializing = isConnecting || isHasVotedStatusLoading;
 
   const handleCastVote = (voteType: number) => {
     try {
-      vote.castVote(proposalId, voteType);
+      castVote(proposalId, voteType);
     } catch (error) {
       // TODO: sentrify me
       console.log(error);
@@ -79,16 +87,16 @@ export const CastVote = ({
     return <DirectToLockMento />;
   }
 
-  if (vote.isAwaitingUserSignature) {
+  if (isAwaitingUserSignature) {
     return (
       <VoteConfirmation
-        voteType={vote?.variables?.args?.[1] as number}
+        voteType={variables?.args?.[1] as number}
         proposalId={proposalId}
       />
     );
   }
 
-  if (vote.isConfirming) {
+  if (isConfirming) {
     return (
       <Card>
         <VotingCardTitle />
@@ -98,8 +106,8 @@ export const CastVote = ({
           <span className="text-sm text-[#A8A8A8] dark:text-[#AAB3B6]">
             Your vote is being processed
           </span>
-          {vote.hash && (
-            <BlockExplorerLink type="tx" item={vote.hash}>
+          {hash && (
+            <BlockExplorerLink type="tx" item={hash}>
               View on explorer
             </BlockExplorerLink>
           )}
@@ -108,15 +116,15 @@ export const CastVote = ({
     );
   }
 
-  if (vote.isConfirmed) {
+  if (isConfirmed) {
     return (
       <Card>
         <VotingCardTitle />
         <div className="mt-x2 flex flex-col gap-x3 text-center">
           <span className="text-md">Vote success</span>
           <SuccessIcon className="mx-auto h-20 w-20" />
-          {vote.hash && (
-            <BlockExplorerLink type="tx" item={vote.hash}>
+          {hash && (
+            <BlockExplorerLink type="tx" item={hash}>
               View on explorer
             </BlockExplorerLink>
           )}
@@ -132,7 +140,7 @@ export const CastVote = ({
         <LockedBalance />
         <div className="flex flex-col gap-2">
           <VotingButtons onSubmit={handleCastVote} />
-          {vote.error && <VotingError error={vote.error} />}
+          {error && <VotingError error={error} />}
         </div>
       </div>
     </Card>

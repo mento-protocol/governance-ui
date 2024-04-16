@@ -9,12 +9,17 @@ import { Celo } from "@/config/chains";
 import { useContracts } from "@/lib/contracts/useContracts";
 import useGovernanceDetails from "@/lib/contracts/governor/useGovernanceDetails";
 import NumbersService from "@/lib/helpers/numbers.service";
-import { Address } from "viem";
+import { Address, formatUnits } from "viem";
 import { centerEllipsis } from "@/lib/helpers/string.service";
 import { CopyIcon } from "@/components/_icons";
 
 export const ContractParams = () => {
-  const governanceDetails = useGovernanceDetails();
+  const {
+    proposalThreshold,
+    quorumNeeded,
+    votingPeriodFormatted,
+    timeLockFormatted,
+  } = useGovernanceDetails();
   const {
     MentoToken: { address: mentoAddress },
     TimelockController: { address: timelockAddress },
@@ -44,28 +49,24 @@ export const ContractParams = () => {
                   {
                     label: "Proposal threshold",
                     value: NumbersService.parseNumericValue(
-                      governanceDetails?.proposalThreshold
-                        ? governanceDetails.proposalThreshold
-                        : 0,
+                      formatUnits(BigInt(proposalThreshold), 18),
                       2,
                     ),
                   },
                   {
                     label: "Quorum needed",
                     value: NumbersService.parseNumericValue(
-                      governanceDetails?.quorumNeeded
-                        ? governanceDetails.quorumNeeded
-                        : 0,
+                      formatUnits(quorumNeeded, 18),
                       2,
                     ),
                   },
                   {
                     label: "Voting period",
-                    value: governanceDetails?.votingPeriod,
+                    value: votingPeriodFormatted,
                   },
                   {
                     label: "Timelock",
-                    value: governanceDetails?.timelock,
+                    value: timeLockFormatted,
                   },
                 ]}
               />

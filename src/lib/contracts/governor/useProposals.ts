@@ -12,12 +12,11 @@ import { NetworkStatus } from "@apollo/client";
 import { useCallback, useMemo } from "react";
 import { useChainId, useReadContracts } from "wagmi";
 
-const GraphProposalsQueryKey = ["proposals-graph-query"];
+export const GraphProposalsQueryKey = ["proposals-graph-query"];
 
 const useProposals = () => {
   const chainId = useChainId();
   const contracts = useContracts();
-  // const { data: blockNumber } = useBlockNumber({ watch: true });
 
   const {
     data: { proposals: graphProposals },

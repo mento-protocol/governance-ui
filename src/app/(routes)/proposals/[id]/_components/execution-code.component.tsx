@@ -16,7 +16,7 @@ export default function ExecutionCode({ calls }: Props) {
       </h3>
       <Card>
         {formattedCalls.map((call, index) => (
-          <div key={call.target + call.id} className="break-words">
+          <div key={index} className="break-words">
             {index > 0 && <hr className="my-4" />}
             <h5 className="mb-1 font-semibold">Target {index + 1}</h5>
             <pre className="text-wrap">

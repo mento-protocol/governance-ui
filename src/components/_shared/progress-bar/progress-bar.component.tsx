@@ -10,6 +10,7 @@ type ProgressStyle = {
   border?: string;
   backgroundColor?: string;
 };
+
 interface ProgressBarProps extends BaseComponentProps {
   current: number;
   max: number;
@@ -126,6 +127,49 @@ export const MultiProgressBar = ({
   max,
   color,
 }: MultiProgressBarProps) => {
+  const progressBars = useMemo(() => {
+    return values.map(({ value, type }) => {
+      const barColorString = type ? barColor(type) : "";
+      const progress = Math.floor((value / max) * 100);
+      if (progress < 3) {
+        return {
+          progress,
+          barColorString,
+          styles: {
+            border: "none",
+            backgroundColor: "transparent",
+          },
+        };
+      } else if (progress < 6) {
+        return {
+          progress,
+          barColorString,
+          styles: {
+            borderRadius: 0,
+            backgroundColor: "transparent",
+          },
+        };
+      } else if (progress === 100) {
+        return {
+          progress,
+          barColorString,
+          styles: {
+            border: "none",
+            backgroundColor: barColorString,
+          },
+        };
+      } else {
+        return {
+          progress,
+          barColorString,
+          styles: {
+            backgroundColor: barColorString,
+          },
+        };
+      }
+    });
+  }, [max, values]);
+
   return (
     <div
       className={cn(
@@ -133,23 +177,24 @@ export const MultiProgressBar = ({
         className,
       )}
     >
-      <div className="flex h-[8px] w-full rounded-3xl border-[0.5px] border-solid border-black dark:border-gray">
-        {values.map((value, index) => {
-          const progress = Math.floor((value.value / max) * 100);
-          return (
-            <div
-              key={index}
-              className={cn(
-                "h-full rounded-3xl bg-gray shadow-[0.5px_0_0] shadow-black dark:shadow-gray [&:not(:first-child)]:-ml-x1 [&:not(:first-child)]:rounded-bl-none [&:not(:first-child)]:rounded-tl-none",
-              )}
-              style={{
-                width: `${progress}%`,
-                color,
-                zIndex: 10 - index,
-              }}
-            ></div>
-          );
-        })}
+      <div className="flex h-[8px] w-full overflow-hidden rounded-3xl  border-[0.5px] border-solid border-black dark:border-gray">
+        {progressBars
+          .sort((a, b) => b.progress - a.progress)
+          .map(({ progress, barColorString }, index) => {
+            return (
+              <div
+                key={index}
+                className={cn(
+                  "h-full  bg-gray shadow-[0.5px_0_0] shadow-black dark:shadow-gray",
+                )}
+                style={{
+                  width: `${progress}%`,
+                  backgroundColor: barColorString,
+                  zIndex: 10 - index,
+                }}
+              ></div>
+            );
+          })}
       </div>
     </div>
   );

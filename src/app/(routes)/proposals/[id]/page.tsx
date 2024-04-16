@@ -20,7 +20,6 @@ import Participants from "@/app/(routes)/proposals/[id]/_components/participants
 import { Countdown, ProposalCurrentVotes } from "@/components/index";
 
 const Page = ({ params }: { params: { id: string } }) => {
-  // TODO: return loading states
   const { proposal } = useProposal(BigInt(params.id));
   const currentBlock = useBlockNumber();
 
@@ -123,7 +122,7 @@ const Page = ({ params }: { params: { id: string } }) => {
           </div>
           <div className="mt-x6 flex flex-col place-items-start gap-x6 md:flex-row md:justify-between md:gap-x1">
             <div className="w-full max-w-2xl flex-1">
-              <ProposalCurrentVotes className="md:mb-x6" />
+              <ProposalCurrentVotes proposal={proposal} className="md:mb-x6" />
               <div className="my-x6 md:hidden">
                 <Vote proposal={proposal} />
               </div>

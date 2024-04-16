@@ -46,12 +46,12 @@ export const CreateProposalWrapper = ({
   return (
     <Card
       block
-      className={cn("p-x4 pb-x2", !isOpen && "opacity-50", className)}
+      className={cn("px-10 pb-4", !isOpen && "opacity-50", className)}
     >
       <Card.Header>
         <div
           className={
-            "flex items-center gap-x2 bg-inherit pb-x2 text-xl font-medium"
+            "flex items-center gap-x2 bg-inherit pb-2 text-xl font-medium"
           }
         >
           <StepCounter>{componentStep}</StepCounter>
@@ -66,14 +66,13 @@ export const CreateProposalWrapper = ({
         <div
           className={cn(
             "group:break-all group-[.open]:translate-y-0 group-[.open]:opacity-100 group-[.open]:transition-all group-[.open]:duration-300",
-            "overflow-hidden px-x2 pb-x3 pt-0 opacity-0 transition-all duration-0 ease-in-cubic",
-            "md:px-x4 md:pb-x5",
+            "overflow-hidden pt-0 opacity-0 transition-all duration-0 ease-in-cubic",
           )}
         >
           {children}
         </div>
         <Card.Footer>
-          <div className="full-w flex items-center justify-start gap-x3 px-x4 pb-x4">
+          <div className="full-w flex items-center justify-start gap-x3 px-x4 pb-x4 empty:hidden">
             {onPrev && (
               <Button
                 className="min-w-x20"

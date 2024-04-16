@@ -82,7 +82,11 @@ export const Input = ({
 }: InputProps) => {
   return (
     <div className={cn("mt-x1", disabled && "cursor-not-allowed", className)}>
-      {!!label && <label htmlFor={id}>{label}</label>}
+      {!!label && (
+        <label className="mb-2 text-[22px] font-medium" htmlFor={id}>
+          {label}
+        </label>
+      )}
       <div
         className={inputWrapperVariant({
           compact,

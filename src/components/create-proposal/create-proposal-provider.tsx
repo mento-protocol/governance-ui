@@ -225,6 +225,14 @@ export const CreateProposalProvider = ({
     submitProposal();
   }, [resetCreateProposalHook, submitProposal]);
 
+  useEffect(() => {
+    if (creationState === "ready") {
+      setCreationState("mounting");
+    }
+    // Only update on chainID change
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [chainId]);
+
   return (
     <CreateProposalContext.Provider
       value={{

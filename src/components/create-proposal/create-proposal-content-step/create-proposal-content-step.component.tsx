@@ -61,7 +61,7 @@ export const CreateProposalContentStep = () => {
       onNext={isValid ? () => setStep(CreateProposalStep.execution) : undefined}
     >
       <div>
-        <p className="font-size-x4 line-height-x5 mb-4 ml-x7">
+        <p className="font-size-x4 line-height-x5 mb-4">
           Give your proposal a title and a description. They will be public when
           your proposal goes live.
         </p>
@@ -73,8 +73,8 @@ export const CreateProposalContentStep = () => {
           error={errors.title?.message}
           placeholder="Enter a title for your proposal"
         />
-        <p className="mt-4 font-semibold">Description</p>
-        <p className="mt-4">
+        <p className="mt-4 text-[22px] font-medium">Description</p>
+        <p className="mt-2">
           Proposal description can be written as plain text or formatted with{" "}
           <span className="font-semibold">Markdown.</span>
         </p>

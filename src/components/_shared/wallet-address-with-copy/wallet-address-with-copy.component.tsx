@@ -14,7 +14,7 @@ export const WalletAddressWithCopy = ({
 }: WalletAddressWithCopyProps) => {
   return (
     <div className={cn("flex items-center gap-x2", className)}>
-      <WalletAddress address={address} />
+      <WalletAddress className="!no-underline" address={address} />
       <CopyToClipboard text={address}>
         <div className="cursor-pointer">
           <CopyIcon />

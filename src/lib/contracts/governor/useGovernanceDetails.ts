@@ -2,13 +2,13 @@ import { GovernorABI } from "@/lib/abi/Governor";
 import { TimelockControllerABI } from "@/lib/abi/TimelockController";
 import { useContracts } from "@/lib/contracts/useContracts";
 import { useMemo } from "react";
-import { formatUnits, maxUint256 } from "viem";
+import { maxUint256 } from "viem";
 import { useReadContracts } from "wagmi";
 
 function convertCeloBlocksToSeconds(
   numBlocks: string | bigint | number,
 ): number {
-  // Based on the 120960 blocks per week calulation used in governance contracts
+  // Based on the 120960 blocks per week calculation used in governance contracts
   const CELO_SECONDS_PER_BLOCK = 5;
   return Number(numBlocks) * CELO_SECONDS_PER_BLOCK;
 }

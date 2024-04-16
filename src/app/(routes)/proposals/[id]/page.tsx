@@ -58,7 +58,7 @@ const Page = ({ params }: { params: { id: string } }) => {
       {!proposal && <div>Proposal not found</div>}
       {proposal && (
         <>
-          <div className="mb-1 mt-x6">
+          <div className="mb-4 mt-6">
             <Status
               text={proposal.state.toString()}
               type={stateToStatusColorMap[proposal.state]}
@@ -120,13 +120,13 @@ const Page = ({ params }: { params: { id: string } }) => {
               </span>
             </div>
           </div>
-          <div className="mt-x6 flex flex-col place-items-start gap-x6 md:flex-row md:justify-between md:gap-x1">
+          <div className="mt-14 flex flex-col place-items-start gap-y-16 md:flex-row md:justify-between md:gap-1">
             <div className="w-full max-w-2xl flex-1">
               <ProposalCurrentVotes proposal={proposal} className="md:mb-x6" />
               <div className="my-x6 md:hidden">
                 <Vote proposal={proposal} />
               </div>
-              <h3 className="line-height-x6 mb-x6 flex justify-center text-[32px]/none font-medium">
+              <h3 className="my-8 flex justify-center text-3xl font-medium">
                 Proposal Description
               </h3>
               <MarkdownView markdown={proposal.metadata.description} />

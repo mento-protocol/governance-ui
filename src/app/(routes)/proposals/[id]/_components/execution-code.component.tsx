@@ -11,7 +11,7 @@ export default function ExecutionCode({ calls }: Props) {
 
   return (
     <div>
-      <h3 className="font-size-x6 line-height-x6 mb-x6 flex justify-center font-medium">
+      <h3 className="line-height-x6 my-8 flex justify-center text-3xl font-medium">
         Execution Code
       </h3>
       <Card>

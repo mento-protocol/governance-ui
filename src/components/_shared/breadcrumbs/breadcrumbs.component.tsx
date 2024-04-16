@@ -40,7 +40,7 @@ export const Breadcrumbs = () => {
   );
 
   return (
-    <nav className="mt-[60px] w-full" aria-label="Breadcrumb">
+    <nav className="mt-10 w-full" aria-label="Breadcrumb">
       <ol className="flex gap-2 font-inter text-[18px]">
         {crumbsPath.map((path, index) => (
           <Crumb

@@ -20,14 +20,13 @@ interface ProgressBarProps extends BaseComponentProps {
 }
 
 export interface MultiProgressBarValue {
-  value: number;
+  progress: number;
   type?: Type;
 }
 
 interface MultiProgressBarProps extends BaseComponentProps {
   values: MultiProgressBarValue[];
   max: number;
-  color?: string;
 }
 
 const barColor = (type: Type) => {
@@ -124,13 +123,10 @@ export const ProgressBar = ({
 export const MultiProgressBar = ({
   className,
   values,
-  max,
-  color,
 }: MultiProgressBarProps) => {
   const progressBars = useMemo(() => {
-    return values.map(({ value, type }) => {
+    return values.map(({ progress, type }) => {
       const barColorString = type ? barColor(type) : "";
-      const progress = Math.floor((value / max) * 100);
       if (progress < 3) {
         return {
           progress,
@@ -168,7 +164,7 @@ export const MultiProgressBar = ({
         };
       }
     });
-  }, [max, values]);
+  }, [values]);
 
   return (
     <div
@@ -177,7 +173,7 @@ export const MultiProgressBar = ({
         className,
       )}
     >
-      <div className="flex h-[8px] w-full overflow-hidden rounded-3xl  border-[0.5px] border-solid border-black dark:border-gray">
+      <div className="flex h-4 w-full overflow-hidden rounded-3xl  border-[0.5px] border-solid border-black dark:border-gray">
         {progressBars
           .sort((a, b) => b.progress - a.progress)
           .map(({ progress, barColorString }, index) => {

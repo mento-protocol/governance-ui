@@ -13,7 +13,7 @@ const variants = cva(
       type: {
         primary: "border-primary bg-primary",
         secondary: "border-secondary bg-secondary",
-        tertiary: "",
+        tertiary: "border-mento-mint bg-mento-mint",
         success: "border-success bg-success",
         danger: "border-error bg-error",
         warning: "border-warning bg-warning",

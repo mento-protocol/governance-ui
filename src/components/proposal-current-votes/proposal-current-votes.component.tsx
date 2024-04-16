@@ -28,12 +28,19 @@ export const ProposalCurrentVotes = ({
   const values = useMemo(() => {
     return [
       {
-        value: Number(proposal.votes.total / 2n),
+        progress: Math.floor(
+          (Number(proposal.votes.total / 2n) / Number(proposal.votes.total)) *
+            100,
+        ),
+        // value: Number(proposal.votes.total / 2n),
         // value: Number(proposal.votes.for.total),
         type: "success",
       },
       {
-        value: Number(proposal.votes.total / 2n),
+        progress: Math.floor(
+          (Number(proposal.votes.total / 2n) / Number(proposal.votes.total)) *
+            100,
+        ),
         // value: Number(proposal.votes.against.total),
         type: "danger",
       },
@@ -53,38 +60,22 @@ export const ProposalCurrentVotes = ({
   return (
     <Card className={className}>
       <Card.Header>
-        <h3 className="mb-x3 flex justify-center text-[32px]/none font-medium">
+        <h3 className="mb-8 mt-4 flex justify-center text-[32px]/none font-medium">
           Current votes
         </h3>
       </Card.Header>
       <MultiProgressBar
-        className="mb-x3"
+        className="mb-8"
         values={values}
         max={Number(proposal.votes.total)}
       />
-      <div className="grid grid-cols-1 gap-x6 text-[22px]/none md:grid-cols-2">
-        <div>
-          <div className="mb-x3 flex justify-between">
+      <div className="grid grid-cols-1 gap-x-12 text-[22px]/none md:grid-cols-2">
+        <div className="flex flex-col gap-y-6">
+          <div className="flex justify-between">
             <div className="flex items-center gap-x3">
               <div
                 className={cn(
-                  "h-x3 w-x3 rounded-[50%] border border-solid border-black bg-white content-['']",
-                  "bg-success",
-                )}
-              />
-              <div>For</div>
-            </div>
-            <div>
-              {NumbersService.parseNumericValue(
-                formatUnits(proposal.votes.for.total, 18),
-              )}
-            </div>
-          </div>
-          <div className="mb-x3 flex justify-between">
-            <div className="flex items-center gap-x3">
-              <div
-                className={cn(
-                  "h-x3 w-x3 rounded-[50%] border border-solid border-black bg-white content-['']",
+                  "h-x3 w-x3 rounded-[50%] border border-solid border-black bg-white",
                   "bg-error",
                 )}
               />
@@ -96,9 +87,25 @@ export const ProposalCurrentVotes = ({
               )}
             </div>
           </div>
-          <div className="mb-x3 flex justify-between">
+          <div className="flex justify-between">
             <div className="flex items-center gap-x3">
-              <div className="h-x3 w-x3 rounded-[50%] border border-solid border-black bg-white content-['']" />
+              <div
+                className={cn(
+                  "h-x3 w-x3 rounded-[50%] border border-solid border-black bg-white",
+                  "bg-success",
+                )}
+              />
+              <div>For</div>
+            </div>
+            <div>
+              {NumbersService.parseNumericValue(
+                formatUnits(proposal.votes.for.total, 18),
+              )}
+            </div>
+          </div>
+          <div className="flex justify-between">
+            <div className="flex items-center gap-x3">
+              <div className="h-x3 w-x3 rounded-[50%] border border-solid border-black bg-white" />
               <div>Abstain</div>
             </div>
             <div>
@@ -108,15 +115,15 @@ export const ProposalCurrentVotes = ({
             </div>
           </div>
         </div>
-        <div>
-          <div className="mb-x3">
+        <div className="flex flex-col gap-y-6">
+          <div>
             <div className="flex items-center gap-x3">
               {majoritySupport && <CheckMarkIcon />}
               {!majoritySupport && <CrossMarkIcon />}
               <div>Majority supports</div>
             </div>
           </div>
-          <div className="mb-x3">
+          <div>
             <div className="flex items-center justify-start gap-x3">
               <CrossMarkIcon />
               <div>

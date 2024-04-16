@@ -2,7 +2,7 @@ import { ProposalState } from "@/lib/graphql/subgraph/generated/subgraph";
 import { BadgeType } from "@/lib/types";
 
 export const stateToStatusColorMap: Record<ProposalState, BadgeType> = {
-  [ProposalState.Active]: "info",
+  [ProposalState.Active]: "tertiary",
   [ProposalState.Pending]: "info",
   [ProposalState.Executed]: "info",
   [ProposalState.Defeated]: "danger",

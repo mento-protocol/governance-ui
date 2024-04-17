@@ -83,7 +83,6 @@ const ContractData = ({
 }: {
   value: number | string;
   label: string;
-  isLoading?: boolean;
 }) => {
   return (
     <div className="flex flex-col items-center justify-center gap-2 text-center md:gap-4">

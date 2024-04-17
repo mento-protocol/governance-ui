@@ -21,21 +21,25 @@ const CurrentFormStep = ({ formStep }: { formStep: WalletStepEnum }) => {
     case WalletStepEnum.connectWallet:
       return (
         <>
-          <p className="mt-4 place-self-start text-xl">
+          <p className="mt-3 text-2xl">
             Connect your wallet to create new proposal.
           </p>
-          <ConnectButton theme="primary" className="mt-6 justify-center" />
+          <ConnectButton theme="primary" className="mt-x5 justify-start" />
         </>
       );
     case WalletStepEnum.buyMento:
       return (
         <>
-          <p className="mt-4 place-self-start text-xl">
+          <p className="mt-3 text-2xl">
             To create new governance proposal you need to lock 2,500 MENTO.
           </p>
-          <p className="font-size-x4 line-height-x5 place-self-start">
+          <p className="text-2xl">
             You can purchase MENTO{" "}
-            <a href={"https://app.mento.org"} target="_blank">
+            <a
+              href={"https://app.mento.org"}
+              className="text-primary underline"
+              target="_blank"
+            >
               here.
             </a>
           </p>
@@ -44,7 +48,7 @@ const CurrentFormStep = ({ formStep }: { formStep: WalletStepEnum }) => {
     case WalletStepEnum.lockMento:
       return (
         <>
-          <p className="mt-4 place-self-start text-xl">
+          <p className="mt-3 text-2xl">
             To create new governance proposal you need to lock 2,500 veMENTO.
           </p>
           <MentoLock />
@@ -53,7 +57,7 @@ const CurrentFormStep = ({ formStep }: { formStep: WalletStepEnum }) => {
     case WalletStepEnum.createProposal:
       return (
         <>
-          <p className="mt-4 place-self-start text-xl">
+          <p className="mt-3 text-2xl">
             Yay! You are all set to create a new proposal!
           </p>
         </>

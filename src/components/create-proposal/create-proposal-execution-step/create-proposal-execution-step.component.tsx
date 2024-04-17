@@ -98,14 +98,14 @@ export const CreateProposalExecutionStep = () => {
       onNext={isValid ? () => setStep(CreateProposalStep.preview) : undefined}
     >
       <div>
-        <p className="font-size-x4 line-height-x5 ml-x7">
+        <p className="mb-6 mt-3 text-xl">
           Paste your governance proposal&apos;s execution code in the json
           formatting the field below. If the proposal has no required execution,
           an empty array or no input is valid. A default, empty transaction will
           be used.
         </p>
         <Textarea
-          className="mb-x5 mt-x5 min-h-[266px]"
+          className="min-h-[266px]"
           form={{ ...register("code") }}
           id="code"
           error={

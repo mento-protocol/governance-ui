@@ -20,15 +20,23 @@ const useLockMento = () => {
     });
 
   const lockMento = useCallback(
-    (
-      account: Address,
-      delegate: Address,
-      amount: bigint,
-      slope: number,
-      cliff: number,
-      onSuccess?: () => void,
-      onError?: (error?: WriteContractErrorType) => void,
-    ) => {
+    ({
+      account,
+      delegate,
+      amount,
+      slope,
+      cliff,
+      onSuccess,
+      onError,
+    }: {
+      account: Address;
+      delegate: Address;
+      amount: bigint;
+      slope: number;
+      cliff: number;
+      onSuccess?: () => void;
+      onError?: (error?: WriteContractErrorType) => void;
+    }) => {
       writeContract(
         {
           address: contracts.Locking.address,

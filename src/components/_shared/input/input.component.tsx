@@ -1,48 +1,58 @@
-import { ReactNode } from "react";
-import BaseComponentProps from "@/interfaces/base-component-props.interface";
-import BaseInputProps from "@/interfaces/base-input-props.interface";
-import styles from "./input.module.scss";
+import { VariantProps, cva } from "class-variance-authority";
 import { cn } from "@/styles/helpers";
 
-interface InputProps extends BaseComponentProps, BaseInputProps {
-  type: "text" | "email" | "password" | "number" | "tel" | "url";
-  addon?: ReactNode;
-  compact?: boolean;
-}
+export type InputProps = React.InputHTMLAttributes<HTMLInputElement> &
+  VariantProps<typeof variants> & {
+    label?: string;
+    addon?: React.ReactNode;
+    errorMessage?: string;
+  };
+
+const variants = cva(
+  "flex flex-col gap-2 rounded-[4px] border border-gray-light p-2 text-sm disabled:bg-white dark:border-white",
+  {
+    variants: {
+      fullWidth: { true: "w-full" },
+      disabled: { true: "cursor-not-allowed opacity-50" },
+      error: { true: "border-error-dark" },
+    },
+    defaultVariants: {
+      fullWidth: false,
+      disabled: false,
+      error: false,
+    },
+  },
+);
 
 export const Input = ({
   label,
-  id,
-  type,
-  placeholder,
   className,
-  form,
+  errorMessage,
   addon,
-  error,
+  fullWidth,
+  id,
   disabled,
-  compact,
+  ...restProps
 }: InputProps) => {
+  const hasError = !!errorMessage;
+
   return (
-    <div
-      className={cn(
-        styles.wrapper,
-        compact && styles.compact,
-        disabled && styles.disabled,
-        className,
-      )}
-    >
-      {!!label && <label htmlFor={id}>{label}</label>}
-      <div className={cn(styles.input, !!error && styles.error)}>
+    <>
+      <div
+        className={cn(
+          variants({ error: hasError, fullWidth, disabled, className }),
+        )}
+      >
+        {!!label && <label htmlFor={id}>{label}</label>}
         <input
+          className="text-[22px] disabled:bg-white"
           id={id}
-          placeholder={placeholder}
+          {...restProps}
           disabled={disabled}
-          type={type}
-          {...form}
         />
-        {addon}
+        <span className="flex text-[14px]">{addon}</span>
       </div>
-      {!!error && <div className={styles.errorMessage}>{error}</div>}
-    </div>
+      {!!errorMessage && <div className={""}>{errorMessage}</div>}
+    </>
   );
 };

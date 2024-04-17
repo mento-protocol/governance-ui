@@ -5,7 +5,7 @@ import { ComponentProps } from "react";
 
 // TODO: group style types in cn combiner for readability
 const variants = cva(
-  "relative block w-full rounded-md border border-solid border-black px-x4 py-x2 font-inter text-sm text-black transition [transform-style:preserve-3d] hover:no-underline hover:[&>span]:text-[inherit]",
+  "relative block w-full rounded-md border border-solid border-black px-6 py-4 font-inter text-sm text-black transition [transform-style:preserve-3d] hover:no-underline hover:[&>span]:text-[inherit]",
   {
     variants: {
       disabled: {

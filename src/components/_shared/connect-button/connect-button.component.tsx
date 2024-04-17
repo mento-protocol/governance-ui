@@ -45,6 +45,7 @@ export const ConnectedDropdown = ({
       title={WalletHelper.getShortAddress(account.address)}
       avatar={
         <Avatar
+          size="small"
           className="flex h-full flex-row items-center"
           address={account.address || ""}
         />
@@ -54,7 +55,7 @@ export const ConnectedDropdown = ({
         {isConnected ? (
           // TODO: fix colors
           <div className="flex w-full flex-col items-center border-b border-solid border-black dark:border-white">
-            <div className="flex w-full flex-row justify-between px-x1 py-x2">
+            <div className="flex w-full flex-row justify-between px-5 py-x2">
               <div className="flex flex-row items-center p-x1 font-semibold">
                 <MentoIcon
                   className="mr-x1"
@@ -68,8 +69,8 @@ export const ConnectedDropdown = ({
                 {NumbersService.parseNumericValue(mentoBalance.formatted, 1)}
               </div>
             </div>
-            <hr />
-            <div className="flex w-full flex-row justify-between px-x1 py-x2">
+            <hr className="mx-auto w-[calc(100%_-_40px)] border-t-gray-light" />
+            <div className="flex w-full flex-row justify-between px-5 py-x2">
               <div className="flex flex-shrink flex-grow flex-row items-center p-x1 font-semibold">
                 <MentoIcon
                   className="mr-x1"
@@ -85,15 +86,22 @@ export const ConnectedDropdown = ({
             </div>
           </div>
         ) : null}
-        <DropdownButton.Element onClick={openAccountModal}>
+        <DropdownButton.Element
+          className="[&_button]:pl-5"
+          onClick={openAccountModal}
+        >
           {/* TODO: Need account icon */}
           <span>Account settings</span>
         </DropdownButton.Element>
-        <DropdownButton.Element onClick={openChainModal}>
+        <DropdownButton.Element
+          className="[&_button]:pl-5"
+          onClick={openChainModal}
+        >
           <span>Chain settings</span>
         </DropdownButton.Element>
+        <hr className="mx-auto w-[calc(100%_-_40px)] border-t-gray-light" />
         <DropdownButton.Element
-          className="*:flex *:items-center *:justify-start"
+          className="*:flex *:items-center *:justify-start [&_button]:pl-5"
           onClick={() => disconnect()}
         >
           <DisconnectIcon />

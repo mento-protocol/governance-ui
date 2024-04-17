@@ -84,6 +84,7 @@ type DropdownButtonProps = ComponentProps<"button"> &
   VariantProps<typeof variants> & {
     title?: string;
     avatar?: ReactNode;
+    buttonClassName?: string;
   };
 
 export const DropdownButton = ({
@@ -92,6 +93,7 @@ export const DropdownButton = ({
   children,
   title,
   fullwidth,
+  buttonClassName,
   avatar,
 }: DropdownButtonProps) => {
   const [alignment, setAlignment] = useState<"left" | "right">("right");
@@ -148,7 +150,7 @@ export const DropdownButton = ({
       <Button
         fullwidth={fullwidth}
         theme={theme}
-        className="min-w-x12"
+        className={cn("min-w-x12", buttonClassName)}
         onClick={() => setDropdownOpened(!dropdownOpened)}
       >
         {!!avatar && avatar}

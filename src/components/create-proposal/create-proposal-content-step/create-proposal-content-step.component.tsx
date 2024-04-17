@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import { object, setLocale, string } from "yup";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { Input, MarkdownEditor } from "@/components/_shared";
+import { MarkdownEditor } from "@/components/_shared";
 import {
   CreateProposalStep,
   useCreateProposal,
@@ -19,10 +19,9 @@ export const CreateProposalContentStep = () => {
   const { setStep, updateProposal, newProposal } = useCreateProposal();
 
   const {
-    register,
     watch,
     setValue,
-    formState: { errors, isValid },
+    formState: { isValid },
   } = useForm({
     resolver: yupResolver(validationSchema),
     mode: "onChange",
@@ -57,14 +56,14 @@ export const CreateProposalContentStep = () => {
           Give your proposal a title and a description. They will be public when
           your proposal goes live.
         </p>
-        <Input
+        {/* <Input
           label="Title"
           type="text"
           form={{ ...register("title") }}
           id="proposal-title"
           error={errors.title?.message}
           placeholder="Enter a title for your proposal"
-        />
+        /> */}
         <MarkdownEditor
           className="mt-4"
           value={watch("content")}

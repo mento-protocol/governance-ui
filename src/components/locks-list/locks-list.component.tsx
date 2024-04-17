@@ -6,9 +6,9 @@ import useRelockMento from "@/lib/contracts/locking/useRelockMento";
 import { Lock } from "@/lib/graphql/subgraph/generated/subgraph";
 import useLocksByAccount from "@/lib/contracts/locking/useLocksByAccount";
 import { Button, DropdownButton } from "@/components/_shared";
-import useLock from "@/lib/contracts/locking/useLock";
 import useModal from "@/lib/providers/modal.provider";
 import styles from "./locks-list.module.scss";
+import useLockCalculation from "@/lib/contracts/locking/useLockCalculation";
 
 interface ILocksList {
   account: Address;
@@ -20,28 +20,38 @@ export const LocksList = ({ account }: ILocksList) => {
 
   return (
     <div className={`${styles.locksList} overflow-auto`}>
-      <div className="mb-x2 grid grid-cols-3 items-center gap-[18px] px-x1 py-x2">
-        <div className="min-w-[150px] text-base font-medium not-italic">
-          Amount MENTO
-        </div>
-        <div className="min-w-[150px] text-base font-medium not-italic">
-          Amount veMENTO
-        </div>
-        <div className="min-w-[150px] text-base font-medium not-italic">
-          Expires on
-        </div>
+      <div className="mb-x2 grid grid-cols-4 items-center gap-[18px] px-x1 py-x2">
+        <LockTableTitle>Amount MENTO</LockTableTitle>
+        <LockTableTitle>Amount veMENTO</LockTableTitle>
+        <LockTableTitle>Expires on</LockTableTitle>
       </div>
       {address &&
-        locks.map((lock) => (
-          <LockEntry
-            account={address}
-            onExtend={refetch}
-            lock={lock}
-            key={lock.lockId}
-          />
+        locks.map((lock, index, array) => (
+          <>
+            <LockEntry
+              account={address}
+              onExtend={refetch}
+              lock={lock}
+              key={lock.lockId}
+            />
+            {index === array.length - 1 ? null : (
+              <div className="grid-span-[1/-1] border-b border-solid border-gray-light" />
+            )}
+          </>
         ))}
     </div>
   );
+};
+
+const LockTableTitle = ({ children }: { children: React.ReactNode }) => {
+  return (
+    <div className="col-span-1 min-w-[150px] text-base font-medium not-italic">
+      {children}
+    </div>
+  );
+};
+const LockTableValue = ({ children }: { children: React.ReactNode }) => {
+  return <div className="min-w-[150px] font-medium not-italic">{children}</div>;
 };
 
 const LockEntry = ({
@@ -57,7 +67,7 @@ const LockEntry = ({
 
   const { relockMento } = useRelockMento();
 
-  const { lockData } = useLock({
+  const { data } = useLockCalculation({
     lock,
   });
 
@@ -66,8 +76,8 @@ const LockEntry = ({
   }, [lock.amount]);
 
   const veMentoParsed = useMemo(() => {
-    return Number(formatUnits(lockData?.[0] || 0n, 18)).toLocaleString();
-  }, [lockData]);
+    return Number(formatUnits(data?.[0] || 0n, 18)).toLocaleString();
+  }, [data]);
 
   const expirationDate = useMemo(() => {
     if (lock.lockCreate.length === 0) return "Expiration date not set";
@@ -103,15 +113,10 @@ const LockEntry = ({
   ]);
 
   return (
-    <div className="mb-x2 grid grid-cols-3 items-center gap-[18px] px-x1 py-x2">
-      <div className="grid-span-[1 / -1] border-b border-solid border-gray"></div>
-      <div className="min-w-[150px] font-medium not-italic">{mentoParsed}</div>
-      <div className="min-w-[150px] font-medium not-italic">
-        {veMentoParsed}
-      </div>
-      <div className="min-w-[150px] font-medium not-italic">
-        {expirationDate}
-      </div>
+    <div className="mb-x2 grid grid-cols-4 items-center gap-[18px] px-x1 py-x2">
+      <LockTableValue>{mentoParsed}</LockTableValue>
+      <LockTableValue>{veMentoParsed}</LockTableValue>
+      <LockTableValue>{expirationDate}</LockTableValue>
       <div>
         <DropdownButton className="md:hidden" theme="clear">
           <DropdownButton.Dropdown>

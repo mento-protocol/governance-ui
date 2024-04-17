@@ -7,7 +7,6 @@ import { Lock } from "@/lib/graphql/subgraph/generated/subgraph";
 import useLocksByAccount from "@/lib/contracts/locking/useLocksByAccount";
 import { Button, DropdownButton } from "@/components/_shared";
 import useModal from "@/lib/providers/modal.provider";
-import styles from "./locks-list.module.scss";
 import useLockCalculation from "@/lib/contracts/locking/useLockCalculation";
 
 interface ILocksList {
@@ -19,7 +18,7 @@ export const LocksList = ({ account }: ILocksList) => {
   const { locks, refetch } = useLocksByAccount({ account });
 
   return (
-    <div className={`${styles.locksList} overflow-auto`}>
+    <div className={`overflow-auto`}>
       <div className="mb-x2 grid grid-cols-4 items-center gap-[18px] px-x1 py-x2">
         <LockTableTitle>Amount MENTO</LockTableTitle>
         <LockTableTitle>Amount veMENTO</LockTableTitle>

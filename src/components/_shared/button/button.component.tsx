@@ -5,12 +5,12 @@ import { ComponentProps } from "react";
 
 // TODO: group style types in cn combiner for readability
 const variants = cva(
-  "relative block w-full rounded-md border border-solid border-black px-x4 py-x2 font-inter text-sm text-black transition [transform-style:preserve-3d] hover:no-underline hover:[&>span]:text-[inherit]",
+  "relative block w-full rounded-md border border-solid border-black px-x4 py-x2 font-inter text-sm text-black transition [transform-style:preserve-3d] hover:no-underline disabled:pointer-events-none disabled:cursor-not-allowed disabled:bg-gray-light disabled:text-black  disabled:before:bg-black-off hover:[&>span]:text-[inherit]",
   {
     variants: {
-      disabled: {
-        true: "pointer-events-none w-full cursor-not-allowed bg-gray-lighter",
-      },
+      // disabled: {
+      //   true: "pointer-events-none w-full cursor-not-allowed bg-gray-lighter",
+      // },
       fullwidth: { true: "", false: "max-w-[200px]" },
       theme: {
         primary: cn(
@@ -47,7 +47,7 @@ const variants = cva(
       },
     },
     defaultVariants: {
-      disabled: false,
+      // disabled: false,
       fullwidth: false,
       theme: "primary",
     },
@@ -78,7 +78,7 @@ export const Button = ({
           className={cn(
             variants({
               fullwidth,
-              disabled,
+              // disabled,
               theme,
               className,
             }),
@@ -90,11 +90,12 @@ export const Button = ({
         </Link>
       ) : (
         <button
+          disabled={disabled}
           type={type}
           className={cn(
             variants({
               fullwidth,
-              disabled,
+              // disabled,
               theme,
               className,
             }),

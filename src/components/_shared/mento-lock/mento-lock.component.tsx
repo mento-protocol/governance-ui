@@ -1,268 +1,376 @@
-import { useCallback, useEffect, useMemo } from "react";
-import { date, number, object, setLocale } from "yup";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { useForm } from "react-hook-form";
+"use client";
+import React from "react";
+import { number } from "yup";
+import * as yup from "yup";
+import { Controller, useForm } from "react-hook-form";
 import BaseComponentProps from "@/interfaces/base-component-props.interface";
-import { Button, DatePicker, Input, Slider } from "@/components/_shared";
-import {
-  addMonths,
-  addYears,
-  differenceInMonths,
-  differenceInYears,
-  nextWednesday,
-  setISODay,
-} from "date-fns";
-import useModal from "@/lib/providers/modal.provider";
-import { formatUnits, parseUnits } from "viem";
+import { Button, Slider } from "@/components/_shared";
+
+import { Address, formatUnits, parseEther } from "viem";
 import useTokens from "@/lib/contracts/useTokens";
-import { useAccount } from "wagmi";
-import useLockMento from "@/lib/contracts/locking/useLockMento";
-import useAllowance from "@/lib/contracts/mento/useAllowance";
+import { useAccount, useSimulateContract } from "wagmi";
+import useLockMentoHook from "@/lib/contracts/locking/useLockMento";
 import { useContracts } from "@/lib/contracts/useContracts";
 import useApprove from "@/lib/contracts/mento/useApprove";
+import NumberInput from "../number-input/number-input.component";
+
+import { yupResolver } from "@hookform/resolvers/yup";
+import useLockCalculation from "@/lib/contracts/locking/useLockCalculation";
+import NumbersService from "@/lib/helpers/numbers.service";
+
+import {
+  addWeeks,
+  addYears,
+  differenceInWeeks,
+  eachDayOfInterval,
+  isWednesday,
+  nextWednesday,
+} from "date-fns";
+import { LockingABI } from "@/lib/abi/Locking";
+import { DatePicker } from "../date-picker/date-picker.component";
 
 interface MentoLockProps extends BaseComponentProps {}
+const DEFAULT_CLIFF = 10;
+const MAX_LOCKING_DURATION_WEEKS = 104;
+const MIN_LOCKABLE_AMOUNT = 1;
 
-export const MentoLock = ({ className, style }: MentoLockProps) => {
-  const { mentoBalance } = useTokens();
-  const { address } = useAccount();
-  const { showConfirm } = useModal();
+function getDaysExceptWednesday(startDate = new Date()) {
+  const endDate = addYears(startDate, 2); // Adds 2 years to the start date
+
+  // Generates an array of all days except Wednesdays between the start and end dates
+  const days = eachDayOfInterval({ start: startDate, end: endDate }).filter(
+    (day) => !isWednesday(day),
+  );
+
+  return days; // Formats each day to 'YYYY-MM-DD'
+}
+
+export const MentoLock = ({ className }: MentoLockProps) => {
   const {
-    Locking: { address: lockingAddress },
-  } = useContracts();
-
-  const { data: allowance } = useAllowance({
-    spender: lockingAddress,
-    owner: address,
-  });
-
-  const { approveMento, reset: resetApproveHook } = useApprove();
-  const { lockMento, isConfirmed, reset: resetLockHook } = useLockMento();
-
-  const validationSchema = useMemo(() => {
-    return object({
-      toLock: number()
-        .required()
-        .typeError("Invalid number")
-        .max(parseInt(formatUnits(mentoBalance.value, mentoBalance.decimals))),
-      expiration: date()
-        .required()
-        .typeError("Invalid Date")
-        .min(addYears(new Date(), 1))
-        .max(addYears(new Date(), 4)),
-      expirationMonths: number()
-        .required()
-        .typeError("Invalid number")
-        .max(4 * 52),
-    });
-  }, [mentoBalance]);
-
-  setLocale({
-    mixed: {
-      default: "Invalid number",
-    },
-    number: {
-      max: ({ max }) => `Must not exceed ${max}`,
-    },
-    date: {
-      max: ({ max }) => `Cannot lock for more than 4 years`,
-      min: ({ min }) => `Cannot lock for less than 1 year`,
-    },
-  });
-
-  const {
-    register,
+    control,
+    setMaxAmount,
     watch,
-    setValue,
-    getValues,
+    formState: { isDirty, isValid },
     handleSubmit,
-    reset,
-    trigger,
-    formState: { errors, isValid },
-  } = useForm({
-    resolver: yupResolver(validationSchema),
-    mode: "all",
+  } = useLockingForm();
+  const { address } = useAccount();
+  const amountToLock = Number(watch("amountToLock"));
+  const lockingDuration = watch("lockingDurationInWeeks");
+
+  const { lockMento, approve, lock, needsApproval } = usePerformLock({
+    account: address!,
+    delegate: address!,
+    amount: watch("amountToLock"),
+    slope: watch("lockingDurationInWeeks"),
   });
 
-  const getMonths = useCallback(() => {
-    const years = differenceInYears(
-      getValues("expiration"),
-      setISODay(new Date(), 3),
-    );
-    const months = differenceInMonths(
-      getValues("expiration"),
-      setISODay(addYears(new Date(), years), 3),
-    );
-    return months > 0 && `${months} ${months > 1 ? "months" : "month"}`;
-  }, [getValues]);
+  const quote = useLockingQuote({
+    amountToLock,
+    lockingDuration,
+  });
 
-  const getYears = useCallback(() => {
-    const years = differenceInYears(
-      getValues("expiration"),
-      setISODay(new Date(), 3),
-    );
-    return years > 0 && `${years} ${years > 1 ? "years" : "year"}`;
-  }, [getValues]);
+  const formWeeksSelectionWeeksToDate = addWeeks(
+    new Date(),
+    Number(watch("lockingDurationInWeeks")),
+  );
 
-  const dateSelected = (date: Date) => {
-    setValue("expiration", date);
-    setValue(
-      "expirationMonths",
-      differenceInMonths(date, setISODay(new Date(), 3)),
-    );
-    trigger("expiration");
+  const wednesdayAfterSelectedWeeks = nextWednesday(
+    formWeeksSelectionWeeksToDate,
+  );
+
+  // const isSelectedDateValid = isAfter(
+  //   addWeeks(new Date(), Number(watch("lockingDurationInWeeks"))),
+  //   new Date(),
+  // );
+
+  const handleDateSelection = (date: Date) => {
+    return differenceInWeeks(date, new Date(), {
+      roundingMethod: "floor",
+    });
   };
 
-  const performLock = useCallback(() => {
-    if (isValid && address && allowance) {
-      showConfirm(
-        `Do you want to lock ${getValues("toLock")} MENTO for ${[
-          getYears(),
-          getMonths(),
-        ]
-          .filter(Boolean)
-          .join(" and ")}?`,
-        {
-          confirmText: "Lock",
-          modalType: "info",
-        },
-      ).then((confirmed) => {
-        if (confirmed) {
-          const toLock = parseUnits(
-            `${getValues("toLock")}`,
-            mentoBalance.decimals,
-          );
-          if (allowance < toLock) {
-            // On success trigger lock
-            approveMento(lockingAddress, toLock, () => {
-              lockMento(address, address, toLock, 10, 10, () => {
-                resetApproveHook();
-                resetLockHook();
-              });
-            });
-          } else {
-            lockMento(address, address, toLock, 10, 10, resetLockHook);
-          }
-        }
-      });
-    }
-  }, [
-    address,
-    allowance,
-    approveMento,
-    getMonths,
-    getValues,
-    getYears,
-    isValid,
-    lockMento,
-    lockingAddress,
-    mentoBalance.decimals,
-    resetApproveHook,
-    resetLockHook,
-    showConfirm,
-  ]);
-
-  useEffect(() => {
-    if (isConfirmed) {
-      reset();
-      resetLockHook();
-    }
-  }, [isConfirmed, reset, resetLockHook]);
-
-  const monthSelected = (months: number | string) => {
-    const newDate = nextWednesday(addMonths(new Date(), +months));
-    setValue("expiration", newDate);
-    setValue("expirationMonths", +months);
-    trigger("expiration");
-  };
+  const listOfDaysAfterTodayExceptWednesdays = [
+    {
+      // Minimum lock duration is 1 week, and only on Wednesdays. Disable days before next Wednesday after a week
+      before: nextWednesday(addWeeks(new Date(), 1)),
+    },
+    ...getDaysExceptWednesday(),
+  ];
 
   return (
-    <div className={className} style={style}>
-      <div className="flex flex-col justify-between gap-1 md:place-items-baseline md:gap-5 lg:flex-row">
-        <div className="flex-1 whitespace-nowrap text-lg">MENTO to lock:</div>
-        <div className="flex-1">
-          <Input
-            id="toLock"
-            type="number"
-            placeholder="Voting power"
-            form={{ ...register("toLock") }}
-            error={errors.toLock?.message}
-            addon={
-              <div className="text-xs opacity-50">
-                <div className="flex justify-between gap-x3">
-                  <div className="whitespace-nowrap">Max</div>
-                  <div className="whitespace-nowrap">
-                    {`${formatUnits(mentoBalance.value, mentoBalance.decimals)} ${mentoBalance.symbol}`}
-                  </div>
-                </div>
-              </div>
-            }
-          />
-        </div>
-      </div>
-
-      <div className="flex flex-col justify-between gap-1 md:place-items-baseline md:gap-5 lg:flex-row">
-        <div className="flex-1 whitespace-nowrap text-lg">Lock expires:</div>
-        <div className="flex-1">
-          <DatePicker
-            id="expiration"
-            className="w-full"
-            disallowedDays={["mon", "tue", "thu", "fri", "sat", "sun"]}
-            minDate={nextWednesday(addMonths(new Date(), 1))}
-            maxDate={nextWednesday(addYears(new Date(), 4))}
-            calendarStartDate={new Date()}
-            placeholder="Lock expires"
-            value={watch("expiration")}
-            onChange={(date) => dateSelected(date)}
-            addon={
-              <div className="text-xs opacity-50">Between 1 and 4 years</div>
-            }
-            error={errors.expiration?.message}
-          />
-        </div>
-      </div>
-
-      <div className="mt-x6 flex flex-col justify-between gap-1 md:place-items-baseline md:gap-5 lg:flex-row">
-        <div className="flex-1 whitespace-nowrap text-lg">
-          You receive veMENTO:
-        </div>
-        <div className="flex-1">
-          <strong>
-            {isValid
-              ? Math.round(
-                  watch("toLock") * 100 * (watch("expirationMonths") / 12),
-                )
-              : "¯\\_(ツ)_/¯"}
-          </strong>
-        </div>
-      </div>
-
-      <Slider
-        id={"expirationMonths"}
-        min={1}
-        minLabel={`1 month`}
-        max={48}
-        maxLabel={`4 years`}
-        step={1}
-        value={watch("expirationMonths")}
-        bubbleFormatter={(value) => {
-          return [getYears(), getMonths()].filter(Boolean).join(" ");
-        }}
-        changeCallback={(value) => monthSelected(value)}
-        form={{
-          ...register("expirationMonths", {
-            value: 1,
-          }),
-        }}
-      />
-      <Button
-        fullwidth
-        className="!mt-x6"
-        onClick={handleSubmit(performLock)}
-        disabled={!isValid}
+    <div className={className}>
+      <form
+        onSubmit={handleSubmit(() => {
+          lockMento();
+        })}
       >
-        Lock MENTO
-      </Button>
+        <div className="grid grid-cols-2 items-start gap-1 md:gap-5">
+          <div className="whitespace-nowrap text-[22px] ">MENTO to lock:</div>
+          <Controller
+            control={control}
+            rules={{
+              required: true,
+            }}
+            render={({ field: { onChange, onBlur, value } }) => (
+              <NumberInput
+                onMax={setMaxAmount}
+                inputMode="numeric"
+                pattern="[0-9]*"
+                type="text"
+                onKeyPress={(event) => {
+                  if (!/[0-9]/.test(event.key)) {
+                    event.preventDefault();
+                  }
+                }}
+                onChange={(e) => onChange(e.target.value)}
+                value={value}
+                onBlur={onBlur}
+              />
+            )}
+            name="amountToLock"
+          />
+          <div className="whitespace-nowrap text-lg">Lock until:</div>
+          <Controller
+            control={control}
+            rules={{
+              required: true,
+            }}
+            render={({ field: { onChange } }) => (
+              <DatePicker
+                fromMonth={new Date()}
+                toMonth={addYearsToTodayAndAdjustToNextWednesday(2)}
+                fixedWeeks={true}
+                disabled={listOfDaysAfterTodayExceptWednesdays}
+                selected={wednesdayAfterSelectedWeeks}
+                onDayClick={(d) => onChange(handleDateSelection(d))}
+              />
+            )}
+            name="lockingDurationInWeeks"
+          />
+          <div className="whitespace-nowrap text-lg">You receive veMENTO:</div>
+          <span>
+            {quote.isLoading ? (
+              <div className="animate-pulse rounded-[4px] bg-gray-300 ">
+                <span className="opacity-0">{amountToLock}</span>
+              </div>
+            ) : (
+              <div className="font-medium">
+                {NumbersService.parseNumericValue(quote?.data)}
+              </div>
+            )}
+          </span>
+        </div>
+        <Controller
+          control={control}
+          rules={{
+            required: true,
+          }}
+          render={({ field: { onChange, value } }) => (
+            <Slider
+              labels={{
+                min: `1 week`,
+                current: <CurrentValueLabel value={value} />,
+                max: "2 Years",
+              }}
+              onValueChange={([val]) => {
+                onChange(val);
+              }}
+              value={[value]}
+              max={MAX_LOCKING_DURATION_WEEKS}
+              step={1}
+              min={1}
+            />
+          )}
+          name="lockingDurationInWeeks"
+        />
+        <Button
+          type="submit"
+          fullwidth
+          className="!mt-x6"
+          disabled={!isDirty || !isValid}
+        >
+          <>
+            {approve.isAwaitingUserSignature || lock.isAwaitingUserSignature ? (
+              <>Continue in wallet</>
+            ) : (
+              <>{needsApproval ? "Approve and Lock MENTO" : "Lock MENTO"}</>
+            )}
+          </>
+        </Button>
+      </form>
     </div>
   );
 };
+
+const CurrentValueLabel = ({ value }: { value: number }) => {
+  return <>{`${value} weeks`}</>;
+};
+
+const useDebounce = <T,>(value: T, delay = 250): T => {
+  const [debouncedValue, setDebouncedValue] = React.useState<T>(value);
+
+  React.useEffect(() => {
+    const timeout = setTimeout(() => {
+      setDebouncedValue(value);
+    }, delay);
+
+    return () => clearTimeout(timeout);
+  }, [value, delay]);
+
+  return debouncedValue;
+};
+
+const useLockingQuote = ({
+  amountToLock,
+  lockingDuration,
+}: {
+  amountToLock: number;
+  lockingDuration: number;
+}) => {
+  const debouncedAmount = useDebounce(amountToLock, 500);
+  const debouncedLockingDuration = useDebounce(lockingDuration, 500);
+  const { data, ...rest } = useLockCalculation({
+    lock: {
+      amount: debouncedAmount,
+      slope: debouncedLockingDuration,
+      cliff: DEFAULT_CLIFF,
+    },
+  });
+
+  return { data: !data?.length ? 0 : Number(data[0]), ...rest };
+};
+
+const usePerformLock = ({
+  account,
+  amount,
+  delegate,
+  slope,
+}: {
+  account: Address;
+  amount: string;
+  delegate: Address;
+  slope: number;
+}) => {
+  const contracts = useContracts();
+  const approve = useApprove();
+  const lock = useLockMentoHook();
+
+  const { approveMento } = approve;
+  const { lockMento } = lock;
+  const result = useSimulateContract({
+    address: contracts.Locking.address,
+    abi: LockingABI,
+    functionName: "lock",
+    args: [account, delegate, parseEther(amount), slope, DEFAULT_CLIFF],
+    query: {
+      enabled: slope > 0 && parseEther(amount) > 0,
+    },
+  });
+
+  const approveThenLock = React.useCallback(
+    (
+      mentoTokenOwnerAddress: Address,
+      delegate: Address,
+      amountToLock: bigint,
+      lockDurationInWeeks: number,
+    ) => {
+      approveMento(contracts.Locking.address, amountToLock, () => {
+        result.refetch();
+        lockMento({
+          account: mentoTokenOwnerAddress,
+          amount: amountToLock,
+          delegate,
+          slope: lockDurationInWeeks,
+          cliff: DEFAULT_CLIFF,
+        });
+      });
+    },
+    [approveMento, contracts.Locking.address, lockMento, result],
+  );
+
+  const needsApproval = React.useMemo(() => {
+    return Boolean(
+      result.failureCount > 0 &&
+        (result?.failureReason?.cause as { reason: string })?.reason ===
+          "ERC20: insufficient allowance",
+    );
+  }, [result.failureCount, result?.failureReason?.cause]);
+
+  const performLock = React.useCallback(() => {
+    if (!needsApproval) {
+      lockMento({
+        account,
+        amount: parseEther(amount),
+        delegate,
+        slope,
+        cliff: DEFAULT_CLIFF,
+      });
+    } else {
+      approveThenLock(account, delegate, parseEther(amount), slope);
+    }
+  }, [
+    needsApproval,
+    lockMento,
+    account,
+    amount,
+    delegate,
+    slope,
+    approveThenLock,
+  ]);
+  return {
+    lockMento: performLock,
+    canLock: false,
+    needsApproval,
+    approve,
+    lock,
+  };
+};
+
+const useLockingForm = () => {
+  const { mentoBalance } = useTokens();
+  const validationSchema = React.useMemo(() => {
+    return yup.object({
+      amountToLock: yup
+        .string()
+        .required("amount is required")
+        .test("isNumber", "Invalid number", (value) => !isNaN(Number(value)))
+        .test(
+          "min",
+          `The minimum value is ${MIN_LOCKABLE_AMOUNT}`,
+          (value) => Number(value) >= MIN_LOCKABLE_AMOUNT,
+        )
+        .test(
+          "max",
+          `The maximum value is ${mentoBalance.value}`,
+          (value) => Number(value) <= mentoBalance.value,
+        ),
+      lockingDurationInWeeks: number()
+        .required()
+        .typeError("Invalid Date")
+        .min(1)
+        .max(104),
+    });
+  }, [mentoBalance]);
+
+  type FormData = yup.InferType<typeof validationSchema>;
+  const form = useForm<FormData>({
+    resolver: yupResolver(validationSchema),
+    mode: "all",
+    defaultValues: {
+      amountToLock: "",
+      lockingDurationInWeeks: 1,
+    },
+  });
+  const setMaxAmount = React.useCallback(() => {
+    form.setValue(
+      "amountToLock",
+      formatUnits(mentoBalance.value, mentoBalance.decimals),
+    );
+  }, [form, mentoBalance.decimals, mentoBalance.value]);
+  return { ...form, setMaxAmount };
+};
+
+function addYearsToTodayAndAdjustToNextWednesday(years: number): Date {
+  const futureDate = addYears(new Date(), years);
+  return isWednesday(futureDate) ? futureDate : nextWednesday(futureDate);
+}

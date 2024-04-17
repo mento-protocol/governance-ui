@@ -50,7 +50,7 @@ export const Countdown = ({
   return (
     <div
       className={cn(
-        "mt-x3 flex flex-row items-center justify-center gap-x1 md:mt-0 md:justify-end ",
+        "mt-x3 flex items-center justify-center gap-x1 md:mt-0 md:justify-end ",
         className,
       )}
       style={style}
@@ -61,64 +61,57 @@ export const Countdown = ({
           "mr-x1 text-primary",
         )}
       >
-        <div className="text-x5 md:text-x6 relative w-full text-center font-medium leading-none">
-          {days}
-        </div>
-        {/* TODO: --theme-foreground-color not found */}
+        <CountdownNumber>{days}</CountdownNumber>
+        <CountdownLabel>days</CountdownLabel>
+      </div>
+      <div className="flex items-start">
         <div
-          className={`text-x3 md:text-x4 w-full text-center font-normal leading-none text-black dark:text-white`}
+          className={cn(
+            "flex min-w-x11 flex-col items-center justify-center gap-x2 md:min-w-x16 md:gap-x3",
+          )}
         >
-          days
+          <CountdownNumber>{hours}</CountdownNumber>
+          <CountdownLabel>hours</CountdownLabel>
+        </div>
+        <TimerSeparator />
+        <div
+          className={cn(
+            "flex min-w-x11 flex-col items-center justify-center gap-x2 md:min-w-x16 md:gap-x3",
+          )}
+        >
+          <CountdownNumber>{minutes}</CountdownNumber>
+          <CountdownLabel>minutes</CountdownLabel>
+        </div>
+        <TimerSeparator />
+        <div
+          className={cn(
+            "flex min-w-x11 flex-col items-center justify-center gap-x2 md:min-w-x16 md:gap-x3",
+          )}
+        >
+          <CountdownNumber>{seconds}</CountdownNumber>
+          <CountdownLabel>seconds</CountdownLabel>
         </div>
       </div>
-      <div
-        className={cn(
-          "flex min-w-x11 flex-col items-center justify-center gap-x2 md:min-w-x16 md:gap-x3",
-          // Time selector complicated
-          "[:not(:last-child)>*:first-child:after]:content-[':'] [:not(:last-child)>*:first-child:after]:absolute [:not(:last-child)>*:first-child:after]:top-0 [:not(:last-child)>*:first-child:after]:leading-none [:not(:last-child)>*:first-child:after]:font-medium [:not(:last-child)>*:first-child:after]:-right-x1 [:not(:last-child)>*:first-child:after]:text-[32px]",
-        )}
-      >
-        <div className="text-x5 md:text-x6 relative w-full text-center font-medium leading-none">
-          {hours}
-        </div>
-        <div
-          className={`text-x3 md:text-x4 w-full text-center font-normal leading-none text-black dark:text-white`}
-        >
-          hours
-        </div>
-      </div>
-      <div
-        className={cn(
-          "flex min-w-x11 flex-col items-center justify-center gap-x2 md:min-w-x16 md:gap-x3",
-          // Time selector complicated
-          "[:not(:last-child)>*:first-child:after]:content-[':'] [:not(:last-child)>*:first-child:after]:absolute [:not(:last-child)>*:first-child:after]:top-0 [:not(:last-child)>*:first-child:after]:leading-none [:not(:last-child)>*:first-child:after]:font-medium [:not(:last-child)>*:first-child:after]:-right-x1 [:not(:last-child)>*:first-child:after]:text-[32px]",
-        )}
-      >
-        <div className="text-x5 md:text-x6 relative w-full text-center font-medium leading-none">
-          {minutes}
-        </div>
-        <div
-          className={`text-x3 md:text-x4 w-full text-center font-normal leading-none text-black dark:text-white`}
-        >
-          minutes
-        </div>
-      </div>
-      <div
-        className={cn(
-          "flex min-w-x11 flex-col items-center justify-center gap-x2 md:min-w-x16 md:gap-x3",
-          // Time selector complicated
-          "[:not(:last-child)>*:first-child:after]:content-[':'] [:not(:last-child)>*:first-child:after]:absolute [:not(:last-child)>*:first-child:after]:top-0 [:not(:last-child)>*:first-child:after]:leading-none [:not(:last-child)>*:first-child:after]:font-medium [:not(:last-child)>*:first-child:after]:-right-x1 [:not(:last-child)>*:first-child:after]:text-[32px]",
-        )}
-      >
-        <div className="text-x5 md:text-x6 relative w-full text-center font-medium leading-none">
-          {seconds}
-        </div>
-        <div
-          className={`text-x3 md:text-x4 w-full text-center font-normal leading-none text-black dark:text-white`}
-        >
-          seconds
-        </div>
-      </div>
+    </div>
+  );
+};
+
+const TimerSeparator = () => {
+  return <span className="flex h-auto p-0 text-[32px]/[0.75]">:</span>;
+};
+
+const CountdownNumber = ({ children }: { children: React.ReactNode }) => {
+  return (
+    <div className="md:text-x6 relative w-full text-center text-[32px]/none font-medium">
+      {children}
+    </div>
+  );
+};
+
+const CountdownLabel = ({ children }: { children: React.ReactNode }) => {
+  return (
+    <div className="md:text-x4  w-full text-center text-[18px]/none  dark:text-white">
+      {children}
     </div>
   );
 };

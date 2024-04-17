@@ -38,6 +38,9 @@ const variants = cva(
         info: cn(
           "top-[-3px] rounded-b-lg bg-info transition-all duration-200 ease-out-back before:absolute before:left-[50%] before:top-[calc(50%_+_4px)] before:block before:h-[50%] before:w-[calc(100%_+_1.1px)] before:rounded-md before:border before:border-solid before:border-black before:bg-info-dark before:transition-all before:duration-200 before:ease-out-back before:[border-style:inset] before:[transform:translateX(-50%)_translateZ(-1px)] hover:top-0 hover:text-black hover:before:top-[calc(50%_+_1px)] active:top-[1px] active:top-[2px] active:before:top-[calc(50%_+_2px)] [&_path]:fill-black",
         ),
+        white: cn(
+          "top-[-3px] rounded-b-lg bg-white transition-all duration-200 ease-out-back before:absolute before:left-[50%] before:top-[calc(50%_+_4px)] before:block before:h-[50%] before:w-[calc(100%_+_1.1px)] before:rounded-md before:border before:border-solid before:border-black before:bg-gray-light before:transition-all before:duration-200 before:ease-out-back before:[border-style:inset] before:[transform:translateX(-50%)_translateZ(-1px)] hover:top-0 hover:text-black hover:before:top-[calc(50%_+_1px)] active:top-[1px] active:top-[2px] active:before:top-[calc(50%_+_2px)] [&_path]:fill-black",
+        ),
         link: cn(
           "color border-none text-black underline transition-[color] duration-200 ease-out visited:text-primary-dark hover:text-primary active:text-primary-dark dark:text-white",
         ),

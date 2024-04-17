@@ -35,6 +35,5 @@ export const wagmiConfig = createConfig({
     [Alfajores.id]: http(),
     [Celo.id]: http(),
   },
-  // autoConnect: true,
   connectors,
 });

@@ -4,19 +4,17 @@ import { Address, formatUnits } from "viem";
 import { useAccount } from "wagmi";
 import useRelockMento from "@/lib/contracts/locking/useRelockMento";
 import { Lock } from "@/lib/graphql/subgraph/generated/subgraph";
-import useLocksByAccount from "@/lib/contracts/locking/useLocksByAccount";
 import { Button, DropdownButton } from "@/components/_shared";
 import useModal from "@/lib/providers/modal.provider";
 import useLockCalculation from "@/lib/contracts/locking/useLockCalculation";
 
 interface ILocksList {
   account: Address;
+  locks: Lock[];
+  onExtend: () => void;
 }
 
-export const LocksList = ({ account }: ILocksList) => {
-  const { address } = useAccount();
-  const { locks, refetch } = useLocksByAccount({ account });
-
+export const LocksList = ({ locks, onExtend, account }: ILocksList) => {
   return (
     <div className={`overflow-auto`}>
       <div className="mb-x2 grid grid-cols-4 items-center gap-[18px] px-x1 py-x2">
@@ -24,12 +22,12 @@ export const LocksList = ({ account }: ILocksList) => {
         <LockTableTitle>Amount veMENTO</LockTableTitle>
         <LockTableTitle>Expires on</LockTableTitle>
       </div>
-      {address &&
+      {account &&
         locks.map((lock, index, array) => (
           <>
             <LockEntry
-              account={address}
-              onExtend={refetch}
+              account={account}
+              onExtend={onExtend}
               lock={lock}
               key={lock.lockId}
             />

@@ -14,7 +14,7 @@ const variants = cva(
     variants: {
       fullWidth: { true: "w-full" },
       disabled: { true: "cursor-not-allowed opacity-50" },
-      error: { true: "border-error-dark" },
+      error: { true: "border-error" },
     },
     defaultVariants: {
       fullWidth: false,
@@ -37,7 +37,7 @@ export const Input = ({
   const hasError = !!errorMessage;
 
   return (
-    <>
+    <div className="flex flex-col">
       <div
         className={cn(
           variants({ error: hasError, fullWidth, disabled, className }),
@@ -45,14 +45,16 @@ export const Input = ({
       >
         {!!label && <label htmlFor={id}>{label}</label>}
         <input
-          className="text-[22px] disabled:bg-white"
+          className="text-[22px] focus:outline-none disabled:bg-white"
           id={id}
           {...restProps}
           disabled={disabled}
         />
         <span className="flex text-[14px]">{addon}</span>
       </div>
-      {!!errorMessage && <div className={""}>{errorMessage}</div>}
-    </>
+      <span className="min-h-[24px] text-error">
+        <>{!!errorMessage && errorMessage}</>
+      </span>
+    </div>
   );
 };

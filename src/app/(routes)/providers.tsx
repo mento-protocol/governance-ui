@@ -13,6 +13,7 @@ const queryClient = new QueryClient();
 export function Providers({ children }: { children: ReactNode }) {
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
+
   return (
     <ApolloNextAppProvider makeClient={makeClient}>
       <WagmiProvider config={wagmiConfig}>

@@ -34,10 +34,10 @@ export const Slider = ({
   changeCallback,
 }: SliderProps) => {
   const { onBlur, onChange, ref, name } = form;
-  const [currentValue, setCurrentValue] = useState(min || value);
+  const [currentValue, setCurrentValue] = useState(min || value || 1);
 
   useEffect(() => {
-    setCurrentValue(value);
+    value && setCurrentValue(value);
   }, [value]);
 
   const activeBackground = useMemo(() => {

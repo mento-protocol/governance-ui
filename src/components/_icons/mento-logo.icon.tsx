@@ -1,4 +1,5 @@
 import { SVGProps } from "react";
+
 export const MentoLogoIcon = ({
   width = 100,
   height = 25,

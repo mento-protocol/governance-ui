@@ -41,6 +41,7 @@ export const TabList = ({
           <button
             key={index}
             className={cn(
+              // TODO: CVA
               "m-0 cursor-pointer border-none bg-none p-0 text-gray-light hover:text-primary",
               index === selectedTab && "font-medium text-primary",
             )}

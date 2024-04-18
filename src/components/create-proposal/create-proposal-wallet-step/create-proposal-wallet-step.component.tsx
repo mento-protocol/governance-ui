@@ -1,5 +1,5 @@
 import { ConnectButton, MentoLock } from "@/components/_shared";
-import { useCallback, useState } from "react";
+import { useEffect, useState } from "react";
 import { useAccount } from "wagmi";
 import useTokens from "@/lib/contracts/useTokens";
 import {
@@ -21,19 +21,19 @@ const CurrentFormStep = ({ formStep }: { formStep: WalletStepEnum }) => {
     case WalletStepEnum.connectWallet:
       return (
         <>
-          <p className="font-size-x4 line-height-x5 ml-x7 place-self-start">
+          <p className="mt-4 place-self-start text-xl">
             Connect your wallet to create new proposal.
           </p>
-          <ConnectButton theme="primary" className="mt-x5" />
+          <ConnectButton theme="primary" className="mt-6 justify-center" />
         </>
       );
     case WalletStepEnum.buyMento:
       return (
         <>
-          <p className="font-size-x4 line-height-x5 ml-x7 place-self-start">
-            To create new governance proposal you need to lock 2,500 veMENTO.
+          <p className="mt-4 place-self-start text-xl">
+            To create new governance proposal you need to lock 2,500 MENTO.
           </p>
-          <p className="font-size-x4 line-height-x5 ml-x7 place-self-start">
+          <p className="font-size-x4 line-height-x5 place-self-start">
             You can purchase MENTO{" "}
             <a href={"https://app.mento.org"} target="_blank">
               here.
@@ -44,7 +44,7 @@ const CurrentFormStep = ({ formStep }: { formStep: WalletStepEnum }) => {
     case WalletStepEnum.lockMento:
       return (
         <>
-          <p className="font-size-x4 line-height-x5 ml-x7 place-self-start">
+          <p className="mt-4 place-self-start text-xl">
             To create new governance proposal you need to lock 2,500 veMENTO.
           </p>
           <MentoLock />
@@ -53,7 +53,7 @@ const CurrentFormStep = ({ formStep }: { formStep: WalletStepEnum }) => {
     case WalletStepEnum.createProposal:
       return (
         <>
-          <p className="font-size-x4 line-height-x5 ml-x7 place-self-start">
+          <p className="mt-4 place-self-start text-xl">
             Yay! You are all set to create a new proposal!
           </p>
         </>
@@ -68,32 +68,41 @@ export const CreateProposalWalletStep = () => {
   const { mentoBalance, veMentoBalance } = useTokens();
   const { setStep } = useCreateProposal();
 
-  const getAndValidateStep = useCallback((): WalletStepEnum => {
+  const [walletFormStep, setWalletStep] = useState(
+    WalletStepEnum.connectWallet,
+  );
+
+  useEffect(() => {
+    // TODO: Check if veMento + mento balance >= 2500 ? lock || buy mento
     if (!address) {
-      return WalletStepEnum.connectWallet;
-    } else if (mentoBalance.value <= parseUnits("10", mentoBalance.decimals)) {
-      return WalletStepEnum.buyMento;
+      return setWalletStep(WalletStepEnum.connectWallet);
     } else if (
-      veMentoBalance.value < parseUnits("2500", veMentoBalance.decimals)
+      veMentoBalance.value <= parseUnits("2500", veMentoBalance.decimals)
     ) {
-      return WalletStepEnum.lockMento;
+      return setWalletStep(WalletStepEnum.lockMento);
+    } else if (mentoBalance.value < parseUnits("2500", mentoBalance.decimals)) {
+      return setWalletStep(WalletStepEnum.buyMento);
     } else {
-      return WalletStepEnum.createProposal;
+      setStep(CreateProposalStep.content);
+      return setWalletStep(WalletStepEnum.createProposal);
     }
   }, [
     address,
     mentoBalance.decimals,
     mentoBalance.value,
+    setStep,
     veMentoBalance.decimals,
     veMentoBalance.value,
   ]);
 
-  const [walletFormStep] = useState(getAndValidateStep());
-
   return (
     <CreateProposalWrapper
       componentStep={CreateProposalStep.wallet}
-      onNext={() => setStep(CreateProposalStep.content)}
+      onNext={
+        walletFormStep === WalletStepEnum.createProposal
+          ? () => setStep(CreateProposalStep.content)
+          : undefined
+      }
       title="Connect your wallet & login"
     >
       <CurrentFormStep formStep={walletFormStep} />

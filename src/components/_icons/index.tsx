@@ -6,6 +6,8 @@ export { DarkModeIcon } from "./dark-mode.icon";
 export { DisconnectIcon } from "./disconnect.icon";
 export { DiscordIcon } from "./discord.icon";
 export { GithubIcon } from "./github.icon";
+export { HelpIcon } from "./help.icon";
+export { IndexWrapperIcon } from "./index-wrapper.icon";
 export { LearnMoreIcon } from "./learn-more.icon";
 export { LightModeIcon } from "./light-mode.icon";
 export { MentoLogoIcon } from "./mento-logo.icon";

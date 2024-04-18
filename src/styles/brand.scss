@@ -257,8 +257,6 @@ $themes: (
 }
 
 @mixin default-input-error-message {
-  // "p2-1 text-sm font-semibold text-error-dark"
-
   @apply p-1 text-sm font-semibold text-[$c-error-dark];
 
   // color: $c-error-dark;

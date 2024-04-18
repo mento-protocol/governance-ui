@@ -17,7 +17,6 @@ const GraphProposalsQueryKey = ["proposals-graph-query"];
 const useProposals = () => {
   const chainId = useChainId();
   const contracts = useContracts();
-  // const { data: blockNumber } = useBlockNumber({ watch: true });
 
   const {
     data: { proposals: graphProposals },
@@ -79,14 +78,6 @@ const useProposals = () => {
     },
     [proposals],
   );
-
-  // useEffect(() => {
-  //   if (blockNumber && blockNumber % 4n === 0n) {
-  //     refetch();
-  //   }
-  //   // Only needed on block changes
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [blockNumber]);
 
   return {
     proposals,

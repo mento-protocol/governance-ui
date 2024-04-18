@@ -2,15 +2,15 @@ import { Popover } from "@headlessui/react";
 import { Calendar, CalendarProps } from "../calendar/calendar.component";
 import { format, isToday } from "date-fns";
 
-export function DatePicker(
+export const DatePicker = (
   props: CalendarProps & {
     selected?: Date | null;
     onDayClick: (date: Date) => void;
   },
-) {
+) => {
   return (
     <Popover className="relative">
-      {({ open, close }) => (
+      {({ close }) => (
         /* Use the `open` state to conditionally change the direction of the chevron icon. */
         <>
           <Popover.Button className="w-full rounded-[4px] border border-gray-light p-1 text-left">
@@ -32,4 +32,4 @@ export function DatePicker(
       )}
     </Popover>
   );
-}
+};

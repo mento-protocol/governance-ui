@@ -3,7 +3,7 @@ import React from "react";
 import { formatUnits } from "viem";
 import { Input, InputProps } from "../input/input.component";
 
-const CurrencyInput = ({
+export const CurrencyInput = ({
   onMax,
   onChange,
   ...props

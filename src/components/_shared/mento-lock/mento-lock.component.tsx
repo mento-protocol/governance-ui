@@ -1,31 +1,33 @@
 "use client";
 import React from "react";
-import { Controller, useFormContext } from "react-hook-form";
-import BaseComponentProps from "@/interfaces/base-component-props.interface";
-import { Button, Slider } from "@/components/_shared";
+import { formatUnits } from "viem";
 import { useAccount } from "wagmi";
-import NumberInput from "../number-input/number-input.component";
-
 import { addWeeks, differenceInWeeks, nextWednesday } from "date-fns";
-import { DatePicker } from "../date-picker/date-picker.component";
+import { Controller, useFormContext } from "react-hook-form";
 
+import useTokens from "@/lib/contracts/useTokens";
+import BaseComponentProps from "@/interfaces/base-component-props.interface";
+import {
+  Button,
+  Slider,
+  CurrencyInput,
+  DatePicker,
+} from "@/components/_shared";
 import { cn } from "@/styles/helpers";
-import { LockingForm } from "./providers/locking-form";
 
+import { LockingForm } from "./providers/locking-form";
 import { usePerformLock } from "./hooks/usePerformLock";
+import { LockingQuote } from "./components/locking-quote";
 import {
   DEFAULT_CLIFF,
   LOCKING_AMOUNT_FORM_KEY,
   LOCKING_DURATION_FORM_KEY,
   MAX_LOCKING_DURATION_WEEKS,
 } from "./constants";
-import { LockingQuote } from "./components/locking-quote";
 import {
   addYearsToTodayAndAdjustToNextWednesday,
   getDaysExceptWednesday,
 } from "./utils";
-import { formatUnits } from "viem";
-import useTokens from "@/lib/contracts/useTokens";
 
 interface MentoLockProps extends BaseComponentProps {
   onLockConfirmation?: () => void;
@@ -77,7 +79,7 @@ const LockingInput = () => {
     <Controller
       control={control}
       render={({ field: { onChange, ...rest } }) => (
-        <NumberInput
+        <CurrencyInput
           onMax={onMax}
           onChange={(value) => {
             onChange(value);

@@ -80,14 +80,6 @@ const useProposals = () => {
     [proposals],
   );
 
-  // useEffect(() => {
-  //   if (blockNumber && blockNumber % 4n === 0n) {
-  //     refetch();
-  //   }
-  //   // Only needed on block changes
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [blockNumber]);
-
   return {
     proposals,
     proposalExists,

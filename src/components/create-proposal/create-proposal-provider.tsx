@@ -229,7 +229,7 @@ export const CreateProposalProvider = ({
     if (creationState === "ready") {
       setCreationState("mounting");
     }
-    // Only update on chainID change
+    // Only update on chainID change, eslint wants creationState involved
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [chainId]);
 

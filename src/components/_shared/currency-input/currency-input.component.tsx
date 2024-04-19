@@ -1,13 +1,47 @@
 import useTokens from "@/lib/contracts/useTokens";
 import React from "react";
 import { formatUnits } from "viem";
-import { Input, InputProps } from "../input/input.component";
+import { VariantProps, cva } from "class-variance-authority";
+import { cn } from "@/styles/helpers";
+
+type CurrencyInputProps = React.InputHTMLAttributes<HTMLInputElement> &
+  VariantProps<typeof variants> & {
+    label?: string;
+    addon?: React.ReactNode;
+    errorMessage?: string;
+  };
+
+const variants = cva(
+  "flex flex-col gap-2 rounded-[4px] border border-gray-light p-2 text-sm disabled:bg-white dark:border-white",
+  {
+    variants: {
+      fullWidth: { true: "w-full" },
+      disabled: { true: "cursor-not-allowed opacity-50" },
+      error: { true: "border-error" },
+    },
+    defaultVariants: {
+      fullWidth: false,
+      disabled: false,
+      error: false,
+    },
+  },
+);
 
 export const CurrencyInput = ({
+  label,
+  className,
+  errorMessage,
+  addon,
+  fullWidth,
+  disabled,
   onMax,
   onChange,
+  id,
   ...props
-}: InputProps & { onMax?: () => void; onChange: (val: string) => void }) => {
+}: CurrencyInputProps & {
+  onMax?: () => void;
+  onChange: (val: string) => void;
+}) => {
   const _onChange: React.InputHTMLAttributes<HTMLInputElement>["onChange"] = (
     e,
   ) => {
@@ -20,18 +54,33 @@ export const CurrencyInput = ({
       if (onChange) onChange(val);
     }
   };
-
+  const hasError = !!errorMessage;
   return (
-    <Input
-      {...props}
-      placeholder="0.0"
-      autoCorrect="off"
-      autoCapitalize="none"
-      spellCheck="false"
-      autoComplete="off"
-      onChange={_onChange}
-      addon={<UseMaxBalanceButton onMax={onMax} />}
-    />
+    <div className="flex flex-col">
+      <div
+        className={cn(
+          variants({ error: hasError, fullWidth, disabled, className }),
+        )}
+      >
+        {!!label && <label htmlFor={id}>{label}</label>}
+        <input
+          {...props}
+          id={id}
+          className="text-[22px] focus:outline-none disabled:bg-white"
+          placeholder="0.0"
+          autoCorrect="off"
+          autoCapitalize="none"
+          spellCheck="false"
+          autoComplete="off"
+          disabled={disabled}
+          onChange={_onChange}
+        />
+        <UseMaxBalanceButton onMax={onMax} />
+      </div>
+      <span className="min-h-[24px] text-error">
+        <>{!!errorMessage && errorMessage}</>
+      </span>
+    </div>
   );
 };
 

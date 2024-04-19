@@ -1,11 +1,10 @@
 import { addWeeks, nextWednesday } from "date-fns";
-import { useCallback, useMemo } from "react";
+import { useMemo } from "react";
 import { Address, formatUnits } from "viem";
 import { useAccount } from "wagmi";
 import useRelockMento from "@/lib/contracts/locking/useRelockMento";
 import { Lock } from "@/lib/graphql/subgraph/generated/subgraph";
 import { Button, DropdownButton } from "@/components/_shared";
-import useModal from "@/lib/providers/modal.provider";
 import useLockCalculation from "@/lib/contracts/locking/useLockCalculation";
 
 interface ILocksList {
@@ -60,7 +59,7 @@ const LockEntry = ({
   onExtend: () => void;
 }) => {
   const { address } = useAccount();
-  const { showConfirm } = useModal();
+  // const { showConfirm } = useModal();
 
   const { relockMento } = useRelockMento();
 
@@ -83,31 +82,31 @@ const LockEntry = ({
     return endDate.toLocaleDateString();
   }, [lock]);
 
-  const relock = useCallback(async () => {
-    const res = await showConfirm(
-      `Are you sure you want to extend lock ${lock.lockId}?`,
-    );
+  // const relock = useCallback(async () => {
+  //   const res = await showConfirm(
+  //     `Are you sure you want to extend lock ${lock.lockId}?`,
+  //   );
 
-    if (!res) return;
+  //   if (!res) return;
 
-    relockMento(
-      lock.lockId,
-      address!,
-      lock.amount,
-      lock.slope,
-      lock.cliff,
-      onExtend,
-    );
-  }, [
-    showConfirm,
-    lock.lockId,
-    lock.amount,
-    lock.slope,
-    lock.cliff,
-    relockMento,
-    address,
-    onExtend,
-  ]);
+  //   relockMento(
+  //     lock.lockId,
+  //     address!,
+  //     lock.amount,
+  //     lock.slope,
+  //     lock.cliff,
+  //     onExtend,
+  //   );
+  // }, [
+  //   showConfirm,
+  //   lock.lockId,
+  //   lock.amount,
+  //   lock.slope,
+  //   lock.cliff,
+  //   relockMento,
+  //   address,
+  //   onExtend,
+  // ]);
 
   return (
     <div className="mb-x2 grid grid-cols-4 items-center gap-[18px] px-x1 py-x2">
@@ -117,12 +116,17 @@ const LockEntry = ({
       <div>
         <DropdownButton className="md:hidden" theme="clear">
           <DropdownButton.Dropdown>
-            <DropdownButton.Element onClick={relock}>
+            <DropdownButton.Element onClick={() => ({})}>
               Extend lock
             </DropdownButton.Element>
           </DropdownButton.Dropdown>
         </DropdownButton>
-        <Button className="md:static" fullwidth theme="clear" onClick={relock}>
+        <Button
+          className="md:static"
+          fullwidth
+          theme="clear"
+          onClick={() => {}}
+        >
           Extend lock
         </Button>
       </div>

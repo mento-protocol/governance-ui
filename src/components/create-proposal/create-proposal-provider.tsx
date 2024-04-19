@@ -61,7 +61,7 @@ export const CreateProposalProvider = ({
   const router = useRouter();
   const { proposalExists, refetchProposals } = useProposals();
 
-  const [isOpen, setOpen] = useState(false);
+  const [isTxModalOpen, setTxModalOpen] = useState(false);
   const [expectingId, setExpectingId] = useState<string | undefined>();
 
   const { data: blockNumber } = useBlockNumber({
@@ -114,7 +114,7 @@ export const CreateProposalProvider = ({
   );
 
   const submitProposal = useCallback(() => {
-    setOpen(true);
+    setTxModalOpen(true);
     let transactions: TransactionItem[] = [];
     try {
       transactions = JSON.parse(newProposal.code);
@@ -162,7 +162,7 @@ export const CreateProposalProvider = ({
   }, [blockNumber, expectingId, refetchProposals]);
 
   useEffect(() => {
-    if (!isOpen) return;
+    if (!isTxModalOpen) return;
     if (isSuccess && expectingId && proposalExists(expectingId)) {
       if (canUseLocalStorage) {
         removeCacheItem(CreateProposalCacheEntry.title);
@@ -174,7 +174,7 @@ export const CreateProposalProvider = ({
   }, [
     canUseLocalStorage,
     expectingId,
-    isOpen,
+    isTxModalOpen,
     isSuccess,
     proposalExists,
     removeCacheItem,
@@ -248,8 +248,10 @@ export const CreateProposalProvider = ({
     >
       {creationState === "ready" ? children : <Loader />}
       <CreateProposalTxModal
-        isOpen={isOpen}
-        setOpen={setOpen}
+        title="Create New Proposal"
+        message="Please sign a transaction in connected wallet to publish proposal onchain. You will be redirected to proposal page once transaction is successful."
+        isOpen={isTxModalOpen}
+        onClose={() => setTxModalOpen(false)}
         retry={retry}
         error={!!createError}
       />

@@ -12,7 +12,6 @@ import "@rainbow-me/rainbowkit/styles.css";
 import "@/styles/globals.scss";
 import { Providers } from "@/app/(routes)/providers";
 import { usePathname } from "next/navigation";
-import { ModalProvider } from "@/lib/providers/modal.provider";
 import { cn } from "@/styles/helpers";
 
 const inter = Inter({
@@ -43,15 +42,13 @@ export default function RootLayout({ children }: RootLayoutProps) {
         suppressHydrationWarning={true}
       >
         <Providers>
-          <ModalProvider>
-            <Header />
-            <MaxWidthWrapper>
-              {!homePage && <Breadcrumbs />}
-              {children}
-            </MaxWidthWrapper>
-            <LearnMore className="pt-x5" />
-            <Footer />
-          </ModalProvider>
+          <Header />
+          <MaxWidthWrapper>
+            {!homePage && <Breadcrumbs />}
+            {children}
+          </MaxWidthWrapper>
+          <LearnMore className="pt-x5" />
+          <Footer />
         </Providers>
       </body>
     </html>

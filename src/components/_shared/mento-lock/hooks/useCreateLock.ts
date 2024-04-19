@@ -1,4 +1,4 @@
-import useLockMentoHook from "@/lib/contracts/locking/useLockMento";
+import useCreateLockOnChain from "@/lib/contracts/locking/useLockMento";
 import { useAllowance } from "@/lib/contracts/mento/useAllowance";
 import useApprove from "@/lib/contracts/mento/useApprove";
 import { useContracts } from "@/lib/contracts/useContracts";
@@ -16,7 +16,7 @@ export enum CREATE_LOCK_STATUS {
   UNKNOWN = "UNKNOWN",
 }
 
-export const useCreateLockOnChain = ({
+export const useCreateLock = ({
   account,
   amount,
   delegate,
@@ -30,15 +30,40 @@ export const useCreateLockOnChain = ({
   onLockConfirmation?: () => void;
 }) => {
   const contracts = useContracts();
-  const approve = useApprove();
   const chainId = useChainId();
-  const lock = useLockMentoHook({
+  const parsedAmount = parseEther(amount);
+  const lock = useCreateLockOnChain({
     onLockConfirmation,
   });
-  const { approveMento } = approve;
-  const { lockMento: executeLock } = lock;
+  const approve = useApprove();
 
-  const parsedAmount = parseEther(amount);
+  const lockMento = React.useCallback(
+    ({
+      onError,
+      onSuccess,
+    }: {
+      onError?: () => void;
+      onSuccess?: () => void;
+    } = {}) => {
+      lock.lockMento({
+        account,
+        amount: parsedAmount,
+        delegate,
+        slope,
+        cliff: DEFAULT_CLIFF,
+        onError,
+        onSuccess,
+      });
+    },
+    [account, delegate, lock, parsedAmount, slope],
+  );
+
+  React.useEffect(() => {
+    if (approve.isConfirmed) {
+      lockMento();
+      approve.reset();
+    }
+  }, [approve, lockMento]);
 
   const allowance = useAllowance({
     chainId,
@@ -62,28 +87,7 @@ export const useCreateLockOnChain = ({
     needsApproval,
   ]);
 
-  const lockMento = React.useCallback(
-    ({
-      onError,
-      onSuccess,
-    }: {
-      onError?: () => void;
-      onSuccess?: () => void;
-    } = {}) => {
-      executeLock({
-        account,
-        amount: parsedAmount,
-        delegate,
-        slope,
-        cliff: DEFAULT_CLIFF,
-        onError,
-        onSuccess,
-      });
-    },
-    [account, delegate, executeLock, parsedAmount, slope],
-  );
-
-  const createLockOnChain = React.useCallback(
+  const createLock = React.useCallback(
     ({
       onError,
       onSuccess,
@@ -94,7 +98,7 @@ export const useCreateLockOnChain = ({
       if (!needsApproval) {
         lockMento({ onError, onSuccess });
       } else {
-        approveMento(contracts.Locking.address, parsedAmount, () => {
+        approve.approveMento(contracts.Locking.address, parsedAmount, () => {
           lockMento();
         });
       }
@@ -102,14 +106,14 @@ export const useCreateLockOnChain = ({
     [
       needsApproval,
       lockMento,
-      approveMento,
+      approve,
       contracts.Locking.address,
       parsedAmount,
     ],
   );
   return {
     CreateLockStatus,
-    createLockOnChain,
+    createLock,
     needsApproval,
     approve,
     lock,

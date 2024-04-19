@@ -39,7 +39,7 @@ export const LockingButton = () => {
   const shouldButtonBeDisabled =
     !isValid ||
     isBalanceInsufficient ||
-    CreateLockTxStatus === CREATE_LOCK_TX_STATUS.CONFIRMING_TX ||
+    CreateLockTxStatus === CREATE_LOCK_TX_STATUS.CONFIRMING_APPROVE_TX ||
     CreateLockTxStatus === CREATE_LOCK_TX_STATUS.AWAITING_SIGNATURE;
 
   return (

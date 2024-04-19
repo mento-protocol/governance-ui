@@ -16,7 +16,8 @@ import { TxModal } from "../../tx-modal/tx-modal.component";
 
 export enum CREATE_LOCK_TX_STATUS {
   PENDING = "PENDING",
-  CONFIRMING_TX = "CONFIRMING_TX",
+  CONFIRMING_LOCK_TX = "CONFIRMING_LOCK_TX",
+  CONFIRMING_APPROVE_TX = "CONFIRMING_APPROVE_TX",
   AWAITING_SIGNATURE = "AWAITING_SIGNATURE",
   UNKNOWN = "UNKNOWN",
   ERROR = "ERROR",
@@ -62,15 +63,20 @@ export const CreateLockProvider = ({
   const contracts = useContracts();
   const chainId = useChainId();
   const parsedAmount = parseEther(amount);
+
   const lock = useCreateLockOnChain({
     onLockConfirmation,
   });
-
   const allowance = useAllowance({
     chainId,
     owner: address,
     spender: contracts.Locking.address,
   });
+
+  const resetAll = React.useCallback(() => {
+    setIsTxModalOpen(false);
+    resetForm();
+  }, [resetForm]);
 
   const lockMento = React.useCallback(() => {
     lock.lockMento({
@@ -80,13 +86,13 @@ export const CreateLockProvider = ({
       slope,
       cliff: DEFAULT_CLIFF,
       onSuccess: () => {
-        setIsTxModalOpen(false);
-        resetForm();
+        resetAll();
       },
     });
-  }, [address, lock, parsedAmount, resetForm, slope]);
+  }, [address, lock, parsedAmount, resetAll, slope]);
 
   const approve = useApprove({ onConfirmation: lockMento });
+
   const needsApproval = React.useMemo(() => {
     if (!allowance.data) return true;
     return allowance?.data < parsedAmount;
@@ -96,8 +102,10 @@ export const CreateLockProvider = ({
     if (approve.error || lock.error) return CREATE_LOCK_TX_STATUS.ERROR;
     if (approve.isAwaitingUserSignature || lock.isAwaitingUserSignature)
       return CREATE_LOCK_TX_STATUS.AWAITING_SIGNATURE;
-    if (approve.isConfirming || lock.isConfirming)
-      return CREATE_LOCK_TX_STATUS.CONFIRMING_TX;
+    if (approve.isConfirming)
+      return CREATE_LOCK_TX_STATUS.CONFIRMING_APPROVE_TX;
+    if (lock.isConfirming) return CREATE_LOCK_TX_STATUS.CONFIRMING_LOCK_TX;
+
     return CREATE_LOCK_TX_STATUS.UNKNOWN;
   }, [
     approve.error,
@@ -107,6 +115,8 @@ export const CreateLockProvider = ({
     lock.isAwaitingUserSignature,
     lock.isConfirming,
   ]);
+
+  console.log({ approve, lock });
   const CreateLockApprovalStatus = React.useMemo(() => {
     return needsApproval
       ? CREATE_LOCK_APPROVAL_STATUS.NOT_APPROVED
@@ -148,7 +158,8 @@ export const CreateLockProvider = ({
         )}
         {CreateLockTxStatus === CREATE_LOCK_TX_STATUS.AWAITING_SIGNATURE ? (
           <>Continue in wallet</>
-        ) : CreateLockTxStatus === CREATE_LOCK_TX_STATUS.CONFIRMING_TX ? (
+        ) : CreateLockTxStatus === CREATE_LOCK_TX_STATUS.CONFIRMING_LOCK_TX ||
+          CreateLockTxStatus === CREATE_LOCK_TX_STATUS.CONFIRMING_APPROVE_TX ? (
           <>Confirming...</>
         ) : null}
       </div>

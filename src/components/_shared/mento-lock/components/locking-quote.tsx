@@ -1,5 +1,5 @@
 import NumbersService from "@/lib/helpers/numbers.service";
-import { useLockingQuote } from "../hooks/useDebouncesLockingQuote";
+import { useLockingQuote } from "../hooks/useDebounceLockingQuote";
 
 export const LockingQuote = ({
   amount,

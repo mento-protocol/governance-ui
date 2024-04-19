@@ -7,7 +7,16 @@ import { Address, parseEther } from "viem";
 import { useChainId } from "wagmi";
 import { DEFAULT_CLIFF } from "../constants";
 
-export const usePerformLock = ({
+export enum CREATE_LOCK_STATUS {
+  NOT_APPROVED = "NOT_APPROVED",
+  PENDING = "PENDING",
+  APPROVED = "APPROVED",
+  CONFIRMING_TX = "CONFIRMING_TX",
+  AWAITING_SIGNATURE = "AWAITING_SIGNATURE",
+  UNKNOWN = "UNKNOWN",
+}
+
+export const useCreateLockOnChain = ({
   account,
   amount,
   delegate,
@@ -22,16 +31,15 @@ export const usePerformLock = ({
 }) => {
   const contracts = useContracts();
   const approve = useApprove();
+  const chainId = useChainId();
   const lock = useLockMentoHook({
     onLockConfirmation,
   });
-
-  const parsedAmount = parseEther(amount);
-
   const { approveMento } = approve;
   const { lockMento: executeLock } = lock;
 
-  const chainId = useChainId();
+  const parsedAmount = parseEther(amount);
+
   const allowance = useAllowance({
     chainId,
     owner: account,
@@ -42,6 +50,17 @@ export const usePerformLock = ({
     if (!allowance.data) return true;
     return allowance?.data < parsedAmount;
   }, [allowance.data, parsedAmount]);
+
+  const CreateLockStatus = React.useMemo(() => {
+    if (needsApproval) return CREATE_LOCK_STATUS.NOT_APPROVED;
+    if (approve.isAwaitingUserSignature || lock.isAwaitingUserSignature)
+      return CREATE_LOCK_STATUS.AWAITING_SIGNATURE;
+    return CREATE_LOCK_STATUS.UNKNOWN;
+  }, [
+    approve.isAwaitingUserSignature,
+    lock.isAwaitingUserSignature,
+    needsApproval,
+  ]);
 
   const lockMento = React.useCallback(
     ({
@@ -64,13 +83,7 @@ export const usePerformLock = ({
     [account, delegate, executeLock, parsedAmount, slope],
   );
 
-  const approveThenLock = React.useCallback(() => {
-    approveMento(contracts.Locking.address, parsedAmount, () => {
-      lockMento();
-    });
-  }, [approveMento, contracts.Locking.address, lockMento, parsedAmount]);
-
-  const performLock = React.useCallback(
+  const createLockOnChain = React.useCallback(
     ({
       onError,
       onSuccess,
@@ -81,14 +94,22 @@ export const usePerformLock = ({
       if (!needsApproval) {
         lockMento({ onError, onSuccess });
       } else {
-        approveThenLock();
+        approveMento(contracts.Locking.address, parsedAmount, () => {
+          lockMento();
+        });
       }
     },
-    [needsApproval, lockMento, approveThenLock],
+    [
+      needsApproval,
+      lockMento,
+      approveMento,
+      contracts.Locking.address,
+      parsedAmount,
+    ],
   );
   return {
-    lockMento: performLock,
-    canLock: false,
+    CreateLockStatus,
+    createLockOnChain,
     needsApproval,
     approve,
     lock,

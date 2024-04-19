@@ -2,7 +2,7 @@ import { cn } from "@/styles/helpers";
 
 export const SettingsIcon = ({
   size = 32,
-  fillClass = "fill-mento-dark",
+  fillClass = "fill-mento-dark dark:fill-white",
   className,
 }: {
   size?: number;

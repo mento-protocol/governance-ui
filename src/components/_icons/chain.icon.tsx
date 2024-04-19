@@ -1,6 +1,6 @@
 export const ChainIcon = ({
   size = 32,
-  strokeClass = "stroke-mento-dark",
+  strokeClass = "stroke-mento-dark dark:stroke-white",
   className,
 }: {
   size?: number;

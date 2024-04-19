@@ -80,6 +80,7 @@ export const CreateLockProvider = ({
       slope,
       cliff: DEFAULT_CLIFF,
       onSuccess: () => {
+        setIsTxModalOpen(false);
         resetForm();
       },
     });

@@ -1,4 +1,5 @@
 import { ExecutionCodeView } from "@/components/_shared";
+import { IModal, Modal } from "@/components/_shared/modal/modal.component";
 import { TransactionItem } from "@/lib/contracts/governor/useCreateProposalOnChain";
 
 const sampleCode: TransactionItem[] = [
@@ -9,38 +10,47 @@ const sampleCode: TransactionItem[] = [
   },
 ];
 
-export const ExecutionExplanationModal = () => {
-  return (
-    <div>
-      <ul className="list-disc font-light">
-        <li className="ml-x4 mt-x1">It must be a valid JSON array.</li>
-        <li className="ml-x4 mt-x1">
-          Must only contain transaction objects in the array.
-        </li>
-        <li className="ml-x4 mt-x1">
-          Must have at least one item in the array, an empty transaction like
-          displayed here can be used.
-        </li>
-        <li className="ml-x4 mt-x1">
-          Each element must have the following properties:
-        </li>
-        <ul className="ml-x4 mt-x1 list-disc font-light">
-          <li className="ml-x3 mt-x1 flex gap-x1">
-            <b>address:</b> Address(0xc0FfEe...1234)
-          </li>
-          <li className="ml-x3 mt-x1 flex gap-x1">
-            <b>value:</b> Number | BigInt in hex string format
-          </li>
-          <li className="ml-x3 mt-x1 flex gap-x1">
-            <b>data:</b> Hex string format
-          </li>
-        </ul>
-      </ul>
+interface IExecutionExplanationModal
+  extends Omit<IModal, "title" | "children"> {}
 
-      <h2 className="font-size-x4 mb-x4 mt-x4 font-semibold">Sample:</h2>
-      <div className="max-w-[700px]">
-        <ExecutionCodeView code={sampleCode} />
+export const ExecutionExplanationModal = ({
+  isOpen,
+  onClose,
+}: IExecutionExplanationModal) => {
+  return (
+    <Modal
+      isOpen={isOpen}
+      onClose={onClose}
+      title="The execution code must follow these rules:"
+    >
+      <div className="mx-auto">
+        <ul className="mx-auto ml-3 mt-2 flex list-disc flex-col items-start gap-1 text-left font-light">
+          <li className=" ">It must be a valid JSON array.</li>
+          <li className=" ">
+            Must only contain transaction objects in the array.
+          </li>
+          <li className="">
+            Must have at least one item in the array, an empty transaction like
+            displayed here can be used.
+          </li>
+          <li className="">Each element must have the following properties:</li>
+          <ul className="list-disc font-light">
+            <li className="flex gap-x1">
+              <b>address:</b> Address(0xc0FfEe...1234)
+            </li>
+            <li className="flex gap-x1">
+              <b>value:</b> Number | BigInt in hex string format
+            </li>
+            <li className="flex gap-x1">
+              <b>data:</b> Hex string format
+            </li>
+          </ul>
+        </ul>
+        <h2 className="font-size-x4 mb-x4 mt-x4 font-semibold">Sample:</h2>
+        <div className="max-w-[700px] text-left">
+          <ExecutionCodeView code={sampleCode} />
+        </div>
       </div>
-    </div>
+    </Modal>
   );
 };

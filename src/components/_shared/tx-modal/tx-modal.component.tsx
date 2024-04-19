@@ -47,7 +47,7 @@ const ErrorMessage = () => {
   );
 };
 
-const PendingMessage = ({ message }: { message: string }) => {
+const PendingMessage = ({ message }: { message: React.ReactNode }) => {
   return (
     <>
       <p className="text-center text-lg text-primary-dark">{message}</p>

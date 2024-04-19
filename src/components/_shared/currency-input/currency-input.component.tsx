@@ -95,10 +95,10 @@ const UseMaxBalanceButton = ({ onMax }: { onMax?: () => void }) => {
       }}
       className="w-full opacity-50"
     >
-      <div className="flex justify-between gap-2">
+      <div className="flex justify-between gap-1">
         <div>Max available</div>
-        <div className="mr-3">
-          {`${formatUnits(mentoBalance.value, mentoBalance.decimals)} ${mentoBalance.symbol}`}
+        <div className="">
+          {`${Number(formatUnits(mentoBalance.value, mentoBalance.decimals)).toFixed(3)} ${mentoBalance.symbol}`}
         </div>
       </div>
     </button>

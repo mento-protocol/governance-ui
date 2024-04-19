@@ -50,7 +50,7 @@ const ErrorMessage = () => {
 const PendingMessage = ({ message }: { message: React.ReactNode }) => {
   return (
     <>
-      <p className="text-center text-lg text-primary-dark">{message}</p>
+      <div className="text-lg text-primary-dark">{message}</div>
       <Loader className="mx-auto my-8" />
     </>
   );

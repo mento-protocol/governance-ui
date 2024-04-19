@@ -1,8 +1,8 @@
 import { addWeeks, nextWednesday } from "date-fns";
 import { useMemo } from "react";
 import { Address, formatUnits } from "viem";
-import { useAccount } from "wagmi";
-import useRelockMento from "@/lib/contracts/locking/useRelockMento";
+// import { useAccount } from "wagmi";
+// import useRelockMento from "@/lib/contracts/locking/useRelockMento";
 import { Lock } from "@/lib/graphql/subgraph/generated/subgraph";
 import { Button, DropdownButton } from "@/components/_shared";
 import useLockCalculation from "@/lib/contracts/locking/useLockCalculation";
@@ -58,10 +58,10 @@ const LockEntry = ({
   account: Address;
   onExtend: () => void;
 }) => {
-  const { address } = useAccount();
-  // const { showConfirm } = useModal();
+  // const { address } = useAccount();
+  // // const { showConfirm } = useModal();
 
-  const { relockMento } = useRelockMento();
+  // const { relockMento } = useRelockMento();
 
   const { data } = useLockCalculation({
     lock,

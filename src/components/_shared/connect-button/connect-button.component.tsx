@@ -10,7 +10,13 @@ import {
   ButtonProps,
   DropdownButton,
 } from "@/components/_shared";
-import { ChevronIcon, DisconnectIcon, MentoIcon } from "@/components/_icons";
+import {
+  ChevronIcon,
+  DisconnectIcon,
+  MentoIcon,
+  SettingsIcon,
+  ChainIcon,
+} from "@/components/_icons";
 import BaseComponentProps from "@/interfaces/base-component-props.interface";
 import WalletHelper from "@/lib/helpers/wallet.helper";
 import useTokens from "@/lib/contracts/useTokens";
@@ -54,7 +60,7 @@ export const ConnectedDropdown = ({
       <DropdownButton.Dropdown className="border border-solid border-black bg-white text-black dark:border-white dark:bg-black dark:text-white">
         {isConnected ? (
           // TODO: fix colors
-          <div className="flex w-full flex-col items-center border-b border-solid border-black dark:border-white">
+          <div className="flex w-full flex-col items-center border-b border-solid border-black font-inter dark:border-white">
             <div className="flex w-full flex-row justify-between px-5 py-x2">
               <div className="flex flex-row items-center p-x1 font-semibold">
                 <MentoIcon
@@ -87,24 +93,25 @@ export const ConnectedDropdown = ({
           </div>
         ) : null}
         <DropdownButton.Element
-          className="[&_button]:pl-5"
+          className="font-inter *:flex *:items-center *:justify-start  [&_button]:pl-5"
           onClick={openAccountModal}
         >
-          {/* TODO: Need account icon */}
+          <SettingsIcon className="mr-3" />
           <span>Account settings</span>
         </DropdownButton.Element>
         <DropdownButton.Element
-          className="[&_button]:pl-5"
+          className="font-inter *:flex *:items-center *:justify-start  [&_button]:pl-5"
           onClick={openChainModal}
         >
+          <ChainIcon className="mr-3" />
           <span>Chain settings</span>
         </DropdownButton.Element>
         <hr className="mx-auto w-[calc(100%_-_40px)] border-t-gray-light" />
         <DropdownButton.Element
-          className="*:flex *:items-center *:justify-start [&_button]:pl-5"
+          className="font-inter *:flex *:items-center *:justify-start  [&_button]:pl-5"
           onClick={() => disconnect()}
         >
-          <DisconnectIcon />
+          <DisconnectIcon className="mr-3" />
           <span>Disconnect</span>
         </DropdownButton.Element>
       </DropdownButton.Dropdown>

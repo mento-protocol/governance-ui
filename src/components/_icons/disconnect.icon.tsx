@@ -5,9 +5,14 @@ interface DisconnectIconProps extends SVGProps<SVGSVGElement> {
   strokeClass?: string;
 }
 
-export const DisconnectIcon = ({ size, strokeClass }: DisconnectIconProps) => {
+export const DisconnectIcon = ({
+  className,
+  size,
+  strokeClass,
+}: DisconnectIconProps) => {
   return (
     <svg
+      className={className}
       xmlns="http://www.w3.org/2000/svg"
       width={size || 32}
       height={size || 32}

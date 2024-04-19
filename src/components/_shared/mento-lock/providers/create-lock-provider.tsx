@@ -72,26 +72,18 @@ export const CreateLockProvider = ({
     spender: contracts.Locking.address,
   });
 
-  const lockMento = React.useCallback(
-    ({
-      onError,
-      onSuccess,
-    }: {
-      onError?: () => void;
-      onSuccess?: () => void;
-    } = {}) => {
-      lock.lockMento({
-        account: address!,
-        amount: parsedAmount,
-        delegate: address!,
-        slope,
-        cliff: DEFAULT_CLIFF,
-        onError,
-        onSuccess,
-      });
-    },
-    [address, lock, parsedAmount, slope],
-  );
+  const lockMento = React.useCallback(() => {
+    lock.lockMento({
+      account: address!,
+      amount: parsedAmount,
+      delegate: address!,
+      slope,
+      cliff: DEFAULT_CLIFF,
+      onSuccess: () => {
+        resetForm();
+      },
+    });
+  }, [address, lock, parsedAmount, resetForm, slope]);
 
   const approve = useApprove({ onConfirmation: lockMento });
   const needsApproval = React.useMemo(() => {
@@ -123,19 +115,13 @@ export const CreateLockProvider = ({
   const createLock = React.useCallback(() => {
     setIsTxModalOpen(true);
     if (!needsApproval) {
-      lockMento({
-        onSuccess: () => {
-          resetForm();
-          setIsTxModalOpen(false);
-        },
-      });
+      lockMento();
     } else {
       approve.approveMento(contracts.Locking.address, parsedAmount);
     }
   }, [
     needsApproval,
     lockMento,
-    resetForm,
     approve,
     contracts.Locking.address,
     parsedAmount,

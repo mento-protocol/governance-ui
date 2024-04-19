@@ -15,7 +15,7 @@ export const SettingsIcon = ({
       height={size}
       width={size}
       //viewBox="0 0 54 54" Larger than design's draw area with no spacing
-      viewBox="-7 -7 68 68"
+      viewBox="-14 -14 82 82"
     >
       <path
         d="M51.22,21h-5.052c-0.812,0-1.481-0.447-1.792-1.197s-0.153-1.54,0.42-2.114l3.572-3.571

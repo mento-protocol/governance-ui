@@ -57,12 +57,11 @@ export const ConnectedDropdown = ({
         />
       }
     >
-      <DropdownButton.Dropdown className="border border-solid border-black bg-white text-black dark:border-white dark:bg-black dark:text-white">
-        {isConnected ? (
-          // TODO: fix colors
-          <div className="flex w-full flex-col items-center border-b border-solid border-black font-inter dark:border-white">
-            <div className="flex w-full flex-row justify-between px-5 py-x2">
-              <div className="flex flex-row items-center p-x1 font-semibold">
+      <DropdownButton.Dropdown className="border border-solid  border-black bg-white text-black dark:border-white dark:bg-black dark:text-white">
+        {isConnected && (
+          <div className="flex w-full flex-col items-center border-b border-solid border-black py-2 font-inter dark:border-white">
+            <div className="flex w-full flex-row justify-between px-5 py-3">
+              <div className="flex flex-row items-center  font-semibold">
                 <MentoIcon
                   className="mr-x1"
                   height={32}
@@ -71,13 +70,13 @@ export const ConnectedDropdown = ({
                 />
                 <span>{mentoBalance.symbol}</span>
               </div>
-              <div className="flex flex-row items-center justify-center p-x1 font-semibold">
+              <div className="flex flex-row items-center justify-center font-semibold">
                 {NumbersService.parseNumericValue(mentoBalance.formatted, 1)}
               </div>
             </div>
             <hr className="mx-auto w-[calc(100%_-_40px)] border-t-gray-light" />
             <div className="flex w-full flex-row justify-between px-5 py-x2">
-              <div className="flex flex-shrink flex-grow flex-row items-center p-x1 font-semibold">
+              <div className="flex flex-shrink flex-grow flex-row items-center font-semibold">
                 <MentoIcon
                   className="mr-x1"
                   height={32}
@@ -86,21 +85,21 @@ export const ConnectedDropdown = ({
                 />
                 <span>{veMentoBalance.symbol}</span>
               </div>
-              <div className="flex flex-row items-center justify-center p-x1 font-semibold">
+              <div className="flex flex-row items-center justify-center font-semibold">
                 {NumbersService.parseNumericValue(veMentoBalance.formatted, 1)}
               </div>
             </div>
           </div>
-        ) : null}
+        )}
         <DropdownButton.Element
-          className="font-inter *:flex *:items-center *:justify-start  [&_button]:pl-5"
+          className="font-inter font-medium *:flex *:items-center *:justify-start  [&_button]:pl-5"
           onClick={openAccountModal}
         >
           <SettingsIcon className="mr-3" />
           <span>Account settings</span>
         </DropdownButton.Element>
         <DropdownButton.Element
-          className="font-inter *:flex *:items-center *:justify-start  [&_button]:pl-5"
+          className="font-inter font-medium *:flex *:items-center *:justify-start  [&_button]:pl-5"
           onClick={openChainModal}
         >
           <ChainIcon className="mr-3" />
@@ -108,7 +107,7 @@ export const ConnectedDropdown = ({
         </DropdownButton.Element>
         <hr className="mx-auto w-[calc(100%_-_40px)] border-t-gray-light" />
         <DropdownButton.Element
-          className="font-inter *:flex *:items-center *:justify-start  [&_button]:pl-5"
+          className="font-inter font-medium *:flex *:items-center *:justify-start  [&_button]:pl-5"
           onClick={() => disconnect()}
         >
           <DisconnectIcon className="mr-3" />

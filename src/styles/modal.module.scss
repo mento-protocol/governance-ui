@@ -40,8 +40,8 @@
 
   &__close {
     position: absolute;
-    right: $theme-unit * 0.5;
-    top: $theme-unit * 0.5;
+    right: 0;
+    top: 0;
     width: $theme-unit * 8;
     height: $theme-unit * 8;
     background-color: transparent;

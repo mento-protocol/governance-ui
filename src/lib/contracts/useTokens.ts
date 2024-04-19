@@ -17,6 +17,7 @@ export const useTokens = () => {
     Locking: { address: veTokenAddress },
     MentoToken: { address: mentoAddress },
   } = useContracts();
+
   const { isConnected, address } = useAccount();
   const queryClient = useQueryClient();
   const { data: blockNumber } = useBlockNumber({ watch: true });

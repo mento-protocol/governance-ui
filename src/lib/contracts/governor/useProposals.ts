@@ -9,8 +9,10 @@ import {
   useGetProposalsSuspenseQuery,
 } from "@/lib/graphql/subgraph/generated/subgraph";
 import { NetworkStatus } from "@apollo/client";
-import { useMemo } from "react";
+import { useCallback, useMemo } from "react";
 import { useChainId, useReadContracts } from "wagmi";
+
+const GraphProposalsQueryKey = ["proposals-graph-query"];
 
 const useProposals = () => {
   const chainId = useChainId();
@@ -19,12 +21,14 @@ const useProposals = () => {
   const {
     data: { proposals: graphProposals },
     networkStatus: graphNetworkStatus,
+    refetch,
   } = useGetProposalsSuspenseQuery({
     context: {
       apiName: chainId === 44787 ? "subgraphAlfajores" : "subgraph",
     },
-    refetchWritePolicy: "overwrite",
+    refetchWritePolicy: "merge",
     errorPolicy: "ignore",
+    queryKey: GraphProposalsQueryKey,
   });
 
   const { data: chainData } = useReadContracts({
@@ -66,8 +70,19 @@ const useProposals = () => {
     return proposalBuild;
   }, [chainData, graphProposals]);
 
+  const proposalExists = useCallback(
+    (id: string) => {
+      return (
+        proposals.filter((proposal) => proposal.proposalId === id).length === 1
+      );
+    },
+    [proposals],
+  );
+
   return {
     proposals,
+    proposalExists,
+    refetchProposals: refetch,
   };
 };
 

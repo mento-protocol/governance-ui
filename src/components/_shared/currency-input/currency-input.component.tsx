@@ -4,7 +4,6 @@ import { formatUnits } from "viem";
 import { VariantProps, cva } from "class-variance-authority";
 import { cn } from "@/styles/helpers";
 import ValueLoaderSkeleton from "../value-loader-skeleton/value-loader-skeleton.component";
-import { useAccount } from "wagmi";
 
 type CurrencyInputProps = React.InputHTMLAttributes<HTMLInputElement> &
   VariantProps<typeof variants> & {

@@ -4,16 +4,20 @@ import * as React from "react";
 import * as SliderPrimitive from "@radix-ui/react-slider";
 import { cn } from "@/styles/helpers";
 
+type SliderProps = React.ComponentPropsWithoutRef<
+  typeof SliderPrimitive.Root
+> & {
+  labels?: {
+    min?: string;
+    max?: string;
+    current?: React.ReactNode;
+  };
+};
+
 const Slider = React.forwardRef<
   React.ElementRef<typeof SliderPrimitive.Root>,
-  React.ComponentPropsWithoutRef<typeof SliderPrimitive.Root> & {
-    labels?: {
-      min?: string;
-      max?: string;
-      current?: React.ReactNode;
-    };
-  }
->(({ className, labels, ...props }, ref) => {
+  SliderProps
+>(({ className, labels, ...props }: SliderProps, ref) => {
   return (
     <div className=" mt-10 flex flex-col gap-2">
       <div className="flex justify-between text-[#636366]">
@@ -32,10 +36,10 @@ const Slider = React.forwardRef<
         )}
         {...props}
       >
-        <SliderPrimitive.Track className="relative h-[34px] w-full grow overflow-hidden rounded-lg border border-black">
+        <SliderPrimitive.Track className="relative h-[34px] w-full grow overflow-hidden rounded-lg border border-black dark:border-gray-light ">
           <SliderPrimitive.Range className="absolute h-full bg-mento-blush" />
         </SliderPrimitive.Track>
-        <SliderPrimitive.Thumb className=" focus-visible:ring-ring relative block h-11 w-11 rounded-lg border border-black bg-black shadow transition-colors focus-visible:outline-none focus-visible:ring-1 disabled:pointer-events-none disabled:opacity-50">
+        <SliderPrimitive.Thumb className=" focus-visible:ring-ring relative block h-11 w-11 rounded-lg border border-black bg-black shadow transition-colors focus-visible:outline-none focus-visible:ring-1 disabled:pointer-events-none disabled:opacity-50 dark:border-gray-light">
           {props.min &&
           props.max &&
           props.value &&

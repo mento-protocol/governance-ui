@@ -17,9 +17,9 @@ export const LockingQuote = ({
   });
 
   return (
-    <span>
+    <span className="text-[22px]">
       {quote.isLoading ? (
-        <div className="animate-pulse rounded-[4px] bg-gray-300 ">
+        <div className="animate-pulse rounded-[4px] bg-gray-300">
           <span className="opacity-0">{amount}</span>
         </div>
       ) : (

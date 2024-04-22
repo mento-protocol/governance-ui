@@ -116,7 +116,6 @@ export const CreateLockProvider = ({
     lock.isConfirming,
   ]);
 
-  console.log({ approve, lock });
   const CreateLockApprovalStatus = React.useMemo(() => {
     return needsApproval
       ? CREATE_LOCK_APPROVAL_STATUS.NOT_APPROVED

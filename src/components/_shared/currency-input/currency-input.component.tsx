@@ -3,6 +3,8 @@ import React from "react";
 import { formatUnits } from "viem";
 import { VariantProps, cva } from "class-variance-authority";
 import { cn } from "@/styles/helpers";
+import ValueLoaderSkeleton from "../value-loader-skeleton/value-loader-skeleton.component";
+import { useAccount } from "wagmi";
 
 type CurrencyInputProps = React.InputHTMLAttributes<HTMLInputElement> &
   VariantProps<typeof variants> & {
@@ -85,7 +87,7 @@ export const CurrencyInput = ({
 };
 
 const UseMaxBalanceButton = ({ onMax }: { onMax?: () => void }) => {
-  const { mentoBalance } = useTokens();
+  const { mentoBalance, isBalanceLoading } = useTokens();
 
   return (
     <button
@@ -97,8 +99,19 @@ const UseMaxBalanceButton = ({ onMax }: { onMax?: () => void }) => {
     >
       <div className="flex justify-between gap-1">
         <div>Max available</div>
-        <div className="">
-          {`${Number(formatUnits(mentoBalance.value, mentoBalance.decimals)).toFixed(3)} ${mentoBalance.symbol}`}
+        <div className="flex gap-1">
+          <span>
+            {isBalanceLoading ? (
+              <ValueLoaderSkeleton className="text-[14px]">
+                {"0000000"}
+              </ValueLoaderSkeleton>
+            ) : (
+              <>
+                {`${Number(formatUnits(mentoBalance.value, mentoBalance.decimals)).toFixed(3)}`}
+              </>
+            )}
+          </span>
+          {` ${mentoBalance.symbol}`}
         </div>
       </div>
     </button>

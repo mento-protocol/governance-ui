@@ -6,13 +6,22 @@ import { Card, ProgressBar, Status } from "@/components/_shared";
 import Link from "next/link";
 import { stateToStatusColorMap } from "@/lib/interfaces/proposal.interface";
 import { formatUnits } from "viem";
-import useProposals from "@/lib/contracts/governor/useProposals";
 import { cn } from "@/styles/helpers";
+import { useMemo, useState } from "react";
+import useProposalsByPage from "@/lib/contracts/governor/useProposalsByPage";
 
 interface ProposalsListProps extends BaseComponentProps {}
 
 export const ProposalsListComponent = ({ className }: ProposalsListProps) => {
-  const { proposals } = useProposals();
+  const perPage = 42;
+  const [page, setPage] = useState(1);
+
+  const skip = useMemo(() => {
+    if (page === 1) return 0;
+    return (page - 1) * perPage;
+  }, [page]);
+
+  const { proposals } = useProposalsByPage();
 
   return (
     <div className={`w-full font-fg ${className}`}>

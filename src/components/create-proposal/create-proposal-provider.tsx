@@ -15,6 +15,7 @@ import { Loader } from "@/components/_shared";
 import { CreateProposalTxModal } from "@/components/create-proposal/create-proposal-transaction.model";
 import { useRouter } from "next/navigation";
 import useProposals from "@/lib/contracts/governor/useProposals";
+import useProposal from "@/lib/contracts/governor/useProposal";
 
 export enum CreateProposalStep {
   wallet = 1,

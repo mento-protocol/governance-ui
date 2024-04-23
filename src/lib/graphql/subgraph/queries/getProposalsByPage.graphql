@@ -1,0 +1,10 @@
+query getProposalsByPage($skip: Int, $limit: Int) {
+  proposals(
+    orderBy: startBlock
+    orderDirection: desc
+    skip: $skip
+    first: $limit
+  ) {
+    ...ProposalFields
+  }
+}

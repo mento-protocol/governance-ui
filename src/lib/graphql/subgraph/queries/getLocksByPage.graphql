@@ -1,0 +1,22 @@
+query getLocksByPage($address: String, $skip: Int, $limit: Int) {
+  locks(
+    where: { owner: $address }
+    orderBy: lockId
+    orderDirection: desc
+    skip: $skip
+    first: $limit
+  ) {
+    lockId
+    owner {
+      id
+    }
+    amount
+    time
+    slope
+    cliff
+    lockCreate {
+      id
+      timestamp
+    }
+  }
+}

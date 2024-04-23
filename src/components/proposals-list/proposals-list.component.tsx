@@ -14,14 +14,14 @@ interface ProposalsListProps extends BaseComponentProps {}
 
 export const ProposalsListComponent = ({ className }: ProposalsListProps) => {
   const perPage = 42;
-  const [page, setPage] = useState(1);
+  const [page] = useState(1);
 
   const skip = useMemo(() => {
     if (page === 1) return 0;
     return (page - 1) * perPage;
   }, [page]);
 
-  const { proposals } = useProposalsByPage();
+  const { proposals } = useProposalsByPage(skip, perPage);
 
   return (
     <div className={`w-full font-fg ${className}`}>

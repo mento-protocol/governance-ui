@@ -152,7 +152,6 @@ export const ProposalCurrentVotes = ({
             </div>
           </div>
         </div>
-        <div></div>
       </div>
     </Card>
   );

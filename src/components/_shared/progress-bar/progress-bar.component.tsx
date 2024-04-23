@@ -173,7 +173,6 @@ export const MultiProgressBar = ({
         className,
       )}
     >
-      {/* <div className="flex h-4 w-full overflow-hidden rounded-3xl  border-[0.5px] border-solid border-black dark:border-gray"> */}
       <div className="relative h-4 w-full overflow-hidden rounded-3xl border-[0.5px] border-solid border-black dark:border-gray">
         {progressBars
           .sort((a, b) => b.progress - a.progress)

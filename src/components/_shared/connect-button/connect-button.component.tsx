@@ -45,7 +45,7 @@ export const ConnectedDropdown = ({
       title={WalletHelper.getShortAddress(account.address)}
       avatar={
         <Avatar
-          className="flex flex-row items-center"
+          className="flex h-full flex-row items-center"
           address={account.address || ""}
         />
       }

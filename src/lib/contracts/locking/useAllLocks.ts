@@ -1,3 +1,4 @@
+import { getSubgraphApiName } from "@/config/config.constants";
 import {
   Lock,
   useGetAllLocksSuspenseQuery,
@@ -12,7 +13,7 @@ const useAllLocks = () => {
     queryKey: "locking-contract-hook",
     refetchWritePolicy: "overwrite",
     context: {
-      apiName: chainId === 44787 ? "subgraphAlfajores" : "subgraph",
+      apiName: getSubgraphApiName(chainId),
     },
   });
 

@@ -1,3 +1,4 @@
+import { getSubgraphApiName } from "@/config/config.constants";
 import {
   useGetLocksSuspenseQuery,
   Lock,
@@ -20,7 +21,7 @@ const useLocksByAccount = ({ account }: UseLocksProps) => {
       address: account,
     },
     context: {
-      apiName: chainId === 44787 ? "subgraphAlfajores" : "subgraph",
+      apiName: getSubgraphApiName(chainId),
     },
   });
 

@@ -35,7 +35,11 @@ const CurrentFormStep = ({ formStep }: { formStep: WalletStepEnum }) => {
           </p>
           <p className="font-size-x4 line-height-x5 place-self-start">
             You can purchase MENTO{" "}
-            <a href={"https://app.mento.org"} target="_blank">
+            <a
+              href={"https://app.mento.org"}
+              className="text-primary underline"
+              target="_blank"
+            >
               here.
             </a>
           </p>

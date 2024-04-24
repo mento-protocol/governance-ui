@@ -1,6 +1,7 @@
 import { BlockExplorerLink } from "@/components/_shared";
 import BaseComponentProps from "@/interfaces/base-component-props.interface";
 import { centerEllipsis } from "@/lib/helpers/string.service";
+import { cn } from "@/styles/helpers";
 
 interface WalletAddressProps extends BaseComponentProps {
   address: string;
@@ -8,10 +9,12 @@ interface WalletAddressProps extends BaseComponentProps {
 
 export const WalletAddress = ({ address, className }: WalletAddressProps) => {
   return (
-    <div className={className}>
-      <BlockExplorerLink className="no-underline" type="address" item={address}>
-        {centerEllipsis(address)}
-      </BlockExplorerLink>
-    </div>
+    <BlockExplorerLink
+      className={cn("no-underline", className)}
+      type="address"
+      item={address}
+    >
+      {centerEllipsis(address)}
+    </BlockExplorerLink>
   );
 };

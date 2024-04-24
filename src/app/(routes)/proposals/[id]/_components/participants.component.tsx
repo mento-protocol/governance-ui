@@ -10,7 +10,7 @@ export default function Participants({ votes }: Props) {
   return (
     <Card
       // Was originally z-49
-      className="sticky bottom-0 z-40 flex w-full grow flex-col gap-6"
+      className="bottom-0 z-40 flex w-full grow flex-col gap-6"
     >
       <Card.Header className="text-center text-[32px]/none font-medium">
         Participants

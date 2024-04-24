@@ -3,8 +3,11 @@ import { useWaitForTransactionReceipt, useWriteContract } from "wagmi";
 import { useContracts } from "@/lib/contracts/useContracts";
 import { GovernorABI } from "@/lib/abi/Governor";
 import { WriteContractErrorType } from "wagmi/actions";
+import { useQueryClient } from "@tanstack/react-query";
+import { ProposalQueryKey } from "@/lib/contracts/governor/useProposal";
 
 const useCastVote = () => {
+  const queryClient = useQueryClient();
   const contracts = useContracts();
   const {
     writeContract,
@@ -32,12 +35,17 @@ const useCastVote = () => {
           args: [BigInt(proposalId).valueOf(), support],
         },
         {
-          onSuccess,
+          onSuccess: () => {
+            queryClient.invalidateQueries({
+              queryKey: [ProposalQueryKey],
+            });
+            onSuccess && onSuccess();
+          },
           onError,
         },
       );
     },
-    [contracts.MentoGovernor.address, writeContract],
+    [contracts.MentoGovernor.address, queryClient, writeContract],
   );
 
   return {

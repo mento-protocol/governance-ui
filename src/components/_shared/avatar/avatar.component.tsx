@@ -11,7 +11,7 @@ export const Avatar = ({ className, address }: AvatarProps) => {
   return (
     <div
       // TODO: border radius is 50%
-      className={`h-[35px] w-[35px] rounded-full ${className}`}
+      className={`h-[35px] w-[35px] overflow-hidden rounded-full ${className}`}
     >
       <BlockExplorerLink type="address" item={address}>
         <img

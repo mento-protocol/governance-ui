@@ -24,7 +24,7 @@ export const LockingQuote = ({
         </div>
       ) : (
         <div className="font-medium">
-          {NumbersService.parseNumericValue(quote?.data)}
+          {NumbersService.parseNumericValue(Number(quote.amount))}
         </div>
       )}
     </span>

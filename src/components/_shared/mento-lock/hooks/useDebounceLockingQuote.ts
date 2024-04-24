@@ -13,16 +13,17 @@ export const useLockingQuote = ({
   const debouncedAmount = useDebounce(amount, 500);
   const debouncedSlope = useDebounce(slope, 500);
   const debouncedCliff = useDebounce(cliff, 500);
-
-  const parsedDebouncedAmount = Number(debouncedAmount).toFixed();
-
   const { data, ...rest } = useLockCalculation({
     lock: {
-      amount: parsedDebouncedAmount,
+      amount: debouncedAmount,
       slope: debouncedSlope,
       cliff: debouncedCliff,
     },
   });
 
-  return { data: !data?.length ? 0 : Number(data[0]), ...rest };
+  return {
+    amount: !data?.length ? 0 : Number(data[0]),
+    slope: !data?.length ? 0 : Number(data[1]),
+    ...rest,
+  };
 };

@@ -144,7 +144,7 @@ export const ProposalCurrentVotes = ({
                       </>
                     )}
                     {quorumNeeded <= BigInt(proposal.votes.for.total) && (
-                      <>Quorum reached.</>
+                      <>Quorum reached</>
                     )}
                   </>
                 )}

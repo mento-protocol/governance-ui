@@ -18,8 +18,6 @@ export const CreateProposalPreviewStep = () => {
       onPrev={() => setStep(CreateProposalStep.execution)}
       onSave={submitProposal}
     >
-      {/* <pre>{JSON.stringify(createTx, null, 2)}</pre>
-      <pre>{createError ? createError.message : null}</pre> */}
       <div>
         <p className="text-xl">
           You&apos;ve successfully finished all the steps. Now, take a moment to

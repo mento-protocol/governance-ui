@@ -7,13 +7,12 @@ import { VariantProps, cva } from "class-variance-authority";
 const variants = cva("overflow-hidden rounded-full", {
   variants: {
     size: {
-      large: "h-[41px] w-[41px]",
-      medium: "h-[35px] w-[35px]",
+      large: "h-[35px] w-[35px]",
       small: "h-[20px] w-[20px]",
     },
   },
   defaultVariants: {
-    size: "medium",
+    size: "large",
   },
 });
 

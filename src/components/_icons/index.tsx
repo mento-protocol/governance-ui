@@ -1,4 +1,5 @@
 export { CeloLogoIcon } from "./celo-logo.icon";
+export { ChainIcon } from "./chain.icon";
 export { ChangeNetworkIcon } from "./change-network.icon";
 export { ChevronIcon } from "./chevron.icon";
 export { CopyIcon } from "./copy.icon";
@@ -14,4 +15,5 @@ export { MentoLogoIcon } from "./mento-logo.icon";
 export { MentoIcon, type IMentoIcon } from "./mento.icon";
 export { MenuIcon } from "./menu.icon";
 export { SuccessIcon } from "./success-icon";
+export { SettingsIcon } from "./settings.icon";
 export { TwitterIcon } from "./twitter.icon";

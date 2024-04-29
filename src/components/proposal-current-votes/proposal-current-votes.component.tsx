@@ -144,7 +144,7 @@ export const ProposalCurrentVotes = ({
                       </>
                     )}
                     {quorumNeeded <= BigInt(proposal.votes.for.total) && (
-                      <>Quorum reached.</>
+                      <>Quorum reached</>
                     )}
                   </>
                 )}
@@ -152,7 +152,6 @@ export const ProposalCurrentVotes = ({
             </div>
           </div>
         </div>
-        <div></div>
       </div>
     </Card>
   );

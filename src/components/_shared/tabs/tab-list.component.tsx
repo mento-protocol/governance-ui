@@ -16,6 +16,21 @@ const variants = cva("sticky top-0 z-10 flex bg-inherit px-0 py-x1", {
   },
 });
 
+const buttonVariant = cva(
+  "m-0 cursor-pointer border-none bg-none p-0 text-lg text-gray-light hover:text-primary",
+  {
+    variants: {
+      selected: {
+        true: "font-medium text-primary",
+        false: "",
+      },
+    },
+    defaultVariants: {
+      selected: false,
+    },
+  },
+);
+
 export interface TabListProps
   extends ComponentProps<"div">,
     VariantProps<typeof variants> {
@@ -40,11 +55,9 @@ export const TabList = ({
         {tabs.map((tab, index) => (
           <button
             key={index}
-            className={cn(
-              // TODO: CVA
-              "m-0 cursor-pointer border-none bg-none p-0 text-gray-light hover:text-primary",
-              index === selectedTab && "font-medium text-primary",
-            )}
+            className={buttonVariant({
+              selected: index === selectedTab,
+            })}
             onClick={() => setSelectedTab(index)}
           >
             {tab}

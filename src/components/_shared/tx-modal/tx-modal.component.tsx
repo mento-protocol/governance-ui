@@ -1,5 +1,4 @@
 import { Button, Loader } from "@/components/_shared";
-import { MentoIcon } from "@/components/_icons";
 import { IModal, Modal } from "../modal/modal.component";
 
 export interface ITxModal extends Omit<IModal, "children"> {

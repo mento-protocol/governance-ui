@@ -1,5 +1,5 @@
 import useTokens from "@/lib/contracts/useTokens";
-import React, { ElementRef, PropsWithRef, RefObject } from "react";
+import React, { ElementRef, RefObject } from "react";
 import { formatUnits } from "viem";
 import { VariantProps, cva } from "class-variance-authority";
 import { cn } from "@/styles/helpers";

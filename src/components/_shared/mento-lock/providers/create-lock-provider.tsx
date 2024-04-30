@@ -123,6 +123,8 @@ export const CreateLockProvider = ({
   }, [needsApproval]);
 
   const createLock = React.useCallback(() => {
+    lock.reset();
+    approve.reset();
     setIsTxModalOpen(true);
     if (!needsApproval) {
       lockMento();
@@ -130,9 +132,10 @@ export const CreateLockProvider = ({
       approve.approveMento(contracts.Locking.address, parsedAmount);
     }
   }, [
+    lock,
+    approve,
     needsApproval,
     lockMento,
-    approve,
     contracts.Locking.address,
     parsedAmount,
   ]);
@@ -143,8 +146,7 @@ export const CreateLockProvider = ({
   }, [approve, lock]);
   const retry = React.useCallback(() => {
     createLock();
-    reset();
-  }, [createLock, reset]);
+  }, [createLock]);
 
   const TxMessage = () => {
     return (

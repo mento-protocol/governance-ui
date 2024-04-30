@@ -42,7 +42,7 @@ const ErrorMessage = () => {
       <p className="text-center text-lg text-primary-dark">
         Unfortunately, transaction was rejected.
       </p>
-      <MentoIcon className="mx-auto my-8" />
+      {/* <MentoIcon className="mx-auto my-8" /> */}
     </>
   );
 };

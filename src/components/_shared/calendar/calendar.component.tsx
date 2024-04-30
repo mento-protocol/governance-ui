@@ -40,13 +40,13 @@ function Calendar({
             ? "[&:has(>.day-range-end)]:rounded-r-md [&:has(>.day-range-start)]:rounded-l-md first:[&:has([aria-selected])]:rounded-l-md last:[&:has([aria-selected])]:rounded-r-md"
             : "[&:has([aria-selected])]:rounded-md",
         ),
-        day: cn("h-8 w-8 p-0 font-normal aria-selected:opacity-100"),
+        day: cn("h-8 w-8 p-0 font-medium aria-selected:opacity-100"),
         day_range_start: "day-range-start",
         day_range_end: "day-range-end",
         day_selected: "bg-mento-blue text-white rounded-[4px]",
         day_today: "bg-mento-blue text-white rounded-[4px]",
         // day_outside:
-        day_disabled: "text-muted-foreground opacity-50",
+        day_disabled: "text-muted-foreground opacity-25",
         day_range_middle:
           "aria-selected:bg-accent aria-selected:text-accent-foreground",
         day_hidden: "invisible",

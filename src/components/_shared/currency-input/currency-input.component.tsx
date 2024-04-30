@@ -1,5 +1,5 @@
 import useTokens from "@/lib/contracts/useTokens";
-import React from "react";
+import React, { ElementRef, PropsWithRef, RefObject } from "react";
 import { formatUnits } from "viem";
 import { VariantProps, cva } from "class-variance-authority";
 import { cn } from "@/styles/helpers";
@@ -38,8 +38,10 @@ export const CurrencyInput = ({
   onMax,
   onChange,
   id,
+  inputRef,
   ...props
 }: CurrencyInputProps & {
+  inputRef?: RefObject<ElementRef<"input">>;
   onMax?: () => void;
   onChange: (val: string) => void;
 }) => {
@@ -66,6 +68,7 @@ export const CurrencyInput = ({
         {!!label && <label htmlFor={id}>{label}</label>}
         <input
           {...props}
+          ref={inputRef}
           id={id}
           className="text-[22px] focus:outline-none disabled:bg-white"
           placeholder="0.0"

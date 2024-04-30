@@ -10,6 +10,7 @@ type ProgressStyle = {
   border?: string;
   backgroundColor?: string;
 };
+
 interface ProgressBarProps extends BaseComponentProps {
   current: number;
   max: number;
@@ -19,14 +20,12 @@ interface ProgressBarProps extends BaseComponentProps {
 }
 
 export interface MultiProgressBarValue {
-  value: number;
+  progress: number;
   type?: Type;
 }
 
 interface MultiProgressBarProps extends BaseComponentProps {
   values: MultiProgressBarValue[];
-  max: number;
-  color?: string;
 }
 
 const barColor = (type: Type) => {
@@ -120,12 +119,53 @@ export const ProgressBar = ({
   );
 };
 
+// Cases where percent is larger than 100 does not affect appearance, can Math.min vs 100 if needed
 export const MultiProgressBar = ({
   className,
   values,
-  max,
-  color,
 }: MultiProgressBarProps) => {
+  const progressBars = useMemo(() => {
+    return values.map(({ progress, type }) => {
+      const barColorString = type ? barColor(type) : "";
+      if (progress < 3) {
+        return {
+          progress,
+          barColorString,
+          styles: {
+            border: "none",
+            backgroundColor: "transparent",
+          },
+        };
+      } else if (progress < 6) {
+        return {
+          progress,
+          barColorString,
+          styles: {
+            borderRadius: 0,
+            backgroundColor: "transparent",
+          },
+        };
+      } else if (progress === 100) {
+        return {
+          progress,
+          barColorString,
+          styles: {
+            border: "none",
+            backgroundColor: barColorString,
+          },
+        };
+      } else {
+        return {
+          progress,
+          barColorString,
+          styles: {
+            backgroundColor: barColorString,
+          },
+        };
+      }
+    });
+  }, [values]);
+
   return (
     <div
       className={cn(
@@ -133,23 +173,23 @@ export const MultiProgressBar = ({
         className,
       )}
     >
-      <div className="flex h-[8px] w-full rounded-3xl border-[0.5px] border-solid border-black dark:border-gray">
-        {values.map((value, index) => {
-          const progress = Math.floor((value.value / max) * 100);
-          return (
-            <div
-              key={index}
-              className={cn(
-                "h-full rounded-3xl bg-gray shadow-[0.5px_0_0] shadow-black dark:shadow-gray [&:not(:first-child)]:-ml-x1 [&:not(:first-child)]:rounded-bl-none [&:not(:first-child)]:rounded-tl-none",
-              )}
-              style={{
-                width: `${progress}%`,
-                color,
-                zIndex: 10 - index,
-              }}
-            ></div>
-          );
-        })}
+      <div className="relative h-4 w-full overflow-hidden rounded-3xl border-[0.5px] border-solid border-black dark:border-gray">
+        {progressBars
+          .sort((a, b) => b.progress - a.progress)
+          .map(({ progress, barColorString }, index) => {
+            return (
+              <div
+                key={index}
+                className={cn(
+                  "absolute left-[-1px] top-[-1px] h-[calc(100%_+_2px)] rounded-r-3xl border-[0.5px] border-black bg-gray dark:border-gray",
+                )}
+                style={{
+                  width: `${progress}%`,
+                  backgroundColor: barColorString,
+                }}
+              ></div>
+            );
+          })}
       </div>
     </div>
   );

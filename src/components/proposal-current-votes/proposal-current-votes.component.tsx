@@ -1,198 +1,158 @@
 import {
   Card,
+  Loader,
   MultiProgressBar,
   MultiProgressBarValue,
 } from "@/components/_shared";
 
 import BaseComponentProps from "@/interfaces/base-component-props.interface";
-import { SVGProps, useCallback, useEffect, useMemo, useState } from "react";
-import { IVote } from "@/lib/interfaces/vote.interface";
+import { useMemo } from "react";
 import { cn } from "@/styles/helpers";
+import { Proposal } from "@/lib/graphql/subgraph/generated/subgraph";
+import NumbersService from "@/lib/helpers/numbers.service";
+import { formatUnits } from "viem";
+import { CheckMarkIcon } from "@/components/_icons/checkmark.icon";
+import { CrossMarkIcon } from "@/components/_icons/crossmark.icon";
+import { useQuorum } from "@/lib/contracts/governor/useQuorum";
 
-interface ProposalCurrentVotesProps extends BaseComponentProps {}
+interface ProposalCurrentVotesProps extends BaseComponentProps {
+  proposal: Proposal;
+}
 
 // TODO: Replace mock API with real data sources
 export const ProposalCurrentVotes = ({
   className,
-  style,
+  proposal,
 }: ProposalCurrentVotesProps) => {
-  // TODO: Replace with context fetch to api
-  const votes: IVote[] = useMemo(() => [], []);
+  const { quorumNeeded } = useQuorum(proposal.startBlock);
 
-  const forProposal = useMemo(
-    () => votes.filter((vote) => vote.type === "for"),
-    [votes],
-  );
-  const againstProposal = useMemo(
-    () => votes.filter((vote) => vote.type === "against"),
-    [votes],
-  );
-  const abstainProposal = useMemo(
-    () => votes.filter((vote) => vote.type === "abstain"),
-    [votes],
-  );
-
-  const parseVotes = useCallback(() => {
+  const values = useMemo(() => {
     return [
       {
-        value: forProposal.reduce((acc, vote) => acc + vote.votes, 0),
+        progress: Number(
+          (proposal.votes.for.total * 100n) / (quorumNeeded || 1n),
+        ),
         type: "success",
       },
       {
-        value: againstProposal.reduce((acc, vote) => acc + vote.votes, 0),
+        progress: Number(
+          (proposal.votes.against.total * 100n) / (quorumNeeded || 1n),
+        ),
         type: "danger",
       },
     ] as MultiProgressBarValue[];
-  }, [againstProposal, forProposal]);
+  }, [proposal.votes.against.total, proposal.votes.for.total, quorumNeeded]);
 
-  const parseMax = useCallback(() => {
+  const majoritySupport = useMemo(() => {
+    if (proposal.votes.total === 0n || proposal.votes.for.total === 0n)
+      return false;
+
     return (
-      forProposal.reduce((acc, vote) => acc + vote.votes, 0) +
-      againstProposal.reduce((acc, vote) => acc + vote.votes, 0) +
-      abstainProposal.reduce((acc, vote) => acc + vote.votes, 0)
+      (proposal.votes.for.total * 100n) / proposal.votes.total >
+      proposal.votes.total / 2n
     );
-  }, [abstainProposal, againstProposal, forProposal]);
-
-  const [values, setValues] = useState(parseVotes());
-  const [max, setMax] = useState(parseMax());
-
-  useEffect(() => {
-    setValues(parseVotes());
-    setMax(parseMax());
-  }, [votes, parseVotes, parseMax]);
+  }, [proposal.votes.for.total, proposal.votes.total]);
 
   return (
-    <Card className={className} style={style}>
+    <Card className={className}>
       <Card.Header>
-        <h3 className="mb-x3 flex justify-center text-[32px]/none font-medium">
+        <h3 className="mb-8 mt-4 flex justify-center text-[32px]/none font-medium">
           Current votes
         </h3>
       </Card.Header>
-      <MultiProgressBar className="mb-x3" values={values} max={max} />
-      <div className="grid grid-cols-1 gap-x6 text-[22px]/none md:grid-cols-2">
-        <div>
-          <div className="mb-x3 flex justify-between">
+      <MultiProgressBar className="mb-8" values={values} />
+      <div className="grid grid-cols-1 gap-x-12 text-[22px]/none md:grid-cols-2">
+        <div className="flex flex-col gap-y-6">
+          <div className="flex justify-between">
             <div className="flex items-center gap-x3">
               <div
                 className={cn(
-                  "h-x3 w-x3 rounded-[50%] border border-solid border-black bg-white content-['']",
-                  "bg-success",
-                )}
-              />
-              <div>For</div>
-            </div>
-            <div>
-              {forProposal
-                .reduce((acc, vote) => acc + vote.votes, 0)
-                .toLocaleString()}
-            </div>
-          </div>
-          <div className="mb-x3 flex justify-between">
-            <div className="flex items-center gap-x3">
-              <div
-                className={cn(
-                  "h-x3 w-x3 rounded-[50%] border border-solid border-black bg-white content-['']",
+                  "h-x3 w-x3 rounded-[50%] border border-solid border-black bg-white",
                   "bg-error",
                 )}
               />
               <div>Against</div>
             </div>
             <div>
-              {againstProposal
-                .reduce((acc, vote) => acc + vote.votes, 0)
-                .toLocaleString()}
+              {NumbersService.parseNumericValue(
+                formatUnits(proposal.votes.against.total, 18),
+              )}
             </div>
           </div>
-          <div className="mb-x3 flex justify-between">
+          <div className="flex justify-between">
             <div className="flex items-center gap-x3">
-              <div className="h-x3 w-x3 rounded-[50%] border border-solid border-black bg-white content-['']" />
+              <div
+                className={cn(
+                  "h-x3 w-x3 rounded-[50%] border border-solid border-black bg-white",
+                  "bg-success",
+                )}
+              />
+              <div>For</div>
+            </div>
+            <div>
+              {NumbersService.parseNumericValue(
+                formatUnits(proposal.votes.for.total, 18),
+              )}
+            </div>
+          </div>
+          <div className="flex justify-between">
+            <div className="flex items-center gap-x3">
+              <div className="h-x3 w-x3 rounded-[50%] border border-solid border-black bg-white" />
               <div>Abstain</div>
             </div>
             <div>
-              {abstainProposal
-                .reduce((acc, vote) => acc + vote.votes, 0)
-                .toLocaleString()}
+              {NumbersService.parseNumericValue(
+                formatUnits(proposal.votes.abstain.total, 18),
+              )}
             </div>
           </div>
         </div>
-        <div>
-          <div className="mb-x3">
+        <div className="mt-6 flex flex-col gap-y-6 md:mt-0">
+          <div>
             <div className="flex items-center gap-x3">
-              <div
-                className={cn(
-                  "flex h-x3 w-x3 items-center justify-center border  border-black bg-white text-white",
-                  "bg-primary",
-                  "rounded-[4px]",
-                )}
-              >
-                <TickMark />
-              </div>
+              {majoritySupport && <CheckMarkIcon />}
+              {!majoritySupport && <CrossMarkIcon />}
               <div>Majority supports</div>
             </div>
           </div>
-          <div className="mb-x3">
-            <div className="flex justify-start gap-x3">
-              <div
-                className={cn(
-                  "flex h-x3 w-x3 items-center justify-center border border-black text-white",
-                  "bg-black",
-                  "rounded-[4px]",
+          <div>
+            <div className="flex items-center justify-start gap-x3">
+              {!!quorumNeeded &&
+                quorumNeeded > BigInt(proposal.votes.for.total) && (
+                  <CrossMarkIcon />
                 )}
-              >
-                <XMark />
-              </div>
+              {!!quorumNeeded &&
+                quorumNeeded <= BigInt(proposal.votes.for.total) && (
+                  <CheckMarkIcon />
+                )}
+
               <div>
-                Quorum isn&apos;t reached <br /> 270K of 999K
+                {!quorumNeeded ? (
+                  <Loader />
+                ) : (
+                  <>
+                    {quorumNeeded > BigInt(proposal.votes.for.total) && (
+                      <>
+                        Quorum isn&apos;t reached <br />{" "}
+                        {NumbersService.parseNumericValue(
+                          formatUnits(proposal.votes.for.total, 18),
+                        )}{" "}
+                        of{" "}
+                        {NumbersService.parseNumericValue(
+                          formatUnits(quorumNeeded || 0n, 18),
+                        )}
+                      </>
+                    )}
+                    {quorumNeeded <= BigInt(proposal.votes.for.total) && (
+                      <>Quorum reached</>
+                    )}
+                  </>
+                )}
               </div>
             </div>
           </div>
         </div>
-        <div></div>
       </div>
     </Card>
-  );
-};
-
-const TickMark = () => {
-  return (
-    <svg
-      className="h-2.5 w-2.5" // Width and height class from TailwindCSS (3rem by 3rem)
-      viewBox="0 0 50 50" // ViewBox to control the scaling of the SVG contents
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <path
-        d="M5 25 L20 40 L45 5"
-        stroke="white" // Stroke color
-        strokeWidth="6" // Stroke width
-        fill="none" // No fill color
-        strokeLinecap="round" // Rounded line caps
-        // TailwindCSS classes for animation and hover effect
-      />
-    </svg>
-  );
-};
-
-const XMark = (props: SVGProps<SVGSVGElement>) => {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 10 10"
-      fill="none"
-      className={cn("h-2.5 w-2.5", props.className)}
-      {...props}
-    >
-      <path
-        fill="#fff"
-        fillRule="evenodd"
-        d="M8.74.624c.241.241.241.632 0 .872l-7.398 7.4a.617.617 0 1 1-.872-.873L7.87.624c.24-.24.63-.24.872 0Z"
-        clipRule="evenodd"
-      />
-      <path
-        fill="#fff"
-        fillRule="evenodd"
-        d="M8.74 8.895a.617.617 0 0 1-.872 0L.469 1.496a.617.617 0 0 1 .872-.872L8.74 8.023c.24.24.24.631 0 .872Z"
-        clipRule="evenodd"
-      />
-    </svg>
   );
 };

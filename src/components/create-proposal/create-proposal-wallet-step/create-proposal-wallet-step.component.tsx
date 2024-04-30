@@ -8,6 +8,7 @@ import {
 } from "../create-proposal-provider";
 import { parseUnits } from "viem";
 import { CreateProposalWrapper } from "../create-proposal-wrapper/create-proposal-wrapper.component";
+import Link from "next/link";
 
 enum WalletStepEnum {
   connectWallet = "connectWallet",
@@ -35,9 +36,13 @@ const CurrentFormStep = ({ formStep }: { formStep: WalletStepEnum }) => {
           </p>
           <p className="font-size-x4 line-height-x5 place-self-start">
             You can purchase MENTO{" "}
-            <a href={"https://app.mento.org"} target="_blank">
+            <Link
+              href={"https://app.mento.org"}
+              className="text-primary underline"
+              target="_blank"
+            >
               here.
-            </a>
+            </Link>
           </p>
         </>
       );

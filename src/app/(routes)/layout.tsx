@@ -32,7 +32,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
     <html className={`${inter.variable} w-full overscroll-none`} lang="en">
       <body
         className={cn(
-          "w-full overscroll-none bg-white font-fg text-base dark:bg-black",
+          "w-full overscroll-none bg-white font-fg text-base antialiased dark:bg-black",
           "[background-origin:border-box,_border-box]",
           "[background-position:_0_0,_0_0]",
           "[background-repeat:_repeat]",

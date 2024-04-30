@@ -1,3 +1,4 @@
+import { getSubgraphApiName } from "@/config/config.constants";
 import { GovernorABI } from "@/lib/abi/Governor";
 import {
   STATE_FROM_NUMBER,
@@ -12,7 +13,7 @@ import { NetworkStatus } from "@apollo/client";
 import { useCallback, useMemo } from "react";
 import { useChainId, useReadContracts } from "wagmi";
 
-const GraphProposalsQueryKey = ["proposals-graph-query"];
+export const GraphProposalsQueryKey = ["proposals-graph-query"];
 
 const useProposals = () => {
   const chainId = useChainId();
@@ -24,7 +25,7 @@ const useProposals = () => {
     refetch,
   } = useGetProposalsSuspenseQuery({
     context: {
-      apiName: chainId === 44787 ? "subgraphAlfajores" : "subgraph",
+      apiName: getSubgraphApiName(chainId),
     },
     refetchWritePolicy: "merge",
     errorPolicy: "ignore",

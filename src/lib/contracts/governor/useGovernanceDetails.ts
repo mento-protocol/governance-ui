@@ -1,13 +1,14 @@
 import { GovernorABI } from "@/lib/abi/Governor";
 import { TimelockControllerABI } from "@/lib/abi/TimelockController";
 import { useContracts } from "@/lib/contracts/useContracts";
-import { formatUnits } from "viem";
+import { useMemo } from "react";
+import { maxUint256 } from "viem";
 import { useReadContracts } from "wagmi";
 
 function convertCeloBlocksToSeconds(
   numBlocks: string | bigint | number,
 ): number {
-  // Based on the 120960 blocks per week calulation used in governance contracts
+  // Based on the 120960 blocks per week calculation used in governance contracts
   const CELO_SECONDS_PER_BLOCK = 5;
   return Number(numBlocks) * CELO_SECONDS_PER_BLOCK;
 }
@@ -21,15 +22,16 @@ function convertSecondsToDays(
 }
 
 function formatParam(
-  data: any,
+  rawParam: any,
   formatter: (value: string | number | bigint) => string,
 ) {
-  if (data.result !== undefined) {
-    return formatter(data.result);
+  if (rawParam.result !== undefined) {
+    return formatter(rawParam.result);
   }
 
   return null;
 }
+
 const useGovernanceDetails = () => {
   const { MentoGovernor, TimelockController } = useContracts();
 
@@ -62,41 +64,58 @@ const useGovernanceDetails = () => {
         functionName: "getMinDelay",
       },
     ],
+    allowFailure: false,
   });
 
-  if (!result.data) {
-    return null;
-  }
+  const { votingPeriod, proposalThreshold, quorumNeeded, timeLockDuration } =
+    useMemo(() => {
+      if (result.data) {
+        const [
+          votingPeriod,
+          proposalThreshold,
+          quorumNeeded,
+          timeLockDuration,
+        ] = result.data;
+        return {
+          votingPeriod,
+          proposalThreshold,
+          quorumNeeded,
+          timeLockDuration,
+        };
+      } else {
+        return {
+          votingPeriod: 0,
+          proposalThreshold: 0,
+          quorumNeeded: maxUint256,
+          timeLockDuration: 0,
+        };
+      }
+    }, [result.data]);
 
-  const [
-    votingPeriodData,
-    proposalThresholdData,
-    quorumNeededData,
-    timeLockDurationData,
-  ] = result.data;
+  const votingPeriodFormatted = useMemo(
+    () =>
+      formatParam(votingPeriod, (value) => {
+        const votingPeriodInSeconds = convertCeloBlocksToSeconds(value);
+        return `${convertSecondsToDays(votingPeriodInSeconds)} days`;
+      }),
+    [votingPeriod],
+  );
 
-  const votingPeriod = formatParam(votingPeriodData, (value) => {
-    const votingPeriodInSeconds = convertCeloBlocksToSeconds(value);
-    return `${convertSecondsToDays(votingPeriodInSeconds)} days`;
-  });
-
-  const timelock = formatParam(timeLockDurationData, (value) => {
-    return `${convertSecondsToDays(value)} days`;
-  });
-
-  const proposalThreshold = formatParam(proposalThresholdData, (value) => {
-    return formatUnits(BigInt(value), 18);
-  });
-
-  const quorumNeeded = formatParam(quorumNeededData, (value) => {
-    return Math.round(Number(formatUnits(BigInt(value), 18))).toString();
-  });
+  const timeLockFormatted = useMemo(
+    () =>
+      formatParam(timeLockDuration, (value) => {
+        return `${convertSecondsToDays(value)} days`;
+      }),
+    [timeLockDuration],
+  );
 
   return {
     votingPeriod,
-    timelock,
+    timeLockDuration,
     proposalThreshold,
     quorumNeeded,
+    votingPeriodFormatted,
+    timeLockFormatted,
   };
 };
 

@@ -1,5 +1,5 @@
-import { addWeeks, nextWednesday } from "date-fns";
-import { useMemo } from "react";
+import { addWeeks, isAfter, nextWednesday } from "date-fns";
+import React, { useMemo } from "react";
 import { Address, formatUnits } from "viem";
 import { Lock } from "@/lib/graphql/subgraph/generated/subgraph";
 import useLockCalculation from "@/lib/contracts/locking/useLockCalculation";
@@ -20,19 +20,37 @@ export const LocksList = ({ locks, onExtend, account }: ILocksList) => {
         <LockTableTitle>Expires on</LockTableTitle>
       </div>
       {account &&
-        locks.map((lock, index, array) => (
-          <>
-            <LockEntry
-              account={account}
-              onExtend={onExtend}
-              lock={lock}
-              key={lock.lockId}
-            />
-            {index === array.length - 1 ? null : (
-              <div className="grid-span-[1/-1] border-b border-solid border-gray-light" />
-            )}
-          </>
-        ))}
+        [...locks]
+          .sort((lockA, lockB) => {
+            if (lockA.lockCreate.length === 0 || lockB.lockCreate.length === 0)
+              return 1;
+
+            const aExpiration = getLockExpirationDate(
+              lockA.lockCreate[0].timestamp,
+              lockA.slope,
+              lockA.cliff,
+            );
+            const bExpiration = getLockExpirationDate(
+              lockB.lockCreate[0].timestamp,
+              lockB.slope,
+              lockB.cliff,
+            );
+
+            return isAfter(aExpiration, bExpiration) ? 1 : -1;
+          })
+          .map((lock, index, array) => (
+            <React.Fragment key={lock.lockId}>
+              <LockEntry
+                account={account}
+                onExtend={onExtend}
+                lock={lock}
+                key={lock.lockId}
+              />
+              {index === array.length - 1 ? null : (
+                <div className="grid-span-[1/-1] border-b border-solid border-gray-light" />
+              )}
+            </React.Fragment>
+          ))}
     </div>
   );
 };
@@ -69,15 +87,18 @@ const LockEntry = ({
 
   const veMentoParsed = useMemo(() => {
     return NumbersService.parseNumericValue(
-      Number(formatUnits(data?.[0] || 0n, 18)).toLocaleString(),
+      Number(formatUnits(data?.[0] || 0n, 18)),
     );
   }, [data]);
 
   const expirationDate = useMemo(() => {
-    if (lock.lockCreate.length === 0) return "Expiration date not set";
-    const startDate = new Date(lock.lockCreate[0]?.timestamp * 1000);
-    const endDate = nextWednesday(addWeeks(startDate, lock.slope + lock.cliff));
-    return endDate.toLocaleDateString();
+    if (lock.lockCreate.length === 0) return "Expiration Date not available";
+    const expiration = getLockExpirationDate(
+      lock.lockCreate[0]?.timestamp,
+      lock.slope,
+      lock.cliff,
+    );
+    return expiration.toLocaleDateString();
   }, [lock]);
 
   return (
@@ -88,3 +109,12 @@ const LockEntry = ({
     </div>
   );
 };
+
+function getLockExpirationDate(
+  startDateTimeStamp: number,
+  slope: number,
+  cliff: number,
+) {
+  const startDate = new Date(startDateTimeStamp * 1000);
+  return nextWednesday(addWeeks(startDate, slope + cliff));
+}

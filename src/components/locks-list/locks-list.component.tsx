@@ -1,4 +1,4 @@
-import { addWeeks, isAfter, nextWednesday } from "date-fns";
+import { addWeeks, format, isAfter, nextWednesday } from "date-fns";
 import React, { useMemo } from "react";
 import { Address, formatUnits } from "viem";
 import { Lock } from "@/lib/graphql/subgraph/generated/subgraph";
@@ -98,7 +98,7 @@ const LockEntry = ({
       lock.slope,
       lock.cliff,
     );
-    return expiration.toLocaleDateString();
+    return format(expiration, "dd/MM/yyyy");
   }, [lock]);
 
   return (

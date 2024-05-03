@@ -37,6 +37,7 @@ export const LockingDayPicker = () => {
       control={control}
       render={({ field: { onChange } }) => (
         <DatePicker
+          defaultMonth={wednesdayAfterSelectedWeeks}
           fromMonth={new Date()}
           toMonth={addYearsToTodayAndAdjustToNextWednesday(2)}
           fixedWeeks={true}

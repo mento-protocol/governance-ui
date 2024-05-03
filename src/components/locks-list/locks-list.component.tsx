@@ -3,7 +3,6 @@ import React, { useMemo } from "react";
 import { Address, formatUnits } from "viem";
 import { Lock } from "@/lib/graphql/subgraph/generated/subgraph";
 import useLockCalculation from "@/lib/contracts/locking/useLockCalculation";
-import NumbersService from "@/lib/helpers/numbers.service";
 import useTokens from "@/lib/contracts/useTokens";
 
 interface ILocksList {
@@ -79,6 +78,7 @@ const LockEntry = ({
   const {
     mentoContractData: { decimals: mentoDecimals },
   } = useTokens();
+
   const { data } = useLockCalculation({
     lock: {
       amount: formatUnits(lock.amount, mentoDecimals),
@@ -88,10 +88,8 @@ const LockEntry = ({
   });
 
   const mentoParsed = useMemo(() => {
-    return NumbersService.parseNumericValue(
-      Number(formatUnits(lock.amount || 0n, 18)),
-    );
-  }, [lock.amount]);
+    return Number(formatUnits(lock.amount, mentoDecimals)).toFixed(3);
+  }, [lock.amount, mentoDecimals]);
 
   const expirationDate = useMemo(() => {
     if (lock.lockCreate.length === 0) return "Expiration Date not available";

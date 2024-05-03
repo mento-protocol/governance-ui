@@ -4,6 +4,7 @@ import { Address, formatUnits } from "viem";
 import { Lock } from "@/lib/graphql/subgraph/generated/subgraph";
 import useLockCalculation from "@/lib/contracts/locking/useLockCalculation";
 import NumbersService from "@/lib/helpers/numbers.service";
+import useTokens from "@/lib/contracts/useTokens";
 
 interface ILocksList {
   account: Address;
@@ -75,8 +76,15 @@ const LockEntry = ({
   account: Address;
   onExtend: () => void;
 }) => {
+  const {
+    mentoContractData: { decimals: mentoDecimals },
+  } = useTokens();
   const { data } = useLockCalculation({
-    lock,
+    lock: {
+      amount: formatUnits(lock.amount, mentoDecimals),
+      slope: lock.slope,
+      cliff: lock.cliff,
+    },
   });
 
   const mentoParsed = useMemo(() => {
@@ -84,12 +92,6 @@ const LockEntry = ({
       Number(formatUnits(lock.amount || 0n, 18)),
     );
   }, [lock.amount]);
-
-  const veMentoParsed = useMemo(() => {
-    return NumbersService.parseNumericValue(
-      Number(formatUnits(data?.[0] || 0n, 18)),
-    );
-  }, [data]);
 
   const expirationDate = useMemo(() => {
     if (lock.lockCreate.length === 0) return "Expiration Date not available";
@@ -104,7 +106,7 @@ const LockEntry = ({
   return (
     <div className="mb-x2 grid grid-cols-3 items-center gap-[18px] px-x1 py-x2">
       <LockTableValue>{mentoParsed}</LockTableValue>
-      <LockTableValue>{veMentoParsed}</LockTableValue>
+      <LockTableValue>{data?.veMentoReceived}</LockTableValue>
       <LockTableValue>{expirationDate}</LockTableValue>
     </div>
   );

@@ -45,7 +45,7 @@ export const MentoLock = ({
 const LockingFormLockingQuote = () => {
   const { watch } = useFormContext();
 
-  const amount = Number(watch(LOCKING_AMOUNT_FORM_KEY));
+  const amount = watch(LOCKING_AMOUNT_FORM_KEY);
   const slope = watch(LOCKING_DURATION_FORM_KEY);
 
   return <LockingQuote amount={amount} slope={slope} cliff={DEFAULT_CLIFF} />;

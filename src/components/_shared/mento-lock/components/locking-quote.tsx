@@ -1,31 +1,36 @@
-import NumbersService from "@/lib/helpers/numbers.service";
-import { useLockingQuote } from "../hooks/useDebounceLockingQuote";
+import useLockCalculation from "@/lib/contracts/locking/useLockCalculation";
+import { useDebounce } from "@/lib/hooks/useDebounce";
 
 export const LockingQuote = ({
   amount,
   slope,
   cliff,
 }: {
-  amount: number;
+  amount: string;
   slope: number;
   cliff: number;
 }) => {
-  const quote = useLockingQuote({
-    amount,
-    slope,
-    cliff,
-  });
+  const debouncedAmount = useDebounce(amount, 500);
+  const debouncedSlope = useDebounce(slope, 500);
+  const debouncedCliff = useDebounce(cliff, 500);
+
+  const { data: { veMentoReceived } = { veMentoReceived: 0 }, isLoading } =
+    useLockCalculation({
+      lock: {
+        amount: debouncedAmount,
+        slope: debouncedSlope,
+        cliff: debouncedCliff,
+      },
+    });
 
   return (
     <span className="text-[22px]">
-      {quote.isLoading ? (
+      {isLoading ? (
         <div className="animate-pulse rounded-[4px] bg-gray-300">
           <span className="opacity-0">{amount}</span>
         </div>
       ) : (
-        <div className="font-medium">
-          {NumbersService.parseNumericValue(Number(quote.amount))}
-        </div>
+        <div className="font-medium">{veMentoReceived}</div>
       )}
     </span>
   );

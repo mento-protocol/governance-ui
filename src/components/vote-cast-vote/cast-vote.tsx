@@ -98,7 +98,7 @@ export const CastVote = ({
 
   if (isConfirming) {
     return (
-      <Card>
+      <Card className="min-h-[260px] p-4">
         <VotingCardTitle />
         <div className="mt-x2 flex flex-col gap-x3 text-center">
           <span className="text-md">Vote submitted</span>
@@ -118,7 +118,7 @@ export const CastVote = ({
 
   if (isConfirmed) {
     return (
-      <Card>
+      <Card className="min-h-[260px] p-4">
         <VotingCardTitle />
         <div className="mt-x2 flex flex-col gap-x3 text-center">
           <span className="text-md">Vote success</span>
@@ -134,7 +134,7 @@ export const CastVote = ({
   }
 
   return (
-    <Card>
+    <Card className="min-h-[260px] p-4">
       <VotingCardTitle />
       <div className="mt-x3 flex flex-col gap-x5">
         <LockedBalance />
@@ -161,7 +161,7 @@ const VotingError = ({ error }: { error: Error }) => {
 
 const DirectToLockMento = () => {
   return (
-    <Card>
+    <Card className="min-h-[260px] p-4">
       <VotingCardTitle />
       <div className="flex flex-col gap-x5">
         <LockedBalance />

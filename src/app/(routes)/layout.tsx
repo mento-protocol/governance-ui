@@ -51,13 +51,13 @@ export default function RootLayout({ children }: RootLayoutProps) {
           <LearnMore className="pt-x5" />
           <Footer />
           <Toaster
-            position="bottom-center"
+            position="bottom-right"
             toastOptions={{
-              duration: 4000,
+              duration: 2000,
               unstyled: true,
               classNames: {
                 toast:
-                  "border font-fg border-primary-dark flex text-black rounded-lg shadow-md transition-all duration-300 py-[16px] px-[20px] gap-4",
+                  "mx-auto flex items-center justify-center gap-4 rounded-lg  border  border-primary-dark  bg-white px-[20px] py-[16px] font-fg  text-black shadow-md transition-all duration-300",
                 title: "flex flex-col items-center justify-end h-full",
                 error: "bg-red-400",
                 success: "bg-white",

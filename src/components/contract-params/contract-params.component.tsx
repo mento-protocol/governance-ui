@@ -1,17 +1,16 @@
 "use client";
 import React, { Suspense } from "react";
-import Link from "next/link";
-import CopyToClipboard from "react-copy-to-clipboard";
-import { useAccount } from "wagmi";
 
-import { Card, Expandable, Loader } from "@/components/_shared";
-import { Celo } from "@/config/chains";
+import {
+  Card,
+  Expandable,
+  Loader,
+  WalletAddressWithCopy,
+} from "@/components/_shared";
 import { useContracts } from "@/lib/contracts/useContracts";
 import useGovernanceDetails from "@/lib/contracts/governor/useGovernanceDetails";
 import NumbersService from "@/lib/helpers/numbers.service";
 import { Address, formatUnits } from "viem";
-import { centerEllipsis } from "@/lib/helpers/string.service";
-import { CopyIcon } from "@/components/_icons";
 
 export const ContractParams = () => {
   const {
@@ -33,7 +32,7 @@ export const ContractParams = () => {
       className="items-start text-[22px] font-medium md:pt-x4"
     >
       <Suspense fallback={<Loader isCenter />}>
-        <div className="grid grid-cols-1 gap-x2 pt-x3 md:grid-cols-7 md:pt-x4 ">
+        <div className="grid grid-cols-1 gap-x2 pt-x3 lg:grid-cols-7 lg:pt-x4 ">
           <Card
             noBorderMobile
             className="flex flex-col gap-x4 md:col-span-3 md:gap-x6"
@@ -156,37 +155,19 @@ const ParamDisplay = ({
 
 const ContractAddressLinkWithCopy = ({
   address,
-  className,
 }: {
   address: Address | undefined;
-  className?: string;
 }) => {
-  const { chain } = useAccount();
-  const connectedChainOrMainnet = chain ?? Celo;
-  const blockExplorerUrl = connectedChainOrMainnet.blockExplorers?.default.url;
-  const blockExplorerContractUrl = `${blockExplorerUrl}/address/${address}`;
-
   if (!address) {
     return;
   }
 
   return (
-    <Link
-      target="_blank"
-      rel="nooppener noreferrer"
-      href={blockExplorerContractUrl}
-      className={`${className} relative block max-w-[42ch] pr-x6`}
-    >
-      <span className="hidden md:block">{centerEllipsis(address, 15)}</span>
-      <span className="block md:hidden">{centerEllipsis(address, 8)}</span>
-      <CopyToClipboard text={address}>
-        <CopyIcon
-          height={20}
-          width={20}
-          className="absolute right-0 top-[50%] block translate-y-[-50%]"
-        />
-      </CopyToClipboard>
-    </Link>
+    <WalletAddressWithCopy
+      className="relative items-center justify-end pr-x1 text-mento-blue no-underline"
+      address={address}
+      remaining={15}
+    />
   );
 };
 

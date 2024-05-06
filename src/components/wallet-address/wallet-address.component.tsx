@@ -5,16 +5,21 @@ import { cn } from "@/styles/helpers";
 
 interface WalletAddressProps extends BaseComponentProps {
   address: string;
+  remaining?: number;
 }
 
-export const WalletAddress = ({ address, className }: WalletAddressProps) => {
+export const WalletAddress = ({
+  address,
+  className,
+  remaining,
+}: WalletAddressProps) => {
   return (
     <BlockExplorerLink
       className={cn("no-underline", className)}
       type="address"
       item={address}
     >
-      {centerEllipsis(address)}
+      {centerEllipsis(address, remaining)}
     </BlockExplorerLink>
   );
 };

@@ -21,6 +21,8 @@ import {
   ProposalSummaryComponent,
   ProposalsListComponent,
 } from "@/components/index";
+import Link from "next/link";
+import { cn } from "@/styles/helpers";
 
 const Page = () => {
   return (
@@ -55,17 +57,19 @@ const Page = () => {
 
 const MobileNavigationLinks = ({ className }: ButtonProps) => {
   const { address } = useAccount();
+  const isDisabled = !address;
 
   return (
-    <Button
-      className={className}
-      theme="clear"
-      fullwidth
-      href="/my-voting-power"
-      disabled={!address}
+    <Link
+      className={cn(
+        "text-lg/[18px] text-mento-blue underline ",
+        isDisabled && "pointer-events-none  cursor-not-allowed text-gray",
+        className,
+      )}
+      href={isDisabled ? "#" : "/my-voting-power"}
     >
       My voting power
-    </Button>
+    </Link>
   );
 };
 

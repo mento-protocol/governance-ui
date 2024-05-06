@@ -93,7 +93,7 @@ const Badges = () => {
 };
 
 const DesktopTagline = () => (
-  <p className="mb-[20px] text-[22px] md:mb-[30px]">
+  <p className="mb-[20px] text-[18px] md:mb-[30px] md:text-[22px]">
     Transparent Digital Asset Solutions
   </p>
 );

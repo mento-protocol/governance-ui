@@ -1,10 +1,12 @@
-import { useCallback } from "react";
+import React, { useCallback } from "react";
 import { useContracts } from "@/lib/contracts/useContracts";
 import { useWaitForTransactionReceipt, useWriteContract } from "wagmi";
 import { Address, erc20Abi } from "viem";
 import { WriteContractErrorType } from "wagmi/actions";
 
-const useApprove = () => {
+const useApprove = ({
+  onConfirmation,
+}: { onConfirmation?: () => void } = {}) => {
   const contracts = useContracts();
   const {
     writeContract,
@@ -16,7 +18,15 @@ const useApprove = () => {
   const { isLoading: isConfirming, isSuccess: isConfirmed } =
     useWaitForTransactionReceipt({
       hash: data,
+      pollingInterval: 1000,
     });
+
+  React.useEffect(() => {
+    if (isConfirmed && onConfirmation) {
+      onConfirmation();
+      restWrite.reset();
+    }
+  }, [isConfirmed, onConfirmation, restWrite]);
 
   const approveMento = useCallback(
     (

@@ -118,6 +118,7 @@ export const useTokens = () => {
   const {
     data: balanceData,
     isSuccess: balanceFetchSuccess,
+    isLoading: isBalanceLoading,
     queryKey,
   } = useReadContracts({
     allowFailure: false,
@@ -139,7 +140,7 @@ export const useTokens = () => {
     query: {
       refetchInterval: 5000,
       enabled: isConnected && !!address,
-      initialData: [0n, 0n],
+      // initialData: [0n, 0n],
     },
   });
 
@@ -205,6 +206,7 @@ export const useTokens = () => {
   }, [blockNumber, queryClient]);
 
   return {
+    isBalanceLoading,
     veMentoBalance,
     mentoBalance,
     mentoContractData,

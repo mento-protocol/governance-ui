@@ -1,5 +1,5 @@
 "use client";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { object, setLocale, string } from "yup";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -11,12 +11,12 @@ import {
 import { CreateProposalWrapper } from "../create-proposal-wrapper/create-proposal-wrapper.component";
 import { HelpIcon } from "@/components/_icons";
 import { ExecutionExplanationModal } from "@/components/create-proposal/explainer-modal/execution-explainer.modal";
-import useModal from "@/lib/providers/modal.provider";
 import { isTransactionItem } from "@/lib/contracts/governor/useCreateProposalOnChain";
 
 export const CreateProposalExecutionStep = () => {
   const { setStep, newProposal, updateProposal } = useCreateProposal();
-  const { showModal } = useModal();
+  const [showExecutionExplanation, setShowExecutionExplanation] =
+    useState(false);
 
   const validationSchema = object().shape({
     code: string()
@@ -76,59 +76,57 @@ export const CreateProposalExecutionStep = () => {
   }, [watch, updateProposal, newProposal]);
 
   return (
-    <CreateProposalWrapper
-      componentStep={CreateProposalStep.execution}
-      title={
-        <div className="flex items-center justify-center gap-x2">
-          <span>Execution Code</span>
-          <Button
-            className="w-auto max-w-[initial] pl-0"
-            theme="link"
-            onClick={() =>
-              showModal(<ExecutionExplanationModal />, {
-                title: "The execution code must follow these rules:",
-              })
+    <>
+      <CreateProposalWrapper
+        componentStep={CreateProposalStep.execution}
+        title={
+          <div className="flex items-center justify-center gap-x2">
+            <span>Execution Code</span>
+            <Button
+              className="w-auto max-w-[initial] pl-0"
+              theme="link"
+              onClick={() => setShowExecutionExplanation(true)}
+            >
+              <HelpIcon height={20} width={20} />
+            </Button>
+          </div>
+        }
+        onPrev={() => setStep(CreateProposalStep.content)}
+        onNext={isValid ? () => setStep(CreateProposalStep.preview) : undefined}
+      >
+        <div>
+          <p className="font-size-x4 line-height-x5 ml-x7">
+            Paste your governance proposal&apos;s execution code in the json
+            formatting the field below. If the proposal has no required
+            execution, an empty array or no input is valid. A default, empty
+            transaction will be used.
+          </p>
+          <Textarea
+            className="mb-x5 mt-x5 min-h-[266px]"
+            form={{ ...register("code") }}
+            id="code"
+            error={
+              errors.code?.message && (
+                <div className="mt-x2 flex items-center gap-x2">
+                  <span>{errors.code?.message}</span>
+                  <Button
+                    className="w-auto max-w-[initial] pl-0"
+                    theme="link"
+                    onClick={() => setShowExecutionExplanation(true)}
+                  >
+                    <HelpIcon height={20} width={20} />
+                  </Button>
+                </div>
+              )
             }
-          >
-            <HelpIcon height={20} width={20} />
-          </Button>
+            placeholder="Paste your code here"
+          />
         </div>
-      }
-      onPrev={() => setStep(CreateProposalStep.content)}
-      onNext={isValid ? () => setStep(CreateProposalStep.preview) : undefined}
-    >
-      <div>
-        <p className="mb-6 mt-3 text-xl">
-          Paste your governance proposal&apos;s execution code in the json
-          formatting the field below. If the proposal has no required execution,
-          an empty array or no input is valid. A default, empty transaction will
-          be used.
-        </p>
-        <Textarea
-          className="min-h-[266px]"
-          form={{ ...register("code") }}
-          id="code"
-          error={
-            errors.code?.message && (
-              <div className="mt-x2 flex items-center gap-x2">
-                <span>{errors.code?.message}</span>
-                <Button
-                  className="w-auto max-w-[initial] pl-0"
-                  theme="link"
-                  onClick={() =>
-                    showModal(<ExecutionExplanationModal />, {
-                      title: "The execution code must follow these rules:",
-                    })
-                  }
-                >
-                  <HelpIcon height={20} width={20} />
-                </Button>
-              </div>
-            )
-          }
-          placeholder="Paste your code here"
-        />
-      </div>
-    </CreateProposalWrapper>
+      </CreateProposalWrapper>
+      <ExecutionExplanationModal
+        isOpen={showExecutionExplanation}
+        onClose={() => setShowExecutionExplanation(false)}
+      />
+    </>
   );
 };

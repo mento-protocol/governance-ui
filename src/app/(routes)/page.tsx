@@ -106,14 +106,12 @@ const MentoIconWithLogo = () => (
 );
 
 const DesktopNavigationButtons = () => {
-  const { address } = useAccount();
-
   return (
     <div className="hidden gap-x3 md:flex">
       <Button theme="clear" href="/create-proposal">
         Create new proposal
       </Button>
-      <Button theme="clear" href="/my-voting-power" disabled={!address}>
+      <Button theme="clear" href="/my-voting-power">
         My voting power
       </Button>
     </div>

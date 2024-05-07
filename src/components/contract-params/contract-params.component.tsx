@@ -47,25 +47,29 @@ export const ContractParams = () => {
                 items={[
                   {
                     label: "Proposal threshold",
-                    value: NumbersService.parseNumericValue(
-                      formatUnits(BigInt(proposalThreshold), 18),
-                      2,
-                    ),
+                    value: proposalThreshold
+                      ? NumbersService.parseNumericValue(
+                          formatUnits(BigInt(proposalThreshold), 18),
+                          2,
+                        )
+                      : "-",
                   },
                   {
                     label: "Quorum needed",
-                    value: NumbersService.parseNumericValue(
-                      formatUnits(quorumNeeded, 18),
-                      2,
-                    ),
+                    value: quorumNeeded
+                      ? NumbersService.parseNumericValue(
+                          formatUnits(quorumNeeded, 18),
+                          2,
+                        )
+                      : "-",
                   },
                   {
                     label: "Voting period",
-                    value: votingPeriodFormatted,
+                    value: votingPeriodFormatted || "-",
                   },
                   {
                     label: "Timelock",
-                    value: timeLockFormatted,
+                    value: timeLockFormatted || "-",
                   },
                 ]}
               />
@@ -85,25 +89,25 @@ export const ContractParams = () => {
                 items={[
                   {
                     label: "Governor",
-                    value: governorAddress && (
+                    value: (
                       <ContractAddressLinkWithCopy address={governorAddress} />
                     ),
                   },
                   {
                     label: "MENTO",
-                    value: mentoAddress && (
+                    value: (
                       <ContractAddressLinkWithCopy address={mentoAddress} />
                     ),
                   },
                   {
                     label: "Timelock",
-                    value: timelockAddress && (
+                    value: (
                       <ContractAddressLinkWithCopy address={timelockAddress} />
                     ),
                   },
                   {
                     label: "veMENTO",
-                    value: lockingAddress && (
+                    value: (
                       <ContractAddressLinkWithCopy address={lockingAddress} />
                     ),
                   },
@@ -159,7 +163,7 @@ const ContractAddressLinkWithCopy = ({
   address: Address | undefined;
 }) => {
   if (!address) {
-    return;
+    return "-";
   }
 
   return (

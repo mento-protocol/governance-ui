@@ -2,7 +2,7 @@ import { GovernorABI } from "@/lib/abi/Governor";
 import { TimelockControllerABI } from "@/lib/abi/TimelockController";
 import { useContracts } from "@/lib/contracts/useContracts";
 import { useMemo } from "react";
-import { maxUint256 } from "viem";
+
 import { useReadContracts } from "wagmi";
 
 function convertCeloBlocksToSeconds(
@@ -84,30 +84,30 @@ const useGovernanceDetails = () => {
         };
       } else {
         return {
-          votingPeriod: 0,
-          proposalThreshold: 0,
-          quorumNeeded: maxUint256,
-          timeLockDuration: 0,
+          votingPeriod: null,
+          proposalThreshold: null,
+          quorumNeeded: null,
+          timeLockDuration: null,
         };
       }
     }, [result.data]);
 
-  const votingPeriodFormatted = useMemo(
-    () =>
-      formatParam(votingPeriod, (value) => {
-        const votingPeriodInSeconds = convertCeloBlocksToSeconds(value);
-        return `${convertSecondsToDays(votingPeriodInSeconds)} days`;
-      }),
-    [votingPeriod],
-  );
+  const votingPeriodFormatted = useMemo(() => {
+    if (!votingPeriod) return "-";
 
-  const timeLockFormatted = useMemo(
-    () =>
-      formatParam(timeLockDuration, (value) => {
-        return `${convertSecondsToDays(value)} days`;
-      }),
-    [timeLockDuration],
-  );
+    return formatParam(votingPeriod, (value) => {
+      const votingPeriodInSeconds = convertCeloBlocksToSeconds(value);
+      return `${convertSecondsToDays(votingPeriodInSeconds)} days`;
+    });
+  }, [votingPeriod]);
+
+  const timeLockFormatted = useMemo(() => {
+    if (!timeLockDuration) return "-";
+
+    return formatParam(timeLockDuration, (value) => {
+      return `${convertSecondsToDays(value)} days`;
+    });
+  }, [timeLockDuration]);
 
   return {
     votingPeriod,

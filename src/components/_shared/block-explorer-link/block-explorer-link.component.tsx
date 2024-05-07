@@ -1,4 +1,5 @@
 import { cn } from "@/styles/helpers";
+import { celo } from "viem/chains";
 import { useAccount } from "wagmi";
 
 type Props = {
@@ -15,8 +16,11 @@ export const BlockExplorerLink = ({
   className,
 }: Props) => {
   const { chain } = useAccount();
-  const blockExplorerUrl = chain?.blockExplorers?.default.url;
-  return blockExplorerUrl ? (
+
+  const blockExplorerUrl =
+    chain?.blockExplorers?.default.url ?? celo.blockExplorers.default.url;
+
+  return (
     <a
       // TODO: offset set to 0.25em
       className={cn(
@@ -29,7 +33,5 @@ export const BlockExplorerLink = ({
     >
       {children}
     </a>
-  ) : (
-    children
   );
 };

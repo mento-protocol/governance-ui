@@ -13,6 +13,7 @@ import "@/styles/globals.scss";
 import { Providers } from "@/app/(routes)/providers";
 import { usePathname } from "next/navigation";
 import { cn } from "@/styles/helpers";
+import { Toaster } from "sonner";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -49,6 +50,20 @@ export default function RootLayout({ children }: RootLayoutProps) {
           </MaxWidthWrapper>
           <LearnMore className="pt-x5" />
           <Footer />
+          <Toaster
+            position="bottom-right"
+            toastOptions={{
+              duration: 2000,
+              unstyled: true,
+              classNames: {
+                toast:
+                  "mx-auto flex items-center justify-center gap-4 rounded-lg  border  border-primary-dark  bg-white px-[20px] py-[16px] font-fg  text-black shadow-md transition-all duration-300",
+                title: "flex flex-col items-center justify-end h-full",
+                error: "bg-red-400",
+                success: "bg-white",
+              },
+            }}
+          />
         </Providers>
       </body>
     </html>

@@ -9,19 +9,28 @@ import Link from "next/link";
 
 import { useAccount } from "wagmi";
 
+import CopyToClipboard from "react-copy-to-clipboard";
+
 import {
+  ChainIcon,
+  CopyIcon,
   DiscordIcon,
   GithubIcon,
   MentoLogoIcon,
   TwitterIcon,
 } from "@/components/_icons";
 import {
+  Avatar,
   DisconnectButton,
   MobileAccordionMenu,
   ThemeSwitch,
 } from "@/components/_shared";
 import { cn } from "@/styles/helpers";
-import { ConnectButton } from "@/components/_shared";
+import { ConnectButtonMobile } from "@/components/_shared";
+import WalletHelper from "@/lib/helpers/wallet.helper";
+import NumbersService from "@/lib/helpers/numbers.service";
+import useTokens from "@/lib/contracts/useTokens";
+import { useChainModal } from "@rainbow-me/rainbowkit";
 
 const variants = {
   open: { opacity: 1, x: 0, y: 21 },
@@ -71,27 +80,42 @@ const DropDownMenuOverlay = ({
   return (
     <>
       <motion.div
-        className="fixed bottom-0 left-0 right-0 top-5 z-50 flex h-screen w-screen flex-col bg-white p-4 dark:bg-black"
+        className="fixed bottom-0 left-0 right-0 top-5 z-50 flex h-screen w-screen flex-col bg-white p-4 pt-12 dark:bg-black"
         initial="closed"
         animate={isOpen ? "open" : "closed"}
         variants={variants}
         transition={{ duration: 0.8 }}
       >
+        {address && <ConnectedInfo address={address} />}
         <MobileAccordionMenu />
-        <div className="flex w-full flex-col items-center justify-center">
-          {address ? (
-            <div className="mt-5 flex w-full flex-col items-center justify-center">
-              <DisconnectButton>Disconnect Wallet</DisconnectButton>
-            </div>
-          ) : (
-            <ConnectButton theme="primary" />
-          )}
 
-          <div className="mt-8 flex flex-col items-center">
-            <SocialLinks />
-            <div>
-              <span className="text-[15px]">Theme</span>
-              <ThemeSwitch />
+        <div className="flex w-full flex-col items-center justify-center">
+          <div className="flex w-full flex-col items-center justify-center py-[32px]">
+            {address ? (
+              <DisconnectButton
+                theme="white"
+                fullwidth
+                className="h-[60px] text-[15px]"
+              >
+                Disconnect Wallet
+              </DisconnectButton>
+            ) : (
+              <ConnectButtonMobile
+                theme="primary"
+                className="h-[60px] text-[15px]"
+              />
+            )}
+          </div>
+
+          <div className="flex w-full flex-col items-center justify-center">
+            <div className="flex flex-col items-center">
+              <SocialLinks />
+              <div className="flex flex-col items-center pt-[32px]">
+                <span className="font-inter text-[15px] font-normal text-[#636768]">
+                  Theme
+                </span>
+                <ThemeSwitch />
+              </div>
             </div>
           </div>
         </div>
@@ -102,30 +126,30 @@ const DropDownMenuOverlay = ({
 
 const SocialLinks = () => {
   return (
-    <nav className="items-center-justify-center mx-auto flex">
+    <nav className="mx-auto flex items-center justify-center">
       <Link
-        className="p-2.5"
+        className=" px-[8px]"
         target="_blank"
         rel="noopener noreferrer"
         href={links.twitter}
       >
-        <TwitterIcon height={41} width={41} />
+        <TwitterIcon height={40} width={40} />
       </Link>
       <Link
-        className="p-2.5"
+        className=" px-[16px] py-[8px]"
         target="_blank"
         rel="noopener noreferrer"
         href={links.github}
       >
-        <GithubIcon height={41} width={41} />
+        <GithubIcon height={24} width={24} />
       </Link>
       <Link
-        className="p-2.5"
+        className="px-[16px] py-[8px]"
         target="_blank"
         rel="noopener noreferrer"
         href={links.discord}
       >
-        <DiscordIcon height={41} width={41} />
+        <DiscordIcon height={24} width={24} />
       </Link>
     </nav>
   );
@@ -170,6 +194,77 @@ const AnimatedHamburgerButton = ({
         />
       </motion.button>
     </MotionConfig>
+  );
+};
+
+const ConnectedInfo = ({ address }: { address: string }) => {
+  const { mentoBalance, veMentoBalance } = useTokens();
+  const { openChainModal } = useChainModal();
+
+  return (
+    <div className="flex pb-[32px] pt-[14px]">
+      <div className="mx-auto">
+        <div className="flex items-center justify-center pb-[16px]">
+          <div className="mx-[8px] my-[10px] flex h-[20px] w-[20px] items-center justify-center">
+            <Avatar
+              size="small"
+              className="flex h-full flex-row rounded-full"
+              address={address || ""}
+            />
+          </div>
+          <div className=" my-[10px]">
+            <div className="inline-block align-middle font-inter text-[15px] font-medium ">
+              {WalletHelper.getShortAddress(address)}
+            </div>
+          </div>
+          <div className="mx-[8px] my-[10px] flex h-[20.75px] w-[17.313px] items-center justify-center">
+            <CopyToClipboard text={address}>
+              <div className="cursor-pointer">
+                <CopyIcon height={22} width={18} />
+              </div>
+            </CopyToClipboard>
+          </div>
+        </div>
+        <div className="width-full mb-[8px] flex flex-row">
+          <div className="mr-[-1px] flex-1 rounded-l-lg border border-gray-300">
+            <div className="mx-[10px] inline-block w-[75px] align-middle font-inter text-[15px] font-semibold ">
+              MENTO
+            </div>
+          </div>
+          <div className="flex flex-1 items-center justify-center rounded-r-lg border border-gray-300">
+            <div className="inline-block px-[10px] text-center align-middle font-inter text-[15px] font-semibold">
+              {NumbersService.parseNumericValue(mentoBalance.formatted, 1)}
+            </div>
+          </div>
+        </div>
+
+        <div className="width-full flex flex-row">
+          <div className="mr-[-1px] flex-1 rounded-l-lg border border-gray-300">
+            <div className="mx-[10px] inline-block w-[75px] align-middle font-inter text-[15px] font-semibold">
+              veMENTO
+            </div>
+          </div>
+          <div className="flex flex-1 items-center justify-center rounded-r-lg border border-gray-300">
+            <div className="inline-block px-[10px] text-center align-middle font-inter text-[15px] font-semibold">
+              {NumbersService.parseNumericValue(veMentoBalance.formatted, 1)}
+            </div>
+          </div>
+        </div>
+
+        <div
+          onClick={openChainModal}
+          className="flex items-center justify-center pt-[16px]"
+        >
+          <ChainIcon
+            className="-[32px] h-[32px]"
+            strokeClass="stroke-mento-blue"
+          />
+          <a className="font-inter text-[15px] font-medium text-mento-blue underline underline-offset-[3px]">
+            Chain Settings
+          </a>
+        </div>
+      </div>
+    </div>
   );
 };
 

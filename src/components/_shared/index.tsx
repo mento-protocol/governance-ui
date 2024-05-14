@@ -5,6 +5,7 @@ export { Breadcrumbs } from "./breadcrumbs/breadcrumbs.component";
 export { Button, type ButtonProps } from "./button/button.component";
 export { Card } from "./card/card.component";
 export { ConnectButton } from "./connect-button/connect-button.component";
+export { ConnectButtonMobile } from "./connect-button/connect-button-mobile.component";
 export { DatePicker } from "./date-picker/date-picker.component";
 export { Divider } from "./divider/divider.component";
 export { DropdownButton } from "./dropdown-button/dropdown-button.component";

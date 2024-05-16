@@ -4,6 +4,7 @@ import { formatUnits } from "viem";
 import { VariantProps, cva } from "class-variance-authority";
 import { cn } from "@/styles/helpers";
 import ValueLoaderSkeleton from "../value-loader-skeleton/value-loader-skeleton.component";
+import NumbersService from "@/lib/helpers/numbers.service";
 
 type CurrencyInputProps = React.InputHTMLAttributes<HTMLInputElement> &
   VariantProps<typeof variants> & {
@@ -91,6 +92,11 @@ export const CurrencyInput = ({
 const UseMaxBalanceButton = ({ onMax }: { onMax?: () => void }) => {
   const { mentoBalance, isBalanceLoading } = useTokens();
 
+  const parsedMentoBalance = formatUnits(
+    mentoBalance.value,
+    mentoBalance.decimals,
+  );
+
   return (
     <button
       onClick={(e) => {
@@ -109,7 +115,9 @@ const UseMaxBalanceButton = ({ onMax }: { onMax?: () => void }) => {
               </ValueLoaderSkeleton>
             ) : (
               <>
-                {`${Number(formatUnits(mentoBalance.value, mentoBalance.decimals)).toFixed(3)}`}
+                {parsedMentoBalance.length > 6
+                  ? NumbersService.parseNumericValue(parsedMentoBalance)
+                  : Number(parsedMentoBalance).toFixed(1)}
               </>
             )}
           </span>

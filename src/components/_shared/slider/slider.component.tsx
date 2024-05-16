@@ -19,8 +19,8 @@ const Slider = React.forwardRef<
   SliderProps
 >(({ className, labels, ...props }: SliderProps, ref) => {
   return (
-    <div className=" mt-10 flex flex-col gap-1">
-      <div className="flex justify-between text-[#636366]">
+    <div className="mt-10 flex flex-col gap-1">
+      <div className="flex justify-between text-gray-dark">
         <label className="-translate-x-5" key={labels?.min}>
           {labels?.min}
         </label>
@@ -45,7 +45,7 @@ const Slider = React.forwardRef<
           props.value &&
           props?.value?.[0] > props?.min &&
           props?.value?.[0] < props?.max ? (
-            <span className="absolute -top-12 flex text-[#636366]">
+            <span className="absolute -top-12 flex text-gray-dark">
               <div className="flex w-fit whitespace-nowrap">
                 {labels?.current}
               </div>

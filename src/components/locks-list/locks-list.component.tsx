@@ -15,8 +15,8 @@ export const LocksList = ({ locks, onExtend, account }: ILocksList) => {
   return (
     <div className={`overflow-auto`}>
       <div className="mb-x2 grid grid-cols-3 items-center gap-[18px] px-x1 py-x2">
-        <LockTableTitle>Amount MENTO</LockTableTitle>
-        <LockTableTitle>Amount veMENTO</LockTableTitle>
+        <LockTableTitle>MENTO</LockTableTitle>
+        <LockTableTitle>veMENTO</LockTableTitle>
         <LockTableTitle>Expires on</LockTableTitle>
       </div>
       {account &&
@@ -57,14 +57,21 @@ export const LocksList = ({ locks, onExtend, account }: ILocksList) => {
 
 const LockTableTitle = ({ children }: { children: React.ReactNode }) => {
   return (
-    <div className="col-span-1 min-w-[150px] text-base font-medium not-italic">
+    <div
+      className="col-span-1 min-w-[150px] font-inter text-base/[24px]
+      font-medium not-italic text-gray-dark"
+    >
       {children}
     </div>
   );
 };
 
 const LockTableValue = ({ children }: { children: React.ReactNode }) => {
-  return <div className="min-w-[150px] font-medium not-italic">{children}</div>;
+  return (
+    <div className="min-w-[150px] text-[22px]/none font-medium not-italic">
+      {children}
+    </div>
+  );
 };
 
 const LockEntry = ({

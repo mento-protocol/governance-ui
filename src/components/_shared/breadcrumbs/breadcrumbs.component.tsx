@@ -40,8 +40,8 @@ export const Breadcrumbs = () => {
   );
 
   return (
-    <nav className="mt-10 w-full" aria-label="Breadcrumb">
-      <ol className="flex gap-2 font-inter text-[18px]">
+    <nav className="mt-10 w-full text-[20px]/none" aria-label="Breadcrumb">
+      <ol className="flex gap-2 font-inter">
         {crumbsPath.map((path, index) => (
           <Crumb
             key={index}

@@ -6,9 +6,10 @@ import {
   CreateProposalStep,
   useCreateProposal,
 } from "../create-proposal-provider";
-import { parseUnits } from "viem";
+import { formatUnits, parseUnits } from "viem";
 import { CreateProposalWrapper } from "../create-proposal-wrapper/create-proposal-wrapper.component";
 import Link from "next/link";
+import { formatUnitsWithRadix } from "@/lib/helpers/numbers.service";
 
 enum WalletStepEnum {
   connectWallet = "connectWallet",
@@ -17,7 +18,17 @@ enum WalletStepEnum {
   createProposal = "createProposal",
 }
 
-const CurrentFormStep = ({ formStep }: { formStep: WalletStepEnum }) => {
+const CurrentFormStep = ({
+  formStep,
+  mentoOutstanding,
+  veMentoOutstanding,
+}: {
+  formStep: WalletStepEnum;
+  mentoOutstanding: bigint;
+  veMentoOutstanding: bigint;
+}) => {
+  const { mentoBalance, veMentoBalance } = useTokens();
+
   switch (formStep) {
     case WalletStepEnum.connectWallet:
       return (
@@ -32,7 +43,14 @@ const CurrentFormStep = ({ formStep }: { formStep: WalletStepEnum }) => {
       return (
         <>
           <p className="mt-4 place-self-start text-xl">
+            You have {formatUnits(mentoBalance.value, mentoBalance.decimals)}{" "}
+            MENTO & {formatUnits(veMentoBalance.value, veMentoBalance.decimals)}{" "}
+            veMENTO.
+            <br />
             To create new governance proposal you need to lock 2,500 MENTO.
+            <br />
+            Please purchase {formatUnitsWithRadix(mentoOutstanding, 18, 4)}{" "}
+            additional MENTO to continue.
           </p>
           <p className="font-size-x4 line-height-x5 place-self-start">
             You can purchase MENTO{" "}
@@ -50,7 +68,11 @@ const CurrentFormStep = ({ formStep }: { formStep: WalletStepEnum }) => {
       return (
         <>
           <p className="mt-4 place-self-start text-xl">
-            To create new governance proposal you need to lock 2,500 veMENTO.
+            You have{" "}
+            {formatUnits(veMentoBalance.value, veMentoBalance.decimals)}{" "}
+            veMENTO. To create new governance proposal you need to lock{" "}
+            {formatUnits(veMentoOutstanding, veMentoBalance.decimals)}
+            MENTO and have at least 2,500 veMENTO
           </p>
           <div className="p-8">
             <MentoLock />
@@ -79,20 +101,29 @@ export const CreateProposalWalletStep = () => {
     WalletStepEnum.connectWallet,
   );
 
+  const [veMentoOutstanding, setVeMentoOutstanding] = useState(0n);
+  const [mentoOutstanding, setMentoOutstanding] = useState(0n);
+
   useEffect(() => {
+    let direction = WalletStepEnum.connectWallet;
+    const targetVeMento = parseUnits("2500", veMentoBalance.decimals);
+
     // TODO: Check if veMento + mento balance >= 2500 ? lock || buy mento
     if (!address) {
-      return setWalletStep(WalletStepEnum.connectWallet);
-    } else if (
-      veMentoBalance.value <= parseUnits("2500", veMentoBalance.decimals)
-    ) {
-      return setWalletStep(WalletStepEnum.lockMento);
-    } else if (mentoBalance.value < parseUnits("2500", mentoBalance.decimals)) {
-      return setWalletStep(WalletStepEnum.buyMento);
+      direction = WalletStepEnum.connectWallet;
+    } else if (veMentoBalance.value <= targetVeMento) {
+      setVeMentoOutstanding(targetVeMento - veMentoBalance.value);
+      direction = WalletStepEnum.lockMento;
+
+      if (mentoBalance.value < veMentoOutstanding) {
+        setMentoOutstanding(veMentoOutstanding - mentoBalance.value);
+        direction = WalletStepEnum.buyMento;
+      }
     } else {
       setStep(CreateProposalStep.content);
-      return setWalletStep(WalletStepEnum.createProposal);
+      direction = WalletStepEnum.createProposal;
     }
+    return setWalletStep(direction);
   }, [
     address,
     mentoBalance.decimals,
@@ -100,6 +131,7 @@ export const CreateProposalWalletStep = () => {
     setStep,
     veMentoBalance.decimals,
     veMentoBalance.value,
+    veMentoOutstanding,
   ]);
 
   return (
@@ -112,7 +144,11 @@ export const CreateProposalWalletStep = () => {
       }
       title="Connect your wallet & login"
     >
-      <CurrentFormStep formStep={walletFormStep} />
+      <CurrentFormStep
+        formStep={walletFormStep}
+        mentoOutstanding={mentoOutstanding}
+        veMentoOutstanding={veMentoOutstanding}
+      />
     </CreateProposalWrapper>
   );
 };

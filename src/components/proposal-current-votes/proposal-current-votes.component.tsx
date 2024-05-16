@@ -54,9 +54,9 @@ export const ProposalCurrentVotes = ({
   }, [proposal.votes.for.total, proposal.votes.total]);
 
   return (
-    <Card className={className}>
+    <Card className={cn(className, "p-4")}>
       <Card.Header>
-        <h3 className="mb-8 mt-4 flex justify-center text-[32px]/none font-medium">
+        <h3 className="mb-8 flex justify-center text-[32px]/none font-medium">
           Current votes
         </h3>
       </Card.Header>

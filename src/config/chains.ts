@@ -30,23 +30,6 @@ export const Alfajores: MentoChain = defineChain({
   contracts: {
     ...celoAlfajores.contracts,
     ...transformToChainContracts(addresses[celoAlfajores.id]),
-    //TODO: REMOVE ME POST SUBGRAPH UPDATE PLS :'(
-    //      Here we override the MentoGovernor and Locking contract addresses
-    //      To use the versions deployed by @bowd that have proposal and have
-    //      been indexed by the subgraph.
-    //      This should be removed once the subgraph is updated and the contracts
-    //      Have been seeded with some test proposals.
-    //      See comment here:
-    //      https://github.com/mento-protocol/governance-ui/pull/50#issue-2109977351
-    MentoGovernor: {
-      address: "0xc1d32e3bac67b28d31d7828c8ff160e44c37be1c",
-    },
-    Locking: {
-      address: "0x8E1707307f04eC9742AD3d8e6D88AE5F506F83cA",
-    },
-    MentoToken: {
-      address: "0xc88f553DC20fc78ce554bfF97C2F4a4E5BDB0134",
-    },
   },
 });
 

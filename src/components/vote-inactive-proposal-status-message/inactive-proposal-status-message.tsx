@@ -57,7 +57,7 @@ export const InactiveProposalStatusMessage = ({
   proposalState: Exclude<ProposalState, ProposalState.Active>;
 }) => {
   return (
-    <Card>
+    <Card className="min-h-[260px] p-4">
       <Card.Header className="text-center">
         <h2 className="font-fg text-[32px]/none font-medium">
           {INACTIVE_PROPOSAL_MESSAGE_MAP[proposalState].header}

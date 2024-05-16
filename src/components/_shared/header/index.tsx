@@ -17,7 +17,7 @@ export const Header = () => {
 
 const DesktopHeader = () => {
   return (
-    <header className="sticky top-0 z-50 mx-auto hidden h-16 w-full items-center justify-center border-b border-gray-light bg-white px-4 py-10 dark:border-[#343437] dark:bg-black lg:flex">
+    <header className="mx-auto hidden h-32 w-full items-center justify-center bg-white px-4 py-10 dark:border-[#343437] dark:bg-black lg:flex">
       <MaxWidthWrapper>
         <div className="flex w-full items-center justify-between">
           <Link href="/">

@@ -149,6 +149,7 @@ const config: Config = {
           light: "#B3B3B3",
           DEFAULT: "#808080",
           regular: "#808080",
+          dark: "#636366",
         },
         mento: {
           blue: "#4D62F0",

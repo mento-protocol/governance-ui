@@ -232,7 +232,7 @@ const ConnectedInfo = ({ address }: { address: string }) => {
             </CopyToClipboard>
           </div>
         </div>
-        <div className="width-full mb-[8px] flex flex-row">
+        <div className="width-full mb-[8px] flex min-h-[32px] flex-row">
           <div className="mr-[-1px] flex-1 rounded-l-lg border border-gray-300">
             <div className="mx-[10px] inline-block w-[75px] align-middle font-inter text-[15px] font-semibold ">
               MENTO
@@ -245,7 +245,7 @@ const ConnectedInfo = ({ address }: { address: string }) => {
           </div>
         </div>
 
-        <div className="width-full flex flex-row">
+        <div className="width-full flex min-h-[32px] flex-row">
           <div className="mr-[-1px] flex-1 rounded-l-lg border border-gray-300">
             <div className="mx-[10px] inline-block w-[75px] align-middle font-inter text-[15px] font-semibold">
               veMENTO

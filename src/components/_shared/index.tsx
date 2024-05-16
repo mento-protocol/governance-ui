@@ -40,3 +40,4 @@ export { DisconnectButton } from "./disconnect-button";
 export { MaxWidthWrapper } from "./max-width-wrapper";
 export { MobileAccordionMenu } from "./mobile-accordion-menu";
 export { CurrencyInput } from "./currency-input/currency-input.component";
+export { Toaster } from "./toaster/toaster.component";

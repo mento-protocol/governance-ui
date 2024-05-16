@@ -31,6 +31,7 @@ import WalletHelper from "@/lib/helpers/wallet.helper";
 import NumbersService from "@/lib/helpers/numbers.service";
 import useTokens from "@/lib/contracts/useTokens";
 import { useChainModal } from "@rainbow-me/rainbowkit";
+import { toast } from "sonner";
 
 const variants = {
   open: { opacity: 1, x: 0, y: 21 },
@@ -200,6 +201,12 @@ const AnimatedHamburgerButton = ({
 const ConnectedInfo = ({ address }: { address: string }) => {
   const { mentoBalance, veMentoBalance } = useTokens();
   const { openChainModal } = useChainModal();
+  const onCopy = async () => {
+    toast.success("Address copied to clipboard", {
+      unstyled: true,
+      duration: 2000,
+    });
+  };
 
   return (
     <div className="flex pb-[32px] pt-[14px]">
@@ -218,7 +225,7 @@ const ConnectedInfo = ({ address }: { address: string }) => {
             </div>
           </div>
           <div className="mx-[8px] my-[10px] flex h-[20.75px] w-[17.313px] items-center justify-center">
-            <CopyToClipboard text={address}>
+            <CopyToClipboard onCopy={onCopy} text={address}>
               <div className="cursor-pointer">
                 <CopyIcon height={22} width={18} />
               </div>

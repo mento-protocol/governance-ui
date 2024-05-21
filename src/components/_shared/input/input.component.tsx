@@ -109,7 +109,7 @@ export const Input = ({
         {addon}
       </div>
       {!!error && (
-        <div className="pt-1 text-sm font-semibold text-error-dark">
+        <div className="p2-1 text-sm font-semibold text-error-dark">
           {error}
         </div>
       )}

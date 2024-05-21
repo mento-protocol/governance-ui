@@ -72,13 +72,13 @@ export const CreateProposalWrapper = ({
           {children}
         </div>
         <Card.Footer>
-          <div className="full-w flex items-center justify-start gap-x3 px-x4 pb-x4 empty:hidden">
+          <div className="full-w flex items-center justify-start gap-x3 py-x4 empty:hidden">
             {onPrev && (
               <Button
                 className="min-w-x20"
                 onClick={onPrev}
                 disabled={!onPrev}
-                theme="info"
+                theme="clear"
               >
                 Back
               </Button>

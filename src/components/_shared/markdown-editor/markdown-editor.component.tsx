@@ -5,7 +5,6 @@ import {
   CodeToggle,
   CreateLink,
   InsertCodeBlock,
-  InsertImage,
   InsertThematicBreak,
   ListsToggle,
   MDXEditor,
@@ -118,13 +117,12 @@ export const MarkdownEditor = ({
                       <CodeToggle />
                       <CreateLink />
                       <InsertCodeBlock />
-                      <InsertImage />
                       <ListsToggle />
                       <InsertThematicBreak />
                     </>
                   ),
                 }),
-                listsPlugin(),
+                listsPlugin({}),
                 quotePlugin(),
                 headingsPlugin(),
                 linkPlugin(),

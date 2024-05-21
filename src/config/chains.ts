@@ -45,8 +45,8 @@ function transformToChainContracts(
 
   Object.keys(contractAddresses).forEach((key) => {
     const contractKey = key as keyof ContractAddresses;
-    chainContracts[contractKey] = {
-      address: contractAddresses[contractKey] as Address,
+    chainContracts[contractKey as string] = {
+      address: contractAddresses[contractKey as string] as Address,
     };
   });
 

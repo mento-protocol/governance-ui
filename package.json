@@ -46,7 +46,6 @@
     "react-markdown": "^9.0.1",
     "remark-gfm": "^4.0.0",
     "sass": "^1.68.0",
-    "sonner": "^1.4.41",
     "tailwind-merge": "^2.2.2",
     "viem": "^2.9.16",
     "wagmi": "^2.5.19",

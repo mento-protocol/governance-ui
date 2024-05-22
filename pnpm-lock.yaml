@@ -2739,9 +2739,6 @@ packages:
     resolution: {integrity: sha512-TRlP05KY6t3wjLJ74FiirWlEt3xTclnUQM2YdYto1jx5G1o0meMnugIUZXhzm7Bs3rDEDNhz/aDf2KMSZtoCFg==}
     engines: {node: '>=16'}
 
-  '@scure/base@1.1.5':
-    resolution: {integrity: sha512-Brj9FiG2W1MRQSTB212YVPRrcbjkv48FoZi/u4l/zds/ieRrqsh7aUf6CLwkAq61oKXr/ZlTzlY66gLIj3TFTQ==}
-
   '@scure/base@1.1.6':
     resolution: {integrity: sha512-ok9AWwhcgYuGG3Zfhyqg+zwl+Wn5uE+dwC0NV/2qQkx4dABbb/bx96vWu8NSj+BNjjSjno+JRYRjle1jV08k3g==}
 
@@ -6757,6 +6754,7 @@ packages:
   react-remove-scroll-bar@2.3.5:
     resolution: {integrity: sha512-3cqjOqg6s0XbOjWvmasmqHch+RLxIEk2r/70rzGXuz3iIGQsQheEQyqYCBb5EECoD01Vo2SIbDqW4paLeLTASw==}
     engines: {node: '>=10'}
+    deprecated: please update to the following version as this contains a bug (https://github.com/theKashey/react-remove-scroll-bar/issues/57)
     peerDependencies:
       '@types/react': ^16.8.0 || ^17.0.0 || ^18.0.0
       react: ^16.8.0 || ^17.0.0 || ^18.0.0
@@ -11940,15 +11938,13 @@ snapshots:
 
   '@safe-global/safe-gateway-typescript-sdk@3.19.0': {}
 
-  '@scure/base@1.1.5': {}
-
   '@scure/base@1.1.6': {}
 
   '@scure/bip32@1.3.2':
     dependencies:
       '@noble/curves': 1.2.0
-      '@noble/hashes': 1.3.2
-      '@scure/base': 1.1.5
+      '@noble/hashes': 1.3.3
+      '@scure/base': 1.1.6
 
   '@scure/bip32@1.3.3':
     dependencies:
@@ -11958,8 +11954,8 @@ snapshots:
 
   '@scure/bip39@1.2.1':
     dependencies:
-      '@noble/hashes': 1.3.2
-      '@scure/base': 1.1.5
+      '@noble/hashes': 1.3.3
+      '@scure/base': 1.1.6
 
   '@scure/bip39@1.2.2':
     dependencies:

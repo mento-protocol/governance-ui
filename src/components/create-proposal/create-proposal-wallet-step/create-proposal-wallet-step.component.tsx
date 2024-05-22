@@ -20,7 +20,6 @@ enum WalletStepEnum {
 }
 
 const CurrentFormStep = ({ formStep }: { formStep: WalletStepEnum }) => {
-
   const { veMentoBalance, mentoBalance } = useTokens();
   const { proposalThreshold } = useProposalThreshold();
 
@@ -129,11 +128,7 @@ export const CreateProposalWalletStep = () => {
       }
       title="Connect your wallet & login"
     >
-      <CurrentFormStep
-        formStep={walletFormStep}
-        mentoOutstanding={mentoOutstanding}
-        veMentoOutstanding={veMentoOutstanding}
-      />
+      <CurrentFormStep formStep={walletFormStep} />
     </CreateProposalWrapper>
   );
 };

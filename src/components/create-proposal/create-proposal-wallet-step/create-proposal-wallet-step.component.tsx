@@ -1,4 +1,4 @@
-import { ConnectButton, MentoLock } from "@/components/_shared";
+import { ConnectButton } from "@/components/_shared";
 import { useEffect, useState } from "react";
 import { useAccount } from "wagmi";
 import useTokens from "@/lib/contracts/useTokens";
@@ -10,6 +10,7 @@ import { formatUnits } from "viem";
 import { CreateProposalWrapper } from "../create-proposal-wrapper/create-proposal-wrapper.component";
 import { formatUnitsWithRadix } from "@/lib/helpers/numbers.service";
 import { useProposalThreshold } from "@/lib/contracts/governor/useProposalThreshold";
+import Link from "next/link";
 
 enum WalletStepEnum {
   connectWallet = "connectWallet",
@@ -25,7 +26,7 @@ const CurrentFormStep = ({
   mentoOutstanding: bigint;
   veMentoOutstanding: bigint;
 }) => {
-  const { veMentoBalance } = useTokens();
+  const { veMentoBalance, mentoBalance } = useTokens();
   const { proposalThreshold } = useProposalThreshold();
 
   switch (formStep) {
@@ -42,27 +43,32 @@ const CurrentFormStep = ({
       return (
         <>
           <p className="mt-4 place-self-start text-xl">
-            You have{" "}
-            {formatUnits(veMentoBalance.value, veMentoBalance.decimals)}{" "}
+            You have {formatUnits(mentoBalance.value, mentoBalance.decimals)}{" "}
+            MENTO & {formatUnits(veMentoBalance.value, veMentoBalance.decimals)}{" "}
             veMENTO.
             <br />
-            To create new governance proposal you need to lock{" "}
-            {formatUnitsWithRadix(proposalThreshold, 18, 2)} MENTO.
+            To create a new governance proposal, you should have{" "}
+            {formatUnitsWithRadix(proposalThreshold, 18, 2)} veMENTO in your
+            account.
           </p>
+          {/* TODO: When transfers & buying is available, update here */}
         </>
       );
     case WalletStepEnum.lockMento:
       return (
         <>
           <p className="mt-4 place-self-start text-xl">
-            You have{" "}
-            {formatUnits(veMentoBalance.value, veMentoBalance.decimals)}{" "}
-            veMENTO. To create new governance proposal have at least{" "}
-            {formatUnitsWithRadix(proposalThreshold, 18, 2)} veMENTO.
+            You have {formatUnits(mentoBalance.value, mentoBalance.decimals)}{" "}
+            MENTO & {formatUnits(veMentoBalance.value, veMentoBalance.decimals)}{" "}
+            veMENTO.
+            <br />
+            To create a new governance proposal, you should have{" "}
+            {formatUnitsWithRadix(proposalThreshold, 18, 2)} veMENTO in your
+            account.
+            <br />
+            You can lock MENTO as veMENTO{" "}
+            <Link href="/my-voting-power">here</Link>.
           </p>
-          <div className="p-8">
-            <MentoLock />
-          </div>
         </>
       );
     case WalletStepEnum.createProposal:

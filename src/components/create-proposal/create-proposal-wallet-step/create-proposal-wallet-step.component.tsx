@@ -53,7 +53,7 @@ const CurrentFormStep = ({ formStep }: { formStep: WalletStepEnum }) => {
             To create new governance proposal you need to lock 2,500 veMENTO.
           </p>
           <div className="p-8">
-            <MentoLock />
+            <MentoLock className="mx-auto max-w-[418px]" />
           </div>
         </>
       );

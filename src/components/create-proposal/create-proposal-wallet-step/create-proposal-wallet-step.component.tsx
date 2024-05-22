@@ -19,13 +19,7 @@ enum WalletStepEnum {
   createProposal = "createProposal",
 }
 
-const CurrentFormStep = ({
-  formStep,
-}: {
-  formStep: WalletStepEnum;
-  mentoOutstanding: bigint;
-  veMentoOutstanding: bigint;
-}) => {
+const CurrentFormStep = ({ formStep }: { formStep: WalletStepEnum }) => {
   const { veMentoBalance, mentoBalance } = useTokens();
   const { proposalThreshold } = useProposalThreshold();
 
@@ -66,7 +60,7 @@ const CurrentFormStep = ({
             {formatUnitsWithRadix(proposalThreshold, 18, 2)} veMENTO in your
             account.
             <br />
-            You can lock MENTO as veMENTO{" "}
+            You can lock MENTO to get veMENTO{" "}
             <Link href="/my-voting-power">here</Link>.
           </p>
         </>
@@ -95,7 +89,6 @@ export const CreateProposalWalletStep = () => {
   );
 
   const [veMentoOutstanding, setVeMentoOutstanding] = useState(0n);
-  const [mentoOutstanding, setMentoOutstanding] = useState(0n);
 
   useEffect(() => {
     let direction = WalletStepEnum.connectWallet;
@@ -107,7 +100,6 @@ export const CreateProposalWalletStep = () => {
       direction = WalletStepEnum.lockMento;
 
       if (mentoBalance.value == 0n) {
-        setMentoOutstanding(veMentoOutstanding - mentoBalance.value);
         direction = WalletStepEnum.buyMento;
       }
     } else {
@@ -136,11 +128,7 @@ export const CreateProposalWalletStep = () => {
       }
       title="Connect your wallet & login"
     >
-      <CurrentFormStep
-        formStep={walletFormStep}
-        mentoOutstanding={mentoOutstanding}
-        veMentoOutstanding={veMentoOutstanding}
-      />
+      <CurrentFormStep formStep={walletFormStep} />
     </CreateProposalWrapper>
   );
 };

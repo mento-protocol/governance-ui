@@ -86,7 +86,7 @@ export const CreateProposalWrapper = ({
 
             {onNext !== undefined && (
               <Button className="min-w-x20" onClick={onNext} theme="primary">
-                Next
+                Continue
               </Button>
             )}
             {onSave !== undefined && (

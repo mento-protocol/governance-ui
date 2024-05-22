@@ -21,8 +21,8 @@ dependencies:
     specifier: ^1.11.2
     version: 1.14.3(@codemirror/language@6.10.1)(@lezer/common@1.2.1)(@lezer/highlight@1.2.0)(@types/react-dom@18.2.22)(@types/react@18.2.65)(react-dom@18.2.0)(react@18.2.0)(yjs@13.6.14)
   '@mento-protocol/mento-sdk':
-    specifier: ^0.2.2
-    version: 0.2.4(ethers@5.7.2)
+    specifier: 0.2.7
+    version: 0.2.7(ethers@5.7.2)
   '@radix-ui/react-scroll-area':
     specifier: ^1.0.5
     version: 1.0.5(@types/react-dom@18.2.22)(@types/react@18.2.65)(react-dom@18.2.0)(react@18.2.0)
@@ -4225,8 +4225,8 @@ packages:
     resolution: {integrity: sha512-jrJdglXnTecveV0AUp9qoENXL0c7x/deNp4Abkyy7Flm0ChhyGd7qWd7W5djDIYpnPM5xzeQnsGg2b8jyNf2Xw==}
     dev: false
 
-  /@mento-protocol/mento-sdk@0.2.4(ethers@5.7.2):
-    resolution: {integrity: sha512-T/FVJhc8npsb3Fm62xNcEr9HTTSo0uXalv4S9GdIAut6ppoQ3IdVONVSeGgD7VAEnP6G5/Km9WvcYpDDXnrfuQ==}
+  /@mento-protocol/mento-sdk@0.2.7(ethers@5.7.2):
+    resolution: {integrity: sha512-E3mWqwuDadRHM6XEq5AY7lXYoK+WjvOu86we0CXzF7F3T7RV5MXhpqNqsOJCyb44C1ybO44e8BIcqZ1HsnBvMA==}
     engines: {node: '>=14'}
     peerDependencies:
       ethers: ^5.7

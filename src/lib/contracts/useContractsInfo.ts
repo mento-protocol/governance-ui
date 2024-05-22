@@ -62,7 +62,7 @@ function decodeCalldata(
 
     if (data?.functionName) {
       // output example: `transfer(0x1234etc, 100)`
-      return `${data.functionName}(${data.args.length ? data.args.join(", ") : ""})`;
+      return `${data.functionName}(${data.args?.length ? data.args.join(", ") : ""})`;
     } else {
       return call.calldata;
     }

@@ -102,7 +102,7 @@ export const CreateProposalExecutionStep = () => {
             transaction will be used.
           </p>
           <Textarea
-            className="mb-x5 mt-x5 min-h-[266px]"
+            className="mt-x5 min-h-[266px]"
             form={{ ...register("code") }}
             id="code"
             error={

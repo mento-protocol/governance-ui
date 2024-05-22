@@ -8,9 +8,9 @@ import {
 } from "../create-proposal-provider";
 import { formatUnits } from "viem";
 import { CreateProposalWrapper } from "../create-proposal-wrapper/create-proposal-wrapper.component";
-import { formatUnitsWithRadix } from "@/lib/helpers/numbers.service";
 import { useProposalThreshold } from "@/lib/contracts/governor/useProposalThreshold";
 import Link from "next/link";
+import { formatUnitsWithRadix } from "@/lib/helpers/numbers.service";
 
 enum WalletStepEnum {
   connectWallet = "connectWallet",
@@ -20,6 +20,7 @@ enum WalletStepEnum {
 }
 
 const CurrentFormStep = ({ formStep }: { formStep: WalletStepEnum }) => {
+
   const { veMentoBalance, mentoBalance } = useTokens();
   const { proposalThreshold } = useProposalThreshold();
 
@@ -128,7 +129,11 @@ export const CreateProposalWalletStep = () => {
       }
       title="Connect your wallet & login"
     >
-      <CurrentFormStep formStep={walletFormStep} />
+      <CurrentFormStep
+        formStep={walletFormStep}
+        mentoOutstanding={mentoOutstanding}
+        veMentoOutstanding={veMentoOutstanding}
+      />
     </CreateProposalWrapper>
   );
 };

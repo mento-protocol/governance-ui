@@ -36,9 +36,7 @@ export const MobileAccordionMenu = ({
   classNames?: string;
 }) => {
   return (
-    <div
-      className={cn("mb-8 flex flex-col bg-white dark:bg-black", classNames)}
-    >
+    <div className={cn("flex flex-col bg-white dark:bg-black", classNames)}>
       {mobileMenuAccordionMenuItems
         .filter(({ items }) => !!items)
         .map(({ name: headingName, items }) => {

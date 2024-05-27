@@ -39,13 +39,13 @@ const Slider = React.forwardRef<
         <SliderPrimitive.Track className="relative h-[34px] w-full grow overflow-hidden rounded-lg border border-black dark:border-gray-light ">
           <SliderPrimitive.Range className="absolute h-full bg-mento-blush" />
         </SliderPrimitive.Track>
-        <SliderPrimitive.Thumb className=" focus-visible:ring-ring relative block h-11 w-11 rounded-lg border border-black bg-black shadow transition-colors focus-visible:outline-none focus-visible:ring-1 disabled:pointer-events-none disabled:opacity-50 dark:border-gray-light">
+        <SliderPrimitive.Thumb className="focus-visible:ring-ring relative block h-11 w-11 rounded-lg border border-black bg-black shadow transition-colors focus-visible:outline-none focus-visible:ring-1 disabled:pointer-events-none disabled:opacity-50 dark:border-gray-light">
           {props.min &&
           props.max &&
           props.value &&
           props?.value?.[0] > props?.min &&
           props?.value?.[0] < props?.max ? (
-            <span className="absolute -top-12 flex text-gray-dark">
+            <span className="absolute -top-12 left-1/2 flex -translate-x-1/2 text-gray-dark">
               <div className="flex w-fit whitespace-nowrap">
                 {labels?.current}
               </div>

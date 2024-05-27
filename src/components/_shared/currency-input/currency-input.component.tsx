@@ -105,7 +105,7 @@ const UseMaxBalanceButton = ({ onMax }: { onMax?: () => void }) => {
       }}
       className="w-full opacity-50"
     >
-      <div className="flex justify-between gap-1">
+      <div className="flex justify-between">
         <div>Max available</div>
         <div className="flex gap-1">
           <span>

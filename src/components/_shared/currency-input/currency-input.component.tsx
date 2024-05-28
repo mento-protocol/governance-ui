@@ -82,7 +82,7 @@ export const CurrencyInput = ({
         />
         <UseMaxBalanceButton onMax={onMax} />
       </div>
-      <span className="min-h-[24px] text-error">
+      <span className="min-h-[16px] text-base/[16px] text-error">
         <>{!!errorMessage && errorMessage}</>
       </span>
     </div>

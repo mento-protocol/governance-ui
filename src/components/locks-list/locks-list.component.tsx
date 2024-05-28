@@ -14,13 +14,13 @@ interface ILocksList {
 export const LocksList = ({ locks, onExtend, account }: ILocksList) => {
   return (
     <div className={`overflow-auto`}>
-      <div className="mb-x2 grid grid-cols-3 items-center gap-[18px] px-x1 py-x2">
+      <div className="mb-x2 grid grid-cols-3 items-center gap-[18px] px-x1">
         <LockTableTitle>MENTO</LockTableTitle>
         <LockTableTitle>veMENTO</LockTableTitle>
         <LockTableTitle>Expires on</LockTableTitle>
       </div>
       {account &&
-        [...locks]
+        [...locks, { ...locks[0], lockId: "0" }]
           .sort((lockA, lockB) => {
             if (lockA.lockCreate.length === 0 || lockB.lockCreate.length === 0)
               return 1;
@@ -44,7 +44,7 @@ export const LocksList = ({ locks, onExtend, account }: ILocksList) => {
                 account={account}
                 onExtend={onExtend}
                 lock={lock}
-                key={lock.lockId}
+                key={lock.lockId + index}
               />
               {index === array.length - 1 ? null : (
                 <div className="grid-span-[1/-1] border-b border-solid border-gray-light" />

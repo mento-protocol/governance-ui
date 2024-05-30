@@ -9,7 +9,9 @@ const Page = () => {
   const { locks, refetch } = useLocksByAccount({ account: address! });
   return (
     <main className="flex flex-col place-items-center">
-      <h2 className="mb-4 mt-8 text-2xl">My Voting Power</h2>
+      <h2 className="mb-4 mt-8 text-[32px]/none font-medium">
+        My Voting Power
+      </h2>
       <Card className="flex min-h-60 items-center justify-center py-10" block>
         {address ? (
           <MentoLock
@@ -27,7 +29,9 @@ const Page = () => {
       </Card>
       {address && (
         <>
-          <h2 className="mb-4 mt-8 text-2xl">My Locks</h2>
+          <h2 className="mb-4 mt-[56px] text-[32px]/none font-medium">
+            My Locks
+          </h2>
           <Card block>
             {address && !isConnecting && (
               <LocksList locks={locks} onExtend={refetch} account={address} />

@@ -4,6 +4,7 @@ import { formatUnits } from "viem";
 import { VariantProps, cva } from "class-variance-authority";
 import { cn } from "@/styles/helpers";
 import ValueLoaderSkeleton from "../value-loader-skeleton/value-loader-skeleton.component";
+import NumbersService from "@/lib/helpers/numbers.service";
 
 type CurrencyInputProps = React.InputHTMLAttributes<HTMLInputElement> &
   VariantProps<typeof variants> & {
@@ -81,7 +82,7 @@ export const CurrencyInput = ({
         />
         <UseMaxBalanceButton onMax={onMax} />
       </div>
-      <span className="min-h-[24px] text-error">
+      <span className="min-h-[16px] text-base/[16px] text-error">
         <>{!!errorMessage && errorMessage}</>
       </span>
     </div>
@@ -91,6 +92,11 @@ export const CurrencyInput = ({
 const UseMaxBalanceButton = ({ onMax }: { onMax?: () => void }) => {
   const { mentoBalance, isBalanceLoading } = useTokens();
 
+  const parsedMentoBalance = formatUnits(
+    mentoBalance.value,
+    mentoBalance.decimals,
+  );
+
   return (
     <button
       onClick={(e) => {
@@ -99,7 +105,7 @@ const UseMaxBalanceButton = ({ onMax }: { onMax?: () => void }) => {
       }}
       className="w-full opacity-50"
     >
-      <div className="flex justify-between gap-1">
+      <div className="flex justify-between">
         <div>Max available</div>
         <div className="flex gap-1">
           <span>
@@ -109,7 +115,9 @@ const UseMaxBalanceButton = ({ onMax }: { onMax?: () => void }) => {
               </ValueLoaderSkeleton>
             ) : (
               <>
-                {`${Number(formatUnits(mentoBalance.value, mentoBalance.decimals)).toFixed(3)}`}
+                {parsedMentoBalance.length > 6
+                  ? NumbersService.parseNumericValue(parsedMentoBalance)
+                  : Number(parsedMentoBalance).toFixed(1)}
               </>
             )}
           </span>

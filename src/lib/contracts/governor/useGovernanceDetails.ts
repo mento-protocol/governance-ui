@@ -21,15 +21,18 @@ function convertSecondsToDays(
   return Math.floor(days);
 }
 
+function convertSecondsToMinutes(
+  durationInSeconds: string | bigint | number,
+): number {
+  const minutes = Number(durationInSeconds) / 60;
+  return Math.floor(minutes);
+}
+
 function formatParam(
-  rawParam: any,
+  result: any,
   formatter: (value: string | number | bigint) => string,
 ) {
-  if (rawParam.result !== undefined) {
-    return formatter(rawParam.result);
-  }
-
-  return null;
+  return formatter(result);
 }
 
 const useGovernanceDetails = () => {
@@ -97,7 +100,11 @@ const useGovernanceDetails = () => {
 
     return formatParam(votingPeriod, (value) => {
       const votingPeriodInSeconds = convertCeloBlocksToSeconds(value);
-      return `${convertSecondsToDays(votingPeriodInSeconds)} days`;
+      const votingPeriodInDays = convertSecondsToDays(votingPeriodInSeconds);
+      if (votingPeriodInDays < 1) {
+        return `${convertSecondsToMinutes(votingPeriodInSeconds)} minutes`;
+      }
+      return `${votingPeriodInDays} days`;
     });
   }, [votingPeriod]);
 
@@ -105,7 +112,11 @@ const useGovernanceDetails = () => {
     if (!timeLockDuration) return "-";
 
     return formatParam(timeLockDuration, (value) => {
-      return `${convertSecondsToDays(value)} days`;
+      const timeLockDurationInDays = convertSecondsToDays(value);
+      if (timeLockDurationInDays < 1) {
+        return `${convertSecondsToMinutes(value)} minutes`;
+      }
+      return `${timeLockDurationInDays} days`;
     });
   }, [timeLockDuration]);
 

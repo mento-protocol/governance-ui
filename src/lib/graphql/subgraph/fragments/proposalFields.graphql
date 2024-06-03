@@ -8,6 +8,10 @@ fragment ProposalFields on Proposal {
     timestamp
   }
 
+  proposalQueued{
+    eta
+  }
+
   # Votes
   votecast {
     timestamp

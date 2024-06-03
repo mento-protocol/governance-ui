@@ -44,9 +44,9 @@ export const ProposalCurrentVotes = ({
   }, [proposal.votes.against.total, proposal.votes.for.total, quorumNeeded]);
 
   const majoritySupport = useMemo(() => {
-    if (proposal.votes.total === 0n || proposal.votes.for.total === 0n)
-      return false;
+    if (proposal.votes.total === 0n) return false;
 
+    // TODO: change to quorum
     return (
       (proposal.votes.for.total * 100n) / proposal.votes.total >
       proposal.votes.total / 2n

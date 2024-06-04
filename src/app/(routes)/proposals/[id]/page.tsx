@@ -73,7 +73,9 @@ const Page = ({ params }: { params: { id: string } }) => {
           <div className="flex flex-col gap-x1 md:grid md:grid-cols-7">
             <div className="md:col-span-4 md:col-start-1">
               <h1 className="text-[56px]/none font-medium">
-                {proposal.metadata.title}
+                <Suspense fallback={<Loader isCenter />}>
+                  {proposal.metadata?.title}
+                </Suspense>
               </h1>
             </div>
             <div className="md:col-span-3 md:col-start-5">
@@ -135,21 +137,30 @@ const Page = ({ params }: { params: { id: string } }) => {
           </div>
           <div className="mt-14 flex flex-col place-items-start gap-y-16 md:flex-row md:justify-between md:gap-1">
             <div className="w-full max-w-2xl flex-1">
-              <ProposalCurrentVotes proposal={proposal} className="md:mb-x6" />
+              {proposal.votes ? (
+                <ProposalCurrentVotes
+                  proposal={proposal}
+                  className="md:mb-x6"
+                />
+              ) : (
+                <Loader isCenter />
+              )}
               <div className="my-x6 md:hidden">
                 <Vote proposal={proposal} />
               </div>
               <h3 className="my-8 flex justify-center text-3xl font-medium">
                 Proposal Description
               </h3>
-              <MarkdownView markdown={proposal.metadata.description} />
+              <Suspense fallback={<Loader isCenter />}>
+                <MarkdownView markdown={proposal.metadata?.description} />
+              </Suspense>
               {proposal.calls && <ExecutionCode calls={proposal.calls} />}
             </div>
             <div className="flex flex-col gap-x11 md:max-w-[350px]">
               <div className="hidden md:block">
                 <Vote proposal={proposal} />
               </div>
-              <Participants votes={proposal.votes} />
+              {proposal.votes && <Participants votes={proposal.votes} />}
             </div>
           </div>
         </>

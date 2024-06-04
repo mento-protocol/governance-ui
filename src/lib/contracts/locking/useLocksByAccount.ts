@@ -15,8 +15,9 @@ const useLocksByAccount = ({ account }: UseLocksProps) => {
     data: { locks },
     ...rest
   } = useGetLocksSuspenseQuery({
-    queryKey: "locking-contract-hook",
-    refetchWritePolicy: "overwrite",
+    refetchWritePolicy: "merge",
+    fetchPolicy: "cache-and-network",
+    errorPolicy: "ignore",
     variables: {
       address: account,
     },

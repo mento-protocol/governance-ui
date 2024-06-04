@@ -7,6 +7,7 @@ import useLocksByAccount from "@/lib/contracts/locking/useLocksByAccount";
 const Page = () => {
   const { address, isConnecting } = useAccount();
   const { locks, refetch } = useLocksByAccount({ account: address! });
+
   return (
     <main className="flex flex-col place-items-center">
       <h2 className="mb-4 mt-8 text-[32px]/none font-medium">

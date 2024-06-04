@@ -1,5 +1,5 @@
 import { addWeeks, format, isAfter, nextWednesday } from "date-fns";
-import React, { useMemo } from "react";
+import { Fragment, useMemo } from "react";
 import { Address, formatUnits } from "viem";
 import { Lock } from "@/lib/graphql/subgraph/generated/subgraph";
 import useLockCalculation from "@/lib/contracts/locking/useLockCalculation";
@@ -12,6 +12,28 @@ interface ILocksList {
 }
 
 export const LocksList = ({ locks, onExtend, account }: ILocksList) => {
+  const sortedLocks: Lock[] = useMemo(() => {
+    if (!account || locks.length === 0) return [];
+
+    return locks.sort((lockA, lockB) => {
+      if (lockA.lockCreate.length === 0 || lockB.lockCreate.length === 0)
+        return 1;
+
+      const aExpiration = getLockExpirationDate(
+        lockA.lockCreate[0].timestamp,
+        lockA.slope,
+        lockA.cliff,
+      );
+      const bExpiration = getLockExpirationDate(
+        lockB.lockCreate[0].timestamp,
+        lockB.slope,
+        lockB.cliff,
+      );
+
+      return isAfter(aExpiration, bExpiration) ? 1 : -1;
+    });
+  }, [account, locks]);
+
   return (
     <div className={`overflow-auto`}>
       <div className="mb-x2 grid grid-cols-3 items-center gap-[18px] px-x1">
@@ -19,38 +41,14 @@ export const LocksList = ({ locks, onExtend, account }: ILocksList) => {
         <LockTableTitle>veMENTO</LockTableTitle>
         <LockTableTitle>Expires on</LockTableTitle>
       </div>
-      {account &&
-        [...locks, { ...locks[0], lockId: "0" }]
-          .sort((lockA, lockB) => {
-            if (lockA.lockCreate.length === 0 || lockB.lockCreate.length === 0)
-              return 1;
-
-            const aExpiration = getLockExpirationDate(
-              lockA.lockCreate[0].timestamp,
-              lockA.slope,
-              lockA.cliff,
-            );
-            const bExpiration = getLockExpirationDate(
-              lockB.lockCreate[0].timestamp,
-              lockB.slope,
-              lockB.cliff,
-            );
-
-            return isAfter(aExpiration, bExpiration) ? 1 : -1;
-          })
-          .map((lock, index, array) => (
-            <React.Fragment key={lock.lockId}>
-              <LockEntry
-                account={account}
-                onExtend={onExtend}
-                lock={lock}
-                key={lock.lockId + index}
-              />
-              {index === array.length - 1 ? null : (
-                <div className="grid-span-[1/-1] border-b border-solid border-gray-light" />
-              )}
-            </React.Fragment>
-          ))}
+      {sortedLocks.map((lock, index, array) => (
+        <Fragment key={`lock-entry-${index}`}>
+          <LockEntry account={account} onExtend={onExtend} lock={lock} />
+          {index !== array.length - 1 ?? (
+            <div className="grid-span-[1/-1] border-b border-solid border-gray-light" />
+          )}
+        </Fragment>
+      ))}
     </div>
   );
 };
@@ -76,7 +74,6 @@ const LockTableValue = ({ children }: { children: React.ReactNode }) => {
 
 const LockEntry = ({
   lock,
-  onExtend,
 }: {
   lock: Lock;
   account: Address;

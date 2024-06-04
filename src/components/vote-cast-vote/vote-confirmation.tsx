@@ -18,7 +18,7 @@ export const VoteConfirmation = ({
         <Loader
           isCenter
           className="w-[100%]"
-          logoColor="dark:fill-mento-cyan"
+          logoColor="fill-mento-dark dark:fill-mento-cyan"
         />
         <>
           <div className="flex flex-col items-center justify-center gap-1 text-[0.875rem]">

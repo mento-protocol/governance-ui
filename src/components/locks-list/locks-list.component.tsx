@@ -15,9 +15,11 @@ export const LocksList = ({ locks, onExtend, account }: ILocksList) => {
   const sortedLocks: Lock[] = useMemo(() => {
     if (!account || locks.length === 0) return [];
 
-    return locks.sort((lockA, lockB) => {
+    if (locks.length === 1) return locks;
+
+    return locks.toSorted((lockA, lockB) => {
       if (lockA.lockCreate.length === 0 || lockB.lockCreate.length === 0)
-        return 1;
+        return 0;
 
       const aExpiration = getLockExpirationDate(
         lockA.lockCreate[0].timestamp,
@@ -29,8 +31,8 @@ export const LocksList = ({ locks, onExtend, account }: ILocksList) => {
         lockB.slope,
         lockB.cliff,
       );
-
-      return isAfter(aExpiration, bExpiration) ? 1 : -1;
+      const compareResult = isAfter(aExpiration, bExpiration) ? 1 : -1;
+      return compareResult;
     });
   }, [account, locks]);
 

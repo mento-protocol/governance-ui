@@ -42,10 +42,10 @@ const DesktopFooter = () => {
 
 const MobileFooter = () => {
   return (
-    <footer className="mt-10 px-4 pb-8 lg:hidden">
+    <footer className="bg-black px-4 pb-8 pt-10 lg:hidden">
       <div className="border-t border-black dark:border-gray-light">
         <MobileAccordionMenu classNames="bg-transparent" />
-        <div className="flex justify-between">
+        <div className="mt-6 flex justify-between">
           <div className="flex flex-col">
             <MentoLogoIcon className="h-5 w-[90px]" />
             <p className="text-body-light pt-4">
@@ -75,7 +75,7 @@ const FooterNav = () => {
             <h4 className="text-body-light mb-[10px] font-fg text-[20px] font-medium leading-none text-[#636768] dark:text-[#8F9394]">
               {heading}
             </h4>
-            <ul className=" flex flex-col font-inter text-[15px]">
+            <ul className="flex flex-col font-inter text-[15px]">
               {links.map(({ title, href, isDownload }) => {
                 return (
                   <Link

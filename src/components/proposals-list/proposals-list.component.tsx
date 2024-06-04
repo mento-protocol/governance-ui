@@ -30,7 +30,7 @@ export const ProposalsListComponent = ({ className }: ProposalsListProps) => {
           )}
         >
           {/* Line height 24 OG: 25, letter spacing -0.304px, now 0.05em */}
-          <div className="mb-[38px] grid grid-cols-[350px_100px_150px_150px_150px] items-center gap-[21px] font-inter font-medium md:grid-cols-[minmax(150px,_2fr)_100px_150px_150px_150px]">
+          <div className="mb-[38px] hidden grid-cols-[350px_100px_150px_150px_150px] items-center gap-[21px] font-inter font-medium md:visible md:grid md:grid-cols-[minmax(150px,_2fr)_100px_150px_150px_150px]">
             <div
               className={
                 "overflow-hidden border-none text-left font-inter text-base font-medium tracking-tighter"
@@ -70,12 +70,12 @@ export const ProposalsListComponent = ({ className }: ProposalsListProps) => {
           {proposals.map(({ proposalId, metadata, state, votes }, index) => (
             <div
               key={index}
-              className="mb-[21px] grid grid-cols-[350px_100px_150px_150px_150px] items-start gap-[21px] font-medium last:mb-0 md:grid-cols-[minmax(150px,_2fr)_100px_150px_150px_150px]"
+              className="mb-[21px] grid grid-cols-[60%_40%] items-start gap-2 font-medium last:mb-0 sm:grid-cols-[350px_100px_150px_150px_150px] md:grid-cols-[minmax(150px,_2fr)_100px_150px_150px_150px] md:gap-[21px]"
             >
               {!!index && (
                 <div className="border-b border-solid border-gray-light [grid-column:1_/_-1]" />
               )}
-              <div className="max-w-[340px] self-center overflow-hidden text-ellipsis break-words text-left text-lg font-normal">
+              <div className="order-1 self-center overflow-hidden text-ellipsis break-words text-left text-lg font-normal sm:max-w-[340px]">
                 <div className="flex place-items-center gap-x3">
                   <Link
                     className="flex "
@@ -93,20 +93,20 @@ export const ProposalsListComponent = ({ className }: ProposalsListProps) => {
                 </div>
               </div>
               <Status
-                className="w-full self-center"
+                className="order-3 h-auto self-center sm:order-2 sm:h-[22px] sm:w-full"
                 text={state?.toString()}
                 type={stateToStatusColorMap[state]}
               />
-              <div className="flex items-center self-center overflow-hidden text-center">
+              <div className="order-2 flex items-center self-center overflow-hidden text-center md:order-3">
                 <ProgressBar
                   type="success"
-                  className="mx-auto my-0 w-full max-w-[110px] gap-x1"
+                  className="order-2 mx-auto my-0 w-full max-w-[110px] gap-x1 sm:order-3"
                   current={Number(formatUnits(votes.for.total, 18))}
                   max={Number(formatUnits(votes.total, 18))}
                   valueFormat="alphabetic"
                 />
               </div>
-              <div className="flex items-center self-center overflow-hidden text-center">
+              <div className="order-4 flex items-center self-center overflow-hidden text-center">
                 <ProgressBar
                   type="danger"
                   className="mx-auto my-0 w-full max-w-[110px] gap-x1"
@@ -115,7 +115,7 @@ export const ProposalsListComponent = ({ className }: ProposalsListProps) => {
                   valueFormat="alphabetic"
                 />
               </div>
-              <div className="mr-x1 self-center overflow-hidden text-right text-[22px]/[23px] font-normal">
+              <div className="mr-x1 hidden self-center overflow-hidden text-right text-[22px]/[23px] font-normal md:visible">
                 {NumbersService.parseNumericValue(formatUnits(votes.total, 18))}
               </div>
             </div>

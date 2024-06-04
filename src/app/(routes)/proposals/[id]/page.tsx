@@ -53,6 +53,12 @@ const Page = ({ params }: { params: { id: string } }) => {
     }
   }, [currentBlock.data, endBlock.data, proposal]);
 
+  const timeLockDeadLine = useMemo(() => {
+    if (proposal && proposal.state === "Queued" && proposal.proposalQueued[0]) {
+      return new Date(Number(proposal.proposalQueued[0].eta) * 1000);
+    }
+  }, [proposal]);
+
   return (
     <main className="flex flex-col">
       {!proposal && <div>Proposal not found</div>}
@@ -71,6 +77,13 @@ const Page = ({ params }: { params: { id: string } }) => {
               </h1>
             </div>
             <div className="md:col-span-3 md:col-start-5">
+              {timeLockDeadLine &&
+                timeLockDeadLine.getTime() >= new Date().getTime() && (
+                  <Countdown
+                    endTimestamp={timeLockDeadLine.getTime()}
+                    updateIntervalInMs={1000}
+                  />
+                )}
               {proposal.state === "Active" && votingDeadline && (
                 <Countdown
                   endTimestamp={votingDeadline.getTime()}

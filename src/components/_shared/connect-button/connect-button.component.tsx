@@ -14,8 +14,8 @@ import {
   ChevronIcon,
   DisconnectIcon,
   MentoIcon,
-  SettingsIcon,
   ChainIcon,
+  AccountIcon,
 } from "@/components/_icons";
 import BaseComponentProps from "@/interfaces/base-component-props.interface";
 import WalletHelper from "@/lib/helpers/wallet.helper";
@@ -95,7 +95,7 @@ export const ConnectedDropdown = ({
           className="font-inter font-medium *:flex *:items-center *:justify-start  [&_button]:pl-5"
           onClick={openAccountModal}
         >
-          <SettingsIcon className="mr-3" />
+          <AccountIcon className="mr-3" />
           <span>Account settings</span>
         </DropdownButton.Element>
         <DropdownButton.Element

@@ -1,3 +1,4 @@
+export { AccountIcon } from "./account.icon";
 export { CeloLogoIcon } from "./celo-logo.icon";
 export { ChainIcon } from "./chain.icon";
 export { ChangeNetworkIcon } from "./change-network.icon";

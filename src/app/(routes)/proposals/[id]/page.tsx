@@ -19,8 +19,9 @@ import ExecutionCode from "@/app/(routes)/proposals/[id]/_components/execution-c
 import Participants from "@/app/(routes)/proposals/[id]/_components/participants.component";
 import { Countdown, ProposalCurrentVotes } from "@/components/index";
 
-const Page = ({ params }: { params: { id: string } }) => {
-  const { proposal } = useProposal(BigInt(params.id));
+const Page = ({ params: { id } }: { params: { id: string } }) => {
+  const { proposal } = useProposal(BigInt(id));
+
   const currentBlock = useBlockNumber();
 
   const endBlock = useBlock({

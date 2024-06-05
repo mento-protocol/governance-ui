@@ -1,5 +1,6 @@
 "use client";
 import React, { ReactNode } from "react";
+import { Analytics } from "@vercel/analytics/react";
 import { Inter } from "next/font/google";
 import {
   LearnMore,
@@ -52,6 +53,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
           <Footer />
           <Toaster />
         </Providers>
+        <Analytics />
       </body>
     </html>
   );

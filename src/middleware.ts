@@ -1,45 +1,55 @@
-import { Alfajores, Celo } from "@/config/chains";
+import { Celo } from "@/config/chains";
 import { GovernorABI } from "@/lib/abi/Governor";
 import { NextResponse } from "next/server";
 import type { NextFetchEvent, NextRequest } from "next/server";
 import { createPublicClient, http } from "viem";
-import { celo } from "viem/chains";
 
 export const config = {
   matcher: ["/proposals/:id*"],
 };
 
+export const IS_PROD = process.env.NEXT_PUBLIC_VERCEL_ENV === "production";
+
 export function middleware(request: NextRequest, event: NextFetchEvent) {
   const { pathname } = request.nextUrl;
+  if (!IS_PROD) return NextResponse.next();
+
   if (pathname.startsWith("/proposals")) {
-    console.log("Middleware triggered", pathname.split("/"));
     const [, , id] = pathname.split("/");
     if (id) {
       // Query Celo
       const publicClient = createPublicClient({
-        chain: Alfajores,
+        chain: Celo,
         transport: http(),
       });
-      const fetch = async () => {
-        const proposal = await publicClient.readContract({
-          address: Alfajores.contracts.MentoGovernor.address,
-          abi: GovernorABI,
-          functionName: "proposals",
-          args: [BigInt(id)],
-        });
 
-        if (proposal) {
-          console.log("found");
-          return true;
-        } else {
-          console.log("not found");
-          return false;
+      let valid = false;
+      const fetch = async () => {
+        try {
+          const proposal = await publicClient.readContract({
+            address: Celo.contracts.MentoGovernor.address,
+            abi: GovernorABI,
+            functionName: "proposals",
+            args: [BigInt(id)],
+          });
+
+          if (proposal) {
+            console.log("found");
+            valid = true;
+          }
+        } catch (error) {
+          console.log("Proposal not found on Celo chain, redirecting");
         }
       };
       event.waitUntil(fetch());
+
+      if (valid) {
+        return NextResponse.next();
+      } else {
+        return NextResponse.redirect(new URL("/", request.url));
+      }
     } else {
-      // Direct home
+      return NextResponse.redirect(new URL("/", request.url));
     }
   }
-  return NextResponse.next();
 }

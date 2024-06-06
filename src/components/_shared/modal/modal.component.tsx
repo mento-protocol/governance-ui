@@ -40,10 +40,10 @@ export const Modal = ({
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <Dialog.Panel className="w-full max-w-2xl transform overflow-hidden rounded-lg bg-white px-12 py-7 align-middle shadow-xl transition-all">
+              <Dialog.Panel className="w-full max-w-2xl transform overflow-hidden rounded-lg bg-white px-12 py-7 align-middle shadow-xl transition-all dark:bg-mento-dark">
                 <Dialog.Title
                   as="h3"
-                  className="text-center text-3xl font-medium text-gray-900"
+                  className="text-center text-3xl font-medium text-gray-900 dark:text-white"
                 >
                   {title}
                 </Dialog.Title>

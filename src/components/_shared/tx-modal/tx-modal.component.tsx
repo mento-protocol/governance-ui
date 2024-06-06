@@ -18,7 +18,7 @@ export const TxModal = ({
 }: ITxModal) => {
   return (
     <Modal isOpen={isOpen} title={title}>
-      <div className="mt-2">
+      <div className="dark mt-2">
         {error ? <ErrorMessage /> : <PendingMessage message={message} />}
       </div>
       {error && (
@@ -49,8 +49,11 @@ const ErrorMessage = () => {
 const PendingMessage = ({ message }: { message: React.ReactNode }) => {
   return (
     <>
-      <div className="text-lg text-primary-dark">{message}</div>
-      <Loader className="mx-auto my-8" />
+      <div className="text-lg text-primary-dark dark:text-white">{message}</div>
+      <Loader
+        logoColor="fill-mento-dark dark:fill-mento-cyan"
+        className="mx-auto my-8"
+      />
     </>
   );
 };

@@ -7,7 +7,7 @@ import {
 import { useContracts } from "@/lib/contracts/useContracts";
 import {
   Proposal,
-  useGetProposalsSuspenseQuery,
+  useGetProposalsQuery,
 } from "@/lib/graphql/subgraph/generated/subgraph";
 import { NetworkStatus } from "@apollo/client";
 import { useCallback, useMemo } from "react";
@@ -20,42 +20,49 @@ const useProposals = () => {
   const contracts = useContracts();
 
   const {
-    data: { proposals: graphProposals },
+    data: graphData,
     networkStatus: graphNetworkStatus,
     refetch,
-  } = useGetProposalsSuspenseQuery({
+  } = useGetProposalsQuery({
     context: {
       apiName: getSubgraphApiName(chainId),
     },
+    initialFetchPolicy: "cache-and-network",
+    nextFetchPolicy: "network-only",
     refetchWritePolicy: "merge",
     errorPolicy: "ignore",
-    queryKey: GraphProposalsQueryKey,
+    pollInterval: 5000,
   });
 
   const { data: chainData } = useReadContracts({
-    contracts: (graphProposals as Proposal[]).map(
-      (proposal: Proposal) =>
-        ({
-          address: contracts.MentoGovernor.address,
-          abi: GovernorABI,
-          functionName: "state",
-          args: [proposal.proposalId],
-        }) as const,
-    ),
+    contracts: graphData
+      ? (graphData?.proposals as Proposal[]).map(
+          (proposal: Proposal) =>
+            ({
+              address: contracts.MentoGovernor.address,
+              abi: GovernorABI,
+              functionName: "state",
+              args: [proposal.proposalId],
+            }) as const,
+        )
+      : [],
     query: {
       refetchInterval: 5000,
+
       enabled:
-        graphNetworkStatus === NetworkStatus.ready && graphProposals.length > 0,
+        graphNetworkStatus === NetworkStatus.ready &&
+        graphData &&
+        graphData.proposals.length > 0,
     },
   });
 
   const proposals: Proposal[] = useMemo<Proposal[]>(() => {
     if (chainData === undefined) return [];
-    if (graphProposals === undefined) return [];
+    if (graphData?.proposals === undefined) return [];
 
     const proposalBuild: Proposal[] = [];
     for (const chainDataKey of chainData.keys()) {
-      const proposal = graphProposals[chainDataKey];
+      const proposal = graphData.proposals[chainDataKey];
       const { status, result } = chainData[chainDataKey];
       if (status !== "success" || !isStateNumber(result)) {
         proposalBuild.push(proposal as Proposal);
@@ -69,7 +76,7 @@ const useProposals = () => {
     }
 
     return proposalBuild;
-  }, [chainData, graphProposals]);
+  }, [chainData, graphData?.proposals]);
 
   const proposalExists = useCallback(
     (id: string) => {

@@ -115,7 +115,7 @@ export const ProposalsListComponent = ({ className }: ProposalsListProps) => {
                   valueFormat="alphabetic"
                 />
               </div>
-              <div className="mr-x1 hidden self-center overflow-hidden text-right text-[22px]/[23px] font-normal md:visible">
+              <div className="order-5 mr-x1 hidden self-center overflow-hidden text-right text-[22px]/[23px] font-normal md:visible md:block">
                 {NumbersService.parseNumericValue(formatUnits(votes.total, 18))}
               </div>
             </div>

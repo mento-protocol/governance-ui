@@ -30,27 +30,34 @@ export const ProposalCurrentVotes = ({
     return [
       {
         progress: Number(
-          (proposal.votes.for.total * 100n) / (quorumNeeded || 1n),
+          (proposal.votes.for.total * 100n) / proposal.votes.total,
         ),
         type: "success",
       },
       {
         progress: Number(
-          (proposal.votes.against.total * 100n) / (quorumNeeded || 1n),
+          (proposal.votes.against.total * 100n) / proposal.votes.total,
         ),
         type: "danger",
       },
+      {
+        progress: Number(
+          (proposal.votes.abstain.total * 100n) / proposal.votes.total,
+        ),
+        type: "info",
+      },
     ] as MultiProgressBarValue[];
-  }, [proposal.votes.against.total, proposal.votes.for.total, quorumNeeded]);
+  }, [
+    proposal.votes.abstain.total,
+    proposal.votes.against.total,
+    proposal.votes.for.total,
+    proposal.votes.total,
+  ]);
 
   const majoritySupport = useMemo(() => {
     if (proposal.votes.total === 0n) return false;
 
-    // TODO: change to quorum
-    return (
-      (proposal.votes.for.total * 100n) / proposal.votes.total >
-      proposal.votes.total / 2n
-    );
+    return (proposal.votes.for.total * 100n) / proposal.votes.total > 50n;
   }, [proposal.votes.for.total, proposal.votes.total]);
 
   return (

@@ -34,6 +34,8 @@ const barColor = (type: Type) => {
       return "#D2FCBD";
     case "danger":
       return "#FF848A";
+    case "info":
+      return "#FFFFFF";
     default:
       return "#D2FCBD";
   }
@@ -175,7 +177,7 @@ export const MultiProgressBar = ({
     >
       <div className="relative h-4 w-full overflow-hidden rounded-3xl border-[0.5px] border-solid border-black dark:border-gray">
         {progressBars
-          .sort((a, b) => b.progress - a.progress)
+          .toSorted((a, b) => b.progress - a.progress)
           .map(({ progress, barColorString }, index) => {
             return (
               <div

@@ -10,23 +10,26 @@ import {
   useGetProposalSuspenseQuery,
 } from "@/lib/graphql/subgraph/generated/subgraph";
 import { NetworkStatus } from "@apollo/client";
-import { useMemo } from "react";
-import { useChainId, useReadContract } from "wagmi";
+import { useEffect, useMemo } from "react";
+import { useBlockNumber, useChainId, useReadContract } from "wagmi";
 
 export const ProposalQueryKey = "proposal";
 
 const useProposal = (proposalId: bigint) => {
   const chainId = useChainId();
   const contracts = useContracts();
+  const { data: blockNumber } = useBlockNumber({ watch: true });
 
   const {
     data: { proposals: graphProposals },
     networkStatus: graphNetworkStatus,
+    refetch: graphRefetch,
   } = useGetProposalSuspenseQuery({
     context: {
       apiName: getSubgraphApiName(chainId),
     },
     refetchWritePolicy: "merge",
+    fetchPolicy: "cache-and-network",
     errorPolicy: "ignore",
     queryKey: ProposalQueryKey,
     variables: {
@@ -34,7 +37,7 @@ const useProposal = (proposalId: bigint) => {
     },
   });
 
-  const { data: chainData } = useReadContract({
+  const { data: chainData, refetch } = useReadContract({
     address: contracts.MentoGovernor.address,
     abi: GovernorABI,
     functionName: "state",
@@ -59,6 +62,16 @@ const useProposal = (proposalId: bigint) => {
       state: STATE_FROM_NUMBER[chainData],
     };
   }, [chainData, graphProposals]);
+
+  useEffect(() => {
+    if (blockNumber) {
+      graphRefetch({
+        id: proposalId.toString(),
+      }).then(() => {
+        refetch();
+      });
+    }
+  }, [blockNumber, graphRefetch, proposalId, refetch]);
 
   return {
     proposal,

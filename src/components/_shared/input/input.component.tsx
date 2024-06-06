@@ -13,7 +13,6 @@ interface InputProps extends BaseComponentProps, BaseInputProps {
 const inputWrapperVariant = cva(
   cn(
     "mt-x1 w-full gap-2 rounded-lg border border-solid border-gray-light transition-all duration-200 ease-out-circ",
-    "focus-within:border focus-within:border-solid focus-within:shadow-[0_0_0_2px]",
     "focus:border focus:border-solid focus:shadow-[0_0_0_2px]",
   ),
   {

@@ -15,8 +15,6 @@ interface TextAreaProps
 const textAreaWrapperVariant = cva(
   cn(
     "mt-x1 min-h-[inherit] w-full gap-2 rounded-lg border border-solid transition-all duration-200 ease-out-circ",
-    "focus-within:border focus-within:border-solid focus:shadow-[0_0_0_2px] ",
-    "focus-within:shadow-[0_0_0_2px] focus:border focus:border-solid",
   ),
   {
     variants: {

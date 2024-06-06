@@ -15,7 +15,11 @@ export const VoteConfirmation = ({
       <VotingCardTitle />
       <div className="mt-x2 flex flex-col gap-x3 text-center">
         <span className="text-md">Confirm your vote</span>
-        <Loader isCenter />
+        <Loader
+          isCenter
+          className="w-[100%]"
+          logoColor="fill-mento-dark dark:fill-mento-cyan"
+        />
         <>
           <div className="flex flex-col items-center justify-center gap-1 text-[0.875rem]">
             <div className="flex items-center justify-center gap-1">

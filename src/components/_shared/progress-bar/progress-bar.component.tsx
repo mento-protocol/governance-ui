@@ -175,15 +175,16 @@ export const MultiProgressBar = ({
         className,
       )}
     >
-      <div className="relative h-4 w-full overflow-hidden rounded-3xl border-[0.5px] border-solid border-black dark:border-gray">
+      <div className="relative flex h-4 w-full overflow-hidden rounded-3xl border-[0.5px] border-solid border-black dark:border-gray">
         {progressBars
+          .filter((item) => item.progress !== 0)
           .toSorted((a, b) => b.progress - a.progress)
           .map(({ progress, barColorString }, index) => {
             return (
               <div
                 key={index}
                 className={cn(
-                  "absolute left-[-1px] top-[-1px] h-[calc(100%_+_2px)] rounded-r-3xl border-[0.5px] border-black bg-gray dark:border-gray",
+                  "relative top-[-1px] h-[calc(100%_+_2px)] flex-grow border-[0.5px] border-black bg-gray dark:border-gray",
                 )}
                 style={{
                   width: `${progress}%`,

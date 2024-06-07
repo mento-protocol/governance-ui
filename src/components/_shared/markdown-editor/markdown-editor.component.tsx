@@ -5,7 +5,6 @@ import {
   CodeToggle,
   CreateLink,
   InsertCodeBlock,
-  InsertImage,
   InsertThematicBreak,
   ListsToggle,
   MDXEditor,
@@ -15,7 +14,6 @@ import {
   codeMirrorPlugin,
   diffSourcePlugin,
   headingsPlugin,
-  imagePlugin,
   linkDialogPlugin,
   linkPlugin,
   listsPlugin,
@@ -118,7 +116,6 @@ export const MarkdownEditor = ({
                       <CodeToggle />
                       <CreateLink />
                       <InsertCodeBlock />
-                      <InsertImage />
                       <ListsToggle />
                       <InsertThematicBreak />
                     </>
@@ -129,7 +126,6 @@ export const MarkdownEditor = ({
                 headingsPlugin(),
                 linkPlugin(),
                 linkDialogPlugin(),
-                imagePlugin(),
                 thematicBreakPlugin(),
                 codeBlockPlugin({ defaultCodeBlockLanguage: "txt" }),
                 codeMirrorPlugin({

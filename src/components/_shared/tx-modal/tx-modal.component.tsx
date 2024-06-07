@@ -50,6 +50,7 @@ const PendingMessage = ({ message }: { message: React.ReactNode }) => {
     <>
       <p className="text-lg text-primary-dark dark:text-white">{message}</p>
       <Loader
+        borderColor="before:border-mento-dark dark:before:border-mento-cyan"
         logoColor="fill-mento-dark dark:fill-mento-cyan"
         className="mx-auto my-8"
       />

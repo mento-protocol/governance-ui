@@ -19,7 +19,6 @@ interface ProposalCurrentVotesProps extends BaseComponentProps {
   proposal: Proposal;
 }
 
-// TODO: Replace mock API with real data sources
 export const ProposalCurrentVotes = ({
   className,
   proposal,
@@ -27,6 +26,7 @@ export const ProposalCurrentVotes = ({
   const { quorumNeeded } = useQuorum(proposal.startBlock);
 
   const values = useMemo(() => {
+    if (proposal.votes.total === 0n) return [];
     return [
       {
         progress: Number(

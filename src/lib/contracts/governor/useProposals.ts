@@ -27,8 +27,8 @@ const useProposals = () => {
     context: {
       apiName: getSubgraphApiName(chainId),
     },
-    initialFetchPolicy: "cache-and-network",
-    nextFetchPolicy: "network-only",
+    initialFetchPolicy: "network-only",
+    nextFetchPolicy: "cache-and-network",
     refetchWritePolicy: "merge",
     errorPolicy: "ignore",
     pollInterval: 5000,

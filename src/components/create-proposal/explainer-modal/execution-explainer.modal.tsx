@@ -23,7 +23,7 @@ export const ExecutionExplanationModal = ({
       onClose={onClose}
       title="The execution code must follow these rules:"
     >
-      <div className="mx-auto">
+      <div className="mx-auto dark:bg-mento-dark">
         <ul className="mx-auto ml-3 mt-2 flex list-disc flex-col items-start gap-1 text-left font-light">
           <li className=" ">It must be a valid JSON array.</li>
           <li className=" ">

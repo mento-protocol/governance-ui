@@ -8,7 +8,7 @@ export const StepCounter = ({ children, className }: StepCounterProps) => {
   return (
     <div
       className={cn(
-        "relative flex h-x5 w-x5 items-center justify-center rounded-t-[4px] bg-inherit",
+        "relative flex h-x5 w-x5 items-center justify-center rounded-t-[4px] bg-inherit pb-[1px] pr-[1px]",
         className,
       )}
     >

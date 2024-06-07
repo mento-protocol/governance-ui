@@ -38,10 +38,9 @@ export const TxModal = ({
 const ErrorMessage = () => {
   return (
     <>
-      <p className="text-center text-lg text-primary-dark">
-        Unfortunately, transaction was rejected.
+      <p className="text-center text-lg text-error dark:text-error-light">
+        Transaction was rejected.
       </p>
-      {/* <MentoIcon className="mx-auto my-8" /> */}
     </>
   );
 };
@@ -49,8 +48,12 @@ const ErrorMessage = () => {
 const PendingMessage = ({ message }: { message: React.ReactNode }) => {
   return (
     <>
-      <div className="text-lg text-primary-dark">{message}</div>
-      <Loader className="mx-auto my-8" />
+      <p className="text-lg text-primary-dark dark:text-white">{message}</p>
+      <Loader
+        borderColor="before:border-mento-dark dark:before:border-mento-cyan"
+        logoColor="fill-mento-dark dark:fill-mento-cyan"
+        className="mx-auto my-8"
+      />
     </>
   );
 };

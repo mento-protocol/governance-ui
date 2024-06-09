@@ -19,7 +19,6 @@ interface ProposalCurrentVotesProps extends BaseComponentProps {
   proposal: Proposal;
 }
 
-// TODO: Replace mock API with real data sources
 export const ProposalCurrentVotes = ({
   className,
   proposal,
@@ -38,15 +37,15 @@ export const ProposalCurrentVotes = ({
       },
       {
         progress: Number(
-          (proposal.votes.against.total * 100n) / proposal.votes.total,
-        ),
-        type: "danger",
-      },
-      {
-        progress: Number(
           (proposal.votes.abstain.total * 100n) / proposal.votes.total,
         ),
         type: "info",
+      },
+      {
+        progress: Number(
+          (proposal.votes.against.total * 100n) / proposal.votes.total,
+        ),
+        type: "danger",
       },
     ] as MultiProgressBarValue[];
   }, [

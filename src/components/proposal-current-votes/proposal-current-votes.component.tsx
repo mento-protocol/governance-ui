@@ -27,6 +27,8 @@ export const ProposalCurrentVotes = ({
   const { quorumNeeded } = useQuorum(proposal.startBlock);
 
   const values = useMemo(() => {
+    if (proposal.votes.total === 0n) return [];
+
     return [
       {
         progress: Number(

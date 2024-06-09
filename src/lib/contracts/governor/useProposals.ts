@@ -11,12 +11,12 @@ import {
 } from "@/lib/graphql/subgraph/generated/subgraph";
 import { NetworkStatus } from "@apollo/client";
 import { useCallback, useMemo } from "react";
-import { useChainId, useReadContracts } from "wagmi";
+import { useAccount, useReadContracts } from "wagmi";
 
 export const GraphProposalsQueryKey = ["proposals-graph-query"];
 
 const useProposals = () => {
-  const chainId = useChainId();
+  const { chainId } = useAccount();
   const contracts = useContracts();
 
   const {

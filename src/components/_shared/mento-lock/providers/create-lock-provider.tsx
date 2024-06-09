@@ -5,7 +5,7 @@ import useApprove from "@/lib/contracts/mento/useApprove";
 import { useContracts } from "@/lib/contracts/useContracts";
 import React from "react";
 import { parseEther } from "viem";
-import { useAccount, useChainId } from "wagmi";
+import { useAccount } from "wagmi";
 import {
   DEFAULT_CLIFF,
   LOCKING_AMOUNT_FORM_KEY,
@@ -56,12 +56,11 @@ export const CreateLockProvider = ({
   const { watch, reset: resetForm } = useFormContext();
   const [isTxModalOpen, setIsTxModalOpen] = React.useState(false);
 
-  const { address } = useAccount();
+  const { address, chainId } = useAccount();
   const amount = watch(LOCKING_AMOUNT_FORM_KEY);
   const slope = watch(LOCKING_DURATION_FORM_KEY);
 
   const contracts = useContracts();
-  const chainId = useChainId();
   const parsedAmount = parseEther(amount);
 
   const lock = useCreateLockOnChain({

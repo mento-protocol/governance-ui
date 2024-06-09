@@ -3,10 +3,10 @@ import {
   Lock,
   useGetAllLocksSuspenseQuery,
 } from "@/lib/graphql/subgraph/generated/subgraph";
-import { useChainId } from "wagmi";
+import { useAccount } from "wagmi";
 
 const useAllLocks = () => {
-  const chainId = useChainId();
+  const { chainId } = useAccount();
   const {
     data: { locks },
   } = useGetAllLocksSuspenseQuery({

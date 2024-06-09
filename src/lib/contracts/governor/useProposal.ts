@@ -11,12 +11,12 @@ import {
 } from "@/lib/graphql/subgraph/generated/subgraph";
 import { NetworkStatus } from "@apollo/client";
 import { useEffect, useMemo } from "react";
-import { useBlockNumber, useChainId, useReadContract } from "wagmi";
+import { useAccount, useBlockNumber, useReadContract } from "wagmi";
 
 export const ProposalQueryKey = "proposal";
 
 const useProposal = (proposalId: bigint) => {
-  const chainId = useChainId();
+  const { chainId } = useAccount();
   const contracts = useContracts();
   const { data: blockNumber } = useBlockNumber({ watch: true });
 

@@ -2,7 +2,7 @@ import { GetContractsInfoQuery, ProposalCall } from "@/lib/graphql";
 import { useGetContractsInfoQuery } from "@/lib/graphql/celo-explorer/generated/celoGraph";
 import { useMemo } from "react";
 import { decodeFunctionData } from "viem";
-import { useChainId } from "wagmi";
+import { useAccount } from "wagmi";
 
 /**
  * The Celo Explorer API returns nothing (as in not even undefined) for
@@ -96,7 +96,7 @@ type ContractInfo = {
 };
 
 const useContractsInfo = ({ calls }: Props) => {
-  const chainId = useChainId();
+  const { chainId } = useAccount();
 
   const { data, error: apolloError } = useGetContractsInfoQuery({
     variables: {

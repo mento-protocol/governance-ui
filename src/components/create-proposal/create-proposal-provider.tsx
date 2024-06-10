@@ -10,7 +10,7 @@ import useCreateProposalOnChain, {
   TransactionItem,
 } from "@/lib/contracts/governor/useCreateProposalOnChain";
 import { LocalStorageKeys, useLocalStorage } from "@/lib/hooks/useStorage";
-import { useBlockNumber, useChainId } from "wagmi";
+import { useAccount, useBlockNumber } from "wagmi";
 import { Loader } from "@/components/_shared";
 import { CreateProposalTxModal } from "@/components/create-proposal/create-proposal-transaction.model";
 import { useRouter } from "next/navigation";
@@ -57,7 +57,7 @@ interface ICreateProposalProvider {
 export const CreateProposalProvider = ({
   children,
 }: ICreateProposalProvider) => {
-  const chainId = useChainId();
+  const { chainId } = useAccount();
   const router = useRouter();
   const { proposalExists, refetchProposals } = useProposals();
 

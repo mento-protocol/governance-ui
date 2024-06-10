@@ -36,15 +36,15 @@ export const ProposalCurrentVotes = ({
       },
       {
         progress: Number(
-          (proposal.votes.against.total * 100n) / proposal.votes.total,
-        ),
-        type: "danger",
-      },
-      {
-        progress: Number(
           (proposal.votes.abstain.total * 100n) / proposal.votes.total,
         ),
         type: "info",
+      },
+      {
+        progress: Number(
+          (proposal.votes.against.total * 100n) / proposal.votes.total,
+        ),
+        type: "danger",
       },
     ] as MultiProgressBarValue[];
   }, [

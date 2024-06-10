@@ -134,7 +134,6 @@ const footerMenuItems = {
     { title: "Twitter", href: links.twitter, isDownload: false },
   ],
   Other: [
-    { title: "Team", href: links.mentolabs, isDownload: false },
     { title: "Cookie Policy", href: links.cookiePolicy, isDownload: true },
   ],
 };

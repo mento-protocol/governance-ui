@@ -1,3 +1,4 @@
+"use client";
 import { Alfajores, Celo } from "@/config/chains";
 import { useEffect } from "react";
 import { useAccount, useSwitchChain } from "wagmi";

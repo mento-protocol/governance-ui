@@ -23,6 +23,7 @@ import useTokens from "@/lib/contracts/useTokens";
 import { useAccount, useDisconnect } from "wagmi";
 import { cn } from "@/styles/helpers";
 import NumbersService from "@/lib/helpers/numbers.service";
+import { IS_PROD } from "../../../middleware";
 
 interface ConnectedDropdownProps extends BaseComponentProps {
   fullwidth?: boolean;
@@ -98,13 +99,15 @@ export const ConnectedDropdown = ({
           <AccountIcon className="mr-3" />
           <span>Account settings</span>
         </DropdownButton.Element>
-        <DropdownButton.Element
-          className="font-inter font-medium *:flex *:items-center *:justify-start  [&_button]:pl-5"
-          onClick={openChainModal}
-        >
-          <ChainIcon className="mr-3" />
-          <span>Chain settings</span>
-        </DropdownButton.Element>
+        {!IS_PROD && (
+          <DropdownButton.Element
+            className="font-inter font-medium *:flex *:items-center *:justify-start  [&_button]:pl-5"
+            onClick={openChainModal}
+          >
+            <ChainIcon className="mr-3" />
+            <span>Chain settings</span>
+          </DropdownButton.Element>
+        )}
         <hr className="mx-auto w-[calc(100%_-_40px)] border-t-gray-light" />
         <DropdownButton.Element
           className="font-inter font-medium *:flex *:items-center *:justify-start  [&_button]:pl-5"

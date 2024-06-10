@@ -1,3 +1,4 @@
+"use client";
 import { usePathname } from "next/navigation";
 import BaseComponentProps from "@/interfaces/base-component-props.interface";
 import { ChevronIcon, DiscordIcon, LearnMoreIcon } from "@/components/_icons";

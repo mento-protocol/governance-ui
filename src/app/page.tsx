@@ -1,3 +1,4 @@
+"use client";
 import { Suspense } from "react";
 import { useAccount } from "wagmi";
 import { MentoIcon } from "@/components/_icons";
@@ -16,32 +17,6 @@ import {
 } from "@/components/index";
 import Link from "next/link";
 import { cn } from "@/styles/helpers";
-import { Metadata } from "next";
-
-export const metadata: Metadata = {
-  openGraph: {
-    url: "https://governance.mento.org",
-    type: "website",
-    title: "Mento Governance",
-    description: "Mento governance platform.",
-    // images: {
-
-    // }
-  },
-  robots: {
-    index: false,
-    follow: true,
-    nocache: true,
-    googleBot: {
-      index: true,
-      follow: false,
-      noimageindex: true,
-      "max-video-preview": -1,
-      "max-image-preview": "large",
-      "max-snippet": -1,
-    },
-  },
-};
 
 export default function Page() {
   return (

@@ -1,3 +1,4 @@
+"use client";
 import { useAccount, useBlockNumber, useReadContracts } from "wagmi";
 import { useContracts } from "@/lib/contracts/useContracts";
 import { useEffect, useMemo } from "react";

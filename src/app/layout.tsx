@@ -1,4 +1,3 @@
-"use client";
 import React, { ReactNode } from "react";
 import { Analytics } from "@vercel/analytics/react";
 import { Inter } from "next/font/google";
@@ -12,9 +11,9 @@ import {
 } from "@/components/_shared";
 import "@rainbow-me/rainbowkit/styles.css";
 import "@/styles/globals.scss";
-import { Providers } from "@/app/(routes)/providers";
-import { usePathname } from "next/navigation";
+import { Providers } from "@/app/providers";
 import { cn } from "@/styles/helpers";
+import { Metadata } from "next";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -26,10 +25,30 @@ interface RootLayoutProps {
   children: ReactNode;
 }
 
-export default function RootLayout({ children }: RootLayoutProps) {
-  const path = usePathname();
-  const homePage = path === "/";
+export const metadata: Metadata = {
+  title: "Mento Governance",
+  description: "Mento governance platform.",
+  openGraph: {
+    url: "https://governance.mento.org",
+    type: "website",
+    title: "Mento Governance",
+    description: "Mento governance platform.",
+  },
+  robots: {
+    index: false,
+    follow: true,
+    nocache: true,
+    googleBot: {
+      index: true,
+      follow: false,
+      noimageindex: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
+};
 
+export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <html className={`${inter.variable} w-full overscroll-none`} lang="en">
       <body
@@ -46,7 +65,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
         <Providers>
           <Header />
           <MaxWidthWrapper>
-            {!homePage && <Breadcrumbs />}
+            <Breadcrumbs />
             {children}
           </MaxWidthWrapper>
           <LearnMore className="pt-x5" />

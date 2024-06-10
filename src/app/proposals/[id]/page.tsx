@@ -14,9 +14,9 @@ import {
   Status,
   WalletAddressWithCopy,
 } from "@/components/_shared";
-import Vote from "@/app/(routes)/proposals/[id]/_components/vote.component";
-import ExecutionCode from "@/app/(routes)/proposals/[id]/_components/execution-code.component";
-import Participants from "@/app/(routes)/proposals/[id]/_components/participants.component";
+import Vote from "@/app/proposals/[id]/_components/vote.component";
+import ExecutionCode from "@/app/proposals/[id]/_components/execution-code.component";
+import Participants from "@/app/proposals/[id]/_components/participants.component";
 import { Countdown, ProposalCurrentVotes } from "@/components/index";
 
 const Page = ({ params: { id } }: { params: { id: string } }) => {

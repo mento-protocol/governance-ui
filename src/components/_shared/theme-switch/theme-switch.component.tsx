@@ -1,3 +1,4 @@
+"use client";
 import { DarkModeIcon, LightModeIcon } from "@/components/_icons";
 import { useTheme } from "next-themes";
 import { cn } from "@/styles/helpers";

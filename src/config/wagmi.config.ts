@@ -8,6 +8,7 @@ import {
 } from "@rainbow-me/rainbowkit/wallets";
 import { createConfig, http } from "wagmi";
 import { valora } from "@/config/valora.wallet";
+import { IS_PROD } from "../middleware";
 
 const connectors = connectorsForWallets(
   [
@@ -30,10 +31,14 @@ const connectors = connectorsForWallets(
 );
 
 export const wagmiConfig = createConfig({
-  chains: [Alfajores, Celo],
-  transports: {
-    [Alfajores.id]: http(Alfajores.rpcUrls.default.http[0]),
-    [Celo.id]: http(Celo.rpcUrls.default.http[0]),
-  },
+  chains: !IS_PROD ? [Alfajores, Celo] : [Celo],
+  transports: !IS_PROD
+    ? {
+        [Alfajores.id]: http(Alfajores.rpcUrls.default.http[0]),
+        [Celo.id]: http(Celo.rpcUrls.default.http[0]),
+      }
+    : {
+        [Celo.id]: http(Celo.rpcUrls.default.http[0]),
+      },
   connectors,
 });

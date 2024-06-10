@@ -27,7 +27,6 @@ export const ProposalCurrentVotes = ({
 
   const values = useMemo(() => {
     if (proposal.votes.total === 0n) return [];
-
     return [
       {
         progress: Number(

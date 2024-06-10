@@ -1,22 +1,16 @@
 "use client";
-
 import { Suspense } from "react";
 import { useAccount } from "wagmi";
-
-import { CeloLogoIcon, MentoIcon } from "@/components/_icons";
+import { MentoIcon } from "@/components/_icons";
 import {
-  Badge,
   Button,
   ButtonProps,
   Card,
   Divider,
   Loader,
 } from "@/components/_shared";
-import useTokens from "@/lib/contracts/useTokens";
-import NumbersService from "@/lib/helpers/numbers.service";
-import { formatUnits } from "viem";
-import Head from "next/head";
 import {
+  Badges,
   ContractParams,
   ProposalSummaryComponent,
   ProposalsListComponent,
@@ -24,12 +18,9 @@ import {
 import Link from "next/link";
 import { cn } from "@/styles/helpers";
 
-const Page = () => {
+export default function Page() {
   return (
     <main className="mt-x11 flex flex-col place-items-center font-fg">
-      <Head>
-        <title>Mento Governance</title>
-      </Head>
       <Title />
       <Subtitle />
       <Card className="mt-8 md:mt-[55px]" block>
@@ -53,7 +44,7 @@ const Page = () => {
       </Suspense>
     </main>
   );
-};
+}
 
 const MobileNavigationLinks = ({ className }: ButtonProps) => {
   const { address } = useAccount();
@@ -72,30 +63,6 @@ const MobileNavigationLinks = ({ className }: ButtonProps) => {
     </Link>
   );
 };
-
-const Badges = () => {
-  const {
-    mentoContractData: { totalSupply, decimals },
-  } = useTokens();
-
-  const { chain } = useAccount();
-
-  return (
-    <div className="flex flex-col gap-x3 md:flex-row">
-      <Badge type="outline">
-        <CeloLogoIcon />
-        &nbsp;{chain?.name || "Celo"}&nbsp;
-        {chain?.testnet ? "Testnet" : "Mainnet"}
-      </Badge>
-      <Badge type="secondary">
-        MENTO{" "}
-        {NumbersService.parseNumericValue(formatUnits(totalSupply, decimals))}{" "}
-        Supply
-      </Badge>
-    </div>
-  );
-};
-
 const DesktopTagline = () => (
   <p className="mb-[20px] text-[18px] md:mb-[30px] md:text-[22px]">
     Transparent Digital Asset Solutions
@@ -141,5 +108,3 @@ const Subtitle = () => (
     Participate in the governance process of Mento stablecoin platform
   </h2>
 );
-
-export default Page;

@@ -1,0 +1,4 @@
+npm run lint
+npm run depcheck
+npm run build
+npm run todo

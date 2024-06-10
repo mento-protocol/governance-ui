@@ -1,0 +1,44 @@
+@import "@/styles/brand";
+
+.editor {
+  height: 100%;
+  background-color: $c-white;
+  border-radius: $border-radius;
+  max-width: 100%;
+
+  &__contentEditable {
+    min-height: 450px;
+    max-height: 650px;
+    overflow-y: auto;
+  }
+}
+
+.editor_button {
+  border: none;
+  background: none;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+
+  &:hover {
+    color: $c-primary;
+  }
+
+  &.active {
+    color: $c-primary;
+  }
+
+  &:first-child {
+    margin-right: 2 * $theme-unit;
+  }
+
+  &:last-child {
+    margin-left: 2 * $theme-unit;
+  }
+  margin-bottom: 2 * $theme-unit;
+}
+
+.preview {
+  max-height: 650px;
+  overflow-y: auto;
+}

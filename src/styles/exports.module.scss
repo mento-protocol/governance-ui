@@ -1,0 +1,18 @@
+@import "variables.module";
+
+:export {
+  black: $c-black;
+  white: $c-white;
+  primary: $c-primary;
+  primaryDark: $c-primary-dark;
+  secondary: $c-secondary;
+  secondaryDark: $c-secondary-dark;
+  success: $c-success;
+  successDark: $c-success-dark;
+  error: $c-error;
+  errorDark: $c-error-dark;
+  info: $c-info;
+  infoDark: $c-info-dark;
+  lightGrey: $c-lightGrey;
+  none: "";
+}

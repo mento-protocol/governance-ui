@@ -12,7 +12,7 @@ import {
 } from "@/components/_shared";
 import "@rainbow-me/rainbowkit/styles.css";
 import "@/styles/globals.scss";
-import { Providers } from "@/app/(routes)/providers";
+import { Providers } from "@/app/providers";
 import { usePathname } from "next/navigation";
 import { cn } from "@/styles/helpers";
 

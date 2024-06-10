@@ -58,7 +58,7 @@ const getParticipantPercentage = (
   totalVotes: bigint,
 ) => {
   // If there are no votes, we need to avoid division by zero
-  if (totalVotes > BigInt(0)) {
-    return `${Number((participant.weight / totalVotes) * BigInt(100)).toFixed(2)}%`;
+  if (totalVotes > 0n) {
+    return `${Number((participant.weight * 100n) / totalVotes).toFixed(2)}%`;
   } else return "0%";
 };

@@ -59,6 +59,20 @@ const getParticipantPercentage = (
 ) => {
   // If there are no votes, we need to avoid division by zero
   if (totalVotes > 0n) {
-    return `${Number((participant.weight * 100n) / totalVotes).toFixed(2)}%`;
+    const decimals = 8;
+    const accuracy = 10n ** BigInt(decimals);
+
+    const weightScaled = participant.weight * 100n;
+
+    const valueInRawBN = (weightScaled * accuracy) / totalVotes;
+
+    const formatted = formatUnits(valueInRawBN, decimals);
+
+    if (formatted.includes(".")) {
+      const [integers, remainingDecimals] = formatted.split(".");
+      return `${integers}.${remainingDecimals.substring(0, 2)}%`;
+    } else {
+      return `${formatted}%`;
+    }
   } else return "0%";
 };

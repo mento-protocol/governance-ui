@@ -33,13 +33,15 @@ const Crumb = ({ path, index, last }: CrumbProps) => {
 };
 
 export const Breadcrumbs = () => {
-  const paths = usePathname().split("/");
+  const path = usePathname();
+  const homePage = path === "/";
+  const paths = path.split("/");
   const crumbsPath = useMemo(
     () => paths.filter((path) => routingMap.has(path)),
     [paths],
   );
 
-  return (
+  return !homePage ? (
     <nav
       className="mt-10 w-full font-inter text-[18px]/[20px] font-medium"
       aria-label="Breadcrumb"
@@ -55,6 +57,8 @@ export const Breadcrumbs = () => {
         ))}
       </ol>
     </nav>
+  ) : (
+    <></>
   );
 };
 

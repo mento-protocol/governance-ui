@@ -1,3 +1,4 @@
+export { Badges } from "./badges/badges.component";
 export { ContractParams } from "./contract-params/contract-params.component";
 export { Countdown } from "./countdown/countdown.component";
 export { LocksList } from "./locks-list/locks-list.component";

@@ -21,18 +21,16 @@ export function Providers({ children }: { children: ReactNode }) {
       <WagmiProvider config={wagmiConfig}>
         <QueryClientProvider client={queryClient}>
           <RainbowKitProvider initialChain={Celo}>
-            <EnsureChain>
-              {mounted && (
-                <ThemeProvider
-                  enableSystem
-                  enableColorScheme
-                  defaultTheme="system"
-                  attribute="class"
-                >
-                  {children}
-                </ThemeProvider>
-              )}
-            </EnsureChain>
+            {mounted && (
+              <ThemeProvider
+                enableSystem
+                enableColorScheme
+                defaultTheme="system"
+                attribute="class"
+              >
+                <EnsureChain>{children}</EnsureChain>
+              </ThemeProvider>
+            )}
           </RainbowKitProvider>
         </QueryClientProvider>
       </WagmiProvider>

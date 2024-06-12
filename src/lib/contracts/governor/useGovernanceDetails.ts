@@ -1,11 +1,10 @@
 import { GovernorABI } from "@/lib/abi/Governor";
 import { TimelockControllerABI } from "@/lib/abi/TimelockController";
 import { useContracts } from "@/lib/contracts/useContracts";
-import { ensureChainId } from "@/lib/helpers/ensureChainId";
 import { useEnsureChainId } from "@/lib/hooks/useEnsureChainId";
 import { useMemo } from "react";
 
-import { useAccount, useReadContracts } from "wagmi";
+import { useReadContracts } from "wagmi";
 
 function convertCeloBlocksToSeconds(
   numBlocks: string | bigint | number,

@@ -18,7 +18,10 @@ export const ProposalQueryKey = "proposal";
 const useProposal = (proposalId: bigint) => {
   const { chainId } = useAccount();
   const contracts = useContracts();
-  const { data: blockNumber } = useBlockNumber({ watch: true });
+  const { data: blockNumber } = useBlockNumber({
+    watch: true,
+    chainId: chainId,
+  });
 
   const {
     data: { proposals: graphProposals },

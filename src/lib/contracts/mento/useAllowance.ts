@@ -33,7 +33,10 @@ export const useAllowance = ({
     },
   });
 
-  const { data: blockNumber } = useBlockNumber({ chainId, watch: true });
+  const { data: blockNumber } = useBlockNumber({
+    chainId: chainId,
+    watch: true,
+  });
 
   useEffect(() => {
     if (blockNumber) {

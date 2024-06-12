@@ -1,10 +1,10 @@
 "use client";
 import { Alfajores, Celo } from "@/config/chains";
-import { useEffect } from "react";
+import { ReactNode, useEffect } from "react";
 import { useAccount, useSwitchChain } from "wagmi";
 import { IS_PROD } from "../../middleware";
 
-export const useEnsureChain = () => {
+export function EnsureChain({ children }: { children: ReactNode }) {
   const { isConnected, chainId } = useAccount();
   const { switchChain } = useSwitchChain();
 
@@ -20,4 +20,5 @@ export const useEnsureChain = () => {
       }
     }
   }, [chainId, isConnected, switchChain]);
-};
+  return children;
+}

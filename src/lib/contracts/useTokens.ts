@@ -5,6 +5,7 @@ import { useEffect, useMemo } from "react";
 import { erc20Abi } from "viem";
 import { useQueryClient } from "@tanstack/react-query";
 import { formatUnitsWithRadix } from "@/lib/helpers/numbers.service";
+import { ensureChainId } from "@/lib/helpers/ensureChainId";
 
 export type TokenBalance = {
   decimals: number;
@@ -19,9 +20,12 @@ export const useTokens = () => {
     MentoToken: { address: mentoAddress },
   } = useContracts();
 
-  const { isConnected, address } = useAccount();
+  const { isConnected, address, chainId } = useAccount();
   const queryClient = useQueryClient();
-  const { data: blockNumber } = useBlockNumber({ watch: true });
+  const { data: blockNumber } = useBlockNumber({
+    watch: true,
+    chainId: ensureChainId(chainId),
+  });
 
   const { data: tokenData, isSuccess } = useReadContracts({
     allowFailure: false,

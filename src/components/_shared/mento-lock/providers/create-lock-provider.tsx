@@ -56,7 +56,7 @@ export const CreateLockProvider = ({
   const { watch, reset: resetForm } = useFormContext();
   const [isTxModalOpen, setIsTxModalOpen] = React.useState(false);
 
-  const { address, chainId } = useAccount();
+  const { address } = useAccount();
   const amount = watch(LOCKING_AMOUNT_FORM_KEY);
   const slope = watch(LOCKING_DURATION_FORM_KEY);
 
@@ -67,7 +67,6 @@ export const CreateLockProvider = ({
     onLockConfirmation,
   });
   const allowance = useAllowance({
-    chainId,
     owner: address,
     spender: contracts.Locking.address,
   });

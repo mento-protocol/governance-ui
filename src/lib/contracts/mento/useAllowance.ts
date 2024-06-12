@@ -5,36 +5,36 @@ import { useEffect } from "react";
 import { Address, erc20Abi } from "viem";
 import { useBlockNumber, useReadContract } from "wagmi";
 import { useContracts } from "../useContracts";
+import { useEnsureChainId } from "@/lib/hooks/useEnsureChainId";
 
 interface UseAllowance {
-  chainId: number | undefined;
   owner: Address | undefined;
   spender: Address | undefined;
   enabled?: boolean;
 }
 
 export const useAllowance = ({
-  chainId,
   owner,
   spender,
   enabled = true,
 }: UseAllowance) => {
   const queryClient = useQueryClient();
   const contracts = useContracts();
+  const ensuredChainId = useEnsureChainId();
 
   const query = useReadContract({
-    chainId,
+    chainId: ensuredChainId,
     address: contracts.MentoToken.address,
     abi: erc20Abi,
     functionName: "allowance",
     args: [owner as Address, spender as Address],
     query: {
-      enabled: Boolean(owner && spender && enabled && chainId),
+      enabled: Boolean(owner && spender && enabled && ensuredChainId),
     },
   });
 
   const { data: blockNumber } = useBlockNumber({
-    chainId: chainId,
+    chainId: ensuredChainId,
     watch: true,
   });
 

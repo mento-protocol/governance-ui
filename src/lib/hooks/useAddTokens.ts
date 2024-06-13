@@ -25,7 +25,6 @@ export const useAddTokens = () => {
         },
       },
     });
-    console.log(`Mento token added: ${wasAdded}`);
   }, [chainId]);
 
   const addVeMento = useCallback(async () => {
@@ -46,7 +45,6 @@ export const useAddTokens = () => {
         },
       },
     });
-    console.log(`veMento token added: ${wasAdded}`);
   }, [chainId]);
 
   return {

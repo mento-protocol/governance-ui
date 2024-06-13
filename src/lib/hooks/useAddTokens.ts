@@ -1,15 +1,16 @@
 "use client";
 import { useCallback } from "react";
 import * as mento from "@mento-protocol/mento-sdk";
-import { useAccount } from "wagmi";
+import { useAccount, useClient } from "wagmi";
 import { Alfajores, Celo } from "@/config/chains";
 
 export const useAddTokens = () => {
   const { chainId } = useAccount();
+  const client = useClient();
 
   const addMento = useCallback(async () => {
-    if (!chainId) return;
-    const wasAdded = await (window as any).ethereum.request({
+    if (!chainId || !client?.request) return;
+    const wasAdded = await client.request({
       method: "wallet_watchAsset",
       params: {
         type: "ERC20", // Initially only supports ERC20, but eventually more!
@@ -28,8 +29,8 @@ export const useAddTokens = () => {
   }, [chainId]);
 
   const addVeMento = useCallback(async () => {
-    if (!chainId) return;
-    const wasAdded = await (window as any).ethereum.request({
+    if (!chainId || !client?.request) return;
+    const wasAdded = await client.request({
       method: "wallet_watchAsset",
       params: {
         type: "ERC20", // Initially only supports ERC20, but eventually more!

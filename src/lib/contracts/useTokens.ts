@@ -5,6 +5,7 @@ import { useEffect, useMemo } from "react";
 import { erc20Abi } from "viem";
 import { useQueryClient } from "@tanstack/react-query";
 import { formatUnitsWithRadix } from "@/lib/helpers/numbers.service";
+import { useEnsureChainId } from "@/lib/hooks/useEnsureChainId";
 
 export type TokenBalance = {
   decimals: number;
@@ -21,7 +22,12 @@ export const useTokens = () => {
 
   const { isConnected, address } = useAccount();
   const queryClient = useQueryClient();
-  const { data: blockNumber } = useBlockNumber({ watch: true });
+  const ensuredChainId = useEnsureChainId();
+
+  const { data: blockNumber } = useBlockNumber({
+    watch: true,
+    chainId: ensuredChainId,
+  });
 
   const { data: tokenData, isSuccess } = useReadContracts({
     allowFailure: false,
@@ -31,42 +37,50 @@ export const useTokens = () => {
         address: mentoAddress,
         abi: erc20Abi,
         functionName: "decimals",
+        chainId: ensuredChainId,
       },
       {
         address: mentoAddress,
         abi: erc20Abi,
         functionName: "name",
+        chainId: ensuredChainId,
       },
       {
         address: mentoAddress,
         abi: erc20Abi,
         functionName: "symbol",
+        chainId: ensuredChainId,
       },
       {
         address: mentoAddress,
         abi: erc20Abi,
         functionName: "totalSupply",
+        chainId: ensuredChainId,
       },
       // veMento
       {
         address: veTokenAddress,
         abi: erc20Abi,
         functionName: "decimals",
+        chainId: ensuredChainId,
       },
       {
         address: veTokenAddress,
         abi: erc20Abi,
         functionName: "name",
+        chainId: ensuredChainId,
       },
       {
         address: veTokenAddress,
         abi: erc20Abi,
         functionName: "symbol",
+        chainId: ensuredChainId,
       },
       {
         address: veTokenAddress,
         abi: erc20Abi,
         functionName: "totalSupply",
+        chainId: ensuredChainId,
       },
     ],
   });
@@ -129,12 +143,14 @@ export const useTokens = () => {
         address: mentoAddress,
         functionName: "balanceOf",
         args: [address!],
+        chainId: ensuredChainId,
       },
       {
         abi: erc20Abi,
         address: veTokenAddress,
         functionName: "balanceOf",
         args: [address!],
+        chainId: ensuredChainId,
       },
     ],
     scopeKey: "token-hook",

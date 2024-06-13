@@ -1,6 +1,6 @@
 "use client";
 import { Suspense, useMemo } from "react";
-import { useBlock, useBlockNumber } from "wagmi";
+import { useAccount, useBlock, useBlockNumber } from "wagmi";
 import { format } from "date-fns";
 
 // Components
@@ -18,11 +18,16 @@ import Vote from "@/app/proposals/[id]/_components/vote.component";
 import ExecutionCode from "@/app/proposals/[id]/_components/execution-code.component";
 import Participants from "@/app/proposals/[id]/_components/participants.component";
 import { Countdown, ProposalCurrentVotes } from "@/components/index";
+import { ensureChainId } from "@/lib/helpers/ensureChainId";
 
 const Page = ({ params: { id } }: { params: { id: string } }) => {
   const { proposal } = useProposal(BigInt(id));
+  const { chainId } = useAccount();
 
-  const currentBlock = useBlockNumber();
+  const { data: currentBlock } = useBlockNumber({
+    watch: true,
+    chainId: ensureChainId(chainId),
+  });
 
   const endBlock = useBlock({
     blockNumber: BigInt(proposal?.endBlock),
@@ -39,20 +44,20 @@ const Page = ({ params: { id } }: { params: { id: string } }) => {
   const votingDeadline = useMemo(() => {
     const CELO_BLOCK_TIME = 5000; // 5 seconds
 
-    if (proposal && currentBlock.data) {
+    if (proposal && currentBlock) {
       // If the end block is already mined, we can fetch the timestamp
-      if (Number(currentBlock.data) >= proposal.endBlock && endBlock.data) {
+      if (Number(currentBlock) >= proposal.endBlock && endBlock.data) {
         return new Date(Number(endBlock.data.timestamp) * 1000);
       } else {
         // If the end block is not mined yet, we estimate the time
         return new Date(
           Date.now() +
             // Estimation of ~5 seconds per block
-            (proposal.endBlock - Number(currentBlock.data)) * CELO_BLOCK_TIME,
+            (proposal.endBlock - Number(currentBlock)) * CELO_BLOCK_TIME,
         );
       }
     }
-  }, [currentBlock.data, endBlock.data, proposal]);
+  }, [currentBlock, endBlock.data, proposal]);
 
   const timeLockDeadLine = useMemo(() => {
     if (proposal && proposal.state === "Queued" && proposal.proposalQueued[0]) {

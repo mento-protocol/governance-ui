@@ -1,6 +1,7 @@
 import { GovernorABI } from "@/lib/abi/Governor";
 import { TimelockControllerABI } from "@/lib/abi/TimelockController";
 import { useContracts } from "@/lib/contracts/useContracts";
+import { useEnsureChainId } from "@/lib/hooks/useEnsureChainId";
 import { useMemo } from "react";
 
 import { useReadContracts } from "wagmi";
@@ -36,6 +37,7 @@ function formatParam(
 }
 
 const useGovernanceDetails = () => {
+  const ensuredChainId = useEnsureChainId();
   const { MentoGovernor, TimelockController } = useContracts();
 
   const governorContact = {
@@ -53,18 +55,22 @@ const useGovernanceDetails = () => {
       {
         ...governorContact,
         functionName: "votingPeriod",
+        chainId: ensuredChainId,
       },
       {
         ...governorContact,
         functionName: "proposalThreshold",
+        chainId: ensuredChainId,
       },
       {
         ...governorContact,
         functionName: "quorumVotes",
+        chainId: ensuredChainId,
       },
       {
         ...timeLockContract,
         functionName: "getMinDelay",
+        chainId: ensuredChainId,
       },
     ],
     allowFailure: false,

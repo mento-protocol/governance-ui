@@ -10,7 +10,7 @@ export const useAddTokens = () => {
 
   const addMento = useCallback(async () => {
     if (!chainId || !client?.request) return;
-    const wasAdded = await client.request({
+    await client.request({
       method: "wallet_watchAsset",
       params: {
         type: "ERC20", // Initially only supports ERC20, but eventually more!
@@ -26,11 +26,11 @@ export const useAddTokens = () => {
         },
       },
     });
-  }, [chainId]);
+  }, [chainId, client]);
 
   const addVeMento = useCallback(async () => {
     if (!chainId || !client?.request) return;
-    const wasAdded = await client.request({
+    await client.request({
       method: "wallet_watchAsset",
       params: {
         type: "ERC20", // Initially only supports ERC20, but eventually more!
@@ -46,7 +46,7 @@ export const useAddTokens = () => {
         },
       },
     });
-  }, [chainId]);
+  }, [chainId, client]);
 
   return {
     addMento,

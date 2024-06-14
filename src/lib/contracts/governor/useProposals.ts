@@ -9,14 +9,15 @@ import {
   Proposal,
   useGetProposalsQuery,
 } from "@/lib/graphql/subgraph/generated/subgraph";
+import { useEnsureChainId } from "@/lib/hooks/useEnsureChainId";
 import { NetworkStatus } from "@apollo/client";
 import { useCallback, useMemo } from "react";
-import { useAccount, useReadContracts } from "wagmi";
+import { useReadContracts } from "wagmi";
 
 export const GraphProposalsQueryKey = ["proposals-graph-query"];
 
 const useProposals = () => {
-  const { chainId } = useAccount();
+  const ensuredChainId = useEnsureChainId();
   const contracts = useContracts();
 
   const {
@@ -25,7 +26,7 @@ const useProposals = () => {
     refetch,
   } = useGetProposalsQuery({
     context: {
-      apiName: getSubgraphApiName(chainId),
+      apiName: getSubgraphApiName(ensuredChainId),
     },
     initialFetchPolicy: "network-only",
     nextFetchPolicy: "cache-and-network",
@@ -43,6 +44,7 @@ const useProposals = () => {
               abi: GovernorABI,
               functionName: "state",
               args: [proposal.proposalId],
+              chainId: ensuredChainId,
             }) as const,
         )
       : [],

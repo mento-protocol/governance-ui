@@ -9,16 +9,21 @@ import {
   Proposal,
   useGetProposalSuspenseQuery,
 } from "@/lib/graphql/subgraph/generated/subgraph";
+import { useEnsureChainId } from "@/lib/hooks/useEnsureChainId";
 import { NetworkStatus } from "@apollo/client";
 import { useEffect, useMemo } from "react";
-import { useAccount, useBlockNumber, useReadContract } from "wagmi";
+import { useBlockNumber, useReadContract } from "wagmi";
 
 export const ProposalQueryKey = "proposal";
 
 const useProposal = (proposalId: bigint) => {
-  const { chainId } = useAccount();
   const contracts = useContracts();
-  const { data: blockNumber } = useBlockNumber({ watch: true });
+  const ensuredChainId = useEnsureChainId();
+
+  const { data: blockNumber } = useBlockNumber({
+    watch: true,
+    chainId: ensuredChainId,
+  });
 
   const {
     data: { proposals: graphProposals },
@@ -26,7 +31,7 @@ const useProposal = (proposalId: bigint) => {
     refetch: graphRefetch,
   } = useGetProposalSuspenseQuery({
     context: {
-      apiName: getSubgraphApiName(chainId),
+      apiName: getSubgraphApiName(ensuredChainId),
     },
     refetchWritePolicy: "merge",
     fetchPolicy: "cache-and-network",
@@ -43,6 +48,7 @@ const useProposal = (proposalId: bigint) => {
     functionName: "state",
     args: [proposalId],
     scopeKey: ProposalQueryKey,
+    chainId: ensuredChainId,
     query: {
       refetchInterval: 5000,
       enabled:

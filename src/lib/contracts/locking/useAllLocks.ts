@@ -3,17 +3,17 @@ import {
   Lock,
   useGetAllLocksSuspenseQuery,
 } from "@/lib/graphql/subgraph/generated/subgraph";
-import { useAccount } from "wagmi";
+import { useEnsureChainId } from "@/lib/hooks/useEnsureChainId";
 
 const useAllLocks = () => {
-  const { chainId } = useAccount();
+  const ensuredChainId = useEnsureChainId();
   const {
     data: { locks },
   } = useGetAllLocksSuspenseQuery({
     queryKey: "locking-contract-hook",
     refetchWritePolicy: "overwrite",
     context: {
-      apiName: getSubgraphApiName(chainId),
+      apiName: getSubgraphApiName(ensuredChainId),
     },
   });
 

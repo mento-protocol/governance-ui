@@ -8,6 +8,7 @@ import { makeClient } from "@/lib/graphql/apollo.client";
 import { wagmiConfig } from "@/config/wagmi.config";
 import { Celo } from "@/config/chains";
 import { ThemeProvider } from "next-themes";
+import { EnsureChain } from "@/lib/helpers/ensureChain";
 
 const queryClient = new QueryClient();
 
@@ -27,7 +28,7 @@ export function Providers({ children }: { children: ReactNode }) {
                 defaultTheme="system"
                 attribute="class"
               >
-                {children}
+                <EnsureChain>{children}</EnsureChain>
               </ThemeProvider>
             )}
           </RainbowKitProvider>

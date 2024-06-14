@@ -3,14 +3,14 @@ import {
   useGetLocksSuspenseQuery,
   Lock,
 } from "@/lib/graphql/subgraph/generated/subgraph";
-import { useAccount } from "wagmi";
+import { useEnsureChainId } from "@/lib/hooks/useEnsureChainId";
 
 interface UseLocksProps {
   account: string;
 }
 
 const useLocksByAccount = ({ account }: UseLocksProps) => {
-  const { chainId } = useAccount();
+  const ensuredChainId = useEnsureChainId();
   const {
     data: { locks },
     ...rest
@@ -22,7 +22,7 @@ const useLocksByAccount = ({ account }: UseLocksProps) => {
       address: account,
     },
     context: {
-      apiName: getSubgraphApiName(chainId),
+      apiName: getSubgraphApiName(ensuredChainId),
     },
   });
 

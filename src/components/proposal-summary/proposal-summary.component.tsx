@@ -1,12 +1,13 @@
 import { Suspense, useMemo } from "react";
 import { formatUnits } from "viem";
-import { useBlockNumber } from "wagmi";
+import { useAccount, useBlockNumber } from "wagmi";
 import { Card } from "@/components/_shared";
 import useProposals from "@/lib/contracts/governor/useProposals";
 import useLockingWeek from "@/lib/contracts/locking/useLockingWeek";
 import useAllLocks from "@/lib/contracts/locking/useAllLocks";
 import useTokens from "@/lib/contracts/useTokens";
 import NumbersService from "@/lib/helpers/numbers.service";
+import { ensureChainId } from "@/lib/helpers/ensureChainId";
 
 export const ProposalSummaryComponent = () => {
   return (
@@ -27,8 +28,12 @@ const ContractDataGrid = () => {
   const { currentWeek } = useLockingWeek();
   const { locks } = useAllLocks();
   const { proposals } = useProposals();
+  const { chainId } = useAccount();
 
-  const currentBlockNumber = useBlockNumber();
+  const currentBlockNumber = useBlockNumber({
+    watch: true,
+    chainId: ensureChainId(chainId),
+  });
 
   const proposalsEndBlocks: Array<BigInt> = proposals.map(
     (proposal) => proposal.endBlock,

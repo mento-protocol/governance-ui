@@ -24,6 +24,7 @@ import { useAccount, useDisconnect } from "wagmi";
 import { cn } from "@/styles/helpers";
 import NumbersService from "@/lib/helpers/numbers.service";
 import { IS_PROD } from "../../../middleware";
+import { useAddTokens } from "@/lib/hooks/useAddTokens";
 
 interface ConnectedDropdownProps extends BaseComponentProps {
   fullwidth?: boolean;
@@ -44,6 +45,7 @@ export const ConnectedDropdown = ({
   const { disconnect } = useDisconnect();
 
   const { mentoBalance, veMentoBalance } = useTokens();
+  const { addMento, addVeMento } = useAddTokens();
 
   return (
     <DropdownButton
@@ -61,7 +63,11 @@ export const ConnectedDropdown = ({
       <DropdownButton.Dropdown className="border border-solid  border-black bg-white text-black dark:border-white dark:bg-black dark:text-white">
         {isConnected && (
           <div className="flex w-full flex-col items-center border-b border-solid border-black py-2 font-inter dark:border-white">
-            <div className="flex w-full flex-row justify-between px-5 py-3">
+            <div
+              title="Click to add MENTO to your wallet"
+              onClick={addMento}
+              className="flex w-full cursor-pointer flex-row justify-between px-5 py-3"
+            >
               <div className="flex flex-row items-center  font-semibold">
                 <MentoIcon
                   className="mr-x1"
@@ -76,7 +82,11 @@ export const ConnectedDropdown = ({
               </div>
             </div>
             <hr className="mx-auto w-[calc(100%_-_40px)] border-t-gray-light" />
-            <div className="flex w-full flex-row justify-between px-5 py-x2">
+            <div
+              title="Click to add veMENTO to your wallet"
+              onClick={addVeMento}
+              className="flex w-full cursor-pointer flex-row justify-between px-5 py-x2"
+            >
               <div className="flex flex-shrink flex-grow flex-row items-center font-semibold">
                 <MentoIcon
                   className="mr-x1"

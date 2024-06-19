@@ -1,5 +1,5 @@
 query getProposals {
-  proposals(orderBy: startBlock, orderDirection: desc) {
+  proposals(first: 1000, orderBy: startBlock, orderDirection: desc) {
     ...ProposalFields
   }
 }

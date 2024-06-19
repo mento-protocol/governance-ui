@@ -1,5 +1,5 @@
 query getLocks($address: String) {
-  locks(where: { owner: $address }) {
+  locks(first: 1000, where: { owner: $address }) {
     lockId
     owner {
       id

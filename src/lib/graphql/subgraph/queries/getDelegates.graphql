@@ -1,0 +1,7 @@
+query getDelegates($skip: Int, $first: Int) {
+  locks(skip: $skip, first: $first) {
+    delegate {
+      id
+    }
+  }
+}

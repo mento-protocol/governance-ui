@@ -7293,6 +7293,14 @@ export type GetAllLocksQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type GetAllLocksQuery = { __typename?: 'Query', locks: Array<{ __typename?: 'Lock', lockId: any, amount: any, time: any, slope: number, cliff: number, owner: { __typename?: 'Account', id: any }, lockCreate: Array<{ __typename?: 'LockCreate', id: string, timestamp: any }>, delegate: { __typename?: 'Account', id: any } }> };
 
+export type GetDelegatesQueryVariables = Exact<{
+  skip: InputMaybe<Scalars['Int']['input']>;
+  first: InputMaybe<Scalars['Int']['input']>;
+}>;
+
+
+export type GetDelegatesQuery = { __typename?: 'Query', locks: Array<{ __typename?: 'Lock', delegate: { __typename?: 'Account', id: any } }> };
+
 export type GetLocksQueryVariables = Exact<{
   address: InputMaybe<Scalars['String']['input']>;
 }>;
@@ -7373,7 +7381,7 @@ export const ProposalFieldsFragmentDoc = gql`
     `;
 export const GetAllLocksDocument = gql`
     query getAllLocks {
-  locks(where: {relocked: false}) {
+  locks(first: 1000, where: {relocked: false}) {
     lockId
     owner {
       id
@@ -7424,9 +7432,52 @@ export type GetAllLocksQueryHookResult = ReturnType<typeof useGetAllLocksQuery>;
 export type GetAllLocksLazyQueryHookResult = ReturnType<typeof useGetAllLocksLazyQuery>;
 export type GetAllLocksSuspenseQueryHookResult = ReturnType<typeof useGetAllLocksSuspenseQuery>;
 export type GetAllLocksQueryResult = Apollo.QueryResult<GetAllLocksQuery, GetAllLocksQueryVariables>;
+export const GetDelegatesDocument = gql`
+    query getDelegates($skip: Int, $first: Int) {
+  locks(skip: $skip, first: $first) {
+    delegate {
+      id
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetDelegatesQuery__
+ *
+ * To run a query within a React component, call `useGetDelegatesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetDelegatesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetDelegatesQuery({
+ *   variables: {
+ *      skip: // value for 'skip'
+ *      first: // value for 'first'
+ *   },
+ * });
+ */
+export function useGetDelegatesQuery(baseOptions?: Apollo.QueryHookOptions<GetDelegatesQuery, GetDelegatesQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetDelegatesQuery, GetDelegatesQueryVariables>(GetDelegatesDocument, options);
+      }
+export function useGetDelegatesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetDelegatesQuery, GetDelegatesQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetDelegatesQuery, GetDelegatesQueryVariables>(GetDelegatesDocument, options);
+        }
+export function useGetDelegatesSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetDelegatesQuery, GetDelegatesQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetDelegatesQuery, GetDelegatesQueryVariables>(GetDelegatesDocument, options);
+        }
+export type GetDelegatesQueryHookResult = ReturnType<typeof useGetDelegatesQuery>;
+export type GetDelegatesLazyQueryHookResult = ReturnType<typeof useGetDelegatesLazyQuery>;
+export type GetDelegatesSuspenseQueryHookResult = ReturnType<typeof useGetDelegatesSuspenseQuery>;
+export type GetDelegatesQueryResult = Apollo.QueryResult<GetDelegatesQuery, GetDelegatesQueryVariables>;
 export const GetLocksDocument = gql`
     query getLocks($address: String) {
-  locks(where: {owner: $address}) {
+  locks(first: 1000, where: {owner: $address}) {
     lockId
     owner {
       id
@@ -7526,7 +7577,7 @@ export type GetProposalSuspenseQueryHookResult = ReturnType<typeof useGetProposa
 export type GetProposalQueryResult = Apollo.QueryResult<GetProposalQuery, GetProposalQueryVariables>;
 export const GetProposalsDocument = gql`
     query getProposals {
-  proposals(orderBy: startBlock, orderDirection: desc) {
+  proposals(first: 1000, orderBy: startBlock, orderDirection: desc) {
     ...ProposalFields
   }
 }

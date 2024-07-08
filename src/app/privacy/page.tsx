@@ -313,12 +313,15 @@ const Page: NextPage = () => {
           </ul>
         </p>
 
+        <h3 className="mt-3.5 font-fg text-3xl font-[600] ">Contact Us</h3>
+
         <p className="tracking-loose text-lg md:text-xl">
-          Contact us We are committed to processing your personal data lawfully
-          and to respecting your data protection rights. Please contact us if
-          you have any questions about this notice or the personal data we hold
-          about you. Our contact details are: contact@mento.org marking your
-          communication &quot;Data Protection Enquiry&quot;.
+          We are committed to processing your personal data lawfully and to
+          respecting your data protection rights. Please contact us, if you have
+          any questions about this notice or the personal data we hold about
+          you, marking your communication &quot;Data Protection Enquiry&quot;{" "}
+          <br />
+          Our contact details are: contact@mento.org .
         </p>
       </div>
     </div>

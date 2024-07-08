@@ -9,4 +9,6 @@ export const links = {
   roadmap: "https://mento.canny.io/",
   forum: "https://forum.celo.org/c/mento/33",
   cookiePolicy: "/files/cookie-policy.pdf",
+  privacyPdf:
+    "https://drive.google.com/uc?export=download&id=1E1pBFFo1R7sdGZx_xvkESdaaH2LOhC5e",
 };

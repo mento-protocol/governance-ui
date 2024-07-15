@@ -26,11 +26,11 @@ export const LearnMore = ({ className, style }: LearnMoreProps) => {
                 contribute, please join our discord server.
               </p>
               <Button
-                className="mt-x4 w-full max-w-full"
+                className="mt-x4 w-full max-w-full sm:mx-auto sm:block sm:max-w-[200px] lg:mx-0 lg:inline-block"
                 href="https://discord.gg"
                 target="_blank"
               >
-                <div className="flex items-center gap-x2 px-x3 sm:w-full">
+                <div className="flex items-center gap-x2 px-x3">
                   <DiscordIcon />
                   <span>Join the community</span>
                   <ChevronIcon direction="right" />

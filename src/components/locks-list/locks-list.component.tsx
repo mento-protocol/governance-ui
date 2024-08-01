@@ -4,14 +4,23 @@ import { Address, formatUnits } from "viem";
 import { Lock } from "@/lib/graphql/subgraph/generated/subgraph";
 import useLockCalculation from "@/lib/contracts/locking/useLockCalculation";
 import useTokens from "@/lib/contracts/useTokens";
+import { Button } from "@/components/_shared";
 
 interface ILocksList {
   account: Address;
   locks: Lock[];
+  availableToWithdraw: bigint;
   onExtend: () => void;
+  onWithdraw: () => void;
 }
 
-export const LocksList = ({ locks, onExtend, account }: ILocksList) => {
+export const LocksList = ({
+  locks,
+  onExtend,
+  account,
+  availableToWithdraw,
+  onWithdraw,
+}: ILocksList) => {
   const sortedLocks: Lock[] = useMemo(() => {
     if (!account || locks.length === 0) return [];
 
@@ -38,14 +47,21 @@ export const LocksList = ({ locks, onExtend, account }: ILocksList) => {
 
   return (
     <div className={`overflow-auto`}>
-      <div className="mb-x2 grid grid-cols-3 items-center gap-[18px] px-x1">
+      <div className="mb-x2 grid grid-cols-5 items-center gap-[18px] px-x1">
         <LockTableTitle>MENTO</LockTableTitle>
         <LockTableTitle>veMENTO</LockTableTitle>
         <LockTableTitle>Expires on</LockTableTitle>
+        <LockTableTitle> </LockTableTitle>
       </div>
       {sortedLocks.map((lock, index, array) => (
         <Fragment key={`lock-entry-${index}`}>
-          <LockEntry account={account} onExtend={onExtend} lock={lock} />
+          <LockEntry
+            account={account}
+            onExtend={onExtend}
+            lock={lock}
+            availableToWithdraw={availableToWithdraw}
+            onWithdraw={onWithdraw}
+          />
           {index !== array.length - 1 ?? (
             <div className="grid-span-[1/-1] border-b border-solid border-gray-light" />
           )}
@@ -76,10 +92,14 @@ const LockTableValue = ({ children }: { children: React.ReactNode }) => {
 
 const LockEntry = ({
   lock,
+  availableToWithdraw,
+  onWithdraw,
 }: {
   lock: Lock;
   account: Address;
   onExtend: () => void;
+  availableToWithdraw: bigint;
+  onWithdraw: () => void;
 }) => {
   const {
     mentoContractData: { decimals: mentoDecimals },
@@ -97,6 +117,10 @@ const LockEntry = ({
     return Number(formatUnits(lock.amount, mentoDecimals)).toFixed(3);
   }, [lock.amount, mentoDecimals]);
 
+  const availableToWithdrawFormatted = useMemo(() => {
+    return Number(formatUnits(availableToWithdraw, mentoDecimals)).toFixed(3);
+  }, [availableToWithdraw, mentoDecimals]);
+
   const expirationDate = useMemo(() => {
     if (lock.lockCreate.length === 0) return "Expiration Date not available";
     const expiration = getLockExpirationDate(
@@ -108,10 +132,18 @@ const LockEntry = ({
   }, [lock]);
 
   return (
-    <div className="mb-x2 grid grid-cols-3 items-center gap-[18px] px-x1 py-x2">
+    <div className="mb-x2 grid grid-cols-5 items-center gap-[18px] px-x1 py-x2">
       <LockTableValue>{mentoParsed}</LockTableValue>
       <LockTableValue>{data?.veMentoReceived}</LockTableValue>
       <LockTableValue>{expirationDate}</LockTableValue>
+      <Button
+        className="text-center"
+        theme="clear"
+        onClick={onWithdraw}
+        disabled={availableToWithdraw === BigInt(0)}
+      >
+        Withdraw <br /> {availableToWithdrawFormatted} MENTO
+      </Button>
     </div>
   );
 };

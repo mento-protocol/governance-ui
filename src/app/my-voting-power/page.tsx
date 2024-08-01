@@ -33,8 +33,6 @@ const Page = () => {
   });
 
   const handleWithdraw = React.useCallback(() => {
-    setModalTitle("Withdrawing");
-    setModalMessage("Please confirm the transaction in your wallet.");
     setIsModalOpen(true);
     withdraw();
   }, [withdraw]);

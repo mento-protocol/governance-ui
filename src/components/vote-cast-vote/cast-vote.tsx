@@ -166,7 +166,7 @@ const DirectToLockMento = () => {
       <div className="flex flex-col gap-x5 text-center">
         <LockedBalance />
         <span>You need to lock your MENTO to vote</span>
-        <Button fullwidth href="/my-voting-power" theme="primary">
+        <Button fullwidth href="/voting-power" theme="primary">
           Lock Mento <ChevronIcon direction="right" />
         </Button>
       </div>

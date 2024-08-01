@@ -61,7 +61,7 @@ const CurrentFormStep = ({ formStep }: { formStep: WalletStepEnum }) => {
             account.
             <br />
             You can lock MENTO to get veMENTO{" "}
-            <Link href="/my-voting-power">here</Link>.
+            <Link href="/voting-power">here</Link>.
           </p>
         </>
       );

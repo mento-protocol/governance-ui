@@ -1,4 +1,10 @@
-import { addWeeks, differenceInWeeks, nextWednesday } from "date-fns";
+import {
+  addWeeks,
+  differenceInWeeks,
+  format,
+  isToday,
+  nextWednesday,
+} from "date-fns";
 import { Controller, useFormContext } from "react-hook-form";
 import { LOCKING_DURATION_FORM_KEY } from "../constants";
 import {
@@ -44,7 +50,14 @@ export const LockingDayPicker = () => {
           disabled={listOfDaysAfterTodayExceptWednesdays}
           selected={wednesdayAfterSelectedWeeks}
           onDayClick={(d) => onChange(handleDateSelection(d))}
-        />
+        >
+          <DatePicker.Button>
+            {wednesdayAfterSelectedWeeks &&
+            !isToday(wednesdayAfterSelectedWeeks)
+              ? format(wednesdayAfterSelectedWeeks, "PPP")
+              : "Select a date"}
+          </DatePicker.Button>
+        </DatePicker>
       )}
       name={LOCKING_DURATION_FORM_KEY}
     />

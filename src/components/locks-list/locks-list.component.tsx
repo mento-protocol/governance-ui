@@ -6,6 +6,7 @@ import useLockCalculation from "@/lib/contracts/locking/useLockCalculation";
 import useTokens from "@/lib/contracts/useTokens";
 import { Button } from "@/components/_shared";
 import Link from "next/link";
+import { cn } from "@/styles/helpers";
 
 interface ILocksList {
   account: Address;
@@ -46,13 +47,20 @@ export const LocksList = ({
     });
   }, [account, locks]);
 
+  const hasAmountToWithdraw = availableToWithdraw > BigInt(0);
+
   return (
     <div className={`overflow-auto`}>
-      <div className="mb-x2 grid grid-cols-3 items-center gap-[18px] px-x1 md:grid-cols-5">
+      <div
+        className={cn(
+          "mb-x2 grid grid-cols-3 items-center gap-[18px] px-x1 ",
+          hasAmountToWithdraw && "md:grid-cols-5",
+        )}
+      >
         <LockTableTitle>MENTO</LockTableTitle>
         <LockTableTitle>veMENTO</LockTableTitle>
         <LockTableTitle>Expires on</LockTableTitle>
-        <LockTableTitle> </LockTableTitle>
+        {hasAmountToWithdraw && <LockTableTitle> </LockTableTitle>}
       </div>
       {sortedLocks.map((lock, index, array) => (
         <Fragment key={`lock-entry-${index}`}>
@@ -132,31 +140,38 @@ const LockEntry = ({
     return format(expiration, "dd/MM/yyyy");
   }, [lock]);
 
+  const hasAmountToWithdraw = availableToWithdraw > BigInt(0);
+
   return (
-    <div className="mb-x2 grid grid-cols-3 items-center gap-[18px] px-x1 py-x2 md:grid-cols-5">
+    <div
+      className={cn(
+        "mb-x2 grid grid-cols-3 items-center gap-[18px] px-x1 py-x2",
+        hasAmountToWithdraw && "md:grid-cols-5",
+      )}
+    >
       <LockTableValue>{mentoParsed}</LockTableValue>
       <LockTableValue>{data?.veMentoReceived}</LockTableValue>
       <LockTableValue>{expirationDate}</LockTableValue>
 
-      {/* Mobile link */}
-      {availableToWithdraw > BigInt(0) ?? (
-        <Link
-          href="#"
-          onClick={onWithdraw}
-          className="text-primary underline hover:text-primary-dark dark:text-secondary"
-        >
-          Withdraw <br /> {availableToWithdrawFormatted} MENTO
-        </Link>
-      )}
+      {hasAmountToWithdraw && (
+        <>
+          <Link
+            href="#"
+            onClick={onWithdraw}
+            className="text-primary underline hover:text-primary-dark dark:text-secondary md:hidden"
+          >
+            Withdraw <br /> {availableToWithdrawFormatted} MENTO
+          </Link>
 
-      <Button
-        className="hidden text-center md:block"
-        theme="clear"
-        onClick={onWithdraw}
-        disabled={availableToWithdraw === BigInt(0)}
-      >
-        Withdraw <br /> {availableToWithdrawFormatted} MENTO
-      </Button>
+          <Button
+            className="hidden text-center md:block"
+            theme="clear"
+            onClick={onWithdraw}
+          >
+            Withdraw <br /> {availableToWithdrawFormatted} MENTO
+          </Button>
+        </>
+      )}
     </div>
   );
 };

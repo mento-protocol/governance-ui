@@ -5,6 +5,7 @@ import { Lock } from "@/lib/graphql/subgraph/generated/subgraph";
 import useLockCalculation from "@/lib/contracts/locking/useLockCalculation";
 import useTokens from "@/lib/contracts/useTokens";
 import { Button } from "@/components/_shared";
+import Link from "next/link";
 
 interface ILocksList {
   account: Address;
@@ -47,7 +48,7 @@ export const LocksList = ({
 
   return (
     <div className={`overflow-auto`}>
-      <div className="mb-x2 grid grid-cols-5 items-center gap-[18px] px-x1">
+      <div className="mb-x2 grid grid-cols-3 items-center gap-[18px] px-x1 md:grid-cols-5">
         <LockTableTitle>MENTO</LockTableTitle>
         <LockTableTitle>veMENTO</LockTableTitle>
         <LockTableTitle>Expires on</LockTableTitle>
@@ -84,7 +85,7 @@ const LockTableTitle = ({ children }: { children: React.ReactNode }) => {
 
 const LockTableValue = ({ children }: { children: React.ReactNode }) => {
   return (
-    <div className="min-w-[150px] text-[22px]/none font-medium not-italic">
+    <div className="min-w-[150px] text-[18px]/none font-medium not-italic md:text-[22px]/none">
       {children}
     </div>
   );
@@ -132,12 +133,24 @@ const LockEntry = ({
   }, [lock]);
 
   return (
-    <div className="mb-x2 grid grid-cols-5 items-center gap-[18px] px-x1 py-x2">
+    <div className="mb-x2 grid grid-cols-3 items-center gap-[18px] px-x1 py-x2 md:grid-cols-5">
       <LockTableValue>{mentoParsed}</LockTableValue>
       <LockTableValue>{data?.veMentoReceived}</LockTableValue>
       <LockTableValue>{expirationDate}</LockTableValue>
+
+      {/* Mobile link */}
+      {availableToWithdraw > BigInt(0) ?? (
+        <Link
+          href="#"
+          onClick={onWithdraw}
+          className="text-primary underline hover:text-primary-dark dark:text-secondary"
+        >
+          Withdraw <br /> {availableToWithdrawFormatted} MENTO
+        </Link>
+      )}
+
       <Button
-        className="text-center"
+        className="hidden text-center md:block"
         theme="clear"
         onClick={onWithdraw}
         disabled={availableToWithdraw === BigInt(0)}

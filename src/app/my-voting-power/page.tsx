@@ -3,6 +3,7 @@ import { useAccount } from "wagmi";
 import { Card, ConnectButton, Loader, MentoLock } from "@/components/_shared";
 import { LocksList } from "@/components/index";
 import useLocksByAccount from "@/lib/contracts/locking/useLocksByAccount";
+import React from "react";
 
 const Page = () => {
   const { address, isConnecting } = useAccount();

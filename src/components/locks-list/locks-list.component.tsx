@@ -4,6 +4,9 @@ import { Address, formatUnits } from "viem";
 import { Lock } from "@/lib/graphql/subgraph/generated/subgraph";
 import useLockCalculation from "@/lib/contracts/locking/useLockCalculation";
 import useTokens from "@/lib/contracts/useTokens";
+import { cn } from "@/styles/helpers";
+import { WithdrawButton } from "../withdraw/withdraw-button";
+import { useAvailableToWithdraw } from "@/lib/contracts/locking/useAvailableToWithdraw";
 
 interface ILocksList {
   account: Address;
@@ -36,16 +39,30 @@ export const LocksList = ({ locks, onExtend, account }: ILocksList) => {
     });
   }, [account, locks]);
 
+  const { availableToWithdraw } = useAvailableToWithdraw();
+  const hasAmountToWithdraw = availableToWithdraw > BigInt(0);
+
   return (
     <div className={`overflow-auto`}>
-      <div className="mb-x2 grid grid-cols-3 items-center gap-[18px] px-x1">
+      <div
+        className={cn(
+          "mb-x2 grid grid-cols-3 items-center gap-[18px] px-x1 ",
+          hasAmountToWithdraw && "md:grid-cols-5",
+        )}
+      >
         <LockTableTitle>MENTO</LockTableTitle>
         <LockTableTitle>veMENTO</LockTableTitle>
         <LockTableTitle>Expires on</LockTableTitle>
+        {hasAmountToWithdraw && <LockTableTitle> </LockTableTitle>}
       </div>
       {sortedLocks.map((lock, index, array) => (
         <Fragment key={`lock-entry-${index}`}>
-          <LockEntry account={account} onExtend={onExtend} lock={lock} />
+          <LockEntry
+            account={account}
+            onExtend={onExtend}
+            lock={lock}
+            availableToWithdraw={availableToWithdraw}
+          />
           {index !== array.length - 1 ?? (
             <div className="grid-span-[1/-1] border-b border-solid border-gray-light" />
           )}
@@ -68,7 +85,7 @@ const LockTableTitle = ({ children }: { children: React.ReactNode }) => {
 
 const LockTableValue = ({ children }: { children: React.ReactNode }) => {
   return (
-    <div className="min-w-[150px] text-[22px]/none font-medium not-italic">
+    <div className="min-w-[150px] text-[18px]/none font-medium not-italic md:text-[22px]/none">
       {children}
     </div>
   );
@@ -76,10 +93,12 @@ const LockTableValue = ({ children }: { children: React.ReactNode }) => {
 
 const LockEntry = ({
   lock,
+  availableToWithdraw,
 }: {
   lock: Lock;
   account: Address;
   onExtend: () => void;
+  availableToWithdraw: bigint;
 }) => {
   const {
     mentoContractData: { decimals: mentoDecimals },
@@ -107,11 +126,19 @@ const LockEntry = ({
     return format(expiration, "dd/MM/yyyy");
   }, [lock]);
 
+  const hasAmountToWithdraw = availableToWithdraw > BigInt(0);
+
   return (
-    <div className="mb-x2 grid grid-cols-3 items-center gap-[18px] px-x1 py-x2">
+    <div
+      className={cn(
+        "mb-x2 grid grid-cols-3 items-center gap-[18px] px-x1 py-x2",
+        hasAmountToWithdraw && "md:grid-cols-5",
+      )}
+    >
       <LockTableValue>{mentoParsed}</LockTableValue>
       <LockTableValue>{data?.veMentoReceived}</LockTableValue>
       <LockTableValue>{expirationDate}</LockTableValue>
+      <WithdrawButton />
     </div>
   );
 };

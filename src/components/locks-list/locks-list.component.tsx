@@ -4,25 +4,17 @@ import { Address, formatUnits } from "viem";
 import { Lock } from "@/lib/graphql/subgraph/generated/subgraph";
 import useLockCalculation from "@/lib/contracts/locking/useLockCalculation";
 import useTokens from "@/lib/contracts/useTokens";
-import { Button } from "@/components/_shared";
-import Link from "next/link";
 import { cn } from "@/styles/helpers";
+import { WithdrawButton } from "../withdraw/withdraw-button";
+import { useAvailableToWithdraw } from "@/lib/contracts/locking/useAvailableToWithdraw";
 
 interface ILocksList {
   account: Address;
   locks: Lock[];
-  availableToWithdraw: bigint;
   onExtend: () => void;
-  onWithdraw: () => void;
 }
 
-export const LocksList = ({
-  locks,
-  onExtend,
-  account,
-  availableToWithdraw,
-  onWithdraw,
-}: ILocksList) => {
+export const LocksList = ({ locks, onExtend, account }: ILocksList) => {
   const sortedLocks: Lock[] = useMemo(() => {
     if (!account || locks.length === 0) return [];
 
@@ -47,6 +39,7 @@ export const LocksList = ({
     });
   }, [account, locks]);
 
+  const { availableToWithdraw } = useAvailableToWithdraw();
   const hasAmountToWithdraw = availableToWithdraw > BigInt(0);
 
   return (
@@ -69,7 +62,6 @@ export const LocksList = ({
             onExtend={onExtend}
             lock={lock}
             availableToWithdraw={availableToWithdraw}
-            onWithdraw={onWithdraw}
           />
           {index !== array.length - 1 ?? (
             <div className="grid-span-[1/-1] border-b border-solid border-gray-light" />
@@ -102,13 +94,11 @@ const LockTableValue = ({ children }: { children: React.ReactNode }) => {
 const LockEntry = ({
   lock,
   availableToWithdraw,
-  onWithdraw,
 }: {
   lock: Lock;
   account: Address;
   onExtend: () => void;
   availableToWithdraw: bigint;
-  onWithdraw: () => void;
 }) => {
   const {
     mentoContractData: { decimals: mentoDecimals },
@@ -125,10 +115,6 @@ const LockEntry = ({
   const mentoParsed = useMemo(() => {
     return Number(formatUnits(lock.amount, mentoDecimals)).toFixed(3);
   }, [lock.amount, mentoDecimals]);
-
-  const availableToWithdrawFormatted = useMemo(() => {
-    return Number(formatUnits(availableToWithdraw, mentoDecimals)).toFixed(3);
-  }, [availableToWithdraw, mentoDecimals]);
 
   const expirationDate = useMemo(() => {
     if (lock.lockCreate.length === 0) return "Expiration Date not available";
@@ -152,26 +138,7 @@ const LockEntry = ({
       <LockTableValue>{mentoParsed}</LockTableValue>
       <LockTableValue>{data?.veMentoReceived}</LockTableValue>
       <LockTableValue>{expirationDate}</LockTableValue>
-
-      {hasAmountToWithdraw && (
-        <>
-          <Link
-            href="#"
-            onClick={onWithdraw}
-            className="text-primary underline hover:text-primary-dark dark:text-secondary md:hidden"
-          >
-            Withdraw <br /> {availableToWithdrawFormatted} MENTO
-          </Link>
-
-          <Button
-            className="hidden text-center md:block"
-            theme="clear"
-            onClick={onWithdraw}
-          >
-            Withdraw <br /> {availableToWithdrawFormatted} MENTO
-          </Button>
-        </>
-      )}
+      <WithdrawButton />
     </div>
   );
 };

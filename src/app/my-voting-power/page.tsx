@@ -3,60 +3,11 @@ import { useAccount } from "wagmi";
 import { Card, ConnectButton, Loader, MentoLock } from "@/components/_shared";
 import { LocksList } from "@/components/index";
 import useLocksByAccount from "@/lib/contracts/locking/useLocksByAccount";
-import { useAvailableToWithdraw } from "@/lib/contracts/locking/useAvailableToWithdraw";
-import { useWithdraw } from "@/lib/contracts/locking/useWithdraw";
 import React from "react";
-import { TxModal } from "@/components/_shared/tx-modal/tx-modal.component";
-import { toast } from "sonner";
 
 const Page = () => {
   const { address, isConnecting } = useAccount();
   const { locks, refetch } = useLocksByAccount({ account: address! });
-  const { availableToWithdraw, refetchAvailableToWithdraw } =
-    useAvailableToWithdraw();
-
-  const [isModalOpen, setIsModalOpen] = React.useState(false);
-  const [modalTitle, setModalTitle] = React.useState("");
-  const [modalMessage, setModalMessage] = React.useState<React.ReactNode>(null);
-
-  const handleWithdrawSuccess = React.useCallback(() => {
-    refetchAvailableToWithdraw();
-    setIsModalOpen(false);
-    toast.success("Withdraw Successful", {
-      unstyled: true,
-      duration: 2000,
-    });
-  }, [refetchAvailableToWithdraw]);
-
-  const { withdraw, isPending, isConfirming, error } = useWithdraw({
-    onConfirmation: handleWithdrawSuccess,
-  });
-
-  const handleWithdraw = React.useCallback(() => {
-    setIsModalOpen(true);
-    withdraw();
-  }, [withdraw]);
-
-  const closeModal = React.useCallback(() => {
-    setIsModalOpen(false);
-  }, []);
-
-  const retryWithdraw = React.useCallback(() => {
-    withdraw();
-  }, [withdraw]);
-
-  React.useEffect(() => {
-    if (isPending) {
-      setModalTitle("Withdrawing");
-      setModalMessage("Please confirm the transaction in your wallet.");
-    } else if (isConfirming) {
-      setModalTitle("Confirming Withdrawal");
-      setModalMessage("Transaction is being confirmed on the blockchain.");
-    } else if (error) {
-      setModalTitle("Withdrawal Failed");
-      setModalMessage("There was an error processing your withdrawal.");
-    }
-  }, [isPending, isConfirming, error]);
 
   return (
     <main className="flex flex-col place-items-center">
@@ -85,26 +36,12 @@ const Page = () => {
           </h2>
           <Card block>
             {address && !isConnecting && (
-              <LocksList
-                locks={locks}
-                onExtend={refetch}
-                account={address}
-                availableToWithdraw={availableToWithdraw}
-                onWithdraw={handleWithdraw}
-              />
+              <LocksList locks={locks} onExtend={refetch} account={address} />
             )}
             {isConnecting && <Loader isCenter />}
           </Card>
         </>
       )}
-      <TxModal
-        isOpen={isModalOpen}
-        onClose={closeModal}
-        error={!!error}
-        retry={retryWithdraw}
-        title={modalTitle}
-        message={modalMessage}
-      />
     </main>
   );
 };

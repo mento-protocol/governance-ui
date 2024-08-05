@@ -7306,7 +7306,7 @@ export type GetLocksQueryVariables = Exact<{
 }>;
 
 
-export type GetLocksQuery = { __typename?: 'Query', locks: Array<{ __typename?: 'Lock', lockId: any, amount: any, time: any, slope: number, cliff: number, owner: { __typename?: 'Account', id: any }, lockCreate: Array<{ __typename?: 'LockCreate', id: string, timestamp: any }> }> };
+export type GetLocksQuery = { __typename?: 'Query', locks: Array<{ __typename?: 'Lock', lockId: any, relocked: boolean, amount: any, time: any, slope: number, cliff: number, owner: { __typename?: 'Account', id: any }, replacedBy: { __typename?: 'Lock', id: string, lockId: any } | null, replaces: { __typename?: 'Lock', id: string, lockId: any } | null, lockCreate: Array<{ __typename?: 'LockCreate', id: string, timestamp: any }>, delegate: { __typename?: 'Account', id: any } }> };
 
 export type GetProposalQueryVariables = Exact<{
   id: InputMaybe<Scalars['BigInt']['input']>;
@@ -7482,6 +7482,15 @@ export const GetLocksDocument = gql`
     owner {
       id
     }
+    replacedBy {
+      id
+      lockId
+    }
+    replaces {
+      id
+      lockId
+    }
+    relocked
     amount
     time
     slope
@@ -7489,6 +7498,9 @@ export const GetLocksDocument = gql`
     lockCreate {
       id
       timestamp
+    }
+    delegate {
+      id
     }
   }
 }

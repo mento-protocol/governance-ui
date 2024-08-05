@@ -43,8 +43,6 @@ const useRelockMento = ({
     args: [id, newDelegate, newAmount, newSlope, newCliff],
   });
 
-  console.log({ simulation });
-
   const { isLoading: isConfirming, isSuccess: isConfirmed } =
     useWaitForTransactionReceipt({
       hash: data,

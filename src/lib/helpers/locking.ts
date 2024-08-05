@@ -16,8 +16,11 @@ export default abstract class LockingHelper {
     return isWednesday(futureDate) ? futureDate : nextWednesday(futureDate);
   }
 
-  public static getDaysExceptWednesday(startDate = new Date(), endDate: Date) {
-    const days = eachDayOfInterval({ start: startDate, end: endDate }).filter(
+  public static getDaysExceptWednesday(endDate?: Date) {
+    if (!endDate) {
+      endDate = addYears(new Date(), 2);
+    }
+    const days = eachDayOfInterval({ start: new Date(), end: endDate }).filter(
       (day) => !isWednesday(day),
     );
     return days;
@@ -38,14 +41,5 @@ export default abstract class LockingHelper {
     return differenceInWeeks(date, new Date(), {
       roundingMethod: "floor",
     });
-  };
-
-  public static getLockExpirationDate = (
-    startDateTimeStamp: number,
-    slope: number,
-    cliff: number,
-  ) => {
-    const startDate = new Date(startDateTimeStamp * 1000);
-    return nextWednesday(addWeeks(startDate, slope + cliff));
   };
 }

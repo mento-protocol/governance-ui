@@ -3,12 +3,12 @@ import {
   addYears,
   differenceInWeeks,
   format,
+  isDate,
   nextWednesday,
 } from "date-fns";
 import React, { useMemo } from "react";
-import { Address, formatUnits } from "viem";
+import { formatUnits } from "viem";
 import { Lock } from "@/lib/graphql/subgraph/generated/subgraph";
-import useLockCalculation from "@/lib/contracts/locking/useLockCalculation";
 import useTokens from "@/lib/contracts/useTokens";
 import { Card, DatePicker, Loader } from "../_shared";
 import useRelockMento from "@/lib/contracts/locking/useRelockMento";
@@ -17,15 +17,37 @@ import { Button, variants } from "../_shared/button/button.component";
 import { cn } from "@/styles/helpers";
 import { useUnlockedMento } from "@/lib/contracts/locking/useUnlockedMento";
 import { Popover } from "@headlessui/react";
+import { useAccount } from "wagmi";
+import useLocksByAccount from "@/lib/contracts/locking/useLocksByAccount";
+import { WithdrawButton } from "../withdraw/withdraw-button";
+import useLockedAmount from "@/lib/contracts/locking/useLockedAmount";
+import useLockExpirationDate from "@/lib/contracts/locking/useLockExpirationDate";
 
-interface ILocksList {
-  account: Address;
-  locks: Lock[];
-  onExtend: () => void;
-}
+export const LocksList = () => {
+  const { address } = useAccount();
+  const { locks } = useLocksByAccount({ account: address! });
+  const { data: unlockedMento } = useUnlockedMento();
+  const { mentoContractData, veMentoContractData } = useTokens();
+  const { data: lockedBalance } = useLockedAmount();
 
-export const LocksList = ({ locks, onExtend, account }: ILocksList) => {
-  if (!account) {
+  const parsedLockedBalance = Number(
+    formatUnits(lockedBalance ?? BigInt(0), veMentoContractData.decimals),
+  ).toFixed(2);
+
+  const lock = React.useMemo(
+    () => locks.toSorted((a, b) => b.lockId - a.lockId)[0],
+    [locks],
+  );
+
+  useLogOnce({ lock, locks });
+
+  const { data: expirationDate } = useLockExpirationDate(
+    lock.slope,
+    lock.cliff,
+    lock.time,
+  );
+
+  if (!address) {
     return (
       <Card block>
         <div className="text-center">
@@ -43,151 +65,119 @@ export const LocksList = ({ locks, onExtend, account }: ILocksList) => {
     );
   }
 
+  const parsedUnlockedMento = Number(
+    formatUnits(unlockedMento ?? BigInt(0), mentoContractData.decimals),
+  ).toFixed(2);
+
+  const parsedExpirationDate = format(
+    expirationDate ?? new Date(),
+    "dd/MM/yyyy",
+  );
+
+  const lockWithMoreInfo = { ...lock, expirationDate };
+
   return (
-    <Card block>
-      <div className="mb-x2 grid grid-cols-3 md:grid-cols-4 md:gap-[18px] md:px-x1">
-        <LockTableTitle>MENTO</LockTableTitle>
-        <LockTableTitle>veMENTO</LockTableTitle>
-        <LockTableTitle>Expires on</LockTableTitle>
+    <Card className="grid grid-cols-3 gap-4 md:grid-cols-5">
+      <LockTableTitle>MENTO</LockTableTitle>
+      <LockTableTitle>veMENTO</LockTableTitle>
+      <LockTableTitle>Expires On</LockTableTitle>
+      <div className="hidden md:block" />
+      <div className="hidden md:block" />
+      <LockTableValue>{parsedUnlockedMento}</LockTableValue>
+      <LockTableValue>{parsedLockedBalance}</LockTableValue>
+      <LockTableValue>{parsedExpirationDate}</LockTableValue>
+      <div>
+        <WithdrawButton />
       </div>
-      <LockEntry account={account} onExtend={onExtend} lock={locks[0]} />
+      <div className="md:hidden" />
+      <RelockForm lock={lockWithMoreInfo} />
     </Card>
   );
 };
 
-const LockEntry = ({
+const RelockForm = ({
   lock,
 }: {
-  lock: Lock;
-  account: Address;
-  onExtend: () => void;
+  lock: Lock & { expirationDate: Date | undefined };
 }) => {
-  const { data: unlockedMento } = useUnlockedMento();
-  const { veMentoContractData } = useTokens();
-
-  const { data } = useLockCalculation({
-    lock: {
-      amount: formatUnits(lock.amount, veMentoContractData.decimals),
-      slope: lock.slope,
-      cliff: lock.cliff,
-    },
-  });
-
-  const expirationDate = useMemo(() => {
-    if (lock.lockCreate.length === 0) return "Expiration Date not available";
-    const expiration = LockingHelper.getLockExpirationDate(
-      lock.lockCreate[0]?.timestamp,
-      lock.slope,
-      lock.cliff,
-    );
-    return format(expiration, "dd/MM/yyyy");
-  }, [lock]);
-
-  const parsedUnlockedMento = Number(
-    formatUnits(unlockedMento ?? BigInt(0), veMentoContractData.decimals),
-  ).toFixed(2);
-
-  return (
-    <div className="flex flex-col">
-      <div className="mb-x2 grid grid-cols-3 py-x2 md:grid-cols-4 md:gap-[18px] md:px-x1">
-        <LockTableValue>{parsedUnlockedMento}</LockTableValue>
-        <LockTableValue>{data?.veMentoReceived}</LockTableValue>
-        <LockTableValue>{expirationDate}</LockTableValue>
-        <div className="hidden md:block">
-          <LockTableValue>
-            <RelockForm lock={{ ...lock, expirationDate }} />
-          </LockTableValue>
-        </div>
-      </div>
-      <div className="md:hidden">
-        <RelockForm lock={{ ...lock, expirationDate }} />
-      </div>
-    </div>
-  );
-};
-
-const RelockForm = ({ lock }: { lock: Lock & { expirationDate: string } }) => {
-  const {
-    getDaysExceptWednesday,
-    addYearsAndAdjustToNextWednesday,
-    getLockExpirationDate,
-  } = LockingHelper;
-
   const { veMentoBalance } = useTokens();
 
-  const [newLockExpirationDate, setNewLockExpirationDate] =
-    React.useState<Date | null>(null);
-
-  const numOfWeeksToExtendLock = React.useMemo(() => {
-    if (!newLockExpirationDate) return 0;
-    return differenceInWeeks(newLockExpirationDate, new Date(), {
-      roundingMethod: "floor",
-    });
-  }, [newLockExpirationDate]);
-
-  const currentExpirationDate = getLockExpirationDate(
-    lock.lockCreate[0]?.timestamp,
-    lock.slope,
-    lock.cliff,
+  const [expirationDate, setExpirationDate] = React.useState<Date>(
+    nextWednesday(new Date()),
   );
 
-  const nextValidExpirationDate = nextWednesday(currentExpirationDate);
+  const numOfWeeksToExtendLock = React.useMemo(() => {
+    if (!expirationDate) return 0;
+    return differenceInWeeks(expirationDate, new Date(), {
+      roundingMethod: "floor",
+    });
+  }, [expirationDate]);
 
-  const listOfDaysAfterExpirationExceptWednesdays = [
-    {
-      // Minimum lock duration is 1 week, and only on Wednesdays. Disable days before next Wednesday after a week
-      before: nextWednesday(addWeeks(nextValidExpirationDate, 1)),
-    },
-    ...getDaysExceptWednesday(
-      nextValidExpirationDate,
-      addYears(nextValidExpirationDate, 2),
-    ),
-  ];
+  const handleDateSelection = (date: Date) => {
+    setExpirationDate(date);
+  };
 
   const { relockMento, isAwaitingUserSignature } = useRelockMento({
     id: BigInt(lock.lockId),
     newDelegate: lock.owner.id,
     newAmount: veMentoBalance.value,
-    newSlope: lock.slope,
-    newCliff: numOfWeeksToExtendLock,
+    newSlope: numOfWeeksToExtendLock,
+    newCliff: lock.cliff,
     onSuccess: () => {},
     onError: (error) => {
       console.log({ error });
     },
   });
 
+  if (!isDate(expirationDate)) {
+    return <span className="text-mento-blue underline">Extend Lock</span>;
+  }
+
   if (isAwaitingUserSignature) {
     return <LoadingPopover />;
   }
 
   return (
+    <RelockingDatePicker
+      onDateSelection={handleDateSelection}
+      selectedDate={expirationDate}
+    />
+  );
+};
+
+const RelockingDatePicker = ({
+  selectedDate,
+  onDateSelection,
+}: {
+  selectedDate: Date;
+  onDateSelection: (date: Date) => void;
+}) => {
+  const listOfDaysAfterTodayExceptWednesdays = [
+    {
+      // Minimum lock duration is 1 week, and only on Wednesdays. Disable days before next Wednesday after a week
+      before: nextWednesday(addWeeks(new Date(), 1)),
+    },
+    ...LockingHelper.getDaysExceptWednesday(),
+  ];
+
+  return (
     <DatePicker
-      fromMonth={currentExpirationDate}
-      toMonth={addYearsAndAdjustToNextWednesday(2, currentExpirationDate)}
+      defaultMonth={new Date()}
+      fromMonth={new Date()}
+      toMonth={LockingHelper.addYearsAndAdjustToNextWednesday(2)}
       fixedWeeks={true}
-      disabled={listOfDaysAfterExpirationExceptWednesdays}
-      onDayClick={setNewLockExpirationDate}
-      selected={newLockExpirationDate ?? nextValidExpirationDate}
-      closeOnSelect={false}
+      disabled={listOfDaysAfterTodayExceptWednesdays}
+      selected={selectedDate}
+      onDayClick={onDateSelection}
     >
       <DatePicker.Button
         className={cn(
           variants({ theme: "clear" }),
-          "hidden w-fit md:inline-block ",
+          "hidden h-full w-fit items-center justify-items-center md:flex",
         )}
       >
         Extend lock
       </DatePicker.Button>
-      <DatePicker.Button className={cn("w-fit text-mento-blue underline")}>
-        Extend lock
-      </DatePicker.Button>
-      <DatePicker.Panel>
-        <div className="flex items-center justify-center p-4">
-          <Button theme={"clear"} onClick={relockMento}>
-            Extend Lock
-          </Button>
-        </div>
-      </DatePicker.Panel>
     </DatePicker>
   );
 };
@@ -231,8 +221,19 @@ const LockTableTitle = ({ children }: { children: React.ReactNode }) => {
 
 const LockTableValue = ({ children }: { children: React.ReactNode }) => {
   return (
-    <div className="col-span-1 flex items-center justify-center text-[22px]/none font-medium not-italic">
+    <div className="col-span-1 flex items-center justify-center text-[18px]/none font-medium not-italic md:text-[22px]/none">
       {children}
     </div>
   );
+};
+
+const useLogOnce = (message: any) => {
+  const hasLogged = React.useRef(false);
+
+  React.useEffect(() => {
+    if (!hasLogged.current) {
+      console.log(message);
+      hasLogged.current = true;
+    }
+  }, [message]);
 };

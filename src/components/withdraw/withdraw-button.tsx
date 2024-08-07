@@ -68,12 +68,15 @@ export const WithdrawButton = () => {
     <>
       {hasAmountToWithdraw && (
         <>
-          <Button className="md:hidden" theme={"link"} onClick={handleWithdraw}>
+          <button
+            className="w-fit self-end border-none p-0 text-left text-black underline transition-[color] duration-200 ease-out visited:text-primary-dark hover:text-primary active:text-primary-dark dark:text-white md:hidden "
+            onClick={handleWithdraw}
+          >
             Withdraw <br /> {availableToWithdrawFormatted} MENTO
-          </Button>
+          </button>
 
           <Button
-            className="hidden text-center md:block"
+            className="hidden w-fit text-center md:block"
             theme="clear"
             onClick={handleWithdraw}
           >

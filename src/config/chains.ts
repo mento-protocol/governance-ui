@@ -50,7 +50,5 @@ function transformToChainContracts(
     };
   });
 
-  console.log({ chainContracts });
-
   return chainContracts as MentoChainContracts;
 }

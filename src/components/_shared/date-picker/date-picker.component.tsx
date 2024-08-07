@@ -46,7 +46,14 @@ const DatePickerPanel: React.FC<DatePickerPanelProps> = ({
 export const DatePicker: React.FC<DatePickerProps> & {
   Button: typeof DatePickerButton;
   Panel: typeof DatePickerPanel;
-} = ({ onDayClick, children, closeOnSelect = true, ...restProps }) => {
+  className?: string;
+} = ({
+  onDayClick,
+  children,
+  className,
+  closeOnSelect = true,
+  ...restProps
+}) => {
   const buttonChild = React.Children.toArray(children).find(
     (child) => React.isValidElement(child) && child.type === DatePickerButton,
   );
@@ -59,11 +66,11 @@ export const DatePicker: React.FC<DatePickerProps> & {
   }
 
   return (
-    <Popover className="relative">
+    <Popover className={cn(className, "relative")}>
       {({ close }) => (
         <>
           {buttonChild}
-          <Popover.Panel className="absolute z-10 rounded-[4px] border border-gray-light bg-white dark:bg-black-off">
+          <Popover.Panel className="absolute right-0 z-10 rounded-[4px] border border-gray-light bg-white dark:bg-black-off">
             <Calendar
               {...restProps}
               onDayClick={(date: Date) => {

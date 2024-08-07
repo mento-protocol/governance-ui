@@ -18,7 +18,7 @@ export default abstract class LockingHelper {
 
   public static getDaysExceptWednesday(endDate?: Date) {
     if (!endDate) {
-      endDate = addYears(new Date(), 2);
+      endDate = addYears(new Date(), 10);
     }
     const days = eachDayOfInterval({ start: new Date(), end: endDate }).filter(
       (day) => !isWednesday(day),
@@ -41,5 +41,15 @@ export default abstract class LockingHelper {
     return differenceInWeeks(date, new Date(), {
       roundingMethod: "floor",
     });
+  };
+
+  public static getListOfWednesdays = () => {
+    return [
+      {
+        // Minimum lock duration is 1 week, and only on Wednesdays. Disable days before next Wednesday after a week
+        before: nextWednesday(addWeeks(new Date(), 1)),
+      },
+      ...this.getDaysExceptWednesday(),
+    ];
   };
 }

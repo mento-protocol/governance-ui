@@ -1,6 +1,6 @@
 import { useAccount } from "wagmi";
-
 import { UserRejectedRequestError } from "viem";
+import * as Sentry from "@sentry/nextjs";
 
 import {
   BlockExplorerLink,
@@ -11,18 +11,19 @@ import {
 } from "@/components/_shared";
 import { ChevronIcon, SuccessIcon } from "@/components/_icons";
 
-import { Proposal } from "@/lib/graphql";
+import type { Proposal } from "@/lib/graphql";
 
 import ErrorHelper from "@/lib/helpers/error.helper";
+import useTokens from "@/lib/contracts/useTokens";
+import useCastVote from "@/lib/contracts/governor/useCastVote";
+import useVoteReceipt from "@/lib/contracts/governor/useVoteReceipt";
+
 import { DisconnectedState } from "./disconnected-state";
 import { VotingButtons } from "./voting-buttons";
 import { LockedBalance } from "./locked-balance";
 
 import { HasVoted } from "./has-voted";
 import { VoteConfirmation } from "./vote-confirmation";
-import useTokens from "@/lib/contracts/useTokens";
-import useCastVote from "@/lib/contracts/governor/useCastVote";
-import useVoteReceipt from "@/lib/contracts/governor/useVoteReceipt";
 
 export const VOTE_TYPES = {
   Against: 0,
@@ -66,8 +67,7 @@ export const CastVote = ({
     try {
       castVote(proposalId, voteType);
     } catch (error) {
-      // TODO: sentrify me
-      console.log(error);
+      Sentry.captureException(error);
     }
   };
 

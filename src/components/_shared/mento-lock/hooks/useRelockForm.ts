@@ -4,6 +4,8 @@ import useLockingWeek from "@/lib/contracts/locking/useLockingWeek";
 import { MAX_LOCKING_DURATION_WEEKS } from "../constants";
 import { ExtendedLock } from "@/lib/hooks/useLockInfo";
 import { differenceInWeeks } from "date-fns";
+import { useAccount } from "wagmi";
+import useLocksByAccount from "@/lib/contracts/locking/useLocksByAccount";
 
 export default function useRelockForm(
   lock: ExtendedLock,
@@ -11,6 +13,8 @@ export default function useRelockForm(
 ) {
   const [expirationDate, setExpirationDate] = useState<Date>(lock?.expiration);
   const { currentWeek: currentLockingWeek } = useLockingWeek();
+  const { address } = useAccount();
+  const { refetch } = useLocksByAccount({ account: address! });
 
   const newSlope = React.useMemo(() => {
     if (!expirationDate) return 0;
@@ -36,6 +40,7 @@ export default function useRelockForm(
       lock,
       onSuccess: () => {
         onLockSuccess();
+        refetch();
       },
     });
 

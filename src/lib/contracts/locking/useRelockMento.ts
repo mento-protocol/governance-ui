@@ -8,7 +8,7 @@ import {
 import { LockingABI } from "@/lib/abi/Locking";
 import { Address } from "viem";
 import { WriteContractErrorType } from "wagmi/actions";
-import useTokens from "../useTokens";
+import useLockedAmount from "./useLockedAmount";
 import { ExtendedLock } from "@/lib/hooks/useLockInfo";
 interface RelockMentoParams {
   newDelegate?: Address;
@@ -30,7 +30,7 @@ const useRelockMento = ({
   newSlope,
 }: RelockMentoParams) => {
   const contracts = useContracts();
-  const { veMentoBalance } = useTokens();
+  const { data: lockedBalance } = useLockedAmount();
 
   const {
     writeContract,
@@ -40,25 +40,20 @@ const useRelockMento = ({
   } = useWriteContract();
 
   const lockingArgs = React.useMemo(() => {
+    if (!lock || !lockedBalance || typeof newSlope !== "number") return null;
+
     return [
-      lock?.lockId,
-      newDelegate ?? lock?.owner?.id,
-      newAmount ?? veMentoBalance.value,
+      lock.lockId,
+      newDelegate ?? lock.owner?.id,
+      newAmount ?? lockedBalance,
       newSlope,
-      newCliff ?? lock?.cliff,
+      newCliff ?? lock.cliff,
     ] as const;
-  }, [
-    lock?.cliff,
-    lock?.lockId,
-    lock?.owner?.id,
-    newAmount,
-    newCliff,
-    newDelegate,
-    newSlope,
-    veMentoBalance.value,
-  ]);
+  }, [lock, lockedBalance, newAmount, newCliff, newDelegate, newSlope]);
 
   const lockingConfig = React.useMemo(() => {
+    if (!lockingArgs) return null;
+
     return {
       address: contracts.Locking.address,
       abi: LockingABI,
@@ -67,7 +62,7 @@ const useRelockMento = ({
     } as const;
   }, [contracts.Locking.address, lockingArgs]);
 
-  const simulation = useSimulateContract(lockingConfig);
+  const simulation = useSimulateContract(lockingConfig ?? {});
 
   const { isLoading: isConfirming, isSuccess: isConfirmed } =
     useWaitForTransactionReceipt({
@@ -75,6 +70,7 @@ const useRelockMento = ({
     });
 
   const relockMento = useCallback(() => {
+    if (!lockingConfig) return;
     writeContract(lockingConfig, {
       onSuccess,
       onError,

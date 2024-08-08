@@ -6,6 +6,7 @@ import { ExtendedLock } from "@/lib/hooks/useLockInfo";
 import { differenceInWeeks } from "date-fns";
 import { useAccount } from "wagmi";
 import useLocksByAccount from "@/lib/contracts/locking/useLocksByAccount";
+import * as Sentry from "@sentry/nextjs";
 
 export default function useRelockForm(
   lock: ExtendedLock,
@@ -41,6 +42,9 @@ export default function useRelockForm(
       onSuccess: () => {
         onLockSuccess();
         refetch();
+      },
+      onError: (error) => {
+        Sentry.captureException(error);
       },
     });
 

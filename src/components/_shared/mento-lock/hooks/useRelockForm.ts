@@ -1,8 +1,9 @@
-import { useState, useMemo } from "react";
+import React, { useState, useMemo } from "react";
 import useRelockMento from "@/lib/contracts/locking/useRelockMento";
 import useLockingWeek from "@/lib/contracts/locking/useLockingWeek";
 import { MAX_LOCKING_DURATION_WEEKS } from "../constants";
 import { ExtendedLock } from "@/lib/hooks/useLockInfo";
+import { differenceInWeeks } from "date-fns";
 
 export default function useRelockForm(
   lock: ExtendedLock,
@@ -11,9 +12,27 @@ export default function useRelockForm(
   const [expirationDate, setExpirationDate] = useState<Date>(lock?.expiration);
   const { currentWeek: currentLockingWeek } = useLockingWeek();
 
+  const newSlope = React.useMemo(() => {
+    if (!expirationDate) return 0;
+
+    const currentSlope = lock?.slope;
+    const weeksPassed = Number(currentLockingWeek) - lock?.time;
+    const weeksAdded = differenceInWeeks(expirationDate, lock?.expiration);
+    return Math.min(
+      currentSlope - weeksPassed + weeksAdded,
+      MAX_LOCKING_DURATION_WEEKS,
+    );
+  }, [
+    currentLockingWeek,
+    expirationDate,
+    lock?.expiration,
+    lock?.slope,
+    lock?.time,
+  ]);
+
   const { relockMento, isAwaitingUserSignature, isConfirming, error } =
     useRelockMento({
-      newExpirationDate: expirationDate,
+      newSlope,
       lock,
       onSuccess: () => {
         onLockSuccess();

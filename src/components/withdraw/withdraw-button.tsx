@@ -1,7 +1,6 @@
 import { useAvailableToWithdraw } from "@/lib/contracts/locking/useAvailableToWithdraw";
 import { Button } from "@/components/_shared";
 import { formatUnits } from "viem";
-import Link from "next/link";
 import React from "react";
 import useTokens from "@/lib/contracts/useTokens";
 import { TxModal } from "@/components/_shared/tx-modal/tx-modal.component";
@@ -69,16 +68,15 @@ export const WithdrawButton = () => {
     <>
       {hasAmountToWithdraw && (
         <>
-          <Link
-            href="#"
+          <button
+            className="w-fit self-end border-none p-0 text-left text-black underline transition-[color] duration-200 ease-out visited:text-primary-dark hover:text-primary active:text-primary-dark dark:text-white md:hidden "
             onClick={handleWithdraw}
-            className="text-primary underline hover:text-primary-dark dark:text-secondary md:hidden"
           >
             Withdraw <br /> {availableToWithdrawFormatted} MENTO
-          </Link>
+          </button>
 
           <Button
-            className="hidden text-center md:block"
+            className="hidden w-fit text-center md:block"
             theme="clear"
             onClick={handleWithdraw}
           >

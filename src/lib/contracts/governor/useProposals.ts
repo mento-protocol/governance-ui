@@ -24,6 +24,7 @@ const useProposals = () => {
     data: graphData,
     networkStatus: graphNetworkStatus,
     refetch,
+    loading,
   } = useGetProposalsQuery({
     context: {
       apiName: getSubgraphApiName(ensuredChainId),
@@ -35,7 +36,7 @@ const useProposals = () => {
     pollInterval: 5000,
   });
 
-  const { data: chainData } = useReadContracts({
+  const { data: chainData, isLoading } = useReadContracts({
     contracts: graphData
       ? (graphData?.proposals as Proposal[]).map(
           (proposal: Proposal) =>
@@ -90,6 +91,7 @@ const useProposals = () => {
   );
 
   return {
+    isLoading: isLoading || loading,
     proposals,
     proposalExists,
     refetchProposals: refetch,

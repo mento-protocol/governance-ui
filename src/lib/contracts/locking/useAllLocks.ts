@@ -1,16 +1,14 @@
 import { getSubgraphApiName } from "@/config/config.constants";
 import {
   Lock,
-  useGetAllLocksSuspenseQuery,
+  useGetAllLocksQuery,
 } from "@/lib/graphql/subgraph/generated/subgraph";
 import { useEnsureChainId } from "@/lib/hooks/useEnsureChainId";
 
 const useAllLocks = () => {
   const ensuredChainId = useEnsureChainId();
-  const {
-    data: { locks },
-  } = useGetAllLocksSuspenseQuery({
-    queryKey: "locking-contract-hook",
+  const { data, loading } = useGetAllLocksQuery({
+    // queryKey: "locking-contract-hook",
     refetchWritePolicy: "overwrite",
     context: {
       apiName: getSubgraphApiName(ensuredChainId),
@@ -18,7 +16,8 @@ const useAllLocks = () => {
   });
 
   return {
-    locks: locks as Lock[],
+    locks: data?.locks ?? ([] as Lock[]),
+    loading,
   };
 };
 

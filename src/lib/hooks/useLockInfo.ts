@@ -54,6 +54,8 @@ const formatNumber = (value: bigint | undefined, decimals: number): string =>
 
 export const useLockInfo = (address: string | undefined) => {
   const { locks } = useLocksByAccount({ account: address! });
+
+  console.log({ locks });
   const { data: unlockedMento, isLoading: isUnlockedMentoLoading } =
     useUnlockedMento();
   const { mentoContractData, veMentoContractData, isBalanceLoading } =
@@ -64,6 +66,10 @@ export const useLockInfo = (address: string | undefined) => {
     useLockingWeek();
 
   const lock: ExtendedLock | null = React.useMemo(() => {
+    if (!locks) {
+      return null;
+    }
+
     const lastLock = locks.toSorted((a, b) => b.lockId - a.lockId)[0];
     if (
       isCurrentWeekLoading ||
@@ -83,6 +89,27 @@ export const useLockInfo = (address: string | undefined) => {
     };
   }, [currentLockingWeek, isCurrentWeekLoading, locks]);
 
+  const activeLocks = React.useMemo(() => {
+    if (!locks) {
+      return [];
+    }
+    return locks
+      .filter((lock) => {
+        const expiration = calculateExpirationDate(
+          Number(currentLockingWeek),
+          lock?.time,
+          lock?.slope,
+          lock?.cliff,
+        );
+        return expiration > new Date();
+      })
+      .filter((lock) => lock?.relocked !== false);
+  }, [currentLockingWeek, locks]);
+
+  const hasMultipleLocks = React.useMemo(() => {
+    return activeLocks.length > 1;
+  }, [activeLocks]);
+
   return {
     isLoading:
       isCurrentWeekLoading ||
@@ -92,6 +119,9 @@ export const useLockInfo = (address: string | undefined) => {
     unlockedMento: formatNumber(unlockedMento, mentoContractData.decimals),
     lockedBalance: formatNumber(lockedBalance, veMentoContractData.decimals),
     hasLock: locks.length > 0,
+    activeLocks,
+    hasMultipleLocks,
+    allLocks: locks,
     lock,
   };
 };

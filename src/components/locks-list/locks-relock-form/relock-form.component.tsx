@@ -123,11 +123,11 @@ const MobileRelockForm = ({
   onSubmit,
 }: RelockFormProps) => (
   <Sheet>
-    <SheetTrigger className="border-none p-0 text-black underline transition-[color] duration-200 ease-out visited:text-primary-dark hover:text-primary active:text-primary-dark dark:text-white md:hidden">
+    <SheetTrigger className="border-none p-0 text-black underline transition-[color] duration-200 ease-out visited:text-primary-dark hover:text-primary active:text-primary-dark  dark:text-white md:hidden">
       Extend Lock
     </SheetTrigger>
     <SheetContent
-      className="flex items-center justify-center bg-white"
+      className="flex items-center justify-center bg-white dark:bg-black-off"
       side="bottom"
     >
       <SheetDescription className="flex flex-col items-center justify-center gap-4">

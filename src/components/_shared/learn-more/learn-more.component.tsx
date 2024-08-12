@@ -4,9 +4,6 @@ import BaseComponentProps from "@/interfaces/base-component-props.interface";
 import { ChevronIcon, DiscordIcon, LearnMoreIcon } from "@/components/_icons";
 
 import { Button } from "@/components/_shared";
-import exports from "@/styles/exports.module.scss";
-
-import styles from "./learn-more.module.scss";
 import { cn } from "@/styles/helpers";
 
 interface LearnMoreProps extends BaseComponentProps {}
@@ -16,30 +13,32 @@ export const LearnMore = ({ className, style }: LearnMoreProps) => {
 
   return (
     <div className={cn("mt-x4", className)} style={style}>
-      <div className="main-container">
+      <div className="mx-auto w-full max-w-[1120px]">
         {pathname === "/" && (
-          <div className={cn(styles.learn_more)}>
-            <div className={cn(styles.content)}>
-              <h2 className="my-x1 text-6xl font-semibold">Learn more</h2>
-              <p className={styles.description}>
+          <div className="flex flex-col items-center justify-between gap-x3 bg-black-off px-x5 py-0 lg:flex-row lg:pl-x13 lg:pr-x11">
+            <div className="max-w-[500px] text-white">
+              <h2 className="my-x1 mb-x5 text-center text-6xl font-semibold lg:text-left">
+                Learn more
+              </h2>
+              <p className="text-x3 leading-x5 text-center lg:text-left">
                 If you&apos;re interested in learning more about Mento, finding
                 out what the team is working on now, or would like to
                 contribute, please join our discord server.
               </p>
               <Button
-                className={cn(styles.button, "mt-x4")}
+                className="mt-x4 w-full max-w-full sm:mx-auto sm:block sm:max-w-[200px] lg:mx-0 lg:inline-block"
                 href="https://discord.gg"
                 target="_blank"
               >
-                <div className={styles.button__content}>
-                  <DiscordIcon color={exports.white} />
+                <div className="flex items-center gap-x2 px-x3">
+                  <DiscordIcon />
                   <span>Join the community</span>
-                  <ChevronIcon direction="right" color={exports.white} />
+                  <ChevronIcon direction="right" />
                 </div>
               </Button>
             </div>
-            <div className={styles.learn_more__icon}>
-              <LearnMoreIcon />
+            <div>
+              <LearnMoreIcon className="h-auto max-w-full" />
             </div>
           </div>
         )}

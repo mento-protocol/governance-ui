@@ -4,6 +4,15 @@ query getLocks($address: String) {
     owner {
       id
     }
+    replacedBy {
+      id
+      lockId
+    }
+    replaces {
+      id
+      lockId
+    }
+    relocked
     amount
     time
     slope
@@ -11,6 +20,9 @@ query getLocks($address: String) {
     lockCreate {
       id
       timestamp
+    }
+    delegate {
+      id
     }
   }
 }

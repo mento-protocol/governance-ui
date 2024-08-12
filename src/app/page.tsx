@@ -57,7 +57,7 @@ const MobileNavigationLinks = ({ className }: ButtonProps) => {
         isDisabled && "pointer-events-none  cursor-not-allowed text-gray",
         className,
       )}
-      href={isDisabled ? "#" : "/my-voting-power"}
+      href={isDisabled ? "#" : "/voting-power"}
     >
       My voting power
     </Link>
@@ -82,7 +82,7 @@ const DesktopNavigationButtons = () => {
       <Button theme="clear" href="/create-proposal">
         Create new proposal
       </Button>
-      <Button theme="clear" href="/my-voting-power">
+      <Button theme="clear" href="/voting-power">
         My voting power
       </Button>
     </div>

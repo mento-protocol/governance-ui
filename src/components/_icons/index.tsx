@@ -18,3 +18,4 @@ export { MenuIcon } from "./menu.icon";
 export { SuccessIcon } from "./success-icon";
 export { SettingsIcon } from "./settings.icon";
 export { TwitterIcon } from "./twitter.icon";
+export { EmptyProposals } from "./empty-proposals.icon";

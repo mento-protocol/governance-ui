@@ -1,6 +1,6 @@
 export const routingMap: Map<string, string> = new Map([
   ["", ""],
-  ["my-voting-power", "My Voting Power"],
+  ["voting-power", "Voting Power"],
   ["create-proposal", "Create a proposal"],
   ["proposals", "Proposal"],
 ]);

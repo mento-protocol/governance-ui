@@ -1,29 +1,27 @@
 import { useContracts } from "@/lib/contracts/useContracts";
-import { useReadContract } from "wagmi";
+import { useAccount, useReadContract } from "wagmi";
 import { LockingABI } from "@/lib/abi/Locking";
 import { useEnsureChainId } from "@/lib/hooks/useEnsureChainId";
 
-const useLockingWeek = () => {
+export const useAvailableToWithdraw = () => {
   const { Locking } = useContracts();
   const ensuredChainId = useEnsureChainId();
+  const { address } = useAccount();
 
-  const { data: currentWeek, isLoading } = useReadContract({
+  const { data: availableToWithdraw = 0n, refetch } = useReadContract({
     address: Locking.address,
     abi: LockingABI,
-    functionName: "getWeek",
-    scopeKey: "lock-get-week",
-    args: [],
+    functionName: "getAvailableForWithdraw",
+    args: address ? [address] : undefined,
     chainId: ensuredChainId,
     query: {
       refetchOnReconnect: true,
-      initialData: 0n,
+      enabled: !!address,
     },
   });
 
   return {
-    isLoading,
-    currentWeek,
+    availableToWithdraw,
+    refetchAvailableToWithdraw: refetch,
   };
 };
-
-export default useLockingWeek;

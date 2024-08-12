@@ -8,18 +8,28 @@ import { LOCKING_AMOUNT_FORM_KEY } from "../constants";
 import { Button } from "@/components/_shared/button/button.component";
 import { cn } from "@/styles/helpers";
 import React from "react";
+import { useAccount } from "wagmi";
+import { useLockInfo } from "@/lib/hooks/useLockInfo";
 
 export const LockingButton = () => {
+  const { address } = useAccount();
+
+  const { createLock, CreateLockTxStatus, CreateLockApprovalStatus } =
+    useCreateLock();
+
   const {
     watch,
     formState: { isValid, errors },
     handleSubmit,
   } = useFormContext();
 
-  const amount = watch(LOCKING_AMOUNT_FORM_KEY);
+  const { activeLocks } = useLockInfo(address);
 
-  const { createLock, CreateLockTxStatus, CreateLockApprovalStatus } =
-    useCreateLock();
+  const hasActiveLocks = React.useMemo(() => {
+    return activeLocks.length > 0;
+  }, [activeLocks]);
+
+  const amount = watch(LOCKING_AMOUNT_FORM_KEY);
 
   const isBalanceInsufficient = errors.amountToLock?.type === "max";
 
@@ -33,14 +43,19 @@ export const LockingButton = () => {
     if (CreateLockApprovalStatus === CREATE_LOCK_APPROVAL_STATUS.NOT_APPROVED) {
       return <>Approve MENTO</>;
     }
+
+    if (hasActiveLocks) {
+      return <>You have an existing lock, re-lock above </>;
+    }
     return <>Lock MENTO</>;
-  }, [CreateLockApprovalStatus, amount, isBalanceInsufficient]);
+  }, [CreateLockApprovalStatus, amount, hasActiveLocks, isBalanceInsufficient]);
 
   const shouldButtonBeDisabled =
     !isValid ||
     isBalanceInsufficient ||
     CreateLockTxStatus === CREATE_LOCK_TX_STATUS.CONFIRMING_APPROVE_TX ||
-    CreateLockTxStatus === CREATE_LOCK_TX_STATUS.AWAITING_SIGNATURE;
+    CreateLockTxStatus === CREATE_LOCK_TX_STATUS.AWAITING_SIGNATURE ||
+    hasActiveLocks;
 
   return (
     <Button
@@ -53,6 +68,16 @@ export const LockingButton = () => {
       disabled={shouldButtonBeDisabled}
       theme={isBalanceInsufficient ? "danger" : "primary"}
       onClick={(e) => {
+        // Decide on an approach to disable locking if user already has an active lock.
+        /* 
+        This is quick workaround to disable locking. 
+        We don't support multiple locks, however this component allows this. 
+        We'll need to refactor this component to be disabled if users already have an active lock. 
+        */
+        if (hasActiveLocks) {
+          e.preventDefault();
+          return;
+        }
         handleSubmit(() => {
           createLock();
         })(e);

@@ -42,7 +42,7 @@ const DesktopFooter = () => {
 
 const MobileFooter = () => {
   return (
-    <footer className="bg-black px-4 pb-8 pt-10 lg:hidden">
+    <footer className="block px-4 pb-8 pt-10 dark:bg-black lg:hidden">
       <div className="border-t border-black dark:border-gray-light">
         <MobileAccordionMenu classNames="bg-transparent" />
         <div className="mt-6 flex justify-between">
@@ -135,5 +135,6 @@ const footerMenuItems = {
   ],
   Other: [
     { title: "Cookie Policy", href: links.cookiePolicy, isDownload: true },
+    { title: "Privacy", href: "/privacy", isDownload: false },
   ],
 };

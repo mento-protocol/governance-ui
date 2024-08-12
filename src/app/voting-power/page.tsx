@@ -1,13 +1,7 @@
 "use client";
-import { useAccount } from "wagmi";
-import { Card, ConnectButton, MentoLock } from "@/components/_shared";
 import { LocksList } from "@/components/index";
-import useLocksByAccount from "@/lib/contracts/locking/useLocksByAccount";
 
 const Page = () => {
-  const { address } = useAccount();
-  const { refetch } = useLocksByAccount({ account: address! });
-
   return (
     <main className="flex flex-col place-items-center gap-14">
       <div className="flex w-full flex-col gap-4 text-center md:gap-6">
@@ -16,8 +10,7 @@ const Page = () => {
         </h2>
         <LocksList />
       </div>
-
-      <div className="flex w-full flex-col items-center gap-8">
+      {/* <div className="flex w-full flex-col items-center gap-8">
         <h2 className="text-[22px]/none font-medium md:text-[32px]/none">
           Lock MENTO
         </h2>
@@ -33,18 +26,18 @@ const Page = () => {
             <Disconnected />
           )}
         </Card>
-      </div>
+      </div> */}
     </main>
   );
 };
 
-const Disconnected = () => {
-  return (
-    <div className="flex flex-col gap-4 ">
-      <span className="text-xl">Connect Wallet to Lock MENTO</span>
-      <ConnectButton theme="primary" />
-    </div>
-  );
-};
+// const Disconnected = () => {
+//   return (
+//     <div className="flex flex-col gap-4 ">
+//       <span className="text-xl">Connect Wallet to Lock MENTO</span>
+//       <ConnectButton theme="primary" />
+//     </div>
+//   );
+// };
 
 export default Page;

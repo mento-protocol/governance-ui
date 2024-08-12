@@ -1,6 +1,6 @@
 "use client";
 import { useAccount } from "wagmi";
-import { Card, ConnectButton, Loader, MentoLock } from "@/components/_shared";
+import { Card, Loader } from "@/components/_shared";
 import { LocksList } from "@/components/index";
 import useLocksByAccount from "@/lib/contracts/locking/useLocksByAccount";
 
@@ -10,10 +10,10 @@ const Page = () => {
 
   return (
     <main className="flex flex-col place-items-center">
-      <h2 className="mb-4 mt-8 text-[32px]/none font-medium">
+      {/* <h2 className="mb-4 mt-8 text-[32px]/none font-medium">
         My Voting Power
-      </h2>
-      <Card className="flex min-h-60 items-center justify-center py-10" block>
+      </h2> */}
+      {/* <Card className="flex min-h-60 items-center justify-center py-10" block>
         {address ? (
           <MentoLock
             onLockConfirmation={() => {
@@ -27,7 +27,7 @@ const Page = () => {
             <ConnectButton theme="primary" />
           </div>
         )}
-      </Card>
+      </Card> */}
       {address && (
         <>
           <h2 className="mb-4 mt-[56px] text-[32px]/none font-medium">

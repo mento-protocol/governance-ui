@@ -53,9 +53,8 @@ const formatNumber = (value: bigint | undefined, decimals: number): string =>
   Number(formatUnits(value ?? BigInt(0), decimals)).toFixed(3);
 
 export const useLockInfo = (address: string | undefined) => {
-  const { locks } = useLocksByAccount({ account: address! });
+  const { locks, refetch } = useLocksByAccount({ account: address! });
 
-  console.log({ locks });
   const { data: unlockedMento, isLoading: isUnlockedMentoLoading } =
     useUnlockedMento();
   const { mentoContractData, veMentoContractData, isBalanceLoading } =
@@ -103,7 +102,7 @@ export const useLockInfo = (address: string | undefined) => {
         );
         return expiration > new Date();
       })
-      .filter((lock) => lock?.relocked !== false);
+      .filter((lock) => lock?.relocked !== true);
   }, [currentLockingWeek, locks]);
 
   const hasMultipleLocks = React.useMemo(() => {
@@ -119,9 +118,11 @@ export const useLockInfo = (address: string | undefined) => {
     unlockedMento: formatNumber(unlockedMento, mentoContractData.decimals),
     lockedBalance: formatNumber(lockedBalance, veMentoContractData.decimals),
     hasLock: locks.length > 0,
+    hasActiveLock: activeLocks.length > 0,
     activeLocks,
     hasMultipleLocks,
     allLocks: locks,
     lock,
+    refetch,
   };
 };

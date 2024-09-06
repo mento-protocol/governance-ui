@@ -2,7 +2,7 @@ import { useAccount } from "wagmi";
 import { UserRejectedRequestError } from "viem";
 import * as Sentry from "@sentry/nextjs";
 
-import { BlockExplorerLink, Button, Card } from "@/components/_shared";
+import { BlockExplorerLink, Button } from "@/components/_shared";
 import { ChevronIcon, SuccessIcon } from "@/components/_icons";
 
 import type { Proposal } from "@/lib/graphql";
@@ -85,7 +85,7 @@ export const Vote = ({ proposal }: { proposal: Proposal }) => {
 
   if (isConfirming) {
     return (
-      <Card className="min-h-[260px] p-4">
+      <>
         <ProposalActionTitle />
         <div className="mt-x2 flex flex-col gap-x3 text-center">
           <span className="text-md">Vote submitted</span>
@@ -99,13 +99,13 @@ export const Vote = ({ proposal }: { proposal: Proposal }) => {
             </BlockExplorerLink>
           )}
         </div>
-      </Card>
+      </>
     );
   }
 
   if (isConfirmed) {
     return (
-      <Card className="min-h-[260px] p-4">
+      <>
         <ProposalActionTitle />
         <div className="mt-x2 flex flex-col gap-x3 text-center">
           <span className="text-md">Vote success</span>
@@ -116,12 +116,12 @@ export const Vote = ({ proposal }: { proposal: Proposal }) => {
             </BlockExplorerLink>
           )}
         </div>
-      </Card>
+      </>
     );
   }
 
   return (
-    <Card className="min-h-[260px] p-4">
+    <>
       <ProposalActionTitle />
       <div className="mt-x3 flex flex-col gap-x5">
         <LockedBalance />
@@ -130,7 +130,7 @@ export const Vote = ({ proposal }: { proposal: Proposal }) => {
           {error && <VotingError error={error} />}
         </div>
       </div>
-    </Card>
+    </>
   );
 };
 
@@ -148,7 +148,7 @@ const VotingError = ({ error }: { error: Error }) => {
 
 const DirectToLockMento = () => {
   return (
-    <Card className="min-h-[260px] p-4">
+    <>
       <ProposalActionTitle />
       <div className="flex flex-col gap-x5 text-center">
         <LockedBalance />
@@ -157,6 +157,6 @@ const DirectToLockMento = () => {
           Lock Mento <ChevronIcon direction="right" />
         </Button>
       </div>
-    </Card>
+    </>
   );
 };

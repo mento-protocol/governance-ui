@@ -1,4 +1,4 @@
-import { ProposalState } from "@/lib/graphql";
+import { Proposal, ProposalState } from "@/lib/graphql";
 import React from "react";
 import { Card } from "@/components/_shared";
 
@@ -51,13 +51,14 @@ const INACTIVE_PROPOSAL_MESSAGE_MAP: Record<
   },
 };
 
-export const ProposalStatusMessage = ({
-  proposalState,
-}: {
-  proposalState: Exclude<ProposalState, ProposalState.Active>;
-}) => {
+export const ProposalStatusMessage = ({ proposal }: { proposal: Proposal }) => {
+  const proposalState = proposal.state as Exclude<
+    ProposalState,
+    ProposalState.Active
+  >;
+
   return (
-    <Card className="min-h-[260px] p-4">
+    <>
       <Card.Header className="text-center">
         <h2 className="font-fg text-[32px]/none font-medium">
           {INACTIVE_PROPOSAL_MESSAGE_MAP[proposalState].header}
@@ -72,6 +73,6 @@ export const ProposalStatusMessage = ({
         <span>{INACTIVE_PROPOSAL_MESSAGE_MAP[proposalState].statusDetail}</span>
         <div className="flex-grow" />
       </div>
-    </Card>
+    </>
   );
 };

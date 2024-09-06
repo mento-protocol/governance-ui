@@ -70,11 +70,20 @@ const Page = ({ params: { id } }: { params: { id: string } }) => {
       {!proposal && <div>Proposal not found</div>}
       {proposal && (
         <>
-          <div className="mb-4 mt-6">
+          <div className="mb-4 mt-6 flex items-center justify-between">
             <Status
               text={proposal.state.toString()}
               type={stateToStatusColorMap[proposal.state]}
             />
+            <div className="lg:hidden">
+              {timeLockDeadLine &&
+                timeLockDeadLine.getTime() >= new Date().getTime() && (
+                  <Countdown
+                    endTimestamp={timeLockDeadLine.getTime()}
+                    updateIntervalInMs={1000}
+                  />
+                )}
+            </div>
           </div>
           <div className="flex flex-col gap-x1 md:grid md:grid-cols-7">
             <div className="md:col-span-4 md:col-start-1">
@@ -85,13 +94,15 @@ const Page = ({ params: { id } }: { params: { id: string } }) => {
               </h1>
             </div>
             <div className="md:col-span-3 md:col-start-5">
-              {timeLockDeadLine &&
-                timeLockDeadLine.getTime() >= new Date().getTime() && (
-                  <Countdown
-                    endTimestamp={timeLockDeadLine.getTime()}
-                    updateIntervalInMs={1000}
-                  />
-                )}
+              <div className="hidden lg:flex">
+                {timeLockDeadLine &&
+                  timeLockDeadLine.getTime() >= new Date().getTime() && (
+                    <Countdown
+                      endTimestamp={timeLockDeadLine.getTime()}
+                      updateIntervalInMs={1000}
+                    />
+                  )}
+              </div>
               {proposal.state === "Active" && votingDeadline && (
                 <Countdown
                   endTimestamp={votingDeadline.getTime()}
@@ -100,7 +111,7 @@ const Page = ({ params: { id } }: { params: { id: string } }) => {
               )}
             </div>
           </div>
-          <div className="mt-12 flex flex-wrap place-items-center justify-start gap-x6 font-inter ">
+          <div className="mt-4 flex flex-wrap place-items-center justify-start gap-x6 font-inter lg:mt-12 ">
             <div className="flex place-items-center gap-x2">
               <Suspense fallback={<Loader isCenter />}>
                 <Avatar address={proposal.proposer.id} />

@@ -6,24 +6,25 @@ import { SuccessIcon } from "@/components/_icons";
 import type { Proposal } from "@/lib/graphql";
 
 import { ProposalActionTitle } from "../proposal-action-title";
-import useQueueProposal from "@/lib/contracts/governor/useQueueProposal";
+import useExecuteProposal from "@/lib/contracts/governor/useExecuteProposal";
 import { ProposalActionError } from "../proposal-action-error";
 import WalletHelper from "@/lib/helpers/wallet.helper";
+import { useIsTimeLocked } from "./useIsTimeLocked";
 
-export const QueueProposal = ({ proposal }: { proposal: Proposal }) => {
+export const ExecuteProposal = ({ proposal }: { proposal: Proposal }) => {
+  const isTimeLocked = useIsTimeLocked(proposal);
   const {
     hash,
-    queueProposal,
-
+    executeProposal,
     isAwaitingUserSignature,
     isConfirming,
     isConfirmed,
     error,
-  } = useQueueProposal();
+  } = useExecuteProposal();
 
-  const handleQueueProposal = () => {
+  const handleExecuteProposal = () => {
     try {
-      queueProposal(proposal.proposalId);
+      executeProposal(proposal.proposalId);
     } catch (error) {
       Sentry.captureException(error);
     }
@@ -34,28 +35,48 @@ export const QueueProposal = ({ proposal }: { proposal: Proposal }) => {
   }
 
   if (isConfirming) {
-    return <QueueConfirming hash={hash} />;
+    return <ExecuteConfirming hash={hash} />;
   }
 
   if (isConfirmed) {
-    return <QueueConfirmed hash={hash} />;
+    return <ExecuteConfirmed hash={hash} />;
   }
 
   return (
     <div className="flex flex-col gap-6 p-4">
       <Card.Header className="text-center">
-        <ProposalActionTitle>Proposal succeeded</ProposalActionTitle>
+        <ProposalActionTitle>
+          {isTimeLocked ? "Proposal queued" : "Proposal ready for execution"}
+        </ProposalActionTitle>
       </Card.Header>
       <div className="flex flex-col gap-2">
-        <span>
-          This proposal has succeeded. It&apos;s now ready to be queued for
-          execution.
-        </span>
-        <span>Queue this proposal to start the time lock period.</span>
+        {isTimeLocked ? (
+          <>
+            <span>
+              This proposal is currently in a mandatory waiting period for
+              security reasons.
+            </span>
+            <span>
+              It will be ready for execution soon. Please check back later.
+            </span>
+          </>
+        ) : (
+          <>
+            <span>
+              The waiting period for this proposal has ended. It&apos;s now
+              ready to be executed.
+            </span>
+            <span>Execute this proposal to implement its changes.</span>
+          </>
+        )}
       </div>
       <div>
-        <Button className="mx-auto" onClick={handleQueueProposal}>
-          Queue Proposal
+        <Button
+          className="mx-auto"
+          onClick={handleExecuteProposal}
+          disabled={isTimeLocked}
+        >
+          {isTimeLocked ? "Waiting period in progress" : "Execute Proposal"}
         </Button>
         {error && <ProposalActionError error={error} />}
       </div>
@@ -70,7 +91,7 @@ const ProposalActionConfirmation = ({
 }) => {
   return (
     <>
-      <ProposalActionTitle>Queue Proposal</ProposalActionTitle>
+      <ProposalActionTitle>Execute Proposal</ProposalActionTitle>
       <div className="mt-x2 flex flex-col gap-x3 text-center">
         <span className="text-md">Confirm</span>
         <Loader
@@ -80,7 +101,7 @@ const ProposalActionConfirmation = ({
         />
         <>
           <div className="flex flex-col items-center justify-center gap-1 text-[0.875rem]">
-            <span>Queueing Proposal </span>
+            <span>Executing Proposal </span>
             <span className="font-semibold">{`${WalletHelper.getShortAddress(proposalId)}`}</span>
           </div>
         </>
@@ -92,12 +113,12 @@ const ProposalActionConfirmation = ({
   );
 };
 
-const QueueConfirmed = ({ hash }: { hash: `0x${string}` | undefined }) => {
+const ExecuteConfirmed = ({ hash }: { hash: `0x${string}` | undefined }) => {
   return (
     <>
-      <ProposalActionTitle>Queue Proposal</ProposalActionTitle>
+      <ProposalActionTitle>Execute Proposal</ProposalActionTitle>
       <div className="mt-x2 flex flex-col gap-x3 text-center">
-        <span className="text-md">Proposal queued</span>
+        <span className="text-md">Proposal executed</span>
         <SuccessIcon className="mx-auto h-20 w-20" />
         {hash && (
           <BlockExplorerLink type="tx" item={hash}>
@@ -109,12 +130,12 @@ const QueueConfirmed = ({ hash }: { hash: `0x${string}` | undefined }) => {
   );
 };
 
-const QueueConfirming = ({ hash }: { hash: `0x${string}` | undefined }) => {
+const ExecuteConfirming = ({ hash }: { hash: `0x${string}` | undefined }) => {
   return (
     <>
-      <ProposalActionTitle>Queue Proposal</ProposalActionTitle>
+      <ProposalActionTitle>Execute Proposal</ProposalActionTitle>
       <div className="mt-x2 flex flex-col gap-x3 text-center">
-        <span className="text-md">Queueing Proposal</span>
+        <span className="text-md">Executing Proposal</span>
         <SuccessIcon className="mx-auto h-20 w-20" />
         <span className="text-sm text-[#A8A8A8] dark:text-[#AAB3B6]">
           Processing transaction. This may take a few moments.

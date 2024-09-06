@@ -32,16 +32,12 @@ export const REVERSE_VOTE_TYPE_MAP = {
   [VOTE_TYPES.Abstain]: "Abstain",
 } as const;
 
-export const Vote = ({
-  proposalId,
-}: {
-  proposalId: Proposal["proposalId"];
-}) => {
+export const Vote = ({ proposal }: { proposal: Proposal }) => {
   const { address, isConnecting } = useAccount();
   const { veMentoBalance } = useTokens();
   const { data: voteReceipt, isLoading: isHasVotedStatusLoading } =
     useVoteReceipt({
-      proposalId,
+      proposalId: proposal.proposalId,
       address,
     });
 
@@ -58,9 +54,9 @@ export const Vote = ({
   const hasEnoughLockedMentoToVote = veMentoBalance.value > 0;
   const isInitializing = isConnecting || isHasVotedStatusLoading;
 
-  const handleCastVote = (voteType: number) => {
+  const handleVote = (support: number) => {
     try {
-      castVote(proposalId, voteType);
+      castVote(proposal.proposalId, support);
     } catch (error) {
       Sentry.captureException(error);
     }
@@ -82,7 +78,7 @@ export const Vote = ({
     return (
       <VoteConfirmation
         voteType={variables?.args?.[1] as number}
-        proposalId={proposalId}
+        proposalId={proposal.proposalId}
       />
     );
   }
@@ -130,7 +126,7 @@ export const Vote = ({
       <div className="mt-x3 flex flex-col gap-x5">
         <LockedBalance />
         <div className="flex flex-col gap-2">
-          <VotingButtons onSubmit={handleCastVote} />
+          <VotingButtons onSubmit={handleVote} />
           {error && <VotingError error={error} />}
         </div>
       </div>

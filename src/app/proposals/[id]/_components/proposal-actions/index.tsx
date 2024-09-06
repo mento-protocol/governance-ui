@@ -1,45 +1,44 @@
-import { ProposalStatusMessage } from "./proposal-status-message";
-import { Vote } from "./vote/vote.component";
+import { useAccount } from "wagmi";
 import { Proposal, ProposalState } from "@/lib/graphql";
 import { DisconnectedState } from "./disconnected-state";
-import Queue from "./queue";
-import { useAccount } from "wagmi";
 import { ProposalActionLoading } from "./proposal-action-loading";
 import { Card } from "@/components/_shared";
+import ExecuteProposal from "./execute";
+import QueueProposal from "./queue";
+import Vote from "./vote";
+import { ProposalStatusMessage } from "./proposal-status-message.component";
 
-const ProposalAction = ({ proposal }: { proposal: Proposal }) => {
-  const { isDisconnected } = useAccount();
+const ProposalActions = ({ proposal }: { proposal: Proposal }) => {
+  const { address } = useAccount();
 
-  if (isDisconnected) {
+  if (!address) {
     return <DisconnectedState />;
   }
 
-  if (!proposal || proposal.state === ProposalState.NoState) {
+  if (!proposal) {
     return <ProposalActionLoading />;
   }
 
-  let actionComponent;
-
-  switch (proposal.state) {
-    case ProposalState.Active:
-      actionComponent = <Vote proposalId={proposal.proposalId} />;
-      break;
-    case ProposalState.Succeeded:
-      actionComponent = <Queue proposalId={proposal.proposalId} />;
-      break;
-    // case ProposalState.Queued:
-    //   actionComponent =  <ExecuteProposal proposalId={proposal.proposalId} />;
-    default:
-      actionComponent = (
-        <ProposalStatusMessage proposalState={proposal.state} />
-      );
-  }
+  const Component = getComponent(proposal.state);
 
   return (
-    <Card className="min-h-[320px] font-fg text-[22px]/none">
-      {actionComponent}
+    <Card className="min-h-[260px] p-4">
+      <Component proposal={proposal} />
     </Card>
   );
 };
 
-export default ProposalAction;
+const getComponent = (state: ProposalState) => {
+  switch (state) {
+    case "Active":
+      return Vote;
+    case "Succeeded":
+      return QueueProposal;
+    case "Queued":
+      return ExecuteProposal;
+    default:
+      return ProposalStatusMessage;
+  }
+};
+
+export default ProposalActions;

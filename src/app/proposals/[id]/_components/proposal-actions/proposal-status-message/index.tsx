@@ -51,7 +51,7 @@ const INACTIVE_PROPOSAL_MESSAGE_MAP: Record<
   },
 };
 
-export const InactiveProposalStatusMessage = ({
+export const ProposalStatusMessage = ({
   proposalState,
 }: {
   proposalState: Exclude<ProposalState, ProposalState.Active>;

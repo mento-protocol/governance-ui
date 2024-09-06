@@ -14,9 +14,9 @@ import {
   Status,
   WalletAddressWithCopy,
 } from "@/components/_shared";
-import Vote from "@/app/proposals/[id]/_components/vote.component";
-import ExecutionCode from "@/app/proposals/[id]/_components/execution-code.component";
-import Participants from "@/app/proposals/[id]/_components/participants.component";
+import ProposalActions from "./_components/proposal-actions";
+import ExecutionCode from "./_components/execution-code.component";
+import Participants from "./_components/participants.component";
 import { Countdown, ProposalCurrentVotes } from "@/components/index";
 import { ensureChainId } from "@/lib/helpers/ensureChainId";
 
@@ -152,7 +152,7 @@ const Page = ({ params: { id } }: { params: { id: string } }) => {
                 <Loader isCenter />
               )}
               <div className="my-x6 md:hidden">
-                <Vote proposal={proposal} />
+                <ProposalActions proposal={proposal} />
               </div>
               <h3 className="my-8 flex justify-center text-3xl font-medium">
                 Proposal Description
@@ -164,7 +164,7 @@ const Page = ({ params: { id } }: { params: { id: string } }) => {
             </div>
             <div className="flex flex-col gap-x11 md:max-w-[350px]">
               <div className="hidden md:block">
-                <Vote proposal={proposal} />
+                <ProposalActions proposal={proposal} />
               </div>
               {proposal.votes && <Participants votes={proposal.votes} />}
             </div>

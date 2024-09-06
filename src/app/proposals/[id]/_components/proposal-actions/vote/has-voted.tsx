@@ -1,10 +1,11 @@
-import { Card, VotingCardTitle } from "@/components/_shared";
+import { Card } from "@/components/_shared";
 import { VoteTypePill } from "./vote-type-pill";
+import { ProposalActionTitle } from "../proposal-action-title";
 
 export const HasVoted = ({ voteType }: { voteType: number }) => {
   return (
     <Card>
-      <VotingCardTitle />
+      <ProposalActionTitle />
       <div className="flex min-h-[163px] flex-col justify-between font-fg text-[22px] leading-[22px]">
         <div className="flex-grow" />
         <div>

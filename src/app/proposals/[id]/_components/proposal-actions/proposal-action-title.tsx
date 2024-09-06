@@ -1,7 +1,7 @@
 import React from "react";
 import { Card } from "@/components/_shared";
 
-export const VotingCardTitle = ({
+export const ProposalActionTitle = ({
   children = "Cast Votes",
 }: React.PropsWithChildren) => {
   return (

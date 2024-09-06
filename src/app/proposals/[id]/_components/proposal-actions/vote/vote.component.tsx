@@ -2,13 +2,7 @@ import { useAccount } from "wagmi";
 import { UserRejectedRequestError } from "viem";
 import * as Sentry from "@sentry/nextjs";
 
-import {
-  BlockExplorerLink,
-  Button,
-  Card,
-  LoadingState,
-  VotingCardTitle,
-} from "@/components/_shared";
+import { BlockExplorerLink, Button, Card } from "@/components/_shared";
 import { ChevronIcon, SuccessIcon } from "@/components/_icons";
 
 import type { Proposal } from "@/lib/graphql";
@@ -18,12 +12,13 @@ import useTokens from "@/lib/contracts/useTokens";
 import useCastVote from "@/lib/contracts/governor/useCastVote";
 import useVoteReceipt from "@/lib/contracts/governor/useVoteReceipt";
 
-import { DisconnectedState } from "./disconnected-state";
 import { VotingButtons } from "./voting-buttons";
 import { LockedBalance } from "./locked-balance";
 
 import { HasVoted } from "./has-voted";
 import { VoteConfirmation } from "./vote-confirmation";
+import { ProposalActionTitle } from "../proposal-action-title";
+import { ProposalActionLoading } from "../proposal-action-loading";
 
 export const VOTE_TYPES = {
   Against: 0,
@@ -37,12 +32,12 @@ export const REVERSE_VOTE_TYPE_MAP = {
   [VOTE_TYPES.Abstain]: "Abstain",
 } as const;
 
-export const CastVote = ({
+export const Vote = ({
   proposalId,
 }: {
   proposalId: Proposal["proposalId"];
 }) => {
-  const { address, isConnecting, isDisconnected } = useAccount();
+  const { address, isConnecting } = useAccount();
   const { veMentoBalance } = useTokens();
   const { data: voteReceipt, isLoading: isHasVotedStatusLoading } =
     useVoteReceipt({
@@ -72,11 +67,7 @@ export const CastVote = ({
   };
 
   if (isInitializing) {
-    return <LoadingState />;
-  }
-
-  if (isDisconnected) {
-    return <DisconnectedState />;
+    return <ProposalActionLoading />;
   }
 
   if (voteReceipt && voteReceipt.hasVoted) {
@@ -99,7 +90,7 @@ export const CastVote = ({
   if (isConfirming) {
     return (
       <Card className="min-h-[260px] p-4">
-        <VotingCardTitle />
+        <ProposalActionTitle />
         <div className="mt-x2 flex flex-col gap-x3 text-center">
           <span className="text-md">Vote submitted</span>
           <SuccessIcon className="mx-auto h-20 w-20" />
@@ -119,7 +110,7 @@ export const CastVote = ({
   if (isConfirmed) {
     return (
       <Card className="min-h-[260px] p-4">
-        <VotingCardTitle />
+        <ProposalActionTitle />
         <div className="mt-x2 flex flex-col gap-x3 text-center">
           <span className="text-md">Vote success</span>
           <SuccessIcon className="mx-auto h-20 w-20" />
@@ -135,7 +126,7 @@ export const CastVote = ({
 
   return (
     <Card className="min-h-[260px] p-4">
-      <VotingCardTitle />
+      <ProposalActionTitle />
       <div className="mt-x3 flex flex-col gap-x5">
         <LockedBalance />
         <div className="flex flex-col gap-2">
@@ -162,7 +153,7 @@ const VotingError = ({ error }: { error: Error }) => {
 const DirectToLockMento = () => {
   return (
     <Card className="min-h-[260px] p-4">
-      <VotingCardTitle />
+      <ProposalActionTitle />
       <div className="flex flex-col gap-x5 text-center">
         <LockedBalance />
         <span>You need to lock your MENTO to vote</span>

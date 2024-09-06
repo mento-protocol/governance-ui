@@ -1,5 +1,5 @@
-import { Button } from "../_shared";
-import { VOTE_TYPES } from "./cast-vote";
+import { Button } from "@/components/_shared";
+import { VOTE_TYPES } from "./vote.component";
 
 export const VotingButtons = ({
   onSubmit,

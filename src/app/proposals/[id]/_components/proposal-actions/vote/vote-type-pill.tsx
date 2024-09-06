@@ -1,4 +1,4 @@
-import { REVERSE_VOTE_TYPE_MAP, VOTE_TYPES } from "./cast-vote";
+import { REVERSE_VOTE_TYPE_MAP, VOTE_TYPES } from "./vote.component";
 import { cn } from "@/styles/helpers";
 
 export const VoteTypePill = ({ voteType }: { voteType: number }) => {

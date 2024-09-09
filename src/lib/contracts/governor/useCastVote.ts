@@ -22,7 +22,7 @@ const useCastVote = () => {
 
   const castVote = useCallback(
     (
-      proposalId: number,
+      proposalId: bigint,
       support: number,
       onSuccess?: () => void,
       onError?: (error?: WriteContractErrorType) => void,
@@ -32,7 +32,7 @@ const useCastVote = () => {
           address: contracts.MentoGovernor.address,
           abi: GovernorABI,
           functionName: "castVote",
-          args: [BigInt(proposalId).valueOf(), support],
+          args: [proposalId, support],
         },
         {
           onSuccess: () => {

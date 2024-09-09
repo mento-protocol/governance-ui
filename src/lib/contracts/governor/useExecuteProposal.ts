@@ -22,7 +22,7 @@ const useExecuteProposal = () => {
 
   const executeProposal = useCallback(
     (
-      proposalId: number,
+      proposalId: bigint,
       onSuccess?: () => void,
       onError?: (error?: WriteContractErrorType) => void,
     ) => {
@@ -31,7 +31,7 @@ const useExecuteProposal = () => {
           address: contracts.MentoGovernor.address,
           abi: GovernorABI,
           functionName: "execute",
-          args: [BigInt(proposalId).valueOf()],
+          args: [proposalId],
         },
         {
           onSuccess: () => {

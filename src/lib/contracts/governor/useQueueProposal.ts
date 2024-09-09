@@ -22,7 +22,7 @@ const useQueueProposal = () => {
 
   const queueProposal = useCallback(
     (
-      proposalId: number,
+      proposalId: bigint,
       onSuccess?: () => void,
       onError?: (error?: WriteContractErrorType) => void,
     ) => {

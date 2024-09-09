@@ -50,26 +50,24 @@ export const Countdown = ({
   return (
     <div
       className={cn(
-        "flex items-center justify-center gap-x1 md:mt-0 md:justify-end lg:mt-x3 ",
+        "mt-x3 flex items-center justify-center gap-x1 md:mt-0 md:justify-end ",
         className,
       )}
       style={style}
     >
-      {Boolean(days) && (
-        <div
-          className={cn(
-            "flex min-w-x11 flex-col items-center justify-center gap-x2 md:min-w-x16 md:gap-x3",
-            "mr-x1 text-primary",
-          )}
-        >
-          <CountdownNumber>{days}</CountdownNumber>
-          <CountdownLabel>days</CountdownLabel>
-        </div>
-      )}
+      <div
+        className={cn(
+          "flex min-w-x11 flex-col items-center justify-center gap-x2 md:min-w-x16 md:gap-x3",
+          "mr-x1 text-primary",
+        )}
+      >
+        <CountdownNumber>{days}</CountdownNumber>
+        <CountdownLabel>days</CountdownLabel>
+      </div>
       <div className="flex items-start">
         <div
           className={cn(
-            "flex min-w-x11 flex-col items-center justify-center md:min-w-x16 md:gap-x3 lg:gap-x2",
+            "flex min-w-x11 flex-col items-center justify-center gap-x2 md:min-w-x16 md:gap-x3",
           )}
         >
           <CountdownNumber>{hours}</CountdownNumber>
@@ -78,7 +76,7 @@ export const Countdown = ({
         <TimerSeparator />
         <div
           className={cn(
-            "flex min-w-x11 flex-col items-center justify-center md:min-w-x16 md:gap-x3 lg:gap-x2",
+            "flex min-w-x11 flex-col items-center justify-center gap-x2 md:min-w-x16 md:gap-x3",
           )}
         >
           <CountdownNumber>{minutes}</CountdownNumber>
@@ -87,7 +85,7 @@ export const Countdown = ({
         <TimerSeparator />
         <div
           className={cn(
-            "flex min-w-x11 flex-col items-center justify-center md:min-w-x16 md:gap-x3 lg:gap-x2",
+            "flex min-w-x11 flex-col items-center justify-center gap-x2 md:min-w-x16 md:gap-x3",
           )}
         >
           <CountdownNumber>{seconds}</CountdownNumber>

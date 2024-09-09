@@ -48,7 +48,7 @@ const ProposalsTable = () => {
 
 const DesktopProposalTable = ({ proposals }: { proposals: Proposal[] }) => {
   return (
-    <div className="rounded-md border border-gray-light bg-white px-4 py-5">
+    <div className="rounded-md border border-gray-light bg-white dark:bg-black-off px-4 py-5">
       <div className="mb-[38px] grid grid-cols-[minmax(150px,_2fr)_100px_150px_150px_150px] items-center gap-[21px] font-inter font-medium">
         <div className="overflow-hidden border-none text-left font-inter text-base font-medium tracking-tighter">
           Proposal name
@@ -123,7 +123,7 @@ const DesktopProposalTable = ({ proposals }: { proposals: Proposal[] }) => {
 
 const MobileProposalTable = ({ proposals }: { proposals: Proposal[] }) => {
   return (
-    <div className="rounded-md border border-gray-light bg-white px-4 py-5">
+    <div className="rounded-md border border-gray-light bg-white dark:bg-black-off px-4 py-5">
       {proposals.map(({ proposalId, metadata, state, votes }, index) => (
         <div
           key={index}
@@ -133,7 +133,7 @@ const MobileProposalTable = ({ proposals }: { proposals: Proposal[] }) => {
             <div className="absolute left-0 right-0 border-b border-solid border-gray-light " />
           )}
 
-          <div className="font-size-[18px] -mt-[] flex self-start overflow-hidden text-ellipsis break-words text-left font-normal leading-none">
+          <div className="font-size-[18px] flex self-start overflow-hidden text-ellipsis break-words text-left font-normal leading-5">
             <Link
               className="flex"
               style={{ maxHeight: "3em" }}

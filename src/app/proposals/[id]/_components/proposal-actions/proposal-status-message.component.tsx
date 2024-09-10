@@ -100,11 +100,11 @@ const getProposalStatusContent = (proposal: Proposal) => {
                       <span className="text-center">{`Successfully executed on`}</span>
                       <span className="text-center">{formattedDate}</span>
                       <BlockExplorerLink
-                        className="mb-2 mt-2 text-center font-inter text-base"
+                        className="mb-2 mt-2 text-center text-base"
                         type="tx"
                         item={hash}
                       >
-                        View the transaction here
+                        View on explorer
                       </BlockExplorerLink>
                     </div>
                   );

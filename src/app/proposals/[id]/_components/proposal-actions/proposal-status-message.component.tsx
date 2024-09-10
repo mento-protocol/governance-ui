@@ -1,78 +1,167 @@
 import { Proposal, ProposalState } from "@/lib/graphql";
 import React from "react";
 import { Card } from "@/components/_shared";
+import { BlockExplorerLink } from "@/components/_shared/block-explorer-link/block-explorer-link.component";
+import { format, fromUnixTime } from "date-fns";
 
-const exploreLaterMessage =
-  "Please explore other proposals to participate in the Mento ecosystem!";
+const StatusMessage = {
+  Layout: ({ children }: { children: React.ReactNode }) => (
+    <div className="flex min-h-[163px] flex-col justify-between space-y-4 font-fg text-[22px]/none">
+      <div className="flex-grow" />
+      {children}
+      <div className="flex-grow" />
+    </div>
+  ),
+  Header: ({ children }: { children: React.ReactNode }) => (
+    <Card.Header className="text-center">
+      <h2 className="font-fg text-[32px]/none font-medium">{children}</h2>
+    </Card.Header>
+  ),
+  Content: ({ children }: { children: React.ReactNode }) => (
+    <span>{children}</span>
+  ),
+};
 
-const INACTIVE_PROPOSAL_MESSAGE_MAP: Record<
-  Exclude<ProposalState, ProposalState.Active>,
-  { header: string; statusMessage: string; statusDetail: string }
-> = {
-  [ProposalState.Succeeded]: {
-    header: "Proposal Succeeded",
-    statusMessage: "This proposal has succeeded",
-    statusDetail: exploreLaterMessage,
-  },
-  [ProposalState.Defeated]: {
-    header: "Proposal Defeated",
-    statusMessage: "This proposal was defeated.",
-    statusDetail: exploreLaterMessage,
-  },
-  [ProposalState.Pending]: {
-    header: "Proposal Pending",
-    statusMessage: "This proposal is currently pending.",
-    statusDetail: "Please return later to participate in the Mento ecosystem!",
-  },
-  [ProposalState.Canceled]: {
-    header: "Proposal Canceled",
-    statusMessage: "This proposal was canceled.",
-    statusDetail: exploreLaterMessage,
-  },
-  [ProposalState.Executed]: {
-    header: "Proposal Executed",
-    statusMessage: "This proposal was executed.",
-    statusDetail: exploreLaterMessage,
-  },
-  [ProposalState.Expired]: {
-    header: "Proposal Expired",
-    statusMessage: "This proposal has expired.",
-    statusDetail: exploreLaterMessage,
-  },
-  [ProposalState.Queued]: {
-    header: "Proposal Queued",
-    statusMessage: "This proposal is queued.",
-    statusDetail: exploreLaterMessage,
-  },
-  [ProposalState.NoState]: {
-    header: "Proposal Pending",
-    statusMessage: "This proposal is currently pending.",
-    statusDetail: exploreLaterMessage,
-  },
+const ExploreLaterMessage: React.FC = () => (
+  <StatusMessage.Content>
+    Please explore other proposals to participate in the Mento ecosystem!
+  </StatusMessage.Content>
+);
+
+const getProposalStatusContent = (proposal: Proposal) => {
+  const baseMessages: Record<
+    Exclude<ProposalState, ProposalState.Active>,
+    React.ReactNode
+  > = {
+    [ProposalState.Succeeded]: (
+      <>
+        <StatusMessage.Header>Proposal Succeeded</StatusMessage.Header>
+        <StatusMessage.Layout>
+          <StatusMessage.Content>
+            This proposal has succeeded.
+          </StatusMessage.Content>
+          <ExploreLaterMessage />
+        </StatusMessage.Layout>
+      </>
+    ),
+    [ProposalState.Defeated]: (
+      <>
+        <StatusMessage.Header>Proposal Defeated</StatusMessage.Header>
+        <StatusMessage.Layout>
+          <StatusMessage.Content>
+            This proposal was defeated.
+          </StatusMessage.Content>
+          <ExploreLaterMessage />
+        </StatusMessage.Layout>
+      </>
+    ),
+    [ProposalState.Pending]: (
+      <>
+        <StatusMessage.Header>Proposal Pending</StatusMessage.Header>
+        <StatusMessage.Layout>
+          <StatusMessage.Content>
+            This proposal is currently pending.
+          </StatusMessage.Content>
+          <ExploreLaterMessage />
+        </StatusMessage.Layout>
+      </>
+    ),
+    [ProposalState.Canceled]: (
+      <>
+        <StatusMessage.Header>Proposal Canceled</StatusMessage.Header>
+        <StatusMessage.Layout>
+          <StatusMessage.Content>
+            This proposal was canceled.
+          </StatusMessage.Content>
+          <ExploreLaterMessage />
+        </StatusMessage.Layout>
+      </>
+    ),
+    [ProposalState.Executed]: (
+      <>
+        {proposal.proposalExecuted.length > 0 && (
+          <>
+            <StatusMessage.Header>Proposal Executed</StatusMessage.Header>
+            <StatusMessage.Layout>
+              <StatusMessage.Content>
+                {(() => {
+                  const [
+                    {
+                      transaction: { id: hash, timestamp },
+                    },
+                  ] = proposal.proposalExecuted;
+                  const executionDate = fromUnixTime(timestamp);
+                  const formattedDate = format(
+                    executionDate,
+                    "MMMM do, yyyy 'at' hh:mm a",
+                  );
+                  return (
+                    <div className="flex flex-col gap-2">
+                      <span className="text-center">{`Successfully executed on`}</span>
+                      <span className="text-center">{formattedDate}</span>
+                      <BlockExplorerLink
+                        className="mb-2 mt-2 text-center font-inter text-base"
+                        type="tx"
+                        item={hash}
+                      >
+                        View the transaction here
+                      </BlockExplorerLink>
+                    </div>
+                  );
+                })()}
+              </StatusMessage.Content>
+              <ExploreLaterMessage />
+            </StatusMessage.Layout>
+          </>
+        )}
+      </>
+    ),
+    [ProposalState.Expired]: (
+      <>
+        <StatusMessage.Header>Proposal Expired</StatusMessage.Header>
+        <StatusMessage.Layout>
+          <StatusMessage.Content>
+            This proposal has expired.
+          </StatusMessage.Content>
+          <ExploreLaterMessage />
+        </StatusMessage.Layout>
+      </>
+    ),
+    [ProposalState.Queued]: (
+      <>
+        <StatusMessage.Header>Proposal Queued</StatusMessage.Header>
+        <StatusMessage.Layout>
+          <StatusMessage.Content>
+            This proposal is queued.
+          </StatusMessage.Content>
+          <ExploreLaterMessage />
+          {proposal.eta && (
+            <StatusMessage.Content>
+              This proposal will be executable after{" "}
+              {new Date(proposal.eta * 1000).toLocaleString()}.
+            </StatusMessage.Content>
+          )}
+        </StatusMessage.Layout>
+      </>
+    ),
+    [ProposalState.NoState]: (
+      <>
+        <StatusMessage.Header>Proposal Pending</StatusMessage.Header>
+        <StatusMessage.Layout>
+          <StatusMessage.Content>
+            This proposal is currently pending.
+          </StatusMessage.Content>
+          <ExploreLaterMessage />
+        </StatusMessage.Layout>
+      </>
+    ),
+  };
+
+  return baseMessages[
+    proposal.state as Exclude<ProposalState, ProposalState.Active>
+  ];
 };
 
 export const ProposalStatusMessage = ({ proposal }: { proposal: Proposal }) => {
-  const proposalState = proposal.state as Exclude<
-    ProposalState,
-    ProposalState.Active
-  >;
-
-  return (
-    <>
-      <Card.Header className="text-center">
-        <h2 className="font-fg text-[32px]/none font-medium">
-          {INACTIVE_PROPOSAL_MESSAGE_MAP[proposalState].header}
-        </h2>
-      </Card.Header>
-      <div className="flex min-h-[163px] flex-col justify-between font-fg text-[22px]/none">
-        <div className="flex-grow" />
-        <span>
-          {INACTIVE_PROPOSAL_MESSAGE_MAP[proposalState].statusMessage}
-        </span>
-        <div className="h-x4" />
-        <span>{INACTIVE_PROPOSAL_MESSAGE_MAP[proposalState].statusDetail}</span>
-        <div className="flex-grow" />
-      </div>
-    </>
-  );
+  return getProposalStatusContent(proposal);
 };

@@ -8,8 +8,15 @@ fragment ProposalFields on Proposal {
     timestamp
   }
 
-  proposalQueued{
+  proposalQueued {
     eta
+  }
+
+  proposalExecuted {
+    transaction {
+      id
+      timestamp
+    }
   }
 
   # Votes

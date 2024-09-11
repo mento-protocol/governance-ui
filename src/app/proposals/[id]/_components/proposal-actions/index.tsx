@@ -30,11 +30,11 @@ const ProposalActions = ({ proposal }: { proposal: Proposal }) => {
 
 const getComponent = (state: ProposalState) => {
   switch (state) {
-    case "Active":
+    case ProposalState.Active:
       return Vote;
-    case "Succeeded":
+    case ProposalState.Succeeded:
       return QueueProposal;
-    case "Queued":
+    case ProposalState.Queued:
       return ExecuteProposal;
     default:
       return ProposalStatusMessage;

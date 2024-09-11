@@ -19,6 +19,7 @@ import ExecutionCode from "./_components/execution-code.component";
 import Participants from "./_components/participants.component";
 import { Countdown, ProposalCurrentVotes } from "@/components/index";
 import { ensureChainId } from "@/lib/helpers/ensureChainId";
+import { ProposalState } from "@/lib/graphql";
 
 const Page = ({ params: { id } }: { params: { id: string } }) => {
   const { proposal } = useProposal(BigInt(id));
@@ -60,7 +61,11 @@ const Page = ({ params: { id } }: { params: { id: string } }) => {
   }, [currentBlock, endBlock.data, proposal]);
 
   const timeLockDeadLine = useMemo(() => {
-    if (proposal && proposal.state === "Queued" && proposal.proposalQueued[0]) {
+    if (
+      proposal &&
+      proposal.state === ProposalState.Queued &&
+      proposal.proposalQueued[0]
+    ) {
       return new Date(Number(proposal.proposalQueued[0].eta) * 1000);
     }
   }, [proposal]);
@@ -104,7 +109,7 @@ const Page = ({ params: { id } }: { params: { id: string } }) => {
                 />
               )}
           </div>
-          {proposal.state === "Active" && votingDeadline && (
+          {proposal.state === ProposalState.Active && votingDeadline && (
             <Countdown
               endTimestamp={votingDeadline.getTime()}
               updateIntervalInMs={1000}

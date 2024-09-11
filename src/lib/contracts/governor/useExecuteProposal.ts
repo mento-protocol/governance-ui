@@ -31,7 +31,7 @@ const useExecuteProposal = () => {
           address: contracts.MentoGovernor.address,
           abi: GovernorABI,
           functionName: "execute",
-          args: [proposalId],
+          args: [BigInt(proposalId).valueOf()],
         },
         {
           onSuccess: () => {

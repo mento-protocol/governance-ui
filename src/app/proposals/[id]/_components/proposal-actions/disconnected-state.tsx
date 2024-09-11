@@ -6,7 +6,7 @@ export const DisconnectedState = () => {
     <Card>
       <div className="flex flex-col gap-[25px] ">
         <ProposalActionTitle />
-        <span>Please connect your wallet to to participate in governance</span>
+        <span>Please connect your wallet to participate in governance</span>
         <ConnectButton fullwidth theme="primary" />
       </div>
     </Card>

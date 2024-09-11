@@ -1,14 +1,17 @@
 import * as Sentry from "@sentry/nextjs";
 
-import { BlockExplorerLink, Button, Card, Loader } from "@/components/_shared";
-import { SuccessIcon } from "@/components/_icons";
+import { Button, Card } from "@/components/_shared";
 
 import type { Proposal } from "@/lib/graphql";
 
 import { ProposalActionTitle } from "../proposal-action-title";
 import useQueueProposal from "@/lib/contracts/governor/useQueueProposal";
 import { ProposalActionError } from "../proposal-action-error";
-import WalletHelper from "@/lib/helpers/wallet.helper";
+import { ProposalActionConfirmation } from "../proposal-action-confirmation.component";
+import {
+  ProposalActionConfirmed,
+  ProposalActionConfirming,
+} from "../proposal-action-status";
 
 export const QueueProposal = ({ proposal }: { proposal: Proposal }) => {
   const {
@@ -30,15 +33,33 @@ export const QueueProposal = ({ proposal }: { proposal: Proposal }) => {
   };
 
   if (isAwaitingUserSignature) {
-    return <ProposalActionConfirmation proposalId={proposal.proposalId} />;
+    return (
+      <ProposalActionConfirmation
+        title="Queue Proposal"
+        subtitle="Queueing Proposal"
+        proposalId={proposal.proposalId}
+      />
+    );
   }
 
   if (isConfirming) {
-    return <QueueConfirming hash={hash} />;
+    return (
+      <ProposalActionConfirming
+        title="Queue Proposal"
+        status="Queueing Proposal"
+        hash={hash}
+      />
+    );
   }
 
   if (isConfirmed) {
-    return <QueueConfirmed hash={hash} />;
+    return (
+      <ProposalActionConfirmed
+        title="Queue Proposal"
+        status="Proposal queued"
+        hash={hash}
+      />
+    );
   }
 
   return (
@@ -54,77 +75,16 @@ export const QueueProposal = ({ proposal }: { proposal: Proposal }) => {
         <span>Queue this proposal to start the time lock period.</span>
       </div>
       <div>
-        <Button className="mx-auto" onClick={handleQueueProposal}>
+        <Button fullwidth onClick={handleQueueProposal}>
           Queue Proposal
         </Button>
-        {error && <ProposalActionError error={error} />}
+        {error && (
+          <ProposalActionError
+            errorHeading="Error queuing proposal"
+            error={error}
+          />
+        )}
       </div>
     </div>
-  );
-};
-
-const ProposalActionConfirmation = ({
-  proposalId,
-}: {
-  proposalId: Proposal["proposalId"];
-}) => {
-  return (
-    <>
-      <ProposalActionTitle>Queue Proposal</ProposalActionTitle>
-      <div className="mt-x2 flex flex-col gap-x3 text-center">
-        <span className="text-md">Confirm</span>
-        <Loader
-          isCenter
-          className="w-[100%]"
-          logoColor="fill-black dark:fill-mento-cyan"
-        />
-        <>
-          <div className="flex flex-col items-center justify-center gap-1 text-[0.875rem]">
-            <span>Queueing Proposal </span>
-            <span className="font-semibold">{`${WalletHelper.getShortAddress(proposalId)}`}</span>
-          </div>
-        </>
-        <span className="text-sm text-[#A8A8A8] dark:text-[#AAB3B6]">
-          Proceed in your wallet
-        </span>
-      </div>
-    </>
-  );
-};
-
-const QueueConfirmed = ({ hash }: { hash: `0x${string}` | undefined }) => {
-  return (
-    <>
-      <ProposalActionTitle>Queue Proposal</ProposalActionTitle>
-      <div className="mt-x2 flex flex-col gap-x3 text-center">
-        <span className="text-md">Proposal queued</span>
-        <SuccessIcon className="mx-auto h-20 w-20" />
-        {hash && (
-          <BlockExplorerLink type="tx" item={hash}>
-            View on explorer
-          </BlockExplorerLink>
-        )}
-      </div>
-    </>
-  );
-};
-
-const QueueConfirming = ({ hash }: { hash: `0x${string}` | undefined }) => {
-  return (
-    <>
-      <ProposalActionTitle>Queue Proposal</ProposalActionTitle>
-      <div className="mt-x2 flex flex-col gap-x3 text-center">
-        <span className="text-md">Queueing Proposal</span>
-        <SuccessIcon className="mx-auto h-20 w-20" />
-        <span className="text-sm text-[#A8A8A8] dark:text-[#AAB3B6]">
-          Processing transaction. This may take a few moments.
-        </span>
-        {hash && (
-          <BlockExplorerLink type="tx" item={hash}>
-            View on explorer
-          </BlockExplorerLink>
-        )}
-      </div>
-    </>
   );
 };

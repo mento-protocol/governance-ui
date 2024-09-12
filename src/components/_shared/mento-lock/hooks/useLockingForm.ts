@@ -1,13 +1,13 @@
+import {
+  LOCKING_AMOUNT_FORM_KEY,
+  LOCKING_DURATION_FORM_KEY,
+} from "@/lib/constants/locking";
 import useTokens from "@/lib/contracts/useTokens";
 import { yupResolver } from "@hookform/resolvers/yup";
 import React from "react";
 import { useForm } from "react-hook-form";
 import { formatUnits } from "viem";
 import { number, object, string, InferType } from "yup";
-import {
-  LOCKING_AMOUNT_FORM_KEY,
-  LOCKING_DURATION_FORM_KEY,
-} from "../constants";
 
 const MIN_LOCKABLE_AMOUNT = 1;
 
@@ -45,8 +45,8 @@ export const useLockingForm = () => {
     resolver: yupResolver(validationSchema),
     mode: "all",
     defaultValues: {
-      amountToLock: "",
-      lockingDurationInWeeks: 1,
+      [LOCKING_AMOUNT_FORM_KEY]: "",
+      [LOCKING_DURATION_FORM_KEY]: 1,
     },
   });
 };

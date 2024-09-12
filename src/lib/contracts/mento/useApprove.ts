@@ -1,12 +1,19 @@
 import React, { useCallback } from "react";
 import { useContracts } from "@/lib/contracts/useContracts";
-import { useWaitForTransactionReceipt, useWriteContract } from "wagmi";
+import {
+  useAccount,
+  useWaitForTransactionReceipt,
+  useWriteContract,
+} from "wagmi";
 import { Address, erc20Abi } from "viem";
 import { WriteContractErrorType } from "wagmi/actions";
+import * as Sentry from "@sentry/nextjs";
 
 const useApprove = ({
   onConfirmation,
-}: { onConfirmation?: () => void } = {}) => {
+}: {
+  onConfirmation?: () => void;
+} = {}) => {
   const contracts = useContracts();
   const {
     writeContract,
@@ -14,6 +21,7 @@ const useApprove = ({
     data,
     ...restWrite
   } = useWriteContract();
+  const { address } = useAccount();
 
   const { isLoading: isConfirming, isSuccess: isConfirmed } =
     useWaitForTransactionReceipt({
@@ -44,11 +52,26 @@ const useApprove = ({
         },
         {
           onSuccess,
-          onError,
+          onError: (error: WriteContractErrorType) => {
+            Sentry.captureException(error, {
+              data: {
+                function: "useApprove",
+                user: address,
+                contract: contracts.Locking.address,
+                contractArgs: JSON.stringify([target, amount]),
+              },
+            });
+            onError?.(error);
+          },
         },
       );
     },
-    [contracts.MentoToken.address, writeContract],
+    [
+      address,
+      contracts.Locking.address,
+      contracts.MentoToken.address,
+      writeContract,
+    ],
   );
 
   return {

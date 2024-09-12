@@ -1,10 +1,11 @@
 import useTokens from "@/lib/contracts/useTokens";
-import React, { ElementRef, RefObject } from "react";
+import React from "react";
 import { formatUnits } from "viem";
 import { VariantProps, cva } from "class-variance-authority";
 import { cn } from "@/styles/helpers";
 import ValueLoaderSkeleton from "../value-loader-skeleton/value-loader-skeleton.component";
 import NumbersService from "@/lib/helpers/numbers.service";
+import { RefCallBack } from "react-hook-form";
 
 type CurrencyInputProps = React.InputHTMLAttributes<HTMLInputElement> &
   VariantProps<typeof variants> & {
@@ -42,7 +43,7 @@ export const CurrencyInput = ({
   inputRef,
   ...props
 }: CurrencyInputProps & {
-  inputRef?: RefObject<ElementRef<"input">>;
+  inputRef?: RefCallBack;
   onMax?: () => void;
   onChange: (val: string) => void;
 }) => {

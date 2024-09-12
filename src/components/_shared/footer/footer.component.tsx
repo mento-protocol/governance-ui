@@ -11,19 +11,19 @@ import { MobileAccordionMenu, ThemeSwitch } from "@/components/_shared";
 
 export const Footer = () => {
   return (
-    <>
+    <footer className="mt-auto">
       <DesktopFooter />
       <MobileFooter />
-    </>
+    </footer>
   );
 };
 
 const DesktopFooter = () => {
   return (
-    <footer className="mx-auto mt-36 hidden items-start justify-between gap-16 border-t border-black px-4 pb-20 pt-20 dark:border-[#343437] lg:mx-10 lg:flex xl:mx-auto xl:max-w-[1120px] xl:gap-36">
+    <div className="mx-auto mt-36 hidden items-start justify-between gap-16 border-t border-black px-4 pb-20 pt-20 dark:border-[#343437] lg:mx-10 lg:flex xl:mx-auto xl:max-w-[1120px] xl:gap-36">
       <div>
         <MentoLogoIcon />
-        <p className="pt-3 font-inter text-[#636768] ">
+        <p className="pt-3 font-inter text-[#636768]">
           Mento © 2024. <br />
           All rights reserved.
         </p>
@@ -36,13 +36,13 @@ const DesktopFooter = () => {
           <ThemeSwitch />
         </div>
       </div>
-    </footer>
+    </div>
   );
 };
 
 const MobileFooter = () => {
   return (
-    <footer className="block px-4 pb-8 pt-10 dark:bg-black lg:hidden">
+    <div className="block px-4 pb-8 pt-10 dark:bg-black lg:hidden">
       <div className="border-t border-black dark:border-gray-light">
         <MobileAccordionMenu classNames="bg-transparent" />
         <div className="mt-6 flex justify-between">
@@ -62,7 +62,7 @@ const MobileFooter = () => {
           </div>
         </div>
       </div>
-    </footer>
+    </div>
   );
 };
 

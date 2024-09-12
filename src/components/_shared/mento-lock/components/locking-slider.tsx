@@ -1,9 +1,10 @@
 import { Controller, useFormContext } from "react-hook-form";
+
+import { Slider } from "@/components/_shared/slider/slider.component";
 import {
   LOCKING_DURATION_FORM_KEY,
   MAX_LOCKING_DURATION_WEEKS,
-} from "../constants";
-import { Slider } from "@/components/_shared/slider/slider.component";
+} from "@/lib/constants/locking";
 
 export const LockingSlider = () => {
   const { control } = useFormContext();

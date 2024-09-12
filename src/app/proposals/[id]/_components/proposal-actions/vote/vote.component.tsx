@@ -2,13 +2,7 @@ import { useAccount } from "wagmi";
 import { UserRejectedRequestError } from "viem";
 import * as Sentry from "@sentry/nextjs";
 
-import {
-  BlockExplorerLink,
-  Button,
-  Card,
-  LoadingState,
-  VotingCardTitle,
-} from "@/components/_shared";
+import { BlockExplorerLink, Button } from "@/components/_shared";
 import { ChevronIcon, SuccessIcon } from "@/components/_icons";
 
 import type { Proposal } from "@/lib/graphql";
@@ -18,12 +12,13 @@ import useTokens from "@/lib/contracts/useTokens";
 import useCastVote from "@/lib/contracts/governor/useCastVote";
 import useVoteReceipt from "@/lib/contracts/governor/useVoteReceipt";
 
-import { DisconnectedState } from "./disconnected-state";
 import { VotingButtons } from "./voting-buttons";
 import { LockedBalance } from "./locked-balance";
 
 import { HasVoted } from "./has-voted";
 import { VoteConfirmation } from "./vote-confirmation";
+import { ProposalActionTitle } from "../proposal-action-title";
+import { ProposalActionLoading } from "../proposal-action-loading";
 
 export const VOTE_TYPES = {
   Against: 0,
@@ -37,16 +32,12 @@ export const REVERSE_VOTE_TYPE_MAP = {
   [VOTE_TYPES.Abstain]: "Abstain",
 } as const;
 
-export const CastVote = ({
-  proposalId,
-}: {
-  proposalId: Proposal["proposalId"];
-}) => {
-  const { address, isConnecting, isDisconnected } = useAccount();
+export const Vote = ({ proposal }: { proposal: Proposal }) => {
+  const { address, isConnecting } = useAccount();
   const { veMentoBalance } = useTokens();
   const { data: voteReceipt, isLoading: isHasVotedStatusLoading } =
     useVoteReceipt({
-      proposalId,
+      proposalId: proposal.proposalId,
       address,
     });
 
@@ -63,20 +54,16 @@ export const CastVote = ({
   const hasEnoughLockedMentoToVote = veMentoBalance.value > 0;
   const isInitializing = isConnecting || isHasVotedStatusLoading;
 
-  const handleCastVote = (voteType: number) => {
+  const handleVote = (support: number) => {
     try {
-      castVote(proposalId, voteType);
+      castVote(proposal.proposalId, support);
     } catch (error) {
       Sentry.captureException(error);
     }
   };
 
   if (isInitializing) {
-    return <LoadingState />;
-  }
-
-  if (isDisconnected) {
-    return <DisconnectedState />;
+    return <ProposalActionLoading />;
   }
 
   if (voteReceipt && voteReceipt.hasVoted) {
@@ -91,15 +78,15 @@ export const CastVote = ({
     return (
       <VoteConfirmation
         voteType={variables?.args?.[1] as number}
-        proposalId={proposalId}
+        proposalId={proposal.proposalId}
       />
     );
   }
 
   if (isConfirming) {
     return (
-      <Card className="min-h-[260px] p-4">
-        <VotingCardTitle />
+      <>
+        <ProposalActionTitle />
         <div className="mt-x2 flex flex-col gap-x3 text-center">
           <span className="text-md">Vote submitted</span>
           <SuccessIcon className="mx-auto h-20 w-20" />
@@ -112,14 +99,14 @@ export const CastVote = ({
             </BlockExplorerLink>
           )}
         </div>
-      </Card>
+      </>
     );
   }
 
   if (isConfirmed) {
     return (
-      <Card className="min-h-[260px] p-4">
-        <VotingCardTitle />
+      <>
+        <ProposalActionTitle />
         <div className="mt-x2 flex flex-col gap-x3 text-center">
           <span className="text-md">Vote success</span>
           <SuccessIcon className="mx-auto h-20 w-20" />
@@ -129,21 +116,21 @@ export const CastVote = ({
             </BlockExplorerLink>
           )}
         </div>
-      </Card>
+      </>
     );
   }
 
   return (
-    <Card className="min-h-[260px] p-4">
-      <VotingCardTitle />
+    <>
+      <ProposalActionTitle />
       <div className="mt-x3 flex flex-col gap-x5">
         <LockedBalance />
         <div className="flex flex-col gap-2">
-          <VotingButtons onSubmit={handleCastVote} />
+          <VotingButtons onSubmit={handleVote} />
           {error && <VotingError error={error} />}
         </div>
       </div>
-    </Card>
+    </>
   );
 };
 
@@ -161,8 +148,8 @@ const VotingError = ({ error }: { error: Error }) => {
 
 const DirectToLockMento = () => {
   return (
-    <Card className="min-h-[260px] p-4">
-      <VotingCardTitle />
+    <>
+      <ProposalActionTitle />
       <div className="flex flex-col gap-x5 text-center">
         <LockedBalance />
         <span>You need to lock your MENTO to vote</span>
@@ -170,6 +157,6 @@ const DirectToLockMento = () => {
           Lock Mento <ChevronIcon direction="right" />
         </Button>
       </div>
-    </Card>
+    </>
   );
 };

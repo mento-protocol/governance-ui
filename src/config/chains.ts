@@ -32,7 +32,6 @@ export const Alfajores: MentoChain = defineChain({
     ...transformToChainContracts(addresses[celoAlfajores.id]),
   },
 });
-
 /**
  * Transforms the specified Mento contract addresses to the format used by Viem.
  * @param contractAddresses The Mento contract addresses to be transformed.

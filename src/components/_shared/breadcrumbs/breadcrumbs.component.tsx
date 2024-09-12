@@ -3,6 +3,7 @@ import { useMemo } from "react";
 import Link from "next/link";
 import { routingMap } from "@/lib/helpers/routing.map";
 import { useParams, usePathname } from "next/navigation";
+import WalletHelper from "@/lib/helpers/wallet.helper";
 
 type CrumbProps = {
   path: string;
@@ -21,7 +22,7 @@ const Crumb = ({ path, index, last }: CrumbProps) => {
       {last ? (
         <span>
           {crumbName}
-          {isProposalCrumb && ` ${shortenProposalId(proposalId)}`}
+          {isProposalCrumb && ` ${WalletHelper.getShortAddress(proposalId)}`}
         </span>
       ) : (
         <Link href={path || "/"} className="text-primary">
@@ -61,7 +62,3 @@ export const Breadcrumbs = () => {
     <></>
   );
 };
-
-function shortenProposalId(proposalId: string): string {
-  return `${proposalId.slice(0, 8)}...${proposalId.slice(-4)}`;
-}

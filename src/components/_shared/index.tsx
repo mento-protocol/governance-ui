@@ -33,8 +33,6 @@ export { TabList } from "./tabs/tab-list.component";
 export { Tab } from "./tabs/tab.component";
 export { Textarea } from "./textarea/textarea.component";
 export { ThemeSwitch } from "./theme-switch/theme-switch.component";
-export { LoadingState } from "./vote-loading-state/vote-loading-state";
-export { VotingCardTitle } from "./vote-voting-card-title/voting-card-title";
 export { WalletAddressWithCopy } from "./wallet-address-with-copy/wallet-address-with-copy.component";
 export { DisconnectButton } from "./disconnect-button";
 export { MaxWidthWrapper } from "./max-width-wrapper";

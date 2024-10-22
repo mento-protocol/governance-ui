@@ -6,6 +6,7 @@ import {
   isWednesday,
   nextWednesday,
 } from "date-fns";
+import { MAX_LOCKING_DURATION_WEEKS } from "../constants/locking";
 
 export default abstract class LockingHelper {
   public static addYearsAndAdjustToNextWednesday(
@@ -52,4 +53,18 @@ export default abstract class LockingHelper {
       ...this.getDaysExceptWednesday(),
     ];
   };
+
+  public static calculateMaxExtensionWeeks(
+    currentLockingWeek: number,
+    lockTime: number | undefined,
+    lockSlope: number | undefined,
+  ): number {
+    if (lockTime === undefined || lockSlope === undefined) {
+      return 0;
+    }
+
+    const weeksPassed = currentLockingWeek - lockTime;
+    const remainingWeeks = MAX_LOCKING_DURATION_WEEKS - lockSlope;
+    return Math.max(remainingWeeks + weeksPassed, 0);
+  }
 }

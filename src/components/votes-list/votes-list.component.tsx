@@ -4,7 +4,7 @@ import BaseComponentProps from "@/interfaces/base-component-props.interface";
 import { formatUnits } from "viem";
 import { WalletAddress } from "@/components/index";
 import NumbersService from "@/lib/helpers/numbers.service";
-import { ScrollArea } from "@/components/ui/scroll-area";
+import { ScrollArea } from "@radix-ui/react-scroll-area";
 
 interface VotesListProps extends BaseComponentProps {
   participants: Participant[];

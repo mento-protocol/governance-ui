@@ -41,11 +41,12 @@ const useRelockMento = ({
 
   const lockingArgs = React.useMemo(() => {
     if (!lock || !lockedBalance || typeof newSlope !== "number") return null;
+    const amount = newAmount ? newAmount + lockedBalance : lockedBalance;
 
     return [
       lock.lockId,
       newDelegate ?? lock.owner?.id,
-      newAmount ?? lockedBalance,
+      amount,
       newSlope,
       newCliff ?? lock.cliff,
     ] as const;

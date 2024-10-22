@@ -109,7 +109,28 @@ export const useLockInfo = (address: string | undefined) => {
     return activeLocks.length > 1;
   }, [activeLocks]);
 
+  const isLockExtendible = React.useMemo(() => {
+    if (
+      !currentLockingWeek ||
+      isNaN(lock?.slope ?? 0) ||
+      isNaN(lock?.cliff ?? 0) ||
+      isNaN(lock?.time ?? 0) ||
+      activeLocks.length > 1
+    ) {
+      return false;
+    }
+    const weeksPassed = Number(currentLockingWeek) - lock?.time;
+    return weeksPassed > 1;
+  }, [
+    activeLocks.length,
+    currentLockingWeek,
+    lock?.cliff,
+    lock?.slope,
+    lock?.time,
+  ]);
+
   return {
+    isLockExtendible,
     isLoading:
       isCurrentWeekLoading ||
       isUnlockedMentoLoading ||

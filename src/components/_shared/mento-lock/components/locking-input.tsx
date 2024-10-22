@@ -1,12 +1,13 @@
 import useTokens from "@/lib/contracts/useTokens";
 import React from "react";
 import { Controller, useFormContext } from "react-hook-form";
+import { formatUnits } from "viem";
+import CurrencyInput from "../../currency-input/currency-input.component";
+
 import {
   LOCKING_AMOUNT_FORM_KEY,
   LOCKING_DURATION_FORM_KEY,
-} from "../constants";
-import { formatUnits } from "viem";
-import CurrencyInput from "../../currency-input/currency-input.component";
+} from "@/lib/constants/locking";
 
 export const LockingInput = () => {
   const { mentoBalance } = useTokens();

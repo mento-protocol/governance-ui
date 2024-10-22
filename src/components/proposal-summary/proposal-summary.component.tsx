@@ -1,4 +1,4 @@
-import { Suspense, useMemo } from "react";
+import { useMemo } from "react";
 import { formatUnits } from "viem";
 import { useAccount, useBlockNumber } from "wagmi";
 import { Card } from "@/components/_shared";
@@ -13,9 +13,7 @@ export const ProposalSummaryComponent = () => {
   return (
     <Card className="mt-8" block>
       <div className="grid grid-cols-2 items-start justify-between gap-x6 pb-5 pt-4 md:grid-cols-4 md:pb-8">
-        <Suspense fallback={<ContractDataGridSkeleton />}>
-          <ContractDataGrid />
-        </Suspense>
+        <ContractDataGrid />
       </div>
     </Card>
   );
@@ -26,7 +24,7 @@ const ContractDataGrid = () => {
     veMentoContractData: { totalSupply },
   } = useTokens();
   const { currentWeek } = useLockingWeek();
-  const { locks } = useAllLocks();
+  const { locks, loading } = useAllLocks();
   const { proposals } = useProposals();
   const { chainId } = useAccount();
 
@@ -68,6 +66,8 @@ const ContractDataGrid = () => {
 
     return uniqueVoters.size;
   }, [currentWeek, locks]);
+
+  if (loading) return <ContractDataGridSkeleton />;
 
   return (
     <>

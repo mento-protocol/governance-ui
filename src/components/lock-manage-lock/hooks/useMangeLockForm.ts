@@ -1,7 +1,7 @@
 import React, { useMemo } from "react";
 import { useForm } from "react-hook-form";
 
-import { date, InferType, object, string } from "yup";
+import { date, object, string } from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { formatUnits } from "viem";
 import useTokens from "@/lib/contracts/useTokens";
@@ -12,6 +12,11 @@ import {
   LOCKING_AMOUNT_FORM_KEY,
   LOCKING_DURATION_FORM_KEY,
 } from "@/lib/constants/locking";
+
+export interface ManageLockFormData {
+  [LOCKING_AMOUNT_FORM_KEY]: string;
+  [LOCKING_DURATION_FORM_KEY]: Date;
+}
 
 export const useManageLockForm = (lock: ExtendedLock) => {
   const { mentoBalance } = useTokens();
@@ -29,12 +34,8 @@ export const useManageLockForm = (lock: ExtendedLock) => {
   const validationSchema = React.useMemo(() => {
     return object({
       [LOCKING_AMOUNT_FORM_KEY]: string()
+        .required("Amount is required")
         .test("isNumber", "Invalid number", (value) => !isNaN(Number(value)))
-        // .test(
-        //   "min",
-        //   `The minimum value is ${MIN_LOCKABLE_AMOUNT}`,
-        //   (value) => Number(value) >= MIN_LOCKABLE_AMOUNT,
-        // )
         .test(
           "max",
           `Amount exceeds balance`,
@@ -50,11 +51,11 @@ export const useManageLockForm = (lock: ExtendedLock) => {
     });
   }, [maxExtensionWeeks, mentoBalance.decimals, mentoBalance.value]);
 
-  return useForm<InferType<typeof validationSchema>>({
+  return useForm<ManageLockFormData>({
     resolver: yupResolver(validationSchema),
     mode: "all",
     defaultValues: {
-      [LOCKING_AMOUNT_FORM_KEY]: "",
+      [LOCKING_AMOUNT_FORM_KEY]: "0",
       [LOCKING_DURATION_FORM_KEY]: lock?.expiration ?? new Date(),
     },
   });

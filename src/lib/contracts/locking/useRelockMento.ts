@@ -10,9 +10,11 @@ import { Address } from "viem";
 import { WriteContractErrorType } from "wagmi/actions";
 import useLockedAmount from "./useLockedAmount";
 import { ExtendedLock } from "@/lib/hooks/useLockInfo";
+import * as Sentry from "@sentry/nextjs";
+
 interface RelockMentoParams {
   newDelegate?: Address;
-  newAmount?: bigint;
+  additionalAmountToLock?: bigint;
   newSlope: number;
   newCliff?: number;
   onSuccess?: () => void;
@@ -22,7 +24,7 @@ interface RelockMentoParams {
 
 const useRelockMento = ({
   lock,
-  newAmount,
+  additionalAmountToLock,
   newCliff,
   newDelegate,
   onError,
@@ -41,16 +43,23 @@ const useRelockMento = ({
 
   const lockingArgs = React.useMemo(() => {
     if (!lock || !lockedBalance || typeof newSlope !== "number") return null;
-    const amount = newAmount ? newAmount + lockedBalance : lockedBalance;
 
+    const newTotalLockedAmount = (additionalAmountToLock ?? 0n) + lockedBalance;
     return [
       lock.lockId,
       newDelegate ?? lock.owner?.id,
-      amount,
+      newTotalLockedAmount,
       newSlope,
       newCliff ?? lock.cliff,
     ] as const;
-  }, [lock, lockedBalance, newAmount, newCliff, newDelegate, newSlope]);
+  }, [
+    lock,
+    lockedBalance,
+    additionalAmountToLock,
+    newCliff,
+    newDelegate,
+    newSlope,
+  ]);
 
   const lockingConfig = React.useMemo(() => {
     if (!lockingArgs) return null;
@@ -74,9 +83,29 @@ const useRelockMento = ({
     if (!lockingConfig) return;
     writeContract(lockingConfig, {
       onSuccess,
-      onError,
+      onError: (error) => {
+        Sentry.captureException(error, {
+          data: {
+            function: "useRelockMento",
+            lockId: lock.lockId,
+            user: lock.owner?.id,
+            contract: contracts.Locking.address,
+            contractArgs: JSON.stringify(lockingArgs),
+          },
+        });
+        onError?.(error);
+      },
     });
-  }, [lockingConfig, onError, onSuccess, writeContract]);
+  }, [
+    contracts.Locking.address,
+    lock.lockId,
+    lock.owner?.id,
+    lockingArgs,
+    lockingConfig,
+    onError,
+    onSuccess,
+    writeContract,
+  ]);
 
   return {
     canRelock: simulation.isSuccess,

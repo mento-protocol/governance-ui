@@ -1,7 +1,7 @@
 import React, { ReactNode } from "react";
 import { FormProvider } from "react-hook-form";
 import { ExtendedLock } from "@/lib/hooks/useLockInfo";
-import { useManageLockForm } from "./hooks/use-manage-lock-form";
+import { useManageLockForm } from "./hooks/useMangeLockForm";
 import { ManageLockProvider } from "./manage-lock.provider";
 
 interface LockingFormProps {

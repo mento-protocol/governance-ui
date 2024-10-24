@@ -19,7 +19,7 @@ import { differenceInWeeks } from "date-fns";
 
 import { ExtendedLock } from "@/lib/hooks/useLockInfo";
 import { TxModal } from "../_shared/tx-modal/tx-modal.component";
-import useLockedAmount from "@/lib/contracts/locking/useLockedAmount";
+import { ManageLockFormData } from "./hooks/useMangeLockForm";
 
 export enum MANAGE_LOCK_TX_STATUS {
   PENDING = "PENDING",
@@ -65,7 +65,7 @@ export const ManageLockProvider = ({
   lockToManage,
   className,
 }: IManageLockProvider) => {
-  const { watch, handleSubmit } = useFormContext();
+  const { watch, handleSubmit } = useFormContext<ManageLockFormData>();
   const [isTxModalOpen, setIsTxModalOpen] = React.useState(false);
   const { address } = useAccount();
   const contracts = useContracts();
@@ -73,14 +73,13 @@ export const ManageLockProvider = ({
     owner: address,
     spender: contracts.Locking.address,
   });
-  const { data: lockedBalance } = useLockedAmount();
-  const newLockAmount = watch(LOCKING_AMOUNT_FORM_KEY);
-  const newExpirationDate = watch(LOCKING_DURATION_FORM_KEY);
-  const parsedAmount = parseEther(newLockAmount);
-
   const { currentWeek: currentLockingWeek } = useLockingWeek();
   const { refetch } = useLocksByAccount({ account: address! });
 
+  const additionalAmountToLock = watch(LOCKING_AMOUNT_FORM_KEY);
+  const newExpirationDate = watch(LOCKING_DURATION_FORM_KEY);
+
+  const parsedAdditionalAmountToLock = parseEther(additionalAmountToLock);
   const newSlope = React.useMemo(() => {
     if (!newExpirationDate) return 0;
 
@@ -104,24 +103,21 @@ export const ManageLockProvider = ({
 
   const relock = useRelockMento({
     newSlope,
-    newAmount: newLockAmount,
+    additionalAmountToLock: parsedAdditionalAmountToLock,
     lock: lockToManage,
     onSuccess: () => {
       onLockConfirmation?.();
       refetch();
-    },
-    onError: (error) => {
-      // Sentry.captureException(error);
     },
   });
 
   const approve = useApprove({ onConfirmation: relock.relockMento });
 
   const needsApproval = React.useMemo(() => {
-    if (!newLockAmount) return false;
+    if (parsedAdditionalAmountToLock === 0n) return false;
     if (!allowance.data) return true;
-    return allowance?.data < parsedAmount + lockedBalance!;
-  }, [allowance.data, parsedAmount, lockedBalance]);
+    return allowance?.data < parsedAdditionalAmountToLock;
+  }, [allowance.data, parsedAdditionalAmountToLock]);
 
   const manageLockTxStatus = React.useMemo(() => {
     if (approve.error || relock.error) return MANAGE_LOCK_TX_STATUS.ERROR;
@@ -152,9 +148,18 @@ export const ManageLockProvider = ({
     if (!needsApproval) {
       relock.relockMento();
     } else {
-      approve.approveMento(contracts.Locking.address, 60937237692917706720836n);
+      approve.approveMento(
+        contracts.Locking.address,
+        parsedAdditionalAmountToLock,
+      );
     }
-  }, [relock, approve, needsApproval, contracts.Locking.address, parsedAmount]);
+  }, [
+    relock,
+    approve,
+    needsApproval,
+    contracts.Locking.address,
+    parsedAdditionalAmountToLock,
+  ]);
 
   const reset = React.useCallback(() => {
     approve.reset();

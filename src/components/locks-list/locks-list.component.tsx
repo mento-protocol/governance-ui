@@ -10,6 +10,8 @@ import {
 import { useLockInfo } from "@/lib/hooks/useLockInfo";
 import { RelockForm } from "./locks-relock-form/relock-form.component";
 import useTokens from "@/lib/contracts/useTokens";
+import { formatUnits, parseUnits } from "viem";
+import NumbersService from "@/lib/helpers/numbers.service";
 
 export const LocksList = () => {
   const { address } = useAccount();
@@ -47,7 +49,9 @@ export const LocksList = () => {
   return (
     <LockInfo
       unlockedMento={unlockedMento}
-      lockedBalance={veMentoBalance.formatted}
+      lockedBalance={Number(
+        formatUnits(veMentoBalance.value, 18),
+      ).toLocaleString()}
       expirationDate={parsedExpirationDate}
     >
       <LockInfoActions>

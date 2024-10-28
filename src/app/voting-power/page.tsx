@@ -12,7 +12,7 @@ const Page = () => {
     <main className="flex flex-col place-items-center gap-14">
       <div className="flex w-full flex-col gap-4 text-center md:gap-6">
         <h2 className="mb-4 mt-[56px] text-[22px]/none font-medium md:text-[32px]/none">
-          Your existing veMENTO lock
+          Your voting power
         </h2>
         <LocksList />
       </div>

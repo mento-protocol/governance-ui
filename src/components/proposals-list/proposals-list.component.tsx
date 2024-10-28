@@ -2,7 +2,7 @@
 import NumbersService from "@/lib/helpers/numbers.service";
 import StringService from "@/lib/helpers/string.service";
 import BaseComponentProps from "@/lib/interfaces/base-component-props.interface";
-import { ProgressBar, Status } from "@/components/_shared";
+import { Card, ProgressBar, Status } from "@/components/_shared";
 import Link from "next/link";
 import { stateToStatusColorMap } from "@/lib/interfaces/proposal.interface";
 import { formatUnits } from "viem";
@@ -28,10 +28,10 @@ const ProposalsTable = () => {
   const { proposals } = useProposals();
   if (proposals?.length === 0) {
     return (
-      <div className="flex flex-col items-center justify-center overflow-hidden text-center text-[18px] md:text-[22px]">
+      <Card className="flex flex-col items-center justify-center">
         <EmptyProposals />
         There are no proposals to display yet
-      </div>
+      </Card>
     );
   }
   return (

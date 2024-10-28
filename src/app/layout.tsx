@@ -63,14 +63,16 @@ export default function RootLayout({ children }: RootLayoutProps) {
         suppressHydrationWarning={true}
       >
         <Providers>
-          <Header />
-          <MaxWidthWrapper>
-            <Breadcrumbs />
-            {children}
-          </MaxWidthWrapper>
-          <LearnMore className="pt-x5" />
-          <Footer />
-          <Toaster />
+          <div className="flex min-h-screen flex-col">
+            <Header />
+            <MaxWidthWrapper>
+              <Breadcrumbs />
+              {children}
+            </MaxWidthWrapper>
+            <LearnMore className="pt-x5" />
+            <Footer />
+            <Toaster />
+          </div>
         </Providers>
         <Analytics />
       </body>

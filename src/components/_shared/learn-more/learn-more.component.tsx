@@ -12,7 +12,7 @@ export const LearnMore = ({ className, style }: LearnMoreProps) => {
   const pathname = usePathname();
 
   return (
-    <div className={cn("mt-x4", className)} style={style}>
+    <div className={cn("mb-auto mt-x4 ", className)} style={style}>
       <div className="mx-auto w-full max-w-[1120px]">
         {pathname === "/" && (
           <div className="flex flex-col items-center justify-between gap-x3 bg-black-off px-x5 py-0 lg:flex-row lg:pl-x13 lg:pr-x11">

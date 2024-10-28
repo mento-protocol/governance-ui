@@ -2,11 +2,6 @@
 import React from "react";
 import { useFormContext } from "react-hook-form";
 import BaseComponentProps from "@/interfaces/base-component-props.interface";
-import {
-  DEFAULT_CLIFF,
-  LOCKING_AMOUNT_FORM_KEY,
-  LOCKING_DURATION_FORM_KEY,
-} from "./constants";
 import { LockingFormProvider } from "./providers/locking-form-provider";
 import {
   LockingSlider,
@@ -15,6 +10,11 @@ import {
   LockingInput,
   LockingQuote,
 } from "./components";
+import {
+  DEFAULT_LOCKING_CLIFF,
+  LOCKING_AMOUNT_FORM_KEY,
+  LOCKING_DURATION_FORM_KEY,
+} from "@/lib/constants/locking";
 
 interface MentoLockProps extends BaseComponentProps {
   onLockConfirmation?: () => void;
@@ -48,7 +48,9 @@ const LockingFormLockingQuote = () => {
   const amount = watch(LOCKING_AMOUNT_FORM_KEY);
   const slope = watch(LOCKING_DURATION_FORM_KEY);
 
-  return <LockingQuote amount={amount} slope={slope} cliff={DEFAULT_CLIFF} />;
+  return (
+    <LockingQuote amount={amount} slope={slope} cliff={DEFAULT_LOCKING_CLIFF} />
+  );
 };
 const LockingLabel = ({ children }: { children: React.ReactNode }) => {
   return <div className="whitespace-nowrap text-[22px]">{children}</div>;

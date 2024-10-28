@@ -1,9 +1,7 @@
 "use client";
 
-import { useQueryClient } from "@tanstack/react-query";
-import { useEffect } from "react";
 import { Address, erc20Abi } from "viem";
-import { useBlockNumber, useReadContract } from "wagmi";
+import { useReadContract } from "wagmi";
 import { useContracts } from "../useContracts";
 import { useEnsureChainId } from "@/lib/hooks/useEnsureChainId";
 
@@ -18,7 +16,6 @@ export const useAllowance = ({
   spender,
   enabled = true,
 }: UseAllowance) => {
-  const queryClient = useQueryClient();
   const contracts = useContracts();
   const ensuredChainId = useEnsureChainId();
 
@@ -33,19 +30,19 @@ export const useAllowance = ({
     },
   });
 
-  const { data: blockNumber } = useBlockNumber({
-    chainId: ensuredChainId,
-    watch: true,
-  });
+  // const { data: blockNumber } = useBlockNumber({
+  //   chainId: ensuredChainId,
+  //   watch: true,
+  // });
 
-  useEffect(() => {
-    if (blockNumber) {
-      queryClient.invalidateQueries(
-        { queryKey: query.queryKey },
-        { cancelRefetch: false },
-      );
-    }
-  }, [blockNumber, queryClient, query.queryKey]);
+  // useEffect(() => {
+  //   if (blockNumber) {
+  //     queryClient.invalidateQueries(
+  //       { queryKey: query.queryKey },
+  //       { cancelRefetch: false },
+  //     );
+  //   }
+  // }, [blockNumber, queryClient, query.queryKey]);
 
   return query;
 };

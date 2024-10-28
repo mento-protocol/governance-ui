@@ -6,9 +6,11 @@
 import * as Sentry from "@sentry/nextjs";
 
 const SENTRY_DSN = process.env.SENTRY_DSN || process.env.NEXT_PUBLIC_SENTRY_DSN;
+const IS_PROD = process.env.NODE_ENV === "production";
 
 Sentry.init({
   dsn: SENTRY_DSN,
+  enabled: IS_PROD,
 
   // Adjust this value in production, or use tracesSampler for greater control
   tracesSampleRate: 1,

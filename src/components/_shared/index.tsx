@@ -39,3 +39,5 @@ export { MaxWidthWrapper } from "./max-width-wrapper";
 export { MobileAccordionMenu } from "./mobile-accordion-menu";
 export { CurrencyInput } from "./currency-input/currency-input.component";
 export { Toaster } from "./toaster/toaster.component";
+export * from "./sheet/sheet.component";
+export * from "./scroll-area/scroll-area.component";

@@ -5,7 +5,10 @@ import {
   eachDayOfInterval,
   isWednesday,
   nextWednesday,
+  startOfWeek,
+  subWeeks,
 } from "date-fns";
+import { MAX_LOCKING_DURATION_WEEKS } from "../constants/locking";
 
 export default abstract class LockingHelper {
   public static addYearsAndAdjustToNextWednesday(
@@ -52,4 +55,42 @@ export default abstract class LockingHelper {
       ...this.getDaysExceptWednesday(),
     ];
   };
+
+  public static calculateMaxExtensionWeeks(
+    currentLockingWeek: number,
+    lockTime: number | undefined,
+    lockSlope: number | undefined,
+  ): number {
+    if (lockTime === undefined || lockSlope === undefined) {
+      return 0;
+    }
+
+    const weeksPassed = currentLockingWeek - lockTime;
+    const remainingWeeks = MAX_LOCKING_DURATION_WEEKS - lockSlope;
+    return Math.max(remainingWeeks + weeksPassed, 0);
+  }
+
+  public static calculateExpirationDate(
+    currentWeek: number,
+    weekLocked: number,
+    cliff: number,
+    slope: number,
+  ): Date {
+    // Calculate weeks passed since lock
+    const weeksPassed = currentWeek - weekLocked;
+
+    // Calculate remaining weeks in the vesting schedule
+    const remainingWeeks = cliff + slope - weeksPassed;
+
+    // Calculate the initial lock date by subtracting weeks passed from the start of the current week
+    const startOfCurrentWeek = startOfWeek(new Date(), { weekStartsOn: 3 });
+    const initialLockDate = nextWednesday(
+      subWeeks(startOfCurrentWeek, weeksPassed),
+    );
+
+    // Add the remaining weeks to the initial lock date
+    let expirationDate = addWeeks(initialLockDate, remainingWeeks);
+
+    return expirationDate;
+  }
 }

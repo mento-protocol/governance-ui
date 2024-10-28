@@ -6,10 +6,10 @@ import {
   nextWednesday,
 } from "date-fns";
 import { Controller, useFormContext } from "react-hook-form";
-import { LOCKING_DURATION_FORM_KEY } from "../constants";
 
 import { DatePicker } from "../../date-picker/date-picker.component";
 import LockingHelper from "@/lib/helpers/locking";
+import { LOCKING_DURATION_FORM_KEY } from "@/lib/constants/locking";
 
 export const LockingDayPicker = () => {
   const { control, watch } = useFormContext();

@@ -9,28 +9,30 @@ import { LockingABI } from "@/lib/abi/Locking";
 import { Address } from "viem";
 import { WriteContractErrorType } from "wagmi/actions";
 import useLockedAmount from "./useLockedAmount";
-import { ExtendedLock } from "@/lib/hooks/useLockInfo";
+import * as Sentry from "@sentry/nextjs";
+import { IS_PROD } from "../../../middleware";
+import { LockWithExpiration } from "@/lib/interfaces/lock.interface";
+
 interface RelockMentoParams {
   newDelegate?: Address;
-  newAmount?: bigint;
+  additionalAmountToLock?: bigint;
   newSlope: number;
   newCliff?: number;
-  onSuccess?: () => void;
-  onError?: (error?: WriteContractErrorType) => void;
-  lock: ExtendedLock;
+  lock: LockWithExpiration;
+  onConfirmation?: () => void;
 }
 
 const useRelockMento = ({
   lock,
-  newAmount,
+  additionalAmountToLock,
   newCliff,
   newDelegate,
-  onError,
-  onSuccess,
   newSlope,
+  onConfirmation,
 }: RelockMentoParams) => {
   const contracts = useContracts();
-  const { data: lockedBalance } = useLockedAmount();
+  const { data: lockedBalance, refetch: refetchLockedBalance } =
+    useLockedAmount();
 
   const {
     writeContract,
@@ -42,14 +44,22 @@ const useRelockMento = ({
   const lockingArgs = React.useMemo(() => {
     if (!lock || !lockedBalance || typeof newSlope !== "number") return null;
 
+    const newTotalLockedAmount = (additionalAmountToLock ?? 0n) + lockedBalance;
     return [
       lock.lockId,
       newDelegate ?? lock.owner?.id,
-      newAmount ?? lockedBalance,
+      newTotalLockedAmount,
       newSlope,
       newCliff ?? lock.cliff,
     ] as const;
-  }, [lock, lockedBalance, newAmount, newCliff, newDelegate, newSlope]);
+  }, [
+    lock,
+    lockedBalance,
+    additionalAmountToLock,
+    newCliff,
+    newDelegate,
+    newSlope,
+  ]);
 
   const lockingConfig = React.useMemo(() => {
     if (!lockingArgs) return null;
@@ -69,13 +79,52 @@ const useRelockMento = ({
       hash: data,
     });
 
-  const relockMento = useCallback(() => {
-    if (!lockingConfig) return;
-    writeContract(lockingConfig, {
+  React.useEffect(() => {
+    if (isConfirmed && onConfirmation) {
+      refetchLockedBalance();
+      restWrite.reset();
+      onConfirmation();
+    }
+  }, [isConfirmed, onConfirmation, restWrite, refetchLockedBalance]);
+
+  const relockMento = useCallback(
+    ({
       onSuccess,
       onError,
-    });
-  }, [lockingConfig, onError, onSuccess, writeContract]);
+    }: {
+      onSuccess?: () => void;
+      onError?: (error?: WriteContractErrorType) => void;
+    } = {}) => {
+      if (!lockingConfig) return;
+      writeContract(lockingConfig, {
+        onSuccess,
+        onError: (error) => {
+          if (!IS_PROD) {
+            console.log(error);
+          }
+
+          Sentry.captureException(error, {
+            data: {
+              function: "useRelockMento",
+              lockId: lock.lockId,
+              user: lock.owner?.id,
+              contract: contracts.Locking.address,
+              contractArgs: JSON.stringify(lockingArgs),
+            },
+          });
+          onError?.(error);
+        },
+      });
+    },
+    [
+      contracts.Locking.address,
+      lock.lockId,
+      lock.owner?.id,
+      lockingArgs,
+      lockingConfig,
+      writeContract,
+    ],
+  );
 
   return {
     canRelock: simulation.isSuccess,

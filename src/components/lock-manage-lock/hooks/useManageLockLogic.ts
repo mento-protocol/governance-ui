@@ -15,7 +15,6 @@ import useApprove from "@/lib/contracts/mento/useApprove";
 import { useContracts } from "@/lib/contracts/useContracts";
 import { parseEther } from "viem";
 import { useAccount } from "wagmi";
-import useLocksByAccount from "@/lib/contracts/locking/useLocksByAccount";
 import useRelockMento from "@/lib/contracts/locking/useRelockMento";
 import {
   MANAGE_LOCK_TX_STATUS,

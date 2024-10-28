@@ -8,7 +8,6 @@ import {
 import { Address, erc20Abi } from "viem";
 import { WriteContractErrorType } from "wagmi/actions";
 import * as Sentry from "@sentry/nextjs";
-import { IS_PROD } from "../../../middleware";
 
 const useApprove = ({
   onConfirmation,

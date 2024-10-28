@@ -10,8 +10,7 @@ import {
 import { useLockInfo } from "@/lib/hooks/useLockInfo";
 import { RelockForm } from "./locks-relock-form/relock-form.component";
 import useTokens from "@/lib/contracts/useTokens";
-import { formatUnits, parseUnits } from "viem";
-import NumbersService from "@/lib/helpers/numbers.service";
+import { formatUnits } from "viem";
 
 export const LocksList = () => {
   const { address } = useAccount();

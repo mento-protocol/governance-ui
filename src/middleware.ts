@@ -23,33 +23,33 @@ export function middleware(request: NextRequest, event: NextFetchEvent) {
         transport: http(),
       });
 
-      let valid = false;
-      const fetch = async () => {
-        try {
-          const proposal = await publicClient.readContract({
+      return new Promise((resolve) => {
+        publicClient
+          .readContract({
             address: Celo.contracts.MentoGovernor.address,
             abi: GovernorABI,
             functionName: "proposals",
             args: [BigInt(id)],
+          })
+          .then((proposal) => {
+            if (proposal) {
+              resolve(NextResponse.next());
+            } else {
+              const url = new URL("/", request.url);
+              console.log("Proposal not found, redirecting");
+              resolve(NextResponse.redirect(url.origin));
+            }
+          })
+          .catch((error) => {
+            console.log("Proposal not found on Celo chain, redirecting");
+            const url = new URL("/", request.url);
+            resolve(NextResponse.redirect(url.origin));
           });
-
-          if (proposal) {
-            console.log("found");
-            valid = true;
-          }
-        } catch (error) {
-          console.log("Proposal not found on Celo chain, redirecting");
-        }
-      };
-      event.waitUntil(fetch());
-
-      if (valid) {
-        return NextResponse.next();
-      } else {
-        return NextResponse.redirect(new URL("/", request.url));
-      }
+      });
     } else {
-      return NextResponse.redirect(new URL("/", request.url));
+      console.log("Proposal ID not found, redirecting");
+      const url = new URL("/", request.url);
+      return NextResponse.redirect(url.origin);
     }
   }
 }

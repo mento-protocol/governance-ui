@@ -8,7 +8,7 @@ import {
 } from "@rainbow-me/rainbowkit/wallets";
 import { createConfig, http } from "wagmi";
 import { valora } from "@/config/valora.wallet";
-import { IS_PROD } from "../middleware";
+import { IS_PROD } from "@/lib/constants/utils";
 
 const connectors = connectorsForWallets(
   [

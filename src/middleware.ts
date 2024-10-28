@@ -5,7 +5,7 @@ import type { NextFetchEvent, NextRequest } from "next/server";
 import { createPublicClient, http } from "viem";
 
 export const config = {
-  matcher: ["/proposals/:id*"],
+  matcher: [],
 };
 
 export const IS_PROD = process.env.NEXT_PUBLIC_VERCEL_ENV === "production";

@@ -1,7 +1,7 @@
 import { useAccount, useChains } from "wagmi";
 import { MentoChain, MentoChainContracts } from "@/lib/types";
 import { Celo, Alfajores } from "@/config/chains";
-import { IS_PROD } from "../../middleware";
+import { IS_PROD } from "@/lib/constants/utils";
 
 export const useContracts = (): MentoChainContracts => {
   const chains = useChains();

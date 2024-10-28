@@ -23,8 +23,9 @@ import useTokens from "@/lib/contracts/useTokens";
 import { useAccount, useDisconnect } from "wagmi";
 import { cn } from "@/styles/helpers";
 import NumbersService from "@/lib/helpers/numbers.service";
-import { IS_PROD } from "../../../middleware";
+
 import { useAddTokens } from "@/lib/hooks/useAddTokens";
+import { IS_PROD } from "@/lib/constants/utils";
 
 interface ConnectedDropdownProps extends BaseComponentProps {
   fullwidth?: boolean;

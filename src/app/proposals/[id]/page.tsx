@@ -20,10 +20,14 @@ import Participants from "./_components/participants.component";
 import { Countdown, ProposalCurrentVotes } from "@/components/index";
 import { ensureChainId } from "@/lib/helpers/ensureChainId";
 import { ProposalState } from "@/lib/graphql";
+import useProposals from "@/lib/contracts/governor/useProposals";
+import { useRouter } from "next/navigation";
 
 const Page = ({ params: { id } }: { params: { id: string } }) => {
   const { proposal } = useProposal(BigInt(id));
   const { chainId } = useAccount();
+  const { proposals, isLoading } = useProposals();
+  const router = useRouter();
 
   const { data: currentBlock } = useBlockNumber({
     watch: true,
@@ -36,6 +40,10 @@ const Page = ({ params: { id } }: { params: { id: string } }) => {
       enabled: proposal !== undefined,
     },
   });
+
+  if (!isLoading && !proposals.find((proposal) => proposal.proposalId === id)) {
+    router.replace("/");
+  }
 
   // There should really ever be 1 ProposalCreated event per proposal so we just take the first one
   const proposedOn = useMemo(() => {

@@ -7,7 +7,7 @@ import {
   createStorage,
   useDisconnect,
 } from "wagmi";
-import { IS_PROD } from "../../middleware";
+import { IS_PROD } from "@/lib/constants/utils";
 import { Modal } from "@/components/_shared/modal/modal.component";
 import { Button } from "@/components/_shared";
 

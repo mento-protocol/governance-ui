@@ -9,10 +9,12 @@ import {
 } from "../locks-lock-info/lock-info.component";
 import { useLockInfo } from "@/lib/hooks/useLockInfo";
 import { RelockForm } from "./locks-relock-form/relock-form.component";
+import useTokens from "@/lib/contracts/useTokens";
 
 export const LocksList = () => {
   const { address } = useAccount();
-  const { lock, unlockedMento, lockedBalance, hasLock } = useLockInfo(address);
+  const { lock, unlockedMento, hasLock } = useLockInfo(address);
+  const { veMentoBalance } = useTokens();
 
   if (!address) {
     return (
@@ -41,7 +43,7 @@ export const LocksList = () => {
   return (
     <LockInfo
       unlockedMento={unlockedMento}
-      lockedBalance={lockedBalance}
+      lockedBalance={veMentoBalance.formatted}
       expirationDate={parsedExpirationDate}
     >
       <LockInfoActions>

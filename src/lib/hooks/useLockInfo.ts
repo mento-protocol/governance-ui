@@ -5,48 +5,12 @@ import React from "react";
 import useTokens from "@/lib/contracts/useTokens";
 import useLockingWeek from "../contracts/locking/useLockingWeek";
 import { formatUnits } from "viem";
-import {
-  addDays,
-  addWeeks,
-  isWednesday,
-  nextWednesday,
-  startOfWeek,
-  subWeeks,
-} from "date-fns";
+
 import type { Lock } from "@/lib/graphql/subgraph/generated/subgraph";
+import LockingHelper from "../helpers/locking";
 
 export interface ExtendedLock extends Lock {
   expiration: Date;
-}
-
-function calculateExpirationDate(
-  currentWeek: number,
-  weekLocked: number,
-  cliff: number,
-  slope: number,
-): Date {
-  // Calculate weeks passed since lock
-  const weeksPassed = currentWeek - weekLocked;
-
-  // Calculate remaining weeks in the vesting schedule
-  const remainingWeeks = cliff + slope - weeksPassed;
-
-  // Calculate the initial lock date by subtracting weeks passed from the start of the current week
-  const startOfCurrentWeek = startOfWeek(new Date(), { weekStartsOn: 3 });
-  const initialLockDate = nextWednesday(
-    subWeeks(startOfCurrentWeek, weeksPassed),
-  );
-
-  // Add the remaining weeks to the initial lock date
-  let expirationDate = addWeeks(initialLockDate, remainingWeeks);
-
-  // Ensure the expiration date is the next Wednesday if it's already a Wednesday,
-  // otherwise move to the Wednesday after
-  expirationDate = isWednesday(expirationDate)
-    ? nextWednesday(addDays(expirationDate, 1))
-    : nextWednesday(expirationDate);
-
-  return expirationDate;
 }
 
 const formatNumber = (value: bigint | undefined, decimals: number): string =>
@@ -79,7 +43,7 @@ export const useLockInfo = (address: string | undefined) => {
     }
     return {
       ...lastLock,
-      expiration: calculateExpirationDate(
+      expiration: LockingHelper.calculateExpirationDate(
         Number(currentLockingWeek),
         lastLock?.time,
         lastLock?.slope,
@@ -94,7 +58,7 @@ export const useLockInfo = (address: string | undefined) => {
     }
     return locks
       .filter((lock) => {
-        const expiration = calculateExpirationDate(
+        const expiration = LockingHelper.calculateExpirationDate(
           Number(currentLockingWeek),
           lock?.time,
           lock?.slope,

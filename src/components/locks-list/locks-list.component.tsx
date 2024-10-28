@@ -16,6 +16,8 @@ export const LocksList = () => {
   const { lock, unlockedMento, hasLock } = useLockInfo(address);
   const { veMentoBalance } = useTokens();
 
+  const noVotingPower = veMentoBalance.value < BigInt(0);
+
   if (!address) {
     return (
       <Card block>
@@ -26,7 +28,7 @@ export const LocksList = () => {
     );
   }
 
-  if (!hasLock) {
+  if (!hasLock && noVotingPower) {
     return (
       <Card block>
         <div className="text-center">You have no existing locks</div>
@@ -38,7 +40,9 @@ export const LocksList = () => {
     return <>loading...</>;
   }
 
-  const parsedExpirationDate = format(lock.expiration, "dd/MM/yyyy");
+  const parsedExpirationDate = hasLock
+    ? format(lock?.expiration, "dd/MM/yyyy")
+    : "-";
 
   return (
     <LockInfo

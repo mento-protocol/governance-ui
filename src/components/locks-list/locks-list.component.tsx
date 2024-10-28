@@ -17,7 +17,7 @@ export const LocksList = () => {
   const { lock, unlockedMento, hasLock } = useLockInfo(address);
   const { veMentoBalance } = useTokens();
 
-  const noVotingPower = veMentoBalance.value < BigInt(0);
+  const noVotingPower = veMentoBalance.value === BigInt(0);
 
   if (!address) {
     return (

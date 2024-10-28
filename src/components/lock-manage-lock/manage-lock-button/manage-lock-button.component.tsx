@@ -1,6 +1,5 @@
-import React, { useState } from "react";
-import { addWeeks, nextWednesday } from "date-fns";
-import { Lock } from "@/lib/graphql/subgraph/generated/subgraph";
+import React from "react";
+import { addWeeks } from "date-fns";
 
 import { cn } from "@/styles/helpers";
 import {
@@ -8,30 +7,26 @@ import {
   DatePicker,
   Sheet,
   SheetTrigger,
-  SheetDescription,
   SheetContent,
+  SheetTitle,
 } from "@/components/_shared";
+import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 import { Calendar } from "@/components/_shared/calendar/calendar.component";
 import { variants } from "@/components/_shared/button/button.component";
-import { ExtendedLock } from "@/lib/hooks/useLockInfo";
 import { MangeLockFormProvider } from "../manage-lock-form-provider";
-import LockingHelper from "@/lib/helpers/locking";
-import { useFormContext } from "react-hook-form";
+
 import { useManageLock } from "../manage-lock.provider";
-import useLockingWeek from "@/lib/contracts/locking/useLockingWeek";
+
 import { LockingInput } from "@/components/_shared/mento-lock/components";
-import { LOCKING_DURATION_FORM_KEY } from "@/lib/constants/locking";
-import { Switch } from "@headlessui/react";
+
+import { ManageLockSwitch } from "../manage-lock-switch/manage-lock-switch.component";
+import { LockWithExpiration } from "@/lib/interfaces/lock.interface";
 
 export interface ManageLockButtonProps {
-  lock: ExtendedLock;
+  lock: LockWithExpiration;
 }
 
-export const ManageLockButton = ({
-  lock,
-}: {
-  lock: Lock & { expiration: Date };
-}) => {
+export const ManageLockButton = ({ lock }: ManageLockButtonProps) => {
   return (
     <MangeLockFormProvider lock={lock} className="h-full">
       <MobileRelockForm />
@@ -42,46 +37,30 @@ export const ManageLockButton = ({
 
 const MobileRelockForm = () => {
   const {
-    watch,
-    setValue,
-    reset,
-    formState: { isValid },
-  } = useFormContext();
-  const selectedDate = watch(LOCKING_DURATION_FORM_KEY);
-  const { lockToManage } = useManageLock();
-  const { currentWeek } = useLockingWeek();
+    lockToManage,
+    maxExtensionWeeks,
+    disabledDays,
+    selectedDate,
+    onDateSelection,
+    shouldUpdateLockingAmount,
+    setShouldUpdateLockingAmount,
+  } = useManageLock();
 
-  const maxExtensionWeeks = LockingHelper.calculateMaxExtensionWeeks(
-    Number(currentWeek),
-    lockToManage.time,
-    lockToManage.slope,
-  );
-
-  const disabledDays = [
-    { before: nextWednesday(lockToManage.expiration) },
-    ...LockingHelper.getDaysExceptWednesday(),
-  ];
-
-  const onDateSelection = (date: Date) => {
-    setValue(LOCKING_DURATION_FORM_KEY, date);
-  };
-
-  const [shouldUpdateLockingAmount, setShouldUpdateLockingAmount] =
-    useState(false);
+  const [open, setOpen] = React.useState(false);
 
   return (
-    <Sheet>
-      <SheetTrigger
-        onAbort={reset}
-        className="border-none p-0 text-black underline transition-[color] duration-200 ease-out visited:text-primary-dark hover:text-primary active:text-primary-dark dark:text-white md:hidden"
-      >
-        Extend Lock
+    <Sheet open={open} onOpenChange={setOpen} modal={false}>
+      <VisuallyHidden>
+        <SheetTitle>Manage Lock</SheetTitle>
+      </VisuallyHidden>
+      <SheetTrigger className="border-none p-0 text-black underline transition-[color] duration-200 ease-out visited:text-primary-dark hover:text-primary active:text-primary-dark dark:text-white md:hidden">
+        Manage Lock
       </SheetTrigger>
       <SheetContent
-        className="flex items-center justify-center bg-white dark:bg-black-off"
+        className="flex items-center justify-center border-t border-black bg-white dark:bg-black-off"
         side="bottom"
       >
-        <SheetDescription className="flex w-full flex-col items-center justify-center gap-4 px-4">
+        <div className="flex w-full flex-col items-center justify-center gap-4 px-4">
           <Calendar
             defaultMonth={lockToManage?.expiration}
             fromMonth={lockToManage?.expiration}
@@ -91,27 +70,13 @@ const MobileRelockForm = () => {
             selected={selectedDate}
             onDayClick={onDateSelection}
           />
-          <div className="flex w-full items-center justify-between gap-2">
-            <label>Add additional MENTO</label>
-            <Switch
-              checked={shouldUpdateLockingAmount}
-              onChange={() => setShouldUpdateLockingAmount((last) => !last)}
-              className={`${
-                shouldUpdateLockingAmount ? "bg-blue-600" : "bg-gray-200"
-              } relative inline-flex h-6 w-11 items-center rounded-full border border-black transition-colors`}
-            >
-              <span
-                className={`${
-                  shouldUpdateLockingAmount ? "translate-x-6" : "translate-x-1"
-                } inline-block size-4 transform rounded-full bg-black transition-transform`}
-              />
-            </Switch>
-          </div>
+          <ManageLockSwitch
+            checked={shouldUpdateLockingAmount}
+            onChange={setShouldUpdateLockingAmount}
+          />
           {shouldUpdateLockingAmount && <LockingInput />}
-          <Button disabled={!isValid} fullwidth theme="primary" type="submit">
-            Confirm
-          </Button>
-        </SheetDescription>
+          <ManageLockConfirmButton onSuccess={() => setOpen(false)} />
+        </div>
       </SheetContent>
     </Sheet>
   );
@@ -119,32 +84,17 @@ const MobileRelockForm = () => {
 
 const DesktopRelockForm = () => {
   const {
-    watch,
-    setValue,
-    formState: { isValid },
+    lockToManage,
+    maxExtensionWeeks,
+    disabledDays,
+    selectedDate,
+    onDateSelection,
+    shouldUpdateLockingAmount,
+    setShouldUpdateLockingAmount,
     reset,
-  } = useFormContext();
-  const selectedDate = watch(LOCKING_DURATION_FORM_KEY);
-  const { lockToManage } = useManageLock();
-  const { currentWeek } = useLockingWeek();
+  } = useManageLock();
 
-  const maxExtensionWeeks = LockingHelper.calculateMaxExtensionWeeks(
-    Number(currentWeek),
-    lockToManage.time,
-    lockToManage.slope,
-  );
-
-  const disabledDays = [
-    { before: nextWednesday(lockToManage.expiration) },
-    ...LockingHelper.getDaysExceptWednesday(),
-  ];
-
-  const onDateSelection = (date: Date) => {
-    setValue(LOCKING_DURATION_FORM_KEY, date);
-  };
-
-  const [shouldUpdateLockingAmount, setShouldUpdateLockingAmount] =
-    useState(false);
+  const ref = React.useRef<HTMLButtonElement>(null);
 
   return (
     <DatePicker
@@ -159,37 +109,46 @@ const DesktopRelockForm = () => {
       onClose={reset}
     >
       <DatePicker.Button
+        closeButtonRef={ref}
         className={cn(
           variants({ theme: "clear" }),
-          "h-[62px] w-fit items-center justify-items-center",
+          "h-full w-fit items-center justify-items-center font-medium",
         )}
       >
-        Mange Lock
+        Manage Lock
       </DatePicker.Button>
       <DatePicker.Panel className="items-center">
-        <div className="flex w-[250px] flex-col items-center justify-center gap-4 px-2 pb-4">
-          <div className="flex w-full items-center justify-between gap-2">
-            <label>Add additional MENTO</label>
-            <Switch
-              checked={shouldUpdateLockingAmount}
-              onChange={() => setShouldUpdateLockingAmount((last) => !last)}
-              className={`${
-                shouldUpdateLockingAmount ? "bg-blue-600" : "bg-gray-200"
-              } relative inline-flex h-6 w-11 items-center rounded-full border border-black transition-colors`}
-            >
-              <span
-                className={`${
-                  shouldUpdateLockingAmount ? "translate-x-6" : "translate-x-1"
-                } inline-block size-4 transform rounded-full bg-black transition-transform`}
-              />
-            </Switch>
-          </div>
+        <div className="flex w-[250px] flex-col items-center justify-center gap-2 px-2 pb-4">
+          <ManageLockSwitch
+            checked={shouldUpdateLockingAmount}
+            onChange={setShouldUpdateLockingAmount}
+          />
           {shouldUpdateLockingAmount && <LockingInput />}
-          <Button disabled={!isValid} fullwidth theme={"primary"} type="submit">
-            Confirm
-          </Button>
+          <ManageLockConfirmButton onSuccess={() => ref.current?.click()} />
         </div>
       </DatePicker.Panel>
     </DatePicker>
+  );
+};
+
+const ManageLockConfirmButton = ({ onSuccess }: { onSuccess?: () => void }) => {
+  const { isValid, submit, isAwaitingUserSignature, isSubmitting } =
+    useManageLock();
+
+  return (
+    <Button
+      disabled={!isValid || isSubmitting}
+      fullwidth
+      theme="primary"
+      onClick={
+        isSubmitting
+          ? () => ({})
+          : () => {
+              submit({ onSuccess });
+            }
+      }
+    >
+      {isAwaitingUserSignature ? "Continue in wallet" : "Confirm"}
+    </Button>
   );
 };

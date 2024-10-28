@@ -5,11 +5,13 @@ import { useAccount } from "wagmi";
 import { WithdrawButton } from "../lock-withdraw/withdraw-button";
 import { useLockInfo } from "@/lib/hooks/useLockInfo";
 import { ManageLockButton } from "../lock-manage-lock/manage-lock-button/manage-lock-button.component";
+import useTokens from "@/lib/contracts/useTokens";
 
 export const LockInfo = () => {
   const { address } = useAccount();
-  const { lock, unlockedMento, lockedBalance, hasLock, hasMultipleLocks } =
+  const { lock, unlockedMento, hasLock, hasMultipleLocks } =
     useLockInfo(address);
+  const { veMentoBalance } = useTokens();
 
   if (!address) {
     return (
@@ -39,14 +41,14 @@ export const LockInfo = () => {
     <Card className="flex flex-col gap-4 md:flex-row md:justify-between md:gap-20">
       <div className="flex flex-1 flex-wrap items-end justify-between md:flex-nowrap md:items-stretch">
         <InfoItem title="MENTO" value={unlockedMento} />
-        <InfoItem title="veMENTO" value={lockedBalance} />
+        <InfoItem title="veMENTO" value={veMentoBalance.formatted} />
         <InfoItem title="Expires On" value={parsedExpirationDate} />
       </div>
       <div className="flex items-center justify-between md:justify-normal md:gap-4">
         <WithdrawButton />
         {hasMultipleLocks ? (
           <Button theme={"clear"} disabled>
-            Manage Locks
+            Manage Lock
           </Button>
         ) : (
           <ManageLockButton lock={lock} />

@@ -14,6 +14,7 @@ type DatePickerProps = CalendarProps & {
 interface DatePickerButtonProps {
   children: React.ReactNode;
   className?: string;
+  closeButtonRef?: React.RefObject<HTMLButtonElement>;
 }
 
 interface DatePickerPanelProps {
@@ -24,9 +25,11 @@ interface DatePickerPanelProps {
 const DatePickerButton: React.FC<DatePickerButtonProps> = ({
   children,
   className,
+  closeButtonRef,
 }) => {
   return (
     <Popover.Button
+      ref={closeButtonRef}
       className={cn(
         "w-full rounded-[4px] border border-gray-light p-1 text-left",
         className,

@@ -29,7 +29,7 @@ export const Loader = ({
       <div className="relative h-x12 w-x12">
         <div className="absolute left-[50%] top-[50%] translate-x-[-50%] translate-y-[-50%]">
           <MentoIcon
-            logoColor={`fill-${logoColor} dark:fill-white`}
+            logoColor={`${logoColor} dark:fill-white`}
             backgroundColor={backgroundColor}
           />
         </div>

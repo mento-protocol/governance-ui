@@ -32,7 +32,7 @@ export const LockingInput = () => {
   return (
     <Controller
       control={control}
-      render={({ field: { onChange, ...rest } }) => (
+      render={({ field: { onChange, ref, ...rest } }) => (
         <CurrencyInput
           onMax={onMax}
           onChange={(value) => {
@@ -40,6 +40,7 @@ export const LockingInput = () => {
             trigger(LOCKING_DURATION_FORM_KEY);
           }}
           errorMessage={errorMessage}
+          inputRef={ref}
           {...rest}
         />
       )}

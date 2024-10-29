@@ -24,27 +24,35 @@ export function middleware(request: NextRequest, event: NextFetchEvent) {
       });
 
       return new Promise((resolve) => {
-        publicClient
-          .readContract({
-            address: Celo.contracts.MentoGovernor.address,
-            abi: GovernorABI,
-            functionName: "proposals",
-            args: [BigInt(id)],
-          })
-          .then((proposal) => {
-            if (proposal) {
-              resolve(NextResponse.next());
-            } else {
+        try {
+          const parsedId = BigInt(id);
+
+          publicClient
+            .readContract({
+              address: Celo.contracts.MentoGovernor.address,
+              abi: GovernorABI,
+              functionName: "proposals",
+              args: [BigInt(parsedId)],
+            })
+            .then((proposal) => {
+              if (proposal) {
+                resolve(NextResponse.next());
+              } else {
+                const url = new URL("/", request.url);
+                console.log("Proposal not found, redirecting");
+                resolve(NextResponse.redirect(url.origin));
+              }
+            })
+            .catch((error) => {
+              console.log("Proposal not found on Celo chain, redirecting");
               const url = new URL("/", request.url);
-              console.log("Proposal not found, redirecting");
               resolve(NextResponse.redirect(url.origin));
-            }
-          })
-          .catch((error) => {
-            console.log("Proposal not found on Celo chain, redirecting");
-            const url = new URL("/", request.url);
-            resolve(NextResponse.redirect(url.origin));
-          });
+            });
+        } catch (error) {
+          console.log("Proposal ID not found, redirecting");
+          const url = new URL("/", request.url);
+          resolve(NextResponse.redirect(url.origin));
+        }
       });
     } else {
       console.log("Proposal ID not found, redirecting");

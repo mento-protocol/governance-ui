@@ -23,11 +23,7 @@ export const LockingButton = () => {
     handleSubmit,
   } = useFormContext();
 
-  const { activeLocks } = useLockInfo(address);
-
-  const hasActiveLocks = React.useMemo(() => {
-    return activeLocks.length > 0;
-  }, [activeLocks]);
+  const { hasActiveLock } = useLockInfo(address);
 
   const amount = watch(LOCKING_AMOUNT_FORM_KEY);
 
@@ -44,18 +40,18 @@ export const LockingButton = () => {
       return <>Approve MENTO</>;
     }
 
-    if (hasActiveLocks) {
+    if (hasActiveLock) {
       return <>You have an existing lock, re-lock above </>;
     }
     return <>Lock MENTO</>;
-  }, [CreateLockApprovalStatus, amount, hasActiveLocks, isBalanceInsufficient]);
+  }, [CreateLockApprovalStatus, amount, hasActiveLock, isBalanceInsufficient]);
 
   const shouldButtonBeDisabled =
     !isValid ||
     isBalanceInsufficient ||
     CreateLockTxStatus === CREATE_LOCK_TX_STATUS.CONFIRMING_APPROVE_TX ||
     CreateLockTxStatus === CREATE_LOCK_TX_STATUS.AWAITING_SIGNATURE ||
-    hasActiveLocks;
+    hasActiveLock;
 
   return (
     <Button
@@ -74,7 +70,7 @@ export const LockingButton = () => {
         We don't support multiple locks, however this component allows this. 
         We'll need to refactor this component to be disabled if users already have an active lock. 
         */
-        if (hasActiveLocks) {
+        if (hasActiveLock) {
           e.preventDefault();
           return;
         }

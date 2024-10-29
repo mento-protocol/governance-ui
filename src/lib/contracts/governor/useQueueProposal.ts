@@ -6,7 +6,7 @@ import { WriteContractErrorType } from "wagmi/actions";
 import { useQueryClient } from "@tanstack/react-query";
 import { ProposalQueryKey } from "@/lib/contracts/governor/useProposal";
 
-const useCastVote = () => {
+const useQueueProposal = () => {
   const queryClient = useQueryClient();
   const contracts = useContracts();
   const {
@@ -20,10 +20,9 @@ const useCastVote = () => {
       hash: data,
     });
 
-  const castVote = useCallback(
+  const queueProposal = useCallback(
     (
       proposalId: bigint,
-      support: number,
       onSuccess?: () => void,
       onError?: (error?: WriteContractErrorType) => void,
     ) => {
@@ -31,8 +30,8 @@ const useCastVote = () => {
         {
           address: contracts.MentoGovernor.address,
           abi: GovernorABI,
-          functionName: "castVote",
-          args: [proposalId, support],
+          functionName: "queue",
+          args: [BigInt(proposalId).valueOf()],
         },
         {
           onSuccess: () => {
@@ -50,7 +49,7 @@ const useCastVote = () => {
 
   return {
     hash: data,
-    castVote,
+    queueProposal,
     isAwaitingUserSignature,
     isConfirming,
     isConfirmed,
@@ -58,4 +57,4 @@ const useCastVote = () => {
   };
 };
 
-export default useCastVote;
+export default useQueueProposal;

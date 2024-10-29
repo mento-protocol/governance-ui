@@ -14,11 +14,12 @@ import {
   Status,
   WalletAddressWithCopy,
 } from "@/components/_shared";
-import Vote from "@/app/proposals/[id]/_components/vote.component";
-import ExecutionCode from "@/app/proposals/[id]/_components/execution-code.component";
-import Participants from "@/app/proposals/[id]/_components/participants.component";
+import ProposalActions from "./_components/proposal-actions";
+import ExecutionCode from "./_components/execution-code.component";
+import Participants from "./_components/participants.component";
 import { Countdown, ProposalCurrentVotes } from "@/components/index";
 import { ensureChainId } from "@/lib/helpers/ensureChainId";
+import { ProposalState } from "@/lib/graphql";
 
 const Page = ({ params: { id } }: { params: { id: string } }) => {
   const { proposal } = useProposal(BigInt(id));
@@ -60,117 +61,128 @@ const Page = ({ params: { id } }: { params: { id: string } }) => {
   }, [currentBlock, endBlock.data, proposal]);
 
   const timeLockDeadLine = useMemo(() => {
-    if (proposal && proposal.state === "Queued" && proposal.proposalQueued[0]) {
+    if (
+      proposal &&
+      proposal.state === ProposalState.Queued &&
+      proposal.proposalQueued[0]
+    ) {
       return new Date(Number(proposal.proposalQueued[0].eta) * 1000);
     }
   }, [proposal]);
 
+  if (!proposal) {
+    return <div>Proposal not found</div>;
+  }
+
   return (
     <main className="flex flex-col">
-      {!proposal && <div>Proposal not found</div>}
-      {proposal && (
-        <>
-          <div className="mb-4 mt-6">
-            <Status
-              text={proposal.state.toString()}
-              type={stateToStatusColorMap[proposal.state]}
-            />
-          </div>
-          <div className="flex flex-col gap-x1 md:grid md:grid-cols-7">
-            <div className="md:col-span-4 md:col-start-1">
-              <h1 className="text-[56px]/none font-medium">
-                <Suspense fallback={<Loader isCenter />}>
-                  {proposal.metadata?.title}
-                </Suspense>
-              </h1>
-            </div>
-            <div className="md:col-span-3 md:col-start-5">
-              {timeLockDeadLine &&
-                timeLockDeadLine.getTime() >= new Date().getTime() && (
-                  <Countdown
-                    endTimestamp={timeLockDeadLine.getTime()}
-                    updateIntervalInMs={1000}
-                  />
-                )}
-              {proposal.state === "Active" && votingDeadline && (
+      <div className="mb-4 mt-6 flex items-center justify-between">
+        <Status
+          text={proposal.state.toString()}
+          type={stateToStatusColorMap[proposal.state]}
+        />
+        <div className="lg:hidden">
+          {timeLockDeadLine &&
+            timeLockDeadLine.getTime() >= new Date().getTime() && (
+              <Countdown
+                endTimestamp={timeLockDeadLine.getTime()}
+                updateIntervalInMs={1000}
+              />
+            )}
+        </div>
+      </div>
+      <div className="flex flex-col gap-x1 md:grid md:grid-cols-7">
+        <div className="md:col-span-4 md:col-start-1">
+          <h1 className="text-[56px]/none font-medium">
+            <Suspense fallback={<Loader isCenter />}>
+              {proposal.metadata?.title}
+            </Suspense>
+          </h1>
+        </div>
+        <div className="md:col-span-3 md:col-start-5">
+          <div className="hidden lg:flex">
+            {timeLockDeadLine &&
+              timeLockDeadLine.getTime() >= new Date().getTime() && (
                 <Countdown
-                  endTimestamp={votingDeadline.getTime()}
+                  endTimestamp={timeLockDeadLine.getTime()}
                   updateIntervalInMs={1000}
                 />
               )}
-            </div>
           </div>
-          <div className="mt-12 flex flex-wrap place-items-center justify-start gap-x6 font-inter ">
-            <div className="flex place-items-center gap-x2">
-              <Suspense fallback={<Loader isCenter />}>
-                <Avatar address={proposal.proposer.id} />
-                by{" "}
-                <span className="font-medium">
-                  <WalletAddressWithCopy address={proposal.proposer.id} />
-                </span>
-              </Suspense>
-            </div>
-            <div className="flex place-items-center gap-x2">
-              <span className="font-light">Proposed on:</span>
-              <span className="">
-                <Suspense fallback={<Loader isCenter />}>
-                  {proposedOn && (
-                    <BlockExplorerLink
-                      className=" no-underline "
-                      type="block"
-                      item={proposal.startBlock}
-                    >
-                      {format(proposedOn, "MMMM do, yyyy 'at' hh:mm a")}
-                    </BlockExplorerLink>
-                  )}
-                </Suspense>
-              </span>
-            </div>
-            <div className="flex place-items-center gap-x2">
-              <span className="font-light">Voting deadline:</span>
-              <span className="">
-                {votingDeadline && (
-                  <BlockExplorerLink
-                    className=" no-underline"
-                    type="block"
-                    item={proposal.endBlock}
-                  >
-                    {format(votingDeadline, "MMMM do, yyyy 'at' hh:mm a")}{" "}
-                  </BlockExplorerLink>
-                )}
-              </span>
-            </div>
-          </div>
-          <div className="mt-14 flex flex-col place-items-start gap-y-16 md:flex-row md:justify-between md:gap-1">
-            <div className="w-full max-w-2xl flex-1">
-              {proposal.votes ? (
-                <ProposalCurrentVotes
-                  proposal={proposal}
-                  className="md:mb-x6"
-                />
-              ) : (
-                <Loader isCenter />
+          {proposal.state === ProposalState.Active && votingDeadline && (
+            <Countdown
+              endTimestamp={votingDeadline.getTime()}
+              updateIntervalInMs={1000}
+            />
+          )}
+        </div>
+      </div>
+      <div className="mt-4 flex flex-wrap place-items-center justify-start gap-x6 font-inter lg:mt-12 ">
+        <div className="flex place-items-center gap-x2">
+          <Suspense fallback={<Loader isCenter />}>
+            <Avatar address={proposal.proposer.id} />
+            by{" "}
+            <span className="font-medium">
+              <WalletAddressWithCopy address={proposal.proposer.id} />
+            </span>
+          </Suspense>
+        </div>
+        <div className="flex place-items-center gap-x2">
+          <span className="font-light">Proposed on:</span>
+          <span className="">
+            <Suspense fallback={<Loader isCenter />}>
+              {proposedOn && (
+                <BlockExplorerLink
+                  className=" no-underline "
+                  type="block"
+                  item={proposal.startBlock}
+                >
+                  {format(proposedOn, "MMMM do, yyyy 'at' hh:mm a")}
+                </BlockExplorerLink>
               )}
-              <div className="my-x6 md:hidden">
-                <Vote proposal={proposal} />
-              </div>
-              <h3 className="my-8 flex justify-center text-3xl font-medium">
-                Proposal Description
-              </h3>
-              <Suspense fallback={<Loader isCenter />}>
-                <MarkdownView markdown={proposal.metadata?.description} />
-              </Suspense>
-              {proposal.calls && <ExecutionCode calls={proposal.calls} />}
-            </div>
-            <div className="flex flex-col gap-x11 md:max-w-[350px]">
-              <div className="hidden md:block">
-                <Vote proposal={proposal} />
-              </div>
-              {proposal.votes && <Participants votes={proposal.votes} />}
-            </div>
+            </Suspense>
+          </span>
+        </div>
+        <div className="flex place-items-center gap-x2">
+          <span className="font-light">Voting deadline:</span>
+          <span className="">
+            {votingDeadline && (
+              <BlockExplorerLink
+                className=" no-underline"
+                type="block"
+                item={proposal.endBlock}
+              >
+                {format(votingDeadline, "MMMM do, yyyy 'at' hh:mm a")}{" "}
+              </BlockExplorerLink>
+            )}
+          </span>
+        </div>
+      </div>
+      <div className="mt-14 flex flex-col place-items-start gap-y-16 md:flex-row md:justify-between md:gap-1">
+        <div className="w-full max-w-2xl flex-1">
+          {proposal.votes ? (
+            <ProposalCurrentVotes proposal={proposal} className="md:mb-x6" />
+          ) : (
+            <Loader isCenter />
+          )}
+          <div className="my-x6 md:hidden">
+            <ProposalActions proposal={proposal} />
           </div>
-        </>
-      )}
+          <h3 className="my-8 flex justify-center text-3xl font-medium">
+            Proposal Description
+          </h3>
+          <Suspense fallback={<Loader isCenter />}>
+            <MarkdownView markdown={proposal.metadata?.description} />
+          </Suspense>
+          {proposal.calls && <ExecutionCode calls={proposal.calls} />}
+        </div>
+        <div className="flex flex-col gap-x11 md:max-w-[350px]">
+          <div className="hidden md:block">
+            <ProposalActions proposal={proposal} />
+          </div>
+          {proposal.votes && <Participants votes={proposal.votes} />}
+        </div>
+      </div>
     </main>
   );
 };

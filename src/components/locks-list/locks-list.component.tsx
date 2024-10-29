@@ -9,10 +9,15 @@ import {
 } from "../locks-lock-info/lock-info.component";
 import { useLockInfo } from "@/lib/hooks/useLockInfo";
 import { RelockForm } from "./locks-relock-form/relock-form.component";
+import useTokens from "@/lib/contracts/useTokens";
+import { formatUnits } from "viem";
 
 export const LocksList = () => {
   const { address } = useAccount();
-  const { lock, unlockedMento, lockedBalance, hasLock } = useLockInfo(address);
+  const { lock, unlockedMento, hasLock } = useLockInfo(address);
+  const { veMentoBalance } = useTokens();
+
+  const noVotingPower = veMentoBalance.value === BigInt(0);
 
   if (!address) {
     return (
@@ -24,7 +29,7 @@ export const LocksList = () => {
     );
   }
 
-  if (!hasLock) {
+  if (!hasLock && noVotingPower) {
     return (
       <Card block>
         <div className="text-center">You have no existing locks</div>
@@ -36,12 +41,16 @@ export const LocksList = () => {
     return <>loading...</>;
   }
 
-  const parsedExpirationDate = format(lock.expiration, "dd/MM/yyyy");
+  const parsedExpirationDate = hasLock
+    ? format(lock?.expiration, "dd/MM/yyyy")
+    : "-";
 
   return (
     <LockInfo
       unlockedMento={unlockedMento}
-      lockedBalance={lockedBalance}
+      lockedBalance={Number(
+        formatUnits(veMentoBalance.value, 18),
+      ).toLocaleString()}
       expirationDate={parsedExpirationDate}
     >
       <LockInfoActions>

@@ -92,11 +92,13 @@ export const ProgressBar = ({
   return (
     <div
       className={cn(
-        "flex flex-col items-end justify-center text-right font-fg text-[22px]/[22px] font-normal",
+        "flex flex-col items-end justify-center text-right font-fg text-[16px] font-normal md:text-[22px]",
         className,
       )}
     >
-      <div>{parsedValue}</div>
+      <div className="-mt-[3px] inline-block border-black pb-[8px] align-top leading-none">
+        {parsedValue}
+      </div>
       <div
         className="flex h-[8px] w-full rounded-3xl border-[0.5px] border-solid border-black dark:border-gray"
         style={{

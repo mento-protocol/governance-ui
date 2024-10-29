@@ -1,7 +1,8 @@
 import WalletHelper from "@/lib/helpers/wallet.helper";
-import { Card, Loader, VotingCardTitle } from "@/components/_shared";
+import { Loader } from "@/components/_shared";
 import { Proposal } from "@/lib/graphql";
-import { VoteTypePill } from "../vote-cast-vote";
+import { VoteTypePill } from "./vote-type-pill";
+import { ProposalActionTitle } from "../proposal-action-title";
 
 export const VoteConfirmation = ({
   voteType,
@@ -11,8 +12,8 @@ export const VoteConfirmation = ({
   proposalId: Proposal["proposalId"];
 }) => {
   return (
-    <Card>
-      <VotingCardTitle />
+    <>
+      <ProposalActionTitle />
       <div className="mt-x2 flex flex-col gap-x3 text-center">
         <span className="text-md">Confirm your vote</span>
         <Loader
@@ -39,6 +40,6 @@ export const VoteConfirmation = ({
           Proceed in your wallet
         </span>
       </div>
-    </Card>
+    </>
   );
 };

@@ -9,10 +9,12 @@ export const config = {
 };
 
 export const IS_PROD = process.env.NEXT_PUBLIC_VERCEL_ENV === "production";
+export const IS_DEV = process.env.NEXT_PUBLIC_VERCEL_ENV === "development";
+export const IS_PREVIEW = process.env.NEXT_PUBLIC_VERCEL_ENV === "preview";
 
 export function middleware(request: NextRequest, event: NextFetchEvent) {
   const { pathname } = request.nextUrl;
-  if (!IS_PROD) return NextResponse.next();
+  if (!IS_PROD && !IS_DEV && !IS_PREVIEW) return NextResponse.next();
 
   if (pathname.startsWith("/proposals")) {
     const [, , id] = pathname.split("/");

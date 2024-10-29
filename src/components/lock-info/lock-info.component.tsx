@@ -1,17 +1,24 @@
 import { format } from "date-fns";
-import React from "react";
+import React, { useMemo } from "react";
 import { Button, Card } from "../_shared";
 import { useAccount } from "wagmi";
 import { WithdrawButton } from "../lock-withdraw/withdraw-button";
 import { useLockInfo } from "@/lib/hooks/useLockInfo";
 import { ManageLockButton } from "../lock-manage-lock/manage-lock-button/manage-lock-button.component";
 import useTokens from "@/lib/contracts/useTokens";
+import { formatUnits } from "viem";
 
 export const LockInfo = () => {
   const { address } = useAccount();
   const { lock, unlockedMento, hasLock, hasMultipleLocks } =
     useLockInfo(address);
   const { veMentoBalance } = useTokens();
+
+  const noVotingPower = veMentoBalance.value === BigInt(0);
+
+  const formattedVeMentoBalance = useMemo(() => {
+    return Number(formatUnits(veMentoBalance.value, 18)).toLocaleString();
+  }, [veMentoBalance.value]);
 
   if (!address) {
     return (
@@ -23,7 +30,7 @@ export const LockInfo = () => {
     );
   }
 
-  if (!hasLock) {
+  if (!hasLock && noVotingPower) {
     return (
       <Card block>
         <div className="text-center">You have no existing locks</div>
@@ -35,13 +42,15 @@ export const LockInfo = () => {
     return <>loading...</>;
   }
 
-  const parsedExpirationDate = format(lock.expiration, "dd/MM/yyyy");
+  const parsedExpirationDate = hasLock
+    ? format(lock?.expiration, "dd/MM/yyyy")
+    : "-";
 
   return (
     <Card className="flex flex-col gap-4 md:flex-row md:justify-between md:gap-20">
       <div className="flex flex-1 flex-wrap items-end justify-between md:flex-nowrap md:items-stretch">
         <InfoItem title="MENTO" value={unlockedMento} />
-        <InfoItem title="veMENTO" value={veMentoBalance.formatted} />
+        <InfoItem title="veMENTO" value={formattedVeMentoBalance} />
         <InfoItem title="Expires On" value={parsedExpirationDate} />
       </div>
       <div className="flex items-center justify-between md:justify-normal md:gap-4">

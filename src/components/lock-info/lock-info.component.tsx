@@ -1,6 +1,6 @@
 import { format } from "date-fns";
 import React, { useMemo } from "react";
-import { Button, Card } from "../_shared";
+import { Card } from "../_shared";
 import { useAccount } from "wagmi";
 import { WithdrawButton } from "../lock-withdraw/withdraw-button";
 import { useLockInfo } from "@/lib/hooks/useLockInfo";
@@ -10,8 +10,7 @@ import { formatUnits } from "viem";
 
 export const LockInfo = () => {
   const { address } = useAccount();
-  const { lock, unlockedMento, hasLock, hasMultipleLocks } =
-    useLockInfo(address);
+  const { lock, unlockedMento, hasLock } = useLockInfo(address);
   const { veMentoBalance } = useTokens();
 
   const noVotingPower = veMentoBalance.value === BigInt(0);
@@ -55,13 +54,7 @@ export const LockInfo = () => {
       </div>
       <div className="flex items-center justify-between md:justify-normal md:gap-4">
         <WithdrawButton />
-        {hasMultipleLocks ? (
-          <Button theme={"clear"} disabled>
-            Manage Lock
-          </Button>
-        ) : (
-          <ManageLockButton lock={lock} />
-        )}
+        <ManageLockButton lock={lock} />
       </div>
     </Card>
   );

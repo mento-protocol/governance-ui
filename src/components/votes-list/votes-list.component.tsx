@@ -18,6 +18,9 @@ export const VotesList = ({
   voteTypeTotal,
   totalVotes,
 }: VotesListProps) => {
+  console.log();
+  console.log();
+  console.log();
   return (
     <div className={className}>
       <div className="flex flex-row items-center justify-between pb-4 text-lg">
@@ -57,11 +60,11 @@ const getParticipantPercentage = (
   participant: Participant,
   totalVotes: bigint,
 ) => {
+  console.log("participant", participant);
   // If there are no votes, we need to avoid division by zero
   if (totalVotes > 0n) {
     const decimals = 8;
     const accuracy = 10n ** BigInt(decimals);
-
     const weightScaled = participant.weight * 100n;
 
     const valueInRawBN = (weightScaled * accuracy) / totalVotes;

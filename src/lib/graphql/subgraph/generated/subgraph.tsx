@@ -7286,7 +7286,7 @@ export enum _SubgraphErrorPolicy_ {
   Deny = 'deny'
 }
 
-export type ProposalFieldsFragment = { __typename?: 'Proposal', proposalId: any, description: string, startBlock: any, endBlock: any, queued: boolean, canceled: boolean, executed: boolean, state: ProposalState, proposer: { __typename?: 'Account', id: any }, proposalCreated: Array<{ __typename?: 'ProposalCreated', timestamp: any }>, proposalQueued: Array<{ __typename?: 'ProposalQueued', eta: any }>, proposalExecuted: Array<{ __typename?: 'ProposalExecuted', transaction: { __typename?: 'Transaction', id: string, timestamp: any } }>, votecast: Array<{ __typename?: 'VoteCast', timestamp: any, voter: { __typename?: 'Account', id: any }, support: { __typename?: 'ProposalSupport', support: number, weight: any } }>, metadata: { __typename?: 'ProposalMetadata', title: string, description: string }, votes: { __typename?: 'ProposalVotes', total: any, for: { __typename?: 'VoteType', total: any, participants: Array<{ __typename?: 'Participant', address: string, weight: any }> }, against: { __typename?: 'VoteType', total: any, participants: Array<{ __typename?: 'Participant', address: string, weight: any }> }, abstain: { __typename?: 'VoteType', total: any, participants: Array<{ __typename?: 'Participant', address: string, weight: any }> } } };
+export type ProposalFieldsFragment = { __typename?: 'Proposal', proposalId: any, description: string, startBlock: any, endBlock: any, queued: boolean, canceled: boolean, executed: boolean, state: ProposalState, proposer: { __typename?: 'Account', id: any }, proposalCreated: Array<{ __typename?: 'ProposalCreated', timestamp: any }>, proposalQueued: Array<{ __typename?: 'ProposalQueued', eta: any }>, proposalExecuted: Array<{ __typename?: 'ProposalExecuted', transaction: { __typename?: 'Transaction', id: string, timestamp: any } }>, votecast: Array<{ __typename?: 'VoteCast', id: string, receipt: { __typename?: 'VoteReceipt', id: string, weight: any, voter: { __typename?: 'Account', id: any }, support: { __typename?: 'ProposalSupport', id: string, support: number } } }>, metadata: { __typename?: 'ProposalMetadata', title: string, description: string }, votes: { __typename?: 'ProposalVotes', total: any, for: { __typename?: 'VoteType', total: any, participants: Array<{ __typename?: 'Participant', address: string, weight: any }> }, against: { __typename?: 'VoteType', total: any, participants: Array<{ __typename?: 'Participant', address: string, weight: any }> }, abstain: { __typename?: 'VoteType', total: any, participants: Array<{ __typename?: 'Participant', address: string, weight: any }> } } };
 
 export type GetAllLocksQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -7313,12 +7313,12 @@ export type GetProposalQueryVariables = Exact<{
 }>;
 
 
-export type GetProposalQuery = { __typename?: 'Query', proposals: Array<{ __typename?: 'Proposal', proposalId: any, description: string, startBlock: any, endBlock: any, queued: boolean, canceled: boolean, executed: boolean, state: ProposalState, calls: Array<{ __typename?: 'ProposalCall', index: number, value: any, signature: string, calldata: any, target: { __typename?: 'Account', id: any } }>, proposer: { __typename?: 'Account', id: any }, proposalCreated: Array<{ __typename?: 'ProposalCreated', timestamp: any }>, proposalQueued: Array<{ __typename?: 'ProposalQueued', eta: any }>, proposalExecuted: Array<{ __typename?: 'ProposalExecuted', transaction: { __typename?: 'Transaction', id: string, timestamp: any } }>, votecast: Array<{ __typename?: 'VoteCast', timestamp: any, voter: { __typename?: 'Account', id: any }, support: { __typename?: 'ProposalSupport', support: number, weight: any } }>, metadata: { __typename?: 'ProposalMetadata', title: string, description: string }, votes: { __typename?: 'ProposalVotes', total: any, for: { __typename?: 'VoteType', total: any, participants: Array<{ __typename?: 'Participant', address: string, weight: any }> }, against: { __typename?: 'VoteType', total: any, participants: Array<{ __typename?: 'Participant', address: string, weight: any }> }, abstain: { __typename?: 'VoteType', total: any, participants: Array<{ __typename?: 'Participant', address: string, weight: any }> } } }> };
+export type GetProposalQuery = { __typename?: 'Query', proposals: Array<{ __typename?: 'Proposal', proposalId: any, description: string, startBlock: any, endBlock: any, queued: boolean, canceled: boolean, executed: boolean, state: ProposalState, calls: Array<{ __typename?: 'ProposalCall', index: number, value: any, signature: string, calldata: any, target: { __typename?: 'Account', id: any } }>, proposer: { __typename?: 'Account', id: any }, proposalCreated: Array<{ __typename?: 'ProposalCreated', timestamp: any }>, proposalQueued: Array<{ __typename?: 'ProposalQueued', eta: any }>, proposalExecuted: Array<{ __typename?: 'ProposalExecuted', transaction: { __typename?: 'Transaction', id: string, timestamp: any } }>, votecast: Array<{ __typename?: 'VoteCast', id: string, receipt: { __typename?: 'VoteReceipt', id: string, weight: any, voter: { __typename?: 'Account', id: any }, support: { __typename?: 'ProposalSupport', id: string, support: number } } }>, metadata: { __typename?: 'ProposalMetadata', title: string, description: string }, votes: { __typename?: 'ProposalVotes', total: any, for: { __typename?: 'VoteType', total: any, participants: Array<{ __typename?: 'Participant', address: string, weight: any }> }, against: { __typename?: 'VoteType', total: any, participants: Array<{ __typename?: 'Participant', address: string, weight: any }> }, abstain: { __typename?: 'VoteType', total: any, participants: Array<{ __typename?: 'Participant', address: string, weight: any }> } } }> };
 
 export type GetProposalsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetProposalsQuery = { __typename?: 'Query', proposals: Array<{ __typename?: 'Proposal', proposalId: any, description: string, startBlock: any, endBlock: any, queued: boolean, canceled: boolean, executed: boolean, state: ProposalState, proposer: { __typename?: 'Account', id: any }, proposalCreated: Array<{ __typename?: 'ProposalCreated', timestamp: any }>, proposalQueued: Array<{ __typename?: 'ProposalQueued', eta: any }>, proposalExecuted: Array<{ __typename?: 'ProposalExecuted', transaction: { __typename?: 'Transaction', id: string, timestamp: any } }>, votecast: Array<{ __typename?: 'VoteCast', timestamp: any, voter: { __typename?: 'Account', id: any }, support: { __typename?: 'ProposalSupport', support: number, weight: any } }>, metadata: { __typename?: 'ProposalMetadata', title: string, description: string }, votes: { __typename?: 'ProposalVotes', total: any, for: { __typename?: 'VoteType', total: any, participants: Array<{ __typename?: 'Participant', address: string, weight: any }> }, against: { __typename?: 'VoteType', total: any, participants: Array<{ __typename?: 'Participant', address: string, weight: any }> }, abstain: { __typename?: 'VoteType', total: any, participants: Array<{ __typename?: 'Participant', address: string, weight: any }> } } }> };
+export type GetProposalsQuery = { __typename?: 'Query', proposals: Array<{ __typename?: 'Proposal', proposalId: any, description: string, startBlock: any, endBlock: any, queued: boolean, canceled: boolean, executed: boolean, state: ProposalState, proposer: { __typename?: 'Account', id: any }, proposalCreated: Array<{ __typename?: 'ProposalCreated', timestamp: any }>, proposalQueued: Array<{ __typename?: 'ProposalQueued', eta: any }>, proposalExecuted: Array<{ __typename?: 'ProposalExecuted', transaction: { __typename?: 'Transaction', id: string, timestamp: any } }>, votecast: Array<{ __typename?: 'VoteCast', id: string, receipt: { __typename?: 'VoteReceipt', id: string, weight: any, voter: { __typename?: 'Account', id: any }, support: { __typename?: 'ProposalSupport', id: string, support: number } } }>, metadata: { __typename?: 'ProposalMetadata', title: string, description: string }, votes: { __typename?: 'ProposalVotes', total: any, for: { __typename?: 'VoteType', total: any, participants: Array<{ __typename?: 'Participant', address: string, weight: any }> }, against: { __typename?: 'VoteType', total: any, participants: Array<{ __typename?: 'Participant', address: string, weight: any }> }, abstain: { __typename?: 'VoteType', total: any, participants: Array<{ __typename?: 'Participant', address: string, weight: any }> } } }> };
 
 export const ProposalFieldsFragmentDoc = gql`
     fragment ProposalFields on Proposal {
@@ -7340,13 +7340,17 @@ export const ProposalFieldsFragmentDoc = gql`
     }
   }
   votecast {
-    timestamp
-    voter {
+    id
+    receipt {
       id
-    }
-    support {
-      support
+      voter {
+        id
+      }
       weight
+      support {
+        id
+        support
+      }
     }
   }
   startBlock

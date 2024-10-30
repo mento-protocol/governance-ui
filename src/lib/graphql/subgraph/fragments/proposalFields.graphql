@@ -22,6 +22,9 @@ fragment ProposalFields on Proposal {
   # Votes
   votecast {
     id
+    support{
+      weight
+    }
     receipt {
       id
       voter {

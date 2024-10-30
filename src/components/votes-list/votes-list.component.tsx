@@ -18,9 +18,6 @@ export const VotesList = ({
   voteTypeTotal,
   totalVotes,
 }: VotesListProps) => {
-  console.log();
-  console.log();
-  console.log();
   return (
     <div className={className}>
       <div className="flex flex-row items-center justify-between pb-4 text-lg">
@@ -60,7 +57,6 @@ const getParticipantPercentage = (
   participant: Participant,
   totalVotes: bigint,
 ) => {
-  console.log("participant", participant);
   // If there are no votes, we need to avoid division by zero
   if (totalVotes > 0n) {
     const decimals = 8;
@@ -73,7 +69,7 @@ const getParticipantPercentage = (
 
     if (formatted.includes(".")) {
       const [integers, remainingDecimals] = formatted.split(".");
-      return `${integers}.${remainingDecimals.substring(0, 2)}%`;
+      return `${integers}.${remainingDecimals.substring(0, 5)}%`;
     } else {
       return `${formatted}%`;
     }

@@ -6,8 +6,7 @@ import { LockInfo } from "@/components/lock-info/lock-info.component";
 
 const Page = () => {
   const { address } = useAccount();
-  const lockInfo = useLockInfo(address);
-  const { hasActiveLock, isLoading, refetch } = lockInfo;
+  const { hasActiveLock, isLoading, refetch } = useLockInfo(address);
 
   return (
     <main className="flex flex-col place-items-center gap-14">

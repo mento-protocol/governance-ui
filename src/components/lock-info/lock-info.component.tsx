@@ -19,6 +19,9 @@ export const LockInfo = () => {
   const formattedVeMentoBalance = useMemo(() => {
     return Number(formatUnits(veMentoBalance.value, 18)).toLocaleString();
   }, [veMentoBalance.value]);
+  const formattedUnlockedMentoBalance = useMemo(() => {
+    return Number(unlockedMento).toLocaleString();
+  }, [unlockedMento]);
 
   if (!address) {
     return (
@@ -49,7 +52,7 @@ export const LockInfo = () => {
   return (
     <Card className="flex flex-col gap-4 md:flex-row md:justify-between md:gap-20">
       <div className="flex flex-1 flex-wrap items-end justify-between md:flex-nowrap md:items-stretch">
-        <InfoItem title="MENTO" value={unlockedMento} />
+        <InfoItem title="MENTO" value={formattedUnlockedMentoBalance} />
         <InfoItem title="veMENTO" value={formattedVeMentoBalance} />
         <InfoItem title="Expires On" value={parsedExpirationDate} />
       </div>

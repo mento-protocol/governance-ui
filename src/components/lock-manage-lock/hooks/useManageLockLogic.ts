@@ -41,7 +41,7 @@ export const useManageLockLogic = (lockToManage: LockWithExpiration) => {
     spender: contracts.Locking.address,
   });
   const { currentWeek: currentLockingWeek } = useLockingWeek();
-  const { refetch: refetchLockInfo } = useLockInfo(address);
+  const { refetch: refetchLockInfo, hasMultipleLocks } = useLockInfo(address);
 
   // Form values
   const additionalAmountToLock = watch(LOCKING_AMOUNT_FORM_KEY);
@@ -160,6 +160,7 @@ export const useManageLockLogic = (lockToManage: LockWithExpiration) => {
   }, [approve, relock, resetForm]);
 
   return {
+    canManageLocks: !hasMultipleLocks,
     selectedDate: newExpirationDate,
     isValid,
     lockToManage,

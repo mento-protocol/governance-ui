@@ -38,6 +38,7 @@ export interface IManageLockContext {
   setIsTxModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
   isAwaitingUserSignature: boolean;
   isSubmitting: boolean;
+  canManageLocks: boolean;
 }
 
 const ManageLockContext = createContext<IManageLockContext | undefined>(

@@ -11,10 +11,13 @@ export default function ExecutionCode({ calls }: Props) {
 
   return (
     <div>
-      <h3 className="my-8 flex justify-center text-3xl font-medium">
+      <h3 className="my-8 hidden justify-center text-3xl font-medium md:flex">
         Execution Code
       </h3>
-      <Card>
+      <Card className="flex flex-col gap-6">
+        <h3 className="text-center text-[32px]/none font-medium md:hidden">
+          Execution Code
+        </h3>
         {formattedCalls.map((call, index) => (
           <div key={index} className="break-words">
             {index > 0 && <hr className="my-4" />}

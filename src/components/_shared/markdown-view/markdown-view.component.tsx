@@ -13,7 +13,9 @@ export const MarkdownView = ({ markdown }: MarkdownViewProps) => {
       className={cn("prose", styles.container, "max-w-none dark:prose-invert")}
     >
       {markdown && (
-        <ReactMarkdown remarkPlugins={[gfm]}>{markdown}</ReactMarkdown>
+        <ReactMarkdown className={"leading-snug"} remarkPlugins={[gfm]}>
+          {markdown}
+        </ReactMarkdown>
       )}
     </div>
   );

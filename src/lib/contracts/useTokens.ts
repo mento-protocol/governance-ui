@@ -6,6 +6,7 @@ import { erc20Abi } from "viem";
 import { useQueryClient } from "@tanstack/react-query";
 import { formatUnitsWithRadix } from "@/lib/helpers/numbers.service";
 import { useEnsureChainId } from "@/lib/hooks/useEnsureChainId";
+import { CELO_BLOCK_TIME } from "@/config/config.constants";
 
 export type TokenBalance = {
   decimals: number;
@@ -155,7 +156,7 @@ export const useTokens = () => {
     ],
     scopeKey: "token-hook",
     query: {
-      refetchInterval: 5000,
+      refetchInterval: CELO_BLOCK_TIME,
       enabled: isConnected && !!address,
       // initialData: [0n, 0n],
     },

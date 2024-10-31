@@ -50,7 +50,7 @@ export const Countdown = ({
   return (
     <div
       className={cn(
-        "mt-x3 flex items-center justify-center gap-x1 md:mt-0 md:justify-end ",
+        "mt-x3 flex items-center justify-center gap-6 md:mt-0 md:justify-end ",
         className,
       )}
       style={style}
@@ -64,7 +64,7 @@ export const Countdown = ({
         <CountdownNumber>{days}</CountdownNumber>
         <CountdownLabel>days</CountdownLabel>
       </div>
-      <div className="flex items-start">
+      <div className="flex items-start gap-3">
         <div
           className={cn(
             "flex min-w-x11 flex-col items-center justify-center gap-x2 md:min-w-x16 md:gap-x3",
@@ -97,12 +97,16 @@ export const Countdown = ({
 };
 
 const TimerSeparator = () => {
-  return <span className="flex h-auto p-0 text-[32px]/[0.75]">:</span>;
+  return (
+    <span className="flex h-auto p-0 text-[22px]/[0.75] md:text-[32px]/[0.75]">
+      :
+    </span>
+  );
 };
 
 const CountdownNumber = ({ children }: { children: React.ReactNode }) => {
   return (
-    <div className="md:text-x6 relative w-full text-center text-[32px]/none font-medium">
+    <div className="md:text-x6 relative w-full text-center text-[22px]/[0.75] font-medium md:text-[32px]/none">
       {children}
     </div>
   );

@@ -168,13 +168,15 @@ const DesktopRelockForm = () => {
             </span>
           </TooltipTrigger>
           <TooltipContent
+            side="top"
+            align="start"
             sideOffset={10}
             className="rounded-md border border-gray-light bg-white p-3 font-inter dark:border-white dark:bg-mento-dark"
           >
             <div className="flex items-center gap-2">
               <div>
                 <div className="flex items-center justify-center gap-2">
-                  <ExclamationIcon className="h-4 w-4 text-black" />
+                  <ExclamationIcon className="h-4 w-4 text-black dark:text-white" />
                   <p className="font-fg font-medium">Multiple Locks</p>
                 </div>
                 <p>Not support in the UI</p>

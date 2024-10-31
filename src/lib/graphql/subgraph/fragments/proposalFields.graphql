@@ -21,16 +21,22 @@ fragment ProposalFields on Proposal {
 
   # Votes
   votecast {
-    timestamp
-    voter {
-      id
-    }
-    support {
-      support
+    id
+    support{
       weight
     }
+    receipt {
+      id
+      voter {
+        id
+      }
+      weight
+      support {
+        id
+        support
+      }
+    }
   }
-
   # Start & End Time
   startBlock
   endBlock

@@ -10,14 +10,12 @@ type MarkdownViewProps = {
 export const MarkdownView = ({ markdown }: MarkdownViewProps) => {
   return (
     <div
-      className={cn(
-        "prose",
-        styles.container,
-        "max-w-none leading-snug dark:prose-invert",
-      )}
+      className={cn("prose", styles.container, "max-w-none dark:prose-invert")}
     >
       {markdown && (
-        <ReactMarkdown remarkPlugins={[gfm]}>{markdown}</ReactMarkdown>
+        <ReactMarkdown className={"leading-snug"} remarkPlugins={[gfm]}>
+          {markdown}
+        </ReactMarkdown>
       )}
     </div>
   );

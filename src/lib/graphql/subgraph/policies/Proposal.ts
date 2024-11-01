@@ -6,6 +6,7 @@ import {
   ProposalVotes,
   Scalars,
   VoteCast,
+  VoteReceipt,
 } from "@/lib/graphql/subgraph/generated/subgraph";
 
 type ProposalID = Scalars["ID"]["output"];
@@ -46,46 +47,28 @@ export const ProposalPolicy: TypePolicy = {
 
         return votecastRefs.reduce(
           (acc: ProposalVotes, votecastRef) => {
-            const voterRef = readField<Account>("voter", votecastRef);
-            const supportRef = readField<ProposalSupport>(
-              "support",
-              votecastRef,
-            );
-            const rawWeight = readField<string>("weight", supportRef) || "";
-            const weight = BigInt(rawWeight);
+            const receipt = readField<VoteReceipt>("receipt", votecastRef);
+            if (!receipt) return acc;
 
+            const voterRef = readField<Account>("voter", receipt);
+            const supportRef = readField<ProposalSupport>("support", receipt);
+            const weight = BigInt(readField<string>("weight", receipt) || "0");
             const address = readField<string>("id", voterRef) as Address;
-            const support = readField<ProposalSupport["support"]>(
-              "support",
-              supportRef,
-            );
-
+            const support = readField<number>("support", supportRef);
             switch (support) {
-              // AGAINST
-              case 0:
+              case 0: // AGAINST
                 acc.against.total += weight;
-                acc.against.participants.push({
-                  address,
-                  weight,
-                });
+                acc.against.participants.push({ address, weight });
                 break;
 
-              // FOR
-              case 1:
+              case 1: // FOR
                 acc.for.total += weight;
-                acc.for.participants.push({
-                  address,
-                  weight,
-                });
+                acc.for.participants.push({ address, weight });
                 break;
 
-              // ABSTAIN
-              case 2:
+              case 2: // ABSTAIN
                 acc.abstain.total += weight;
-                acc.abstain.participants.push({
-                  address,
-                  weight,
-                });
+                acc.abstain.participants.push({ address, weight });
                 break;
 
               default:
@@ -96,18 +79,9 @@ export const ProposalPolicy: TypePolicy = {
             return acc;
           },
           {
-            for: {
-              participants: [],
-              total: 0n,
-            },
-            against: {
-              participants: [],
-              total: 0n,
-            },
-            abstain: {
-              participants: [],
-              total: 0n,
-            },
+            for: { participants: [], total: 0n },
+            against: { participants: [], total: 0n },
+            abstain: { participants: [], total: 0n },
             total: 0n,
           },
         );

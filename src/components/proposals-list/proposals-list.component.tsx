@@ -15,7 +15,7 @@ interface ProposalsListProps extends BaseComponentProps {}
 export const ProposalsListComponent = ({ className }: ProposalsListProps) => {
   return (
     <div className={`w-full font-fg ${className}`}>
-      <h2 className="pb-[32px] pt-[30px] text-center text-[22px] font-medium md:pb-[30px] md:pt-[60px]">
+      <h2 className="pb-[32px] pt-[30px] text-center text-[32px] font-medium md:pt-[56px]">
         Proposals
       </h2>
       <ProposalsTable />

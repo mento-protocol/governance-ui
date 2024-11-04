@@ -1,22 +1,21 @@
 "use client";
+import { ProgressBar, Status } from "@/components/_shared";
+import useProposals from "@/lib/contracts/governor/useProposals";
+import { Proposal } from "@/lib/graphql/subgraph/generated/subgraph";
 import NumbersService from "@/lib/helpers/numbers.service";
 import StringService from "@/lib/helpers/string.service";
 import BaseComponentProps from "@/lib/interfaces/base-component-props.interface";
-import { ProgressBar, Status } from "@/components/_shared";
-import Link from "next/link";
 import { stateToStatusColorMap } from "@/lib/interfaces/proposal.interface";
+import Link from "next/link";
 import { formatUnits } from "viem";
-import useProposals from "@/lib/contracts/governor/useProposals";
-import { Proposal } from "@/lib/graphql/subgraph/generated/subgraph";
-import { EmptyProposals } from "../_icons";
-import { MentoIcon } from "../_icons";
+import { EmptyProposals, MentoIcon } from "../_icons";
 
 interface ProposalsListProps extends BaseComponentProps {}
 
 export const ProposalsListComponent = ({ className }: ProposalsListProps) => {
   return (
     <div className={`w-full font-fg ${className}`}>
-      <h2 className="pb-[32px] pt-[30px] text-center text-[22px] font-medium md:pb-[34px] md:pt-[76px]">
+      <h2 className="pb-[32px] pt-[30px] text-center text-[22px] font-medium md:pb-[30px] md:pt-[60px]">
         Proposals
       </h2>
       <ProposalsTable />

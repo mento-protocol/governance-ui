@@ -24,7 +24,7 @@ const DesktopHeader = () => {
             <MentoLogoIcon className="h-6 w-[108px]" />
           </Link>
           <HeaderNav />
-          <ConnectButton fullwidth={true} />
+          <ConnectButton />
         </div>
       </MaxWidthWrapper>
     </header>

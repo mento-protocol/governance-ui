@@ -13,7 +13,7 @@ import { useEnsureChainId } from "@/lib/hooks/useEnsureChainId";
 import { NetworkStatus } from "@apollo/client";
 import { useEffect, useMemo } from "react";
 import { useBlockNumber, useReadContract } from "wagmi";
-
+import { CELO_BLOCK_TIME } from "@/config/config.constants";
 export const ProposalQueryKey = "proposal";
 
 const useProposal = (proposalId: bigint) => {
@@ -50,7 +50,7 @@ const useProposal = (proposalId: bigint) => {
     scopeKey: ProposalQueryKey,
     chainId: ensuredChainId,
     query: {
-      refetchInterval: 5000,
+      refetchInterval: CELO_BLOCK_TIME,
       enabled:
         graphNetworkStatus === NetworkStatus.ready && graphProposals.length > 0,
     },

@@ -148,12 +148,16 @@ export const ConnectButton = ({
           <>
             <div
               className={cn(
-                fullwidth ? "" : "flex w-auto justify-center",
+                fullwidth ? "w-full" : "flex w-auto justify-center",
                 className,
               )}
             >
               {!connected ? (
-                <Button theme={theme || "secondary"} onClick={openConnectModal}>
+                <Button
+                  fullwidth={fullwidth}
+                  theme={theme || "secondary"}
+                  onClick={openConnectModal}
+                >
                   <div className="flex flex-row place-items-center justify-center gap-2">
                     <div>Connect wallet</div>
                     <ChevronIcon direction={"right"} />

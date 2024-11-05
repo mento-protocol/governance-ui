@@ -10,10 +10,7 @@ import { cn } from "@/styles/helpers";
 import Link from "next/link";
 import React from "react";
 import { formatUnits } from "viem";
-import { EmptyProposals } from "../_icons";
-import { MentoIcon } from "../_icons";
-import { cn } from "@/styles/helpers";
-import React from "react";
+import { EmptyProposals, MentoIcon } from "../_icons";
 
 interface ProposalsListProps extends BaseComponentProps {}
 

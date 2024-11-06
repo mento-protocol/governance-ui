@@ -61,7 +61,6 @@ const getParticipantPercentage = (
   if (totalVotes > 0n) {
     const decimals = 8;
     const accuracy = 10n ** BigInt(decimals);
-
     const weightScaled = participant.weight * 100n;
 
     const valueInRawBN = (weightScaled * accuracy) / totalVotes;
@@ -70,7 +69,7 @@ const getParticipantPercentage = (
 
     if (formatted.includes(".")) {
       const [integers, remainingDecimals] = formatted.split(".");
-      return `${integers}.${remainingDecimals.substring(0, 2)}%`;
+      return `${integers}.${remainingDecimals.substring(0, 5)}%`;
     } else {
       return `${formatted}%`;
     }

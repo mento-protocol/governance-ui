@@ -17,3 +17,5 @@ export const getSubgraphApiName = (chainId: number | undefined) => {
   if (!chainId || !isValidChainId(chainId)) return subgraphApiNames[0];
   return subgraphApiNames[chainId];
 };
+
+export const CELO_BLOCK_TIME = 5000; // 5 seconds

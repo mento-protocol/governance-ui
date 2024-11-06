@@ -21,7 +21,6 @@ export const useLockInfo = (address: string | undefined) => {
   const { currentWeek: currentLockingWeek, isLoading: isCurrentWeekLoading } =
     useLockingWeek();
 
-  const lock = locks.toSorted((a, b) => b.lockId - a.lockId)[0];
   const activeLocks = React.useMemo(() => {
     if (!locks) {
       return [];
@@ -32,6 +31,8 @@ export const useLockInfo = (address: string | undefined) => {
       })
       .filter((lock) => lock?.relocked !== true);
   }, [locks]);
+
+  const lock = activeLocks[0];
 
   const hasMultipleLocks = React.useMemo(() => {
     return activeLocks.length > 1;

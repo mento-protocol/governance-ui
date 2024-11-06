@@ -90,7 +90,7 @@ export const CreateLockProvider = ({
     });
   }, [address, lock, parsedAmount, resetAll, slope]);
 
-  const approve = useApprove({ onConfirmation: lockMento });
+  const approve = useApprove();
 
   const needsApproval = React.useMemo(() => {
     if (!allowance.data) return true;
@@ -128,7 +128,11 @@ export const CreateLockProvider = ({
     if (!needsApproval) {
       lockMento();
     } else {
-      approve.approveMento(contracts.Locking.address, parsedAmount);
+      approve.approveMento({
+        target: contracts.Locking.address,
+        amount: parsedAmount,
+        onConfirmation: lockMento,
+      });
     }
   }, [
     lock,

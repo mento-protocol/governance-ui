@@ -76,21 +76,15 @@ export default abstract class LockingHelper {
     cliff: number,
     slope: number,
   ): Date {
-    // Calculate weeks passed since lock
+    // Get the start of the current week (Wednesday-based)
+    const startOfCurrentWeek = startOfWeek(new Date(), { weekStartsOn: 3 });
+
+    const totalLockDuration = cliff + slope;
+
     const weeksPassed = currentWeek - weekLocked;
 
-    // Calculate remaining weeks in the vesting schedule
-    const remainingWeeks = cliff + slope - weeksPassed;
+    const lockStartDate = subWeeks(startOfCurrentWeek, weeksPassed);
 
-    // Calculate the initial lock date by subtracting weeks passed from the start of the current week
-    const startOfCurrentWeek = startOfWeek(new Date(), { weekStartsOn: 3 });
-    const initialLockDate = nextWednesday(
-      subWeeks(startOfCurrentWeek, weeksPassed),
-    );
-
-    // Add the remaining weeks to the initial lock date
-    let expirationDate = addWeeks(initialLockDate, remainingWeeks);
-
-    return expirationDate;
+    return addWeeks(lockStartDate, totalLockDuration);
   }
 }

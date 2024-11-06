@@ -89,7 +89,7 @@ export const useManageLockLogic = (lockToManage: LockWithExpiration) => {
     },
   });
 
-  const approve = useApprove({ onConfirmation: relock.relockMento });
+  const approve = useApprove();
 
   const needsApproval = useMemo(() => {
     if (parsedAdditionalAmountToLock === 0n) return false;
@@ -126,7 +126,8 @@ export const useManageLockLogic = (lockToManage: LockWithExpiration) => {
       onError,
     }: { onSuccess?: () => void; onError?: () => void } = {}) => {
       setIsTxModalOpen(true);
-      if (!needsApproval) {
+
+      const submitRelock = () => {
         relock.relockMento({
           onSuccess: () => {
             resetForm();
@@ -136,11 +137,17 @@ export const useManageLockLogic = (lockToManage: LockWithExpiration) => {
           },
           onError,
         });
+      };
+
+      if (needsApproval) {
+        approve.approveMento({
+          target: contracts.Locking.address,
+          amount: parsedAdditionalAmountToLock,
+          onConfirmation: submitRelock,
+          onError,
+        });
       } else {
-        approve.approveMento(
-          contracts.Locking.address,
-          parsedAdditionalAmountToLock,
-        );
+        submitRelock();
       }
     },
     [

@@ -1,13 +1,13 @@
 "use client";
+import { Card, ProgressBar, Status } from "@/components/_shared";
+import useProposals from "@/lib/contracts/governor/useProposals";
+import { Proposal } from "@/lib/graphql/subgraph/generated/subgraph";
 import NumbersService from "@/lib/helpers/numbers.service";
 import StringService from "@/lib/helpers/string.service";
 import BaseComponentProps from "@/lib/interfaces/base-component-props.interface";
-import { Card, ProgressBar, Status } from "@/components/_shared";
-import Link from "next/link";
 import { stateToStatusColorMap } from "@/lib/interfaces/proposal.interface";
+import Link from "next/link";
 import { formatUnits } from "viem";
-import useProposals from "@/lib/contracts/governor/useProposals";
-import { Proposal } from "@/lib/graphql/subgraph/generated/subgraph";
 import { EmptyProposals } from "../_icons";
 import { MentoIcon } from "../_icons";
 

@@ -1,13 +1,13 @@
 import { useMemo } from "react";
-import { formatUnits } from "viem";
-import { useAccount, useBlockNumber } from "wagmi";
 import { Card } from "@/components/_shared";
 import useProposals from "@/lib/contracts/governor/useProposals";
-import useLockingWeek from "@/lib/contracts/locking/useLockingWeek";
 import useAllLocks from "@/lib/contracts/locking/useAllLocks";
+import useLockingWeek from "@/lib/contracts/locking/useLockingWeek";
 import useTokens from "@/lib/contracts/useTokens";
-import NumbersService from "@/lib/helpers/numbers.service";
 import { ensureChainId } from "@/lib/helpers/ensureChainId";
+import NumbersService from "@/lib/helpers/numbers.service";
+import { formatUnits } from "viem";
+import { useAccount, useBlockNumber } from "wagmi";
 
 export const ProposalSummaryComponent = () => {
   return (
@@ -73,7 +73,7 @@ const ContractDataGrid = () => {
     <>
       <ContractData value={proposalCount} label="Total Proposals" />
       <ContractData value={activeProposalCount} label="Active Proposals" />
-      <ContractData value={getActiveVoters} label="Voters" />
+      <ContractData value={getActiveVoters} label="Registered Voters" />
       <ContractData
         value={getTotalSupplyParsed}
         label="Total veMento Voting Power"
@@ -91,15 +91,16 @@ const ContractData = ({
   isLoading?: boolean;
 }) => {
   return (
-    <div className="flex flex-col items-center justify-center gap-2 text-center md:gap-4">
+    <div className="flex flex-col items-center justify-center gap-1 text-center md:gap-2">
       <div className="text-[22px] font-medium md:text-[32px]">{value}</div>
-      <div className="max-w-32 text-[18px]">{label}</div>
+      <div className="text-[18px]">{label}</div>
     </div>
   );
 };
+
 const ContractDataSkeleton = ({ label }: { label: string }) => {
   return (
-    <div className="flex flex-col items-center justify-center gap-2 text-center md:gap-4">
+    <div className="flex flex-col items-center justify-center gap-1 text-center md:gap-2">
       <div className=" animate-pulse rounded-[4px] bg-gray-300 text-[22px] font-medium md:text-[32px]">
         <span className="opacity-0">000</span>
       </div>
@@ -113,7 +114,7 @@ const ContractDataGridSkeleton = () => {
     <>
       <ContractDataSkeleton label="Total Proposals" />
       <ContractDataSkeleton label="Active Proposals" />
-      <ContractDataSkeleton label="Voters" />
+      <ContractDataSkeleton label="Registered Voters" />
       <ContractDataSkeleton label="Total veMento Voting Power" />
     </>
   );

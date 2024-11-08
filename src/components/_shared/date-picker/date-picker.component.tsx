@@ -7,12 +7,14 @@ type DatePickerProps = CalendarProps & {
   selected?: Date | null;
   onDayClick: (date: Date) => void;
   closeOnSelect?: boolean;
-  children: React.ReactNode; // Changed to ReactNode to allow multiple children
+  children: React.ReactNode;
+  onClose?: () => void;
 };
 
 interface DatePickerButtonProps {
   children: React.ReactNode;
   className?: string;
+  closeButtonRef?: React.RefObject<HTMLButtonElement>;
 }
 
 interface DatePickerPanelProps {
@@ -23,9 +25,11 @@ interface DatePickerPanelProps {
 const DatePickerButton: React.FC<DatePickerButtonProps> = ({
   children,
   className,
+  closeButtonRef,
 }) => {
   return (
     <Popover.Button
+      ref={closeButtonRef}
       className={cn(
         "w-full rounded-[4px] border border-gray-light p-1 text-left",
         className,
@@ -52,6 +56,7 @@ export const DatePicker: React.FC<DatePickerProps> & {
   children,
   className,
   closeOnSelect = true,
+  onClose,
   ...restProps
 }) => {
   const buttonChild = React.Children.toArray(children).find(
@@ -66,11 +71,11 @@ export const DatePicker: React.FC<DatePickerProps> & {
   }
 
   return (
-    <Popover className={cn(className, "relative")}>
+    <Popover onAbort={onClose} className={cn(className, "relative h-full")}>
       {({ close }) => (
         <>
           {buttonChild}
-          <Popover.Panel className="absolute right-0 z-10 rounded-[4px] border border-gray-light bg-white dark:bg-black-off">
+          <Popover.Panel className="absolute right-0 z-10 flex w-[300px] flex-col items-center rounded-[4px] border border-gray-light bg-white dark:bg-black-off">
             <Calendar
               {...restProps}
               onDayClick={(date: Date) => {

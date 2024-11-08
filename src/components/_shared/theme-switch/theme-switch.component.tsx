@@ -26,7 +26,7 @@ export const ThemeSwitch = () => {
       <div className="flex w-full items-center justify-between gap-x1">
         <div
           className={cn(
-            "ease absolute h-[18px] w-[18px] rounded-[9px] bg-black transition-all duration-[400ms]",
+            "ease duration-[400ms] absolute h-[18px] w-[18px] rounded-[9px] bg-black transition-all",
             theme === Mode.LIGHT ? "left-[3px]" : "left-[21px]",
           )}
         />

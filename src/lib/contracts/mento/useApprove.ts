@@ -1,12 +1,27 @@
-import React, { useCallback } from "react";
+import { useCallback } from "react";
 import { useContracts } from "@/lib/contracts/useContracts";
-import { useWaitForTransactionReceipt, useWriteContract } from "wagmi";
+import {
+  useAccount,
+  useConfig,
+  useWaitForTransactionReceipt,
+  useWriteContract,
+} from "wagmi";
 import { Address, erc20Abi } from "viem";
-import { WriteContractErrorType } from "wagmi/actions";
+import {
+  waitForTransactionReceipt,
+  WriteContractErrorType,
+} from "wagmi/actions";
+import * as Sentry from "@sentry/nextjs";
 
-const useApprove = ({
-  onConfirmation,
-}: { onConfirmation?: () => void } = {}) => {
+interface ApproveParams {
+  target: Address;
+  amount: bigint;
+  onSuccess?: () => void;
+  onError?: (error?: WriteContractErrorType) => void;
+  onConfirmation?: () => void;
+}
+
+const useApprove = () => {
   const contracts = useContracts();
   const {
     writeContract,
@@ -14,27 +29,18 @@ const useApprove = ({
     data,
     ...restWrite
   } = useWriteContract();
+  const { address } = useAccount();
+  const config = useConfig();
 
   const { isLoading: isConfirming, isSuccess: isConfirmed } =
     useWaitForTransactionReceipt({
       hash: data,
       pollingInterval: 1000,
     });
-
-  React.useEffect(() => {
-    if (isConfirmed && onConfirmation) {
-      onConfirmation();
-      restWrite.reset();
-    }
-  }, [isConfirmed, onConfirmation, restWrite]);
-
   const approveMento = useCallback(
-    (
-      target: Address,
-      amount: bigint,
-      onSuccess?: () => void,
-      onError?: (error?: WriteContractErrorType) => void,
-    ) => {
+    (params: ApproveParams) => {
+      const { target, amount, onConfirmation, onError } = params;
+
       writeContract(
         {
           address: contracts.MentoToken.address,
@@ -43,12 +49,46 @@ const useApprove = ({
           args: [target, amount],
         },
         {
-          onSuccess,
-          onError,
+          onSuccess: async (data) => {
+            try {
+              await waitForTransactionReceipt(config, {
+                hash: data,
+                pollingInterval: 1000,
+                confirmations: 2,
+              });
+              onConfirmation?.();
+            } catch (error) {
+              Sentry.captureException(error, {
+                data: {
+                  function: "useApprove - waitForTransactionReceipt",
+                  user: address,
+                  contract: contracts.Locking.address,
+                  contractArgs: JSON.stringify([target, amount]),
+                },
+              });
+            }
+          },
+          onError: (error: WriteContractErrorType) => {
+            Sentry.captureException(error, {
+              data: {
+                function: "useApprove",
+                user: address,
+                contract: contracts.Locking.address,
+                contractArgs: JSON.stringify([target, amount]),
+              },
+            });
+            onError?.(error);
+          },
         },
       );
     },
-    [contracts.MentoToken.address, writeContract],
+    [
+      address,
+      config,
+      contracts.Locking.address,
+      contracts.MentoToken.address,
+      writeContract,
+    ],
   );
 
   return {

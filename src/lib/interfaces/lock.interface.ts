@@ -1,7 +1,5 @@
-export interface ILock {
-  owner: string;
-  id: string;
-  amountMNTO: number;
-  amountsVeMNTO: number;
-  expireDate: Date;
+import { Lock } from "../graphql";
+
+export interface LockWithExpiration extends Lock {
+  expiration: Date;
 }

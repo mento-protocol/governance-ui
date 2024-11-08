@@ -48,9 +48,9 @@ const ErrorMessage = () => {
 const PendingMessage = ({ message }: { message: React.ReactNode }) => {
   return (
     <>
-      <p className="text-lg text-primary-dark dark:text-white">{message}</p>
+      <div className="text-lg text-primary-dark dark:text-white">{message}</div>
       <Loader
-        borderColor="before:border-mento-dark dark:before:border-mento-cyan"
+        borderColor="before:border-mento-blue dark:before:border-mento-cyan"
         logoColor="fill-mento-dark dark:fill-mento-cyan"
         className="mx-auto my-8"
       />

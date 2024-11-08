@@ -1,5 +1,5 @@
 "use client";
-import { ProgressBar, Status } from "@/components/_shared";
+import { Card, ProgressBar, Status } from "@/components/_shared";
 import useProposals from "@/lib/contracts/governor/useProposals";
 import { Proposal } from "@/lib/graphql/subgraph/generated/subgraph";
 import NumbersService from "@/lib/helpers/numbers.service";
@@ -8,14 +8,15 @@ import BaseComponentProps from "@/lib/interfaces/base-component-props.interface"
 import { stateToStatusColorMap } from "@/lib/interfaces/proposal.interface";
 import Link from "next/link";
 import { formatUnits } from "viem";
-import { EmptyProposals, MentoIcon } from "../_icons";
+import { EmptyProposals } from "../_icons";
+import { MentoIcon } from "../_icons";
 
 interface ProposalsListProps extends BaseComponentProps {}
 
 export const ProposalsListComponent = ({ className }: ProposalsListProps) => {
   return (
     <div className={`w-full font-fg ${className}`}>
-      <h2 className="pb-[32px] pt-[30px] text-center text-[32px] font-medium md:pt-[56px]">
+      <h2 className="pb-[32px] pt-[30px] text-center text-[22px] font-medium md:pb-[34px] md:pt-[76px]">
         Proposals
       </h2>
       <ProposalsTable />
@@ -27,10 +28,10 @@ const ProposalsTable = () => {
   const { proposals } = useProposals();
   if (proposals?.length === 0) {
     return (
-      <div className="flex flex-col items-center justify-center overflow-hidden text-center text-[18px] md:text-[22px]">
+      <Card className="flex flex-col items-center justify-center">
         <EmptyProposals />
         There are no proposals to display yet
-      </div>
+      </Card>
     );
   }
   return (

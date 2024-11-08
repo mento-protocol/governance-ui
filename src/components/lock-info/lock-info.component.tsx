@@ -1,12 +1,12 @@
+import useTokens from "@/lib/contracts/useTokens";
+import { useLockInfo } from "@/lib/hooks/useLockInfo";
 import { format } from "date-fns";
 import React, { useMemo } from "react";
-import { Card } from "../_shared";
-import { useAccount } from "wagmi";
-import { WithdrawButton } from "../lock-withdraw/withdraw-button";
-import { useLockInfo } from "@/lib/hooks/useLockInfo";
-import { ManageLockButton } from "../lock-manage-lock/manage-lock-button/manage-lock-button.component";
-import useTokens from "@/lib/contracts/useTokens";
 import { formatUnits } from "viem";
+import { useAccount } from "wagmi";
+import { Card } from "../_shared";
+import { ManageLockButton } from "../lock-manage-lock/manage-lock-button/manage-lock-button.component";
+import { WithdrawButton } from "../lock-withdraw/withdraw-button";
 import { LockInfoSkeleton } from "./lock-info-skeleton.component";
 
 export const LockInfo = () => {

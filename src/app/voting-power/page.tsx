@@ -1,8 +1,8 @@
 "use client";
-import { useAccount } from "wagmi";
 import { Card, ConnectButton, MentoLock } from "@/components/_shared";
-import { useLockInfo } from "@/lib/hooks/useLockInfo";
 import { LockInfo } from "@/components/lock-info/lock-info.component";
+import { useLockInfo } from "@/lib/hooks/useLockInfo";
+import { useAccount } from "wagmi";
 
 const Page = () => {
   const { address } = useAccount();

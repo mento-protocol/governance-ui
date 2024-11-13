@@ -80,7 +80,7 @@ const ProposalCountdown = ({ proposal }: { proposal: Proposal }) => {
 };
 
 const Page = ({ params: { id } }: { params: { id: string } }) => {
-  const { proposal } = useProposal(BigInt(id));
+  const { proposal, isLoading } = useProposal(BigInt(id));
   const { chainId } = useAccount();
 
   const { data: currentBlock } = useBlockNumber({
@@ -187,7 +187,7 @@ const Page = ({ params: { id } }: { params: { id: string } }) => {
         ) : (
           <Loader isCenter />
         )}
-        <ProposalActions proposal={proposal} />
+        <ProposalActions proposal={proposal} isLoading={isLoading} />
         <Suspense fallback={<Loader isCenter />}>
           <Card className="flex flex-col gap-6">
             <h2 className="text-center text-[32px]/none font-medium">
@@ -291,7 +291,7 @@ const Page = ({ params: { id } }: { params: { id: string } }) => {
           </div>
           <div className="flex flex-col gap-x11 md:max-w-[350px]">
             <div className="hidden md:block">
-              <ProposalActions proposal={proposal} />
+              <ProposalActions proposal={proposal} isLoading={isLoading} />
             </div>
             {proposal.votes && <Participants votes={proposal.votes} />}
           </div>

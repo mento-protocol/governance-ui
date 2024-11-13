@@ -42,7 +42,11 @@ const useProposal = (proposalId: bigint) => {
     },
   });
 
-  const { data: chainData, refetch } = useReadContract({
+  const {
+    data: chainData,
+    refetch,
+    isLoading: isChainDataLoading,
+  } = useReadContract({
     address: contracts.MentoGovernor.address,
     abi: GovernorABI,
     functionName: "state",
@@ -81,6 +85,8 @@ const useProposal = (proposalId: bigint) => {
 
   return {
     proposal,
+    isLoading:
+      graphNetworkStatus === NetworkStatus.loading || isChainDataLoading,
   };
 };
 

@@ -3,12 +3,10 @@ import { ProposalActionTitle } from "./proposal-action-title";
 
 export const DisconnectedState = () => {
   return (
-    <Card>
-      <div className="flex w-full flex-col items-center gap-[25px]">
-        <ProposalActionTitle />
-        <span>Please connect your wallet to participate in governance</span>
-        <ConnectButton fullwidth theme="primary" />
-      </div>
+    <Card className="flex min-h-[260px] flex-col items-center justify-between gap-[25px] text-center md:text-[20px]/none">
+      <ProposalActionTitle>Connect to participate</ProposalActionTitle>
+      <span>Please connect your wallet to participate in governance</span>
+      <ConnectButton fullwidth theme="primary" />
     </Card>
   );
 };

@@ -8,19 +8,27 @@ import QueueProposal from "./queue";
 import Vote from "./vote";
 import { ProposalStatusMessage } from "./proposal-status-message.component";
 
-const ProposalActions = ({ proposal }: { proposal: Proposal }) => {
-  const { address } = useAccount();
+const ProposalActions = ({
+  proposal,
+  isLoading,
+}: {
+  proposal: Proposal;
+  isLoading: boolean;
+}) => {
+  const { address, isConnecting, isReconnecting } = useAccount();
 
-  if (
-    (!address && proposal.state !== ProposalState.Active) ||
-    ProposalState.Queued ||
-    ProposalState.Executed
-  ) {
-    return <DisconnectedState />;
+  if (isConnecting || isReconnecting || isLoading) {
+    return <ProposalActionLoading />;
   }
 
-  if (!proposal) {
-    return <ProposalActionLoading />;
+  if (
+    !address &&
+    !(
+      proposal.state !== ProposalState.Active &&
+      proposal.state !== ProposalState.Queued
+    )
+  ) {
+    return <DisconnectedState />;
   }
 
   const Component = getComponent(proposal.state);

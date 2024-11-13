@@ -11,10 +11,11 @@ import { useAccount, useBlockNumber } from "wagmi";
 
 export const ProposalSummaryComponent = () => {
   return (
-    <Card className="mt-8" block>
-      <div className="grid grid-cols-2 items-start justify-between gap-x6 pb-5 pt-4 md:grid-cols-4 md:pb-8">
-        <ContractDataGrid />
-      </div>
+    <Card
+      className="mt-8 grid grid-cols-2 items-start justify-between gap-x6 pb-5 pt-10 md:grid-cols-4 md:pb-8"
+      block
+    >
+      <ContractDataGrid />
     </Card>
   );
 };
@@ -25,7 +26,7 @@ const ContractDataGrid = () => {
   } = useTokens();
   const { currentWeek } = useLockingWeek();
   const { locks, loading } = useAllLocks();
-  const { proposals } = useProposals();
+  const { proposals, isLoading } = useProposals();
   const { chainId } = useAccount();
 
   const currentBlockNumber = useBlockNumber({
@@ -67,7 +68,7 @@ const ContractDataGrid = () => {
     return uniqueVoters.size;
   }, [currentWeek, locks]);
 
-  if (loading) return <ContractDataGridSkeleton />;
+  if (isLoading || loading) return <ContractDataGridSkeleton />;
 
   return (
     <>
@@ -93,16 +94,24 @@ const ContractData = ({
   return (
     <div className="flex flex-col items-center justify-center gap-1 text-center md:gap-2">
       <div className="text-[22px] font-medium md:text-[32px]">{value}</div>
-      <div className="text-[18px]">{label}</div>
+      <div className="max-w-32 text-[18px]">{label}</div>
     </div>
   );
 };
 
-const ContractDataSkeleton = ({ label }: { label: string }) => {
+const ContractDataSkeleton = ({
+  label,
+  noOfDigits = 3,
+}: {
+  label: string;
+  noOfDigits?: number;
+}) => {
   return (
     <div className="flex flex-col items-center justify-center gap-1 text-center md:gap-2">
-      <div className=" animate-pulse rounded-[4px] bg-gray-300 text-[22px] font-medium md:text-[32px]">
-        <span className="opacity-0">000</span>
+      <div className="animate-pulse rounded-[4px] bg-gray-300 text-[22px] font-medium md:text-[32px]">
+        <span className="opacity-0">
+          {noOfDigits.toString().padStart(noOfDigits, "0")}
+        </span>
       </div>
       <div className="max-w-32 text-[18px]">{label}</div>
     </div>
@@ -112,8 +121,8 @@ const ContractDataSkeleton = ({ label }: { label: string }) => {
 const ContractDataGridSkeleton = () => {
   return (
     <>
-      <ContractDataSkeleton label="Total Proposals" />
-      <ContractDataSkeleton label="Active Proposals" />
+      <ContractDataSkeleton noOfDigits={2} label="Total Proposals" />
+      <ContractDataSkeleton noOfDigits={2} label="Active Proposals" />
       <ContractDataSkeleton label="Registered Voters" />
       <ContractDataSkeleton label="Total veMento Voting Power" />
     </>

@@ -100,7 +100,7 @@ export const ProgressBar = ({
         {parsedValue}
       </div>
       <div
-        className="flex h-[8px] w-full rounded-3xl border-[0.5px] border-solid border-black dark:border-gray"
+        className="flex h-[8px] w-full overflow-hidden rounded-3xl border-[0.5px] border-solid border-black dark:border-gray"
         style={{
           background:
             progress < 6
@@ -109,9 +109,7 @@ export const ProgressBar = ({
         }}
       >
         <div
-          className={cn(
-            "h-full rounded-3xl bg-gray shadow-[0.5px_0_0] shadow-black dark:shadow-gray [&:not(:first-child)]:-ml-x1 [&:not(:first-child)]:rounded-bl-none [&:not(:first-child)]:rounded-tl-none",
-          )}
+          className={cn("h-full bg-gray")}
           style={{
             width: `${progress}%`,
             color,

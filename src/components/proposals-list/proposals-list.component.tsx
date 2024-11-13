@@ -10,6 +10,7 @@ import Link from "next/link";
 import { formatUnits } from "viem";
 import { EmptyProposals } from "../_icons";
 import { MentoIcon } from "../_icons";
+import { cn } from "@/styles/helpers";
 
 interface ProposalsListProps extends BaseComponentProps {}
 
@@ -25,8 +26,8 @@ export const ProposalsListComponent = ({ className }: ProposalsListProps) => {
 };
 
 const ProposalsTable = () => {
-  const { proposals } = useProposals();
-  if (proposals?.length === 0) {
+  const { proposals, isLoading } = useProposals();
+  if (proposals?.length === 0 && !isLoading) {
     return (
       <Card className="flex flex-col items-center justify-center">
         <EmptyProposals />
@@ -47,76 +48,107 @@ const ProposalsTable = () => {
 };
 
 const DesktopProposalTable = ({ proposals }: { proposals: Proposal[] }) => {
+  const { isLoading } = useProposals();
+
+  if (isLoading) {
+    return <DesktopProposalTableSkeleton />;
+  }
+
   return (
     <div className="rounded-md border border-gray-light bg-white px-4 py-5 dark:bg-black-off">
-      <div className="mb-[38px] grid grid-cols-[minmax(150px,_2fr)_100px_150px_150px_150px] items-center gap-[21px] font-inter font-medium">
-        <div className="overflow-hidden border-none text-left font-inter text-base font-medium tracking-tighter">
-          Proposal name
-        </div>
-        <div className="overflow-hidden border-none text-center font-inter text-base font-medium tracking-tighter">
-          Status
-        </div>
-        <div className="overflow-hidden border-none text-center font-inter text-base font-medium tracking-tighter">
-          Votes in favor
-        </div>
-        <div className="overflow-hidden border-none text-center font-inter text-base font-medium tracking-tighter">
-          Votes against
-        </div>
-        <div className="overflow-hidden border-none text-right font-inter text-base font-medium tracking-tighter">
-          Total votes
-        </div>
-      </div>
+      <ProposalTableHeader />
       {proposals.map(({ proposalId, metadata, state, votes }, index) => (
-        <div
-          key={index}
-          className="grid grid-cols-[minmax(150px,_2fr)_100px_150px_150px_150px] items-start gap-[18px] pb-[18px] font-medium"
-        >
-          {!!index && (
-            <div className="border-b border-solid border-gray-light [grid-column:1_/_-1]" />
-          )}
-          <div className="self-center overflow-hidden text-ellipsis break-words text-left text-lg font-normal">
-            <div className="flex place-items-center gap-x3">
-              <MentoIcon className="h-[42px] w-[40px]" backgroundColor="cyan" />
-              <Link
-                className="flex"
-                style={{ maxHeight: "3em" }}
-                href={`/proposals/${proposalId}`}
-              >
-                <p>
-                  {StringService.limitLength(`${metadata?.title}`, 75, true)}
-                </p>
-              </Link>
+        <>
+          <div
+            key={index}
+            className={cn(
+              "grid grid-cols-[minmax(150px,_2fr)_100px_150px_150px_150px] items-start gap-[18px] pb-2 font-medium",
+              index !== 0 && "pt-6",
+            )}
+          >
+            <div className="self-center overflow-hidden text-ellipsis break-words text-left text-lg font-normal">
+              <div className="flex items-center justify-start gap-x1 overflow-hidden text-ellipsis break-words">
+                <MentoIcon
+                  className="h-[42px] min-w-[60px]"
+                  backgroundColor="cyan"
+                />
+                <Link
+                  className="leading-none"
+                  href={`/proposals/${proposalId}`}
+                >
+                  {StringService.limitLength(`${metadata?.title}`, 60, true)}
+                </Link>
+              </div>
+            </div>
+            <Status
+              className="h-[22px] w-full self-center"
+              text={state?.toString()}
+              type={stateToStatusColorMap[state]}
+            />
+            <div className="flex items-center self-center overflow-hidden text-center">
+              <ProgressBar
+                type="success"
+                className="mx-auto my-0 w-full max-w-[110px]"
+                current={Number(formatUnits(votes.for.total, 18))}
+                max={Number(formatUnits(votes.total, 18))}
+                valueFormat="alphabetic"
+              />
+            </div>
+            <div className="flex items-center self-center overflow-hidden text-center">
+              <ProgressBar
+                type="danger"
+                className="mx-auto my-0 w-full max-w-[110px]"
+                current={Number(formatUnits(votes.against.total, 18))}
+                max={Number(formatUnits(votes.total, 18))}
+                valueFormat="alphabetic"
+              />
+            </div>
+            <div className="mr-x1 self-start overflow-hidden text-right text-[22px]/[23px] font-normal">
+              {NumbersService.parseNumericValue(formatUnits(votes.total, 18))}
             </div>
           </div>
-          <Status
-            className="h-[22px] w-full self-center"
-            text={state?.toString()}
-            type={stateToStatusColorMap[state]}
-          />
-          <div className="flex items-center self-center overflow-hidden text-center">
-            <ProgressBar
-              type="success"
-              className="mx-auto my-0 w-full max-w-[110px] gap-x1"
-              current={Number(formatUnits(votes.for.total, 18))}
-              max={Number(formatUnits(votes.total, 18))}
-              valueFormat="alphabetic"
-            />
-          </div>
-          <div className="flex items-center self-center overflow-hidden text-center">
-            <ProgressBar
-              type="danger"
-              className="mx-auto my-0 w-full max-w-[110px] gap-x1"
-              current={Number(formatUnits(votes.against.total, 18))}
-              max={Number(formatUnits(votes.total, 18))}
-              valueFormat="alphabetic"
-            />
-          </div>
-          <div className="mr-x1 self-center overflow-hidden text-right text-[22px]/[23px] font-normal">
-            {NumbersService.parseNumericValue(formatUnits(votes.total, 18))}
-          </div>
-        </div>
+          {!(index === proposals.length - 1) && <TableDivider />}
+        </>
       ))}
-      <div className="left-0 right-0 flex border-b border-solid border-gray-light " />
+    </div>
+  );
+};
+
+const DesktopProposalTableSkeleton = () => {
+  return (
+    <div className="rounded-md border border-gray-light bg-white px-4 py-5 dark:bg-black-off">
+      <ProposalTableHeader />
+      {[1, 2, 3].map((_, index) => (
+        <>
+          <div
+            key={index}
+            className={cn(
+              "grid grid-cols-[minmax(150px,_2fr)_100px_150px_150px_150px] items-start gap-[18px] pb-2 font-medium",
+              index !== 0 && "pt-6",
+            )}
+          >
+            <div className="flex items-center gap-x1">
+              <div className="h-[42px] min-w-[42px] animate-pulse rounded-full bg-gray-300" />
+              <div className="h-6 w-60 animate-pulse rounded-md bg-gray-300" />
+            </div>
+            <div className="h-[22px] w-full animate-pulse rounded-md bg-gray-300" />
+
+            <div className="mx-auto flex w-[110px] flex-col items-end gap-1 self-center">
+              <div className="h-6 w-8 animate-pulse rounded-md bg-gray-300" />
+              <div className="h-4 w-full animate-pulse self-center rounded-md bg-gray-300" />
+            </div>
+
+            <div className="mx-auto flex w-[110px] flex-col items-end gap-1 self-center">
+              <div className="h-6 w-8 animate-pulse rounded-md bg-gray-300" />
+              <div className="h-4 w-full animate-pulse self-center rounded-md bg-gray-300" />
+            </div>
+
+            {/* <div className="mx-auto h-4 w-full max-w-[110px] animate-pulse self-center rounded-md bg-gray-300" /> */}
+            <div className="h-6 w-12 animate-pulse justify-self-end rounded-md bg-gray-300" />
+          </div>
+          {index !== 2 && <TableDivider />}
+        </>
+      ))}
     </div>
   );
 };
@@ -174,3 +206,48 @@ const MobileProposalTable = ({ proposals }: { proposals: Proposal[] }) => {
     </div>
   );
 };
+
+const ProposalTableHeader = () => {
+  const headers = [
+    "Proposal name",
+    "Status",
+    "Votes in favor",
+    "Votes against",
+    "Total votes",
+  ];
+
+  return (
+    <div className="mb-[38px] grid grid-cols-[minmax(150px,_2fr)_100px_150px_150px_150px] items-center gap-[21px] font-inter font-medium">
+      {headers.map((text, index) => (
+        <div
+          key={index}
+          className={`overflow-hidden border-none font-inter text-base font-medium tracking-tighter ${
+            index === 0
+              ? "text-left"
+              : index === headers.length - 1
+                ? "text-right"
+                : "text-center"
+          }`}
+        >
+          {text}
+        </div>
+      ))}
+    </div>
+  );
+};
+
+const TableDivider = ({
+  className,
+  fullWidth = true,
+}: {
+  className?: string;
+  fullWidth?: boolean;
+}) => (
+  <div
+    className={cn(
+      "border-b border-solid border-gray-light",
+      fullWidth && "[grid-column:1_/_-1]",
+      className,
+    )}
+  />
+);

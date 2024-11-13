@@ -11,7 +11,11 @@ import { ProposalStatusMessage } from "./proposal-status-message.component";
 const ProposalActions = ({ proposal }: { proposal: Proposal }) => {
   const { address } = useAccount();
 
-  if (!address) {
+  if (
+    (!address && proposal.state !== ProposalState.Active) ||
+    ProposalState.Queued ||
+    ProposalState.Executed
+  ) {
     return <DisconnectedState />;
   }
 

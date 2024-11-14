@@ -11,6 +11,7 @@ import { formatUnits } from "viem";
 import { EmptyProposals } from "../_icons";
 import { MentoIcon } from "../_icons";
 import { cn } from "@/styles/helpers";
+import React from "react";
 
 interface ProposalsListProps extends BaseComponentProps {}
 
@@ -58,9 +59,8 @@ const DesktopProposalTable = ({ proposals }: { proposals: Proposal[] }) => {
     <div className="rounded-md border border-gray-light bg-white px-4 py-5 dark:bg-black-off">
       <ProposalTableHeader />
       {proposals.map(({ proposalId, metadata, state, votes }, index) => (
-        <>
+        <React.Fragment key={proposalId}>
           <div
-            key={index}
             className={cn(
               "grid grid-cols-[minmax(150px,_2fr)_100px_150px_150px_150px] items-start gap-[18px] pb-2 font-medium",
               index !== 0 && "pt-6",
@@ -108,7 +108,7 @@ const DesktopProposalTable = ({ proposals }: { proposals: Proposal[] }) => {
             </div>
           </div>
           {!(index === proposals.length - 1) && <TableDivider />}
-        </>
+        </React.Fragment>
       ))}
     </div>
   );
@@ -119,9 +119,8 @@ const DesktopProposalTableSkeleton = () => {
     <div className="rounded-md border border-gray-light bg-white px-4 py-5 dark:bg-black-off">
       <ProposalTableHeader />
       {[1, 2, 3].map((_, index) => (
-        <>
+        <React.Fragment key={index}>
           <div
-            key={index}
             className={cn(
               "grid grid-cols-[minmax(150px,_2fr)_100px_150px_150px_150px] items-start gap-[18px] pb-2 font-medium",
               index !== 0 && "pt-6",
@@ -147,62 +146,94 @@ const DesktopProposalTableSkeleton = () => {
             <div className="h-6 w-12 animate-pulse justify-self-end rounded-md bg-gray-300" />
           </div>
           {index !== 2 && <TableDivider />}
-        </>
+        </React.Fragment>
       ))}
     </div>
   );
 };
 
 const MobileProposalTable = ({ proposals }: { proposals: Proposal[] }) => {
+  const { isLoading } = useProposals();
+
+  if (isLoading) {
+    return <MobileProposalTableSkeleton />;
+  }
+
   return (
     <div className="rounded-md border border-gray-light bg-white px-4 py-5 dark:bg-black-off">
-      {proposals.map(({ proposalId, metadata, state, votes }, index) => (
-        <div
-          key={index}
-          className="relative grid grid-cols-[60%_40%] items-start pb-[8px] pt-[20px] font-medium first:pt-0 last:mb-0"
-        >
-          {!!index && (
-            <div className="absolute left-0 right-0 border-b border-solid border-gray-light " />
-          )}
+      {proposals.map((proposal, index) => (
+        <React.Fragment key={proposal.proposalId}>
+          <div className="relative grid grid-cols-[60%_40%] items-start pb-[8px] pt-[20px] font-medium first:pt-0 last:mb-0">
+            <div className="font-size-[18px] flex self-start overflow-hidden text-ellipsis break-words text-left font-normal leading-5">
+              <Link
+                className="flex"
+                style={{ maxHeight: "3em" }}
+                href={`/proposals/${proposal.proposalId}`}
+              >
+                <p>
+                  {StringService.limitLength(
+                    `${proposal.metadata?.title}`,
+                    75,
+                    true,
+                  )}
+                </p>
+              </Link>
+            </div>
+            <div className="flex justify-end overflow-hidden pb-[8px]">
+              <ProgressBar
+                type="success"
+                className="align-right w-full max-w-[110px] "
+                current={Number(formatUnits(proposal.votes.for.total, 18))}
+                max={Number(formatUnits(proposal.votes.total, 18))}
+                valueFormat="alphabetic"
+              />
+            </div>
+            <div className="flex overflow-hidden pt-[8px]">
+              <Status
+                className="h-auto self-center"
+                text={proposal.state?.toString()}
+                type={stateToStatusColorMap[proposal.state]}
+              />
+            </div>
 
-          <div className="font-size-[18px] flex self-start overflow-hidden text-ellipsis break-words text-left font-normal leading-5">
-            <Link
-              className="flex"
-              style={{ maxHeight: "3em" }}
-              href={`/proposals/${proposalId}`}
-            >
-              <p>{StringService.limitLength(`${metadata?.title}`, 75, true)}</p>
-            </Link>
+            <div className="flex justify-end overflow-hidden pb-[8.35px] ">
+              <ProgressBar
+                type="danger"
+                className="align-right w-full max-w-[110px]"
+                current={Number(formatUnits(proposal.votes.against.total, 18))}
+                max={Number(formatUnits(proposal.votes.total, 18))}
+                valueFormat="alphabetic"
+              />
+            </div>
           </div>
-          <div className="flex justify-end overflow-hidden pb-[8px]">
-            <ProgressBar
-              type="success"
-              className="align-right w-full max-w-[110px] "
-              current={Number(formatUnits(votes.for.total, 18))}
-              max={Number(formatUnits(votes.total, 18))}
-              valueFormat="alphabetic"
-            />
-          </div>
-          <div className="flex overflow-hidden pt-[8px]">
-            <Status
-              className="h-auto self-center"
-              text={state?.toString()}
-              type={stateToStatusColorMap[state]}
-            />
-          </div>
-
-          <div className="flex justify-end overflow-hidden pb-[8.35px] ">
-            <ProgressBar
-              type="danger"
-              className="align-right w-full max-w-[110px]"
-              current={Number(formatUnits(votes.against.total, 18))}
-              max={Number(formatUnits(votes.total, 18))}
-              valueFormat="alphabetic"
-            />
-          </div>
-        </div>
+          {index !== proposals.length - 1 && <TableDivider />}
+        </React.Fragment>
       ))}
-      <div className="left-0 right-0 flex border-b border-solid border-gray-light " />
+    </div>
+  );
+};
+
+const MobileProposalTableSkeleton = () => {
+  return (
+    <div className="rounded-md border border-gray-light bg-white px-4 py-5 dark:bg-black-off">
+      {[1, 2, 3].map((_, index) => (
+        <React.Fragment key={index}>
+          <div className="relative grid grid-cols-[60%_40%] items-start pb-[8px] pt-[20px] font-medium first:pt-0 last:mb-0">
+            <div className="h-12 w-4/5 animate-pulse rounded-md bg-gray-300" />
+            <div className="flex justify-end">
+              <div className="h-4 w-[110px] animate-pulse rounded-md bg-gray-300" />
+            </div>
+            <div className="flex flex-col gap-1 pt-[8px]">
+              <div className="h-4 w-12 animate-pulse rounded-md bg-gray-300" />
+              <div className="h-[22px] w-20 animate-pulse rounded-md bg-gray-300" />
+            </div>
+            <div className="flex justify-end">
+              <div className="h-4 w-[110px] animate-pulse rounded-md bg-gray-300" />
+            </div>
+          </div>
+          {index !== 2 && <TableDivider />}
+        </React.Fragment>
+      ))}
     </div>
   );
 };

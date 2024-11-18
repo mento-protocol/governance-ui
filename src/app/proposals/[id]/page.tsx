@@ -1,5 +1,5 @@
 "use client";
-import { Suspense, useMemo } from "react";
+import { Suspense, useMemo, useState } from "react";
 import { useAccount, useBlock, useBlockNumber } from "wagmi";
 import { format } from "date-fns";
 
@@ -30,7 +30,7 @@ const ProposalCountdown = ({ proposal }: { proposal: Proposal }) => {
   });
 
   const endBlock = useBlock({
-    blockNumber: BigInt(proposal.endBlock),
+    blockNumber: proposal.endBlock ? BigInt(proposal.endBlock) : 0n,
     query: {
       enabled: true,
     },
@@ -80,16 +80,19 @@ const ProposalCountdown = ({ proposal }: { proposal: Proposal }) => {
 };
 
 const Page = ({ params: { id } }: { params: { id: string } }) => {
-  const { proposal } = useProposal(BigInt(id));
+  const { proposal } = useProposal(id ? BigInt(id) : 0n);
   const { chainId } = useAccount();
 
   const { data: currentBlock } = useBlockNumber({
-    watch: true,
     chainId: ensureChainId(chainId),
+    query: {
+      enabled: proposal !== undefined,
+      refetchInterval: CELO_BLOCK_TIME,
+    },
   });
 
   const endBlock = useBlock({
-    blockNumber: BigInt(proposal?.endBlock),
+    blockNumber: proposal?.endBlock ? BigInt(proposal.endBlock) : 0n,
     query: {
       enabled: proposal !== undefined,
     },
@@ -101,19 +104,17 @@ const Page = ({ params: { id } }: { params: { id: string } }) => {
   }, [proposal]);
 
   const votingDeadline = useMemo(() => {
-    if (proposal && currentBlock) {
-      // If the end block is already mined, we can fetch the timestamp
-      if (Number(currentBlock) >= proposal.endBlock && endBlock.data) {
-        return new Date(Number(endBlock.data.timestamp) * 1000);
-      } else {
-        // If the end block is not mined yet, we estimate the time
-        return new Date(
-          Date.now() +
-            // Estimation of ~5 seconds per block
-            (proposal.endBlock - Number(currentBlock)) * CELO_BLOCK_TIME,
-        );
-      }
+    if (!(proposal && currentBlock)) return;
+    // If the end block is already mined, we can fetch the timestamp
+    if (Number(currentBlock) >= proposal.endBlock && endBlock.data) {
+      return new Date(Number(endBlock.data.timestamp) * 1000);
     }
+    // If the end block is not mined yet, we estimate the time
+    return new Date(
+      Date.now() +
+        // Estimation of ~5 seconds per block
+        (proposal.endBlock - Number(currentBlock)) * CELO_BLOCK_TIME,
+    );
   }, [currentBlock, endBlock.data, proposal]);
 
   const timeLockDeadLine = useMemo(() => {
@@ -297,8 +298,31 @@ const Page = ({ params: { id } }: { params: { id: string } }) => {
           </div>
         </div>
       </main>
+      <ErrorTest />
     </>
   );
 };
 
 export default Page;
+
+function ErrorTest() {
+  const [error, setError] = useState(0n);
+  const throwUnrecoverableError = () => {
+    setError("error + 1n" as any);
+  };
+
+  const oi = BigInt(error);
+
+  return (
+    <div className="p-4">
+      <h1>Error Test Page</h1>
+      <button
+        onClick={throwUnrecoverableError}
+        className="mt-4 rounded bg-red-500 px-4 py-2 text-white"
+      >
+        {oi}
+        Throw Unrecoverable Error
+      </button>
+    </div>
+  );
+}

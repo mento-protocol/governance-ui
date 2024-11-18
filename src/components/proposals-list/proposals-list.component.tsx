@@ -142,7 +142,6 @@ const DesktopProposalTableSkeleton = () => {
               <div className="h-4 w-full animate-pulse self-center rounded-md bg-gray-300" />
             </div>
 
-            {/* <div className="mx-auto h-4 w-full max-w-[110px] animate-pulse self-center rounded-md bg-gray-300" /> */}
             <div className="h-6 w-12 animate-pulse justify-self-end rounded-md bg-gray-300" />
           </div>
           {index !== 2 && <TableDivider />}
@@ -252,13 +251,10 @@ const ProposalTableHeader = () => {
       {headers.map((text, index) => (
         <div
           key={index}
-          className={`overflow-hidden border-none font-inter text-base font-medium tracking-tighter ${
-            index === 0
-              ? "text-left"
-              : index === headers.length - 1
-                ? "text-right"
-                : "text-center"
-          }`}
+          className={`overflow-hidden border-none font-inter text-base font-medium tracking-tighter ${getTextPosition(
+            index,
+            headers,
+          )}`}
         >
           {text}
         </div>
@@ -282,3 +278,13 @@ const TableDivider = ({
     )}
   />
 );
+
+function getTextPosition(index: number, headers: string[]) {
+  if (index === 0) {
+    return "text-left";
+  }
+  if (index === headers.length - 1) {
+    return "text-right";
+  }
+  return "text-center";
+}

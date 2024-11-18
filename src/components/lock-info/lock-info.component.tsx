@@ -7,10 +7,11 @@ import { useLockInfo } from "@/lib/hooks/useLockInfo";
 import { ManageLockButton } from "../lock-manage-lock/manage-lock-button/manage-lock-button.component";
 import useTokens from "@/lib/contracts/useTokens";
 import { formatUnits } from "viem";
+import { LockInfoSkeleton } from "./lock-info-skeleton.component";
 
 export const LockInfo = () => {
   const { address } = useAccount();
-  const { lock, unlockedMento, hasLock } = useLockInfo(address);
+  const { lock, unlockedMento, hasLock, isLoading } = useLockInfo(address);
   const { veMentoBalance } = useTokens();
 
   const noVotingPower = veMentoBalance.value === BigInt(0);
@@ -21,6 +22,10 @@ export const LockInfo = () => {
   const formattedUnlockedMentoBalance = useMemo(() => {
     return Number(unlockedMento).toLocaleString();
   }, [unlockedMento]);
+
+  if (isLoading) {
+    return <LockInfoSkeleton />;
+  }
 
   if (!address) {
     return (
@@ -40,26 +45,26 @@ export const LockInfo = () => {
     );
   }
 
-  if (!lock) {
-    return <>loading...</>;
-  }
-
   const parsedExpirationDate = hasLock
     ? format(lock?.expiration, "dd/MM/yyyy")
     : "-";
 
   return (
-    <Card className="flex flex-col gap-4 md:flex-row md:justify-between md:gap-20">
-      <div className="flex flex-1 flex-wrap items-end justify-between md:flex-nowrap md:items-stretch">
-        <InfoItem title="MENTO" value={formattedUnlockedMentoBalance} />
-        <InfoItem title="veMENTO" value={formattedVeMentoBalance} />
-        <InfoItem title="Expires On" value={parsedExpirationDate} />
-      </div>
-      <div className="flex items-center justify-between md:justify-normal md:gap-4">
-        <WithdrawButton />
-        <ManageLockButton lock={lock} />
-      </div>
-    </Card>
+    <>
+      <Card className="flex flex-col gap-4 md:flex-row md:justify-between md:gap-20">
+        <div className="flex flex-1 flex-wrap items-end justify-between md:flex-nowrap md:items-stretch">
+          <InfoItem title="MENTO" value={formattedUnlockedMentoBalance} />
+          <InfoItem title={"veMENTO"} value={formattedVeMentoBalance} />
+          <InfoItem title="Expires On" value={parsedExpirationDate} />
+        </div>
+        {hasLock ? (
+          <div className="flex items-center justify-between md:justify-normal md:gap-4">
+            <ManageLockButton lock={lock} />
+            <WithdrawButton />
+          </div>
+        ) : null}
+      </Card>
+    </>
   );
 };
 

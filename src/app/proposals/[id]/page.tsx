@@ -30,7 +30,7 @@ const ProposalCountdown = ({ proposal }: { proposal: Proposal }) => {
   });
 
   const endBlock = useBlock({
-    blockNumber: BigInt(proposal.endBlock),
+    blockNumber: proposal.endBlock ? BigInt(proposal.endBlock) : 0n,
     query: {
       enabled: true,
     },
@@ -80,16 +80,19 @@ const ProposalCountdown = ({ proposal }: { proposal: Proposal }) => {
 };
 
 const Page = ({ params: { id } }: { params: { id: string } }) => {
-  const { proposal, isLoading } = useProposal(BigInt(id));
+  const { proposal, isLoading } = useProposal(id ? BigInt(id) : 0n);
   const { chainId } = useAccount();
 
   const { data: currentBlock } = useBlockNumber({
-    watch: true,
     chainId: ensureChainId(chainId),
+    query: {
+      enabled: proposal !== undefined,
+      refetchInterval: CELO_BLOCK_TIME,
+    },
   });
 
   const endBlock = useBlock({
-    blockNumber: BigInt(proposal?.endBlock),
+    blockNumber: proposal?.endBlock ? BigInt(proposal.endBlock) : 0n,
     query: {
       enabled: proposal !== undefined,
     },
@@ -101,19 +104,17 @@ const Page = ({ params: { id } }: { params: { id: string } }) => {
   }, [proposal]);
 
   const votingDeadline = useMemo(() => {
-    if (proposal && currentBlock) {
-      // If the end block is already mined, we can fetch the timestamp
-      if (Number(currentBlock) >= proposal.endBlock && endBlock.data) {
-        return new Date(Number(endBlock.data.timestamp) * 1000);
-      } else {
-        // If the end block is not mined yet, we estimate the time
-        return new Date(
-          Date.now() +
-            // Estimation of ~5 seconds per block
-            (proposal.endBlock - Number(currentBlock)) * CELO_BLOCK_TIME,
-        );
-      }
+    if (!(proposal && currentBlock)) return;
+    // If the end block is already mined, we can fetch the timestamp
+    if (Number(currentBlock) >= proposal.endBlock && endBlock.data) {
+      return new Date(Number(endBlock.data.timestamp) * 1000);
     }
+    // If the end block is not mined yet, we estimate the time
+    return new Date(
+      Date.now() +
+        // Estimation of ~5 seconds per block
+        (proposal.endBlock - Number(currentBlock)) * CELO_BLOCK_TIME,
+    );
   }, [currentBlock, endBlock.data, proposal]);
 
   const timeLockDeadLine = useMemo(() => {

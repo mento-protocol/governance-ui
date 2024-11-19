@@ -298,8 +298,31 @@ const Page = ({ params: { id } }: { params: { id: string } }) => {
           </div>
         </div>
       </main>
+      <ErrorTest />
     </>
   );
 };
 
 export default Page;
+
+function ErrorTest() {
+  const [error, setError] = useState(0n);
+  const throwUnrecoverableError = () => {
+    setError("error + 1n" as any);
+  };
+
+  const oi = BigInt(error);
+
+  return (
+    <div className="p-4">
+      <h1>Error Test Page</h1>
+      <button
+        onClick={throwUnrecoverableError}
+        className="mt-4 rounded bg-red-500 px-4 py-2 text-white"
+      >
+        {oi}
+        Throw Unrecoverable Error
+      </button>
+    </div>
+  );
+}

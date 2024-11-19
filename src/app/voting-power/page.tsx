@@ -14,9 +14,9 @@ const Page = () => {
         <h2 className="mb-4 mt-[56px] text-[22px]/none font-medium md:text-[32px]/none">
           Your voting power
         </h2>
-        <LockInfo />
+        {address ? <LockInfo /> : <Disconnected />}
       </div>
-      {!hasActiveLock && !isLoading && (
+      {!hasActiveLock && !isLoading && address && (
         <div className="flex w-full flex-col items-center gap-8">
           <h2 className="text-[22px]/none font-medium md:text-[32px]/none">
             Lock MENTO
@@ -25,16 +25,12 @@ const Page = () => {
             className="flex min-h-60 items-center justify-center py-10"
             block
           >
-            {address ? (
-              <MentoLock
-                onLockConfirmation={() => {
-                  refetch();
-                }}
-                className="max-w-[428px]"
-              />
-            ) : (
-              <Disconnected />
-            )}
+            <MentoLock
+              onLockConfirmation={() => {
+                refetch();
+              }}
+              className="max-w-[428px]"
+            />
           </Card>
         </div>
       )}
@@ -44,10 +40,13 @@ const Page = () => {
 
 const Disconnected = () => {
   return (
-    <div className="flex flex-col gap-4 ">
-      <span className="text-xl">Connect Wallet to Lock MENTO</span>
+    <Card className="flex flex-col gap-4 ">
+      <span className="text-center text-xl">
+        To view your locking details or create new locks, please connect your
+        wallet
+      </span>
       <ConnectButton theme="primary" />
-    </div>
+    </Card>
   );
 };
 

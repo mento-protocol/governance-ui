@@ -35,7 +35,7 @@ const useProposal = (proposalId: bigint) => {
     },
   });
 
-  const { data: chainData } = useReadContract({
+  const { data: chainData, isLoading: isChainDataLoading } = useReadContract({
     address: contracts.MentoGovernor.address,
     abi: GovernorABI,
     functionName: "state",
@@ -63,6 +63,8 @@ const useProposal = (proposalId: bigint) => {
 
   return {
     proposal,
+    isLoading:
+      graphNetworkStatus === NetworkStatus.loading || isChainDataLoading,
   };
 };
 

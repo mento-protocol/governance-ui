@@ -1,4 +1,3 @@
-import styles from "./markdown-view.module.scss";
 import { cn } from "@/styles/helpers";
 import ReactMarkdown from "react-markdown";
 import gfm from "remark-gfm";
@@ -10,7 +9,11 @@ type MarkdownViewProps = {
 export const MarkdownView = ({ markdown }: MarkdownViewProps) => {
   return (
     <div
-      className={cn("prose", styles.container, "max-w-none dark:prose-invert")}
+      className={cn(
+        "prose max-w-none text-black-off dark:prose-invert dark:text-white",
+        "text-[20px]/none",
+        "[&_a:hover]:text-primary [&_li]:m-0",
+      )}
     >
       {markdown && (
         <ReactMarkdown className={"leading-snug"} remarkPlugins={[gfm]}>

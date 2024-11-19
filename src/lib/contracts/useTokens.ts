@@ -112,7 +112,7 @@ export const useTokens = () => {
         mentoContractData: {
           decimals: 18,
           symbol: "MENTO",
-          totalSupply: 0n,
+          totalSupply: 610839491208273437600000000n,
           name: "MENTO",
         },
         veMentoContractData: {
@@ -151,7 +151,6 @@ export const useTokens = () => {
     query: {
       refetchInterval: CELO_BLOCK_TIME,
       enabled: isConnected && !!address,
-      // initialData: [0n, 0n],
     },
   });
 

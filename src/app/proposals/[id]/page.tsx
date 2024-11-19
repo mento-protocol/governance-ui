@@ -1,5 +1,5 @@
 "use client";
-import { Suspense, useMemo, useState } from "react";
+import { Suspense, useMemo } from "react";
 import { useAccount, useBlock, useBlockNumber } from "wagmi";
 import { format } from "date-fns";
 
@@ -80,7 +80,7 @@ const ProposalCountdown = ({ proposal }: { proposal: Proposal }) => {
 };
 
 const Page = ({ params: { id } }: { params: { id: string } }) => {
-  const { proposal } = useProposal(id ? BigInt(id) : 0n);
+  const { proposal, isLoading } = useProposal(id ? BigInt(id) : 0n);
   const { chainId } = useAccount();
 
   const { data: currentBlock } = useBlockNumber({
@@ -188,7 +188,7 @@ const Page = ({ params: { id } }: { params: { id: string } }) => {
         ) : (
           <Loader isCenter />
         )}
-        <ProposalActions proposal={proposal} />
+        <ProposalActions proposal={proposal} isLoading={isLoading} />
         <Suspense fallback={<Loader isCenter />}>
           <Card className="flex flex-col gap-6">
             <h2 className="text-center text-[32px]/none font-medium">
@@ -292,37 +292,14 @@ const Page = ({ params: { id } }: { params: { id: string } }) => {
           </div>
           <div className="flex flex-col gap-x11 md:max-w-[350px]">
             <div className="hidden md:block">
-              <ProposalActions proposal={proposal} />
+              <ProposalActions proposal={proposal} isLoading={isLoading} />
             </div>
             {proposal.votes && <Participants votes={proposal.votes} />}
           </div>
         </div>
       </main>
-      <ErrorTest />
     </>
   );
 };
 
 export default Page;
-
-function ErrorTest() {
-  const [error, setError] = useState(0n);
-  const throwUnrecoverableError = () => {
-    setError("error + 1n" as any);
-  };
-
-  const oi = BigInt(error);
-
-  return (
-    <div className="p-4">
-      <h1>Error Test Page</h1>
-      <button
-        onClick={throwUnrecoverableError}
-        className="mt-4 rounded bg-red-500 px-4 py-2 text-white"
-      >
-        {oi}
-        Throw Unrecoverable Error
-      </button>
-    </div>
-  );
-}

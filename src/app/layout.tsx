@@ -10,7 +10,7 @@ import {
   Toaster,
 } from "@/components/_shared";
 import "@rainbow-me/rainbowkit/styles.css";
-import "@/styles/globals.scss";
+import "@/styles/globals.css";
 import { Providers } from "@/app/providers";
 import { cn } from "@/styles/helpers";
 import { Metadata } from "next";

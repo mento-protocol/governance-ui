@@ -94,7 +94,7 @@ const ContractData = ({
   return (
     <div className="flex flex-col items-center justify-center gap-1 text-center md:gap-2">
       <div className="text-[22px] font-medium md:text-[32px]">{value}</div>
-      <div className="text-[18px]">{label}</div>
+      <div className="max-w-32 text-[18px]">{label}</div>
     </div>
   );
 };

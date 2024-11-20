@@ -71,6 +71,8 @@ export const WithdrawButton = () => {
     }
   }, [isPending, isConfirming, error]);
 
+  if (!hasAmountToWithdraw) return <Button disabled>Withdraw</Button>;
+
   return (
     <>
       {hasAmountToWithdraw && (

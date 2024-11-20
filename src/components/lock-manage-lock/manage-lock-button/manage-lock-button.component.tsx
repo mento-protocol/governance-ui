@@ -34,6 +34,7 @@ export interface ManageLockButtonProps {
 }
 
 export const ManageLockButton = ({ lock }: ManageLockButtonProps) => {
+  if (!lock) return <Button disabled>Manage Lock</Button>;
   return (
     <MangeLockFormProvider lock={lock} className="h-full">
       <MobileRelockForm />

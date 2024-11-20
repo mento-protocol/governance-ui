@@ -1,14 +1,7 @@
 "use client";
-import { Suspense } from "react";
 import { useAccount } from "wagmi";
 import { MentoIcon } from "@/components/_icons";
-import {
-  Button,
-  ButtonProps,
-  Card,
-  Divider,
-  Loader,
-} from "@/components/_shared";
+import { Button, ButtonProps, Card, Divider } from "@/components/_shared";
 import {
   Badges,
   ContractParams,
@@ -20,7 +13,7 @@ import { cn } from "@/styles/helpers";
 
 export default function Page() {
   return (
-    <main className="mt-x11 flex flex-col place-items-center font-fg">
+    <main className="mb-[100px] mt-x11 flex flex-col place-items-center font-fg">
       <Title />
       <Subtitle />
       <Card className="mt-8 md:mt-[55px]" block>
@@ -39,9 +32,7 @@ export default function Page() {
         <ContractParams />
       </Card>
       <ProposalSummaryComponent />
-      <Suspense fallback={<Loader className="mt-7" isCenter />}>
-        <ProposalsListComponent />
-      </Suspense>
+      <ProposalsListComponent />
     </main>
   );
 }

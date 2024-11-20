@@ -6,13 +6,14 @@ import { useContracts } from "@/lib/contracts/useContracts";
 import React from "react";
 import { parseEther } from "viem";
 import { useAccount } from "wagmi";
-import {
-  DEFAULT_CLIFF,
-  LOCKING_AMOUNT_FORM_KEY,
-  LOCKING_DURATION_FORM_KEY,
-} from "../constants";
+
 import { useFormContext } from "react-hook-form";
 import { TxModal } from "../../tx-modal/tx-modal.component";
+import {
+  DEFAULT_LOCKING_CLIFF,
+  LOCKING_AMOUNT_FORM_KEY,
+  LOCKING_DURATION_FORM_KEY,
+} from "@/lib/constants/locking";
 
 export enum CREATE_LOCK_TX_STATUS {
   PENDING = "PENDING",
@@ -82,14 +83,14 @@ export const CreateLockProvider = ({
       amount: parsedAmount,
       delegate: address!,
       slope,
-      cliff: DEFAULT_CLIFF,
+      cliff: DEFAULT_LOCKING_CLIFF,
       onSuccess: () => {
         resetAll();
       },
     });
   }, [address, lock, parsedAmount, resetAll, slope]);
 
-  const approve = useApprove({ onConfirmation: lockMento });
+  const approve = useApprove();
 
   const needsApproval = React.useMemo(() => {
     if (!allowance.data) return true;
@@ -127,7 +128,11 @@ export const CreateLockProvider = ({
     if (!needsApproval) {
       lockMento();
     } else {
-      approve.approveMento(contracts.Locking.address, parsedAmount);
+      approve.approveMento({
+        target: contracts.Locking.address,
+        amount: parsedAmount,
+        onConfirmation: lockMento,
+      });
     }
   }, [
     lock,

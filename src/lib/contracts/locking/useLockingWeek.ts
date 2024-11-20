@@ -7,7 +7,11 @@ const useLockingWeek = () => {
   const { Locking } = useContracts();
   const ensuredChainId = useEnsureChainId();
 
-  const { data: currentWeek, isLoading } = useReadContract({
+  const {
+    data: currentWeek,
+    isLoading,
+    ...rest
+  } = useReadContract({
     address: Locking.address,
     abi: LockingABI,
     functionName: "getWeek",
@@ -23,6 +27,7 @@ const useLockingWeek = () => {
   return {
     isLoading,
     currentWeek,
+    ...rest,
   };
 };
 

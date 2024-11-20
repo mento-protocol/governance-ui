@@ -10,7 +10,7 @@ import {
   Toaster,
 } from "@/components/_shared";
 import "@rainbow-me/rainbowkit/styles.css";
-import "@/styles/globals.scss";
+import "@/styles/globals.css";
 import { Providers } from "@/app/providers";
 import { cn } from "@/styles/helpers";
 import { Metadata } from "next";
@@ -63,14 +63,16 @@ export default function RootLayout({ children }: RootLayoutProps) {
         suppressHydrationWarning={true}
       >
         <Providers>
-          <Header />
-          <MaxWidthWrapper>
-            <Breadcrumbs />
-            {children}
-          </MaxWidthWrapper>
-          <LearnMore className="pt-x5" />
-          <Footer />
-          <Toaster />
+          <div className="flex min-h-screen flex-col">
+            <Header />
+            <MaxWidthWrapper>
+              <Breadcrumbs />
+              {children}
+            </MaxWidthWrapper>
+            <LearnMore className="pt-x5" />
+            <Footer />
+            <Toaster />
+          </div>
         </Providers>
         <Analytics />
       </body>

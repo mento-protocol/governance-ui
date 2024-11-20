@@ -6,10 +6,16 @@ import useTokens from "@/lib/contracts/useTokens";
 import { TxModal } from "@/components/_shared/tx-modal/tx-modal.component";
 import { toast } from "sonner";
 import { useWithdraw } from "@/lib/contracts/locking/useWithdraw";
+import { useLockInfo } from "@/lib/hooks/useLockInfo";
+import { useAccount } from "wagmi";
 
 export const WithdrawButton = () => {
   const { availableToWithdraw, refetchAvailableToWithdraw } =
     useAvailableToWithdraw();
+
+  const { address } = useAccount();
+
+  const { refetch } = useLockInfo(address);
 
   const {
     mentoContractData: { decimals: mentoDecimals },
@@ -27,12 +33,13 @@ export const WithdrawButton = () => {
 
   const handleWithdrawSuccess = React.useCallback(() => {
     refetchAvailableToWithdraw();
+    refetch();
     setIsModalOpen(false);
     toast.success("Withdraw Successful", {
       unstyled: true,
       duration: 2000,
     });
-  }, [refetchAvailableToWithdraw]);
+  }, [refetchAvailableToWithdraw, refetch]);
 
   const { withdraw, isPending, isConfirming, error } = useWithdraw({
     onConfirmation: handleWithdrawSuccess,

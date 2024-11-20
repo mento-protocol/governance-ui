@@ -1,9 +1,8 @@
 "use client";
-import { useAccount, useBlockNumber, useReadContracts } from "wagmi";
+import { useAccount, useReadContracts } from "wagmi";
 import { useContracts } from "@/lib/contracts/useContracts";
-import { useEffect, useMemo } from "react";
+import { useMemo } from "react";
 import { erc20Abi } from "viem";
-import { useQueryClient } from "@tanstack/react-query";
 import { formatUnitsWithRadix } from "@/lib/helpers/numbers.service";
 import { useEnsureChainId } from "@/lib/hooks/useEnsureChainId";
 import { CELO_BLOCK_TIME } from "@/config/config.constants";
@@ -22,13 +21,8 @@ export const useTokens = () => {
   } = useContracts();
 
   const { isConnected, address } = useAccount();
-  const queryClient = useQueryClient();
-  const ensuredChainId = useEnsureChainId();
 
-  const { data: blockNumber } = useBlockNumber({
-    watch: true,
-    chainId: ensuredChainId,
-  });
+  const ensuredChainId = useEnsureChainId();
 
   const { data: tokenData, isSuccess } = useReadContracts({
     allowFailure: false,
@@ -118,7 +112,7 @@ export const useTokens = () => {
         mentoContractData: {
           decimals: 18,
           symbol: "MENTO",
-          totalSupply: 0n,
+          totalSupply: 610839491208273437600000000n,
           name: "MENTO",
         },
         veMentoContractData: {
@@ -135,7 +129,6 @@ export const useTokens = () => {
     data: balanceData,
     isSuccess: balanceFetchSuccess,
     isLoading: isBalanceLoading,
-    queryKey,
   } = useReadContracts({
     allowFailure: false,
     contracts: [
@@ -158,7 +151,6 @@ export const useTokens = () => {
     query: {
       refetchInterval: CELO_BLOCK_TIME,
       enabled: isConnected && !!address,
-      // initialData: [0n, 0n],
     },
   });
 
@@ -217,11 +209,6 @@ export const useTokens = () => {
     veMentoContractData.decimals,
     veMentoContractData.symbol,
   ]);
-
-  useEffect(() => {
-    queryClient.invalidateQueries({ queryKey });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [blockNumber, queryClient]);
 
   return {
     isBalanceLoading,

@@ -25,7 +25,6 @@ import {
 import "@mdxeditor/editor/style.css";
 import BaseComponentProps from "@/interfaces/base-component-props.interface";
 import { MarkdownView } from "@/components/_shared";
-import styles from "./markdown-editor.module.scss";
 import { cn } from "@/styles/helpers";
 import { cva } from "class-variance-authority";
 
@@ -101,8 +100,7 @@ export const MarkdownEditor = ({
                 "h-full w-full rounded-lg border bg-white text-black"
               }
               contentEditableClassName={cn(
-                "prose-editor prose",
-                styles.editor__contentEditable,
+                "prose-editor prose max-h-[650px] min-h-[450px] overflow-y-auto",
               )}
               markdown={markdown}
               onChange={updateValue}
@@ -146,7 +144,7 @@ export const MarkdownEditor = ({
           </div>
         )}
         {selectedView === "preview" && (
-          <div className={styles.preview}>
+          <div className="max-h-[650px] overflow-y-auto">
             <MarkdownView markdown={markdown} />
           </div>
         )}

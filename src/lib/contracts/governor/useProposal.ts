@@ -7,12 +7,12 @@ import {
 import { useContracts } from "@/lib/contracts/useContracts";
 import {
   Proposal,
-  useGetProposalSuspenseQuery,
+  useGetProposalQuery,
 } from "@/lib/graphql/subgraph/generated/subgraph";
 import { useEnsureChainId } from "@/lib/hooks/useEnsureChainId";
 import { NetworkStatus } from "@apollo/client";
-import { useEffect, useMemo } from "react";
-import { useBlockNumber, useReadContract } from "wagmi";
+import { useMemo } from "react";
+import { useReadContract } from "wagmi";
 import { CELO_BLOCK_TIME } from "@/config/config.constants";
 export const ProposalQueryKey = "proposal";
 
@@ -20,34 +20,26 @@ const useProposal = (proposalId: bigint) => {
   const contracts = useContracts();
   const ensuredChainId = useEnsureChainId();
 
-  const { data: blockNumber } = useBlockNumber({
-    watch: true,
-    chainId: ensuredChainId,
-  });
-
   const {
-    data: { proposals: graphProposals },
+    data: { proposals: graphProposals } = { proposals: [] },
     networkStatus: graphNetworkStatus,
-    refetch: graphRefetch,
-  } = useGetProposalSuspenseQuery({
+  } = useGetProposalQuery({
     context: {
       apiName: getSubgraphApiName(ensuredChainId),
     },
     refetchWritePolicy: "merge",
-    fetchPolicy: "cache-and-network",
-    errorPolicy: "ignore",
-    queryKey: ProposalQueryKey,
+    initialFetchPolicy: "network-only",
+    nextFetchPolicy: "cache-and-network",
     variables: {
       id: proposalId.toString(),
     },
   });
 
-  const { data: chainData, refetch } = useReadContract({
+  const { data: chainData, isLoading: isChainDataLoading } = useReadContract({
     address: contracts.MentoGovernor.address,
     abi: GovernorABI,
     functionName: "state",
     args: [proposalId],
-    scopeKey: ProposalQueryKey,
     chainId: ensuredChainId,
     query: {
       refetchInterval: CELO_BLOCK_TIME,
@@ -69,18 +61,10 @@ const useProposal = (proposalId: bigint) => {
     };
   }, [chainData, graphProposals]);
 
-  useEffect(() => {
-    if (blockNumber) {
-      graphRefetch({
-        id: proposalId.toString(),
-      }).then(() => {
-        refetch();
-      });
-    }
-  }, [blockNumber, graphRefetch, proposalId, refetch]);
-
   return {
     proposal,
+    isLoading:
+      graphNetworkStatus === NetworkStatus.loading || isChainDataLoading,
   };
 };
 

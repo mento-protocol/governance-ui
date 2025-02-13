@@ -1,7 +1,7 @@
 import { ReactNode } from "react";
 import BaseComponentProps from "@/interfaces/base-component-props.interface";
 import BaseInputProps from "@/interfaces/base-input-props.interface";
-import { cn } from "@/styles/helpers";
+import { cn } from "@mento-protocol/ui-toolkit";
 import { cva } from "class-variance-authority";
 
 interface InputProps extends BaseComponentProps, BaseInputProps {

@@ -3,8 +3,8 @@ import { usePathname } from "next/navigation";
 import BaseComponentProps from "@/interfaces/base-component-props.interface";
 import { ChevronIcon, DiscordIcon, LearnMoreIcon } from "@/components/_icons";
 
-import { Button } from "@/components/_shared";
-import { cn } from "@/styles/helpers";
+import { Button } from "@mento-protocol/ui-toolkit";
+import { cn } from "@mento-protocol/ui-toolkit";
 
 interface LearnMoreProps extends BaseComponentProps {}
 

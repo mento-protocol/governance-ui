@@ -1,6 +1,7 @@
 import * as Sentry from "@sentry/nextjs";
 
-import { Button, Card } from "@/components/_shared";
+import { Card } from "@/components/_shared";
+import { Button } from "@mento-protocol/ui-toolkit";
 
 import type { Proposal } from "@/lib/graphql";
 

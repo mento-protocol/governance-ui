@@ -1,5 +1,5 @@
 import { ReactNode, useMemo, useRef } from "react";
-import { cn } from "@/styles/helpers";
+import { cn } from "@mento-protocol/ui-toolkit";
 
 interface SeeAllProps {
   isOpen: boolean;

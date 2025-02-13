@@ -2,8 +2,9 @@ import { useAccount } from "wagmi";
 import { UserRejectedRequestError } from "viem";
 import * as Sentry from "@sentry/nextjs";
 
-import { BlockExplorerLink, Button } from "@/components/_shared";
+import { BlockExplorerLink } from "@/components/_shared";
 import { ChevronIcon, SuccessIcon } from "@/components/_icons";
+import { Button } from "@mento-protocol/ui-toolkit";
 
 import type { Proposal } from "@/lib/graphql";
 

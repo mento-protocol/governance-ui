@@ -1,11 +1,11 @@
 "use client";
 import { ComponentProps, ReactNode, useEffect, useRef, useState } from "react";
 import useOutsideAlerter from "@/lib/hooks/useOutsideAlerter";
-import { Button } from "@/components/_shared";
 import { ChevronIcon } from "@/components/_icons";
 import { Dropdown, DropdownElement } from "./dropdown-button.addons";
 import { VariantProps, cva } from "class-variance-authority";
-import { cn } from "@/styles/helpers";
+import { cn } from "@mento-protocol/ui-toolkit";
+import { Button } from "@mento-protocol/ui-toolkit";
 
 const variants = cva(
   "[transition:opacity_0.3s,_transform 0.3s_0.1s_ease-in,_z-index_0.1s_1s] pointer-events-none absolute top-x14 z-[-1] min-w-full -translate-y-x10 overflow-hidden opacity-0 md:w-64",

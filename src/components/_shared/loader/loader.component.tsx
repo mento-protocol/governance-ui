@@ -1,5 +1,5 @@
 import { IMentoIcon, MentoIcon } from "@/components/_icons";
-import { cn } from "@/styles/helpers";
+import { cn } from "@mento-protocol/ui-toolkit";
 
 interface ILoader extends IMentoIcon {
   className?: string;

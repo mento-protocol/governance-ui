@@ -1,7 +1,7 @@
 import { Popover } from "@headlessui/react";
 import { Calendar, CalendarProps } from "../calendar/calendar.component";
 import React from "react";
-import { cn } from "@/styles/helpers";
+import { cn } from "@mento-protocol/ui-toolkit";
 
 type DatePickerProps = CalendarProps & {
   selected?: Date | null;

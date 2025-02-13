@@ -1,7 +1,7 @@
 import { BlockExplorerLink } from "@/components/_shared";
 import BaseComponentProps from "@/interfaces/base-component-props.interface";
 import { centerEllipsis } from "@/lib/helpers/string.service";
-import { cn } from "@/styles/helpers";
+import { cn } from "@mento-protocol/ui-toolkit";
 
 interface WalletAddressProps extends BaseComponentProps {
   address: string;

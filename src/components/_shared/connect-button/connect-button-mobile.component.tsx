@@ -1,9 +1,9 @@
 "use client";
 import { ConnectButton as RainbowConnectButton } from "@rainbow-me/rainbowkit";
-import { Button, ButtonProps } from "@/components/_shared";
+import { Button, ButtonProps } from "@mento-protocol/ui-toolkit";
 import { ChevronIcon } from "@/components/_icons";
 
-import { cn } from "@/styles/helpers";
+import { cn } from "@mento-protocol/ui-toolkit";
 
 type ConnectButtonProps = ButtonProps;
 

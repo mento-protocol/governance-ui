@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
 import BaseComponentProps from "@/interfaces/base-component-props.interface";
-import { cn } from "@/styles/helpers";
+import { cn } from "@mento-protocol/ui-toolkit";
 
 interface CardPartialProps extends BaseComponentProps {
   children: ReactNode;

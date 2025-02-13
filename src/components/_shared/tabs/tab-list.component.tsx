@@ -1,7 +1,7 @@
 "use strict";
 import { Children, ComponentProps, useState } from "react";
 import { VariantProps, cva } from "class-variance-authority";
-import { cn } from "@/styles/helpers";
+import { cn } from "@mento-protocol/ui-toolkit";
 
 const variants = cva("sticky top-0 z-10 flex bg-inherit px-0 py-x1", {
   variants: {

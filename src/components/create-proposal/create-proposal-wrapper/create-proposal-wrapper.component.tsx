@@ -1,10 +1,11 @@
 import { ReactNode, useMemo } from "react";
-import { Button, Card, StepCounter } from "@/components/_shared";
+import { Card, StepCounter } from "@/components/_shared";
+import { Button } from "@mento-protocol/ui-toolkit";
 import {
   CreateProposalStep,
   useCreateProposal,
 } from "../create-proposal-provider";
-import { cn } from "@/styles/helpers";
+import { cn } from "@mento-protocol/ui-toolkit";
 import { cva } from "class-variance-authority";
 
 interface ICreateProposalWrapper {

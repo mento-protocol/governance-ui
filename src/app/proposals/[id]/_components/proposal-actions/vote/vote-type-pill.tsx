@@ -1,5 +1,5 @@
 import { REVERSE_VOTE_TYPE_MAP, VOTE_TYPES } from "./vote.component";
-import { cn } from "@/styles/helpers";
+import { cn } from "@mento-protocol/ui-toolkit";
 
 export const VoteTypePill = ({ voteType }: { voteType: number }) => {
   return (

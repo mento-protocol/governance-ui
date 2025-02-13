@@ -1,4 +1,4 @@
-import { cn } from "@/styles/helpers";
+import { cn } from "@mento-protocol/ui-toolkit";
 
 export const SettingsIcon = ({
   size = 32,

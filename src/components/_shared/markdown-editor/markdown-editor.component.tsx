@@ -25,7 +25,7 @@ import {
 import "@mdxeditor/editor/style.css";
 import BaseComponentProps from "@/interfaces/base-component-props.interface";
 import { MarkdownView } from "@/components/_shared";
-import { cn } from "@/styles/helpers";
+import { cn } from "@mento-protocol/ui-toolkit";
 import { cva } from "class-variance-authority";
 
 interface MarkdownEditorProps extends BaseComponentProps {

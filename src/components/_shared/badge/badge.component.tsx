@@ -1,5 +1,5 @@
 import React from "react";
-import { cn } from "@/styles/helpers";
+import { cn } from "@mento-protocol/ui-toolkit";
 import { VariantProps, cva } from "class-variance-authority";
 
 const variants = cva(

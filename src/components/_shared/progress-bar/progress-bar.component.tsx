@@ -1,7 +1,7 @@
 import BaseComponentProps from "@/lib/interfaces/base-component-props.interface";
 import { useMemo } from "react";
 import NumbersService from "@/lib/helpers/numbers.service";
-import { cn } from "@/styles/helpers";
+import { cn } from "@mento-protocol/ui-toolkit";
 
 type Type = "success" | "info" | "warning" | "danger";
 

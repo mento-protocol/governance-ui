@@ -1,4 +1,4 @@
-import { cn } from "@/styles/helpers";
+import { cn } from "@mento-protocol/ui-toolkit";
 import ReactMarkdown from "react-markdown";
 import gfm from "remark-gfm";
 

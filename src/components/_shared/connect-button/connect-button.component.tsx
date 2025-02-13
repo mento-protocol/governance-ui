@@ -4,12 +4,8 @@ import {
   useAccountModal,
   useChainModal,
 } from "@rainbow-me/rainbowkit";
-import {
-  Avatar,
-  Button,
-  ButtonProps,
-  DropdownButton,
-} from "@/components/_shared";
+import { Avatar, DropdownButton } from "@/components/_shared";
+import { Button, ButtonProps } from "@mento-protocol/ui-toolkit";
 import {
   ChevronIcon,
   DisconnectIcon,
@@ -21,7 +17,7 @@ import BaseComponentProps from "@/interfaces/base-component-props.interface";
 import WalletHelper from "@/lib/helpers/wallet.helper";
 import useTokens from "@/lib/contracts/useTokens";
 import { useAccount, useDisconnect } from "wagmi";
-import { cn } from "@/styles/helpers";
+import { cn } from "@mento-protocol/ui-toolkit";
 import NumbersService from "@/lib/helpers/numbers.service";
 import { IS_PROD } from "../../../middleware";
 import { useAddTokens } from "@/lib/hooks/useAddTokens";

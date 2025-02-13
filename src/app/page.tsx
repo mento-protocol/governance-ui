@@ -1,7 +1,7 @@
 "use client";
 import { useAccount } from "wagmi";
 import { MentoIcon } from "@/components/_icons";
-import { Button, ButtonProps, Card, Divider } from "@/components/_shared";
+import { Card, Divider } from "@/components/_shared";
 import {
   Badges,
   ContractParams,
@@ -9,7 +9,8 @@ import {
   ProposalsListComponent,
 } from "@/components/index";
 import Link from "next/link";
-import { cn } from "@/styles/helpers";
+import { cn } from "@mento-protocol/ui-toolkit";
+import { Button, ButtonProps } from "@mento-protocol/ui-toolkit";
 
 export default function Page() {
   return (

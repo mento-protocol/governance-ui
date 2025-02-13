@@ -1,6 +1,6 @@
 import React from "react";
 import { Switch } from "@headlessui/react";
-import { cn } from "@/styles/helpers";
+import { cn } from "@mento-protocol/ui-toolkit";
 
 interface ManageLockSwitchProps {
   checked: boolean;

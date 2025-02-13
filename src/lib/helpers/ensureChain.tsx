@@ -9,7 +9,7 @@ import {
 } from "wagmi";
 import { IS_PROD } from "../../middleware";
 import { Modal } from "@/components/_shared/modal/modal.component";
-import { Button } from "@/components/_shared";
+import { Button } from "@mento-protocol/ui-toolkit";
 
 export function EnsureChain({ children }: { children: ReactNode }) {
   const { isConnected, chainId } = useAccount();

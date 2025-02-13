@@ -25,7 +25,7 @@ import {
   MobileAccordionMenu,
   ThemeSwitch,
 } from "@/components/_shared";
-import { cn } from "@/styles/helpers";
+import { cn } from "@mento-protocol/ui-toolkit";
 import { ConnectButtonMobile } from "@/components/_shared";
 import WalletHelper from "@/lib/helpers/wallet.helper";
 import NumbersService from "@/lib/helpers/numbers.service";

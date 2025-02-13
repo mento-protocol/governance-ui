@@ -1,5 +1,5 @@
 "use client";
-import { Button, ButtonProps } from "@/components/_shared";
+import { Button, ButtonProps } from "@mento-protocol/ui-toolkit";
 import React from "react";
 import { useDisconnect } from "wagmi";
 

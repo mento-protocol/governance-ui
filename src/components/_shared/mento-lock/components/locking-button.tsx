@@ -4,11 +4,10 @@ import {
   CREATE_LOCK_TX_STATUS,
   useCreateLock,
 } from "../providers/create-lock-provider";
-
-import { Button } from "@/components/_shared/button/button.component";
-import { cn } from "@/styles/helpers";
+import { cn } from "@mento-protocol/ui-toolkit";
 import React from "react";
 import { LOCKING_AMOUNT_FORM_KEY } from "@/lib/constants/locking";
+import { Button } from "@mento-protocol/ui-toolkit";
 
 export const LockingButton = () => {
   const { createLock, CreateLockTxStatus, CreateLockApprovalStatus } =

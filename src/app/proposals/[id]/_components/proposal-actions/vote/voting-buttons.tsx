@@ -1,4 +1,4 @@
-import { Button } from "@/components/_shared";
+import { Button } from "@mento-protocol/ui-toolkit";
 import { VOTE_TYPES } from "./vote.component";
 
 export const VotingButtons = ({

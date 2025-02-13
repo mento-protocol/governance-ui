@@ -10,7 +10,7 @@ import Link from "next/link";
 import { formatUnits } from "viem";
 import { EmptyProposals } from "../_icons";
 import { MentoIcon } from "../_icons";
-import { cn } from "@/styles/helpers";
+import { cn } from "@mento-protocol/ui-toolkit";
 import React from "react";
 
 interface ProposalsListProps extends BaseComponentProps {}

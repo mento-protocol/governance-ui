@@ -2,7 +2,6 @@ export { Avatar } from "./avatar/avatar.component";
 export { Badge } from "./badge/badge.component";
 export { BlockExplorerLink } from "./block-explorer-link/block-explorer-link.component";
 export { Breadcrumbs } from "./breadcrumbs/breadcrumbs.component";
-export { Button, type ButtonProps } from "./button/button.component";
 export { Card } from "./card/card.component";
 export { ConnectButton } from "./connect-button/connect-button.component";
 export { ConnectButtonMobile } from "./connect-button/connect-button-mobile.component";

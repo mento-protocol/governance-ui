@@ -1,4 +1,4 @@
-import { cn } from "@/styles/helpers";
+import { cn } from "@mento-protocol/ui-toolkit";
 import React from "react";
 
 const ValueLoaderSkeleton = ({

@@ -7,7 +7,7 @@ import {
 
 import BaseComponentProps from "@/interfaces/base-component-props.interface";
 import { useMemo } from "react";
-import { cn } from "@/styles/helpers";
+import { cn } from "@mento-protocol/ui-toolkit";
 import { Proposal } from "@/lib/graphql/subgraph/generated/subgraph";
 import NumbersService from "@/lib/helpers/numbers.service";
 import { formatUnits } from "viem";

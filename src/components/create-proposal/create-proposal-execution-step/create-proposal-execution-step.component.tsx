@@ -3,7 +3,8 @@ import { useEffect, useState } from "react";
 import { object, setLocale, string } from "yup";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { Button, Textarea } from "@/components/_shared";
+import { Textarea } from "@/components/_shared";
+import { Button } from "@mento-protocol/ui-toolkit";
 import {
   CreateProposalStep,
   useCreateProposal,

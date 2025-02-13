@@ -1,4 +1,4 @@
-import { cn } from "@/styles/helpers";
+import { cn } from "@mento-protocol/ui-toolkit";
 import BaseComponentProps from "@/lib/interfaces/base-component-props.interface";
 
 interface TableDividerProps extends BaseComponentProps {

@@ -1,9 +1,8 @@
 import React from "react";
 import { addWeeks } from "date-fns";
 
-import { cn } from "@/styles/helpers";
+import { cn } from "@mento-protocol/ui-toolkit";
 import {
-  Button,
   DatePicker,
   Sheet,
   SheetTrigger,
@@ -12,7 +11,6 @@ import {
 } from "@/components/_shared";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 import { Calendar } from "@/components/_shared/calendar/calendar.component";
-import { variants } from "@/components/_shared/button/button.component";
 import { MangeLockFormProvider } from "../manage-lock-form-provider";
 
 import { useManageLock } from "../manage-lock.provider";
@@ -28,6 +26,7 @@ import {
   TooltipTrigger,
 } from "@radix-ui/react-tooltip";
 import { ExclamationIcon } from "@/components/_shared/icons/exclamation-icon";
+import { Button, buttonVariants } from "@mento-protocol/ui-toolkit";
 
 export interface ManageLockButtonProps {
   lock: LockWithExpiration;
@@ -203,7 +202,7 @@ const DesktopRelockForm = () => {
       <DatePicker.Button
         closeButtonRef={ref}
         className={cn(
-          variants({ theme: "clear" }),
+          buttonVariants({ theme: "clear" }),
           "h-full w-fit items-center justify-items-center font-medium",
         )}
       >

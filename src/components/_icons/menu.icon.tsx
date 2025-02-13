@@ -1,5 +1,5 @@
 import BaseIconProps from "@/interfaces/base-icon-props.interface";
-import { cn } from "@/styles/helpers";
+import { cn } from "@mento-protocol/ui-toolkit";
 
 interface MenuIconProps extends BaseIconProps {
   opened: boolean;

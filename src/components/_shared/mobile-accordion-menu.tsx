@@ -6,7 +6,7 @@ import Link from "next/link";
 
 import { links } from "@/lib/constants/links";
 import { ChevronIcon } from "@/components/_icons";
-import { cn } from "@/styles/helpers";
+import { cn } from "@mento-protocol/ui-toolkit";
 
 const mobileMenuAccordionMenuItems = [
   {

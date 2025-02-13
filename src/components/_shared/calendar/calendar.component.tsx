@@ -3,7 +3,7 @@
 import * as React from "react";
 
 import { DayPicker } from "react-day-picker";
-import { cn } from "@/styles/helpers";
+import { cn } from "@mento-protocol/ui-toolkit";
 import { ChevronIcon } from "@/components/_icons";
 
 export type CalendarProps = React.ComponentProps<typeof DayPicker>;

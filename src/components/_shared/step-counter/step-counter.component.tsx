@@ -1,6 +1,6 @@
 import { IndexWrapperIcon } from "@/components/_icons";
 import BaseComponentProps from "@/interfaces/base-component-props.interface";
-import { cn } from "@/styles/helpers";
+import { cn } from "@mento-protocol/ui-toolkit";
 
 interface StepCounterProps extends BaseComponentProps {}
 

@@ -2,7 +2,7 @@ import useTokens from "@/lib/contracts/useTokens";
 import React from "react";
 import { formatUnits } from "viem";
 import { VariantProps, cva } from "class-variance-authority";
-import { cn } from "@/styles/helpers";
+import { cn } from "@mento-protocol/ui-toolkit";
 import ValueLoaderSkeleton from "../value-loader-skeleton/value-loader-skeleton.component";
 import NumbersService from "@/lib/helpers/numbers.service";
 import { RefCallBack } from "react-hook-form";

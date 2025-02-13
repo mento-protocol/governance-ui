@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import BaseComponentProps from "@/interfaces/base-component-props.interface";
-import { cn } from "@/styles/helpers";
+import { cn } from "@mento-protocol/ui-toolkit";
 
 const getTimeLeftValues = (countDown: number) => {
   const days = Math.floor(countDown / (1000 * 60 * 60 * 24));

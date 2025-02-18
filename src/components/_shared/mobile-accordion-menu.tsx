@@ -4,9 +4,7 @@ import { Disclosure } from "@headlessui/react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 
-import { links } from "@/lib/constants/links";
-import { ChevronIcon } from "@/components/_icons";
-import { cn } from "@mento-protocol/ui-toolkit";
+import { cn, ChevronIcon, links } from "@mento-protocol/ui-toolkit";
 
 const mobileMenuAccordionMenuItems = [
   {

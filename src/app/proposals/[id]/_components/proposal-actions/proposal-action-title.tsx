@@ -1,12 +1,12 @@
 import React from "react";
-import { Card } from "@/components/_shared";
+import { CardHeader } from "@mento-protocol/ui-toolkit";
 
 export const ProposalActionTitle = ({
   children = "Cast Votes",
 }: React.PropsWithChildren) => {
   return (
-    <Card.Header className="text-center">
+    <CardHeader className="text-center">
       <h2 className="font-fg text-[32px]/none font-medium">{children}</h2>
-    </Card.Header>
+    </CardHeader>
   );
 };

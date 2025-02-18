@@ -1,8 +1,8 @@
 import WalletHelper from "@/lib/helpers/wallet.helper";
-import { Loader } from "@/components/_shared";
 import { Proposal } from "@/lib/graphql";
 import { VoteTypePill } from "./vote-type-pill";
 import { ProposalActionTitle } from "../proposal-action-title";
+import { Loader } from "@mento-protocol/ui-toolkit";
 
 export const VoteConfirmation = ({
   voteType,

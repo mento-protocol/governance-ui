@@ -1,10 +1,12 @@
+"use client";
+
 import { MobileHeader } from "./mobile-header";
-import { MentoLogoIcon } from "@/components/_icons";
 import HeaderNav from "./header-nav";
 
 import Link from "next/link";
 import { MaxWidthWrapper } from "../max-width-wrapper";
 import { ConnectButton } from "@/components/_shared";
+import { MentoLogoIcon } from "@mento-protocol/ui-toolkit";
 
 export const Header = () => {
   return (

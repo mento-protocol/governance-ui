@@ -1,7 +1,6 @@
 import * as Sentry from "@sentry/nextjs";
 
-import { Card } from "@/components/_shared";
-import { Button } from "@mento-protocol/ui-toolkit";
+import { Button, CardHeader } from "@mento-protocol/ui-toolkit";
 
 import type { Proposal } from "@/lib/graphql";
 
@@ -65,9 +64,9 @@ export const QueueProposal = ({ proposal }: { proposal: Proposal }) => {
 
   return (
     <div className="flex flex-col gap-6 p-4">
-      <Card.Header className="text-center">
+      <CardHeader className="text-center">
         <ProposalActionTitle>Proposal succeeded</ProposalActionTitle>
-      </Card.Header>
+      </CardHeader>
       <div className="flex flex-col gap-2">
         <span>
           This proposal has succeeded. It&apos;s now ready to be queued for

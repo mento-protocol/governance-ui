@@ -1,5 +1,6 @@
+"use client";
 import { useCallback, useMemo, useState } from "react";
-import { SeeAll } from "@/components/_shared";
+import { SeeAll } from "@mento-protocol/ui-toolkit";
 import { TransactionItem } from "@/lib/contracts/governor/useCreateProposalOnChain";
 
 interface ExecutionCodeViewProps {

@@ -1,5 +1,5 @@
 import React from "react";
-import { Card } from "../_shared";
+import { Card } from "@mento-protocol/ui-toolkit";
 import ValueLoaderSkeleton from "../_shared/value-loader-skeleton/value-loader-skeleton.component";
 
 export const LockInfoSkeleton = () => {

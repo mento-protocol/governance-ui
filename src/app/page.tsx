@@ -1,7 +1,6 @@
 "use client";
 import { useAccount } from "wagmi";
-import { MentoIcon } from "@/components/_icons";
-import { Card, Divider } from "@/components/_shared";
+import { Divider } from "@/components/_shared";
 import {
   Badges,
   ContractParams,
@@ -9,8 +8,14 @@ import {
   ProposalsListComponent,
 } from "@/components/index";
 import Link from "next/link";
-import { cn } from "@mento-protocol/ui-toolkit";
-import { Button, ButtonProps } from "@mento-protocol/ui-toolkit";
+import {
+  Button,
+  ButtonProps,
+  cn,
+  MentoIcon,
+  Card,
+  CardHeader,
+} from "@mento-protocol/ui-toolkit";
 
 export default function Page() {
   return (
@@ -18,10 +23,10 @@ export default function Page() {
       <Title />
       <Subtitle />
       <Card className="mt-8 md:mt-[55px]" block>
-        <Card.Header className="flex flex-row items-center justify-between !pb-0">
+        <CardHeader className="flex flex-row items-center justify-between !pb-0">
           <MentoIconWithLogo />
           <DesktopNavigationButtons />
-        </Card.Header>
+        </CardHeader>
         <div className="my-[20px] md:my-[30px]">
           <DesktopTagline />
           <div className="flex flex-col flex-wrap items-start md:flex-row md:items-stretch">

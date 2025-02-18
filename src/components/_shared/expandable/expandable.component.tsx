@@ -1,7 +1,6 @@
 "use client";
 import { ComponentProps, ReactNode, useState } from "react";
-import { ChevronIcon } from "@/components/_icons";
-import { cn } from "@mento-protocol/ui-toolkit";
+import { ChevronIcon, cn } from "@mento-protocol/ui-toolkit";
 
 interface ExpandableProps extends Omit<ComponentProps<"header">, "title"> {
   title: ReactNode | string;

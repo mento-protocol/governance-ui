@@ -6,8 +6,8 @@ import { motion } from "framer-motion";
 import { Menu } from "@headlessui/react";
 import Link from "next/link";
 
-import { links } from "@/lib/constants/links";
-import { ChevronIcon } from "@/components/_icons";
+import { ChevronIcon, links } from "@mento-protocol/ui-toolkit";
+
 const headerMenuItems: {
   name: string;
   items?: { name: string; href: string }[];

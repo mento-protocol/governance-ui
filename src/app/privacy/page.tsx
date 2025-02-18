@@ -1,4 +1,4 @@
-import { links } from "@/lib/constants/links";
+import { links } from "@mento-protocol/ui-toolkit";
 import type { NextPage } from "next";
 
 const Page: NextPage = () => {

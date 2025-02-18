@@ -2,11 +2,11 @@ import { useAccount } from "wagmi";
 import { Proposal, ProposalState } from "@/lib/graphql";
 import { DisconnectedState } from "./disconnected-state";
 import { ProposalActionLoading } from "./proposal-action-loading";
-import { Card } from "@/components/_shared";
 import ExecuteProposal from "./execute";
 import QueueProposal from "./queue";
 import Vote from "./vote";
 import { ProposalStatusMessage } from "./proposal-status-message.component";
+import { Card } from "@mento-protocol/ui-toolkit";
 
 const ProposalActions = ({
   proposal,

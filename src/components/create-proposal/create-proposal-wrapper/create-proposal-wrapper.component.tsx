@@ -1,6 +1,11 @@
 import { ReactNode, useMemo } from "react";
-import { Card, StepCounter } from "@/components/_shared";
-import { Button } from "@mento-protocol/ui-toolkit";
+import { StepCounter } from "@/components/_shared";
+import {
+  Button,
+  Card,
+  CardFooter,
+  CardHeader,
+} from "@mento-protocol/ui-toolkit";
 import {
   CreateProposalStep,
   useCreateProposal,
@@ -49,7 +54,7 @@ export const CreateProposalWrapper = ({
       block
       className={cn("px-10 pb-4", !isOpen && "opacity-50", className)}
     >
-      <Card.Header>
+      <CardHeader>
         <div
           className={
             "flex items-center gap-x2 bg-inherit pb-2 text-xl font-medium"
@@ -58,7 +63,7 @@ export const CreateProposalWrapper = ({
           <StepCounter>{componentStep}</StepCounter>
           {title}
         </div>
-      </Card.Header>
+      </CardHeader>
       <div
         className={variants({
           open: isOpen,
@@ -72,7 +77,7 @@ export const CreateProposalWrapper = ({
         >
           {children}
         </div>
-        <Card.Footer>
+        <CardFooter>
           <div className="full-w flex items-center justify-start gap-x3 py-x4 empty:hidden">
             {onPrev && (
               <Button
@@ -96,7 +101,7 @@ export const CreateProposalWrapper = ({
               </Button>
             )}
           </div>
-        </Card.Footer>
+        </CardFooter>
       </div>
     </Card>
   );

@@ -1,5 +1,6 @@
-import { Card, ConnectButton } from "@/components/_shared";
+import { ConnectButton } from "@/components/_shared";
 import { ProposalActionTitle } from "./proposal-action-title";
+import { Card } from "@mento-protocol/ui-toolkit";
 
 export const DisconnectedState = () => {
   return (

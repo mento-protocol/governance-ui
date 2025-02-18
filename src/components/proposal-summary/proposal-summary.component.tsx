@@ -1,5 +1,4 @@
 import { useMemo } from "react";
-import { Card } from "@/components/_shared";
 import useProposals from "@/lib/contracts/governor/useProposals";
 import useAllLocks from "@/lib/contracts/locking/useAllLocks";
 import useLockingWeek from "@/lib/contracts/locking/useLockingWeek";
@@ -8,6 +7,7 @@ import { ensureChainId } from "@/lib/helpers/ensureChainId";
 import NumbersService from "@/lib/helpers/numbers.service";
 import { formatUnits } from "viem";
 import { useAccount, useBlockNumber } from "wagmi";
+import { Card } from "@mento-protocol/ui-toolkit";
 
 export const ProposalSummaryComponent = () => {
   return (

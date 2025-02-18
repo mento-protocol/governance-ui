@@ -1,4 +1,4 @@
-import { Card } from "@/components/_shared";
+import { Card } from "@mento-protocol/ui-toolkit";
 
 export const ProposalActionLoading = () => {
   return (

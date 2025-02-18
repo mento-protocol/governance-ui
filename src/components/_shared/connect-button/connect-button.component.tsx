@@ -12,7 +12,7 @@ import {
   MentoIcon,
   ChainIcon,
   AccountIcon,
-} from "@/components/_icons";
+} from "@mento-protocol/ui-toolkit";
 import BaseComponentProps from "@/interfaces/base-component-props.interface";
 import WalletHelper from "@/lib/helpers/wallet.helper";
 import useTokens from "@/lib/contracts/useTokens";

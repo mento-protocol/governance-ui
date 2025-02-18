@@ -1,8 +1,8 @@
 import { Proposal, ProposalState } from "@/lib/graphql";
 import React from "react";
-import { Card } from "@/components/_shared";
 import { BlockExplorerLink } from "@/components/_shared/block-explorer-link/block-explorer-link.component";
 import { format, fromUnixTime } from "date-fns";
+import { CardHeader } from "@mento-protocol/ui-toolkit";
 
 const StatusMessage = {
   Layout: ({ children }: { children: React.ReactNode }) => (
@@ -13,9 +13,9 @@ const StatusMessage = {
     </div>
   ),
   Header: ({ children }: { children: React.ReactNode }) => (
-    <Card.Header className="text-center">
+    <CardHeader className="text-center">
       <h2 className="font-fg text-[32px]/none font-medium">{children}</h2>
-    </Card.Header>
+    </CardHeader>
   ),
   Content: ({ children }: { children: React.ReactNode }) => (
     <span>{children}</span>

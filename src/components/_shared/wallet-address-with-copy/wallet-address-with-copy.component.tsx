@@ -1,9 +1,9 @@
 import CopyToClipboard from "react-copy-to-clipboard";
 import BaseComponentProps from "@/interfaces/base-component-props.interface";
 import { WalletAddress } from "@/components/index";
-import { CopyIcon } from "@/components/_icons/copy.icon";
-import { cn } from "@mento-protocol/ui-toolkit";
 import { toast } from "sonner";
+import { CopyIcon } from "@mento-protocol/ui-toolkit";
+import { cn } from "@mento-protocol/ui-toolkit";
 
 interface WalletAddressWithCopyProps extends BaseComponentProps {
   address: string;

@@ -1,7 +1,7 @@
 "use client";
-import { DarkModeIcon, LightModeIcon } from "@/components/_icons";
+
 import { useTheme } from "next-themes";
-import { cn } from "@mento-protocol/ui-toolkit";
+import { cn, DarkModeIcon, LightModeIcon } from "@mento-protocol/ui-toolkit";
 
 const enum Mode {
   LIGHT = "light",

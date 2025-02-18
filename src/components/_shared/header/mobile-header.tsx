@@ -4,7 +4,6 @@ import React from "react";
 
 import { MotionConfig, motion } from "framer-motion";
 
-import { links } from "@/lib/constants/links";
 import Link from "next/link";
 
 import { useAccount } from "wagmi";
@@ -12,20 +11,21 @@ import { useAccount } from "wagmi";
 import CopyToClipboard from "react-copy-to-clipboard";
 
 import {
+  cn,
   ChainIcon,
   CopyIcon,
   DiscordIcon,
   GithubIcon,
   MentoLogoIcon,
   TwitterIcon,
-} from "@/components/_icons";
+  links,
+} from "@mento-protocol/ui-toolkit";
 import {
   Avatar,
   DisconnectButton,
   MobileAccordionMenu,
   ThemeSwitch,
 } from "@/components/_shared";
-import { cn } from "@mento-protocol/ui-toolkit";
 import { ConnectButtonMobile } from "@/components/_shared";
 import WalletHelper from "@/lib/helpers/wallet.helper";
 import NumbersService from "@/lib/helpers/numbers.service";

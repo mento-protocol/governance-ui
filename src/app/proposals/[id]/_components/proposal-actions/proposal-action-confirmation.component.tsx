@@ -1,7 +1,7 @@
-import { Loader } from "@/components/_shared";
 import WalletHelper from "@/lib/helpers/wallet.helper";
 import { ProposalActionTitle } from "./proposal-action-title";
 import { Proposal } from "@/lib/graphql";
+import { Loader } from "@mento-protocol/ui-toolkit";
 
 export const ProposalActionConfirmation = ({
   proposalId,

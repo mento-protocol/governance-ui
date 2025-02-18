@@ -1,7 +1,6 @@
 import * as Sentry from "@sentry/nextjs";
 
-import { Card } from "@/components/_shared";
-import { Button } from "@mento-protocol/ui-toolkit";
+import { Button, CardHeader } from "@mento-protocol/ui-toolkit";
 import type { Proposal } from "@/lib/graphql";
 
 import { ProposalActionTitle } from "../proposal-action-title";
@@ -65,11 +64,11 @@ export const ExecuteProposal = ({ proposal }: { proposal: Proposal }) => {
 
   return (
     <div className="flex flex-col gap-6 p-4">
-      <Card.Header className="text-center">
+      <CardHeader className="text-center">
         <ProposalActionTitle>
           {isTimeLocked ? "Proposal queued" : "Proposal ready for execution"}
         </ProposalActionTitle>
-      </Card.Header>
+      </CardHeader>
       <div className="flex flex-col gap-2">
         {isTimeLocked ? (
           <>

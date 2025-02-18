@@ -1,10 +1,9 @@
 "use client";
-import { CeloLogoIcon } from "@/components/_icons";
-import { Badge } from "@/components/_shared";
 import useTokens from "@/lib/contracts/useTokens";
 import NumbersService from "@/lib/helpers/numbers.service";
 import { formatUnits } from "viem";
 import { useAccount } from "wagmi";
+import { CeloLogoIcon, Badge } from "@mento-protocol/ui-toolkit";
 
 export const Badges = () => {
   const {

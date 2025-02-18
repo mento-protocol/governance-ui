@@ -1,5 +1,5 @@
 "use client";
-import { Card, ProgressBar, Status } from "@/components/_shared";
+import { ProgressBar, Status } from "@/components/_shared";
 import useProposals from "@/lib/contracts/governor/useProposals";
 import { Proposal } from "@/lib/graphql/subgraph/generated/subgraph";
 import NumbersService from "@/lib/helpers/numbers.service";
@@ -8,9 +8,12 @@ import BaseComponentProps from "@/lib/interfaces/base-component-props.interface"
 import { stateToStatusColorMap } from "@/lib/interfaces/proposal.interface";
 import Link from "next/link";
 import { formatUnits } from "viem";
-import { EmptyProposals } from "../_icons";
-import { MentoIcon } from "../_icons";
-import { cn } from "@mento-protocol/ui-toolkit";
+import {
+  Card,
+  EmptyProposalsIcon,
+  MentoIcon,
+  cn,
+} from "@mento-protocol/ui-toolkit";
 import React from "react";
 
 interface ProposalsListProps extends BaseComponentProps {}
@@ -31,7 +34,7 @@ const ProposalsTable = () => {
   if (proposals?.length === 0 && !isLoading) {
     return (
       <Card className="flex flex-col items-center justify-center">
-        <EmptyProposals />
+        <EmptyProposalsIcon />
         There are no proposals to display yet
       </Card>
     );

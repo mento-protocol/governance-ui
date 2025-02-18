@@ -1,16 +1,17 @@
 "use client";
 import React, { Suspense } from "react";
 
-import {
-  Card,
-  Expandable,
-  Loader,
-  WalletAddressWithCopy,
-} from "@/components/_shared";
+import { WalletAddressWithCopy } from "@/components/_shared";
 import { useContracts } from "@/lib/contracts/useContracts";
 import useGovernanceDetails from "@/lib/contracts/governor/useGovernanceDetails";
 import NumbersService from "@/lib/helpers/numbers.service";
 import { Address, formatUnits } from "viem";
+import {
+  Card,
+  CardHeader,
+  Expandable,
+  Loader,
+} from "@mento-protocol/ui-toolkit";
 
 export const ContractParams = () => {
   const {
@@ -37,11 +38,11 @@ export const ContractParams = () => {
             noBorderMobile
             className="flex flex-col gap-x4 md:col-span-3 md:gap-x6"
           >
-            <Card.Header>
+            <CardHeader>
               <div className="text-center text-primary md:text-left">
                 Parameters
               </div>
-            </Card.Header>
+            </CardHeader>
             <div className="flex flex-grow flex-col justify-between gap-x3">
               <ParamsDisplay
                 items={[
@@ -79,11 +80,11 @@ export const ContractParams = () => {
             noBorderMobile
             className="flex flex-col gap-x4 md:col-span-4 md:gap-x6"
           >
-            <Card.Header>
+            <CardHeader>
               <div className="text-center text-primary md:text-left">
                 Contract addresses
               </div>
-            </Card.Header>
+            </CardHeader>
             <div className="flex flex-grow flex-col justify-between gap-[15px]">
               <ParamsDisplay
                 items={[

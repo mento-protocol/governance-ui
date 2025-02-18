@@ -1,13 +1,16 @@
+"use client";
+
 import Link from "next/link";
 
 import {
   DiscordIcon,
   GithubIcon,
+  links,
   MentoLogoIcon,
+  MobileAccordionMenu,
+  ThemeSwitch,
   TwitterIcon,
-} from "@/components/_icons";
-import { links } from "@/lib/constants/links";
-import { MobileAccordionMenu, ThemeSwitch } from "@/components/_shared";
+} from "@mento-protocol/ui-toolkit";
 
 export const Footer = () => {
   return (

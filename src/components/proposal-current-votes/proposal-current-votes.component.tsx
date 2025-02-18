@@ -1,19 +1,19 @@
 import {
   Card,
+  CardHeader,
+  CheckmarkIcon,
+  CrossmarkIcon,
   Loader,
   MultiProgressBar,
   MultiProgressBarValue,
-} from "@/components/_shared";
-
-import BaseComponentProps from "@/interfaces/base-component-props.interface";
+} from "@mento-protocol/ui-toolkit";
 import { useMemo } from "react";
 import { cn } from "@mento-protocol/ui-toolkit";
 import { Proposal } from "@/lib/graphql/subgraph/generated/subgraph";
 import NumbersService from "@/lib/helpers/numbers.service";
 import { formatUnits } from "viem";
-import { CheckMarkIcon } from "@/components/_icons/checkmark.icon";
-import { CrossMarkIcon } from "@/components/_icons/crossmark.icon";
 import { useQuorum } from "@/lib/contracts/governor/useQuorum";
+import BaseComponentProps from "@/lib/interfaces/base-component-props.interface";
 
 interface ProposalCurrentVotesProps extends BaseComponentProps {
   proposal: Proposal;
@@ -62,11 +62,11 @@ export const ProposalCurrentVotes = ({
 
   return (
     <Card className={cn(className, "p-4")}>
-      <Card.Header>
+      <CardHeader>
         <h3 className="mb-8 flex justify-center text-[32px]/none font-medium">
           Current votes
         </h3>
-      </Card.Header>
+      </CardHeader>
       <MultiProgressBar className="mb-8" values={values} />
       <div className="grid grid-cols-1 gap-x-12 text-[22px]/none md:grid-cols-2">
         <div className="flex flex-col gap-y-6">
@@ -117,8 +117,8 @@ export const ProposalCurrentVotes = ({
         <div className="mt-6 flex flex-col gap-y-6 md:mt-0">
           <div>
             <div className="flex items-center gap-x3">
-              {majoritySupport && <CheckMarkIcon />}
-              {!majoritySupport && <CrossMarkIcon />}
+              {majoritySupport && <CheckmarkIcon />}
+              {!majoritySupport && <CrossmarkIcon />}
               <div>Majority supports</div>
             </div>
           </div>
@@ -126,11 +126,11 @@ export const ProposalCurrentVotes = ({
             <div className="flex items-center justify-start gap-x3">
               {!!quorumNeeded &&
                 quorumNeeded > BigInt(proposal.votes.for.total) && (
-                  <CrossMarkIcon />
+                  <CrossmarkIcon />
                 )}
               {!!quorumNeeded &&
                 quorumNeeded <= BigInt(proposal.votes.for.total) && (
-                  <CheckMarkIcon />
+                  <CheckmarkIcon />
                 )}
 
               <div>

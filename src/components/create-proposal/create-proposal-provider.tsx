@@ -11,11 +11,11 @@ import useCreateProposalOnChain, {
 } from "@/lib/contracts/governor/useCreateProposalOnChain";
 import { LocalStorageKeys, useLocalStorage } from "@/lib/hooks/useStorage";
 import { useAccount, useBlockNumber } from "wagmi";
-import { Loader } from "@/components/_shared";
 import { CreateProposalTxModal } from "@/components/create-proposal/create-proposal-transaction.model";
 import { useRouter } from "next/navigation";
 import useProposals from "@/lib/contracts/governor/useProposals";
 import { ensureChainId } from "@/lib/helpers/ensureChainId";
+import { Loader } from "@mento-protocol/ui-toolkit";
 
 export enum CreateProposalStep {
   wallet = 1,

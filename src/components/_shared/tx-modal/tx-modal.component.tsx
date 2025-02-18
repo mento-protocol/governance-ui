@@ -1,5 +1,4 @@
-import { Loader } from "@/components/_shared";
-import { Button } from "@mento-protocol/ui-toolkit";
+import { Button, Loader } from "@mento-protocol/ui-toolkit";
 import { IModal, Modal } from "../modal/modal.component";
 
 export interface ITxModal extends Omit<IModal, "children"> {

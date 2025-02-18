@@ -1,6 +1,5 @@
 import { format } from "date-fns";
 import React, { useMemo } from "react";
-import { Card } from "../_shared";
 import { useAccount } from "wagmi";
 import { WithdrawButton } from "../lock-withdraw/withdraw-button";
 import { useLockInfo } from "@/lib/hooks/useLockInfo";
@@ -8,7 +7,7 @@ import { ManageLockButton } from "../lock-manage-lock/manage-lock-button/manage-
 import useTokens from "@/lib/contracts/useTokens";
 import { formatUnits } from "viem";
 import { LockInfoSkeleton } from "./lock-info-skeleton.component";
-
+import { Card } from "@mento-protocol/ui-toolkit";
 export const LockInfo = () => {
   const { address } = useAccount();
   const { lock, unlockedMento, hasLock, isLoading } = useLockInfo(address);

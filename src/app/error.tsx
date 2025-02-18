@@ -1,10 +1,9 @@
 "use client";
 
-import { links } from "@/lib/constants/links";
 import * as Sentry from "@sentry/nextjs";
 import { usePathname } from "next/navigation";
 import { useEffect } from "react";
-import { Button } from "@mento-protocol/ui-toolkit";
+import { Button, links } from "@mento-protocol/ui-toolkit";
 
 export default function Error({
   error,

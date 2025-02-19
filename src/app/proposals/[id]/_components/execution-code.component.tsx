@@ -1,6 +1,7 @@
-import { BlockExplorerLink, Card } from "@/components/_shared";
+import { BlockExplorerLink } from "@/components/_shared";
 import useContractsInfo from "@/lib/contracts/useContractsInfo";
 import { ProposalCall } from "@/lib/graphql";
+import { Card } from "@mento-protocol/ui-toolkit";
 
 type Props = {
   calls: ProposalCall[];

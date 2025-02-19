@@ -1,7 +1,7 @@
 import React from "react";
 import { BlockExplorerLink } from "@/components/_shared";
-import { SuccessIcon } from "@/components/_icons";
 import { ProposalActionTitle } from "./proposal-action-title";
+import { SuccessIcon } from "@mento-protocol/ui-toolkit";
 
 interface ProposalActionStatusProps {
   title: string;

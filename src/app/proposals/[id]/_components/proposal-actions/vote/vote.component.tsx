@@ -3,8 +3,7 @@ import { UserRejectedRequestError } from "viem";
 import * as Sentry from "@sentry/nextjs";
 
 import { BlockExplorerLink } from "@/components/_shared";
-import { ChevronIcon, SuccessIcon } from "@/components/_icons";
-import { Button } from "@mento-protocol/ui-toolkit";
+import { Button, ChevronIcon, SuccessIcon } from "@mento-protocol/ui-toolkit";
 
 import type { Proposal } from "@/lib/graphql";
 

@@ -1,16 +1,14 @@
 import React from "react";
 import { addWeeks } from "date-fns";
 
-import { cn } from "@mento-protocol/ui-toolkit";
+import { Button, buttonVariants, Calendar, cn, DatePicker } from "@mento-protocol/ui-toolkit";
 import {
-  DatePicker,
   Sheet,
   SheetTrigger,
   SheetContent,
   SheetTitle,
 } from "@/components/_shared";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
-import { Calendar } from "@/components/_shared/calendar/calendar.component";
 import { MangeLockFormProvider } from "../manage-lock-form-provider";
 
 import { useManageLock } from "../manage-lock.provider";
@@ -26,7 +24,6 @@ import {
   TooltipTrigger,
 } from "@radix-ui/react-tooltip";
 import { ExclamationIcon } from "@/components/_shared/icons/exclamation-icon";
-import { Button, buttonVariants } from "@mento-protocol/ui-toolkit";
 
 export interface ManageLockButtonProps {
   lock: LockWithExpiration;

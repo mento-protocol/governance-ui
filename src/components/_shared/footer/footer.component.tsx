@@ -8,9 +8,9 @@ import {
   links,
   MentoLogoIcon,
   MobileAccordionMenu,
-  ThemeSwitch,
   TwitterIcon,
 } from "@mento-protocol/ui-toolkit";
+import { ThemeSwitch } from "../theme-switch/theme-switch.component";
 
 export const Footer = () => {
   return (

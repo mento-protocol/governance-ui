@@ -7,7 +7,7 @@ import {
 } from "date-fns";
 import { Controller, useFormContext } from "react-hook-form";
 
-import { DatePicker } from "../../date-picker/date-picker.component";
+import { DatePicker } from "@mento-protocol/ui-toolkit";
 import LockingHelper from "@/lib/helpers/locking";
 import { LOCKING_DURATION_FORM_KEY } from "@/lib/constants/locking";
 

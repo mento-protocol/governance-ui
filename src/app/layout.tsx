@@ -10,6 +10,7 @@ import {
   Toaster,
 } from "@/components/_shared";
 import "@rainbow-me/rainbowkit/styles.css";
+import "@mento-protocol/ui-toolkit/globals.css";
 import "@/styles/globals.css";
 import { Providers } from "@/app/providers";
 import { Metadata } from "next";

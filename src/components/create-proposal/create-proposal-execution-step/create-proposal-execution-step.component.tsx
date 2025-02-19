@@ -4,13 +4,12 @@ import { object, setLocale, string } from "yup";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Textarea } from "@/components/_shared";
-import { Button } from "@mento-protocol/ui-toolkit";
+import { Button, HelpIcon } from "@mento-protocol/ui-toolkit";
 import {
   CreateProposalStep,
   useCreateProposal,
 } from "../create-proposal-provider";
 import { CreateProposalWrapper } from "../create-proposal-wrapper/create-proposal-wrapper.component";
-import { HelpIcon } from "@/components/_icons";
 import { ExecutionExplanationModal } from "@/components/create-proposal/explainer-modal/execution-explainer.modal";
 import { isTransactionItem } from "@/lib/contracts/governor/useCreateProposalOnChain";
 

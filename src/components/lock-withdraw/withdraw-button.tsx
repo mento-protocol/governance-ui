@@ -1,5 +1,4 @@
 import { useAvailableToWithdraw } from "@/lib/contracts/locking/useAvailableToWithdraw";
-import { Button } from "@/components/_shared";
 import { formatUnits } from "viem";
 import React from "react";
 import useTokens from "@/lib/contracts/useTokens";
@@ -8,7 +7,7 @@ import { toast } from "sonner";
 import { useWithdraw } from "@/lib/contracts/locking/useWithdraw";
 import { useLockInfo } from "@/lib/hooks/useLockInfo";
 import { useAccount } from "wagmi";
-
+import { Button } from "@mento-protocol/ui-toolkit";
 export const WithdrawButton = () => {
   const { availableToWithdraw, refetchAvailableToWithdraw } =
     useAvailableToWithdraw();

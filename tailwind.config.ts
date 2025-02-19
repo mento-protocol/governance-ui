@@ -2,6 +2,7 @@ import type { Config } from "tailwindcss";
 import { tailwindConfig } from "@mento-protocol/ui-toolkit";
 
 const config: Config = {
+  darkMode: "class",
   presets: [tailwindConfig],
   content: [
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",

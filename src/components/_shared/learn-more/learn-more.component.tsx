@@ -34,7 +34,7 @@ export const LearnMore = ({ className, style }: LearnMoreProps) => {
                 target="_blank"
               >
                 <div className="flex items-center gap-x2 px-x3">
-                  <DiscordIcon />
+                  <DiscordIcon  />
                   <span>Join the community</span>
                   <ChevronIcon direction="right" />
                 </div>

@@ -4,7 +4,6 @@ const nextConfig = {
     optimizePackageImports: [
       "@/components/index",
       "@/components/_shared",
-      "@/components/_icons",
     ],
   },
   // See: https://github.com/WalletConnect/walletconnect-monorepo/issues/1908#issuecomment-1712429322

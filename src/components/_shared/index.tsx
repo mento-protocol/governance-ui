@@ -3,7 +3,6 @@ export { BlockExplorerLink } from "./block-explorer-link/block-explorer-link.com
 export { Breadcrumbs } from "./breadcrumbs/breadcrumbs.component";
 export { ConnectButton } from "./connect-button/connect-button.component";
 export { ConnectButtonMobile } from "./connect-button/connect-button-mobile.component";
-export { DatePicker } from "./date-picker/date-picker.component";
 export { Divider } from "./divider/divider.component";
 export { DropdownButton } from "./dropdown-button/dropdown-button.component";
 export { ExecutionCodeView } from "./execution-code-view/execution-code-view.component";

@@ -1,3 +1,5 @@
+@import "@mento-protocol/ui-toolkit/dist/styles/index.css";
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -6,43 +8,7 @@
   --font-fg: "Founders Grotesk", sans-serif;
 }
 
-@layer base {
-  @font-face {
-    font-family: "Founders Grotesk";
-    src: url("/fonts/founders-grotesk-light.woff2") format("woff2");
-    font-weight: 300;
-    font-style: normal;
-  }
-
-  @font-face {
-    font-family: "Founders Grotesk";
-    src: url("/fonts/founders-grotesk-regular.woff2") format("woff2");
-    font-weight: 400;
-    font-style: normal;
-  }
-
-  @font-face {
-    font-family: "Founders Grotesk";
-    src: url("/fonts/founders-grotesk-medium.woff2") format("woff2");
-    font-weight: 500;
-    font-style: normal;
-  }
-
-  @font-face {
-    font-family: "Founders Grotesk";
-    src: url("/fonts/founders-grotesk-semibold.woff2") format("woff2");
-    font-weight: 600;
-    font-style: normal;
-  }
-
-  @font-face {
-    font-family: "Founders Grotesk";
-    src: url("/fonts/founders-grotesk-bold.woff2") format("woff2");
-    font-weight: 700;
-    font-style: normal;
-  }
-}
-
+/* Custom styles that don't conflict with the UI toolkit */
 @include media-md {
   body {
     background: url("/images/bg.png"), url("/images/bg.png"),

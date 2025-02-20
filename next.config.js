@@ -1,5 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  transpilePackages: ['@mento-protocol/ui-toolkit'],
   experimental: {
     optimizePackageImports: [
       "@/components/index",

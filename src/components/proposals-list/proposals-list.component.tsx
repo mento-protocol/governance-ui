@@ -59,7 +59,7 @@ const DesktopProposalTable = ({ proposals }: { proposals: Proposal[] }) => {
   }
 
   return (
-    <div className="rounded-md border border-gray-light bg-white px-4 py-5 dark:bg-black-off">
+    <div className="border-gray-light dark:bg-black-off rounded-md border bg-white px-4 py-5">
       <ProposalTableHeader />
       {proposals.map(({ proposalId, metadata, state, votes }, index) => (
         <React.Fragment key={proposalId}>
@@ -70,7 +70,7 @@ const DesktopProposalTable = ({ proposals }: { proposals: Proposal[] }) => {
             )}
           >
             <div className="self-center overflow-hidden text-ellipsis break-words text-left text-lg font-normal">
-              <div className="flex items-center justify-start gap-x1 overflow-hidden text-ellipsis break-words">
+              <div className="gap-x1 flex items-center justify-start overflow-hidden text-ellipsis break-words">
                 <MentoIcon
                   className="h-[42px] min-w-[60px]"
                   backgroundColor="cyan"
@@ -119,7 +119,7 @@ const DesktopProposalTable = ({ proposals }: { proposals: Proposal[] }) => {
 
 const DesktopProposalTableSkeleton = () => {
   return (
-    <div className="rounded-md border border-gray-light bg-white px-4 py-5 dark:bg-black-off">
+    <div className="border-gray-light dark:bg-black-off rounded-md border bg-white px-4 py-5">
       <ProposalTableHeader />
       {[1, 2, 3].map((_, index) => (
         <React.Fragment key={index}>
@@ -129,7 +129,7 @@ const DesktopProposalTableSkeleton = () => {
               index !== 0 && "pt-6",
             )}
           >
-            <div className="flex items-center gap-x1">
+            <div className="gap-x1 flex items-center">
               <div className="h-[42px] min-w-[42px] animate-pulse rounded-full bg-gray-300" />
               <div className="h-6 w-60 animate-pulse rounded-md bg-gray-300" />
             </div>
@@ -162,7 +162,7 @@ const MobileProposalTable = ({ proposals }: { proposals: Proposal[] }) => {
   }
 
   return (
-    <div className="rounded-md border border-gray-light bg-white px-4 py-5 dark:bg-black-off">
+    <div className="border-gray-light dark:bg-black-off rounded-md border bg-white px-4 py-5">
       {proposals.map((proposal, index) => (
         <React.Fragment key={proposal.proposalId}>
           <div className="relative grid grid-cols-[60%_40%] items-start pb-[8px] pt-[20px] font-medium first:pt-0 last:mb-0">
@@ -217,7 +217,7 @@ const MobileProposalTable = ({ proposals }: { proposals: Proposal[] }) => {
 
 const MobileProposalTableSkeleton = () => {
   return (
-    <div className="rounded-md border border-gray-light bg-white px-4 py-5 dark:bg-black-off">
+    <div className="border-gray-light dark:bg-black-off rounded-md border bg-white px-4 py-5">
       {[1, 2, 3].map((_, index) => (
         <React.Fragment key={index}>
           <div className="relative grid grid-cols-[60%_40%] items-start pb-[8px] pt-[20px] font-medium first:pt-0 last:mb-0">
@@ -275,7 +275,7 @@ const TableDivider = ({
 }) => (
   <div
     className={cn(
-      "border-b border-solid border-gray-light",
+      "border-gray-light border-b border-solid",
       fullWidth && "[grid-column:1_/_-1]",
       className,
     )}

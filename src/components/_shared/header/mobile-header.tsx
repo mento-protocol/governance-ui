@@ -268,7 +268,7 @@ const ConnectedInfo = ({ address }: { address: string }) => {
               className="-[32px] h-[32px]"
               strokeClass="stroke-mento-blue"
             />
-            <a className="font-inter text-[15px] font-medium text-mento-blue underline underline-offset-[3px]">
+            <a className="text-mento-blue font-inter text-[15px] font-medium underline underline-offset-[3px]">
               Chain Settings
             </a>
           </div>

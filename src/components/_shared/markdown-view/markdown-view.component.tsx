@@ -10,7 +10,7 @@ export const MarkdownView = ({ markdown }: MarkdownViewProps) => {
   return (
     <div
       className={cn(
-        "prose max-w-none text-black-off dark:prose-invert dark:text-white",
+        "prose text-black-off dark:prose-invert max-w-none dark:text-white",
         "text-[20px]/none",
         "[&_a:hover]:text-primary [&_li]:m-0",
       )}

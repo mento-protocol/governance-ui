@@ -19,7 +19,7 @@ import {
 
 export default function Page() {
   return (
-    <main className="mb-[100px] mt-x11 flex flex-col place-items-center font-fg">
+    <main className="mt-x11 mb-[100px] flex flex-col place-items-center font-fg">
       <Title />
       <Subtitle />
       <Card className="mt-8 md:mt-[55px]" block>
@@ -50,8 +50,8 @@ const MobileNavigationLinks = ({ className }: ButtonProps) => {
   return (
     <Link
       className={cn(
-        "text-lg/[18px] text-mento-blue underline ",
-        isDisabled && "pointer-events-none  cursor-not-allowed text-gray",
+        "text-mento-blue text-lg/[18px] underline ",
+        isDisabled && "text-gray  pointer-events-none cursor-not-allowed",
         className,
       )}
       href={isDisabled ? "#" : "/voting-power"}
@@ -67,7 +67,7 @@ const DesktopTagline = () => (
 );
 
 const MentoIconWithLogo = () => (
-  <div className="font-size-x6 sm:font-size-x11 flex flex-row place-items-center justify-start gap-x3">
+  <div className="font-size-x6 sm:font-size-x11 gap-x3 flex flex-row place-items-center justify-start">
     <MentoIcon className="w-[35px] md:w-[62px]" backgroundColor="cyan" />
     <span className="text-[32px] font-medium  md:text-[56px]">Mento</span>
   </div>
@@ -75,7 +75,7 @@ const MentoIconWithLogo = () => (
 
 const DesktopNavigationButtons = () => {
   return (
-    <div className="hidden gap-x3 md:flex">
+    <div className="gap-x3 hidden md:flex">
       <Button theme="clear" href="/create-proposal">
         Create new proposal
       </Button>
@@ -101,7 +101,7 @@ const Title = () => {
 };
 
 const Subtitle = () => (
-  <h2 className="mt-x3  max-w-[300px] text-center text-[22px] font-medium leading-[22px] md:mt-x6 md:max-w-[17em] md:text-[32px]  md:leading-[32px]">
+  <h2 className="mt-x3  md:mt-x6 max-w-[300px] text-center text-[22px] font-medium leading-[22px] md:max-w-[17em] md:text-[32px]  md:leading-[32px]">
     Participate in the governance process of Mento stablecoin platform
   </h2>
 );

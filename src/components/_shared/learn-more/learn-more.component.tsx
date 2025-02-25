@@ -15,15 +15,15 @@ export const LearnMore = ({ className, style }: LearnMoreProps) => {
   const pathname = usePathname();
 
   return (
-    <div className={cn("mb-auto mt-x4 ", className)} style={style}>
+    <div className={cn("mt-x4 mb-auto", className)} style={style}>
       <div className="mx-auto w-full max-w-[1120px]">
         {pathname === "/" && (
-          <div className="flex flex-col items-center justify-between gap-x3 bg-black-off px-x5 py-0 lg:flex-row lg:pl-x13 lg:pr-x11">
+          <div className="gap-x3 px-x5 lg:pl-x13 lg:pr-x11 flex flex-col items-center justify-between bg-[#121316] py-0 lg:flex-row">
             <div className="max-w-[500px] text-white">
-              <h2 className="my-x1 mb-x5 text-center text-6xl font-semibold lg:text-left">
+              <h2 className="my-x1 mb-x5 text-center text-[44px] font-semibold lg:text-left">
                 Learn more
               </h2>
-              <p className="text-x3 leading-x5 text-center lg:text-left">
+              <p className="text-center text-[15px] leading-[25px] lg:text-left">
                 If you&apos;re interested in learning more about Mento, finding
                 out what the team is working on now, or would like to
                 contribute, please join our discord server.
@@ -33,8 +33,8 @@ export const LearnMore = ({ className, style }: LearnMoreProps) => {
                 href="https://discord.gg"
                 target="_blank"
               >
-                <div className="flex items-center gap-x2 px-x3">
-                  <DiscordIcon  />
+                <div className="gap-x2 px-x3 flex items-center">
+                  <DiscordIcon />
                   <span>Join the community</span>
                   <ChevronIcon direction="right" />
                 </div>

@@ -6,7 +6,7 @@ import { motion } from "framer-motion";
 import { Menu } from "@headlessui/react";
 import Link from "next/link";
 
-import { ChevronIcon, links } from "@mento-protocol/ui-toolkit";
+import { ChevronIcon, links, cn } from "@mento-protocol/ui-toolkit";
 
 const headerMenuItems: {
   name: string;
@@ -74,11 +74,13 @@ const HeaderNav = () => {
                         <Menu.Item key={name}>
                           {({ active }) => (
                             <Link
-                              className={`${active ? " text-primary" : ""}  ${
+                              className={cn(
+                                active ? "text-primary" : "",
                                 index === items.length - 1
                                   ? ""
-                                  : "border-b border-b-black dark:border-b-white"
-                              }  block w-full px-8 py-2 text-center hover:no-underline`}
+                                  : "border-b border-b-black dark:border-b-white",
+                                "block w-full px-8 py-2 text-center hover:no-underline"
+                              )}
                               href={href}
                               target="_blank"
                               rel="noopener noreferrer"

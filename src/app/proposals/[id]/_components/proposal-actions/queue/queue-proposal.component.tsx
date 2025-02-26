@@ -1,3 +1,4 @@
+"use client";
 import * as Sentry from "@sentry/nextjs";
 
 import { Button, CardHeader } from "@mento-protocol/ui-toolkit";

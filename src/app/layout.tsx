@@ -3,11 +3,11 @@ import { Analytics } from "@vercel/analytics/react";
 import { Inter } from "next/font/google";
 import {
   LearnMore,
-  Header,
   Breadcrumbs,
-  Footer,
   MaxWidthWrapper,
   Toaster,
+  Footer,
+  Header,
 } from "@/components/_shared";
 import "@rainbow-me/rainbowkit/styles.css";
 import "@/styles/globals.css";

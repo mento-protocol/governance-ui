@@ -19,9 +19,10 @@ import {
   MentoLogoIcon,
   TwitterIcon,
   links,
+  Avatar,
+  Button,
 } from "@mento-protocol/ui-toolkit";
 import {
-  Avatar,
   DisconnectButton,
   MobileAccordionMenu,
   ThemeSwitch,
@@ -60,6 +61,15 @@ export const MobileHeader = () => {
   );
 };
 
+/**
+ * Full-screen overlay menu for mobile devices
+ * Contains user wallet information, navigation menu, wallet connection/disconnection,
+ * social links, and theme switcher
+ * Uses framer-motion for smooth animations
+ *
+ * @param isOpen - Current state of the menu (open/closed)
+ * @param address - User's wallet address, if connected
+ */
 const DropDownMenuOverlay = ({
   isOpen,
   address,
@@ -67,6 +77,7 @@ const DropDownMenuOverlay = ({
   isOpen: boolean;
   address?: string;
 }) => {
+  // Prevents scrolling of the main content when menu is open
   React.useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = "hidden";
@@ -82,11 +93,16 @@ const DropDownMenuOverlay = ({
   return (
     <>
       <motion.div
-        className="fixed bottom-0 left-0 right-0 top-5 z-50 flex h-screen w-screen flex-col bg-white p-4 pt-12 dark:bg-black"
+        id="mobile-menu"
+        className={cn(
+          "fixed bottom-0 left-0 right-0 top-5 z-50",
+          "flex h-screen w-screen flex-col bg-white p-4 pt-12 dark:bg-black"
+        )}
         initial="closed"
         animate={isOpen ? "open" : "closed"}
         variants={variants}
         transition={{ duration: 0.8 }}
+        aria-hidden={!isOpen}
       >
         {address && <ConnectedInfo address={address} />}
         <MobileAccordionMenu />
@@ -98,6 +114,7 @@ const DropDownMenuOverlay = ({
                 theme="white"
                 fullwidth
                 className="h-[60px] text-[15px]"
+                aria-label="Disconnect wallet"
               >
                 Disconnect Wallet
               </DisconnectButton>
@@ -105,6 +122,7 @@ const DropDownMenuOverlay = ({
               <ConnectButtonMobile
                 theme="primary"
                 className="h-[60px] text-[15px]"
+                aria-label="Connect wallet"
               />
             )}
           </div>
@@ -126,30 +144,37 @@ const DropDownMenuOverlay = ({
   );
 };
 
+/**
+ * Social media links component displayed in the mobile menu
+ * Provides access to Twitter, GitHub, and Discord platforms
+ */
 const SocialLinks = () => {
   return (
-    <nav className="mx-auto flex items-center justify-center">
+    <nav className="mx-auto flex items-center justify-center" aria-label="Social media links">
       <Link
-        className=" px-[8px]"
+        className={cn("px-[8px]")}
         target="_blank"
         rel="noopener noreferrer"
         href={links.twitter}
+        aria-label="Twitter"
       >
         <TwitterIcon height={40} width={40} />
       </Link>
       <Link
-        className=" px-[16px] py-[8px]"
+        className={cn("px-[16px] py-[8px]")}
         target="_blank"
         rel="noopener noreferrer"
         href={links.github}
+        aria-label="GitHub"
       >
         <GithubIcon height={24} width={24} />
       </Link>
       <Link
-        className="px-[16px] py-[8px]"
+        className={cn("px-[16px] py-[8px]")}
         target="_blank"
         rel="noopener noreferrer"
         href={links.discord}
+        aria-label="Discord"
       >
         <DiscordIcon height={24} width={24} />
       </Link>
@@ -157,6 +182,15 @@ const SocialLinks = () => {
   );
 };
 
+/**
+ * Animated hamburger button for mobile menu toggle
+ * Transforms between hamburger and X shapes based on menu state
+ * Includes proper accessibility attributes for screen readers
+ *
+ * @param isOpen - Current state of the menu (open/closed)
+ * @param onClick - Function to call when button is clicked
+ * @param className - Additional CSS classes to apply
+ */
 const AnimatedHamburgerButton = ({
   isOpen,
   onClick,
@@ -178,9 +212,12 @@ const AnimatedHamburgerButton = ({
         animate={isOpen ? "open" : "closed"}
         onClick={onClick}
         className={cn(
-          "relative h-[20px] w-5  rounded-full transition-colors ",
+          "relative h-[20px] w-5 rounded-full transition-colors",
           className,
         )}
+        aria-expanded={isOpen}
+        aria-label={isOpen ? "Close menu" : "Open menu"}
+        aria-controls="mobile-menu"
       >
         <motion.span
           variants={VARIANTS.top}

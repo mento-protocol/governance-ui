@@ -4,8 +4,8 @@ import {
   useAccountModal,
   useChainModal,
 } from "@rainbow-me/rainbowkit";
-import { Avatar, DropdownButton } from "@/components/_shared";
-import { Button, ButtonProps } from "@mento-protocol/ui-toolkit";
+import { DropdownButton } from "@/components/_shared";
+import { Button, ButtonProps, Avatar } from "@mento-protocol/ui-toolkit";
 import {
   ChevronIcon,
   DisconnectIcon,

@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import { addWeeks } from "date-fns";
 

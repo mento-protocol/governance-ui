@@ -1,3 +1,4 @@
+"use client";
 import { useAccount } from "wagmi";
 import { Proposal, ProposalState } from "@/lib/graphql";
 import { DisconnectedState } from "./disconnected-state";

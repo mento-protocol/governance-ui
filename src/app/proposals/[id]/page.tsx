@@ -7,8 +7,6 @@ import { format } from "date-fns";
 import useProposal from "@/lib/contracts/governor/useProposal";
 import { stateToStatusColorMap } from "@/lib/interfaces/proposal.interface";
 import {
-  Avatar,
-  BlockExplorerLink,
   MarkdownView,
   Status,
   WalletAddressWithCopy,
@@ -20,7 +18,7 @@ import { Countdown, ProposalCurrentVotes } from "@/components/index";
 import { ensureChainId } from "@/lib/helpers/ensureChainId";
 import { Proposal, ProposalState } from "@/lib/graphql";
 import { CELO_BLOCK_TIME } from "@/config/config.constants";
-import { Card, Loader } from "@mento-protocol/ui-toolkit";
+import { Avatar, BlockExplorerLink, Card, Loader } from "@mento-protocol/ui-toolkit";
 
 const ProposalCountdown = ({ proposal }: { proposal: Proposal }) => {
   const { data: currentBlock } = useBlockNumber({

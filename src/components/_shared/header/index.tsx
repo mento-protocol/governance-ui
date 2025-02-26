@@ -2,11 +2,9 @@
 
 import { MobileHeader } from "./mobile-header";
 import HeaderNav from "./header-nav";
-
 import Link from "next/link";
-import { MaxWidthWrapper } from "../max-width-wrapper";
-import { ConnectButton } from "@/components/_shared";
 import { MentoLogoIcon } from "@mento-protocol/ui-toolkit";
+import { ConnectButton, MaxWidthWrapper } from "@/components/_shared";
 
 export const Header = () => {
   return (

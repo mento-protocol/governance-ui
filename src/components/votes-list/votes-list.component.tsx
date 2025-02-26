@@ -1,5 +1,5 @@
 import type { Participant } from "@/lib/graphql";
-import { Avatar } from "@/components/_shared";
+import { Avatar } from "@mento-protocol/ui-toolkit";
 import BaseComponentProps from "@/interfaces/base-component-props.interface";
 import { formatUnits } from "viem";
 import { WalletAddress } from "@/components/index";

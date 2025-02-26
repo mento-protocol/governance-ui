@@ -1,8 +1,7 @@
 import { Proposal, ProposalState } from "@/lib/graphql";
 import React from "react";
-import { BlockExplorerLink } from "@/components/_shared/block-explorer-link/block-explorer-link.component";
 import { format, fromUnixTime } from "date-fns";
-import { CardHeader } from "@mento-protocol/ui-toolkit";
+import { BlockExplorerLink, CardHeader } from "@mento-protocol/ui-toolkit";
 
 const StatusMessage = {
   Layout: ({ children }: { children: React.ReactNode }) => (

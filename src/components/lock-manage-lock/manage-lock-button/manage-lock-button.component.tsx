@@ -3,18 +3,14 @@
 import React from "react";
 import { addWeeks } from "date-fns";
 
-import {
-  Button,
-  buttonVariants,
-  Calendar,
-  cn,
-  DatePicker,
-} from "@mento-protocol/ui-toolkit";
+import { Button, buttonVariants, cn } from "@mento-protocol/ui-toolkit";
 import {
   Sheet,
   SheetTrigger,
   SheetContent,
   SheetTitle,
+  Calendar,
+  DatePicker,
 } from "@/components/_shared";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 import { MangeLockFormProvider } from "../manage-lock-form-provider";
@@ -67,7 +63,7 @@ const MobileSheetTrigger = ({
           </TooltipTrigger>
           <TooltipContent
             sideOffset={10}
-            className="border-gray-light dark:bg-mento-dark max-w-40 rounded-md border bg-white p-2 font-inter text-sm dark:border-white"
+            className="max-w-40 rounded-md border border-gray-light bg-white p-2 font-inter text-sm dark:border-white dark:bg-mento-dark"
           >
             <div className="flex items-center gap-2">
               <div>
@@ -85,7 +81,7 @@ const MobileSheetTrigger = ({
   }
 
   return (
-    <SheetTrigger className="visited:text-primary-dark hover:text-primary active:text-primary-dark border-none p-0 text-black underline transition-[color] duration-200 ease-out dark:text-white md:hidden">
+    <SheetTrigger className="border-none p-0 text-black underline transition-[color] duration-200 ease-out visited:text-primary-dark hover:text-primary active:text-primary-dark dark:text-white md:hidden">
       Manage Lock
     </SheetTrigger>
   );
@@ -112,7 +108,7 @@ const MobileRelockForm = () => {
       </VisuallyHidden>
       <MobileSheetTrigger canManageLocks={canManageLocks} />
       <SheetContent
-        className="dark:bg-black-off flex items-center justify-center border-t border-black bg-white"
+        className="flex items-center justify-center border-t border-black bg-white dark:bg-black-off"
         side="bottom"
       >
         <div className="flex w-full flex-col items-center justify-center gap-4 px-4">
@@ -175,7 +171,7 @@ const DesktopRelockForm = () => {
             side="top"
             align="start"
             sideOffset={10}
-            className="border-gray-light dark:bg-mento-dark rounded-md border bg-white p-3 font-inter dark:border-white"
+            className="rounded-md border border-gray-light bg-white p-3 font-inter dark:border-white dark:bg-mento-dark"
           >
             <div className="flex items-center gap-2">
               <div>

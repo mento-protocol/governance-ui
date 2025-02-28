@@ -51,8 +51,8 @@ export const SeeAll = ({
       <button
         className={cn(
           "flex items-end justify-center",
-          "text-primary absolute bottom-0 left-0 !h-[40%] w-full transition-all duration-100",
-          "dark:from-black-off bg-gradient-to-t from-white to-transparent",
+          "absolute bottom-0 left-0 !h-[40%] w-full text-primary transition-all duration-100",
+          "bg-gradient-to-t from-white to-transparent dark:from-black-off",
           "group-[.open]/see-all:!h-x6 group-[.open]/see-all:bg-none",
           "group-[.disabled]/see-all:invisible group-[.disabled]/see-all:opacity-0",
         )}

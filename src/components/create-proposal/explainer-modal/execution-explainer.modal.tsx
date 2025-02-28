@@ -23,7 +23,7 @@ export const ExecutionExplanationModal = ({
       onClose={onClose}
       title="The execution code must follow these rules:"
     >
-      <div className="dark:bg-mento-dark mx-auto">
+      <div className="mx-auto dark:bg-mento-dark">
         <ul className="mx-auto ml-3 mt-2 flex list-disc flex-col items-start gap-1 text-left font-light">
           <li className=" ">It must be a valid JSON array.</li>
           <li className=" ">
@@ -35,13 +35,13 @@ export const ExecutionExplanationModal = ({
           </li>
           <li className="">Each element must have the following properties:</li>
           <ul className="list-disc font-light">
-            <li className="gap-x1 flex">
+            <li className="flex gap-x1">
               <b>address:</b> Address(0xc0FfEe...1234)
             </li>
-            <li className="gap-x1 flex">
+            <li className="flex gap-x1">
               <b>value:</b> Number | BigInt in hex string format
             </li>
-            <li className="gap-x1 flex">
+            <li className="flex gap-x1">
               <b>data:</b> Hex string format
             </li>
           </ul>

@@ -30,20 +30,20 @@ export const ContractParams = () => {
   return (
     <Expandable
       title={"Governance Parameters"}
-      className="md:pt-x4 items-start text-[18px] font-medium md:text-[22px]"
+      className="items-start text-[18px] font-medium md:pt-x4 md:text-[22px]"
     >
       <Suspense fallback={<Loader isCenter />}>
-        <div className="gap-x2 pt-x3 lg:pt-x4 grid grid-cols-1 lg:grid-cols-7 ">
+        <div className="grid grid-cols-1 gap-x2 pt-x3 lg:grid-cols-7 lg:pt-x4 ">
           <Card
             noBorderMobile
-            className="gap-x4 md:gap-x6 flex flex-col md:col-span-3"
+            className="flex flex-col gap-x4 md:col-span-3 md:gap-x6"
           >
             <CardHeader>
-              <div className="text-primary text-center md:text-left">
+              <div className="text-center text-primary md:text-left">
                 Parameters
               </div>
             </CardHeader>
-            <div className="gap-x3 flex flex-grow flex-col justify-between">
+            <div className="flex flex-grow flex-col justify-between gap-x3">
               <ParamsDisplay
                 items={[
                   {
@@ -78,10 +78,10 @@ export const ContractParams = () => {
           </Card>
           <Card
             noBorderMobile
-            className="gap-x4 md:gap-x6 flex flex-col md:col-span-4"
+            className="flex flex-col gap-x4 md:col-span-4 md:gap-x6"
           >
             <CardHeader>
-              <div className="text-primary text-center md:text-left">
+              <div className="text-center text-primary md:text-left">
                 Contract addresses
               </div>
             </CardHeader>
@@ -169,7 +169,7 @@ const ContractAddressLinkWithCopy = ({
 
   return (
     <WalletAddressWithCopy
-      className="pr-x1 text-mento-blue relative items-center justify-end no-underline"
+      className="relative items-center justify-end pr-x1 text-mento-blue no-underline"
       address={address}
       remaining={15}
     />

@@ -1,3 +1,4 @@
+"use client";
 import { links } from "@mento-protocol/ui-toolkit";
 import type { NextPage } from "next";
 

@@ -20,7 +20,6 @@ import {
   TwitterIcon,
   links,
   Avatar,
-  Button,
 } from "@mento-protocol/ui-toolkit";
 import {
   DisconnectButton,
@@ -96,7 +95,7 @@ const DropDownMenuOverlay = ({
         id="mobile-menu"
         className={cn(
           "fixed bottom-0 left-0 right-0 top-5 z-50",
-          "flex h-screen w-screen flex-col bg-white p-4 pt-12 dark:bg-black"
+          "flex h-screen w-screen flex-col bg-white p-4 pt-12 dark:bg-black",
         )}
         initial="closed"
         animate={isOpen ? "open" : "closed"}
@@ -150,7 +149,10 @@ const DropDownMenuOverlay = ({
  */
 const SocialLinks = () => {
   return (
-    <nav className="mx-auto flex items-center justify-center" aria-label="Social media links">
+    <nav
+      className="mx-auto flex items-center justify-center"
+      aria-label="Social media links"
+    >
       <Link
         className={cn("px-[8px]")}
         target="_blank"
@@ -305,7 +307,7 @@ const ConnectedInfo = ({ address }: { address: string }) => {
               className="-[32px] h-[32px]"
               strokeClass="stroke-mento-blue"
             />
-            <a className="text-mento-blue font-inter text-[15px] font-medium underline underline-offset-[3px]">
+            <a className="font-inter text-[15px] font-medium text-mento-blue underline underline-offset-[3px]">
               Chain Settings
             </a>
           </div>

@@ -26,7 +26,7 @@ interface ICreateProposalWrapper {
 const variants = cva("group max-h-0 overflow-hidden", {
   variants: {
     open: {
-      true: "open transition-max-h max-h-full p-initial duration-300 ease-in-cubic",
+      true: "open transition-max-h p-initial max-h-full duration-300 ease-in-cubic",
     },
   },
   defaultVariants: {

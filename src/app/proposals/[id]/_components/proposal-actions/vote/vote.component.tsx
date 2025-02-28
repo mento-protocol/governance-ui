@@ -2,7 +2,12 @@ import { useAccount } from "wagmi";
 import { UserRejectedRequestError } from "viem";
 import * as Sentry from "@sentry/nextjs";
 
-import { BlockExplorerLink, Button, ChevronIcon, SuccessIcon } from "@mento-protocol/ui-toolkit";
+import {
+  BlockExplorerLink,
+  Button,
+  ChevronIcon,
+  SuccessIcon,
+} from "@mento-protocol/ui-toolkit";
 
 import type { Proposal } from "@/lib/graphql";
 
@@ -86,7 +91,7 @@ export const Vote = ({ proposal }: { proposal: Proposal }) => {
     return (
       <>
         <ProposalActionTitle />
-        <div className="mt-x2 gap-x3 flex flex-col text-center">
+        <div className="mt-x2 flex flex-col gap-x3 text-center">
           <span className="text-md">Vote submitted</span>
           <SuccessIcon className="mx-auto h-20 w-20" />
           <span className="text-sm text-[#A8A8A8] dark:text-[#AAB3B6]">
@@ -106,7 +111,7 @@ export const Vote = ({ proposal }: { proposal: Proposal }) => {
     return (
       <>
         <ProposalActionTitle />
-        <div className="mt-x2 gap-x3 flex flex-col text-center">
+        <div className="mt-x2 flex flex-col gap-x3 text-center">
           <span className="text-md">Vote success</span>
           <SuccessIcon className="mx-auto h-20 w-20" />
           {hash && (
@@ -122,7 +127,7 @@ export const Vote = ({ proposal }: { proposal: Proposal }) => {
   return (
     <>
       <ProposalActionTitle />
-      <div className="mt-x3 gap-x5 flex flex-col">
+      <div className="mt-x3 flex flex-col gap-x5">
         <LockedBalance />
         <div className="flex flex-col gap-2">
           <VotingButtons onSubmit={handleVote} />
@@ -138,7 +143,7 @@ const VotingError = ({ error }: { error: Error }) => {
     return null;
   }
   return (
-    <div className="text-light-red flex w-full flex-col items-center justify-center gap-1 text-sm">
+    <div className="flex w-full flex-col items-center justify-center gap-1 text-sm text-light-red">
       <span>Error casting vote</span>
       <span>{ErrorHelper.processWagmiErrorMessage(error)}</span>
     </div>
@@ -149,7 +154,7 @@ const DirectToLockMento = () => {
   return (
     <>
       <ProposalActionTitle />
-      <div className="gap-x5 flex flex-col text-center">
+      <div className="flex flex-col gap-x5 text-center">
         <LockedBalance />
         <span>You need to lock your MENTO to vote</span>
         <Button fullwidth href="/voting-power" theme="primary">

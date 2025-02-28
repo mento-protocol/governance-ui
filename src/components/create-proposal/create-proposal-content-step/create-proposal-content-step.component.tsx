@@ -3,12 +3,13 @@ import { useEffect } from "react";
 import { object, setLocale, string } from "yup";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { Input, MarkdownEditor } from "@/components/_shared";
+import { MarkdownEditor } from "@/components/_shared";
 import {
   CreateProposalStep,
   useCreateProposal,
 } from "../create-proposal-provider";
 import { CreateProposalWrapper } from "../create-proposal-wrapper/create-proposal-wrapper.component";
+import { Input } from "@mento-protocol/ui-toolkit";
 
 export const CreateProposalContentStep = () => {
   const { setStep, updateProposal, newProposal } = useCreateProposal();

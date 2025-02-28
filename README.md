@@ -2,32 +2,126 @@
 
 ## Description
 
-This is the UI repo for Mento Governance.
+This is the UI repository for Mento Governance, a decentralized governance platform for the Mento Protocol. The UI allows users to view, create, and vote on governance proposals.
+
+**Important Documentation:**
+- [UI Toolkit Component Compatibility](./docs/ui-toolkit-component-compatibility.md) - Assessment of component compatibility with React Server Components
+- [UI Toolkit Migration Plan](./docs/ui-toolkit-migration-plan.md) - Long-term plan for migrating to shared UI components
 
 ## Table of Contents
 
 - [Prerequisites](#prerequisites)
 - [Installation](#installation)
-- [Usage](#usage)
+- [Development](#development)
+- [Architecture](#architecture)
+- [Constraints](#constraints)
+- [Troubleshooting](#troubleshooting)
 - [Project Spec](#project-spec)
-<!-- - [Credits](#credits)
-- [License](#license) -->
 
 ## Prerequisites
 
-- [node.js](https://nodejs.org/en) >= 20.11.0
-<!-- - [npm](https://nodejs.org/en) >= 10.2.4 -->
+- [Node.js](https://nodejs.org/en) >= 20.11.0
 - [pnpm](https://pnpm.io/) >= 8.15.0
+- [Git](https://git-scm.com/) for version control
+- Modern web browser (Chrome, Firefox, Edge, or Safari)
+
+## Installation
+
+1. **Clone the repository**
+
+```bash
+git clone https://github.com/mento-protocol/governance-ui.git
+cd governance-ui
+```
+
+2. **Install dependencies**
+
+```bash
+pnpm install
+```
+
+3. **Set up environment variables**
+
+```bash
+cp .env .env.local
+```
+
+4. **Configure environment variables**
+
+Edit `.env.local` and set the appropriate values for your development environment.
+
+## Development
+
+### Start the development server
+
+```bash
+pnpm dev
+```
+
+This will start the Next.js development server at [http://localhost:3000](http://localhost:3000).
+
+### Build for production
+
+```bash
+pnpm build
+```
+
+### Start the production server
+
+```bash
+pnpm start
+```
+
+### Run tests
+
+```bash
+pnpm test
+```
+
+## Architecture
+
+This project is built with:
+
+- [Next.js](https://nextjs.org/) - React framework with server-side rendering
+- [TypeScript](https://www.typescriptlang.org/) - Type-safe JavaScript
+- [Tailwind CSS](https://tailwindcss.com/) - Utility-first CSS framework
+- [React Server Components](https://nextjs.org/docs/app/building-your-application/rendering/server-components) - For server-side rendering of components
+
+### Component Organization
+
+- `/src/components/_shared` - Shared UI components specific to this project
+- `/src/components/ui-toolkit-wrappers` - Client component wrappers for @mento-protocol/ui-toolkit components
+
+## Constraints
+
+### React Server Components Compatibility
+
+This project uses Next.js App Router with React Server Components (RSC). There are several important constraints to be aware of:
+
+1. **Server Components Limitations**:
+   - Cannot use React hooks (useState, useEffect, useContext, etc.)
+   - Cannot use browser-only APIs
+   - Cannot use React Context directly
+
+2. **UI Toolkit Compatibility**:
+   - Some components from `@mento-protocol/ui-toolkit` are incompatible with RSC
+   - Components that use React Context require client component wrappers
+   - See [UI Toolkit Component Compatibility](./docs/ui-toolkit-component-compatibility.md) for detailed guidance
+
+3. **Client Components**:
+   - Use the "use client" directive at the top of files for client components
+   - Client components can use all React features but lose some RSC benefits
+   - When using UI Toolkit components that require state or context, always wrap them in client components
 
 ## VS Code recommendations
 
-It's recommended to install:
+We recommend installing the following extensions:
 
-- prettier
-- Tailwind CSS Intellisense
-- Eslint
+- [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode) - Code formatting
+- [Tailwind CSS Intellisense](https://marketplace.visualstudio.com/items?itemName=bradlc.vscode-tailwindcss) - Auto-completion for Tailwind
+- [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint) - Linting
 
-For the Tailwind intellisense, please add the following to your `settings.json`
+For Tailwind intellisense, add the following to your `settings.json`:
 
 ```json
 "tailwindCSS.experimental.classRegex": [
@@ -37,54 +131,37 @@ For the Tailwind intellisense, please add the following to your `settings.json`
 ]
 ```
 
-## Installation
-
-```bash
-pnpm install && cp .env .env.local
-```
-
-## Usage
-
-```bash
-pnpm dev
-```
-
 ## Project spec
 
-Please refer to our [spec documents by clicking here.](./docs/index.md)
+Please refer to our [documentation](./docs) for project specifications and architecture details.
 
 ## Troubleshooting
 
 ### No item imported in barrel file optimization
 
-This is due to the optimizer caching the results, simply delete the `.next` folder and restart your dev environment.
+This is due to the optimizer caching results. To fix:
 
-<!-- ## Credits
+1. Delete the `.next` folder:
+```bash
+rm -rf .next
+```
 
-List your collaborators, if any, with links to their GitHub profiles.
+2. Restart your development server:
+```bash
+pnpm dev
+```
 
-If you used any third-party assets that require attribution, list the creators with links to their primary web presence in this section.
+3. If the issue persists, try cleaning node_modules and reinstalling dependencies:
+```bash
+rm -rf node_modules
+pnpm install
+pnpm dev
+```
 
-If you followed tutorials, include links to those here as well.
+### React Server Components Errors
 
-## License
+If you encounter errors related to "cannot use hooks in server components" or similar:
 
-The last section of a high-quality README file is the license. This lets other developers know what they can and cannot do with your project. If you need help choosing a license, refer to [https://choosealicense.com/](https://choosealicense.com/). -->
-
-<!-- ## Badges
-
-![badmath](https://img.shields.io/github/languages/top/lernantino/badmath)
-
-Badges aren't necessary, per se, but they demonstrate street cred. Badges let other developers know that you know what you're doing. Check out the badges hosted by [shields.io](https://shields.io/). You may not understand what they all represent now, but you will in time.
-
-## Features
-
-If your project has a lot of features, list them here. -->
-
-<!-- ## How to Contribute
-
-If you created an application or package and would like other developers to contribute it, you can include guidelines for how to do so. The [Contributor Covenant](https://www.contributor-covenant.org/) is an industry standard, but you can always write your own if you'd prefer. -->
-
-<!-- ## Tests
-
-Go the extra mile and write tests for your application. Then provide examples on how to run them here. -->
+1. Check if you're using UI toolkit components directly in server components
+2. Wrap UI toolkit components with client components using the "use client" directive
+3. Reference the [UI Toolkit Component Compatibility](./docs/ui-toolkit-component-compatibility.md) document

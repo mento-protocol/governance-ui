@@ -79,7 +79,7 @@ const HeaderNav = () => {
                                 index === items.length - 1
                                   ? ""
                                   : "border-b border-b-black dark:border-b-white",
-                                "block w-full px-8 py-2 text-center hover:no-underline"
+                                "block w-full px-8 py-2 text-center hover:no-underline",
                               )}
                               href={href}
                               target="_blank"

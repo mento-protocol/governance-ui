@@ -12,7 +12,7 @@ export const ProposalActionError = ({
     return null;
   }
   return (
-    <div className="text-light-red flex w-full flex-col items-center justify-center gap-1 text-sm">
+    <div className="flex w-full flex-col items-center justify-center gap-1 text-sm text-light-red">
       <span>{errorHeading}</span>
       <span>{ErrorHelper.processWagmiErrorMessage(error)}</span>
     </div>

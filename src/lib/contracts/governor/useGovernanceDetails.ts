@@ -6,14 +6,6 @@ import { useMemo } from "react";
 
 import { useReadContracts } from "wagmi";
 
-function convertCeloBlocksToSeconds(
-  numBlocks: string | bigint | number,
-): number {
-  // Based on the 120960 blocks per week calculation used in governance contracts
-  const CELO_SECONDS_PER_BLOCK = 5;
-  return Number(numBlocks) * CELO_SECONDS_PER_BLOCK;
-}
-
 function convertSecondsToDays(
   durationInSeconds: string | bigint | number,
 ): number {
@@ -105,10 +97,9 @@ const useGovernanceDetails = () => {
     if (!votingPeriod) return "-";
 
     return formatParam(votingPeriod, (value) => {
-      const votingPeriodInSeconds = convertCeloBlocksToSeconds(value);
-      const votingPeriodInDays = convertSecondsToDays(votingPeriodInSeconds);
+      const votingPeriodInDays = convertSecondsToDays(value);
       if (votingPeriodInDays < 1) {
-        return `${convertSecondsToMinutes(votingPeriodInSeconds)} minutes`;
+        return `${convertSecondsToMinutes(value)} minutes`;
       }
       return `${votingPeriodInDays} days`;
     });

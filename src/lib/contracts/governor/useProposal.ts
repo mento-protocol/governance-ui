@@ -42,7 +42,7 @@ const useProposal = (proposalId: bigint) => {
     args: [proposalId],
     chainId: ensuredChainId,
     query: {
-      refetchInterval: CELO_BLOCK_TIME,
+      refetchInterval: CELO_BLOCK_TIME * 10,
       enabled:
         graphNetworkStatus === NetworkStatus.ready && graphProposals.length > 0,
     },

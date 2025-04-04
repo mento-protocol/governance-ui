@@ -45,7 +45,7 @@ const ProposalCountdown = ({ proposal }: { proposal: Proposal }) => {
         // If the end block is not mined yet, we estimate the time
         return new Date(
           Date.now() +
-            // Estimation of ~5 seconds per block
+            // Estimation of ~1 seconds per block
             (proposal.endBlock - Number(currentBlock)) * CELO_BLOCK_TIME,
         );
       }
@@ -112,7 +112,7 @@ const Page = ({ params: { id } }: { params: { id: string } }) => {
     // If the end block is not mined yet, we estimate the time
     return new Date(
       Date.now() +
-        // Estimation of ~5 seconds per block
+        // Estimation of ~1 seconds per block
         (proposal.endBlock - Number(currentBlock)) * CELO_BLOCK_TIME,
     );
   }, [currentBlock, endBlock.data, proposal]);

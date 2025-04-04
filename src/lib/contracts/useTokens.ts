@@ -149,7 +149,7 @@ export const useTokens = () => {
     ],
     scopeKey: "token-hook",
     query: {
-      refetchInterval: CELO_BLOCK_TIME,
+      refetchInterval: CELO_BLOCK_TIME * 10,
       enabled: isConnected && !!address,
     },
   });

@@ -12,4 +12,5 @@ export const links = {
   privacyPdf:
     "https://drive.google.com/uc?export=download&id=1E1pBFFo1R7sdGZx_xvkESdaaH2LOhC5e",
   votingPolicy: "/voting-policy",
+  privacyPolicy: "/privacy-policy",
 };

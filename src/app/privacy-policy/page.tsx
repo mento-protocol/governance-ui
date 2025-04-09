@@ -6,7 +6,7 @@ const Page: NextPage = () => {
     <div className="mx-auto max-w-[1120px] px-4 pb-10 pt-16 lg:px-10 xl:px-0">
       <div className="space-y-4">
         <h2 className="font font-fg text-5xl font-bold uppercase sm:text-6xl md:text-7xl ">
-          <span className="stroked-text">Data Privacy Notice</span>
+          <span className="stroked-text">Privacy Policy</span>
         </h2>
 
         <p className="tracking-loose text-lg font-light md:text-xl">

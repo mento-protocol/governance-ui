@@ -38,6 +38,8 @@ const Page: NextPage = () => {
           <a
             href="https://docs.mento.org/mento/governance-and-token/governance-components"
             className="text-primary hover:underline"
+            target="_blank"
+            rel="noopener noreferrer"
           >
             here
           </a>
@@ -48,6 +50,8 @@ const Page: NextPage = () => {
           <a
             href="https://docs.mento.org/mento/governance-and-token/governance-scope"
             className="text-primary hover:underline"
+            target="_blank"
+            rel="noopener noreferrer"
           >
             here
           </a>
@@ -58,6 +62,8 @@ const Page: NextPage = () => {
           <a
             href="https://docs.mento.org/mento/governance-and-token/mento-token"
             className="text-primary hover:underline"
+            target="_blank"
+            rel="noopener noreferrer"
           >
             here
           </a>
@@ -151,7 +157,12 @@ const Page: NextPage = () => {
           Protocol by scrutinizing governance proposals. These watchdogs have
           veto power in order to protect the Mento Protocol from malicious
           proposals. More information can be found{" "}
-          <a href="#" className="text-primary hover:underline">
+          <a
+            href="https://mentolabs.notion.site/Mento-Governance-Watchdogs-1c523e14987740c99fa7dedd490c0aa9"
+            className="text-primary hover:underline"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             here
           </a>
           .

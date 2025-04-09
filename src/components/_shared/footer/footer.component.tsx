@@ -134,7 +134,6 @@ const footerMenuItems = {
     { title: "Twitter", href: links.twitter, isDownload: false },
   ],
   Other: [
-    { title: "Cookie Policy", href: links.cookiePolicy, isDownload: true },
     { title: "Privacy Policy", href: links.privacyPolicy, isDownload: false },
     { title: "Voting Policy", href: links.votingPolicy, isDownload: false },
   ],

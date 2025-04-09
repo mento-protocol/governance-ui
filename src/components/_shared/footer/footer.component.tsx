@@ -6,8 +6,8 @@ import {
   MentoLogoIcon,
   TwitterIcon,
 } from "@/components/_icons";
-import { links } from "@/lib/constants/links";
 import { MobileAccordionMenu, ThemeSwitch } from "@/components/_shared";
+import { links } from "@/lib/constants/links";
 
 export const Footer = () => {
   return (
@@ -136,5 +136,6 @@ const footerMenuItems = {
   Other: [
     { title: "Cookie Policy", href: links.cookiePolicy, isDownload: true },
     { title: "Privacy", href: "/privacy", isDownload: false },
+    { title: "Voting Policy", href: links.votingPolicy, isDownload: false },
   ],
 };

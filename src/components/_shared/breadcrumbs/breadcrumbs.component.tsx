@@ -1,9 +1,9 @@
 "use client";
-import { useMemo } from "react";
-import Link from "next/link";
 import { routingMap } from "@/lib/helpers/routing.map";
-import { useParams, usePathname } from "next/navigation";
 import WalletHelper from "@/lib/helpers/wallet.helper";
+import Link from "next/link";
+import { useParams, usePathname } from "next/navigation";
+import { useMemo } from "react";
 
 type CrumbProps = {
   path: string;
@@ -14,7 +14,7 @@ type CrumbProps = {
 const Crumb = ({ path, index, last }: CrumbProps) => {
   const crumbName = routingMap.get(path);
   const isProposalCrumb = crumbName === "Proposal";
-  const proposalId = (useParams().id || "") as string;
+  const proposalId = (useParams()?.id ?? "") as string;
 
   return (
     <li className="flex gap-2">
@@ -34,7 +34,7 @@ const Crumb = ({ path, index, last }: CrumbProps) => {
 };
 
 export const Breadcrumbs = () => {
-  const path = usePathname();
+  const path = usePathname() ?? "";
   const homePage = path === "/";
   const paths = path.split("/");
   const crumbsPath = useMemo(

@@ -6,25 +6,27 @@ import {
   MentoLogoIcon,
   TwitterIcon,
 } from "@/components/_icons";
-import { links } from "@/lib/constants/links";
 import { MobileAccordionMenu, ThemeSwitch } from "@/components/_shared";
+import { links } from "@/lib/constants/links";
 
 export const Footer = () => {
+  const currentYear = new Date().getFullYear();
+
   return (
     <footer className="mt-auto">
-      <DesktopFooter />
-      <MobileFooter />
+      <DesktopFooter currentYear={currentYear} />
+      <MobileFooter currentYear={currentYear} />
     </footer>
   );
 };
 
-const DesktopFooter = () => {
+const DesktopFooter = ({ currentYear }: { currentYear: number }) => {
   return (
     <div className="mx-auto mt-36 hidden items-start justify-between gap-16 border-t border-black px-4 pb-20 pt-20 dark:border-[#343437] lg:mx-10 lg:flex xl:mx-auto xl:max-w-[1120px] xl:gap-36">
       <div>
         <MentoLogoIcon />
         <p className="pt-3 font-inter text-[#636768]">
-          Mento © 2024. <br />
+          Mento © {currentYear}. <br />
           All rights reserved.
         </p>
       </div>
@@ -40,7 +42,7 @@ const DesktopFooter = () => {
   );
 };
 
-const MobileFooter = () => {
+const MobileFooter = ({ currentYear }: { currentYear: number }) => {
   return (
     <div className="block px-4 pb-8 pt-10 dark:bg-black lg:hidden">
       <div className="border-t border-black dark:border-gray-light">
@@ -49,7 +51,7 @@ const MobileFooter = () => {
           <div className="flex flex-col">
             <MentoLogoIcon className="h-5 w-[90px]" />
             <p className="text-body-light pt-4">
-              Mento © 2024. <br />
+              Mento © {currentYear}. <br />
               All rights reserved.
             </p>
           </div>
@@ -134,7 +136,7 @@ const footerMenuItems = {
     { title: "Twitter", href: links.twitter, isDownload: false },
   ],
   Other: [
-    { title: "Cookie Policy", href: links.cookiePolicy, isDownload: true },
-    { title: "Privacy", href: "/privacy", isDownload: false },
+    { title: "Privacy Policy", href: links.privacyPolicy, isDownload: false },
+    { title: "Voting Policy", href: links.votingPolicy, isDownload: false },
   ],
 };

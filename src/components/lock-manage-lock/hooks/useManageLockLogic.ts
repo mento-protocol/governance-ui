@@ -1,27 +1,27 @@
-import { useState, useMemo, useCallback } from "react";
-import { useFormContext } from "react-hook-form";
-import { nextWednesday, differenceInWeeks } from "date-fns";
-import LockingHelper from "@/lib/helpers/locking";
-import useLockingWeek from "@/lib/contracts/locking/useLockingWeek";
 import {
   LOCKING_AMOUNT_FORM_KEY,
   LOCKING_DURATION_FORM_KEY,
   MAX_LOCKING_DURATION_WEEKS,
 } from "@/lib/constants/locking";
+import useLockingWeek from "@/lib/contracts/locking/useLockingWeek";
+import LockingHelper from "@/lib/helpers/locking";
 import { useLockInfo } from "@/lib/hooks/useLockInfo";
+import { differenceInWeeks, nextWednesday } from "date-fns";
+import { useCallback, useMemo, useState } from "react";
+import { useFormContext } from "react-hook-form";
 
+import useRelockMento from "@/lib/contracts/locking/useRelockMento";
 import { useAllowance } from "@/lib/contracts/mento/useAllowance";
 import useApprove from "@/lib/contracts/mento/useApprove";
 import { useContracts } from "@/lib/contracts/useContracts";
+import { LockWithExpiration } from "@/lib/interfaces/lock.interface";
+import { toast } from "sonner";
 import { parseEther } from "viem";
 import { useAccount } from "wagmi";
-import useRelockMento from "@/lib/contracts/locking/useRelockMento";
 import {
-  MANAGE_LOCK_TX_STATUS,
   MANAGE_LOCK_APPROVAL_STATUS,
+  MANAGE_LOCK_TX_STATUS,
 } from "../manage-lock.provider";
-import { toast } from "sonner";
-import { LockWithExpiration } from "@/lib/interfaces/lock.interface";
 
 export const useManageLockLogic = (lockToManage: LockWithExpiration) => {
   const {

@@ -2,8 +2,8 @@ import React, { ReactNode, createContext, useContext } from "react";
 
 import { useManageLockLogic } from "./hooks/useManageLockLogic";
 
-import { ManageLockTxModal } from "./manage-lock-tx-modal";
 import { LockWithExpiration } from "@/lib/interfaces/lock.interface";
+import { ManageLockTxModal } from "./manage-lock-tx-modal";
 
 export enum MANAGE_LOCK_TX_STATUS {
   PENDING = "PENDING",

@@ -10,17 +10,14 @@ import { cn } from "@/styles/helpers";
 import Link from "next/link";
 import React from "react";
 import { formatUnits } from "viem";
-import { EmptyProposals } from "../_icons";
-import { MentoIcon } from "../_icons";
-import { cn } from "@/styles/helpers";
-import React from "react";
+import { EmptyProposals, MentoIcon } from "../_icons";
 
 interface ProposalsListProps extends BaseComponentProps {}
 
 export const ProposalsListComponent = ({ className }: ProposalsListProps) => {
   return (
     <div className={`w-full font-fg ${className}`}>
-      <h2 className="pb-[32px] pt-[30px] text-center text-[22px] font-medium md:pb-[34px] md:pt-[76px]">
+      <h2 className="pb-[32px] pt-[30px] text-center text-[32px] font-medium md:pt-[56px]">
         Proposals
       </h2>
       <ProposalsTable />

@@ -13,7 +13,7 @@ import useCastVote from "@/lib/contracts/governor/useCastVote";
 import useVoteReceipt from "@/lib/contracts/governor/useVoteReceipt";
 
 import { VotingButtons } from "./voting-buttons";
-import { LockedBalance } from "./locked-balance";
+import { VotingPowerForProposal } from "./voting-power.component";
 
 import { HasVoted } from "./has-voted";
 import { VoteConfirmation } from "./vote-confirmation";
@@ -71,7 +71,7 @@ export const Vote = ({ proposal }: { proposal: Proposal }) => {
   }
 
   if (!hasEnoughLockedMentoToVote) {
-    return <DirectToLockMento />;
+    return <DirectToLockMento proposal={proposal} />;
   }
 
   if (isAwaitingUserSignature) {
@@ -124,7 +124,7 @@ export const Vote = ({ proposal }: { proposal: Proposal }) => {
     <>
       <ProposalActionTitle />
       <div className="mt-x3 flex flex-col gap-x5">
-        <LockedBalance />
+        <VotingPowerForProposal proposal={proposal} />
         <div className="flex flex-col gap-2">
           <VotingButtons onSubmit={handleVote} />
           {error && <VotingError error={error} />}
@@ -146,12 +146,12 @@ const VotingError = ({ error }: { error: Error }) => {
   );
 };
 
-const DirectToLockMento = () => {
+const DirectToLockMento = ({ proposal }: { proposal: Proposal }) => {
   return (
     <>
       <ProposalActionTitle />
       <div className="flex flex-col gap-x5 text-center">
-        <LockedBalance />
+        <VotingPowerForProposal proposal={proposal} />
         <span>You need to lock your MENTO to vote</span>
         <Button fullwidth href="/voting-power" theme="primary">
           Lock Mento <ChevronIcon direction="right" />

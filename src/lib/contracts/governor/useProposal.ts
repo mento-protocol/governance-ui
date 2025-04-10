@@ -1,4 +1,4 @@
-import { getSubgraphApiName } from "@/config/config.constants";
+import { CELO_BLOCK_TIME, getSubgraphApiName } from "@/config/config.constants";
 import { GovernorABI } from "@/lib/abi/Governor";
 import {
   STATE_FROM_NUMBER,
@@ -13,7 +13,6 @@ import { useEnsureChainId } from "@/lib/hooks/useEnsureChainId";
 import { NetworkStatus } from "@apollo/client";
 import { useMemo } from "react";
 import { useReadContract } from "wagmi";
-import { CELO_BLOCK_TIME } from "@/config/config.constants";
 export const ProposalQueryKey = "proposal";
 
 const useProposal = (proposalId: bigint) => {

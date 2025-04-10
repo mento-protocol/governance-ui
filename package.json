@@ -85,5 +85,15 @@
     "secretlint": "^8.2.4",
     "tailwindcss": "3.4.3",
     "typescript": "^5.6.2"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "@sentry/cli",
+      "bufferutil",
+      "es5-ext",
+      "keccak",
+      "secp256k1",
+      "utf-8-validate"
+    ]
   }
 }

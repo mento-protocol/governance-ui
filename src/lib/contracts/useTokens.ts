@@ -1,11 +1,11 @@
 "use client";
-import { useAccount, useReadContracts } from "wagmi";
+import { CELO_BLOCK_TIME } from "@/config/config.constants";
 import { useContracts } from "@/lib/contracts/useContracts";
-import { useMemo } from "react";
-import { erc20Abi } from "viem";
 import { formatUnitsWithRadix } from "@/lib/helpers/numbers.service";
 import { useEnsureChainId } from "@/lib/hooks/useEnsureChainId";
-import { CELO_BLOCK_TIME } from "@/config/config.constants";
+import { useMemo } from "react";
+import { erc20Abi } from "viem";
+import { useAccount, useReadContracts } from "wagmi";
 
 export type TokenBalance = {
   decimals: number;

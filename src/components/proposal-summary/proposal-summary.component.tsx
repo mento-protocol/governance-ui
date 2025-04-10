@@ -1,4 +1,3 @@
-import { useMemo } from "react";
 import { Card } from "@/components/_shared";
 import useProposals from "@/lib/contracts/governor/useProposals";
 import useAllLocks from "@/lib/contracts/locking/useAllLocks";
@@ -6,6 +5,7 @@ import useLockingWeek from "@/lib/contracts/locking/useLockingWeek";
 import useTokens from "@/lib/contracts/useTokens";
 import { ensureChainId } from "@/lib/helpers/ensureChainId";
 import NumbersService from "@/lib/helpers/numbers.service";
+import { useMemo } from "react";
 import { formatUnits } from "viem";
 import { useAccount, useBlockNumber } from "wagmi";
 

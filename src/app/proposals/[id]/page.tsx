@@ -1,11 +1,9 @@
 "use client";
+import { format } from "date-fns";
 import { Suspense, useMemo } from "react";
 import { useAccount, useBlock, useBlockNumber } from "wagmi";
-import { format } from "date-fns";
 
 // Components
-import useProposal from "@/lib/contracts/governor/useProposal";
-import { stateToStatusColorMap } from "@/lib/interfaces/proposal.interface";
 import {
   Avatar,
   BlockExplorerLink,
@@ -15,13 +13,15 @@ import {
   Status,
   WalletAddressWithCopy,
 } from "@/components/_shared";
-import ProposalActions from "./_components/proposal-actions";
+import { Countdown, ProposalCurrentVotes } from "@/components/index";
+import { CELO_BLOCK_TIME } from "@/config/config.constants";
+import useProposal from "@/lib/contracts/governor/useProposal";
+import { Proposal, ProposalState } from "@/lib/graphql";
+import { ensureChainId } from "@/lib/helpers/ensureChainId";
+import { stateToStatusColorMap } from "@/lib/interfaces/proposal.interface";
 import ExecutionCode from "./_components/execution-code.component";
 import Participants from "./_components/participants.component";
-import { Countdown, ProposalCurrentVotes } from "@/components/index";
-import { ensureChainId } from "@/lib/helpers/ensureChainId";
-import { Proposal, ProposalState } from "@/lib/graphql";
-import { CELO_BLOCK_TIME } from "@/config/config.constants";
+import ProposalActions from "./_components/proposal-actions";
 
 const ProposalCountdown = ({ proposal }: { proposal: Proposal }) => {
   const { data: currentBlock } = useBlockNumber({

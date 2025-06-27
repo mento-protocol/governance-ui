@@ -59,9 +59,7 @@ export function EnsureChain({ children }: { children: ReactNode }) {
         (IS_PROD && chainId !== Celo.id) ||
         (!IS_PROD && chainId !== Celo.id && chainId !== Alfajores.id)
       ) {
-        if (!switching) {
-          setSwitching(true);
-        }
+        if (!switching) setSwitching(false);
       }
     }
   }, [chainId, isConnected, setUpAndSwitch, switchChain, switching]);

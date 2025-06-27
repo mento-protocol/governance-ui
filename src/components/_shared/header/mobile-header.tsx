@@ -259,7 +259,7 @@ const ConnectedInfo = ({ address }: { address: string }) => {
           </div>
         </div>
 
-        {!IS_PROD && (
+        {
           <div
             onClick={openChainModal}
             className="flex items-center justify-center pt-[16px]"
@@ -272,7 +272,7 @@ const ConnectedInfo = ({ address }: { address: string }) => {
               Chain Settings
             </a>
           </div>
-        )}
+        }
       </div>
     </div>
   );

@@ -7,12 +7,11 @@ import {
   createStorage,
   useDisconnect,
 } from "wagmi";
-import { IS_PROD } from "../../middleware";
 import { Modal } from "@/components/_shared/modal/modal.component";
 import { Button } from "@/components/_shared";
 
 export function EnsureChain({ children }: { children: ReactNode }) {
-  const { isConnected, chainId } = useAccount();
+  const { chainId } = useAccount();
   const { disconnect } = useDisconnect();
   const { switchChain } = useSwitchChain();
 
@@ -22,9 +21,8 @@ export function EnsureChain({ children }: { children: ReactNode }) {
   const setUpAndSwitch = useCallback(async () => {
     const storage = createStorage({ storage: localStorage });
     const recentConnectorId = await storage.getItem("recentConnectorId");
-    switchChain({
-      chainId: Celo.id,
-    });
+    switchChain({ chainId: chainId as number });
+
     if (recentConnectorId === "me.rainbow") {
       const directId = window.ethereum.chainId;
       const storeData: {
@@ -54,20 +52,7 @@ export function EnsureChain({ children }: { children: ReactNode }) {
   }, [disconnect, switchChain]);
 
   useEffect(() => {
-    if (isConnected) {
-      if (
-        (IS_PROD && chainId !== Celo.id) ||
-        (!IS_PROD && chainId !== Celo.id && chainId !== Alfajores.id)
-      ) {
-        if (!switching) setSwitching(false);
-      }
-    }
-  }, [chainId, isConnected, setUpAndSwitch, switchChain, switching]);
-
-  useEffect(() => {
-    if (switching) {
-      setUpAndSwitch();
-    }
+    if (switching) setUpAndSwitch();
   }, [setUpAndSwitch, switching]);
 
   return (

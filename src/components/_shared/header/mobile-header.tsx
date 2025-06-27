@@ -32,7 +32,6 @@ import NumbersService from "@/lib/helpers/numbers.service";
 import useTokens from "@/lib/contracts/useTokens";
 import { useChainModal } from "@rainbow-me/rainbowkit";
 import { toast } from "sonner";
-import { IS_PROD } from "../../../middleware";
 
 const variants = {
   open: { opacity: 1, x: 0, y: 21 },

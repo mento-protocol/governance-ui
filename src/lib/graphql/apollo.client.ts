@@ -1,14 +1,15 @@
 "use client";
 // ^ this file needs the "use client" pragma
 
+import { ProposalPolicy } from "@/lib/graphql/subgraph/policies/Proposal";
+import loadEnvVar from "@/lib/helpers/load-env-var";
 import { ApolloLink, createHttpLink } from "@apollo/client";
+import { setContext } from "@apollo/client/link/context";
 import {
   NextSSRApolloClient,
   NextSSRInMemoryCache,
   SSRMultipartLink,
 } from "@apollo/experimental-nextjs-app-support/ssr";
-import loadEnvVar from "@/lib/helpers/load-env-var";
-import { ProposalPolicy } from "@/lib/graphql/subgraph/policies/Proposal";
 
 const CELO_EXPLORER_API_URL = loadEnvVar(
   process.env.NEXT_PUBLIC_CELO_EXPLORER_API_URL,
@@ -20,6 +21,12 @@ const CELO_EXPLORER_API_URL_ALFAJORES = loadEnvVar(
 const SUBGRAPH_URL = loadEnvVar(process.env.NEXT_PUBLIC_SUBGRAPH_URL);
 const SUBGRAPH_URL_ALFAJORES = loadEnvVar(
   process.env.NEXT_PUBLIC_SUBGRAPH_URL_ALFAJORES,
+);
+
+// API Keys for The Graph
+const GRAPH_API_KEY = loadEnvVar(process.env.NEXT_PUBLIC_GRAPH_API_KEY);
+const GRAPH_API_KEY_ALFAJORES = loadEnvVar(
+  process.env.NEXT_PUBLIC_GRAPH_API_KEY_ALFAJORES,
 );
 
 // have a function to create a client for you
@@ -52,6 +59,35 @@ export function makeClient() {
     // const { data } = useSuspenseQuery(MY_QUERY, { context: { fetchOptions: { cache: "force-cache" }}});
   });
 
+  // Auth link to add API keys to requests
+  const authLink = setContext((_, { headers, ...context }) => {
+    const { apiName } = context;
+
+    // Determine which API key to use based on the API name
+    let authToken = "";
+
+    switch (apiName) {
+      case "subgraph":
+        authToken = GRAPH_API_KEY || "";
+        break;
+      case "subgraphAlfajores":
+        authToken = GRAPH_API_KEY_ALFAJORES || "";
+        break;
+      default:
+        authToken = "";
+        break;
+    }
+
+    // Return the headers to the context so httpLink can read them
+    return {
+      headers: {
+        ...headers,
+        // Add authorization header if API key exists
+        ...(authToken && { authorization: `Bearer ${authToken}` }),
+      },
+    };
+  });
+
   return new NextSSRApolloClient({
     // use the `NextSSRInMemoryCache`, not the normal `InMemoryCache`
     cache: new NextSSRInMemoryCache({
@@ -68,8 +104,9 @@ export function makeClient() {
             new SSRMultipartLink({
               stripDefer: true,
             }),
+            authLink,
             httpLink,
           ])
-        : httpLink,
+        : authLink.concat(httpLink),
   });
 }
